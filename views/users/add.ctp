@@ -8,7 +8,7 @@
 		echo $this->Form->input('password');
 		echo $this->Form->input('firstname');
 		echo $this->Form->input('name');
-		echo $this->Form->input('Post');
+
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
