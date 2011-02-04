@@ -45,7 +45,7 @@ class User extends AppModel {
 		),
 		'password' => array(
 			'maxlength' => array(
-				'rule' => array('maxlength'),
+				'rule' => array('maxlength', 20),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -53,7 +53,7 @@ class User extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 			'minlength' => array(
-				'rule' => array('minlength'),
+				'rule' => array('minlength', 4),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
