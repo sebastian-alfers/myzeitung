@@ -8,11 +8,6 @@
 		echo $this->Form->input('topic_id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('content');
-		echo $this->Form->input('enabled');
-		echo $this->Form->input('count_views');
-		echo $this->Form->input('count_reposts');
-		echo $this->Form->input('count_comments');
-		echo $this->Form->input('User');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
