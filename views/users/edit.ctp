@@ -9,7 +9,6 @@
 		echo $this->Form->input('firstname');
 		echo $this->Form->input('name');
 
-
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

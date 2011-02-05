@@ -45,7 +45,7 @@ class User extends AppModel {
 		),
 		'password' => array(
 			'maxlength' => array(
-				'rule' => array('maxlength', 20),
+				'rule' => array('maxlength', 999),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

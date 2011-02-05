@@ -3,9 +3,9 @@
 	<fieldset>
  		<legend><?php __('Add Topic'); ?></legend>
 	<?php
+		echo $user_id;
+		echo $this->Form->hidden('user_id',array('value' => $user_id));
 		echo $this->Form->input('name');
-		echo $this->Form->input('user_id');
-		echo $this->Form->input('enabled');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

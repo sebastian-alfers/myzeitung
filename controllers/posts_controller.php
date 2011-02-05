@@ -2,6 +2,14 @@
 class PostsController extends AppController {
 
 	var $name = 'Posts';
+ 	var $components = array('Auth');
+ 	
+ 	
+ 	
+ 	public function beforeFilter(){
+ 		//declaration which actions can be accessed without being logged in
+ 		$this->Auth->allow('index','view');
+ 	}
 
 	function index() {
 		$this->Post->recursive = 0;
@@ -26,10 +34,43 @@ class PostsController extends AppController {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
 			}
 		}
-		$users = $this->Post->User->find('list');
+		$user_id = $this->Auth->user('id');
 		$topics = $this->Post->Topic->find('list');
-		$users = $this->Post->User->find('list');
-		$this->set(compact('users', 'topics', 'users'));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		$this->set(compact('topics'));
+		$this->set('user_id',$user_id);
 	}
 
 	function edit($id = null) {

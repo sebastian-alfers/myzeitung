@@ -2,6 +2,20 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
+ 	var $components = array('Auth');
+ 	
+	public function beforeFilter(){
+	 	$this->Auth->allow('add');	
+	}
+  
+	
+	public function login(){
+	}
+	
+	function logout(){
+		$this->redirect($this->Auth->logout());
+	}
+	
 
 	function index() {
 		$this->User->recursive = 0;
@@ -27,7 +41,6 @@ class UsersController extends AppController {
 			}
 		}
 		$posts = $this->User->Post->find('list');
-		$this->set(compact('posts'));
 	}
 
 	function edit($id = null) {
@@ -47,7 +60,6 @@ class UsersController extends AppController {
 			$this->data = $this->User->read(null, $id);
 		}
 		$posts = $this->User->Post->find('list');
-		$this->set(compact('posts'));
 	}
 
 	function delete($id = null) {

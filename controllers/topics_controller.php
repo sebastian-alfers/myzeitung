@@ -2,9 +2,10 @@
 class TopicsController extends AppController {
 
 	var $name = 'Topics';
+	var $components = array('Auth');
+	
 
 	function index() {
-		$this->Topic->recursive = 0;
 		$this->set('topics', $this->paginate());
 	}
 
@@ -26,8 +27,7 @@ class TopicsController extends AppController {
 				$this->Session->setFlash(__('The topic could not be saved. Please, try again.', true));
 			}
 		}
-		$users = $this->Topic->User->find('list');
-		$this->set(compact('users'));
+		$this->set('user_id',$this->Auth->user('id'));
 	}
 
 	function edit($id = null) {
@@ -46,8 +46,7 @@ class TopicsController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Topic->read(null, $id);
 		}
-		$users = $this->Topic->User->find('list');
-		$this->set(compact('users'));
+		$this->set('user_id',$this->Auth->user('id'));
 	}
 
 	function delete($id = null) {

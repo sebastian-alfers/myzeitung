@@ -31,4 +31,9 @@
  * @subpackage    cake.app
  */
 class AppController extends Controller {
+	public function beforeFilter(){
+		if(isset($this->Auth)) {
+			$this->Auth->userScope = array('User.enabled' => 1);
+		}
+	}
 }

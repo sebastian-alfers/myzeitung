@@ -4,7 +4,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
-			<th><?php echo $this->Paginator->sort('user_id');?></th>
+			<th><?php echo $this->Paginator->sort('username');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('enabled');?></th>
@@ -22,7 +22,7 @@
 		<td><?php echo $topic['Topic']['id']; ?>&nbsp;</td>
 		<td><?php echo $topic['Topic']['name']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($topic['User']['name'], array('controller' => 'users', 'action' => 'view', $topic['User']['id'])); ?>
+			<?php echo $this->Html->link($topic['User']['username'], array('controller' => 'users', 'action' => 'view', $topic['User']['id'])); ?>
 		</td>
 		<td><?php echo $topic['Topic']['created']; ?>&nbsp;</td>
 		<td><?php echo $topic['Topic']['modified']; ?>&nbsp;</td>
