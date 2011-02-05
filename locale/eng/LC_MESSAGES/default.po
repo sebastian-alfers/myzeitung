@@ -1,0 +1,485 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2011-02-05 13:25+0100\n"
+"PO-Revision-Date: 2011-02-05 13:27+0100\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /controllers/posts_controller.php:13;37
+msgid "Invalid post"
+msgstr "Falscher Post"
+
+#: /controllers/posts_controller.php:23;42
+msgid "The post has been saved"
+msgstr ""
+
+#: /controllers/posts_controller.php:26;45
+msgid "The post could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/posts_controller.php:59
+msgid "Invalid id for post"
+msgstr ""
+
+#: /controllers/posts_controller.php:63
+msgid "Post deleted"
+msgstr ""
+
+#: /controllers/posts_controller.php:66
+msgid "Post was not deleted"
+msgstr ""
+
+#: /controllers/topics_controller.php:13;35
+msgid "Invalid topic"
+msgstr ""
+
+#: /controllers/topics_controller.php:23;40
+msgid "The topic has been saved"
+msgstr ""
+
+#: /controllers/topics_controller.php:26;43
+msgid "The topic could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/topics_controller.php:55
+msgid "Invalid id for topic"
+msgstr ""
+
+#: /controllers/topics_controller.php:59
+msgid "Topic deleted"
+msgstr ""
+
+#: /controllers/topics_controller.php:62
+msgid "Topic was not deleted"
+msgstr ""
+
+#: /controllers/users_controller.php:13;35
+msgid "Invalid user"
+msgstr ""
+
+#: /controllers/users_controller.php:23;40
+msgid "The user has been saved"
+msgstr ""
+
+#: /controllers/users_controller.php:26;43
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/users_controller.php:55
+msgid "Invalid id for user"
+msgstr ""
+
+#: /controllers/users_controller.php:59
+msgid "User deleted"
+msgstr ""
+
+#: /controllers/users_controller.php:62
+msgid "User was not deleted"
+msgstr ""
+
+#: /views/layouts/default.ctp:25
+msgid "CakePHP: the rapid development php framework:"
+msgstr ""
+
+#: /views/layouts/default.ctp:39;50
+msgid "CakePHP: the rapid development php framework"
+msgstr ""
+
+#: /views/pages/home.ctp:12
+msgid "Your tmp directory is writable."
+msgstr ""
+
+#: /views/pages/home.ctp:16
+msgid "Your tmp directory is NOT writable."
+msgstr ""
+
+#: /views/pages/home.ctp:26
+msgid "The %s is being used for caching. To change the config edit APP/config/core.php "
+msgstr ""
+
+#: /views/pages/home.ctp:30
+msgid "Your cache is NOT working. Please check the settings in APP/config/core.php"
+msgstr ""
+
+#: /views/pages/home.ctp:40
+msgid "Your database configuration file is present."
+msgstr ""
+
+#: /views/pages/home.ctp:45
+msgid "Your database configuration file is NOT present."
+msgstr ""
+
+#: /views/pages/home.ctp:47
+msgid "Rename config/database.php.default to config/database.php"
+msgstr ""
+
+#: /views/pages/home.ctp:64
+msgid "Cake is able to connect to the database."
+msgstr ""
+
+#: /views/pages/home.ctp:68
+msgid "Cake is NOT able to connect to the database."
+msgstr ""
+
+#: /views/pages/home.ctp:74
+msgid "Editing this Page"
+msgstr ""
+
+#: /views/pages/home.ctp:77
+msgid ""
+"To change the content of this page, edit: %s\n"
+"\t\tTo change its layout, edit: %s\n"
+"\t\tYou can also add some CSS styles for your pages at: %s"
+msgstr ""
+
+#: /views/posts/add.ctp:4
+msgid "Add Post"
+msgstr ""
+
+#: /views/posts/add.ctp:13
+#: /views/posts/edit.ctp:13
+#: /views/topics/add.ctp:11
+#: /views/topics/edit.ctp:12
+#: /views/users/add.ctp:14
+#: /views/users/edit.ctp:15
+msgid "Submit"
+msgstr ""
+
+#: /views/posts/add.ctp:16
+#: /views/posts/edit.ctp:16
+#: /views/posts/index.ctp:16;65
+#: /views/posts/view.ctp:62;89
+#: /views/topics/add.ctp:14
+#: /views/topics/edit.ctp:15
+#: /views/topics/index.ctp:11;53
+#: /views/topics/view.ctp:37;65
+#: /views/users/add.ctp:17
+#: /views/users/edit.ctp:18
+#: /views/users/index.ctp:15;59
+#: /views/users/view.ctp:57;85;134
+msgid "Actions"
+msgstr ""
+
+#: /views/posts/add.ctp:19
+#: /views/posts/edit.ctp:20
+#: /views/posts/view.ctp:66
+#: /views/topics/add.ctp:20
+#: /views/topics/edit.ctp:22
+#: /views/topics/index.ctp:58
+#: /views/topics/view.ctp:45
+#: /views/users/add.ctp:21
+#: /views/users/edit.ctp:23
+#: /views/users/index.ctp:62
+#: /views/users/view.ctp:63
+msgid "List Posts"
+msgstr ""
+
+#: /views/posts/add.ctp:20
+#: /views/posts/edit.ctp:21
+#: /views/posts/index.ctp:68
+#: /views/posts/view.ctp:68
+#: /views/topics/add.ctp:18
+#: /views/topics/edit.ctp:20
+#: /views/topics/index.ctp:56
+#: /views/topics/view.ctp:43
+#: /views/users/add.ctp:20
+#: /views/users/edit.ctp:22
+#: /views/users/view.ctp:61
+msgid "List Users"
+msgstr ""
+
+#: /views/posts/add.ctp:21
+#: /views/posts/edit.ctp:22
+#: /views/posts/index.ctp:69
+#: /views/posts/view.ctp:69;122
+#: /views/topics/add.ctp:19
+#: /views/topics/edit.ctp:21
+#: /views/topics/index.ctp:57
+#: /views/topics/view.ctp:44
+#: /views/users/index.ctp:61
+#: /views/users/view.ctp:62
+msgid "New User"
+msgstr ""
+
+#: /views/posts/add.ctp:22
+#: /views/posts/edit.ctp:23
+#: /views/posts/index.ctp:70
+#: /views/posts/view.ctp:70
+#: /views/topics/add.ctp:17
+#: /views/topics/edit.ctp:19
+#: /views/topics/view.ctp:41
+#: /views/users/add.ctp:23
+#: /views/users/edit.ctp:25
+#: /views/users/index.ctp:64
+#: /views/users/view.ctp:65
+msgid "List Topics"
+msgstr ""
+
+#: /views/posts/add.ctp:23
+#: /views/posts/edit.ctp:24
+#: /views/posts/index.ctp:71
+#: /views/posts/view.ctp:71
+#: /views/topics/index.ctp:55
+#: /views/topics/view.ctp:42
+#: /views/users/add.ctp:24
+#: /views/users/edit.ctp:26
+#: /views/users/index.ctp:65
+#: /views/users/view.ctp:66;163
+msgid "New Topic"
+msgstr ""
+
+#: /views/posts/edit.ctp:4
+#: /views/posts/view.ctp:64
+msgid "Edit Post"
+msgstr ""
+
+#: /views/posts/edit.ctp:19
+#: /views/posts/index.ctp:45
+#: /views/posts/view.ctp:113
+#: /views/topics/edit.ctp:18
+#: /views/topics/index.ctp:33
+#: /views/topics/view.ctp:90
+#: /views/users/edit.ctp:21
+#: /views/users/index.ctp:39
+#: /views/users/view.ctp:110;154
+msgid "Delete"
+msgstr ""
+
+#: /views/posts/edit.ctp:19
+#: /views/posts/index.ctp:45
+#: /views/posts/view.ctp:65;113
+#: /views/topics/edit.ctp:18
+#: /views/topics/index.ctp:33
+#: /views/topics/view.ctp:40;90
+#: /views/users/edit.ctp:21
+#: /views/users/index.ctp:39
+#: /views/users/view.ctp:60;110;154
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: /views/posts/index.ctp:2
+msgid "Posts"
+msgstr ""
+
+#: /views/posts/index.ctp:43
+#: /views/posts/view.ctp:111
+#: /views/topics/index.ctp:31
+#: /views/topics/view.ctp:88
+#: /views/users/index.ctp:37
+#: /views/users/view.ctp:108;152
+msgid "View"
+msgstr ""
+
+#: /views/posts/index.ctp:44
+#: /views/posts/view.ctp:112
+#: /views/topics/index.ctp:32
+#: /views/topics/view.ctp:89
+#: /views/users/index.ctp:38
+#: /views/users/view.ctp:109;153
+msgid "Edit"
+msgstr ""
+
+#: /views/posts/index.ctp:53
+#: /views/topics/index.ctp:41
+#: /views/users/index.ctp:47
+msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
+msgstr ""
+
+#: /views/posts/index.ctp:58
+#: /views/topics/index.ctp:46
+#: /views/users/index.ctp:52
+msgid "previous"
+msgstr ""
+
+#: /views/posts/index.ctp:61
+#: /views/topics/index.ctp:49
+#: /views/users/index.ctp:55
+msgid "next"
+msgstr ""
+
+#: /views/posts/index.ctp:67
+#: /views/posts/view.ctp:67
+#: /views/topics/add.ctp:21
+#: /views/topics/edit.ctp:23
+#: /views/topics/index.ctp:59
+#: /views/topics/view.ctp:46;99
+#: /views/users/add.ctp:22
+#: /views/users/edit.ctp:24
+#: /views/users/index.ctp:63
+#: /views/users/view.ctp:64;119
+msgid "New Post"
+msgstr ""
+
+#: /views/posts/view.ctp:2
+msgid "Post"
+msgstr ""
+
+#: /views/posts/view.ctp:4;79
+#: /views/topics/view.ctp:4;54
+#: /views/users/view.ctp:4;74;128
+msgid "Id"
+msgstr ""
+
+#: /views/posts/view.ctp:9
+#: /views/topics/view.ctp:14
+#: /views/users/view.ctp:2
+msgid "User"
+msgstr ""
+
+#: /views/posts/view.ctp:14
+#: /views/topics/view.ctp:2
+msgid "Topic"
+msgstr ""
+
+#: /views/posts/view.ctp:19
+#: /views/topics/view.ctp:57
+#: /views/users/view.ctp:77
+msgid "Title"
+msgstr ""
+
+#: /views/posts/view.ctp:24
+#: /views/topics/view.ctp:58
+#: /views/users/view.ctp:78
+msgid "Content"
+msgstr ""
+
+#: /views/posts/view.ctp:29;86
+#: /views/topics/view.ctp:24;59
+#: /views/users/view.ctp:39;79;132
+msgid "Modified"
+msgstr ""
+
+#: /views/posts/view.ctp:34;85
+#: /views/topics/view.ctp:19;60
+#: /views/users/view.ctp:34;80;131
+msgid "Created"
+msgstr ""
+
+#: /views/posts/view.ctp:39;88
+#: /views/topics/view.ctp:29;61
+#: /views/users/view.ctp:49;81;133
+msgid "Enabled"
+msgstr ""
+
+#: /views/posts/view.ctp:44
+#: /views/topics/view.ctp:62
+#: /views/users/view.ctp:82
+msgid "Count Views"
+msgstr ""
+
+#: /views/posts/view.ctp:49
+#: /views/topics/view.ctp:63
+#: /views/users/view.ctp:83
+msgid "Count Reposts"
+msgstr ""
+
+#: /views/posts/view.ctp:54
+#: /views/topics/view.ctp:64
+#: /views/users/view.ctp:84
+msgid "Count Comments"
+msgstr ""
+
+#: /views/posts/view.ctp:65
+msgid "Delete Post"
+msgstr ""
+
+#: /views/posts/view.ctp:75
+msgid "Related Users"
+msgstr ""
+
+#: /views/posts/view.ctp:80
+#: /views/users/view.ctp:9
+msgid "Firstname"
+msgstr ""
+
+#: /views/posts/view.ctp:81
+#: /views/topics/view.ctp:9
+#: /views/users/view.ctp:14;129
+msgid "Name"
+msgstr ""
+
+#: /views/posts/view.ctp:82
+#: /views/users/view.ctp:19
+msgid "Email"
+msgstr ""
+
+#: /views/posts/view.ctp:83
+#: /views/users/view.ctp:24
+msgid "Username"
+msgstr ""
+
+#: /views/posts/view.ctp:84
+#: /views/users/view.ctp:29
+msgid "Password"
+msgstr ""
+
+#: /views/posts/view.ctp:87
+#: /views/users/view.ctp:44
+msgid "Lastlogin"
+msgstr ""
+
+#: /views/topics/add.ctp:4
+msgid "Add Topic"
+msgstr ""
+
+#: /views/topics/edit.ctp:4
+#: /views/topics/view.ctp:39
+msgid "Edit Topic"
+msgstr ""
+
+#: /views/topics/index.ctp:2
+msgid "Topics"
+msgstr ""
+
+#: /views/topics/view.ctp:40
+msgid "Delete Topic"
+msgstr ""
+
+#: /views/topics/view.ctp:50
+#: /views/users/view.ctp:70
+msgid "Related Posts"
+msgstr ""
+
+#: /views/topics/view.ctp:55
+#: /views/users/view.ctp:75;130
+msgid "User Id"
+msgstr ""
+
+#: /views/topics/view.ctp:56
+#: /views/users/view.ctp:76
+msgid "Topic Id"
+msgstr ""
+
+#: /views/users/add.ctp:4
+msgid "Add User"
+msgstr ""
+
+#: /views/users/edit.ctp:4
+#: /views/users/view.ctp:59
+msgid "Edit User"
+msgstr ""
+
+#: /views/users/index.ctp:2
+msgid "Users"
+msgstr "asdfasdf"
+
+#: /views/users/view.ctp:60
+msgid "Delete User"
+msgstr ""
+
+#: /views/users/view.ctp:124
+msgid "Related Topics"
+msgstr ""
+
+#: /webroot/test.php:88
+msgid "Debug setting does not allow access to this url."
+msgstr ""
+
