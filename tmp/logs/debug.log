@@ -1,3 +1,0 @@
-2011-02-05 13:19:23 Notice: Notice (8): Undefined property: UsersController::$Auto in [/Applications/MAMP/htdocs/myzeitung/controllers/users_controller.php, line 8]
-2011-02-05 13:40:53 Notice: Notice (8): Undefined property: TopicsController::$Auth in [/Applications/MAMP/htdocs/myzeitung/controllers/topics_controller.php, line 29]
-2011-02-05 13:40:54 Notice: Notice (8): Undefined property: TopicsController::$Auth in [/Applications/MAMP/htdocs/myzeitung/controllers/topics_controller.php, line 29]

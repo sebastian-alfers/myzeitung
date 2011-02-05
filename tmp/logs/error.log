@@ -1,3 +1,0 @@
-2011-02-05 13:41:53 Warning: Warning (512): <span style="color:Red;text-align:left"><b>SQL Error:</b> 1048: Column 'user_id' cannot be null</span> in [/Applications/MAMP/htdocs/cakephp/cake/libs/model/datasources/dbo_source.php, line 684]
-2011-02-05 13:51:04 Warning: Warning (512): <span style="color:Red;text-align:left"><b>SQL Error:</b> 1048: Column 'user_id' cannot be null</span> in [/Applications/MAMP/htdocs/cakephp/cake/libs/model/datasources/dbo_source.php, line 684]
-2011-02-05 13:52:13 Warning: Warning (512): <span style="color:Red;text-align:left"><b>SQL Error:</b> 1048: Column 'user_id' cannot be null</span> in [/Applications/MAMP/htdocs/cakephp/cake/libs/model/datasources/dbo_source.php, line 684]
