@@ -2,7 +2,7 @@
 class PostsController extends AppController {
 
 	var $name = 'Posts';
- 	var $components = array('Auth');
+ 	var $components = array('Auth', 'Session');
  	
  	
  	
