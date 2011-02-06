@@ -33,6 +33,9 @@
 class AppController extends Controller {
 	public function beforeFilter(){
 		if(isset($this->Auth)) {
+			// this makes Auth use the isAuthorized() method below
+			$this->Auth->authorize = 'controller';
+			// only enabled users are able to log in
 			$this->Auth->userScope = array('User.enabled' => 1);
 		}
 	}
@@ -47,6 +50,7 @@ class AppController extends Controller {
 			'edit' => array('admin'),
 			'view' => array('admin'),
 			'delete' => array('admin')
+			
 			),
 		'topics' => array(
 			'index' => array('admin'),

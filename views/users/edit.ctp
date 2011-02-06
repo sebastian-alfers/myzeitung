@@ -1,5 +1,4 @@
 <div class="users form">
-<?php pr($groups)?>
 <?php echo $this->Form->create('User');?>
 	<fieldset>
  		<legend><?php __('Edit User'); ?></legend>

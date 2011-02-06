@@ -6,7 +6,8 @@ class UsersController extends AppController {
  	var $uses = array('User','Group');
  	
 	public function beforeFilter(){
-	 	$this->Auth->allow('add');	
+		parent::beforeFilter();
+	 	$this->Auth->allow('add','login','logout');	
 	}
   
 	
