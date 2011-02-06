@@ -40,15 +40,12 @@ class UsersController extends AppController {
 			
 			if ($this->User->save($this->data)) {
 				
-<<<<<<< HEAD
-=======
 				//after adding user -> add new topic
 				$newUserId = $this->User->id;
 				$topicData = array('name' => 'test_topi', 'user_id' => $newUserId);
-				$topic = new Topic();
-				$topic->save($topicData);
 				
->>>>>>> d5ec1ce5b9450a6254cc6de5f67eb7d1b8d6eb8d
+				$this->Topic->save($topicData);
+				
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
