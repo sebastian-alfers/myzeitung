@@ -3,7 +3,6 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
 
- 	var $components = array('Auth', 'Session');
  	var $uses = array('User','Group', 'Topic');
 
 	public function beforeFilter(){
@@ -26,7 +25,16 @@ class UsersController extends AppController {
 	}
 
 	function view($id = null) {
+		echo "test";
+		die();
+		
 		if (!$id) {
+			//no param from url -> get from Auth
+			$loggedInUserId = $this->Auth->User->id;
+			
+			echo $loggedInUserId;
+			die();
+			
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action' => 'index'));
 		}
