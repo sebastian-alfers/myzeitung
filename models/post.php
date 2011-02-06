@@ -5,7 +5,7 @@ class Post extends AppModel {
 	var $validate = array(
 		'user_id' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
+				//'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

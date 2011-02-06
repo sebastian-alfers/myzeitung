@@ -111,6 +111,10 @@ class User extends AppModel {
 			'insertQuery' => ''
 		)
 	);
+	
+	var $belongsTo = array(
+		'Group'
+	);
 
 }
 ?>

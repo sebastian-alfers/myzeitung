@@ -36,4 +36,43 @@ class AppController extends Controller {
 			$this->Auth->userScope = array('User.enabled' => 1);
 		}
 	}
+	
+	
+	function isAuthorized() {
+		// defining the authorized usergroups for every action of every controller 
+		$allowedActions = array(
+		'users' => array(
+			'index' => array('admin'),
+			'add' => array('admin','scherge'),
+			'edit' => array('admin'),
+			'view' => array('admin'),
+			'delete' => array('admin')
+			),
+		'topics' => array(
+			'index' => array('admin'),
+			'add' => array('admin'),
+			'edit' => array('admin'),
+			'view' => array('admin','scherge'),
+			'delete' => array('admin')
+			),
+		'posts' => array(
+			'index' => array('admin'),
+			'add' => array('admin'),
+			'edit' => array('admin'),
+			'view' => array('admin', 'scherge'),
+			'delete' => array('admin')
+			),	
+		);
+		
+		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
+		
+		if(isset($allowedActions[low($this->name)])) {
+			$controllerActions = $allowedActions[low($this->name)];
+			if(isset($controllerActions[$this->action]) && 
+			in_array($this->Auth->user('group'), $controllerActions[$this->action])) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -3,6 +3,7 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
  	var $components = array('Auth');
+ 	var $uses = array('User','Group');
  	
 	public function beforeFilter(){
 	 	$this->Auth->allow('add');	
@@ -32,8 +33,10 @@ class UsersController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
+			$this->data['User']['group_id'] = 1;
 			$this->User->create();
 			if ($this->User->save($this->data)) {
+				
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -59,7 +62,8 @@ class UsersController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->User->read(null, $id);
 		}
-		$posts = $this->User->Post->find('list');
+		$groups = $this->Group->find('list');
+		$this->set('groups',$groups);
 	}
 
 	function delete($id = null) {
