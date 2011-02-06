@@ -36,7 +36,7 @@ class AppController extends Controller {
 	
 	public function beforeFilter(){
 		if(isset($this->Auth)) {
-			// this makes Auth use the isAuthorized() method below
+			// this makes the Auth-component use the isAuthorized()-method below
 			$this->Auth->authorize = 'controller';
 			// only enabled users are able to log in
 			$this->Auth->userScope = array('User.enabled' => 1);
@@ -49,37 +49,36 @@ class AppController extends Controller {
 	
 	function isAuthorized() {
 		// defining the authorized usergroups for every action of every controller 
+		// 1 = admin 2=scherge
 		$allowedActions = array(
 		'users' => array(
-			'index' => array('admin'),
-			'add' => array('admin','scherge'),
-			'edit' => array('admin'),
-			'view' => array('admin'),
-			'delete' => array('admin')
-			
+			'index' => array(1),
+			'add' => array(1,2),
+			'edit' => array(1),
+			'view' => array(1),
+			'delete' => array(1)
 			),
 		'topics' => array(
-			'index' => array('admin'),
-			'add' => array('admin'),
-			'edit' => array('admin'),
-			'view' => array('admin','scherge'),
-			'delete' => array('admin')
+			'index' => array(1),
+			'add' => array(1),
+			'edit' => array(1),
+			'view' => array(1,2),
+			'delete' => array(1)
 			),
 		'posts' => array(
-			'index' => array('admin'),
-			'add' => array('admin'),
-			'edit' => array('admin'),
-			'view' => array('admin', 'scherge'),
-			'delete' => array('admin')
+			'index' => array(1),
+			'add' => array(1),
+			'edit' => array(1),
+			'view' => array(1,2),
+			'delete' => array(1)
 			),	
 		);
 		
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
-		
-		if(isset($allowedActions[low($this->name)])) {
+			if(isset($allowedActions[low($this->name)])) {
 			$controllerActions = $allowedActions[low($this->name)];
 			if(isset($controllerActions[$this->action]) && 
-			in_array($this->Auth->user('group'), $controllerActions[$this->action])) {
+			in_array($this->Auth->user('group_id'), $controllerActions[$this->action])) {
 				return true;
 			}
 		}
