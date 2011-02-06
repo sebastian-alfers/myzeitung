@@ -15,6 +15,6 @@
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
 <div class="actions">
-	<h3><?php __('Actions'); ?></h3>
+	<h3><?php __('Actions'); ?> asdf</h3>
 	<?php echo $this->element('navigation'); ?>	
 </div>

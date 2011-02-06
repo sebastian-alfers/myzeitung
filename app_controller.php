@@ -33,6 +33,7 @@
 class AppController extends Controller {
 	//load debug toolbar in plugins/debug_toolbar/
 	var $components = array('DebugKit.Toolbar', 'Auth', 'Session');
+	var $uses = array('User');
 	
 	public function beforeFilter(){
 		if(isset($this->Auth)) {
@@ -41,9 +42,14 @@ class AppController extends Controller {
 			// only enabled users are able to log in
 			$this->Auth->userScope = array('User.enabled' => 1);
 		}
-		echo "go hier";
 		//set globl function for auth?true:false
+		
 		$this->set('isLoggedIn', $this->Session->check('Auth.User.id'));
+		
+		$id = null;
+		$id = $this->Auth->User("id");
+		$this->set('user', $this->User->read(null, $id));		
+		
 	}
 	
 	
