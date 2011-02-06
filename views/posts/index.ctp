@@ -31,11 +31,6 @@
 			<?php echo $this->Html->link($post['User']['name'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
 		<td>
-		<pre>
-		<?php
-		print_r($post);
-		die();
-		?>
 			<?php echo $this->Html->link($post['User']['firstname'], array('controller' => 'topics', 'action' => 'view', $post['Topic']['id'])); ?>
 		</td>
 		<td><?php echo $post['Post']['title']; ?>&nbsp;</td>
