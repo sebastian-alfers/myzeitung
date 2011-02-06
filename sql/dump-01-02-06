@@ -1,0 +1,142 @@
+-- phpMyAdmin SQL Dump
+-- version 3.2.5
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Erstellungszeit: 06. Februar 2011 um 13:55
+-- Server Version: 5.1.44
+-- PHP-Version: 5.2.13
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Datenbank: `myzeitung`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Daten für Tabelle `groups`
+--
+
+INSERT INTO `groups` VALUES(1, 'admin');
+INSERT INTO `groups` VALUES(5, 'scherge');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+CREATE TABLE `posts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `content` text NOT NULL,
+  `modified` datetime NOT NULL,
+  `created` datetime NOT NULL,
+  `enabled` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `count_views` int(11) NOT NULL DEFAULT '0',
+  `count_reposts` int(11) NOT NULL DEFAULT '0',
+  `count_comments` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `posts`
+--
+
+INSERT INTO `posts` VALUES(1, 0, 1, 'tim', 'tim', '2011-02-05 20:34:07', '2011-02-05 20:34:07', 1, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `posts_users`
+--
+
+DROP TABLE IF EXISTS `posts_users`;
+CREATE TABLE `posts_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Daten für Tabelle `posts_users`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `topics`
+--
+
+DROP TABLE IF EXISTS `topics`;
+CREATE TABLE `topics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `enabled` tinyint(4) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `topics`
+--
+
+INSERT INTO `topics` VALUES(1, 'erstes topic', 7, '2011-02-05 13:55:20', '2011-02-05 13:55:20', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `firstname` varchar(64) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `lastlogin` datetime DEFAULT NULL,
+  `enabled` tinyint(1) unsigned DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+--
+-- Daten für Tabelle `users`
+--
+
+INSERT INTO `users` VALUES(5, 1, 'admin', 'admin', 'admin@admin.de', 'admin', 'admin', '2011-02-05 12:29:42', '2011-02-05 22:16:05', NULL, 1);
+INSERT INTO `users` VALUES(6, 0, '', '', 'penis@penis.de', 'penis', 'penis', '2011-02-05 13:19:46', '2011-02-05 13:26:00', NULL, 1);
+INSERT INTO `users` VALUES(7, 5, '', '', 'hans@hans.de', 'hans', 'f10e739b1acbbd77a09d8d06454eaeb59b5c8389', '2011-02-05 13:26:18', '2011-02-06 12:00:53', NULL, 1);
+INSERT INTO `users` VALUES(8, 0, '', '', 'tim@tim.de', 'tim', 'b721879c2b8a8482b2dae557bae8cd8fe7a3a071', '2011-02-05 13:29:44', '2011-02-05 13:29:44', NULL, 1);
+INSERT INTO `users` VALUES(9, 0, '', '', 'bla@bla.de', 'bla', 'aada2dd8e498e893a0646d0044e95af95bea64b3', '2011-02-05 13:30:48', '2011-02-05 13:30:48', NULL, 1);
+INSERT INTO `users` VALUES(10, 0, 'asdf', 'adsff', 'asdf@ad.de', 'asdf', 'd115d8676b21f94291f759d9e3f74988e36fa512', '2011-02-05 22:03:42', '2011-02-05 22:03:42', NULL, 1);
+INSERT INTO `users` VALUES(11, 1, 'sdf', 'sdf', 'asdf@asdf.de', 'asdfasdf', 'd115d8676b21f94291f759d9e3f74988e36fa512', '2011-02-05 22:05:29', '2011-02-05 22:05:29', NULL, 1);
+INSERT INTO `users` VALUES(12, 5, 'karl', 'ranseier', 'karl@asd.de', 'karl', '23724d601ca463f4dd94656c783578d39cd9bc45', '2011-02-05 22:29:36', '2011-02-05 22:29:59', NULL, 1);
+INSERT INTO `users` VALUES(13, 1, '', '', 'bla@bla.de', 'rans', 'c05c0aed238a12e8e8bc4289485aa39f99542bea', '2011-02-06 12:41:52', '2011-02-06 12:41:52', NULL, 1);
