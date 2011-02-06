@@ -9,7 +9,7 @@ class UsersController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('add','login','logout');
 		//can be overridden, e.g. from view()
-		$this->set('isMyProfile', 0);		
+		$this->set('isMyProfile', 0);	
 	}
 
 
@@ -74,6 +74,7 @@ class UsersController extends AppController {
 	}
 
 	function edit($id = null) {
+
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action' => 'index'));
