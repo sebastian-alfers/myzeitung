@@ -41,7 +41,6 @@ class AppController extends Controller {
 			// only enabled users are able to log in
 			$this->Auth->userScope = array('User.enabled' => 1);
 		}
-		echo "go hier";
 		//set globl function for auth?true:false
 		$this->set('isLoggedIn', $this->Session->check('Auth.User.id'));
 	}

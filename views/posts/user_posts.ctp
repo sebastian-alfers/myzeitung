@@ -1,3 +1,4 @@
 <?php 
-pr('posts');
+pr($posts);
+pr($id);
 ?>

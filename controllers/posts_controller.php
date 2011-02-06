@@ -3,7 +3,7 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
  	var $components = array('Auth', 'Session');
- 	var $uses = array ('Posts','PostsUser');
+ 	var $uses = array ('Post','PostsUser');
  	
  	
  	public function beforeFilter(){
@@ -25,9 +25,10 @@ class PostsController extends AppController {
    				$this->redirect($this->referer());
 			}
 		}
-		$this->set('posts',$this->PostsUser->findAllbyId($id));
-		
-		
+		$this->set('posts',$this->PostsUser->find('all',
+				array('conditions' => array('user_id' => $id))));
+		$this->set('id',$id);
+			
 	}
 
 	function view($id = null) {
@@ -46,6 +47,14 @@ class PostsController extends AppController {
 			
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
+				
+				$postsUserData = array('user_id' => $id,
+									   'post_id' => $this->Post->id);
+				$this->PostsUser->create();
+				$this->PostsUser->save($postsUserData);
+				
+				
+				
 				$this->Session->setFlash(__('The post has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {

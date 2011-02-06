@@ -62,7 +62,7 @@ class UsersController extends AppController {
 				//after adding user -> add new topic
 				$newUserId = $this->User->id;
 				$topicData = array('name' => 'test_topi', 'user_id' => $newUserId);
-
+				$this->Topic->create();
 				$this->Topic->save($topicData);
 
 				$this->Session->setFlash(__('The user has been saved', true));
@@ -71,7 +71,6 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
 			}
 		}
-		echo 'gruppe:'.pr($this->Auth->user('group_id'));
 	}
 
 	function edit($id = null) {
