@@ -2,9 +2,10 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
- 	var $components = array('Auth');
- 	var $uses = array('User','Group');
- 	
+
+ 	var $components = array('Auth', 'Session');
+ 	var $uses = array('User','Group', 'Topic');
+
 	public function beforeFilter(){
 		parent::beforeFilter();
 	 	$this->Auth->allow('add','login','logout');	
@@ -36,8 +37,18 @@ class UsersController extends AppController {
 		if (!empty($this->data)) {
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
+			
 			if ($this->User->save($this->data)) {
 				
+<<<<<<< HEAD
+=======
+				//after adding user -> add new topic
+				$newUserId = $this->User->id;
+				$topicData = array('name' => 'test_topi', 'user_id' => $newUserId);
+				$topic = new Topic();
+				$topic->save($topicData);
+				
+>>>>>>> d5ec1ce5b9450a6254cc6de5f67eb7d1b8d6eb8d
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {

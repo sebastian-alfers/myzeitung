@@ -1,3 +1,4 @@
+
 <div class="posts index">
 	<h2><?php __('Posts');?></h2>
 	<table cellpadding="0" cellspacing="0">
@@ -23,13 +24,19 @@
 			$class = ' class="altrow"';
 		}
 	?>
+	
 	<tr<?php echo $class;?>>
 		<td><?php echo $post['Post']['id']; ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($post['User']['name'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($post['Topic']['name'], array('controller' => 'topics', 'action' => 'view', $post['Topic']['id'])); ?>
+		<pre>
+		<?php
+		print_r($post);
+		die();
+		?>
+			<?php echo $this->Html->link($post['User']['firstname'], array('controller' => 'topics', 'action' => 'view', $post['Topic']['id'])); ?>
 		</td>
 		<td><?php echo $post['Post']['title']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['content']; ?>&nbsp;</td>
