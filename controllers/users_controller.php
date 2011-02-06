@@ -41,7 +41,10 @@ class UsersController extends AppController {
 		}
 		$this->set('user', $this->User->read(null, $id));
 	}
-
+	
+	
+	
+	
 	function add() {
 		if (!empty($this->data)) {
 			$this->data['User']['group_id'] = 1;

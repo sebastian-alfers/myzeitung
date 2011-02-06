@@ -3,17 +3,30 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
  	var $components = array('Auth', 'Session');
- 	
+ 	var $uses = array ('Posts','PostsUser');
  	
  	
  	public function beforeFilter(){
  		//declaration which actions can be accessed without being logged in
- 		$this->Auth->allow('index','view');
+ 		$this->Auth->allow('index','view','userPosts');
  	}
 
 	function index() {
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->paginate());
+	}
+	
+	function userPosts($id = null){
+		if(!$id){
+			$id = $this->Auth->user('id');		
+			if(!$id){
+				$this->Session->setFlash(__('Invalid User ID', true));
+   				$this->redirect($this->referer());
+			}
+		}
+		$this->set('posts',$this->PostsUser->findAllbyId($id));
+		
+		
 	}
 
 	function view($id = null) {
