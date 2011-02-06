@@ -22,6 +22,7 @@ class UsersController extends AppController {
 	function index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
+		
 	}
 
 	function view($id = null) {
@@ -60,7 +61,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
 			}
 		}
-		$posts = $this->User->Post->find('list');
+		echo 'gruppe:'.pr($this->Auth->user('group_id'));
 	}
 
 	function edit($id = null) {
