@@ -25,6 +25,7 @@ class PostsController extends AppController {
 	}
 
 	function add() {
+		
 		if (!empty($this->data)) {
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
@@ -37,40 +38,10 @@ class PostsController extends AppController {
 		$user_id = $this->Auth->user('id');
 		$topics = $this->Post->Topic->find('list');
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		$this->set(compact('topics'));
 		$this->set('user_id',$user_id);
+		
+
 	}
 
 	function edit($id = null) {

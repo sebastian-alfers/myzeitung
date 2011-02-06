@@ -2,7 +2,10 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
- 	var $components = array('Auth');
+	
+	var $uses = array('User', 'Topic');
+	
+ 	var $components = array('Session', 'Auth');
  	
 	public function beforeFilter(){
 	 	$this->Auth->allow('add');	
@@ -33,7 +36,15 @@ class UsersController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->User->create();
+			
 			if ($this->User->save($this->data)) {
+				
+				//after adding user -> add new topic
+				$newUserId = $this->User->id;
+				$topicData = array('name' => 'test_topi', 'user_id' => $newUserId);
+				$topic = new Topic();
+				$topic->save($topicData);
+				
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
