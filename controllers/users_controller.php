@@ -3,42 +3,47 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
 
- 	var $uses = array('User','Group', 'Topic');
+	var $uses = array('User','Group', 'Topic');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-	 	$this->Auth->allow('add','login','logout');	
+		$this->Auth->allow('add','login','logout');
 	}
-  
-	
+
+
 	public function login(){
 	}
-	
+
 	function logout(){
 		$this->redirect($this->Auth->logout());
 	}
-	
+
 
 	function index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
-		
+
 	}
 
 	function view($id = null) {
-		echo "test";
-		die();
+		//contian if view user == logged in user (Auth)
+		$isMyProfile = 0;
 		
 		if (!$id) {
 			//no param from url -> get from Auth
-			$loggedInUserId = $this->Auth->User->id;
-			
-			echo $loggedInUserId;
-			die();
-			
-			$this->Session->setFlash(__('Invalid user', true));
-			$this->redirect(array('action' => 'index'));
+			$id = $this->Auth->User("id");
+				
+			if($id){
+				//view user == Auth->User
+				$isMyProfile = 1;
+			}
+			else{
+				$this->Session->setFlash(__('Invalid user', true));
+				$this->redirect(array('action' => 'index'));
+			}
 		}
+
+		$this->set('isMyProfile', $isMyProfile);
 		$this->set('user', $this->User->read(null, $id));
 	}
 
@@ -46,15 +51,15 @@ class UsersController extends AppController {
 		if (!empty($this->data)) {
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
-			
-			if ($this->User->save($this->data)) {
 				
+			if ($this->User->save($this->data)) {
+
 				//after adding user -> add new topic
 				$newUserId = $this->User->id;
 				$topicData = array('name' => 'test_topi', 'user_id' => $newUserId);
-				
+
 				$this->Topic->save($topicData);
-				
+
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {

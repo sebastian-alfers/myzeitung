@@ -13,6 +13,7 @@
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
+<?php /* ?>
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
@@ -24,3 +25,4 @@
 		<li><?php echo $this->Html->link(__('New Topic', true), array('controller' => 'topics', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+<?php */ ?>

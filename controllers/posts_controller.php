@@ -7,6 +7,7 @@ class PostsController extends AppController {
  	
  	
  	public function beforeFilter(){
+ 		parent::beforeFilter();
  		//declaration which actions can be accessed without being logged in
  		$this->Auth->allow('index','view');
  	}
@@ -27,12 +28,16 @@ class PostsController extends AppController {
 	function add() {
 		
 		if (!empty($this->data)) {
+			$id = $this->Auth->User("id");
+			$this->data["Post"]["user_id"] = (int)$id;
+			
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
 				$this->Session->setFlash(__('The post has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
+
 			}
 		}
 		$user_id = $this->Auth->user('id');
