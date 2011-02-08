@@ -2,6 +2,8 @@
 class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
+	
+	var $actsAs = array('Containable');
 	var $validate = array(
 		'user_id' => array(
 			'notempty' => array(
