@@ -27,9 +27,47 @@ class PostsController extends AppController {
 		}
 		$this->set('posts',$this->PostsUser->find('all',
 				array('conditions' => array('user_id' => $id))));
-		$this->set('id',$id);
-			
+		$this->set('id',$id);		
 	}
+	
+	
+
+	//repost: reposting means to recommend a post of another user to your followers. 
+	//		  it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
+	//        -> to do so: this function creates an entry in the table posts_users
+	//			 with the redirected post and the user who is recommending it.
+	function repost($id){
+		if(isset($id)){
+					
+		$postsUserData = array('post_id' => $id,
+							   'user_id' => $this->Auth->user('id'));
+		$this->PostsUser->create();
+		// repost could be saved
+			if($this->PostsUser->save($postsUserData)){
+
+				//increment count_reposts for the reposted post / important not to load related objects => recursive = -1
+				$this->Post->recursive = -1;
+				$this->data = $this->Post->read(null, $id);
+				$this->data['Post']['count_reposts'] +=1;
+	 			$this->Post->save($this->data['Post']);
+
+				$this->Session->setFlash(__('The Post has been reposted successfully.', true));
+			}
+			else {
+				// repost couldn't be saved
+				$this->Session->setFlash(__('The Post could not be reposted.', true));
+			}
+		}
+		else {
+			// no post $id
+			$this->Session->setFlash(__('Invalid post', true));
+		}
+
+		$this->redirect($this->referer());
+	}
+	
+	
+	
 
 	function view($id = null) {
 		if (!$id) {
