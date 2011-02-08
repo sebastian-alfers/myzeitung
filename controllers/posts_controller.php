@@ -46,8 +46,7 @@ class PostsController extends AppController {
 			if($this->PostsUser->save($postsUserData)){
 
 				//increment count_reposts for the reposted post / important not to load related objects => contain();
-				//$this->Post->contain();
-				$this->Post->recursive = -1;
+				$this->Post->contain();
 				$this->data = $this->Post->read(null, $id);
 				$this->data['Post']['count_reposts'] +=1;
 	 			$this->Post->save($this->data['Post']);
