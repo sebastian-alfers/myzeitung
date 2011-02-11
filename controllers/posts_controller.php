@@ -3,7 +3,7 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
  	var $components = array('Auth', 'Session');
- 	var $uses = array ('Post','PostsUser');
+ 	var $uses = array ('Post','PostsUser', 'Route');
  	
  	
  	public function beforeFilter(){
@@ -47,6 +47,18 @@ class PostsController extends AppController {
 			
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
+				//now add new url key for post
+				$route = new Route();
+				$route->create();
+
+				if( $route->save(array('source' => $this->data['Post']['title'] ,
+				   'target_controller' 	=> 'posts',
+				   'target_action'     	=> 'view',
+				   'target_param'		=> $this->Post->id)))
+				{
+					
+				}
+				
 				
 				$postsUserData = array('user_id' => $id,
 									   'post_id' => $this->Post->id);

@@ -1,5 +1,5 @@
 <ul>
-<?php if($isLoggedIn): ?>  
+<?php if($isMyProfile): ?>  
         <li><?php echo $this->Html->link(__('Edit User', true), array('controller' => 'users', 'action' => 'edit', $user['User']['id'])); ?> </li>   
         <li><?php echo $this->Html->link(__('Delete User', true), array('action' => 'delete', $user['User']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $user['User']['id'])); ?> </li>
 <?php endif; ?>  

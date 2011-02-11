@@ -27,9 +27,55 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+
+$menus = '';
+$cache = ClassRegistry::init('cache');
+
+
+$cache->delete('routes');
+$menusModel = ClassRegistry::init('Route');
+if($cache->read('routes')){
+	$menus = $cache->read('routes');
+}
+else{
+	$menus = $menusModel->find('all');
+	$cache->write('routes', $menus);
+}
+
+
+foreach($menus as $menuitem){
+	
+	//check for deprecated url -> send 302 + redir to parent url
+	if($menuitem['Route']['source'] == $_REQUEST['url'] && $menuitem['Route']['parent_id'] != 0){
+		//load parent_route
+		$parentRoute = $menusModel->findById($menuitem['Route']['parent_id']);
+		header ('HTTP/1.1 301 Moved Permanently');
+		header ('Location: '. $parentRoute['Route']['source']);			  		
+	}	
+	
+	if($menuitem['Route']['parent_id'] != 0){
+		//load parent_route
+		$parentRoute = $menusModel->findById($menuitem['Route']['parent_id']);
+
+  	    $menuitem['Route']['target_controller'] = $parentRoute['Route']['target_controller'];
+  	    $menuitem['Route']['target_action'] = $parentRoute['Route']['target_action'];
+  	    $menuitem['Route']['target_param'] = $parentRoute['Route']['target_param'];  	    
+  	}	
+	
+    Router::connect('/' . $menuitem['Route']['source'],
+			  array('controller' => $menuitem['Route']['target_controller'], 
+			  		'action' 	 => $menuitem['Route']['target_action'] , 
+			  		$menuitem['Route']['target_param'] ));
+			  		
+
+
+			  		
+		//	  		echo '/'.$menuitem['Route']['source'] .' <br />';
+}
+//Router::connect('/', array('controller' => 'homepage', 'action' =>'index'));
