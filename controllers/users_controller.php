@@ -12,6 +12,25 @@ class UsersController extends AppController {
 		$this->set('isMyProfile', 0);
 	}
 
+	
+	//this is where all posts and re-posts of a user are shown
+	function blog($id = null){
+		if(!$id){
+			$id = $this->Auth->user('id');		
+			if(!$id){
+				$this->Session->setFlash(__('Invalid User ID', true));
+   				$this->redirect($this->referer());
+			}
+		}
+	//	$this->PostsUser->contain('Post');
+		debug($this->User->read($id));
+		//debug($this->->find('all'/*,
+		//		array('conditions' => array('user_id' => $id),'contain' => 'Post')*/));
+		//$this->set('posts',$this->PostsUser->find('all',
+		//		array('conditions' => array('user_id' => $id))));
+		//$this->set('id',$id);		
+		
+	}	
 
 	public function login(){
 	}
@@ -50,6 +69,8 @@ class UsersController extends AppController {
 
 
 		$this->set('isMyProfile', $isMyProfile);
+		//unbinding irrelevant relations for the query 
+		$this->User->unbindModel(array('belongsTo' => array('Group'))); 
 		$this->set('user', $this->User->read(null, $id));
 	}
 

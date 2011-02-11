@@ -2,6 +2,8 @@
 class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
+	
+	var $actsAs = array('Containable');
 	var $validate = array(
 		'user_id' => array(
 			'notempty' => array(
@@ -53,7 +55,9 @@ class Post extends AppModel {
 		)
 	);
 
-	var $hasAndBelongsToMany = array(
+// temp. not necessary
+
+/*	var $hasAndBelongsToMany = array(
 		'User' => array(
 			'className' => 'User',
 			'joinTable' => 'posts_users',
@@ -69,7 +73,7 @@ class Post extends AppModel {
 			'deleteQuery' => '',
 			'insertQuery' => ''
 		)
-	);
+	);*/
 
 }
 ?>

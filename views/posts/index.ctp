@@ -28,10 +28,7 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $post['Post']['id']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($post['User']['name'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($post['User']['firstname'], array('controller' => 'topics', 'action' => 'view', $post['Topic']['id'])); ?>
+			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
 		<td><?php echo $post['Post']['title']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['content']; ?>&nbsp;</td>
@@ -42,6 +39,7 @@
 		<td><?php echo $post['Post']['count_reposts']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['count_comments']; ?>&nbsp;</td>
 		<td class="actions">
+			<?php echo $this->Html->link(__('Repost', true), array('action' => 'repost', $post['Post']['id'])); ?>
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $post['Post']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $post['Post']['id'])); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])); ?>
