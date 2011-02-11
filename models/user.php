@@ -65,7 +65,7 @@ class User extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $hasMany = array(
-		'Post' => array(
+		/*'Post' => array(
 			'className' => 'Post',
 			'foreignKey' => 'user_id',
 			'dependent' => false,
@@ -77,7 +77,7 @@ class User extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		),
+		),*/
 		'Topic' => array(
 			'className' => 'Topic',
 			'foreignKey' => 'user_id',
@@ -103,7 +103,7 @@ class User extends AppModel {
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'PostsUser.created DESC',
 			'limit' => '',
 			'offset' => '',
 			'finderQuery' => '',

@@ -74,6 +74,7 @@ class AppController extends Controller {
 		'posts' => array(
 			'index' => array(1),
 			'repost' => array(1),
+			'undoRepost' => array(1),
 			'add' => array(1),
 			'edit' => array(1),
 			'view' => array(1,2),

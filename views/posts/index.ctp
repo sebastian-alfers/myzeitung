@@ -28,10 +28,7 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $post['Post']['id']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($post['User']['name'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
-		</td>
-		<td>
-			<?php echo $this->Html->link($post['User']['firstname'], array('controller' => 'topics', 'action' => 'view', $post['Topic']['id'])); ?>
+			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
 		<td><?php echo $post['Post']['title']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['content']; ?>&nbsp;</td>

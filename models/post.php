@@ -55,7 +55,9 @@ class Post extends AppModel {
 		)
 	);
 
-	var $hasAndBelongsToMany = array(
+// temp. not necessary
+
+/*	var $hasAndBelongsToMany = array(
 		'User' => array(
 			'className' => 'User',
 			'joinTable' => 'posts_users',
@@ -71,7 +73,7 @@ class Post extends AppModel {
 			'deleteQuery' => '',
 			'insertQuery' => ''
 		)
-	);
+	);*/
 
 }
 ?>

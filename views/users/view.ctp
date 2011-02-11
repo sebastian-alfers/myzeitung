@@ -1,76 +1,36 @@
 <div class="users view">
 <h2><?php  __('User');?></h2>
-	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['id']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Firstname'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['firstname']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['name']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Email'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['email']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Username'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['username']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Password'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['password']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['created']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['modified']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Lastlogin'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['lastlogin']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Enabled'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['enabled']; ?>
-			&nbsp;
-		</dd>
+	<dl>
+		<dt><?php __('User'); ?></dt>
+		<dd><?php echo $user['User']['username'];?></dd>
+		
+		
+		<?php if($user['User']['firstname'] or $user['User']['name']){?>
+		<dt><?php __('Name'); ?></dt>
+		<dd><?php echo $user['User']['firstname'].' '.$user['User']['name']; ?></dd>
+		<?php }?>
+		
+		<dt><?php __('Member since'); ?></dt>
+		<dd><?php echo $user['User']['created'];?></dd>			
 	</dl>
 </div>
+
+
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<?php echo $this->element('navigation'); ?>	
 </div>
-<?php /*
+  
 <div class="related">
 	<h3><?php __('Related Posts');?></h3>
 	<?php if (!empty($user['Post'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Id'); ?></th>
+		<th><?php __('Repost'); ?></th>
 		<th><?php __('User Id'); ?></th>
-		<th><?php __('Topic Id'); ?></th>
 		<th><?php __('Title'); ?></th>
 		<th><?php __('Content'); ?></th>
-		<th><?php __('Modified'); ?></th>
 		<th><?php __('Created'); ?></th>
-		<th><?php __('Enabled'); ?></th>
 		<th><?php __('Count Views'); ?></th>
 		<th><?php __('Count Reposts'); ?></th>
 		<th><?php __('Count Comments'); ?></th>
@@ -83,16 +43,18 @@
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';
 			}
+
 		?>
+	
 		<tr<?php echo $class;?>>
+			<td><?php if($post['user_id'] != $user['User']['id']) {
+				echo "repost";
+			}?></td>
 			<td><?php echo $post['id'];?></td>
 			<td><?php echo $post['user_id'];?></td>
-			<td><?php echo $post['topic_id'];?></td>
 			<td><?php echo $post['title'];?></td>
 			<td><?php echo $post['content'];?></td>
-			<td><?php echo $post['modified'];?></td>
 			<td><?php echo $post['created'];?></td>
-			<td><?php echo $post['enabled'];?></td>
 			<td><?php echo $post['count_views'];?></td>
 			<td><?php echo $post['count_reposts'];?></td>
 			<td><?php echo $post['count_comments'];?></td>
@@ -104,7 +66,9 @@
 		</tr>
 	<?php endforeach; ?>
 	</table>
-<?php endif; ?>
+	</div>
+<?php endif; /* ?>
+
 
 	<div class="actions">
 		<ul>

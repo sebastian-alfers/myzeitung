@@ -9,7 +9,7 @@ class PostsController extends AppController {
  	public function beforeFilter(){
  		parent::beforeFilter();
  		//declaration which actions can be accessed without being logged in
- 		$this->Auth->allow('index','view','userPosts');
+ 		$this->Auth->allow('index','view','blog');
  	}
 
 	function index() {
@@ -17,19 +17,7 @@ class PostsController extends AppController {
 		$this->set('posts', $this->paginate());
 	}
 	
-	function userPosts($id = null){
-		if(!$id){
-			$id = $this->Auth->user('id');		
-			if(!$id){
-				$this->Session->setFlash(__('Invalid User ID', true));
-   				$this->redirect($this->referer());
-			}
-		}
-		$this->set('posts',$this->PostsUser->find('all',
-				array('conditions' => array('user_id' => $id))));
-		$this->set('id',$id);		
-	}
-	
+
 	
 
 	//repost: reposting means to recommend a post of another user to your followers. 
@@ -38,19 +26,16 @@ class PostsController extends AppController {
 	//			 with the redirected post and the user who is recommending it.
 	function repost($id){
 		if(isset($id)){
-					
 		$postsUserData = array('post_id' => $id,
 							   'user_id' => $this->Auth->user('id'));
 		$this->PostsUser->create();
 		// repost could be saved
 			if($this->PostsUser->save($postsUserData)){
-
 				//increment count_reposts for the reposted post / important not to load related objects => contain();
 				$this->Post->contain();
 				$this->data = $this->Post->read(null, $id);
 				$this->data['Post']['count_reposts'] +=1;
 	 			$this->Post->save($this->data['Post']);
-
 				$this->Session->setFlash(__('The Post has been reposted successfully.', true));
 			}
 			else {
@@ -62,10 +47,38 @@ class PostsController extends AppController {
 			// no post $id
 			$this->Session->setFlash(__('Invalid post', true));
 		}
-
 		$this->redirect($this->referer());
 	}
 	
+	
+	//function to delete a repost
+	function undoRepost($id){
+		if(isset($id)){
+		
+			$repost =  $this->PostsUser->read(null, $id);
+			
+			//if repost belongs to user
+			if($this->Auth->user('id') == $repost['PostsUser']['user_id']){
+				//reading related post to decrement the repost-counter
+				$this->Post->contain();
+				$post = $this->Post->read(null, $repost['PostsUser']['post_id']);
+				$post['Post']['count_reposts'] -= 1;
+				$this->Post->save($post);
+				//deleting the repost from the PostsUser-table
+				$this->PostsUser->delete($id);
+				$this->Session->setFlash(__('Repost removed successfully.'));
+			}
+			else{
+				$this->Session->setFlash(__("Repost doesn't belong to you."));
+			}
+		}
+		else {
+			// no repost $id
+			$this->Session->setFlash(__('Invalid repost-id', true));
+		}
+		$this->redirect($this->referer());
+		
+	}
 	
 	
 
@@ -77,6 +90,7 @@ class PostsController extends AppController {
 		$this->set('post', $this->Post->read(null, $id));
 	}
 
+	
 	function add() {
 		
 		if (!empty($this->data)) {
