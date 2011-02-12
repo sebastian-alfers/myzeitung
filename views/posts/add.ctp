@@ -11,7 +11,6 @@
 		echo $this->Form->hidden('user_id',array('value' => $user_id));
 
 	?>
-	tim <?php echo $user_id; ?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
