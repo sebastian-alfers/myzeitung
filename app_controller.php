@@ -46,10 +46,10 @@ class AppController extends Controller {
 		
 		$this->set('isLoggedIn', $this->Session->check('Auth.User.id'));
 		
-		$id = null;
-		$id = $this->Auth->User("id");
-		$this->set('user', $this->User->read(null, $id));		
-		
+		//$id = null;
+		//$id = $this->Auth->User("id");
+		//$this->set('user', $this->User->read(null, $id));		
+		//$this->set('user', $this->User->read(null, $id));
 	}
 	
 	
@@ -80,6 +80,14 @@ class AppController extends Controller {
 			'view' => array(1,2),
 			'delete' => array(1)
 			),	
+		'papers' => array(
+			'index' => array(1),
+			'add' => array(1),
+			'edit' => array(1),
+			'view' => array(1,2),
+			'delete' => array(1),
+			'addcategory' => array(1)
+			),				
 		);
 		
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it

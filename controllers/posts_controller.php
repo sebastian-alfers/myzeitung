@@ -127,7 +127,8 @@ class PostsController extends AppController {
 			}
 		}
 		$user_id = $this->Auth->user('id');
-		$topics = $this->Post->Topic->find('list');
+		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+		
 		
 		$this->set(compact('topics'));
 		$this->set('user_id',$user_id);

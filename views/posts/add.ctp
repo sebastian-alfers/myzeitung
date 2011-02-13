@@ -1,4 +1,5 @@
 <div class="posts form">
+
 <?php echo $this->Form->create('Post');?>
 		
 	
