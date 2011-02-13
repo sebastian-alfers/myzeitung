@@ -11,13 +11,14 @@ class PostsController extends AppController {
  		//declaration which actions can be accessed without being logged in
  		$this->Auth->allow('index','view','blog');
  	}
+ 	
+ 	
 
 	function index() {
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->paginate());
 	}
 	
-
 	
 
 	//repost: reposting means to recommend a post of another user to your followers. 
@@ -51,12 +52,11 @@ class PostsController extends AppController {
 	}
 	
 	
+	
 	//function to delete a repost
 	function undoRepost($id){
 		if(isset($id)){
-		
 			$repost =  $this->PostsUser->read(null, $id);
-			
 			//if repost belongs to user
 			if($this->Auth->user('id') == $repost['PostsUser']['user_id']){
 				//reading related post to decrement the repost-counter
@@ -76,8 +76,7 @@ class PostsController extends AppController {
 			// no repost $id
 			$this->Session->setFlash(__('Invalid repost-id', true));
 		}
-		$this->redirect($this->referer());
-		
+		$this->redirect($this->referer());	
 	}
 	
 	

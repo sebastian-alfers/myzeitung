@@ -2,9 +2,11 @@
 class User extends AppModel {
 	var $name = 'User';
 	var $displayField = 'name';
-
+	
+	
+	var $actsAs = array('Containable');
+	
 	var $uses = array('Route', 'Cachekey');
-
 
 	var $validate = array(
 		'firstname' => array(
