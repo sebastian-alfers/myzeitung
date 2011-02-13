@@ -1,0 +1,6 @@
+asdf
+
+
+<?php 
+	echo $paperId;
+?>

@@ -120,9 +120,16 @@ class User extends AppModel {
 			);
 
 			var $belongsTo = array(
-		'Group','Route'
+		'Group'
 		);
 
+		var $hasOne = array(
+			'Route' => array(
+				'className' => 'Route',
+				'foreignKey' => 'ref_id',//important to have FK
+			),	
+		);		
+		
 		function afterSave(){
 			/*
 			 App::import('model','Cachekey');
