@@ -86,7 +86,9 @@ class PostsController extends AppController {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		debug($this->Post->read(null, $id));
 		$this->set('post', $this->Post->read(null, $id));
+		
 	}
 
 	

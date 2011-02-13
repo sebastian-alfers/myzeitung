@@ -57,6 +57,7 @@ class UsersController extends AppController {
 		//$this->User->unbindModel(array('belongsTo' => array('Group'))); 
 		$this->User->contain('Post');
 		$this->set('user', $this->User->read(null, $id));
+	
 	}
 
 
