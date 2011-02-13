@@ -27,15 +27,7 @@ class Paper extends AppModel {
 		'Category' => array(
 			'className' => 'Category',
 			'foreignKey' => 'paper_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'dependent' => false
 			),
 		'Subscription' => array(
 			'className' => 'Subscription',

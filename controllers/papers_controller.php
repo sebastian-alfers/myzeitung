@@ -3,7 +3,7 @@ class PapersController extends AppController {
 
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session');
-	var $uses = array('Paper', 'Route');
+	var $uses = array('Paper', 'Category', 'Route');
 
 
 	public function beforeFilter(){
@@ -93,13 +93,6 @@ class PapersController extends AppController {
 		}
 		$this->Session->setFlash(__('Paper was not deleted', true));
 		$this->redirect(array('action' => 'index'));
-	}
-	
-	/**
-	 * add category for given paper
-	 */
-	function addcategory(){
-		
 	}
 }
 ?>

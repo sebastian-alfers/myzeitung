@@ -11,20 +11,13 @@ class Category extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		),
-		'Route' => array(
-			'className' => 'Route',
-			'foreignKey' => 'route_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 	
 	var $hasOne = array(
 		'Route' => array(
 			'className' => 'Route',
-			'foreignKey' => 'route_id',
+			'foreignKey' => 'ref_id',//important for FK
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

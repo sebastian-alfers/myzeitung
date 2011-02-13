@@ -16,8 +16,23 @@ class CategoriesController extends AppController {
 		$this->set('category', $this->Category->read(null, $id));
 	}
 
+	function addcategory(){
+
+
+	}
+
 	function add() {
-		if (!empty($this->data)) {
+
+		if (empty($this->data)) {
+			//check for param in get url
+			if(empty($this->params['pass'][0]) || !isset($this->params['pass'][0])){
+				$this->Session->setFlash(__('No param for category', true));
+				$this->redirect(array('controller' => 'papers', 'action' => 'index'));
+			}
+
+			$this->set('paper_id', $this->params['pass'][0]);
+		}
+		else{
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));
