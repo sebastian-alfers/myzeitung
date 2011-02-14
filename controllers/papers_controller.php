@@ -13,7 +13,13 @@ class PapersController extends AppController {
 	}
 
 	function index() {
-		$this->Paper->recursive = 0;
+		
+	// recursive gibt an, bis zu welcher relationsebene daten gezogen werde. bei -1 wird nur das model gezogen. bei 0 wird glaub ich auch eine belongsTo oder hasOne beziehung gezogen
+	// bin aber nicht ganz sicher.
+	// besser ist das containable behavior. damit kannst du mit $this->Paper->contain() angeben, welche models bei der abfrage mit berŸcksichtigt werden unabhŠngig der relationsebene. 
+	// http://book.cakephp.org/#!/view/1323/Containable  dort findest du noch mehr mšglichkeiten und auch nen vergleich zu recursive.
+	// mit paginate funzt es in der syntax irgendwie anders als bei find() read() und ich finds gerade nicht. daher schreibe ich diesen aufsatz.	
+	//	$this->Paper->recursive = 0;
 		$this->set('papers', $this->paginate());
 	}
 
@@ -24,6 +30,7 @@ class PapersController extends AppController {
 		}
 		$this->set('test', 'asdf');
 		$this->set('paper', $this->Paper->read(null, $id));
+	//	debug($this->Paper->read(null,$id));
 
 	}
 

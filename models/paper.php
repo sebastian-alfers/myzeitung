@@ -1,7 +1,7 @@
 <?php
 class Paper extends AppModel {
 	var $name = 'Paper';
-
+	var $actsAs = array('Containable');
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -27,7 +27,7 @@ class Paper extends AppModel {
 		'Category' => array(
 			'className' => 'Category',
 			'foreignKey' => 'paper_id',
-			'dependent' => false
+			//	'dependent' => false
 			),
 		'Subscription' => array(
 			'className' => 'Subscription',

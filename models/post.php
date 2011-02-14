@@ -3,7 +3,7 @@ class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
 	
-	var $actsAs = array(/*'Serializeable' => array('reposters' => 'reposters'),*/'Containable');
+	var $actsAs = array(/*'Serializeable'/* => array('reposters' => 'reposters'),*/'Containable');
 	
 	var $validate = array(
 		'user_id' => array(
@@ -76,5 +76,33 @@ class Post extends AppModel {
 		)
 	);*/
 
+	// CALLBACKS
+	
+	function afterFind($results) {
+		foreach ($results as $key => $val) {
+			if (isset($val['Post']['reposters'])) {
+				$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
+			}
+		}
+		return $results;
+	}
+	
+		
+		
+	function beforeSave(&$Model) {
+		if(!empty($this->data['Post']['reposters'])){
+		$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
+		}
+		return true;
+	
+
 }
+
+    
+}
+
+
+	
+	
+
 ?>

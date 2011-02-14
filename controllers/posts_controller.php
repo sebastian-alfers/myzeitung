@@ -36,8 +36,12 @@ class PostsController extends AppController {
 				$this->Post->contain();
 				$this->data = $this->Post->read(null, $id);
 				$this->data['Post']['count_reposts'] +=1;
+				// TEST
+				$this->data['Post']['reposters'] = array(1,2,3,4);
+				// TEST
 	 			$this->Post->save($this->data['Post']);
 				$this->Session->setFlash(__('The Post has been reposted successfully.', true));
+			
 			}
 			else {
 				// repost couldn't be saved
