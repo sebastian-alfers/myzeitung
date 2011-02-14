@@ -3,7 +3,7 @@ class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
 	
-	var $actsAs = array('Serializeable' => array('reposters' => 'reposters'),'Containable');
+	var $actsAs = array(/*'Serializeable' => array('reposters' => 'reposters'),*/'Containable');
 	
 	var $validate = array(
 		'user_id' => array(
