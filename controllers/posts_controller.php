@@ -25,6 +25,8 @@ class PostsController extends AppController {
 	//		  it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
 	//        -> to do so: this function creates an entry in the table posts_users
 	//			 with the redirected post and the user who is recommending it.
+	//		  Furthermore an entry in the "reposters" array of the Post is added, to check quickly if 
+	//        User already reposted a post (especially for better performance in views)
 	function repost($id){
 		if(isset($id)){
 		$postsUserData = array('post_id' => $id,
@@ -36,12 +38,16 @@ class PostsController extends AppController {
 				$this->Post->contain();
 				$this->data = $this->Post->read(null, $id);
 				$this->data['Post']['count_reposts'] +=1;
-				// TEST
-				$this->data['Post']['reposters'] = array(1,2,3,4);
-				// TEST
+				
+				// writing the reposter's user id into the reposters-array of the post
+				if(!in_array($this->Auth->user('id'),$this->data['Post']['reposters'])){
+					//counting entries
+					$count = count($this->data['Post']['reposters']);
+					//adding new entry after last position (= $count)
+					$this->data['Post']['reposters'][$count] = $this->Auth->user('id');
+				}
 	 			$this->Post->save($this->data['Post']);
 				$this->Session->setFlash(__('The Post has been reposted successfully.', true));
-			
 			}
 			else {
 				// repost couldn't be saved
@@ -56,7 +62,6 @@ class PostsController extends AppController {
 	}
 	
 	
-	
 	//function to delete a repost
 	function undoRepost($id){
 		if(isset($id)){
@@ -67,10 +72,15 @@ class PostsController extends AppController {
 				$this->Post->contain();
 				$post = $this->Post->read(null, $repost['PostsUser']['post_id']);
 				$post['Post']['count_reposts'] -= 1;
+				//deleting user-id entry from reposters-array in post-model
+				if(in_array($this->Auth->user('id'),$post['Post']['reposters'])){
+					$pos = array_search($this->Auth->user('id'),$post['Post']['reposters']);
+					unset($post['Post']['reposters'][$pos]);
+				}
 				$this->Post->save($post);
 				//deleting the repost from the PostsUser-table
 				$this->PostsUser->delete($id);
-				$this->Session->setFlash(__('Repost removed successfully.'));
+				$this->Session->setFlash(__('Repost removed successfully.'));	
 			}
 			else{
 				$this->Session->setFlash(__("Repost doesn't belong to you."));

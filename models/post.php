@@ -80,8 +80,10 @@ class Post extends AppModel {
 	
 	function afterFind($results) {
 		foreach ($results as $key => $val) {
-			if (isset($val['Post']['reposters'])) {
+			if (!empty($val['Post']['reposters'])) {
 				$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
+			}else {
+				$results[$key]['Post']['reposters'] = array();
 			}
 		}
 		return $results;
