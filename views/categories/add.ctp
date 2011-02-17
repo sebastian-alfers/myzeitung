@@ -4,7 +4,12 @@
  		<legend><?php __('Add Category'); ?></legend>
 	<?php
 		echo $this->Form->input('name');
-		echo $this->Form->hidden('paper_id',array('value' => $paper_id));
+		if(isset($paper_id)){
+			echo $this->Form->hidden('paper_id',array('value' => $paper_id));
+		}
+		if(isset($parent_id)){
+			echo $this->Form->hidden('parent_id',array('value' => $parent_id));
+		}		
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

@@ -11,7 +11,11 @@ class Category extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+		'Parent' => array(
+			'className' => 'Category',
+			'foreignKey' => 'parent_id'
+		)		
 	);
 	
 	var $hasOne = array(
@@ -26,18 +30,9 @@ class Category extends AppModel {
 	
 	
 	var $hasMany = array(
-		'ChildCategory' => array(
+		'Children' => array(
 			'className' => 'Category',
 			'foreignKey' => 'parent_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 

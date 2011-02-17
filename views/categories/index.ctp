@@ -3,7 +3,7 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('parent_id');?></th>
+			<th><?php echo $this->Paginator->sort('Parent Category');?></th>
 			<th><?php echo $this->Paginator->sort('paper_id');?></th>
 			<th><?php echo $this->Paginator->sort('route_id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
@@ -19,7 +19,13 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $category['Category']['id']; ?>&nbsp;</td>
-		<td><?php echo $category['Category']['parent_id']; ?>&nbsp;</td>
+		<td>
+			<?php if(isset($category['Parent']['id'])): ?>
+				<?php echo $category['Parent']['name']; ?>
+			<?php else: ?>	
+				-
+			<?php endif; ?>
+		</td>
 		<td>
 			<?php echo $this->Html->link($category['Paper']['title'], array('controller' => 'papers', 'action' => 'view', $category['Paper']['id'])); ?>
 		</td>
@@ -28,6 +34,8 @@
 		</td>
 		<td><?php echo $category['Category']['name']; ?>&nbsp;</td>
 		<td class="actions">
+		
+			<?php if($category['Category']['parent_id'] == 0) echo $this->Html->link(__('Add Subcategory', true), array('controller' => 'categories', 'action' => 'add', CategoriesController::PARAM_CATEGORY, $category['Category']['id'])); ?>
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $category['Category']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $category['Category']['id'])); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $category['Category']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['Category']['id'])); ?>

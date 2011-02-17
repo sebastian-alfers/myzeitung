@@ -86,6 +86,7 @@ class AppController extends Controller {
 			'edit' => array(1),
 			'view' => array(1,2),
 			'delete' => array(1),
+			'addcontent' => array(1),
 			),				
 		'categories' => array(
 			'index' => array(1),

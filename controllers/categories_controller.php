@@ -1,6 +1,9 @@
 <?php
 class CategoriesController extends AppController {
 
+	const PARAM_CATEGORY = 'category';
+	const PARAM_PAPER	 = 'paper';
+	
 	var $name = 'Categories';
 
 	function index() {
@@ -29,14 +32,20 @@ class CategoriesController extends AppController {
 				$this->Session->setFlash(__('No param for category', true));
 				$this->redirect(array('controller' => 'papers', 'action' => 'index'));
 			}
-
-			$this->set('paper_id', $this->params['pass'][0]);
+			//pass param for paper or category for hidden value
+			if($this->params['pass'][0] == 'paper'){
+				$this->set('paper_id', $this->params['pass'][1]);	
+			}
+			elseif($this->params['pass'][0] == 'category'){
+				$this->set('parent_id', $this->params['pass'][1]);
+			}
+			
 		}
 		else{
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller' => 'papers', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
 			}
