@@ -37,24 +37,13 @@ class UsersController extends AppController {
 		if (!$id) {
 			//no param from url -> get from Auth
 			$id = $this->Auth->User("id");
-
-			if($id){
-				//view user == Auth->User
-				$isMyProfile = 1;
-			}
-			else{
+			if(!$id){
 				$this->Session->setFlash(__('Invalid user', true));
 				$this->redirect(array('action' => 'index'));
 			}
 		}
-		if($id == $this->Auth->User("id")){
-			$isMyProfile = 1;
-		}
-
-
-		$this->set('isMyProfile', $isMyProfile);
+	
 		//unbinding irrelevant relations for the query 
-		//$this->User->unbindModel(array('belongsTo' => array('Group'))); 
 		$this->User->contain('Post');
 		$this->set('user', $this->User->read(null, $id));
 	
