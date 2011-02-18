@@ -6,10 +6,10 @@ class PapersController extends AppController {
 	var $uses = array('Paper', 'Category', 'Route', 'User', 'ContentPaper');
 
 	//for types in DB, IMPORTAT for DB, DO NOT CHANGE!
-	const SOURCE_REF_USER 		= 0;
-	const SOURCE_REF_TOPIC		= 1;
-	const TARGET_REF_TYPE_PAPER 	= 2;
-	const TARGET_REF_TYPE_CATEGORY 	= 3;
+	const SOURCE_TYPE_USER 		= 0;
+	const SOURCE_TYPE_TOPIC		= 1;
+	const TARGET_TYPE_PAPER 		= 2;
+	const TARGETE_TYPE_CATEGORY 	= 3;
 
 	const PAPER 	= 'paper';
 	const CATEGORY 	= 'category';
@@ -59,9 +59,10 @@ class PapersController extends AppController {
 
 		if (!empty($this->data)) {
 			//form has been submitted
+			
 			if(isset($this->data['Paper'][self::CONTENT_DATA]) && !empty($this->data['Paper'][self::CONTENT_DATA])){
 				//validate if hidden field is paper or category
-				debug($this->data);die();
+				
 				//add content for
 				$source = $this->data['Paper'][self::CONTENT_DATA];
 				//split
@@ -69,20 +70,24 @@ class PapersController extends AppController {
 				$sourceType = $source[0];
 				$sourceId   = $source[1];
 				$targetType = $this->data['Paper']['target_type'];
-				if($this->_isValidTargetType($sourceType) &&
-					      _isValidSourceType($targetType) &&
+				
+				if($this->_isValidTargetType($targetType) &&
+				   $this->_isValidSourceType($sourceType) &&
 					      isset($this->data['Paper']['target_id'])){
-
+					
 					$targetId = $this->data['Paper']['target_id'];
-					if(count($param) == 2){
-						switch ($param[0]){
-							case self::USER:
+					
+					if(count($source) == 2){
+						switch ($targetType){
+							case self::PAPER:
 								//type of content for paper: user
-								if($this->newPaperContent(self::USER, $sourceId, $targetId)){
+								if($this->newContentPaper(self::SOURCE_TYPE_USER, $sourceId, $targetId)){
 									// todo: save data here
+									$this->Session->setFlash(__('paper data saved', true));
+									$this->redirect(array('action' => 'index'));									
 								}
 								break;
-							case self::TOPIC:
+							case self::CATEGORY:
 								//type of content for paper: topic
 
 						}
@@ -222,7 +227,7 @@ class PapersController extends AppController {
 	 * @return boolean
 	 */
 	private function _isValidTargetType($targetType){
-
+		
 		return (($targetType == self::PAPER) ||
 		($targetType == self::CATEGORY));
 	}
@@ -235,8 +240,8 @@ class PapersController extends AppController {
 	 */
 	private function _isValidSourceType($sourceType){
 
-		return (($targetType == self::USER) ||
-		($targetType == self::TOPIC));
+		return (($sourceType == self::USER) ||
+		($sourceType == self::TOPIC));
 	}
 
 	/**
@@ -247,12 +252,16 @@ class PapersController extends AppController {
 	 * @param int $sourceId
 	 * @param int $targetId
 	 */
-	public function newPaperContent($sourceType, $sourceId, $targetId){
+	public function newContentPaper($sourceType, $sourceId, $targetId){
 		//this->_saveNewContent(paper, ....)
+		$this->data['ContentPaper'] = array();
+		$this->data['ContentPaper']['source_type'] = $sourceType;
+		$this->data['ContentPaper']['source_id'] = $sourceId;
+		$this->data['ContentPaper']['target_id'] = $targetId;
+		$this->data['ContentPaper']['target_type'] = self::TARGET_TYPE_PAPER;
 		$this->ContentPaper->create();
-		$data = array();
-		$data['Paper'];
-		//return $this->ContentPaper->save();	
+		
+		return $this->ContentPaper->save($this->data);	
 	}
 	
 }
