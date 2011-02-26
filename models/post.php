@@ -3,7 +3,11 @@ class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
 	
+	const TEST = 666;
+	
 	var $actsAs = array(/*'Serializeable'/* => array('reposters' => 'reposters'),*/'Containable');
+	
+	var $CategoryPaperPost = null;
 	
 	var $validate = array(
 		'user_id' => array(
@@ -93,12 +97,77 @@ class Post extends AppModel {
 		
 	function beforeSave(&$Model) {
 		if(!empty($this->data['Post']['reposters'])){
-		$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
+			$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 		}
 		return true;
+	}
 	
+	/**
+	 * after a topic has been saved, it it hast do be added to CategoryPaperPost table
+	 * a post can come to this table bacause:
+	 * - the posts user is associated to a paper/category or
+	 * - the posts topic is associated to a paper/category
+	 * 
+	 * so: this function does:
+	 * 1. get all associations to the posts user (all posts by this user)
+	 *  - this can be paper itself or one of its categories
+	 * 
+	 * 2. get all associations to the posts topic
+	 *  - this can be paper itself or one of its categories
+	 *  
+	 * 3. validate collected data
+	 *  - it is very important, that a paper (and his categories) containt the posts
+	 *    only once!
+	 * 
+	 */
+	function afterSave(){
+		App::import('model','CategoryPaperPost');
+		//debug($this->data);
+		$this->CategoryPaperPost = new CategoryPaperPost(); 
+		$post_id = $this->id;
+		$topic_id = $this->data['Post']['topic_id'];
+		$user_id = $this->data['Post']['user_id'];
+		
+		
+		//now all references to whole user
+		$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
+		foreach($wholeUserReferences as $wholeUserReference){
+			if($this->addPostToIndex($post_id, $wholeUserReference['Paper']['id'])){
+				
+			}
+			
+			//place post in paper or category associated to the whole user
+			$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id']);
+			if($wholeUserReference['Category']['id']){
+				$categoryPaperPostData = array('category_id' => $wholeUserReference['Category']['id']);	
+			}
+			$this->CategoryPaperPost->create();
+			$this->CategoryPaperPost->save($categoryPaperPostData);			
+		}
+		
+		//now all references to all topics
+		$topicReferences = $this->User->getUserTopicReferences($user_id);
+		foreach($topicReferences as $topicReferences){
+			debug($topicReferences);die();
+			//place post in paper or category associated to the posts topic
+			$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id']);
+			if($wholeUserReference['Category']['id']){
+				$categoryPaperPostData = array('category_id' => $wholeUserReference['Category']['id']);	
+			}
+			$this->CategoryPaperPost->create();
+			$this->CategoryPaperPost->save($categoryPaperPostData);			
+		}		
+		
+		//update index to associate paper->content / category->content
 
-}
+
+	}
+	
+	
+	private function addPostToIndex($post_id, $paper_id, $categry_id = null){
+		
+	}
+	
 
     
 }

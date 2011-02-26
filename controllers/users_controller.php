@@ -2,9 +2,8 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-
-
-	var $uses = array('User','Group', 'Topic', 'Route');
+	var $components = array('ContentPaperHelper');
+	var $uses = array('User','Group', 'Topic', 'Route', 'ContentPaper');
 
 
 	public function beforeFilter(){
@@ -14,7 +13,7 @@ class UsersController extends AppController {
 		$this->set('isMyProfile', 0);
 	}
 
-	
+
 
 	public function login(){
 	}
@@ -42,11 +41,11 @@ class UsersController extends AppController {
 				$this->redirect(array('action' => 'index'));
 			}
 		}
-	
-		//unbinding irrelevant relations for the query 
+
+		//unbinding irrelevant relations for the query
 		$this->User->contain('Post');
 		$this->set('user', $this->User->read(null, $id));
-	
+
 	}
 
 
@@ -61,7 +60,7 @@ class UsersController extends AppController {
 
 				//after adding user -> add new topic
 				$newUserId = $this->User->id;
-				$topicData = array('name' => 'test_topi', 'user_id' => $newUserId);
+				$topicData = array('name' => 'first_automatic_topic', 'user_id' => $newUserId);
 				$this->Topic->create();
 				$this->Topic->save($topicData);
 
@@ -130,6 +129,34 @@ class UsersController extends AppController {
 		}
 		$this->Session->setFlash(__('User was not deleted', true));
 		$this->redirect(array('action' => 'index'));
+	}
+
+	/**
+	 * show all references from content_papers table to this user
+	 * - whole user references (to paper itself or category)
+	 * - references to a specific topic (to paper itself or category)
+	 * Enter description here ...
+	 */
+	function references(){
+		
+		
+		//check for param in get url
+		if(empty($this->params['pass'][0]) || !isset($this->params['pass'][0])){
+			$this->Session->setFlash(__('No user param', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		$user_id = $this->params['pass'][0];
+
+		//now all references to whole user
+		$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
+		$this->set('wholeUserReferences', $wholeUserReferences);
+
+
+		//now all references to all topics
+		$topicReferences = $this->User->getUserTopicReferences($user_id);
+
+		$this->set('topicReferences', $topicReferences);
+
 	}
 }
 ?>

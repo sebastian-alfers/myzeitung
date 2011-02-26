@@ -36,6 +36,7 @@
 		<td><?php echo $user['User']['lastlogin']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['enabled']; ?>&nbsp;</td>
 		<td class="actions">
+			<?php echo $this->Html->link(__('References', true), array('action' => 'references', $user['User']['id'])); ?>
 			<?php 
 			//if($user['Route']['source'] != ''){
 				//echo '<a href="'.$user['Route']['source'].'">'.__('View',true).'</a>';

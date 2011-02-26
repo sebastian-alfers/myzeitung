@@ -62,7 +62,8 @@ class AppController extends Controller {
 			'add' => array(1,2),
 			'edit' => array(1),
 			'view' => array(1),
-			'delete' => array(1)
+			'delete' => array(1),
+			'references' => array(1)
 			),
 		'topics' => array(
 			'index' => array(1),
@@ -87,6 +88,7 @@ class AppController extends Controller {
 			'view' => array(1,2),
 			'delete' => array(1),
 			'addcontent' => array(1),
+			'references' => array(1),
 			),				
 		'categories' => array(
 			'index' => array(1),
