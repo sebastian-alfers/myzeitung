@@ -4,6 +4,8 @@ class Route extends AppModel {
 	//var $displayField = 'name';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+	const TEST = 1223;
+	
 	function afterSave(){
 		$cache = ClassRegistry::init('cache');
 		$cache->delete('routes');

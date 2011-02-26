@@ -3,10 +3,8 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('route_id');?></th>
 			<th><?php echo $this->Paginator->sort('owner_id');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
-			<th><?php echo $this->Paginator->sort('description');?></th>
 			<th><?php echo __('Categories'); ?></th>
 			<th><?php echo $this->Paginator->sort('url');?></th>
 			<th class="actions"><?php __('Actions');?></th>
@@ -22,22 +20,18 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $paper['Paper']['id']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($paper['Route']['source'], $paper['Route']['source']); ?>
-		</td>
 		<td><?php echo $paper['User']['firstname'] . ' ' .$paper['User']['name']; ?>&nbsp;</td>
 		<td><?php echo $paper['Paper']['title']; ?>&nbsp;</td>
-		<td><?php echo $paper['Paper']['description']; ?>&nbsp;</td>
 		<td>
-		<?php //debug($paper); ?>
+		<?php /*
 			<?php  if(isset($paper['Category']) && !empty($paper['Category']) && is_array($paper['Category'])): ?>
 				<ul>
 					<?php foreach($paper['Category'] as $category): ?>
-					<li><?php echo $category['name']; ?>
+					<li><?php echo $category['name']; ?> ( <?php echo $this->Html->link(__('Add Content', true), array('action' => 'addcontent', ContentPaper::CATEGORY, $category['id'])); ?> )
 					<?php if(isset($category['Children']) && !empty($category['Children']) && is_array($category['Children'])): ?>
 						<ul>
 						<?php foreach($category['Children'] as $child): ?>
-							<li><?php echo $child['name']; ?></li>
+							<li><?php echo $child['name']; ?> ( <?php echo $this->Html->link(__('Add Content', true), array('action' => 'addcontent', ContentPaper::CATEGORY, $child['id'])); ?> ) </li>
 						<?php endforeach; ?>
 						</ul>
 					<?php endif; ?>
@@ -46,10 +40,12 @@
 				</ul>
 				
 			<?php endif; ?>
+			*/ ?>
 		</td>
 		<td><?php echo $paper['Paper']['url']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('Add Content', true), array('action' => 'addcontent', PapersController::PAPER, $paper['Paper']['id'])); ?>
+			<?php echo $this->Html->link(__('Add Content', true), array('action' => 'addcontent', ContentPaper::PAPER, $paper['Paper']['id'])); ?>
+			<?php echo $this->Html->link(__('Show Content', true), array('action' => 'references', ContentPaper::PAPER, $paper['Paper']['id'])); ?>
 			<?php echo $this->Html->link(__('Add Category', true), array('controller' => 'categories', 'action' => 'add', 'paper', $paper['Paper']['id'])); ?>		
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $paper['Paper']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $paper['Paper']['id'])); ?>

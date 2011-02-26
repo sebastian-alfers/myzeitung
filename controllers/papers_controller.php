@@ -3,23 +3,8 @@ class PapersController extends AppController {
 
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session');
-	var $uses = array('Paper', 'Category', 'Route', 'User', 'ContentPaper');
+	var $uses = array('Paper', 'Category', 'Route', 'User', 'ContentPaper', 'Topic');
 
-	//for types in DB, IMPORTAT for DB, DO NOT CHANGE!
-	const SOURCE_TYPE_USER 		= 0;
-	const SOURCE_TYPE_TOPIC		= 1;
-	const TARGET_TYPE_PAPER 		= 2;
-	const TARGETE_TYPE_CATEGORY 	= 3;
-
-	const PAPER 	= 'paper';
-	const CATEGORY 	= 'category';
-	const USER 		= 'user';
-	const TOPIC 	= 'topic';	
-
-	const CONTENT_DATA = 'content_data';
-
-	//to concatinate for frontend e.g. category_#id (category_44)
-	const SEPERATOR = '_';
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -50,7 +35,51 @@ class PapersController extends AppController {
 	}
 
 	/**
-	 * controller to add content for:
+	 *
+	 */
+	function references(){
+		if(!$this->_validateShowContentData($this->params)){
+			$this->Session->setFlash(__('invalid data for content view ', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		else{
+			$type = $this->params['pass'][0];
+			$id = $this->params['pass'][1];
+			switch($type){
+				case ContentPaper::PAPER:
+
+					$this->Paper->read(null, $id);
+					$paperReferences = $this->Paper->getContentReferences();
+					$this->set('paperReferences', $paperReferences);
+					break;
+				case ContentPaper::CATEGORY:
+
+					break;
+				default:
+					$this->Session->setFlash(__('invalid data for content view ', true));
+					$this->redirect(array('action' => 'index'));
+					exit;
+
+			}
+
+
+		}
+	}
+
+	/**
+	 * returns true if all data are valid
+	 */
+	private function _validateShowContentData($data){
+		if (empty($data)) return false;
+
+		//only paper or category dadta
+		if(!in_array($data['pass'][0], array(ContentPaper::PAPER, ContentPaper::CATEGORY))) return false;
+
+		return true;
+	}
+
+	/**
+	 * controller to add content subscription for:
 	 * - paper / category /subcategory of category
 	 *
 	 * Enter description here ...
@@ -59,43 +88,54 @@ class PapersController extends AppController {
 
 		if (!empty($this->data)) {
 			//form has been submitted
-			
-			if(isset($this->data['Paper'][self::CONTENT_DATA]) && !empty($this->data['Paper'][self::CONTENT_DATA])){
+
+			if(isset($this->data['Paper'][ContentPaper::CONTENT_DATA]) && !empty($this->data['Paper'][ContentPaper::CONTENT_DATA])){
 				//validate if hidden field is paper or category
-				
+
 				//add content for
-				$source = $this->data['Paper'][self::CONTENT_DATA];
+				$source = $this->data['Paper'][ContentPaper::CONTENT_DATA];
 				//split
-				$source = explode(self::SEPERATOR, $source);
+				$source = explode(ContentPaper::SEPERATOR, $source);
 				$sourceType = $source[0];
 				$sourceId   = $source[1];
 				$targetType = $this->data['Paper']['target_type'];
-				
+
 				if($this->_isValidTargetType($targetType) &&
-				   $this->_isValidSourceType($sourceType) &&
-					      isset($this->data['Paper']['target_id'])){
-					
-					$targetId = $this->data['Paper']['target_id'];
-					
+				$this->_isValidSourceType($sourceType) &&
+				isset($this->data['Paper']['target_id']))
+				{
+
+					$paperId = $this->data['Paper']['target_id'];
+
 					if(count($source) == 2){
 						switch ($targetType){
-							case self::PAPER:
+							case ContentPaper::PAPER:
 								//type of content for paper: user
-								if($this->newContentPaper(self::SOURCE_TYPE_USER, $sourceId, $targetId)){
+								$userId = null;
+								$topicId = null;
+								if($sourceType == ContentPaper::USER) $userId = $sourceId;
+								if($sourceType == ContentPaper::TOPIC) $topicId = $sourceId;
+								if($this->newContentForPaper($paperId, null, $userId, $topicId)){
 									// todo: save data here
 									$this->Session->setFlash(__('paper data saved', true));
-									$this->redirect(array('action' => 'index'));									
+									$this->redirect(array('action' => 'index'));
 								}
 								break;
-							case self::CATEGORY:
-								//type of content for paper: topic
+							case ContentPaper::CATEGORY:
+
+								if($this->newContentForCategory($this->_getSourceTypeId($sourceType), $sourceId, $targetId)){
+									// todo: save data here
+									$this->Session->setFlash(__('paper data saved', true));
+									$this->redirect(array('action' => 'index'));
+								}
+								break;
 
 						}
 					}
 				}
 				else{
 					//no valid soure or target type
-					
+
 				}
 
 
@@ -120,7 +160,7 @@ class PapersController extends AppController {
 
 			//generated user data for select drop down
 			$content_data = $this->_generateUserSelectData();
-			$this->set(self::CONTENT_DATA, $content_data);
+			$this->set(ContentPaper::CONTENT_DATA, $content_data);
 		}
 
 	}
@@ -207,11 +247,11 @@ class PapersController extends AppController {
 		$content_data = array('options' => array());
 		foreach($users as $user){
 			//debug($user);die();
-			$content_data['options'][self::USER.self::SEPERATOR.$user['User']['id']] = $user['User']['firstname'].' (all topics)';
+			$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = $user['User']['firstname'].' (all topics)';
 			$topics = $user['Topic'];
 			if(isset($topics) && count($topics >0)){
 				foreach($topics as $topic){
-					$content_data['options'][self::TOPIC.self::SEPERATOR.$topic['id']] = '> topic:'.$topic['name'];
+					$content_data['options'][ContentPaper::TOPIC.ContentPaper::SEPERATOR.$topic['id']] = '> topic:'.$topic['name'];
 				}
 
 			}
@@ -227,11 +267,11 @@ class PapersController extends AppController {
 	 * @return boolean
 	 */
 	private function _isValidTargetType($targetType){
-		
-		return (($targetType == self::PAPER) ||
-		($targetType == self::CATEGORY));
+
+		return (($targetType == ContentPaper::PAPER) ||
+		($targetType == ContentPaper::CATEGORY));
 	}
-	
+
 	/**
 	 * get $this->data and checks if is type
 	 * paper or category for paper_content
@@ -240,29 +280,192 @@ class PapersController extends AppController {
 	 */
 	private function _isValidSourceType($sourceType){
 
-		return (($sourceType == self::USER) ||
-		($sourceType == self::TOPIC));
+		return (($sourceType == ContentPaper::USER) ||
+		($sourceType == ContentPaper::TOPIC));
 	}
 
 	/**
-	 * 
+	 *
 	 * content for a paper
-	 * 
+	 *
 	 * @param string $sourceType
 	 * @param int $sourceId
 	 * @param int $targetId
 	 */
-	public function newContentPaper($sourceType, $sourceId, $targetId){
+	public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
+		//validate if this constelation (sourceType - source_id - target_id - PAPER)
+		//is not set
+
+
+		if(!$this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId)){
+			return false;
+		}
+
+
+		//$this->ContentPaper->find('all', )
+
+		//this->_saveNewContent(paper, ....)
+		$this->data['ContentPaper'] = array();
+		$this->data['ContentPaper']['paper_id'] 	= $paperId;
+		$this->data['ContentPaper']['category_id'] 	= $categoryId;
+		$this->data['ContentPaper']['user_id'] 		= $userId;
+		$this->data['ContentPaper']['topic_id'] 	= $topicId;
+
+		$this->ContentPaper->create();
+
+		return $this->ContentPaper->save($this->data);
+	}
+
+	/**
+	 *	returns true if is allowed to associate data (user or topic) to a paper (or category)
+	 *
+	 *
+	 * validate by following criteria
+	 * - if constelation(paper_id, category_id, user_id, topic_id) isnt already there
+	 *
+	 * - if a whole user is associated to a paper or a category, check if there are already
+	 *   other associations to one or more topic of the user IN THIS PAPER (ALSO CATEGORIES)!
+	 *   if so, give msg to user and say it is not possible to because of other refs (show references)
+	 *
+	 * - if a topic is associated to a paper or a category, check if this topic isnt already
+	 *   associated IN THIS PAPER (ALSO IN OTHER CATEGORIES)
+	 *
+	 * @param int $paperId
+	 * @param int $categoryId
+	 * @param int $userId
+	 * @param int $topicId
+	 */
+	private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
+
+		//check for extatly this constelation
+		$conditions = array('conditions' => array(
+											'ContentPaper.paper_id' => $paperId,
+											'ContentPaper.category_id' => $categoryId,
+											'ContentPaper.user_id' => $userId,
+											'ContentPaper.topic_id' => $topicId));
+
+		$checkDoubleReference = $this->ContentPaper->find('all', $conditions);
+
+		//if we get an result -> not allowed to add this constelation
+		if(isset($checkDoubleReference[0]['ContentPaper']['id'])){
+			$this->Session->setFlash(__('this constelations already exists', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		//check, if whole user is associated
+		if($userId && $userId != null && $userId >= 0){
+			//get all user topics associated to that paper
+			//check if alreay one of the users topics is associated to this paper itself or one of its categorie
+
+			//get user topics
+			$user = $this->User->read(null, $userId);
+			$userTopics = $user['Topic'];
+			//if user has no topcis (should not be possible...)
+			if(count($userTopics) == 0) return true;
+			
+			$paper = $this->Paper->read(null, $paperId);
+				
+			//$this->_hasPaperTopicsFromUser($paper['Paper']['id'], $user['User']['id']);
+			$recursion = 1;
+			$paperTopics = $this->Paper->getTopicReferences($recursion);
+			
+			//if paper has no topics referenced
+			if(count($paperTopics) == 0) return true;
+			
+			//check if one of the user topics is in the paper topics
+			foreach($userTopics as $userTopic){
+				
+				foreach($paperTopics as $paperTopic){
+					if($userTopic['id'] == $paperTopic['Topic']['id']){
+						//the paper as already a topic from the user
+						//-> as user if he wants to delete all topics from user to be able
+						//   to associate whole user to paper
+						$this->Session->setFlash(__('Error! there already exist a topic form this user in the paper.', true));
+						$this->redirect(array('action' => 'index'));						
+						return false;
+					}
+				}
+			}
+			return true;
+			
+
+		}
+		else if($topicId && $topicId != null){
+			//check if this topic isnt already assocaited to this paper itself or one of its categories
+
+			$this->Topic->read(null, $topicId);
+
+			if(!$this->Topic->id){
+				$this->Session->setFlash(__('Error! topic could not be loaded', true));
+				$this->redirect(array('action' => 'index'));
+			}
+			else{
+				if($this->Topic->data['Topic']['user_id']){
+					//check if the posts user is not in this paper
+					$userId = $this->Topic->data['Topic']['user_id'];
+					$conditions = array('conditions' => array(
+											'ContentPaper.paper_id' => $paperId,
+											'ContentPaper.user_id' => $userId));
+
+					$checkUserInPaper = $this->ContentPaper->find('all', $conditions);
+
+					if(isset($checkUserInPaper[0]['ContentPaper']['id'])){
+						//user is already in paper
+						$this->Session->setFlash(__('the owner of this topic is already paper in category ', true));
+						$this->redirect(array('action' => 'index'));	
+						return false;
+					}
+					//topics user is not in the paper -> can add topic to paper / category
+					return true;
+
+
+				}
+				else{
+					$this->Session->setFlash(__('Error! user for topic could not be loaded', true));
+					$this->redirect(array('action' => 'index'));
+				}
+
+			}
+
+
+		}
+
+
+		return true;
+
+	}
+
+
+	/**
+	 *
+	 * content for a paper
+	 *
+	 * @param string $sourceType
+	 * @param int $sourceId
+	 * @param int $targetId
+	 */
+	public function newContentForCategory($sourceType, $sourceId, $targetId){
 		//this->_saveNewContent(paper, ....)
 		$this->data['ContentPaper'] = array();
 		$this->data['ContentPaper']['source_type'] = $sourceType;
 		$this->data['ContentPaper']['source_id'] = $sourceId;
 		$this->data['ContentPaper']['target_id'] = $targetId;
-		$this->data['ContentPaper']['target_type'] = self::TARGET_TYPE_PAPER;
+		$this->data['ContentPaper']['target_type'] = ContentPaper::TARGET_TYPE_CATEGORY;
+
 		$this->ContentPaper->create();
-		
-		return $this->ContentPaper->save($this->data);	
+
+		return $this->ContentPaper->save($this->data);
 	}
-	
+
+
+
+
+	private function _getSourceTypeId($sourceType){
+		if($sourceType == ContentPaper::USER) return ContentPaper::SOURCE_TYPE_USER;
+		if($sourceType == ContentPaper::TOPIC) return ContentPaper::SOURCE_TYPE_TOPIC;
+
+		// @todo error log
+	}
+
 }
 ?>
