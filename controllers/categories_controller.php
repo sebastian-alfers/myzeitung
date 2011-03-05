@@ -3,7 +3,7 @@ class CategoriesController extends AppController {
 
 	const PARAM_CATEGORY = 'category';
 	const PARAM_PAPER	 = 'paper';
-	
+
 	var $name = 'Categories';
 
 	function index() {
@@ -24,6 +24,10 @@ class CategoriesController extends AppController {
 
 	}
 
+	/**
+	 * add a category for a paper or for a category(subcategory)
+	 *
+	 */
 	function add() {
 
 		if (empty($this->data)) {
@@ -34,14 +38,27 @@ class CategoriesController extends AppController {
 			}
 			//pass param for paper or category for hidden value
 			if($this->params['pass'][0] == 'paper'){
-				$this->set('paper_id', $this->params['pass'][1]);	
+				$this->set('paper_id', $this->params['pass'][1]);
 			}
 			elseif($this->params['pass'][0] == 'category'){
 				$this->set('parent_id', $this->params['pass'][1]);
 			}
-			
+				
 		}
 		else{
+			if(isset($this->data['Category']['parent_id']) && !empty($this->data['Category']['parent_id'])){
+				//read paper from parent id
+				$category = $this->Category->read(null, $this->data['Category']['parent_id']);
+
+				if($category['Category']['id'] && $category['Paper']['id']){
+						$this->data['Category']['paper_id'] = $category['Paper']['id'];
+				}
+				else{
+					$this->Session->setFlash(__('Error! Unable to read parent category!', true));
+					$this->redirect(array('controller' => 'categories', 'action' => 'index'));
+				}
+			}
+				
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));

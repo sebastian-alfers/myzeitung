@@ -1,3 +1,13 @@
+<?php 
+
+
+//$code = file_get_contents('http://localhost:8983/solr/select?q=video');
+//eval("\$result = " . $code . ";");
+//var_dump(($code));
+//die();
+?>
+
+
 <div class="papers index">
 	<h2><?php __('Papers');?></h2>
 	<table cellpadding="0" cellspacing="0">
@@ -6,7 +16,6 @@
 			<th><?php echo $this->Paginator->sort('owner_id');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo __('Categories'); ?></th>
-			<th><?php echo $this->Paginator->sort('url');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -23,7 +32,7 @@
 		<td><?php echo $paper['User']['firstname'] . ' ' .$paper['User']['name']; ?>&nbsp;</td>
 		<td><?php echo $paper['Paper']['title']; ?>&nbsp;</td>
 		<td>
-		<?php /*
+		
 			<?php  if(isset($paper['Category']) && !empty($paper['Category']) && is_array($paper['Category'])): ?>
 				<ul>
 					<?php foreach($paper['Category'] as $category): ?>
@@ -40,16 +49,15 @@
 				</ul>
 				
 			<?php endif; ?>
-			*/ ?>
+		
 		</td>
-		<td><?php echo $paper['Paper']['url']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('Add Content', true), array('action' => 'addcontent', ContentPaper::PAPER, $paper['Paper']['id'])); ?>
 			<?php echo $this->Html->link(__('Show Content', true), array('action' => 'references', ContentPaper::PAPER, $paper['Paper']['id'])); ?>
-			<?php echo $this->Html->link(__('Add Category', true), array('controller' => 'categories', 'action' => 'add', 'paper', $paper['Paper']['id'])); ?>		
+			<br /><br /><?php echo $this->Html->link(__('Add Category', true), array('controller' => 'categories', 'action' => 'add', 'paper', $paper['Paper']['id'])); ?>		
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $paper['Paper']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $paper['Paper']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $paper['Paper']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $paper['Paper']['id'])); ?>
+			<br /><br /><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $paper['Paper']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $paper['Paper']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
