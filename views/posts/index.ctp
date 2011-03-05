@@ -17,14 +17,18 @@
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
+	
 	$i = 0;
 	foreach ($posts as $post):
 		$class = null;
 		if ($i++ % 2 == 0) {
 			$class = ' class="altrow"';
 		}
+		
+
 	?>
 	
+
 	<tr<?php echo $class;?>>
 		<td><?php echo $post['Post']['id']; ?>&nbsp;</td>
 		<td>
@@ -39,8 +43,18 @@
 		<td><?php echo $post['Post']['count_reposts']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['count_comments']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('Repost', true), array('action' => 'repost', $post['Post']['id'])); ?>
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $post['Post']['id'])); ?>
+			
+			<?php
+			//if user did not repost a post yet, there will be repost button. otherwise there will be a undoRepost Button
+			if(!in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
+			//repost button
+			echo $this->Html->link(__('Repost', true), array('action' => 'repost', $post['Post']['id'], '1'));	
+			}else{
+			//undoRepost button
+			echo $this->Html->link(__('undoRepost', true), array('action' => 'undoRepost', $post['Post']['id']));
+			}
+			?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $post['Post']['id'],)); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $post['Post']['id'])); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])); ?>
 		</td>

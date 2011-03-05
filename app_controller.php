@@ -96,7 +96,14 @@ class AppController extends Controller {
 			'edit' => array(1),
 			'view' => array(1,2),
 			'delete' => array(1),
-			),				
+			),		
+		'comments' => array(
+			'index' => array(1),
+			'add' => array(1),
+			'edit' => array(1),
+			'view' => array(1,2),
+			'delete' => array(1),
+			),			
 		);
 		
 		

@@ -5,7 +5,7 @@ class Post extends AppModel {
 	
 	const TEST = 666;
 	
-	var $actsAs = array(/*'Serializeable'/* => array('reposters' => 'reposters'),*/'Containable');
+	var $actsAs = array('Containable');
 	
 	var $CategoryPaperPost = null;
 	
@@ -59,6 +59,22 @@ class Post extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	var $hasMany = array(
+		'Comment' => array(
+			'className' => 'Comment',
+			'foreignKey' => 'post_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
 
 // temp. not necessary
 
@@ -109,14 +125,14 @@ class Post extends AppModel {
 	 * - the posts topic is associated to a paper/category
 	 * 
 	 * so: this function does:
-	 * 1. get all associations to the posts user (all posts by this user)
-	 *  - this can be paper itself or one of its categories
+	 * 1. get all associations to the user who created this post (all posts by this user)
+	 *  - this can be a paper itself or one of it's categories
 	 * 
-	 * 2. get all associations to the posts topic
+	 * 2. get all associations to the post's topic
 	 *  - this can be paper itself or one of its categories
 	 *  
 	 * 3. validate collected data
-	 *  - it is very important, that a paper (and his categories) containt the posts
+	 *  - it is very important, that a paper (and its categories) contain the post
 	 *    only once!
 	 * 
 	 */
@@ -148,8 +164,7 @@ class Post extends AppModel {
 		//now all references to all topics
 		$topicReferences = $this->User->getUserTopicReferences($user_id);
 		foreach($topicReferences as $topicReferences){
-			debug($topicReferences);die();
-			//place post in paper or category associated to the posts topic
+						//place post in paper or category associated to the posts topic
 			$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id']);
 			if($wholeUserReference['Category']['id']){
 				$categoryPaperPostData = array('category_id' => $wholeUserReference['Category']['id']);	

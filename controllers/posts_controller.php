@@ -3,7 +3,7 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
  	var $components = array('Auth', 'Session');
- 	var $uses = array ('Post','PostsUser', 'Route');
+ 	var $uses = array('Post','PostsUser', 'Route', 'Comment');
  	
  	
  	public function beforeFilter(){
@@ -21,108 +21,180 @@ class PostsController extends AppController {
 	
 	
 
-	//repost: reposting means to recommend a post of another user to your followers. 
-	//		  it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
-	//        -> to do so: this function creates an entry in the table posts_users
-	//			 with the redirected post and the user who is recommending it.
-	//		  Furthermore an entry in the "reposters" array of the Post is added, to check quickly if 
-	//        User already reposted a post (especially for better performance in views)
-	// # params
-	// * $id -> post id (of the post that the user wants to repost)
+	/**
+	 * @author tim
+	 * 
+	 * reposting means to recommend a post of another user to your followers. 
+	 * it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
+	 * -> to do so: this function creates an entry in the table posts_users
+	 * 		with the redirected post and the user who is recommending it and his topic_id in which he reposts it.
+	 * Furthermore an entry in the "reposters" array of the Post is added, to check quickly if a
+	 *  User already reposted a post (especially for better performance in views)	
+	 *  
+	 * @param int $post_id  -> reposted post
+	 * @param int $topic_id -> topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
+	 * 
+	 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts 
+	 * 
+	 */
 	
-	
-	function repost($id){
-		if(isset($id)){
-			$reposted = false;
-			$postsUserData = array('post_id' => $id,
-								   'user_id' => $this->Auth->user('id'));
+	function repost($post_id, $topic_id){
+		if(isset($post_id) && isset($topic_id)){
+			
+			//check if the user already reposted the post -> just one post / user combination allowed (topic doesn't matter here)
+			$postsUserData = array('repost' => true,
+									'post_id' => $post_id,
+								   	'user_id' => $this->Auth->user('id'));
 			$repostEntries = $this->PostsUser->find('all',array('conditions' => $postsUserData));
 			// if there are no reposts for this post/user combination yet
 			if(!isset($repostEntries[0])){
-				$this->PostsUser->create();
-				// repost could be saved
-				if($this->PostsUser->save($postsUserData)){
-					$this->Session->setFlash(__('The Post has been reposted successfully.', true));
-					$reposted = true;
-				}
-				else {
+				//reading post 
+				$this->Post->contain();
+				$this->data = $this->Post->read(null, $post_id);
+				//valid post was found
+				if($this->Post->id){
+					$this->PostsUser->create();
+					// adding the topic_id to the repost array
+					$postsUserData = array('repost' => true,
+											'post_id' => $post_id,
+											'topic_id' =>  $topic_id,
+										   	'user_id' => $this->Auth->user('id'));
+					if($this->PostsUser->save($postsUserData)){
+							//repost was saved
+							$this->Session->setFlash(__('The Post has been reposted successfully.', true));
+							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array		
+							if((empty($this->Post->reposters)) || (!in_array($this->Auth->user('id'),$this->Post->reposters))){
+
+								$this->data['Post']['reposters'][] = $this->Auth->user('id');
+								//increment count_reposts for the reposted post (by count reposters array)
+								$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);							
+								$this->Post->save($this->data['Post']);
+							}
+						}	else {
 					// repost couldn't be saved
 					$this->Session->setFlash(__('The Post could not be reposted.', true));
+					}
+				}else {
+					// post was not found
+					$this->Session->setFlash(__('Invalid post', true));	
 				}
+			}else{
+				// already reposted
+				$this->Session->setFlash(__('Post has already been reposted.', true));
+				$this->log('Post/Repost: User '.$this->Auth->user('id').' tried to repost Post'.$post_id.' which he had already reposted.');
 			}
-			$this->Post->contain();
-			$this->data = $this->Post->read(null, $id);
-			if($reposted){
-				//increment count_reposts for the reposted post 
-				$this->data['Post']['count_reposts'] +=1;
-			}
-			// writing the reposter's user id into the reposters-array of the post
-			if(!in_array($this->Auth->user('id'),$this->data['Post']['reposters'])){
-				//counting entries
-				$count = count($this->data['Post']['reposters']);
-				//adding new entry after last position (= $count)
-				$this->data['Post']['reposters'][$count] = $this->Auth->user('id');
-			}
-	 		$this->Post->save($this->data['Post']);
 		}else {
-			// no post $id
-			$this->Session->setFlash(__('Invalid post', true));
+			if(!isset($post_id)){
+				// no post id
+				$this->Session->setFlash(__('Invalid post id.', true));
+			} elseif(!isset($post_id)){
+				// no topic id
+				$this->Session->setFlash(__('Invalid topic id.', true));
+			}
 		}
 		$this->redirect($this->referer());
 	}
 	
 
 		
-	//function to delete a repost
-	//user has to be logged in to remove reposts. (user can only have reposts if logged in...)
-	// # params
-	// * $id - post id (of the reposted post)
-	function undoRepost($id){
-		if(isset($id)){
-			$deleted = false;
-			// just in case there are several reposts for the combination post/user - all will be deleted.
-			$reposts =  $this->PostsUser->find('all',array('conditions' => array('PostsUser.post_id' => $id, 'PostsUser.user_id' => $this->Auth->user('id'))));
+
+	/**
+	 * @author tim
+	 * 
+	 * deleting a repost: if a user wants to undo a repost this function will delete the repost from the posts_user table. additionally 
+	 * the repost_counter will be decremented and the user will be deleted from the reposters array in the post.
+	 * 
+	 * @param $post_id - id of the post, for that the user wants to delete his repost
+	 */
+	function undoRepost($post_id){
+		if(isset($post_id)){
+			// just in case there are several reposts (PostsUser.repost => true) for the combination post/user - all will be deleted.
+			$reposts =  $this->PostsUser->find('all',array('conditions' => array('PostsUser.repost' => true,'PostsUser.post_id' => $post_id, 'PostsUser.user_id' => $this->Auth->user('id'))));
+			$delete_counter = 0;
 			foreach($reposts as $repost){
 				//deleting the repost from the PostsUser-table
 				$this->PostsUser->delete($repost['PostsUser']['id']);
-				$deleted = true;
+				$delete_counter += 1;
 			}
-			//reading related post to decrement the repost-counter
-			$this->Post->contain();
-			$post = $this->Post->read(null,$id);
-			$post['Post']['count_reposts'] -= 1;
-			//deleting user-id entry from reposters-array in post-model
-			if(in_array($this->Auth->user('id'),$post['Post']['reposters'])){
-				$pos = array_search($this->Auth->user('id'),$post['Post']['reposters']);
-				unset($post['Post']['reposters'][$pos]);
+			//writing log entry if there were more than one entries for this repost (shouldnt be possible)
+			if($delete_counter > 1){
+				$this->log('Post/undoRepost: User '.$this->Auth->user('id').' had more then 1 repost entry (posts_user table) for Post '.$post_id.'. (now deleted) This should not be possible.');
 			}
-			$this->Post->save($post);
+			
+			if($delete_counter >= 1){
+				$this->Session->setFlash(__('Repost removed successfully.', true));	
+				
+				//reading related post to decrement the repost-counter and delete user id from the reposters array
+				$this->Post->contain();
+				$this->data = $this->Post->read(null,$post_id);
+
+				//deleting user-id entry from reposters-array in post-model
+				if(in_array($this->Auth->user('id'),$this->data['Post']['reposters'])){
+					$pos = array_search($this->Auth->user('id'),$this->data['Post']['reposters']);
+					unset($this->data['Post']['reposters'][$pos]);
+				}
+				
+				$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);
+				$this->Post->save($this->data['Post']);
+			} else {
+				$this->Session->setFlash(__('Repost could not be removed.', true));
+			}
 		}
 		else {
 			// no repost $id
 			$this->Session->setFlash(__('Invalid post-id', true));
 		}
-		if($deleted){
-			$this->Session->setFlash(__('Repost removed successfully.'));	
-		}
-		$this->redirect($this->referer());	
+		
+		$this->redirect($this->referer());
 	}
 	
-	
+	/**
+	 * @author tim
+	 * function to add a comment to a post. a comment always belongs to one post. a comment _can_ addtionally belong to another comment (reply).
+	 * @param $post_id
+	 * @param $comment_id / optional - just needed if comment replies to another comment
+	 */
+/*	function addComment($post_id, $comment_id = null){
+		if($post_id){
+				$this->Comment->create();
+				$ok = true;
+				//if the comment_id is not null -> check if related comment is a comment of the same post
+				if($comment_id != null){
+					$replied_comment = $this->Comment->read($comment_id);
+					if($replied_comment['post_id'] == $post_id)
+					{
+						$this->data['Comment']['comment_id'] = $comment_id;
+					} else {
+						//comment_id belongs to a comment of another post
+						$this->Session->setFlash(__('Replied comment does not belong to the same post.', true));		
+						$ok = false;
+					}
+				}
+				if($ok){
+					$this->data['Comment']['post_id'] = $post_id;
+				}
 
+		} else {
+			//no post id
+			$this->Session->setFlash(__('Invalid post', true));			
+		}
+		
+		$this->redirect($this->referer());
+	}
+*/
 	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		debug($this->Post->read(null, $id));
 		$this->set('post', $this->Post->read(null, $id));
 		
 	}
 
+
+	
 	
 	function add() {
-		
 		if (!empty($this->data)) {
 			$id = $this->Auth->User("id");
 			$this->data["Post"]["user_id"] = (int)$id;
