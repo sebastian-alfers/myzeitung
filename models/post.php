@@ -139,6 +139,7 @@ class Post extends AppModel {
 				$this->data['Post']['index_id'] = 'post_'.$this->id;
 				$this->data['Post']['id'] = $this->id;
 				$this->data['Post']['user_name'] = $userData['User']['name'];
+				$this->data['Post']['type'] = Solr::TYPE_POST;
 				$solr = new Solr();
 				$solr->add($this->removeFieldsForIndex($this->data));
 

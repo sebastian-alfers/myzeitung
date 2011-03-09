@@ -144,7 +144,12 @@ class PostsController extends AppController {
 				
 				$postsUserData = array('user_id' => $id,
 									   'post_id' => $this->Post->id);
+				
+				debug(get_class($this->PostsUser));
+				debug($this->PostsUser);die();
+				
 				$this->PostsUser->create();
+				
 				$this->PostsUser->save($postsUserData);
 				
 				
