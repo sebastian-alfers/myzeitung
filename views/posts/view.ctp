@@ -48,7 +48,7 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Count Comments'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['count_comments']; ?>
+			<?php echo $this->Html->link($post['Post']['count_comments'], array('controller' => 'comments', 'action' => 'show', $post['Post']['id'])); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -76,5 +76,6 @@
 		<li><?php echo $this->Html->link(__('New User', true), array('controller' => 'users', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Topics', true), array('controller' => 'topics', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Topic', true), array('controller' => 'topics', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('Show Comments', true), array('controller' => 'comments', 'action' => 'show', $post['Post']['id'])); ?></li>
 	</ul>
 </div>

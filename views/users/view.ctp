@@ -1,5 +1,5 @@
 <div class="users view">
-<h2><?php  __('User');?></h2>
+<h2><?php  __('User');debug($user);?></h2>
 	<dl>
 		<dt><?php __('User'); ?></dt>
 		<dd><?php echo $user['User']['username'];?></dd>

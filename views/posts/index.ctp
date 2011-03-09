@@ -8,9 +8,7 @@
 			<th><?php echo $this->Paginator->sort('topic_id');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
 			<th><?php echo $this->Paginator->sort('content');?></th>
-			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('enabled');?></th>
 			<th><?php echo $this->Paginator->sort('count_views');?></th>
 			<th><?php echo $this->Paginator->sort('count_reposts');?></th>
 			<th><?php echo $this->Paginator->sort('count_comments');?></th>
@@ -34,11 +32,10 @@
 		<td>
 			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
+		<td><?php echo $post['Topic']['name']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['title']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['content']; ?>&nbsp;</td>
-		<td><?php echo $post['Post']['modified']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['created']; ?>&nbsp;</td>
-		<td><?php echo $post['Post']['enabled']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['count_views']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['count_reposts']; ?>&nbsp;</td>
 		<td><?php echo $post['Post']['count_comments']; ?>&nbsp;</td>
@@ -57,6 +54,7 @@
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $post['Post']['id'],)); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $post['Post']['id'])); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])); ?>
+			
 		</td>
 	</tr>
 <?php endforeach; ?>

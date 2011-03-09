@@ -19,7 +19,7 @@ class PostsController extends AppController {
 		$this->set('posts', $this->paginate());
 	}
 	
-	
+
 
 	/**
 	 * @author tim
@@ -148,41 +148,7 @@ class PostsController extends AppController {
 		$this->redirect($this->referer());
 	}
 	
-	/**
-	 * @author tim
-	 * function to add a comment to a post. a comment always belongs to one post. a comment _can_ addtionally belong to another comment (reply).
-	 * @param $post_id
-	 * @param $comment_id / optional - just needed if comment replies to another comment
-	 */
-/*	function addComment($post_id, $comment_id = null){
-		if($post_id){
-				$this->Comment->create();
-				$ok = true;
-				//if the comment_id is not null -> check if related comment is a comment of the same post
-				if($comment_id != null){
-					$replied_comment = $this->Comment->read($comment_id);
-					if($replied_comment['post_id'] == $post_id)
-					{
-						$this->data['Comment']['comment_id'] = $comment_id;
-					} else {
-						//comment_id belongs to a comment of another post
-						$this->Session->setFlash(__('Replied comment does not belong to the same post.', true));		
-						$ok = false;
-					}
-				}
-				if($ok){
-					$this->data['Comment']['post_id'] = $post_id;
-				}
-
-		} else {
-			//no post id
-			$this->Session->setFlash(__('Invalid post', true));			
-		}
-		
-		$this->redirect($this->referer());
-	}
-*/
-	function view($id = null) {
+function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
@@ -191,9 +157,6 @@ class PostsController extends AppController {
 		
 	}
 
-
-	
-	
 	function add() {
 		if (!empty($this->data)) {
 			$id = $this->Auth->User("id");
