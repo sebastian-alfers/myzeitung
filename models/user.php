@@ -4,9 +4,9 @@ class User extends AppModel {
 	var $displayField = 'name';
 
 	var $ContentPaper = null;
-	
+
 	var $actsAs = array('Containable');
-	
+
 	var $uses = array('Route', 'Cachekey');
 
 	var $validate = array(
@@ -85,7 +85,7 @@ class User extends AppModel {
 	 'finderQuery' => '',
 	 'counterQuery' => ''
 		),*/
-	
+
 		'Topic' => array(
 			'className' => 'Topic',
 			'foreignKey' => 'user_id',
@@ -99,7 +99,7 @@ class User extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 			)
-		);
+			);
 
 
 			var $hasAndBelongsToMany = array(
@@ -128,56 +128,71 @@ class User extends AppModel {
 			'Route' => array(
 				'className' => 'Route',
 				'foreignKey' => 'ref_id',//important to have FK
-			),	
-		);		
-		
-		
-	function __construct(){
-		parent::__construct();
-	}
-		
-	function afterSave(){
-		/*
-		 App::import('model','Cachekey');
-		 $cachekey = new Cachekey();
-		 $cachekey->create();
-		 if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
-		 */
+		),
+		);
 
-		//App::import('model','Route');
 
-		//$this->save(array('route_id', $route->id));
-
-	}
-		
-	function getWholeUserReferences($user_id){
-		App::import('model','ContentPaper');
-		App::import('model','Topic');
-		$wholeUserReferences = array();
-		$conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
-		//$this->ContentPaper->recursive = 0;
-		
-		$this->ContentPaper = new ContentPaper();
-		$wholeUserReferences = $this->ContentPaper->find('all', $conditions);
-		return $wholeUserReferences;
-	}
-
-	function getUserTopicReferences($user_id){
-		$topicReferences = array();
-
-		//get all users topics
-		$this->Topic = new Topic();
-		$topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-		foreach($topics as $topid_id => $topic_name){
-			$conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
-			//$this->ContentPaper->recursive = 0;
-			$topicRef = $this->ContentPaper->find('all', $conditions);
-			if(isset($topicRef[0]['ContentPaper']['id']) && !empty($topicRef[0]['ContentPaper']['id'])){
-				$topicReferences[] = $topicRef[0];
-			}
-				
+		function __construct(){
+			parent::__construct();
 		}
-		return $topicReferences;
-	}
+
+		/**
+		 * update index
+		 */
+		function afterSave(){
+			/*
+			App::import('model','Solr');
+
+			$this->data['User']['index_id'] = 'post_'.$this->id;
+			$this->data['User']['id'] = $this->id;
+			$this->data['User']['user_name'] = $userData['User']['name'];
+			$this->data['User']['type'] = Solr::TYPE_USER;
+			
+			debug($this->data);die();
+			$solr = new Solr();
+			$solr->add($this->removeFieldsForIndex($this->data));
+			*/
+			/*
+			 App::import('model','Cachekey');
+			 $cachekey = new Cachekey();
+			 $cachekey->create();
+			 if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
+			 */
+
+			//App::import('model','Route');
+
+			//$this->save(array('route_id', $route->id));
+
+		}
+
+		function getWholeUserReferences($user_id){
+			App::import('model','ContentPaper');
+			App::import('model','Topic');
+			$wholeUserReferences = array();
+			$conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
+			//$this->ContentPaper->recursive = 0;
+
+			$this->ContentPaper = new ContentPaper();
+			$wholeUserReferences = $this->ContentPaper->find('all', $conditions);
+			return $wholeUserReferences;
+		}
+
+		function getUserTopicReferences($user_id){
+			$topicReferences = array();
+
+			//get all users topics
+			$this->Topic = new Topic();
+			$topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+			foreach($topics as $topid_id => $topic_name){
+				$conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
+				//$this->ContentPaper->recursive = 0;
+				$topicRef = $this->ContentPaper->find('all', $conditions);
+				if(isset($topicRef[0]['ContentPaper']['id']) && !empty($topicRef[0]['ContentPaper']['id'])){
+					$topicReferences[] = $topicRef[0];
+				}
+
+			}
+			return $topicReferences;
+		}
 }
 ?>

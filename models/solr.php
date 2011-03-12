@@ -7,7 +7,7 @@ class Solr extends AppModel {
 	const TYPE_USER = 'user';
 	const TYPE_POST = 'post';
 	const TYPE_UNKNOWN = 'unknown';
-	
+
 	const HOST = 'localhost';
 	const PORT = 8983;
 	const PATH = '/solr';
@@ -33,57 +33,64 @@ class Solr extends AppModel {
 	function add($docs = array()){
 
 		try {
-/*
-			$docs = array(
-    			'doc_no1' => array(
-      				'index_id' => 1,
-					'id' => '332',
-					'user_name' => '332',
-					'topic_name' => '332',
-			'user_id' => '332',
-      				'content' => 'Alphabet',
-				 	'title' => 'Franz tobi jagt im komplett verwahrlosten Taxi quer durch Bayern',
-				    
-			),
-    			'doc_no2' => array(
-				    'index_id' => 2,
-					'id' => '332',
-					'user_name' => '332',
-					'topic_name' => '332',
-			'user_id' => '332',
-			'content' => 'Buchstaben uuu',
-				    'title' => 'jjj Polyfon zwitschernd assen MŠxchens Všgel RŸben, Joghurt und Quark.',
-				    
-			),
-			);*/
+			/*
+			 $docs = array(
+			 'doc_no1' => array(
+			 'index_id' => 1,
+			 'id' => '332',
+			 'user_name' => '332',
+			 'topic_name' => '332',
+			 'user_id' => '332',
+			 'content' => 'Alphabet',
+			 'title' => 'Franz tobi jagt im komplett verwahrlosten Taxi quer durch Bayern',
+
+			 ),
+			 'doc_no2' => array(
+			 'index_id' => 2,
+			 'id' => '332',
+			 'user_name' => '332',
+			 'topic_name' => '332',
+			 'user_id' => '332',
+			 'content' => 'Buchstaben uuu',
+			 'title' => 'jjj Polyfon zwitschernd assen MŠxchens Všgel RŸben, Joghurt und Quark.',
+
+			 ),
+			 );*/
 
 			$documents = array();
 
 			foreach ( $docs as $item => $fields ) {
-				
+
 				$part = new Apache_Solr_Document();
-				
+
 				foreach ( $fields as $key => $value ) {
 					$part->$key = $value;
 				}
 				$documents[] = $part;
 			}
 
-			$this->getSolr()->addDocuments( $documents );
-			$this->getSolr()->commit();
-			$this->getSolr()->optimize();
+			if($this->getSolr()){
+				$this->getSolr()->addDocuments( $documents );
+				$this->getSolr()->commit();
+				$this->getSolr()->optimize();
+			}
+			else{
+				debug('Solr not running!');
+			}
+
 		}
 		catch ( Exception $e ) {
 			debug('Error while adding documents to index: ' . $e->getMessage());
+			debug(debug_backtrace());
 			$this->log('Error while adding documents to index: ' . $e->getMessage());
 		}
 
 	}
 
 	/**
-	 * 
+	 *
 	 * performs a query to solr and returns result
-	 * 
+	 *
 	 * @param string $query
 	 * @param int $limit
 	 * @param boolean $grouped
@@ -101,21 +108,21 @@ class Solr extends AppModel {
 			$response = $this->getSolr()->search($query, 0, $limit);
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
-				
+
 				foreach($response->response->docs as $doc){
 					if(isset($doc->type)){
-						$grouped[$doc->type][] = $doc;			
+						$grouped[$doc->type][] = $doc;
 					}
 					else{
 						$grouped[self::TYPE_UNKNOWN][] = $doc;
 					}
 				}
-				
+
 				if(!empty($grouped)){
-					$results['results'] = $grouped;	
+					$results['results'] = $grouped;
 				}
 				else{
-					$results['results'] = $response;	
+					$results['results'] = $response;
 				}
 				$results['rows'] = (int) $response->response->numFound;
 				$results['start'] = min(1, $results['rows']);

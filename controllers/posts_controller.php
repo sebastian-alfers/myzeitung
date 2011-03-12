@@ -3,7 +3,7 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
  	var $components = array('Auth', 'Session');
- 	var $uses = array ('Post','PostsUser', 'Route');
+ 	var $uses = array ('Post','PostUser', 'Route');
  	
  	
  	public function beforeFilter(){
@@ -32,16 +32,26 @@ class PostsController extends AppController {
 	
 	
 	function repost($id){
+		
 		if(isset($id)){
+			//read post
+			$this->Post->contain();
+			$this->data = $this->Post->read(null, $id);			
+			
 			$reposted = false;
-			$postsUserData = array('post_id' => $id,
-								   'user_id' => $this->Auth->user('id'));
-			$repostEntries = $this->PostsUser->find('all',array('conditions' => $postsUserData));
+			$postUserData = array('post_id' => $id,
+								  'PostUser.user_id' => $this->Auth->user('id'),
+								  'topic_id'=> $this->data['Post']['topic_id']);
+			$repostEntries = $this->PostUser->find('all',array('conditions' => $postUserData));
 			// if there are no reposts for this post/user combination yet
 			if(!isset($repostEntries[0])){
-				$this->PostsUser->create();
+				$this->PostUser->create();
 				// repost could be saved
-				if($this->PostsUser->save($postsUserData)){
+				if(isset($postUserData['PostUser.user_id'])){
+					$postUserData['user_id'] = $postUserData['PostUser.user_id'];
+					unset($postUserData['PostUser.user_id']);
+				}
+				if($this->PostUser->save($postUserData)){
 					$this->Session->setFlash(__('The Post has been reposted successfully.', true));
 					$reposted = true;
 				}
@@ -50,8 +60,6 @@ class PostsController extends AppController {
 					$this->Session->setFlash(__('The Post could not be reposted.', true));
 				}
 			}
-			$this->Post->contain();
-			$this->data = $this->Post->read(null, $id);
 			if($reposted){
 				//increment count_reposts for the reposted post 
 				$this->data['Post']['count_reposts'] +=1;
@@ -81,10 +89,10 @@ class PostsController extends AppController {
 		if(isset($id)){
 			$deleted = false;
 			// just in case there are several reposts for the combination post/user - all will be deleted.
-			$reposts =  $this->PostsUser->find('all',array('conditions' => array('PostsUser.post_id' => $id, 'PostsUser.user_id' => $this->Auth->user('id'))));
+			$reposts =  $this->PostUser->find('all',array('conditions' => array('PostUser.post_id' => $id, 'PostUser.user_id' => $this->Auth->user('id'))));
 			foreach($reposts as $repost){
-				//deleting the repost from the PostsUser-table
-				$this->PostsUser->delete($repost['PostsUser']['id']);
+				//deleting the repost from the PostUser-table
+				$this->PostUser->delete($repost['PostUser']['id']);
 				$deleted = true;
 			}
 			//reading related post to decrement the repost-counter
@@ -143,14 +151,15 @@ class PostsController extends AppController {
 				
 				
 				$postsUserData = array('user_id' => $id,
-									   'post_id' => $this->Post->id);
+									   'post_id' => $this->Post->id,
+									   'topic_id'=> $this->data['Post']['topic_id']);
 				
-				debug(get_class($this->PostsUser));
-				debug($this->PostsUser);die();
+				//debug(get_class($this->PostUser));
+				//debug($this->PostUser);die();
 				
-				$this->PostsUser->create();
+				$this->PostUser->create();
 				
-				$this->PostsUser->save($postsUserData);
+				$this->PostUser->save($postsUserData);
 				
 				
 				
