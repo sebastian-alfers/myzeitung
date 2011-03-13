@@ -4,7 +4,7 @@ class PostsController extends AppController {
 	var $name = 'Posts';
  	var $components = array('Auth', 'Session');
 
- 	var $uses = array('Post','PostsUser', 'Route', 'Comment');
+ 	var $uses = array('Post','PostUser', 'Route', 'Comment');
 
  	
  	public function beforeFilter(){
@@ -44,10 +44,10 @@ class PostsController extends AppController {
 		if(isset($post_id) && isset($topic_id)){
 			
 			//check if the user already reposted the post -> just one post / user combination allowed (topic doesn't matter here)
-			$postsUserData = array('repost' => true,
+			$PostUserData = array('repost' => true,
 									'post_id' => $post_id,
-								   	'user_id' => $this->Auth->user('id'));
-			$repostEntries = $this->PostsUser->find('all',array('conditions' => $postsUserData));
+								   	'Post.user_id' => $this->Auth->user('id'));
+			$repostEntries = $this->PostUser->find('all',array('conditions' => $PostUserData));
 			// if there are no reposts for this post/user combination yet
 			if(!isset($repostEntries[0])){
 				//reading post 
@@ -55,13 +55,13 @@ class PostsController extends AppController {
 				$this->data = $this->Post->read(null, $post_id);
 				//valid post was found
 				if($this->Post->id){
-					$this->PostsUser->create();
+					$this->PostUser->create();
 					// adding the topic_id to the repost array
-					$postsUserData = array('repost' => true,
+					$PostUserData = array('PostUser' => array('repost' => true,
 											'post_id' => $post_id,
 											'topic_id' =>  $topic_id,
-										   	'user_id' => $this->Auth->user('id'));
-					if($this->PostsUser->save($postsUserData)){
+										   	'user_id' => $this->Auth->user('id')));
+					if($this->PostUser->save($PostUserData)){
 							//repost was saved
 							$this->Session->setFlash(__('The Post has been reposted successfully.', true));
 							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array		
@@ -110,12 +110,12 @@ class PostsController extends AppController {
 	 */
 	function undoRepost($post_id){
 		if(isset($post_id)){
-			// just in case there are several reposts (PostsUser.repost => true) for the combination post/user - all will be deleted.
-			$reposts =  $this->PostsUser->find('all',array('conditions' => array('PostsUser.repost' => true,'PostsUser.post_id' => $post_id, 'PostsUser.user_id' => $this->Auth->user('id'))));
+			// just in case there are several reposts (PostUser.repost => true) for the combination post/user - all will be deleted.
+			$reposts =  $this->PostUser->find('all',array('conditions' => array('PostUser.repost' => true,'PostUser.post_id' => $post_id, 'PostUser.user_id' => $this->Auth->user('id'))));
 			$delete_counter = 0;
 			foreach($reposts as $repost){
-				//deleting the repost from the PostsUser-table
-				$this->PostsUser->delete($repost['PostsUser']['id']);
+				//deleting the repost from the PostUser-table
+				$this->PostUser->delete($repost['PostUser']['id']);
 				$delete_counter += 1;
 
 			}
@@ -156,6 +156,7 @@ function view($id = null) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$this->set('post', $this->Post->read(null, $id));
 		
 	}
@@ -180,7 +181,7 @@ function view($id = null) {
 				}
 				
 				
-				$postsUserData = array('user_id' => $id,
+				$PostUserData = array('user_id' => $id,
 									   'post_id' => $this->Post->id,
 									   'topic_id'=> $this->data['Post']['topic_id']);
 				
@@ -189,7 +190,7 @@ function view($id = null) {
 				
 				$this->PostUser->create();
 				
-				$this->PostUser->save($postsUserData);
+				$this->PostUser->save($PostUserData);
 				
 				
 				
@@ -211,6 +212,7 @@ function view($id = null) {
 	}
 
 	function edit($id = null) {
+	
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
@@ -224,14 +226,15 @@ function view($id = null) {
 			}
 		}
 		if (empty($this->data)) {
+			$this->Post->contain();
 			$this->data = $this->Post->read(null, $id);
 		}
-		$users = $this->Post->User->find('list');
 		$topics = $this->Post->Topic->find('list');
-		$users = $this->Post->User->find('list');
-		$this->set(compact('users', 'topics', 'users'));
+		$this->set(compact('topics', 'users'));
 	}
 
+	
+	
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for post', true));
@@ -244,6 +247,7 @@ function view($id = null) {
 		$this->Session->setFlash(__('Post was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+	
 
 }
 ?>

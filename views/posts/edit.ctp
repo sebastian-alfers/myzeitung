@@ -4,7 +4,7 @@
  		<legend><?php __('Edit Post'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('user_id');
+		echo $this->Form->hidden('user_id');
 		echo $this->Form->input('topic_id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('content');

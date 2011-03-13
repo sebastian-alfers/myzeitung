@@ -15,7 +15,7 @@
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
-	
+
 	$i = 0;
 	foreach ($posts as $post):
 		$class = null;
@@ -43,12 +43,19 @@
 			
 			<?php
 			//if user did not repost a post yet, there will be repost button. otherwise there will be a undoRepost Button
-			if(!in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
-			//repost button
-			echo $this->Html->link(__('Repost', true), array('action' => 'repost', $post['Post']['id'], '1'));	
-			}else{
-			//undoRepost button
-			echo $this->Html->link(__('undoRepost', true), array('action' => 'undoRepost', $post['Post']['id']));
+			if(is_array($post['Post']['reposters'])){
+				if(!in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
+				//repost button
+				echo $this->Html->link(__('Repost', true), array('action' => 'repost', $post['Post']['id'], '1'));	
+				}else{
+				//undoRepost button
+				echo $this->Html->link(__('undoRepost', true), array('action' => 'undoRepost', $post['Post']['id']));
+				} 
+			}else 
+			{
+				//repost button (if no array ... )
+				echo $this->Html->link(__('Repost', true), array('action' => 'repost', $post['Post']['id'], '1'));	
+				
 			}
 			?>
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $post['Post']['id'],)); ?>

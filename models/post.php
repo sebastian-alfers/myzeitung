@@ -106,10 +106,19 @@ class Post extends AppModel {
 			 */
 			function afterFind($results) {
 				foreach ($results as $key => $val) {
-					if (!empty($val['Post']['reposters'])) {
-					//	$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
+					if (!empty($val['Post']['reposters']) ) {
+						$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
 					}else {
-						//	$results[$key]['Post']['reposters'] = array();
+						if(isset($results[$key]['Post']['reposters'])){
+							$results[$key]['Post']['reposters'] = array();
+						}
+					}
+					if (!empty($val['reposters']) ) {
+						$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
+					}else {
+						if(isset($results[$key]['reposters'])){
+							$results[$key]['reposters'] = array();
+						}
 					}
 				}
 				return $results;
