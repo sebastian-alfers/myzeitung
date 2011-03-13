@@ -3,7 +3,9 @@ class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
 
+
 	var $actsAs = array('Containable');
+
 
 
 	var $CategoryPaperPost = null;
@@ -125,9 +127,66 @@ class Post extends AppModel {
 				return true;
 			}
 
+
+
+		/**
+		 * 1)
+		 * update solr index with saved data
+		 */
+		function afterSave(){
+
+			App::import('model','Solr');
+
+			$userData = $this->User->read(null, $this->data['Post']['user_id']);
+
+			if($userData['User']['id']){
+				$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+
+				if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
+					$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+				}
+					
+				$this->data['Post']['index_id'] = 'post_'.$this->id;
+				$this->data['Post']['id'] = $this->id;
+				$this->data['Post']['user_name'] = $userData['User']['name'];
+				$this->data['Post']['type'] = Solr::TYPE_POST;
+				$solr = new Solr();
+				$solr->add($this->removeFieldsForIndex($this->data));
+
+			}
+			else{
+				$this->log('Error while reading user for Post! No solr index update');
+			}
+
+
+
+		}
+
+
+/**
+ * @todo move to abstract for all models
+ * Enter description here ...
+ */
+	private function removeFieldsForIndex($data){
+		unset($data['Post']['enabled']);
+		unset($data['Post']['count_views']);
+		unset($data['Post']['count_reposts']);
+		unset($data['Post']['count_comments']);
+		unset($data['Post']['topic_id']);
+		unset($data['Post']['modified']);
+		unset($data['Post']['created']);
+		unset($data['Post']['reposters']);
+		
+		
+		return $data;
+
+	}
+	
+
 	function __construct(){
 		parent::__construct();
 	}
+	
 }
 
 ?>

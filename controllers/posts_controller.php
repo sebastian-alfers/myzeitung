@@ -3,8 +3,9 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
  	var $components = array('Auth', 'Session');
+
  	var $uses = array('Post','PostsUser', 'Route', 'Comment');
- 	
+
  	
  	public function beforeFilter(){
  		parent::beforeFilter();
@@ -38,6 +39,7 @@ class PostsController extends AppController {
 	 * 
 	 */
 	
+
 	function repost($post_id, $topic_id){
 		if(isset($post_id) && isset($topic_id)){
 			
@@ -71,6 +73,7 @@ class PostsController extends AppController {
 								$this->Post->save($this->data['Post']);
 							}
 						}	else {
+
 					// repost couldn't be saved
 					$this->Session->setFlash(__('The Post could not be reposted.', true));
 					}
@@ -96,7 +99,6 @@ class PostsController extends AppController {
 	}
 	
 
-		
 
 	/**
 	 * @author tim
@@ -115,6 +117,7 @@ class PostsController extends AppController {
 				//deleting the repost from the PostsUser-table
 				$this->PostsUser->delete($repost['PostsUser']['id']);
 				$delete_counter += 1;
+
 			}
 			//writing log entry if there were more than one entries for this repost (shouldnt be possible)
 			if($delete_counter > 1){
@@ -178,14 +181,15 @@ function view($id = null) {
 				
 				
 				$postsUserData = array('user_id' => $id,
-									   'post_id' => $this->Post->id);
+									   'post_id' => $this->Post->id,
+									   'topic_id'=> $this->data['Post']['topic_id']);
 				
-				debug(get_class($this->PostsUser));
-				debug($this->PostsUser);die();
+				//debug(get_class($this->PostUser));
+				//debug($this->PostUser);die();
 				
-				$this->PostsUser->create();
+				$this->PostUser->create();
 				
-				$this->PostsUser->save($postsUserData);
+				$this->PostUser->save($postsUserData);
 				
 				
 				
