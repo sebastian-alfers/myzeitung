@@ -6,6 +6,8 @@ class Solr extends AppModel {
 
 	const TYPE_USER = 'user';
 	const TYPE_POST = 'post';
+	const TYPE_PAPER = 'paper';
+	const TYPE_CATEGORY = 'category';
 	const TYPE_UNKNOWN = 'unknown';
 
 	const HOST = 'localhost';

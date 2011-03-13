@@ -400,18 +400,25 @@
 
 
  <fields>
-   <field name="index_id" type="string" indexed="true" stored="true" required="true" /> 
-   <field name="title" type="text" indexed="true" stored="true" multiValued="true"/>
-   <field name="content" type="text" indexed="true" stored="true" multiValued="true"/>   
-   <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
+   <field name="index_id" type="string" indexed="true" stored="true" /> 
+   <field name="title" type="text" indexed="true" stored="true" />
+   <field name="content" type="text" indexed="true" stored="true"/>   
+   <field name="description" type="text" indexed="true" stored="true"/>      
+   <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" />
+   <field name="name" type="text" indexed="true" stored="true" required="false" />       
 
    <field name="id" type="string" indexed="false" stored="true" required="true" /> 
-   <field name="user_id" type="string" indexed="false" stored="true" required="true" />    
+   <field name="user_id" type="string" indexed="false" stored="true" required="true" />  
+   <field name="paper_id" type="string" indexed="false" stored="true" required="false" />     
    <field name="user_name" type="text" indexed="false" stored="true" required="true" />    
-   <field name="topic_name" type="text" indexed="false" stored="true" required="true" />    
+   <field name="topic_name" type="text" indexed="false" stored="true" required="false" />    
+   
+
 
    <field name="type" type="string" indexed="true" stored="true" required="true" />    
    
+   <!-- all fields to be searched will be copyd here; default search field -->
+   <field name="search_field" type="text" indexed="true" stored="true" required="true" multiValued="true" />       
 
    <!-- Dynamic field definitions.  If a field name is not found, dynamicFields
         will be used if the name matches any of the patterns.
@@ -457,9 +464,12 @@
  <uniqueKey>index_id</uniqueKey>
 
  <!-- field for the QueryParser to use when an explicit fieldname is absent -->
- <defaultSearchField>content</defaultSearchField>
+ <defaultSearchField>search_field</defaultSearchField>
 
-   <copyField source="title" dest="content"/>
+ <copyField source="title" dest="search_field"/>
+ <copyField source="content" dest="search_field"/>
+ <copyField source="description" dest="search_field"/>
+ <copyField source="name" dest="search_field"/> 
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>

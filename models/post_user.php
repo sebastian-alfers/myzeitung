@@ -115,7 +115,7 @@ class PostUser extends AppModel {
 
 			}
 			else{
-				$this->debug('Error while reading user for Post! No solr index update and no post_index update');
+				$this->debug('Error while reading user for Post!');
 			}
 
 

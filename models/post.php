@@ -166,9 +166,6 @@ class Post extends AppModel {
 			else{
 				$this->log('Error while reading user for Post! No solr index update');
 			}
-
-
-
 		}
 
 
