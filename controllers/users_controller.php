@@ -42,7 +42,7 @@ class UsersController extends AppController {
 
 		$this->User->contain('Post.User.id', 'Post.User.username','Post');
 		$this->set('user', $this->User->read(null, $id));
-
+	
 	}
 
 
@@ -53,7 +53,7 @@ class UsersController extends AppController {
 	 * 
 	 * @param int $user_id 
 	 * @param int $topic_id  - i just a specific topic is selected - null = all topics
-	 */	
+	 */	/*
 	function blog($user_id = null, $topic_id = null){
 		$conditions = array('conditions' => array('user_id' => $user_id), 'order' => 'created DESC');
 		if($topic_id != null){
@@ -64,8 +64,9 @@ class UsersController extends AppController {
 		$posts = $this->PostsUser->find('all', $conditions);
 		debug($posts);die();
 		$this->set('posts',$posts);
+		$this->set('user', $this->User->read(null, $id));
 	}
-
+*/
 
 	function add() {
 		if (!empty($this->data)) {

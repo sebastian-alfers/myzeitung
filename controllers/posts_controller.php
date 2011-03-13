@@ -9,7 +9,7 @@ class PostsController extends AppController {
  	public function beforeFilter(){
  		parent::beforeFilter();
  		//declaration which actions can be accessed without being logged in
- 		$this->Auth->allow('index','view','blog');
+ 		$this->Auth->allow('index','view');
  	}
  	
  	
@@ -179,7 +179,12 @@ function view($id = null) {
 				
 				$postsUserData = array('user_id' => $id,
 									   'post_id' => $this->Post->id);
+				
+				debug(get_class($this->PostsUser));
+				debug($this->PostsUser);die();
+				
 				$this->PostsUser->create();
+				
 				$this->PostsUser->save($postsUserData);
 				
 				

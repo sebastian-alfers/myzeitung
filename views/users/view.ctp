@@ -1,5 +1,6 @@
 <div class="users view">
-<h2><?php  __('User');debug($user);?></h2>
+
+<h2><?php  __('User');?></h2>
 	<dl>
 		<dt><?php __('User'); ?></dt>
 		<dd><?php echo $user['User']['username'];?></dd>
@@ -20,6 +21,7 @@
 	<h3><?php __('Actions'); ?></h3>
 	<?php echo $this->element('navigation'); ?>	
 </div>
+<?php debug($user['Post']);?>
   
 <div class="related">
 	<h3><?php __('Related Posts');?></h3>
@@ -38,19 +40,17 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($user['Post'] as $post):
+		foreach ($user['Post'] as $index => $post):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';
 			}
-			debug($user);
-debug($post);
+
 		?>
 		
 		<tr<?php echo $class;?>>
-			<td><?php if($post['user_id'] != $user['User']['id']) {
-				echo "repost";
-			}?></td>
+		<?php echo $index;?>
+			<td><?php if($post['user_id'] != $user['User']['id']) {echo "repost";}?></td>
 			<td><?php echo $post['user_id'];?></td>
 			<td><?php echo $post['title'];?></td>
 			<td><?php echo $post['content'];?></td>

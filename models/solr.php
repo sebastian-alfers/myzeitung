@@ -4,6 +4,10 @@ require_once('libs/Apache/Solr/Service.php');
 
 class Solr extends AppModel {
 
+	const TYPE_USER = 'user';
+	const TYPE_POST = 'post';
+	const TYPE_UNKNOWN = 'unknown';
+	
 	const HOST = 'localhost';
 	const PORT = 8983;
 	const PATH = '/solr';
@@ -77,9 +81,14 @@ class Solr extends AppModel {
 	}
 
 	/**
+	 * 
 	 * performs a query to solr and returns result
+	 * 
+	 * @param string $query
+	 * @param int $limit
+	 * @param boolean $grouped
 	 */
-	function query($query, $limit = self::DEFAULT_LIMIT){
+	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true){
 		if(empty($query)) return false;
 		$results = array();
 
@@ -88,15 +97,32 @@ class Solr extends AppModel {
 
 		try
 		{
+			$grouped = array();
 			$response = $this->getSolr()->search($query, 0, $limit);
 			if ( $response->getHttpStatus() == 200 ) {
-				$results['results'] = $response;
-				$results['rows'] = (int) $results['results']->response->numFound;
+				//debug($response->response->docs);die();
+				
+				foreach($response->response->docs as $doc){
+					if(isset($doc->type)){
+						$grouped[$doc->type][] = $doc;			
+					}
+					else{
+						$grouped[self::TYPE_UNKNOWN][] = $doc;
+					}
+				}
+				
+				if(!empty($grouped)){
+					$results['results'] = $grouped;	
+				}
+				else{
+					$results['results'] = $response;	
+				}
+				$results['rows'] = (int) $response->response->numFound;
 				$results['start'] = min(1, $results['rows']);
 				$results['end'] = min($limit, $results['rows']);
 			}
 			else{
-				$this->log($response->getHttpStatusMessage()	);
+				$this->log('Wrong solr status! ' . $response->getHttpStatusMessage());
 			}
 		}
 		catch (Exception $e)
