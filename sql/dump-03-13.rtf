@@ -1,0 +1,960 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf0 -- phpMyAdmin SQL Dump\
+-- version 3.2.5\
+-- http://www.phpmyadmin.net\
+--\
+-- Host: localhost\
+-- Erstellungszeit: 13. M\'e4rz 2011 um 20:19\
+-- Server Version: 5.1.44\
+-- PHP-Version: 5.2.13\
+\
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";\
+\
+--\
+-- Datenbank: `myzeitung`\
+--\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `cachekeys`\
+--\
+\
+DROP TABLE IF EXISTS `cachekeys`;\
+CREATE TABLE `cachekeys` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `key` varchar(50) NOT NULL,\
+  `old_key` varchar(50) NOT NULL,\
+  `new_key` varchar(50) NOT NULL,\
+  PRIMARY KEY (`id`),\
+  UNIQUE KEY `key` (`key`)\
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `cachekeys`\
+--\
+\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `categories`\
+--\
+\
+DROP TABLE IF EXISTS `categories`;\
+CREATE TABLE `categories` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `parent_id` int(11) NOT NULL,\
+  `paper_id` int(11) NOT NULL,\
+  `name` varchar(100) NOT NULL,\
+  `created` datetime NOT NULL,\
+  `modified` datetime NOT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `categories`\
+--\
+\
+INSERT INTO `categories` VALUES(1, 0, 1, 'my super category', '2011-02-15 22:28:13', '2011-02-15 22:28:13');\
+INSERT INTO `categories` VALUES(2, 0, 1, 'nochne category', '2011-02-15 22:29:19', '2011-02-15 22:29:19');\
+INSERT INTO `categories` VALUES(3, 0, 0, 'aaaaaaaaaaaaaa', '2011-02-15 22:41:29', '2011-02-15 22:41:29');\
+INSERT INTO `categories` VALUES(4, 0, 0, 'zzzzzzzzzzzzzz', '2011-02-15 22:41:49', '2011-02-15 22:41:49');\
+INSERT INTO `categories` VALUES(5, 3, 0, 'sub for zzzzzzzzzzzz', '2011-02-15 23:02:47', '2011-02-15 23:02:47');\
+INSERT INTO `categories` VALUES(6, 1, 0, 'rrrrrrrrrrrrrrrrrr', '2011-02-15 23:04:09', '2011-02-15 23:04:09');\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `category_paper_posts`\
+--\
+\
+DROP TABLE IF EXISTS `category_paper_posts`;\
+CREATE TABLE `category_paper_posts` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `post_id` int(11) NOT NULL,\
+  `paper_id` int(11) NOT NULL,\
+  `category_id` int(11) NOT NULL DEFAULT '0',\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=289 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `category_paper_posts`\
+--\
+\
+INSERT INTO `category_paper_posts` VALUES(5, 86, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(4, 85, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(6, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(7, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(8, 88, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(9, 56, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(10, 56, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(11, 86, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(12, 85, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(13, 81, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(14, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(15, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(16, 2, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(17, 2, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(18, 3, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(19, 3, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(20, 20, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(21, 20, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(22, 5, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(23, 5, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(24, 7, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(25, 7, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(26, 8, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(27, 8, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(28, 12, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(29, 12, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(30, 51, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(31, 51, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(32, 71, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(33, 71, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(34, 79, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(35, 76, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(36, 65, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(37, 65, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(38, 77, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(39, 89, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(40, 18, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(41, 18, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(42, 18, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(43, 18, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(44, 18, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(45, 18, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(46, 68, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(47, 68, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(48, 69, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(49, 69, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(50, 75, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(51, 75, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(52, 14, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(53, 14, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(54, 14, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(55, 14, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(56, 13, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(57, 13, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(58, 13, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(59, 13, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(60, 19, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(61, 19, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(62, 19, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(63, 19, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(64, 11, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(65, 11, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(66, 10, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(67, 10, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(68, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(69, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(70, 6, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(71, 6, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(72, 4, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(73, 4, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(74, 4, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(75, 4, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(76, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(77, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(78, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(79, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(80, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(81, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(82, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(83, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(84, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(85, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(86, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(87, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(88, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(89, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(90, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(91, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(92, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(93, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(94, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(95, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(96, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(97, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(98, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(99, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(100, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(101, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(102, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(103, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(104, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(105, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(106, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(107, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(108, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(109, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(110, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(111, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(112, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(113, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(114, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(115, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(116, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(117, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(118, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(119, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(120, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(121, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(122, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(123, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(124, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(125, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(126, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(127, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(128, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(129, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(130, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(131, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(132, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(133, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(134, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(135, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(136, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(137, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(138, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(139, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(140, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(141, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(142, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(143, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(144, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(145, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(146, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(147, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(148, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(149, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(150, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(151, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(152, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(153, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(154, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(155, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(156, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(157, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(158, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(159, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(160, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(161, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(162, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(163, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(164, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(165, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(166, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(167, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(168, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(169, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(170, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(171, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(172, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(173, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(174, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(175, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(176, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(177, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(178, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(179, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(180, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(181, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(182, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(183, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(184, 12, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(185, 12, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(186, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(187, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(188, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(189, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(190, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(191, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(192, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(193, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(194, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(195, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(196, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(197, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(198, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(199, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(200, 1, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(201, 1, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(202, 2, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(203, 2, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(204, 2, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(205, 2, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(206, 2, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(207, 2, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(208, 3, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(209, 3, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(210, 3, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(211, 3, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(212, 4, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(213, 4, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(214, 4, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(215, 4, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(216, 6, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(217, 6, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(218, 6, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(219, 6, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(220, 6, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(221, 6, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(222, 9, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(223, 9, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(224, 11, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(225, 11, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(226, 10, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(227, 10, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(228, 18, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(229, 18, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(230, 18, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(231, 18, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(232, 6, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(233, 6, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(234, 90, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(235, 91, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(236, 92, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(237, 93, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(238, 94, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(239, 95, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(240, 96, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(241, 97, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(242, 98, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(243, 99, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(244, 100, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(245, 101, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(246, 102, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(247, 103, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(248, 104, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(249, 105, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(250, 106, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(251, 107, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(252, 108, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(253, 109, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(254, 87, 1, 0);\
+INSERT INTO `category_paper_posts` VALUES(255, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(256, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(257, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(258, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(259, 110, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(260, 111, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(261, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(262, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(263, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(264, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(265, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(266, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(267, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(268, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(269, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(270, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(271, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(272, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(273, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(274, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(275, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(276, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(277, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(278, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(279, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(280, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(281, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(282, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(283, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(284, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(285, 87, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(286, 113, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(287, 113, 2, 0);\
+INSERT INTO `category_paper_posts` VALUES(288, 113, 2, 0);\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `comments`\
+--\
+\
+DROP TABLE IF EXISTS `comments`;\
+CREATE TABLE `comments` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `user_id` int(11) NOT NULL,\
+  `post_id` int(11) NOT NULL,\
+  `parent_id` int(11) DEFAULT NULL,\
+  `text` text NOT NULL,\
+  `created` datetime NOT NULL,\
+  `lft` int(11) DEFAULT NULL,\
+  `rght` int(11) DEFAULT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=88 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `comments`\
+--\
+\
+INSERT INTO `comments` VALUES(44, 4, 87, NULL, 'hans', '2011-03-06 19:01:20', 31, 32);\
+INSERT INTO `comments` VALUES(43, 4, 87, NULL, 'new comment', '2011-03-06 19:00:29', 27, 30);\
+INSERT INTO `comments` VALUES(42, 4, 87, NULL, 'jo', '2011-03-06 18:50:33', 25, 26);\
+INSERT INTO `comments` VALUES(41, 4, 87, NULL, 'jo', '2011-03-06 18:50:30', 23, 24);\
+INSERT INTO `comments` VALUES(40, 4, 87, NULL, 'jo', '2011-03-06 18:50:26', 21, 22);\
+INSERT INTO `comments` VALUES(39, 4, 87, NULL, 'jo', '2011-03-06 18:50:02', 19, 20);\
+INSERT INTO `comments` VALUES(38, 4, 87, NULL, 'jo', '2011-03-06 18:49:16', 17, 18);\
+INSERT INTO `comments` VALUES(37, 4, 87, NULL, 'jo', '2011-03-06 18:48:57', 15, 16);\
+INSERT INTO `comments` VALUES(36, 4, 87, NULL, 'bla', '2011-03-06 18:48:46', 13, 14);\
+INSERT INTO `comments` VALUES(35, 4, 87, NULL, 'bla', '2011-03-06 18:48:42', 11, 12);\
+INSERT INTO `comments` VALUES(34, 4, 87, NULL, 'bla', '2011-03-06 18:48:33', 9, 10);\
+INSERT INTO `comments` VALUES(33, 4, 87, NULL, 'bla', '2011-03-06 18:48:00', 7, 8);\
+INSERT INTO `comments` VALUES(32, 4, 87, NULL, 'bla', '2011-03-06 18:47:41', 5, 6);\
+INSERT INTO `comments` VALUES(31, 4, 87, 30, 'bla\\r\\n', '2011-03-06 18:22:57', 2, 3);\
+INSERT INTO `comments` VALUES(30, 4, 87, NULL, 'bla', '2011-03-06 17:20:57', 1, 4);\
+INSERT INTO `comments` VALUES(45, 4, 87, NULL, 'bla', '2011-03-06 19:01:37', 33, 34);\
+INSERT INTO `comments` VALUES(46, 4, 87, NULL, 'hans', '2011-03-06 19:03:38', 35, 36);\
+INSERT INTO `comments` VALUES(47, 4, 87, NULL, 'hans', '2011-03-06 19:06:56', 37, 38);\
+INSERT INTO `comments` VALUES(48, 4, 87, NULL, 'hans', '2011-03-06 19:07:39', 39, 40);\
+INSERT INTO `comments` VALUES(49, 4, 87, NULL, 'hans', '2011-03-06 19:13:12', 41, 42);\
+INSERT INTO `comments` VALUES(50, 4, 87, NULL, 'karl', '2011-03-06 19:16:00', 43, 44);\
+INSERT INTO `comments` VALUES(51, 4, 87, NULL, 'karl', '2011-03-06 19:16:39', 45, 46);\
+INSERT INTO `comments` VALUES(52, 4, 87, NULL, 'copy', '2011-03-06 19:18:21', 47, 48);\
+INSERT INTO `comments` VALUES(53, 4, 87, NULL, 'bla', '2011-03-06 19:27:11', 49, 50);\
+INSERT INTO `comments` VALUES(54, 4, 87, NULL, 'bla', '2011-03-06 19:29:58', 51, 52);\
+INSERT INTO `comments` VALUES(55, 4, 3, NULL, 'test', '2011-03-07 11:12:52', 53, 54);\
+INSERT INTO `comments` VALUES(56, 4, 87, NULL, 'bla', '2011-03-07 11:22:47', 55, 56);\
+INSERT INTO `comments` VALUES(57, 4, 87, NULL, 'bla', '2011-03-07 11:24:06', 57, 58);\
+INSERT INTO `comments` VALUES(58, 4, 87, NULL, 'bla', '2011-03-07 11:24:29', 59, 60);\
+INSERT INTO `comments` VALUES(59, 4, 87, NULL, 'blup', '2011-03-07 11:47:21', 61, 62);\
+INSERT INTO `comments` VALUES(60, 4, 87, NULL, 'neuester\\r\\n', '2011-03-07 11:47:41', 63, 84);\
+INSERT INTO `comments` VALUES(61, 4, 87, 60, 'bla', '2011-03-07 12:40:36', 64, 65);\
+INSERT INTO `comments` VALUES(62, 4, 87, 60, 'reply', '2011-03-07 13:21:51', 66, 73);\
+INSERT INTO `comments` VALUES(63, 4, 87, 62, 'test', '2011-03-07 14:43:50', 67, 68);\
+INSERT INTO `comments` VALUES(64, 4, 87, 62, 'bla', '2011-03-07 14:44:19', 69, 70);\
+INSERT INTO `comments` VALUES(65, 4, 87, 60, 'bla\\r\\n', '2011-03-07 14:44:33', 74, 75);\
+INSERT INTO `comments` VALUES(66, 4, 87, 60, 'bla', '2011-03-07 14:44:41', 76, 83);\
+INSERT INTO `comments` VALUES(67, 4, 87, 62, 'rep rep', '2011-03-07 14:46:04', 71, 72);\
+INSERT INTO `comments` VALUES(68, 4, 87, NULL, 'jo', '2011-03-07 14:47:49', 85, 86);\
+INSERT INTO `comments` VALUES(69, 4, 87, 66, 'bla', '2011-03-07 15:06:29', 77, 78);\
+INSERT INTO `comments` VALUES(70, 4, 87, NULL, 'geiler aftersave geht nicht oder?', '2011-03-07 15:26:25', 87, 88);\
+INSERT INTO `comments` VALUES(71, 4, 87, NULL, 'geiler aftersave geht nicht oder?', '2011-03-07 15:27:00', 89, 90);\
+INSERT INTO `comments` VALUES(72, 4, 87, NULL, 'bla', '2011-03-07 20:32:44', 91, 92);\
+INSERT INTO `comments` VALUES(73, 4, 87, NULL, 'bla', '2011-03-07 20:33:42', 93, 94);\
+INSERT INTO `comments` VALUES(74, 4, 87, NULL, 'bla', '2011-03-07 20:34:59', 95, 96);\
+INSERT INTO `comments` VALUES(75, 4, 87, NULL, 'bla', '2011-03-07 20:35:20', 97, 98);\
+INSERT INTO `comments` VALUES(76, 4, 119, NULL, 'test', '2011-03-13 11:31:59', 99, 100);\
+INSERT INTO `comments` VALUES(77, 4, 119, NULL, 'find ich auch', '2011-03-13 11:34:02', 101, 108);\
+INSERT INTO `comments` VALUES(78, 4, 119, 77, 'was findest du auch', '2011-03-13 11:34:08', 102, 107);\
+INSERT INTO `comments` VALUES(79, 4, 119, 78, 'meinen pipi-mann', '2011-03-13 11:34:16', 103, 104);\
+INSERT INTO `comments` VALUES(80, 4, 119, 78, 'sch\'c3\'b6n f\'c3\'bcr dich\\r\\n', '2011-03-13 11:34:22', 105, 106);\
+INSERT INTO `comments` VALUES(81, 4, 87, 66, 'blup', '2011-03-13 12:11:26', 79, 80);\
+INSERT INTO `comments` VALUES(82, 4, 87, 66, 'blap', '2011-03-13 12:11:34', 81, 82);\
+INSERT INTO `comments` VALUES(83, 4, 87, NULL, 'jetzt', '2011-03-13 15:23:45', 109, 116);\
+INSERT INTO `comments` VALUES(84, 4, 87, 83, 'antwort', '2011-03-13 15:23:51', 110, 115);\
+INSERT INTO `comments` VALUES(85, 4, 87, 84, 'antant\\r\\n', '2011-03-13 15:23:57', 111, 112);\
+INSERT INTO `comments` VALUES(86, 4, 87, 84, 'antantant', '2011-03-13 15:24:05', 113, 114);\
+INSERT INTO `comments` VALUES(87, 4, 87, 43, 'ant', '2011-03-13 15:24:42', 28, 29);\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `content_papers`\
+--\
+\
+DROP TABLE IF EXISTS `content_papers`;\
+CREATE TABLE `content_papers` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `paper_id` int(11) NOT NULL,\
+  `category_id` int(11) DEFAULT NULL,\
+  `user_id` int(11) DEFAULT NULL,\
+  `topic_id` int(11) DEFAULT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `content_papers`\
+--\
+\
+INSERT INTO `content_papers` VALUES(4, 1, NULL, NULL, 4);\
+INSERT INTO `content_papers` VALUES(10, 1, NULL, 1, NULL);\
+INSERT INTO `content_papers` VALUES(11, 2, NULL, 1, NULL);\
+INSERT INTO `content_papers` VALUES(12, 2, NULL, 3, NULL);\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `groups`\
+--\
+\
+DROP TABLE IF EXISTS `groups`;\
+CREATE TABLE `groups` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `name` varchar(100) NOT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `groups`\
+--\
+\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `i18n`\
+--\
+\
+DROP TABLE IF EXISTS `i18n`;\
+CREATE TABLE `i18n` (\
+  `id` int(10) NOT NULL AUTO_INCREMENT,\
+  `locale` varchar(6) NOT NULL,\
+  `model` varchar(255) NOT NULL,\
+  `foreign_key` int(10) NOT NULL,\
+  `field` varchar(255) NOT NULL,\
+  `content` text,\
+  PRIMARY KEY (`id`),\
+  KEY `locale` (`locale`),\
+  KEY `model` (`model`),\
+  KEY `row_id` (`foreign_key`),\
+  KEY `field` (`field`)\
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `i18n`\
+--\
+\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `papers`\
+--\
+\
+DROP TABLE IF EXISTS `papers`;\
+CREATE TABLE `papers` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `owner_id` int(11) NOT NULL,\
+  `title` varchar(50) NOT NULL,\
+  `description` text NOT NULL,\
+  `url` varchar(100) NOT NULL,\
+  `created` datetime NOT NULL,\
+  `modified` datetime NOT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `papers`\
+--\
+\
+INSERT INTO `papers` VALUES(1, 1, 'alfs paper', 'my paper', '', '2011-02-15 22:20:44', '2011-02-15 22:20:44');\
+INSERT INTO `papers` VALUES(2, 1, 'second paper', 'aaaaaaaaaaaaaaaaaaaaa', '', '2011-02-15 22:41:09', '2011-02-15 22:41:09');\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `posts`\
+--\
+\
+DROP TABLE IF EXISTS `posts`;\
+CREATE TABLE `posts` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `user_id` int(11) NOT NULL,\
+  `topic_id` int(11) NOT NULL,\
+  `title` varchar(200) NOT NULL,\
+  `content` text NOT NULL,\
+  `modified` datetime NOT NULL,\
+  `created` datetime NOT NULL,\
+  `enabled` int(3) NOT NULL DEFAULT '1',\
+  `count_views` int(11) NOT NULL DEFAULT '0',\
+  `count_reposts` int(11) NOT NULL DEFAULT '0',\
+  `count_comments` int(11) NOT NULL DEFAULT '0',\
+  `reposters` text,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=120 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `posts`\
+--\
+\
+INSERT INTO `posts` VALUES(3, 1, 2, 'freitaggggggggg_zzzzzzzzzzzweitessssssss', 'freitaggggggggg_zzzzzzzzzzzweitessssssss', '2011-02-18 13:33:34', '2011-02-18 13:33:34', 1, 0, 1, 0, 'a:1:\{i:1;s:1:"4";\}');\
+INSERT INTO `posts` VALUES(4, 1, 1, 'after save tset', 'test', '2011-02-18 14:58:25', '2011-02-18 14:58:25', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(5, 1, 1, 'after save tset', 'test', '2011-02-18 15:06:26', '2011-02-18 15:06:26', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(6, 1, 1, 'after save tset', 'test', '2011-02-18 15:06:42', '2011-02-18 15:06:42', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(7, 1, 1, 'after save tset', 'test', '2011-02-18 15:06:50', '2011-02-18 15:06:50', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(8, 1, 1, 'after save tset', 'test', '2011-02-18 15:07:00', '2011-02-18 15:07:00', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"4";\}');\
+INSERT INTO `posts` VALUES(9, 1, 1, 'after save tset', 'test', '2011-02-18 15:07:55', '2011-02-18 15:07:55', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(10, 1, 1, 'after save tset', 'test', '2011-02-18 15:09:42', '2011-02-18 15:09:42', 1, 0, 2, 0, 'a:2:\{i:0;s:1:"3";i:1;s:1:"4";\}');\
+INSERT INTO `posts` VALUES(11, 1, 1, 'after save tset', 'test', '2011-02-18 15:09:55', '2011-02-18 15:09:55', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(12, 1, 1, 'after save tset', 'test', '2011-02-18 15:10:03', '2011-02-18 15:10:03', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"4";\}');\
+INSERT INTO `posts` VALUES(13, 1, 1, 'after save tset', 'test', '2011-02-18 15:11:04', '2011-02-18 15:11:04', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(14, 1, 1, 'after save tset', 'test', '2011-02-18 15:11:11', '2011-02-18 15:11:11', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(15, 1, 1, 'after save tset', 'test', '2011-02-18 15:11:24', '2011-02-18 15:11:24', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(16, 1, 1, 'after save tset', 'test', '2011-02-18 15:15:55', '2011-02-18 15:15:55', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(17, 1, 1, 'after save tset', 'test', '2011-02-18 15:16:22', '2011-02-18 15:16:22', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(18, 1, 1, 'after save tset', 'test', '2011-02-18 15:19:13', '2011-02-18 15:19:13', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(19, 1, 1, 'after save tset', 'test', '2011-02-18 15:20:11', '2011-02-18 15:20:11', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(20, 1, 1, 'after save tset', 'test', '2011-02-18 15:20:21', '2011-02-18 15:20:21', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(21, 1, 1, 'after save tset', 'test', '2011-02-18 15:21:49', '2011-02-18 15:21:49', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(22, 1, 1, 'after save tset', 'test', '2011-02-18 15:21:56', '2011-02-18 15:21:56', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(23, 1, 1, 'after save tset', 'test', '2011-02-18 15:22:44', '2011-02-18 15:22:44', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(24, 1, 1, 'after save tset', 'test', '2011-02-18 15:22:52', '2011-02-18 15:22:52', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(25, 1, 1, 'after save tset', 'test', '2011-02-18 15:24:30', '2011-02-18 15:24:30', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(26, 1, 1, 'after save tset', 'test', '2011-02-18 15:24:34', '2011-02-18 15:24:34', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(27, 1, 1, 'after save tset', 'test', '2011-02-18 15:24:39', '2011-02-18 15:24:39', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(28, 1, 1, 'after save tset', 'test', '2011-02-18 15:26:26', '2011-02-18 15:26:26', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(29, 1, 1, 'after save tset', 'test', '2011-02-18 15:26:52', '2011-02-18 15:26:52', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(30, 1, 1, 'after save tset', 'test', '2011-02-18 15:27:04', '2011-02-18 15:27:04', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(31, 1, 1, 'after save tset', 'test', '2011-02-18 15:27:56', '2011-02-18 15:27:56', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(32, 1, 1, 'after save tset', 'test', '2011-02-18 15:33:10', '2011-02-18 15:33:10', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(33, 1, 1, 'after save tset', 'test', '2011-02-18 15:35:01', '2011-02-18 15:35:01', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(34, 1, 1, 'after save tset', 'test', '2011-02-18 15:35:50', '2011-02-18 15:35:50', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(35, 1, 1, 'after save tset', 'test', '2011-02-18 15:36:13', '2011-02-18 15:36:13', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(36, 1, 1, 'after save tset', 'test', '2011-02-18 15:38:07', '2011-02-18 15:38:07', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(37, 1, 1, 'after save tset', 'test', '2011-02-18 15:39:37', '2011-02-18 15:39:37', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(38, 1, 1, 'after save tset', 'test', '2011-02-18 15:39:46', '2011-02-18 15:39:46', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(39, 1, 1, 'after save tset', 'test', '2011-02-18 15:39:57', '2011-02-18 15:39:57', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(40, 1, 1, 'after save tset', 'test', '2011-02-18 15:41:10', '2011-02-18 15:41:10', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(41, 1, 1, 'after save tset', 'test', '2011-02-18 15:41:29', '2011-02-18 15:41:29', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(42, 1, 1, 'after save tset', 'test', '2011-02-18 15:47:29', '2011-02-18 15:47:29', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(43, 1, 1, 'after save tset', 'test', '2011-02-18 16:00:06', '2011-02-18 16:00:06', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(44, 1, 1, 'after save tset', 'test', '2011-02-18 16:07:03', '2011-02-18 16:07:03', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(45, 1, 1, 'after save tset', 'test', '2011-02-18 16:07:05', '2011-02-18 16:07:05', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(46, 1, 1, 'after save tset', 'test', '2011-02-18 16:08:26', '2011-02-18 16:08:26', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(47, 1, 1, 'after save tset', 'test', '2011-02-18 16:08:32', '2011-02-18 16:08:32', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(48, 1, 1, 'after save tset', 'test', '2011-02-18 16:23:41', '2011-02-18 16:23:41', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(49, 1, 1, 'after save tset', 'test', '2011-02-18 16:25:23', '2011-02-18 16:25:23', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(50, 1, 1, 'after save tset', 'test', '2011-02-18 16:26:19', '2011-02-18 16:26:19', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(51, 1, 1, 'after save tset', 'test', '2011-02-18 16:27:30', '2011-02-18 16:27:30', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(52, 1, 1, 'after save tset', 'test', '2011-02-18 16:27:41', '2011-02-18 16:27:41', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(53, 1, 1, 'after save tset', 'test', '2011-02-18 16:28:05', '2011-02-18 16:28:05', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(54, 1, 1, 'after save tset', 'test', '2011-02-18 16:28:15', '2011-02-18 16:28:15', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(55, 1, 1, 'after save tset', 'test', '2011-02-18 16:28:49', '2011-02-18 16:28:49', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(56, 1, 1, 'after save tset', 'test', '2011-02-18 16:29:04', '2011-02-18 16:29:04', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(57, 1, 1, 'after save tset', 'test', '2011-02-18 16:30:20', '2011-02-18 16:30:20', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(58, 1, 1, 'after save tset', 'test', '2011-02-18 16:30:28', '2011-02-18 16:30:28', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(59, 1, 1, 'after save tset', 'test', '2011-02-18 16:30:54', '2011-02-18 16:30:54', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(60, 1, 1, 'after save tset', 'test', '2011-02-18 16:31:04', '2011-02-18 16:31:04', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(61, 1, 1, 'after save tset', 'test', '2011-02-18 16:31:48', '2011-02-18 16:31:48', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(62, 1, 1, 'after save tset', 'test', '2011-02-18 16:37:42', '2011-02-18 16:37:42', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(63, 1, 1, 'after save tset', 'test', '2011-02-18 16:40:02', '2011-02-18 16:40:02', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(64, 1, 1, 'after save tset', 'test', '2011-02-18 16:40:26', '2011-02-18 16:40:26', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(65, 1, 1, 'after save tset', 'test', '2011-02-18 16:41:17', '2011-02-18 16:41:17', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(66, 1, 1, 'after save tset', 'test', '2011-02-18 16:44:08', '2011-02-18 16:44:08', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(67, 1, 1, 'after save tset', 'test', '2011-02-18 16:47:18', '2011-02-18 16:47:18', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(68, 1, 1, 'after save tset', 'test', '2011-02-18 16:47:53', '2011-02-18 16:47:53', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(69, 1, 1, 'after save tset', 'test', '2011-02-18 16:54:52', '2011-02-18 16:54:52', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(70, 1, 1, 'after save tset', 'test', '2011-02-18 16:55:11', '2011-02-18 16:55:11', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(71, 1, 1, 'after save tset', 'test', '2011-02-18 16:56:02', '2011-02-18 16:56:02', 1, 0, 2, 0, 'a:2:\{i:0;s:1:"3";i:1;s:1:"4";\}');\
+INSERT INTO `posts` VALUES(72, 1, 1, 'after save tset', 'test', '2011-02-18 16:57:47', '2011-02-18 16:57:47', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(73, 1, 1, 'after save tset', 'test', '2011-02-18 16:58:20', '2011-02-18 16:58:20', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(74, 1, 2, 'qqqqqq', 'qqqqq', '2011-02-18 17:02:41', '2011-02-18 17:02:41', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(75, 1, 1, 'diee abend', 'asdf', '2011-02-22 19:31:42', '2011-02-22 19:31:42', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(76, 3, 4, 'aa', 'bb', '2011-02-25 21:33:26', '2011-02-25 21:33:26', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(77, 3, 4, 'samstagfr?\'c9\'ac\'bah', 'fr?\'c9\'ac\'bahhh', '2011-02-26 09:38:33', '2011-02-26 09:38:33', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(78, 3, 4, 'samstagfr?\'c9\'ac\'bah', 'fr?\'c9\'ac\'bahhh', '2011-02-26 09:42:42', '2011-02-26 09:42:42', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(79, 3, 4, 'rr', 'rr', '2011-02-26 10:48:54', '2011-02-26 10:48:54', 1, 0, 1, 0, 'a:1:\{i:0;s:1:"3";\}');\
+INSERT INTO `posts` VALUES(80, 3, 4, 'rr', 'rr', '2011-02-26 10:51:59', '2011-02-26 10:51:59', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(81, 3, 4, 'rr', 'rr', '2011-02-26 10:52:13', '2011-02-26 10:52:13', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(82, 3, 4, 'rr', 'rr', '2011-02-26 11:04:23', '2011-02-26 11:04:23', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(83, 3, 4, 'rr', 'rr', '2011-02-26 11:04:34', '2011-02-26 11:04:34', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(84, 3, 4, 'joggen', 'joggen', '2011-02-26 11:05:00', '2011-02-26 11:05:00', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(85, 3, 4, 'fffffffff', 'ffffffff', '2011-02-26 11:05:32', '2011-02-26 11:05:32', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(86, 3, 4, 'f', 'f', '2011-02-26 11:07:41', '2011-02-26 11:07:41', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(87, 3, 2, 'timtestbkj', 'timtest', '2011-03-07 20:36:40', '2011-03-02 11:24:28', 1, 0, 2, 26, 'a:2:\{i:0;s:1:"3";i:2;s:1:"4";\}');\
+INSERT INTO `posts` VALUES(88, 0, 0, '', '', '2011-03-02 11:52:09', '2011-03-02 11:52:09', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(89, 0, 0, '', '', '2011-03-02 15:11:57', '2011-03-02 15:11:57', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(90, 0, 0, '', '', '2011-03-05 12:21:15', '2011-03-05 12:21:15', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(91, 0, 0, '', '', '2011-03-05 12:22:13', '2011-03-05 12:22:13', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(92, 0, 0, '', '', '2011-03-05 12:23:14', '2011-03-05 12:23:14', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(93, 0, 0, '', '', '2011-03-05 12:23:50', '2011-03-05 12:23:50', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(94, 0, 0, '', '', '2011-03-05 12:24:36', '2011-03-05 12:24:36', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(95, 0, 0, '', '', '2011-03-05 12:27:51', '2011-03-05 12:27:51', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(96, 0, 0, '', '', '2011-03-05 12:28:53', '2011-03-05 12:28:53', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(97, 0, 0, '', '', '2011-03-05 12:35:38', '2011-03-05 12:35:38', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(98, 0, 0, '', '', '2011-03-05 12:41:11', '2011-03-05 12:41:11', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(99, 0, 0, '', '', '2011-03-05 12:41:58', '2011-03-05 12:41:58', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(100, 0, 0, '', '', '2011-03-05 12:43:25', '2011-03-05 12:43:25', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(101, 0, 0, '', '', '2011-03-05 12:49:22', '2011-03-05 12:49:22', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(102, 0, 0, '', '', '2011-03-05 13:01:26', '2011-03-05 13:01:26', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(103, 0, 0, '', '', '2011-03-05 13:03:11', '2011-03-05 13:03:11', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(104, 0, 0, '', '', '2011-03-05 13:06:39', '2011-03-05 13:06:39', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(105, 0, 0, '', '', '2011-03-05 14:05:01', '2011-03-05 14:05:01', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(106, 0, 0, '', '', '2011-03-05 14:05:25', '2011-03-05 14:05:25', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(107, 0, 0, '', '', '2011-03-05 14:05:45', '2011-03-05 14:05:45', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(108, 0, 0, '', '', '2011-03-05 14:06:06', '2011-03-05 14:06:06', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(109, 0, 0, '', '', '2011-03-05 14:11:44', '2011-03-05 14:11:44', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(110, 3, 4, 'test', 'test neu', '2011-03-05 20:01:49', '2011-03-05 20:01:49', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(111, 3, 4, 'test', 'test neu', '2011-03-05 20:02:28', '2011-03-05 20:02:28', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(112, 0, 0, '', '', '2011-03-06 18:47:41', '2011-03-06 18:47:41', 1, 0, 0, 1, NULL);\
+INSERT INTO `posts` VALUES(113, 3, 4, 'pansen', 'pansen', '2011-03-09 14:51:24', '2011-03-09 14:51:24', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(114, 3, 4, 'bla', 'bla', '2011-03-09 15:10:57', '2011-03-09 15:10:57', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(115, 4, 5, 'kein repost hier -echter post', 'jo', '2011-03-13 10:50:14', '2011-03-13 10:50:14', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(116, 4, 5, 'kein repost echter post', 'geil', '2011-03-13 10:55:30', '2011-03-13 10:55:30', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(117, 4, 5, 'bla', 'bla', '2011-03-13 11:07:46', '2011-03-13 11:07:46', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(118, 4, 5, 'test ', 'testhjolalala', '2011-03-13 14:01:21', '2011-03-13 11:08:26', 1, 0, 0, 0, NULL);\
+INSERT INTO `posts` VALUES(119, 4, 5, 'geilo', 'geillooohoooo', '2011-03-13 13:51:06', '2011-03-13 11:28:00', 1, 0, 0, 5, NULL);\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `posts_users`\
+--\
+\
+DROP TABLE IF EXISTS `posts_users`;\
+CREATE TABLE `posts_users` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `repost` tinyint(4) NOT NULL,\
+  `user_id` int(11) NOT NULL,\
+  `topic_id` int(11) NOT NULL,\
+  `post_id` int(11) NOT NULL,\
+  `created` datetime NOT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=129 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `posts_users`\
+--\
+\
+INSERT INTO `posts_users` VALUES(1, 0, 1, 0, 1, '2011-02-16 19:54:52');\
+INSERT INTO `posts_users` VALUES(2, 0, 1, 0, 2, '2011-02-18 13:33:22');\
+INSERT INTO `posts_users` VALUES(3, 0, 1, 0, 3, '2011-02-18 13:33:34');\
+INSERT INTO `posts_users` VALUES(4, 0, 1, 0, 48, '2011-02-18 16:23:41');\
+INSERT INTO `posts_users` VALUES(5, 0, 1, 0, 49, '2011-02-18 16:25:23');\
+INSERT INTO `posts_users` VALUES(6, 0, 1, 0, 55, '2011-02-18 16:28:49');\
+INSERT INTO `posts_users` VALUES(7, 0, 1, 0, 56, '2011-02-18 16:29:04');\
+INSERT INTO `posts_users` VALUES(8, 0, 1, 0, 57, '2011-02-18 16:30:20');\
+INSERT INTO `posts_users` VALUES(9, 0, 1, 0, 58, '2011-02-18 16:30:28');\
+INSERT INTO `posts_users` VALUES(10, 0, 1, 0, 59, '2011-02-18 16:30:54');\
+INSERT INTO `posts_users` VALUES(11, 0, 1, 0, 60, '2011-02-18 16:31:04');\
+INSERT INTO `posts_users` VALUES(12, 0, 1, 0, 61, '2011-02-18 16:31:48');\
+INSERT INTO `posts_users` VALUES(13, 0, 1, 0, 62, '2011-02-18 16:37:42');\
+INSERT INTO `posts_users` VALUES(14, 0, 1, 0, 63, '2011-02-18 16:40:02');\
+INSERT INTO `posts_users` VALUES(15, 0, 1, 0, 64, '2011-02-18 16:40:26');\
+INSERT INTO `posts_users` VALUES(16, 0, 1, 0, 65, '2011-02-18 16:41:17');\
+INSERT INTO `posts_users` VALUES(17, 0, 1, 0, 69, '2011-02-18 16:54:52');\
+INSERT INTO `posts_users` VALUES(18, 0, 1, 0, 70, '2011-02-18 16:55:12');\
+INSERT INTO `posts_users` VALUES(19, 0, 1, 0, 71, '2011-02-18 16:56:02');\
+INSERT INTO `posts_users` VALUES(20, 0, 3, 0, 82, '2011-02-26 11:04:23');\
+INSERT INTO `posts_users` VALUES(21, 0, 3, 0, 83, '2011-02-26 11:04:35');\
+INSERT INTO `posts_users` VALUES(22, 0, 3, 0, 84, '2011-02-26 11:05:00');\
+INSERT INTO `posts_users` VALUES(23, 0, 3, 0, 85, '2011-02-26 11:05:32');\
+INSERT INTO `posts_users` VALUES(108, 1, 3, 1, 87, '2011-03-06 17:07:14');\
+INSERT INTO `posts_users` VALUES(25, 1, 3, 1, 99, '2011-03-02 11:52:09');\
+INSERT INTO `posts_users` VALUES(26, 1, 3, 1, 56, '2011-03-02 11:58:28');\
+INSERT INTO `posts_users` VALUES(27, 1, 3, 1, 88, '2011-03-02 12:26:43');\
+INSERT INTO `posts_users` VALUES(28, 1, 3, 1, 86, '2011-03-02 12:28:09');\
+INSERT INTO `posts_users` VALUES(29, 1, 3, 1, 85, '2011-03-02 12:32:08');\
+INSERT INTO `posts_users` VALUES(30, 1, 3, 1, 81, '2011-03-02 12:33:13');\
+INSERT INTO `posts_users` VALUES(31, 1, 3, 1, 1, '2011-03-02 12:51:22');\
+INSERT INTO `posts_users` VALUES(32, 1, 3, 1, 2, '2011-03-02 12:54:09');\
+INSERT INTO `posts_users` VALUES(33, 1, 3, 1, 3, '2011-03-02 12:57:40');\
+INSERT INTO `posts_users` VALUES(34, 1, 3, 1, 20, '2011-03-02 14:29:52');\
+INSERT INTO `posts_users` VALUES(35, 1, 3, 1, 5, '2011-03-02 14:32:11');\
+INSERT INTO `posts_users` VALUES(36, 1, 3, 1, 7, '2011-03-02 14:37:18');\
+INSERT INTO `posts_users` VALUES(37, 1, 3, 1, 8, '2011-03-02 14:41:41');\
+INSERT INTO `posts_users` VALUES(38, 1, 3, 1, 12, '2011-03-02 14:41:53');\
+INSERT INTO `posts_users` VALUES(39, 1, 3, 1, 51, '2011-03-02 14:47:52');\
+INSERT INTO `posts_users` VALUES(40, 1, 3, 1, 52, '2011-03-02 14:52:01');\
+INSERT INTO `posts_users` VALUES(41, 1, 3, 1, 61, '2011-03-02 14:57:02');\
+INSERT INTO `posts_users` VALUES(42, 1, 3, 1, 62, '2011-03-02 14:57:20');\
+INSERT INTO `posts_users` VALUES(43, 1, 3, 1, 63, '2011-03-02 14:59:43');\
+INSERT INTO `posts_users` VALUES(44, 1, 3, 1, 64, '2011-03-02 15:00:16');\
+INSERT INTO `posts_users` VALUES(45, 1, 3, 1, 67, '2011-03-02 15:01:56');\
+INSERT INTO `posts_users` VALUES(46, 1, 3, 1, 73, '2011-03-02 15:02:55');\
+INSERT INTO `posts_users` VALUES(47, 1, 3, 1, 80, '2011-03-02 15:03:43');\
+INSERT INTO `posts_users` VALUES(48, 1, 3, 1, 71, '2011-03-02 15:04:27');\
+INSERT INTO `posts_users` VALUES(49, 1, 3, 1, 79, '2011-03-02 15:08:42');\
+INSERT INTO `posts_users` VALUES(50, 1, 3, 1, 76, '2011-03-02 15:09:36');\
+INSERT INTO `posts_users` VALUES(61, 1, 3, 1, 11, '2011-03-02 16:44:59');\
+INSERT INTO `posts_users` VALUES(52, 1, 3, 1, 77, '2011-03-02 15:10:55');\
+INSERT INTO `posts_users` VALUES(62, 1, 3, 1, 10, '2011-03-02 16:45:02');\
+INSERT INTO `posts_users` VALUES(92, 1, 3, 1, 9, '2011-03-02 16:56:13');\
+INSERT INTO `posts_users` VALUES(64, 1, 3, 1, 6, '2011-03-02 16:45:11');\
+INSERT INTO `posts_users` VALUES(93, 1, 4, 1, 12, '2011-03-02 16:56:55');\
+INSERT INTO `posts_users` VALUES(99, 1, 4, 1, 2, '2011-03-03 09:45:29');\
+INSERT INTO `posts_users` VALUES(128, 1, 4, 1, 71, '2011-03-13 19:31:34');\
+INSERT INTO `posts_users` VALUES(106, 1, 4, 1, 10, '2011-03-03 09:45:58');\
+INSERT INTO `posts_users` VALUES(110, 0, 3, 0, 113, '2011-03-09 14:51:24');\
+INSERT INTO `posts_users` VALUES(111, 0, 4, 5, 118, '2011-03-13 11:08:27');\
+INSERT INTO `posts_users` VALUES(112, 0, 4, 5, 119, '2011-03-13 11:28:00');\
+INSERT INTO `posts_users` VALUES(127, 1, 4, 1, 8, '2011-03-13 15:29:44');\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `routes`\
+--\
+\
+DROP TABLE IF EXISTS `routes`;\
+CREATE TABLE `routes` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `ref_id` int(11) NOT NULL,\
+  `source` varchar(255) NOT NULL,\
+  `target_controller` varchar(100) NOT NULL,\
+  `target_action` varchar(100) NOT NULL,\
+  `target_param` varchar(20) NOT NULL,\
+  `parent_id` int(11) NOT NULL DEFAULT '0',\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `routes`\
+--\
+\
+INSERT INTO `routes` VALUES(1, 0, 'alf', 'users', 'view', '1', 0);\
+INSERT INTO `routes` VALUES(2, 1, 'alfs paper', 'papers', 'view', '1', 0);\
+INSERT INTO `routes` VALUES(3, 2, 'second paper', 'papers', 'view', '2', 0);\
+INSERT INTO `routes` VALUES(4, 0, 'ssecond post', 'posts', 'view', '1', 0);\
+INSERT INTO `routes` VALUES(5, 0, 'freitaggggggggg_erstessssssssss', 'posts', 'view', '2', 0);\
+INSERT INTO `routes` VALUES(6, 0, 'freitaggggggggg_zzzzzzzzzzzweitessssssss', 'posts', 'view', '3', 0);\
+INSERT INTO `routes` VALUES(7, 0, 'after save tset', 'posts', 'view', '48', 0);\
+INSERT INTO `routes` VALUES(8, 0, 'after save tset', 'posts', 'view', '49', 0);\
+INSERT INTO `routes` VALUES(9, 0, 'after save tset', 'posts', 'view', '55', 0);\
+INSERT INTO `routes` VALUES(10, 0, 'after save tset', 'posts', 'view', '56', 0);\
+INSERT INTO `routes` VALUES(11, 0, 'after save tset', 'posts', 'view', '57', 0);\
+INSERT INTO `routes` VALUES(12, 0, 'after save tset', 'posts', 'view', '58', 0);\
+INSERT INTO `routes` VALUES(13, 0, 'after save tset', 'posts', 'view', '59', 0);\
+INSERT INTO `routes` VALUES(14, 0, 'after save tset', 'posts', 'view', '60', 0);\
+INSERT INTO `routes` VALUES(15, 0, 'after save tset', 'posts', 'view', '61', 0);\
+INSERT INTO `routes` VALUES(16, 0, 'after save tset', 'posts', 'view', '62', 0);\
+INSERT INTO `routes` VALUES(17, 0, 'after save tset', 'posts', 'view', '63', 0);\
+INSERT INTO `routes` VALUES(18, 0, 'after save tset', 'posts', 'view', '64', 0);\
+INSERT INTO `routes` VALUES(19, 0, 'after save tset', 'posts', 'view', '65', 0);\
+INSERT INTO `routes` VALUES(20, 0, 'after save tset', 'posts', 'view', '69', 0);\
+INSERT INTO `routes` VALUES(21, 0, 'after save tset', 'posts', 'view', '70', 0);\
+INSERT INTO `routes` VALUES(22, 0, 'after save tset', 'posts', 'view', '71', 0);\
+INSERT INTO `routes` VALUES(23, 0, 'alf2', 'users', 'view', '2', 0);\
+INSERT INTO `routes` VALUES(24, 0, 'alf2', 'users', 'view', '3', 0);\
+INSERT INTO `routes` VALUES(25, 0, 'rr', 'posts', 'view', '82', 0);\
+INSERT INTO `routes` VALUES(26, 0, 'rr', 'posts', 'view', '83', 0);\
+INSERT INTO `routes` VALUES(27, 0, 'joggen', 'posts', 'view', '84', 0);\
+INSERT INTO `routes` VALUES(28, 0, 'fffffffff', 'posts', 'view', '85', 0);\
+INSERT INTO `routes` VALUES(29, 0, 'tim2', 'users', 'view', '4', 0);\
+INSERT INTO `routes` VALUES(30, 0, 'bla1', 'users', 'view', '5', 0);\
+INSERT INTO `routes` VALUES(31, 0, 'pansen', 'posts', 'view', '113', 0);\
+INSERT INTO `routes` VALUES(32, 0, 'bla', 'posts', 'view', '114', 0);\
+INSERT INTO `routes` VALUES(33, 0, 'kein repost hier -echter post', 'posts', 'view', '115', 0);\
+INSERT INTO `routes` VALUES(34, 0, 'bla', 'posts', 'view', '117', 0);\
+INSERT INTO `routes` VALUES(35, 0, 'test ', 'posts', 'view', '118', 0);\
+INSERT INTO `routes` VALUES(36, 0, 'geilo', 'posts', 'view', '119', 0);\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `schema_migrations`\
+--\
+\
+DROP TABLE IF EXISTS `schema_migrations`;\
+CREATE TABLE `schema_migrations` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `version` int(11) NOT NULL,\
+  `type` varchar(50) NOT NULL,\
+  `created` datetime NOT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `schema_migrations`\
+--\
+\
+INSERT INTO `schema_migrations` VALUES(1, 1, 'migrations', '2011-02-14 22:27:54');\
+INSERT INTO `schema_migrations` VALUES(4, 1, 'app', '2011-02-14 22:39:54');\
+INSERT INTO `schema_migrations` VALUES(5, 4, 'app', '2011-02-14 22:46:34');\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `subscriptions`\
+--\
+\
+DROP TABLE IF EXISTS `subscriptions`;\
+CREATE TABLE `subscriptions` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `paper_id` int(11) NOT NULL,\
+  `user_id` int(11) NOT NULL,\
+  `created` datetime NOT NULL,\
+  `modified` datetime NOT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `subscriptions`\
+--\
+\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `test`\
+--\
+\
+DROP TABLE IF EXISTS `test`;\
+CREATE TABLE `test` (\
+  `test` int(11) NOT NULL\
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;\
+\
+--\
+-- Daten f\'fcr Tabelle `test`\
+--\
+\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `topics`\
+--\
+\
+DROP TABLE IF EXISTS `topics`;\
+CREATE TABLE `topics` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `name` varchar(30) NOT NULL,\
+  `user_id` int(11) NOT NULL,\
+  `created` datetime NOT NULL,\
+  `modified` datetime NOT NULL,\
+  `enabled` int(4) NOT NULL DEFAULT '1',\
+  PRIMARY KEY (`id`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `topics`\
+--\
+\
+INSERT INTO `topics` VALUES(1, 'test_topi', 1, '2011-02-15 22:19:57', '2011-02-15 22:19:57', 1);\
+INSERT INTO `topics` VALUES(2, 'second topoic', 1, '2011-02-16 19:47:16', '2011-02-16 19:47:16', 1);\
+INSERT INTO `topics` VALUES(3, 'test_topi', 2, '2011-02-24 23:44:52', '2011-02-24 23:44:52', 1);\
+INSERT INTO `topics` VALUES(4, 'test_topi', 3, '2011-02-24 23:46:52', '2011-02-24 23:46:52', 1);\
+INSERT INTO `topics` VALUES(5, 'first_automatic_topic', 4, '2011-03-02 16:56:35', '2011-03-02 16:56:35', 1);\
+INSERT INTO `topics` VALUES(6, 'first_automatic_topic', 5, '2011-03-02 16:57:58', '2011-03-02 16:57:58', 1);\
+\
+-- --------------------------------------------------------\
+\
+--\
+-- Tabellenstruktur f\'fcr Tabelle `users`\
+--\
+\
+DROP TABLE IF EXISTS `users`;\
+CREATE TABLE `users` (\
+  `id` int(11) NOT NULL AUTO_INCREMENT,\
+  `group_id` int(11) NOT NULL,\
+  `firstname` varchar(64) NOT NULL,\
+  `name` varchar(64) NOT NULL,\
+  `email` varchar(255) NOT NULL,\
+  `username` varchar(64) NOT NULL,\
+  `password` varchar(64) NOT NULL,\
+  `created` datetime DEFAULT NULL,\
+  `modified` datetime DEFAULT NULL,\
+  `lastlogin` datetime DEFAULT NULL,\
+  `enabled` tinyint(1) DEFAULT '1',\
+  PRIMARY KEY (`id`),\
+  UNIQUE KEY `username` (`username`)\
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;\
+\
+--\
+-- Daten f\'fcr Tabelle `users`\
+--\
+\
+INSERT INTO `users` VALUES(1, 1, 'alf', 'alf', 'alf@alf.de', 'alf', '94afe8c425aec767e47fd14e547fcffb796e66a2', '2011-02-15 22:19:57', '2011-02-15 22:19:57', NULL, 1);\
+INSERT INTO `users` VALUES(3, 1, 'seb', 'alfers', 'alf2@alf2.de', 'alf2', '5072f955ef5abb2c34a88a683fb072ce3862d072', '2011-02-24 23:46:52', '2011-02-24 23:46:52', NULL, 1);\
+INSERT INTO `users` VALUES(4, 1, '', '', 'timmie@t.de', 'tim2', '1cde3eecf706ae48234724f993d6aad6ceab716e', '2011-03-02 16:56:34', '2011-03-02 16:56:35', NULL, 1);\
+INSERT INTO `users` VALUES(5, 1, 'bla', 'bla', 'tim@tim.de', 'bla1', '39139523b4e1c3e2983caf09355a83b1c512083c', '2011-03-02 16:57:58', '2011-03-02 16:57:58', NULL, 1);\
+}
