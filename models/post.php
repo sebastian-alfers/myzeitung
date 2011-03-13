@@ -4,7 +4,9 @@ class Post extends AppModel {
 	var $displayField = 'title';
 
 
-	var $actsAs = array(/*'Serializeable'/* => array('reposters' => 'reposters'),*/'Containable');
+	var $actsAs = array('Containable');
+
+
 
 	var $CategoryPaperPost = null;
 
@@ -56,6 +58,23 @@ class Post extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+
+			)
+			);
+
+			var $hasMany = array(
+		'Comment' => array(
+			'className' => 'Comment',
+			'foreignKey' => 'post_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 			)
 			);
 
@@ -80,26 +99,35 @@ class Post extends AppModel {
 			 );*/
 
 			// CALLBACKS
-
+			/**
+			 * @author: tim
+			 * unserializing the reposters-array after being read from the db.
+			 *
+			 */
 			function afterFind($results) {
 				foreach ($results as $key => $val) {
 					if (!empty($val['Post']['reposters'])) {
-						$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
+					//	$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
 					}else {
-						$results[$key]['Post']['reposters'] = array();
+						//	$results[$key]['Post']['reposters'] = array();
 					}
 				}
 				return $results;
 			}
 
-
-
+			/**
+			 * @author: tim
+			 * serializing the reposters-array before being written to the db.
+			 *
+			 */
 			function beforeSave(&$Model) {
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
 				return true;
 			}
+
+
 
 		/**
 		 * 1)
@@ -148,13 +176,14 @@ class Post extends AppModel {
 		
 		
 		return $data;
+
 	}
+	
 
-
+	function __construct(){
+		parent::__construct();
+	}
+	
 }
-
-
-
-
 
 ?>

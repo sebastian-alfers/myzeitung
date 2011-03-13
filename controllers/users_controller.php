@@ -30,9 +30,6 @@ class UsersController extends AppController {
 	}
 
 	function view($id = null) {
-		//contian if view user == logged in user (Auth)
-		$isMyProfile = 0;
-
 		if (!$id) {
 			//no param from url -> get from Auth
 			$id = $this->Auth->User("id");
@@ -41,15 +38,35 @@ class UsersController extends AppController {
 				$this->redirect(array('action' => 'index'));
 			}
 		}
-
 		//unbinding irrelevant relations for the query
-		$this->User->contain('Post');
-		$this->set('user', $this->User->read(null, $id));
 
+		$this->User->contain('Post.User.id', 'Post.User.username','Post');
+		$this->set('user', $this->User->read(null, $id));
+	
 	}
 
 
-
+	/**
+	 * @author tim
+	 * 
+	 * blog view of a user: shows every posts and reposts of a user in descending order by date. 
+	 * 
+	 * @param int $user_id 
+	 * @param int $topic_id  - i just a specific topic is selected - null = all topics
+	 */	/*
+	function blog($user_id = null, $topic_id = null){
+		$conditions = array('conditions' => array('user_id' => $user_id), 'order' => 'created DESC');
+		if($topic_id != null){
+			$conditions['conditions']['topic_id'] = $topic_id;
+		}
+		debug($conditions);
+		$this->PostsUser->contain();
+		$posts = $this->PostsUser->find('all', $conditions);
+		debug($posts);die();
+		$this->set('posts',$posts);
+		$this->set('user', $this->User->read(null, $id));
+	}
+*/
 
 	function add() {
 		if (!empty($this->data)) {
