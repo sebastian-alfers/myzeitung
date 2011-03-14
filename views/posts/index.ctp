@@ -4,6 +4,7 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
+			<th></th>
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
 			<th><?php echo $this->Paginator->sort('topic_id');?></th>
 			<th><?php echo $this->Paginator->sort('title');?></th>
@@ -29,6 +30,11 @@
 
 	<tr<?php echo $class;?>>
 		<td><?php echo $post['Post']['id']; ?>&nbsp;</td>
+		<td>
+			<?php if($post['Post']['image']): ?>
+				<?php echo $this->Html->image($image->resize($post['Post']['image'], 150, 50, true, 'post')); ?>
+			<?php endif; ?>
+		</td>
 		<td>
 			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
