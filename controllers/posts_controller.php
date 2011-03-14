@@ -2,36 +2,37 @@
 class PostsController extends AppController {
 
 	var $name = 'Posts';
- 	var $components = array('Auth', 'Session');
+	var $components = array('Auth', 'Session', 'JqImgcrop');
+	var $helpers = array('Image', 'Html', 'Cropimage');
 
- 	var $uses = array('Post','PostUser', 'Route', 'Comment');
+	var $uses = array('Post','PostUser', 'Route', 'Comment');
 
- 	
- 	public function beforeFilter(){
- 		parent::beforeFilter();
- 		//declaration which actions can be accessed without being logged in
- 		$this->Auth->allow('index','view');
- 	}
- 	
- 	
+
+	public function beforeFilter(){
+		parent::beforeFilter();
+		//declaration which actions can be accessed without being logged in
+		$this->Auth->allow('index','view');
+	}
+
+
 
 	function index() {
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->paginate());
 	}
-	
+
 
 
 	/**
 	 * @author tim
-	 * 
-	 * reposting means to recommend a post of another user to your followers. 
+	 *
+	 * reposting means to recommend a post of another user to your followers.
 	 * it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
 	 * -> to do so: this function creates an entry in the table posts_users
 	 * 		with the redirected post and the user who is recommending it and his topic_id in which he reposts it.
 	 * Furthermore an entry in the "reposters" array of the Post is added, to check quickly if a
-	 *  User already reposted a post (especially for better performance in views)	
-	 *  
+	 *  User already reposted a post (especially for better performance in views)
+	 *
 	 * @param int $post_id  -> reposted post
 	 * @param int $topic_id -> topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
 	 * 
@@ -39,13 +40,13 @@ class PostsController extends AppController {
 	 * 				   debugged: user can't repost twice 
 	 * 						  
 	 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts 
-	 * 
 	 */
-	
+
+
 
 	function repost($post_id, $topic_id){
 		if(isset($post_id) && isset($topic_id)){
-			
+
 			//check if the user already reposted the post -> just one post / user combination allowed (topic doesn't matter here)
 			$PostUserData = array('repost' => true,
 									'post_id' => $post_id,
@@ -53,12 +54,12 @@ class PostsController extends AppController {
 			$repostEntries = $this->PostUser->find('all',array('conditions' => $PostUserData));
 			// if there are no reposts for this post/user combination yet
 			if(!isset($repostEntries[0])){
-				//reading post 
+				//reading post
 				$this->Post->contain();
 				$this->data = $this->Post->read(null, $post_id);
 				//valid post was found
 				if($this->Post->id){
-					
+			
 					if($this->data['Post']['user_id'] != $this->Auth->user('id')){
 					//post is not from reposting user		
 						$this->PostUser->create();
@@ -87,10 +88,11 @@ class PostsController extends AppController {
 						//user tried to repost his own post
 						$this->Session->setFlash(__('You cannot repost your own post.', true));
 						$this->log('Post/Repost: User '.$this->Auth->user('id').' tried to repost  Post'.$post_id.' which is his own post.');
+
 					}
 				}else {
 					// post was not found
-					$this->Session->setFlash(__('Invalid post', true));	
+					$this->Session->setFlash(__('Invalid post', true));
 				}
 			}else{
 				// already reposted
@@ -108,17 +110,17 @@ class PostsController extends AppController {
 		}
 		$this->redirect($this->referer());
 	}
-	
+
 
 	
 	
 
 	/**
 	 * @author tim
-	 * 
-	 * deleting a repost: if a user wants to undo a repost this function will delete the repost from the posts_user table. additionally 
+	 *
+	 * deleting a repost: if a user wants to undo a repost this function will delete the repost from the posts_user table. additionally
 	 * the repost_counter will be decremented and the user will be deleted from the reposters array in the post.
-	 * 
+	 *
 	 * @param $post_id - id of the post, for that the user wants to delete his repost
 	 */
 	function undoRepost($post_id){
@@ -136,10 +138,10 @@ class PostsController extends AppController {
 			if($delete_counter > 1){
 				$this->log('Post/undoRepost: User '.$this->Auth->user('id').' had more then 1 repost entry (posts_user table) for Post '.$post_id.'. (now deleted) This should not be possible.');
 			}
-			
+
 			if($delete_counter >= 1){
-				$this->Session->setFlash(__('Repost removed successfully.', true));	
-				
+				$this->Session->setFlash(__('Repost removed successfully.', true));
+
 				//reading related post to decrement the repost-counter and delete user id from the reposters array
 				$this->Post->contain();
 				$this->data = $this->Post->read(null,$post_id);
@@ -149,7 +151,7 @@ class PostsController extends AppController {
 					$pos = array_search($this->Auth->user('id'),$this->data['Post']['reposters']);
 					unset($this->data['Post']['reposters'][$pos]);
 				}
-				
+
 				$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);
 				$this->Post->save($this->data['Post']);
 			} else {
@@ -160,15 +162,11 @@ class PostsController extends AppController {
 			// no repost $id
 			$this->Session->setFlash(__('Invalid post-id', true));
 		}
-		
+
 		$this->redirect($this->referer());
 	}
-	
-	
-	
-	
-	
-function view($id = null) {
+
+	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
@@ -177,19 +175,22 @@ function view($id = null) {
 		$this->Post->doIncrement($id);
 		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$this->set('post', $this->Post->read(null, $id));
-		
+
 	}
 
 	function add() {
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
+
+
 			
-	
 			$this->data["Post"]["user_id"] = $user_id;
-			
-			
+			$this->data['Post']['image_details'] = $this->data['Post']['image'];
+			$this->data['Post']['image'] = $this->data['Post']['image_details']['name'];
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
+				
+				
 				//now add new url key for post
 		/*		$route = new Route();
 				$route->create();
@@ -199,20 +200,37 @@ function view($id = null) {
 				   'target_action'     	=> 'view',
 				   'target_param'		=> $this->Post->id)))
 				{
+
 					
 				}*/
 				
+
+
+		
+
+
 				$PostUserData = array('user_id' => $user_id,
+
 									   'post_id' => $this->Post->id,
 									   'topic_id'=> $this->data['Post']['topic_id']);
+
+				//path for image
+				$img = $this->data['Post']['image']['name'];
+				$first = strtolower(substr($img,0,1));
+				$second = strtolower(substr($img,1,1));
+				$imgPath = 'img/post/'.$first.DS.$second;
+				$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
 				
-				//debug(get_class($this->PostUser));
-				//debug($this->PostUser);die();
+				$PostUserData['image'] = $imgPath.DS.$this->data['Post']['image'];
 				
 				$this->PostUser->create();
-				
 				$this->PostUser->save($PostUserData);
-							
+
+
+
+				//$this->set('uploaded',$uploaded);
+
+
 				$this->Session->setFlash(__('The post has been saved', true));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
@@ -223,14 +241,15 @@ function view($id = null) {
 		
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		
+
 		$this->set(compact('topics'));
 		$this->set('user_id',$user_id);
-		
+
 
 	}
 
 	function edit($id = null) {
-	
+
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
@@ -251,8 +270,8 @@ function view($id = null) {
 		$this->set(compact('topics', 'users'));
 	}
 
-	
-	
+
+
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for post', true));
@@ -265,7 +284,7 @@ function view($id = null) {
 		$this->Session->setFlash(__('Post was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
-	
+
 
 }
 ?>

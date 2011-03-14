@@ -1,6 +1,6 @@
 <div class="posts form">
 
-<?php echo $this->Form->create('Post');?>
+<?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data"));?> 
 		
 	
 	<fieldset>
@@ -10,6 +10,7 @@
 		echo $this->Html->link(__('New Topic', true), array('controller' => 'topics',  'action' => 'add')); 
 		echo $this->Form->input('title');
 		echo $this->Form->input('content');
+        echo $form->input('image',array("type" => "file"));  		
 		echo $this->Form->hidden('user_id',array('value' => $user_id));
 
 	?>
