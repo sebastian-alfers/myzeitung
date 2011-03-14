@@ -13,6 +13,9 @@
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
 <div class="actions">
-	<h3><?php __('Actions'); ?></h3>
 	<?php echo $this->element('navigation'); ?>	
+	<h3><?php __('Options'); ?></h3>
+	<ul>
+	        <li><?php echo $this->Html->link(__('Back', true), array('controller' => 'users',  'action' => 'view', $session->read('Auth.User.id'))); ?> </li>
+	</ul>	
 </div>

@@ -1,6 +1,7 @@
 <div class="users view">
 
 <h2><?php  __('User');?></h2>
+	<?php debug($user);?>
 	<dl>
 		<dt><?php __('User'); ?></dt>
 		<dd><?php echo $user['User']['username'];?></dd>
@@ -15,12 +16,22 @@
 		<dd><?php echo $user['User']['created'];?></dd>			
 	</dl>
 	
+	
 </div>
 
 
 <div class="actions">
-	<h3><?php __('Actions'); ?></h3>
 	<?php echo $this->element('navigation'); ?>	
+	<h3><?php __('Options'); ?></h3>
+	<ul>
+				<?php if($session->read('Auth.User.id') == $user['User']['id']):?>
+				<?php //new post-button if user is on HIS profile?>
+		        <li><?php echo $this->Html->link(__('New Post', true), array('controller' => 'posts',  'action' => 'add')); ?> </li>
+		        <?php else:?>
+		        <?php //subscribe button if user is on someone else's profile?>
+		        <li><b>subscribe</b></li>
+		        <?php endif;?>
+	</ul>	
 </div>
 
   

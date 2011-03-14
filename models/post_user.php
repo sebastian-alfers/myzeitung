@@ -30,8 +30,8 @@ class PostUser extends AppModel {
 	
 	
 		/**
-		 *
-		 * 1)
+		 * @author, Sebastian
+		 * Part 1)
 		 * after a topic has been saved, it it has do be added to CategoryPaperPost table
 		 * a post can come to this table bacause:
 		 * - the posts user is associated to a paper/category or
@@ -48,11 +48,20 @@ class PostUser extends AppModel {
 		 *  - it is very important, that a paper (and his categories) containt the posts
 		 *    only once!
 		 *
+		 * @todo part2
+		 * @author Tim
+		 * Part 2)
+		 * counting the Posts/Reposts of a User and writing it to the User
+		 * 
+		 *
 		 */
 		function afterSave(){
 			App::import('model','CategoryPaperPost');
 			App::import('model','Topic');
+		
 
+			
+			//Part 1 - Associations
 			
 			if(isset($this->data['PostUser']['PostUser.user_id'])){
 				$this->data['PostUser']['user_id'] = $this->data['PostUser']['PostUser.user_id'];
@@ -118,7 +127,7 @@ class PostUser extends AppModel {
 				$this->debug('Error while reading user for Post!');
 			}
 
-
+		//Part 2 - Post-Counter
 
 		}
 }

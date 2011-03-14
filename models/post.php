@@ -4,7 +4,7 @@ class Post extends AppModel {
 	var $displayField = 'title';
 
 
-	var $actsAs = array('Containable');
+	var $actsAs = array('Containable','Increment'=>array('incrementFieldName'=>'count_views'));
 
 
 

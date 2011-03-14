@@ -35,6 +35,9 @@ class PostsController extends AppController {
 	 * @param int $post_id  -> reposted post
 	 * @param int $topic_id -> topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
 	 * 
+	 * 14.03.11 /tim - added:	 user can't repost own post
+	 * 				   debugged: user can't repost twice 
+	 * 						  
 	 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts 
 	 * 
 	 */
@@ -46,7 +49,7 @@ class PostsController extends AppController {
 			//check if the user already reposted the post -> just one post / user combination allowed (topic doesn't matter here)
 			$PostUserData = array('repost' => true,
 									'post_id' => $post_id,
-								   	'Post.user_id' => $this->Auth->user('id'));
+								   	'PostUser.user_id' => $this->Auth->user('id'));
 			$repostEntries = $this->PostUser->find('all',array('conditions' => $PostUserData));
 			// if there are no reposts for this post/user combination yet
 			if(!isset($repostEntries[0])){
@@ -55,27 +58,35 @@ class PostsController extends AppController {
 				$this->data = $this->Post->read(null, $post_id);
 				//valid post was found
 				if($this->Post->id){
-					$this->PostUser->create();
-					// adding the topic_id to the repost array
-					$PostUserData = array('PostUser' => array('repost' => true,
-											'post_id' => $post_id,
-											'topic_id' =>  $topic_id,
-										   	'user_id' => $this->Auth->user('id')));
-					if($this->PostUser->save($PostUserData)){
-							//repost was saved
-							$this->Session->setFlash(__('The Post has been reposted successfully.', true));
-							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array		
-							if((empty($this->Post->reposters)) || (!in_array($this->Auth->user('id'),$this->Post->reposters))){
-
-								$this->data['Post']['reposters'][] = $this->Auth->user('id');
-								//increment count_reposts for the reposted post (by count reposters array)
-								$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);							
-								$this->Post->save($this->data['Post']);
-							}
-						}	else {
-
-					// repost couldn't be saved
-					$this->Session->setFlash(__('The Post could not be reposted.', true));
+					
+					if($this->data['Post']['user_id'] != $this->Auth->user('id')){
+					//post is not from reposting user		
+						$this->PostUser->create();
+						// adding the topic_id to the repost array
+						$PostUserData = array('PostUser' => array('repost' => true,
+												'post_id' => $post_id,
+												'topic_id' =>  $topic_id,
+											   	'user_id' => $this->Auth->user('id')));
+						if($this->PostUser->save($PostUserData)){
+								//repost was saved
+								$this->Session->setFlash(__('The Post has been reposted successfully.', true));
+								// writing the reposter's user id into the reposters-array of the post, if not already in reposters array		
+								if((empty($this->Post->reposters)) || (!in_array($this->Auth->user('id'),$this->Post->reposters))){
+	
+									$this->data['Post']['reposters'][] = $this->Auth->user('id');
+									//increment count_reposts for the reposted post (by count reposters array)
+									$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);							
+									$this->Post->save($this->data['Post']);
+								}
+							}	else {
+	
+						// repost couldn't be saved
+						$this->Session->setFlash(__('The Post could not be reposted.', true));
+						}
+					} else {
+						//user tried to repost his own post
+						$this->Session->setFlash(__('You cannot repost your own post.', true));
+						$this->log('Post/Repost: User '.$this->Auth->user('id').' tried to repost  Post'.$post_id.' which is his own post.');
 					}
 				}else {
 					// post was not found
@@ -84,13 +95,13 @@ class PostsController extends AppController {
 			}else{
 				// already reposted
 				$this->Session->setFlash(__('Post has already been reposted.', true));
-				$this->log('Post/Repost: User '.$this->Auth->user('id').' tried to repost Post'.$post_id.' which he had already reposted.');
+				$this->log('Post/Repost: User '.$this->Auth->user('id').' tried to repost  Post'.$post_id.' which he had already reposted.');
 			}
 		}else {
 			if(!isset($post_id)){
 				// no post id
 				$this->Session->setFlash(__('Invalid post id.', true));
-			} elseif(!isset($post_id)){
+			} elseif(!isset($topic_id)){
 				// no topic id
 				$this->Session->setFlash(__('Invalid topic id.', true));
 			}
@@ -99,6 +110,8 @@ class PostsController extends AppController {
 	}
 	
 
+	
+	
 
 	/**
 	 * @author tim
@@ -132,7 +145,7 @@ class PostsController extends AppController {
 				$this->data = $this->Post->read(null,$post_id);
 
 				//deleting user-id entry from reposters-array in post-model
-				if(in_array($this->Auth->user('id'),$this->data['Post']['reposters'])){
+				while(in_array($this->Auth->user('id'),$this->data['Post']['reposters'])){
 					$pos = array_search($this->Auth->user('id'),$this->data['Post']['reposters']);
 					unset($this->data['Post']['reposters'][$pos]);
 				}
@@ -151,25 +164,34 @@ class PostsController extends AppController {
 		$this->redirect($this->referer());
 	}
 	
+	
+	
+	
+	
 function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		// view counter
+		$this->Post->doIncrement($id);
 		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$this->set('post', $this->Post->read(null, $id));
 		
 	}
 
 	function add() {
+		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-			$id = $this->Auth->User("id");
-			$this->data["Post"]["user_id"] = (int)$id;
+			
+	
+			$this->data["Post"]["user_id"] = $user_id;
+			
 			
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
 				//now add new url key for post
-				$route = new Route();
+		/*		$route = new Route();
 				$route->create();
 
 				if( $route->save(array('source' => $this->data['Post']['title'] ,
@@ -178,10 +200,9 @@ function view($id = null) {
 				   'target_param'		=> $this->Post->id)))
 				{
 					
-				}
+				}*/
 				
-				
-				$PostUserData = array('user_id' => $id,
+				$PostUserData = array('user_id' => $user_id,
 									   'post_id' => $this->Post->id,
 									   'topic_id'=> $this->data['Post']['topic_id']);
 				
@@ -191,19 +212,16 @@ function view($id = null) {
 				$this->PostUser->create();
 				
 				$this->PostUser->save($PostUserData);
-				
-				
-				
+							
 				$this->Session->setFlash(__('The post has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
 
 			}
 		}
-		$user_id = $this->Auth->user('id');
-		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		
+		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		
 		$this->set(compact('topics'));
 		$this->set('user_id',$user_id);

@@ -19,7 +19,7 @@ class UsersController extends AppController {
 	}
 
 	function logout(){
-		$this->redirect($this->Auth->logout());
+		$this->redirect($this->Auth->logout())	;
 	}
 
 
@@ -29,7 +29,7 @@ class UsersController extends AppController {
 
 	}
 
-	function view($id = null) {
+	function view($id = null, $topic_id = null) {
 		if (!$id) {
 			//no param from url -> get from Auth
 			$id = $this->Auth->User("id");
@@ -39,34 +39,13 @@ class UsersController extends AppController {
 			}
 		}
 		//unbinding irrelevant relations for the query
-
-		$this->User->contain('Post.User.id', 'Post.User.username','Post');
+		$this->User->contain('Post.User.id', 'Post.User.username','Post', 'Topic.id', 'Topic.name');
 		$this->set('user', $this->User->read(null, $id));
+		$this->set('topic_id', $topic_id);
 	
 	}
 
 
-	/**
-	 * @author tim
-	 * 
-	 * blog view of a user: shows every posts and reposts of a user in descending order by date. 
-	 * 
-	 * @param int $user_id 
-	 * @param int $topic_id  - i just a specific topic is selected - null = all topics
-	 */	/*
-	function blog($user_id = null, $topic_id = null){
-		$conditions = array('conditions' => array('user_id' => $user_id), 'order' => 'created DESC');
-		if($topic_id != null){
-			$conditions['conditions']['topic_id'] = $topic_id;
-		}
-		debug($conditions);
-		$this->PostsUser->contain();
-		$posts = $this->PostsUser->find('all', $conditions);
-		debug($posts);die();
-		$this->set('posts',$posts);
-		$this->set('user', $this->User->read(null, $id));
-	}
-*/
 
 	function add() {
 		if (!empty($this->data)) {
@@ -76,10 +55,10 @@ class UsersController extends AppController {
 			if ($this->User->save($this->data)) {
 
 				//after adding user -> add new topic
-				$newUserId = $this->User->id;
-				$topicData = array('name' => 'first_automatic_topic', 'user_id' => $newUserId);
-				$this->Topic->create();
-				$this->Topic->save($topicData);
+		//		$newUserId = $this->User->id;
+			//	$topicData = array('name' => 'first_automatic_topic', 'user_id' => $newUserId);
+				//$this->Topic->create();
+				//$this->Topic->save($topicData);
 
 				//@todo move it to a better place -> to user model
 				//afer adding user -> add new route
