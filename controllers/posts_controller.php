@@ -208,11 +208,13 @@ class PostsController extends AppController {
 
 		
 
-
+				
 				$PostUserData = array('user_id' => $user_id,
-
-									   'post_id' => $this->Post->id,
-									   'topic_id'=> $this->data['Post']['topic_id']);
+									   'post_id' => $this->Post->id);
+				if(isset($this->data['Post']['topic_id'])){
+					$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
+				}
+									 
 
 				//path for image
 				$img = $this->data['Post']['image']['name'];

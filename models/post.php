@@ -55,7 +55,7 @@ class Post extends AppModel {
 		'Topic' => array(
 			'className' => 'Topic',
 			'foreignKey' => 'topic_id',
-			'conditions' => '',
+			'conditions' => 'topic_id != null',
 			'fields' => '',
 			'order' => ''
 
@@ -149,10 +149,12 @@ class Post extends AppModel {
 			$userData = $this->User->read(null, $this->data['Post']['user_id']);
 
 			if($userData['User']['id']){
-				$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
-
-				if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
-					$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+				if(isset($this->data['Post']['topic_id'])){
+					$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+	
+					if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
+						$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+					}
 				}
 					
 				$this->data['Post']['index_id'] = 'post_'.$this->id;
