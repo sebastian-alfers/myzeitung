@@ -217,7 +217,8 @@ class PostsController extends AppController {
 									 
 
 				//path for image
-				$img = $this->data['Post']['image']['name'];
+				$img = $this->data['Post']['image_details']['name'];
+
 				$first = strtolower(substr($img,0,1));
 				$second = strtolower(substr($img,1,1));
 				$imgPath = 'img/post/'.$first.DS.$second;

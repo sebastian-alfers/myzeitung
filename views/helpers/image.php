@@ -19,33 +19,34 @@ class ImageHelper extends Helper {
 	 * @access public
 	 */
 	function resize($path, $width, $height, $aspect = true, $model = 'all', $htmlAttributes = array(), $return = false) {
-		
-		
+
+
 		$types = array(1 => "gif", "jpeg", "png", "swf", "psd", "wbmp"); // used to determine image type
 
 		$fullpath = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.$this->themeWeb.IMAGES_URL;
+		$cachepath = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.$this->themeWeb.IMAGES_URL.'cache'.DS;
 
 		//new dirs
 		$model = strtolower($model);
 		$first = strtolower(substr($path,0,1));
 		$second = strtolower(substr($path,1,1));
 		$customPath = $model.DS.$first.DS.$second;
-		
+
 		$fullpath = $fullpath.$customPath.DS;
 
 		if(!is_dir($fullpath)){
-			
+				
 			if (!mkdir($fullpath, 0700, true)) {
 				die('Erstellung der Verzeichnisse schlug fehl...');
 			}
 		}
 
-		
+
 		$url = $fullpath.$path;
-		
+
 		if (!($size = getimagesize($url)))
 		return; // image doesn't exist
-		
+
 		if ($aspect) { // adjust to aspect.
 			if (($size[1]/$height) > ($size[0]/$width))  // $size[0]:width, [1]:height, [2]:type
 			$width = ceil(($size[0]/$size[1]) * $height);
@@ -53,11 +54,19 @@ class ImageHelper extends Helper {
 			$height = ceil($width / ($size[0]/$size[1]));
 		}
 
-		
 
-		$relfile = $this->cacheDir.$customPath.'/'.$width.'x'.$height.'_'.basename($path); // relative file
-		$cachefile = $fullpath.$width.'x'.$height.'_'.basename($path);  // location on server
+
+		$relfile = 'cache'.DS.$this->cacheDir.$customPath.'/'.$width.'x'.$height.'_'.basename($path); // relative file
 		
+		$cacheFoler = $cachepath.$customPath.DS;
+		$cachefile = $cacheFoler.$width.'x'.$height.'_'.basename($path);  // location on server
+		
+		if(!is_dir($cacheFoler)){
+			if (!mkdir($cacheFoler, 0700, true)) {
+				die('Erstellung der Verzeichnisse schlug fehl...');
+			}
+		}
+
 		if (file_exists($cachefile)) {
 			$csize = getimagesize($cachefile);
 			$cached = ($csize[0] == $width && $csize[1] == $height); // image is cached
@@ -74,7 +83,7 @@ class ImageHelper extends Helper {
 		}
 
 		if ($resize) {
-			
+				
 			$image = call_user_func('imagecreatefrom'.$types[$size[2]], $url);
 			if (function_exists("imagecreatetruecolor") && ($temp = imagecreatetruecolor ($width, $height))) {
 				imagecopyresampled ($temp, $image, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
@@ -85,7 +94,7 @@ class ImageHelper extends Helper {
 			call_user_func("image".$types[$size[2]], $temp, $cachefile);
 			imagedestroy ($image);
 			imagedestroy ($temp);
-		}
+		}		
 		return $relfile;
 		//return $this->output(sprintf($this->Html->tags['image'], $relfile, $htmlAttributes), $return);
 	}
