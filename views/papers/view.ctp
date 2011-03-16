@@ -32,7 +32,19 @@
 			&nbsp;
 		</dd>
 	</dl>
+	<br /><br />
+	<hr />
+	<br /><br />
+	Posts:<br />
+	<?php if(count($posts) > 0): ?>
+		<?php foreach($posts as $post): ?>
+			<?php echo $post['Post']['title']?>
+		<?php endforeach; ?>
+	<?php endif; ?>
+	
 </div>
+
+
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>

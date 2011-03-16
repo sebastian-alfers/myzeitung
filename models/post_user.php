@@ -72,8 +72,13 @@ class PostUser extends AppModel {
 			if($userData['User']['id']){
 				
 				$this->CategoryPaperPost = new CategoryPaperPost();
-				$post_id = $this->id;
-				$topic_id = $this->data['PostUser']['topic_id'];
+				$post_id = $this->data['PostUser']['post_id'];
+				
+				$topic_id = null;
+				if(isset($this->data['PostUser']['topic_id'])){
+					$topic_id = $this->data['PostUser']['topic_id'];	
+				}
+				
 				$user_id = $this->data['PostUser']['user_id'];
 
 				//now all references to whole user
@@ -87,8 +92,6 @@ class PostUser extends AppModel {
 					if($wholeUserReference['Category']['id']){
 						$categoryPaperPostData['category_id'] = $wholeUserReference['Category']['id'];
 					}
-					
-					
 					
 					$this->CategoryPaperPost->create();
 					$this->CategoryPaperPost->save($categoryPaperPostData);

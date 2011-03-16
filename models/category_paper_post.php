@@ -3,6 +3,8 @@ class CategoryPaperPost extends AppModel {
 	var $name = 'CategoryPaperPost';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+	var $actsAs = array('Containable');
+	
 	var $belongsTo = array(
 		'Post' => array(
 			'className' => 'Post',

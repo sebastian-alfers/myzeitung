@@ -3,7 +3,7 @@ class PapersController extends AppController {
 
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session');
-	var $uses = array('Paper', 'Category', 'Route', 'User', 'ContentPaper', 'Topic');
+	var $uses = array('Paper', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
 
 
 
@@ -28,10 +28,16 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->set('test', 'asdf');
+		
 		$this->set('paper', $this->Paper->read(null, $id));
-		//	debug($this->Paper->read(null,$id));
-
+		
+		//read posts for paper
+		$conditions = array('conditions' => array(
+								'CategoryPaperPost.paper_id' => $id
+							));	
+		$this->CategoryPaperPost->contain('Post', 'Post.User');
+		$posts = $this->CategoryPaperPost->find('all', $conditions); 
+		$this->set('posts', $posts);
 	}
 
 	/**
@@ -273,7 +279,7 @@ class PapersController extends AppController {
 		$content_data = array('options' => array());
 		foreach($users as $user){
 			//debug($user);die();
-			$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = $user['User']['firstname'].' (all topics)';
+			$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = $user['User']['username'].' (all topics)';
 			$topics = $user['Topic'];
 			if(isset($topics) && count($topics >0)){
 				foreach($topics as $topic){
