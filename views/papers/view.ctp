@@ -1,5 +1,6 @@
 <div class="papers view">
 <h2><?php  __('Paper');?></h2>
+<?php debug($paper);?>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
@@ -32,7 +33,19 @@
 			&nbsp;
 		</dd>
 	</dl>
+	<br /><br />
+	<hr />
+	<br /><br />
+	Posts:<br />
+	<?php if(count($paper['Post']) > 0): ?>
+		<?php foreach($paper['Post'] as $post): ?>
+			<?php echo $post['title']?>
+		<?php endforeach; ?>
+	<?php endif; ?>
+	
 </div>
+
+
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
@@ -72,7 +85,7 @@
 			<td><?php echo $category['id'];?></td>
 			<td><?php echo $category['parent_id'];?></td>
 			<td><?php echo $category['paper_id'];?></td>
-			<td><?php echo $category['route_id'];?></td>
+			<td><?php //echo $category['route_id'];?></td>
 			<td><?php echo $category['name'];?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View', true), array('controller' => 'categories', 'action' => 'view', $category['id'])); ?>

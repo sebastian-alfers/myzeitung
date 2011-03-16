@@ -2,8 +2,10 @@
 class PostsController extends AppController {
 
 	var $name = 'Posts';
-	var $components = array('Session', 'JqImgcrop');
-	var $helpers = array('Image', 'Html', 'Cropimage');
+
+	var $components = array('JqImgcrop');
+	var $helpers = array('Image', 'Html', 'Form', 'Cropimage', 'Javascript', 'Cksource');
+ 
 
 	var $uses = array('Post','PostUser', 'Route', 'Comment');
 
@@ -222,7 +224,10 @@ class PostsController extends AppController {
 				$first = strtolower(substr($img,0,1));
 				$second = strtolower(substr($img,1,1));
 				$imgPath = 'img/post/'.$first.DS.$second;
-				$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
+				if($this->data['Post']['image_details']['name']){
+					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');	
+				}
+				
 				
 				$PostUserData['image'] = $imgPath.DS.$this->data['Post']['image'];
 				

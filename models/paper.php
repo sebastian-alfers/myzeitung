@@ -22,6 +22,24 @@ class Paper extends AppModel {
 			'foreignKey' => 'owner_id'
 			),
 			);
+			
+	var $hasAndBelongsToMany = array(
+		'Post' => array(
+			'className' => 'Post',
+			'joinTable' => 'category_paper_posts',
+			'foreignKey' => 'paper_id',
+			'associationForeignKey' => 'post_id',
+		//	'unique' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => 'CategoryPaperPost.created DESC',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+			'deleteQuery' => '',
+			'insertQuery' => ''
+			)
+			);
 
 
 

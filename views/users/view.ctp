@@ -34,9 +34,12 @@
 	<h3><?php __('Filter by Topic'); ?></h3>
 	<ul>
 		        <li><?php echo $this->Html->link(__('All Posts', true), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?> </li>
-		        <?php foreach($user['Topic'] as $topic):?>
-		         	<li><?php echo $this->Html->link($topic['name'], array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> </li>
-		        <?php endforeach;?>
+		        
+		        <?php if(count($user['Topic']) > 0): ?>
+			        <?php foreach($user['Topic'] as $topic):?>
+			         	<li><?php echo $this->Html->link($topic['name'], array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> </li>
+			        <?php endforeach;?>
+			    <?php endif; ?>
 	</ul>
 </div>
 

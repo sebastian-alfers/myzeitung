@@ -32,27 +32,36 @@
  */
 class AppController extends Controller {
 	//load debug toolbar in plugins/debug_toolbar/
-	//This order is important to work properly: cookie , auth , authextrension
-	var $components = array('Cookie', 'Auth', 'AuthExtension', 'Session', 'DebugKit.Toolbar',);
+	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', );
 	var $uses = array('User');
 	
 	public function beforeFilter(){
+		$this->AutoLogin->cookieName = 'hansmeiser';
+		$this->AutoLogin->expires = '+1 month';
+		$this->AutoLogin->settings = array(
+			'controller' => 'users',
+			'loginAction' => 'login',
+			'logoutAction' => 'logout'
+		);
+
+		
+
+         
+         
 		if(isset($this->Auth)) {
 			// this makes the Auth-component use the isAuthorized()-method below
 			$this->Auth->authorize = 'controller';
 			// only enabled users are able to log in
 			$this->Auth->userScope = array('User.enabled' => 1);
 		}
-		//set globl function for auth?true:false
-		
-		$this->set('isLoggedIn', $this->Session->check('Auth.User.id'));
-		
-		//$id = null;
-		//$id = $this->Auth->User("id");
-		//$this->set('user', $this->User->read(null, $id));		
-		//$this->set('user', $this->User->read(null, $id));
+
 	}
 	
+	public function _autoLogin($user) {
+		// Do something
+		// $user contains the Auth session
+	}
+		
 	
 	function isAuthorized() {
 		// defining the authorized usergroups for every action of every controller 
@@ -117,8 +126,8 @@ class AppController extends Controller {
 }
 
 
-function __construct(){
+/*function __construct(){
 	parent::__construct();
 	$this->Auth->autoRedirect = false;
 
-}
+}*/

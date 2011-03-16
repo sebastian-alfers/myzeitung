@@ -8,23 +8,23 @@ class UsersController extends AppController {
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('add','login','logout', 'view');
+		$this->Auth->allow('add','login','logout', 'view', 'index');
 		//can be overridden, e.g. from view()
-		$this->set('isMyProfile', 0);
+		//$this->set('isMyProfile', 0);
 	}
 
 
-    function login() {
-        $this->AuthExtension->checkRememberMe();
-    }
-    
-    function logout() {
-        $this->AuthExtension->logout();
-        $this->Auth->logout();
-        $this->redirect($this->referer());    
-    } 
-
-
+     function login()  
+     {  
+     
+     }  
+   
+     function logout()  
+     {  
+       
+         $this->redirect($this->Auth->logout());  
+     }  
+ 
 	function index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
