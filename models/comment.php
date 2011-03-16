@@ -70,11 +70,9 @@ class Comment extends AppModel {
 		//incrementing the comment-counter in the related post
 			App::import('model','Post');
 			$this->Post = new Post();
-			$this->Post->contain();
-			$post = $this->Post->read(null, $this->data['Comment']['post_id']);
-			$post['Post']['count_comments'] += 1;
-			$this->Post->save($post);  
-		//end imcrementing the comment-counter
+			// params : id, digit to add, field to increment
+			$this->Post->doIncrement($this->data['Comment']['post_id'], 1, 'count_comments');
 	}
+	
 }
 ?>

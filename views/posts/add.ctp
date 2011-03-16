@@ -6,7 +6,8 @@
 	<fieldset>
  		<legend><?php __('Add Post'); ?></legend>
 	<?php
-		echo $this->Form->input('topic_id');
+		echo $this->Form->input('topic_id'); 
+		echo $this->Html->link(__('New Topic', true), array('controller' => 'topics',  'action' => 'add')); 
 		echo $this->Form->input('title');
 		echo $this->Form->input('content');
         echo $form->input('image',array("type" => "file"));  		
@@ -17,6 +18,10 @@
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
 <div class="actions">
-	<h3><?php __('Actions'); ?></h3>
 	<?php echo $this->element('navigation'); ?>	
+	<h3><?php __('Options'); ?></h3>
+	<ul>
+	        <li><?php echo $this->Html->link(__('Back', true), array('controller' => 'users',  'action' => 'view', $session->read('Auth.User.id'))); ?> </li>
+	</ul>	
 </div>
+	

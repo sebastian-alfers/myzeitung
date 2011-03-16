@@ -22,7 +22,7 @@ class TopicsController extends AppController {
 			$this->Topic->create();
 			if ($this->Topic->save($this->data)) {
 				$this->Session->setFlash(__('The topic has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect($this->referer());
 			} else {
 				$this->Session->setFlash(__('The topic could not be saved. Please, try again.', true));
 			}
