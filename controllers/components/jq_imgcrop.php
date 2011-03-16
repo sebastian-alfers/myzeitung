@@ -2,12 +2,21 @@
 class JqImgcropComponent extends Object {
 
 	function uploadImage($uploadedInfo, $uploadTo, $prefix){
+		
+		
 		$webpath = $uploadTo;
 		$upload_dir = WWW_ROOT.str_replace("/", DS, $uploadTo);
 		$upload_path = $upload_dir.DS;
 		$max_file = "34457280";                         // Approx 30MB
 		$max_width = 800;
 
+		if(!is_dir($upload_path)){
+			
+			if (!mkdir($upload_path, 0700, true)) {
+				die('Erstellung der Verzeichnisse schlug fehl...');
+			}
+		}
+		
 		$userfile_name = $uploadedInfo['name'];
 		$userfile_tmp =  $uploadedInfo["tmp_name"];
 		$userfile_size = $uploadedInfo["size"];
@@ -21,6 +30,7 @@ class JqImgcropComponent extends Object {
 		}
 
 		if (isset($uploadedInfo['name'])){
+			
 			move_uploaded_file($userfile_tmp, $uploadTarget );
 			chmod ($uploadTarget , 0777);
 			$width = $this->getWidth($uploadTarget);
