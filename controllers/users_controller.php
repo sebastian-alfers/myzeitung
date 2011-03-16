@@ -14,13 +14,15 @@ class UsersController extends AppController {
 	}
 
 
-
-	public function login(){
-	}
-
-	function logout(){
-		$this->redirect($this->Auth->logout())	;
-	}
+    function login() {
+        $this->AuthExtension->checkRememberMe();
+    }
+    
+    function logout() {
+        $this->AuthExtension->logout();
+        $this->Auth->logout();
+        $this->redirect($this->referer());    
+    } 
 
 
 	function index() {

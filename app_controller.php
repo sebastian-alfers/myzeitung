@@ -32,7 +32,8 @@
  */
 class AppController extends Controller {
 	//load debug toolbar in plugins/debug_toolbar/
-	var $components = array('DebugKit.Toolbar', 'Auth', 'Session');
+	//This order is important to work properly: cookie , auth , authextrension
+	var $components = array('Cookie', 'Auth', 'AuthExtension', 'Session', 'DebugKit.Toolbar',);
 	var $uses = array('User');
 	
 	public function beforeFilter(){
@@ -113,4 +114,11 @@ class AppController extends Controller {
 		}
 		return false;
 	}
+}
+
+
+function __construct(){
+	parent::__construct();
+	$this->Auth->autoRedirect = false;
+
 }
