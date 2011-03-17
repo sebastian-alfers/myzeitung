@@ -43,9 +43,6 @@ class PostsController extends AppController {
 	 * 						  
 	 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts 
 	 */
-
-
-
 	function repost($post_id, $topic_id){
 		if(isset($post_id) && isset($topic_id)){
 
@@ -114,9 +111,6 @@ class PostsController extends AppController {
 	}
 
 
-	
-	
-
 	/**
 	 * @author tim
 	 *
@@ -168,13 +162,42 @@ class PostsController extends AppController {
 		$this->redirect($this->referer());
 	}
 
+	
+	/**
+	 * @author Tim
+	 * function for preparing date to view a specific post. 
+	 * @param $id
+	 */
 	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		// view counter
-		$this->Post->doIncrement($id);
+		// incrementing post's view_counter
+		// check if the user already read this post during this session
+		//read_posts exists in the session?
+		debug($this->Session->read('read_posts'));
+		if($this->Session->check('read_posts')){
+			$read_posts = $this->Session->read('read_posts');
+			//read_posts is an array?
+			if(is_array($read_posts)){
+				if(!in_array($id,$read_posts)){
+					//user has not read the post in this session -> increment
+					$read_posts[] = $id;
+					$this->Session->write('read_posts', $read_posts);
+					$this->Post->doIncrement($id);
+				}
+			} else {
+				//user has not read the post in this session -> increment	
+				$this->Session->write('read_posts',array($id));
+				$this->Post->doIncrement($id);
+			}
+		}else {
+			//user has not read the post in this session -> increment
+			$this->Session->write('read_posts',array($id));
+			$this->Post->doIncrement($id);
+		}			
+				debug($this->Session->read('read_posts'));
 		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$this->set('post', $this->Post->read(null, $id));
 

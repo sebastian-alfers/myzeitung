@@ -55,7 +55,7 @@ class Post extends AppModel {
 		'Topic' => array(
 			'className' => 'Topic',
 			'foreignKey' => 'topic_id',
-			'conditions' => 'topic_id != null',
+			'conditions' => 'Post.topic_id != null',
 			'fields' => '',
 			'order' => ''
 

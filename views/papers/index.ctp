@@ -1,6 +1,6 @@
 <?php 
 
-
+debug($papers);
 //$code = file_get_contents('http://localhost:8983/solr/select?q=video');
 //eval("\$result = " . $code . ";");
 //var_dump(($code));
@@ -29,7 +29,7 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $paper['Paper']['id']; ?>&nbsp;</td>
-		<td><?php echo $paper['User']['firstname'] . ' ' .$paper['User']['name']; ?>&nbsp;</td>
+		<td><?php echo $paper['User']['username'];?></td>
 		<td><?php echo $paper['Paper']['title']; ?>&nbsp;</td>
 		<td>
 		

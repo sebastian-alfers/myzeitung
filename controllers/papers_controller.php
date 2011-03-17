@@ -14,22 +14,64 @@ class PapersController extends AppController {
 	}
 
 	function index() {
-		// recursive gibt an, bis zu welcher relationsebene daten gezogen werde. bei -1 wird nur das model gezogen. bei 0 wird glaub ich auch eine belongsTo oder hasOne beziehung gezogen
-		// bin aber nicht ganz sicher.
-		// besser ist das containable behavior. damit kannst du mit $this->Paper->contain() angeben, welche models bei der abfrage mit berŸcksichtigt werden unabhŠngig der relationsebene.
-		// http://book.cakephp.org/#!/view/1323/Containable  dort findest du noch mehr mšglichkeiten und auch nen vergleich zu recursive.
-		// mit paginate funzt es in der syntax irgendwie anders als bei find() read() und ich finds gerade nicht. daher schreibe ich diesen aufsatz.
-		$this->Paper->recursive = 2;//important to load categories
-		$this->set('papers', $this->paginate());
+		 $this->paginate = array(
+		 	 'Paper' => array(
+				         //limit of records per page
+			            'limit' => 10,	        
+			        	//contain array: limit the (related) data and models being loaded per paper
+			            'contain' => array('Category.id','Category.name','Category.Children', 'User.id', 'User.username'),		
+			         )
+			 	);		
+		$this->set('papers', $this->paginate($this->Paper));
 	}
 
-	function view($id = null) {
-		if (!$id) {
+	
+	/**
+	 * @author Tim
+	 * Action for viewing and browse a papers content.
+	 * @param $paper_id 
+	 * @param $category_id
+	 */
+	function view($paper_id = null, $category_id = null) {
+		if (!$paper_id) {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->Paper->contain('User.id', 'User.username', 'Category', 'Post');
-		$this->set('paper', $this->Paper->read(null, $id));
+		
+		/*writing all settings for the paginate function. 
+		  important here is, that only the paper's posts are subject for pagination.*/
+		    $this->paginate = array(
+			        'Post' => array(
+				    //setting up the join. this conditions describe which posts are gonna be shown
+			            'joins' => array(
+			                array(
+			                    'table' => 'category_paper_posts',
+			                    'alias' => 'CategoryPaperPost',
+			                    'type' => 'INNER',
+			                    'conditions' => array(
+			                        'CategoryPaperPost.post_id = Post.id',
+			                		'CategoryPaperPost.paper_id' => $paper_id
+			                    ),
+			                   
+			                ),
+			                
+			            ),
+			            //limit of records per page
+			            'limit' => 10,
+			            //order
+			            'order' => 'CategoryPaperPost.created DESC',
+			        	//contain array: limit the (related) data and models being loaded per post
+			            'contain' => array('User.id','User.username'),
+			         )
+			    );
+	    if($category_id != null){
+	    	//adding the topic to the conditions array for the pagination - join
+	    	$this->paginate['Post']['joins'][0]['conditions']['CategoryPaperPost.category_id'] = $category_id;
+	    }		
+		
+		$this->Paper->contain('User.id', 'User.username', 'Category.name', 'Category.id');
+		$this->set('paper', $this->Paper->read(null, $paper_id));
+		$this->set('posts', $this->paginate($this->Paper->Post));
 		
 	}
 
@@ -140,7 +182,7 @@ class PapersController extends AppController {
 					}
 				}
 				else{
-					//no valid soure or target type
+					//no valid source or target type
 
 				}
 
