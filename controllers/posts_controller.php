@@ -4,7 +4,7 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array('JqImgcrop');
-	var $helpers = array('Image', 'Html', 'Form', 'Cropimage', 'Javascript', 'Cksource');
+	var $helpers = array('Image', 'Cropimage', 'Javascript', 'Cksource', 'Time');
  
 
 	var $uses = array('Post','PostUser', 'Route', 'Comment');
@@ -36,15 +36,15 @@ class PostsController extends AppController {
 	 *  User already reposted a post (especially for better performance in views)
 	 *
 	 * @param int $post_id  -> reposted post
-	 * @param int $topic_id -> topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
+	 * @param int $topic_id -> (optional) topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
 	 * 
 	 * 14.03.11 /tim - added:	 user can't repost own post
 	 * 				   debugged: user can't repost twice 
 	 * 						  
 	 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts 
 	 */
-	function repost($post_id, $topic_id){
-		if(isset($post_id) && isset($topic_id)){
+	function repost($post_id, $topic_id = null){
+		if(isset($post_id)){
 
 			//check if the user already reposted the post -> just one post / user combination allowed (topic doesn't matter here)
 			$PostUserData = array('repost' => true,
@@ -57,7 +57,7 @@ class PostsController extends AppController {
 				$this->Post->contain();
 				$this->data = $this->Post->read(null, $post_id);
 				//valid post was found
-				if($this->Post->id){
+				if(isset($this->data['Post']['id'])){
 			
 					if($this->data['Post']['user_id'] != $this->Auth->user('id')){
 					//post is not from reposting user		
@@ -102,10 +102,7 @@ class PostsController extends AppController {
 			if(!isset($post_id)){
 				// no post id
 				$this->Session->setFlash(__('Invalid post id.', true));
-			} elseif(!isset($topic_id)){
-				// no topic id
-				$this->Session->setFlash(__('Invalid topic id.', true));
-			}
+			} 
 		}
 		$this->redirect($this->referer());
 	}
@@ -155,7 +152,7 @@ class PostsController extends AppController {
 			}
 		}
 		else {
-			// no repost $id
+			// no post $id
 			$this->Session->setFlash(__('Invalid post-id', true));
 		}
 

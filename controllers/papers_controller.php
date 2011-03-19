@@ -3,9 +3,8 @@ class PapersController extends AppController {
 
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session');
-	var $uses = array('Paper', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-
-
+	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
+	var $helpers = array('Time');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -76,6 +75,118 @@ class PapersController extends AppController {
 	}
 
 	/**
+	 * @author tim
+	 * Function for a user to subscribe a paper.
+	 * @param int $paper_id - paper to subscribe
+	 */
+	function subscribe($paper_id){
+		if(isset($paper_id)){
+
+			//check if the user already subscribed the paper -> just one paper/user combination allowed 
+			$subscriptionData = array(
+									'paper_id' => $paper_id,
+								   	'user_id' => $this->Auth->user('id'));
+			$subscriptions = $this->Subscription->find('all',array('conditions' => $subscriptionData));
+			// if there are no subscriptions for this paper/user combination yet
+			
+			if(!isset($subscriptions[0])){
+				//reading paper
+				$this->Paper->contain();
+				$this->data = $this->Paper->read(null, $paper_id);
+				//valid paper was found
+				if(isset($this->data['Paper']['id'])){
+					if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
+					//post is not from subscribing user		
+						//creating subscription
+						$this->Subscription->create();
+						if($this->Subscription->save($subscriptionData)){
+								//subscription was saved
+								$this->Session->setFlash(__('You have subscribed the paper successfully.', true));
+					
+								$this->Paper->count_subscriptions += 1;
+								$this->Paper->save($this->data['Paper']);							
+						}	else {
+							// subscription couldn't be saved
+							$this->Session->setFlash(__('The paper could not be subscribed.', true));
+						}
+					} else {
+						//user tried to subscribe his own paper
+						$this->Session->setFlash(__('You cannot subscribe your own paper. It is subscribed automatically.', true));
+						$this->log('Paper/Subscribe: User '.$this->Auth->user('id').' tried to subscribe Paper.'.$paper_id.' which is his own paper.');
+					}
+				}else {
+					// paper was not found
+					$this->Session->setFlash(__('Paper could not be found.', true));
+				}
+			}else{
+				// already subscribed
+				$this->Session->setFlash(__('Paper has already been subscribed.', true));
+				$this->log('Paper/Subscribe: User '.$this->Auth->user('id').' tried to subscribe  Paper'.$paper_id.' which he had already subscribed.');
+			}
+		}else {
+			if(!isset($paper_id)){
+				// no paper id
+				$this->Session->setFlash(__('Invalid paper id.', true));
+			} 
+		}
+		$this->redirect($this->referer());
+	}
+	
+	/**
+	 * @autohr Tim
+	 * Function for a user to unsubscribe a paper.
+	 * @param int $paper_id
+	 */
+	function unsubscribe($paper_id){
+		if(isset($paper_id)){
+			$this->Paper->contain();
+			$this->data = $this->Paper->read(null, $paper_id);
+			if(isset($this->data['Paper']['id'])){
+				if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
+					
+					// just in case there are several subscriptions for the combination post/user - all will be deleted.
+					$subscriptions =  $this->Subscription->find('all',array('conditions' => array('Subscription.paper_id' => $paper_id, 'Subscription.user_id' => $this->Auth->user('id'))));
+					$delete_counter = 0;
+					foreach($subscriptions as $subscription){
+						//deleting the subscriptions from the db
+						$this->Subscription->delete($subscription['Subscription']['id']);
+						$delete_counter += 1;
+		
+					}
+					//writing log entry if there were more than one entries for this repost (shouldnt be possible)
+					if($delete_counter > 1){
+						$this->log('Paper/unsubscribe: User '.$this->Auth->user('id').' had more then 1 subscription entry for Paper '.$paper_id.'. (now deleted) This should not be possible.');
+					}
+		
+					if($delete_counter >= 1){
+						$this->Session->setFlash(__('Unsubscribed successfully.', true));
+		
+						//decrementing subscribers counter	
+		
+						$this->data['Paper']['count_subscriptions'] -= 1;
+						$this->Paper->save($this->data['Paper']);
+					} else {
+						$this->Session->setFlash(__('Subscription could not be removed or no subscription found', true));
+					}
+				} else {
+						$this->Session->setFlash(__('You cannot unsubscribe your own paper. You can delete it.', true));
+						$this->log('Paper/unsubscribe: User '.$this->Auth->user('id').' tried to unsubscribe his own Paper '.$paper_id.'. This should not be possible.');
+				}
+			} else {
+				$this->Session->setFlash(__('Invalid Paper id. Paper could not be found. ', true));
+				$this->log('Paper/unsubscribe: User '.$this->Auth->user('id').' tried to unsubscribe Paper '.$paper_id.', which could not be found.');
+			}
+		}
+		else {
+			// no paper $id
+			$this->Session->setFlash(__('No paper id', true));
+		}
+
+		$this->redirect($this->referer());
+	}
+	
+	
+	/**
 	 *
 	 */
 	function references(){
@@ -100,10 +211,7 @@ class PapersController extends AppController {
 					$this->Session->setFlash(__('invalid data for content view ', true));
 					$this->redirect(array('action' => 'index'));
 					exit;
-
 			}
-
-
 		}
 	}
 

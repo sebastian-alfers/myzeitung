@@ -31,7 +31,7 @@
 		<td><?php echo $user['User']['email']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['username']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['password']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['created']; ?>&nbsp;</td>
+		<td><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?>&nbsp;</td>
 		<td><?php echo $user['User']['modified']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['lastlogin']; ?>&nbsp;</td>
 		<td><?php echo $user['User']['enabled']; ?>&nbsp;</td>

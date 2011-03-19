@@ -26,7 +26,7 @@
 				?>
 				
 			<tr<?php echo $class;?>>
-				<td>
+				<td>  
 					<?php // if($post['Post']['image']): ?>
 						<?php // echo $this->Html->image($image->resize($post['Post']['image'], 150, 50, true, 'post')); ?>
 					<?php // endif; ?> 
@@ -34,7 +34,7 @@
 				<td><?php echo $this->Html->link($post['User']['username'], array('controller' => 'users','action' => 'view', $post['Post']['user_id'])); ?></td>
 				<td><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></td>
 				<td><?php echo $post['Post']['content'];?></td>
-				<td><?php echo date("d.m.y",strtotime($post['Post']['created']));?></td>
+				<td><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></td>
 				<td><?php echo $post['Post']['count_views'];?></td>
 				<td><?php echo $post['Post']['count_reposts'];?></td>
 				<td><?php
@@ -50,7 +50,7 @@
 					if(!in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
 						if($session->read('Auth.User.id') != $post['Post']['user_id']){
 							//repost button
-							echo $this->Html->link(__('Repost', true), array('controller' => 'posts', 'action' => 'repost', $post['Post']['id'], '1'));	
+							echo $this->Html->link(__('Repost', true), array('controller' => 'posts', 'action' => 'repost', $post['Post']['id']));	
 						}
 					}else{
 					//undoRepost button
@@ -60,7 +60,7 @@
 				{
 					if($session->read('Auth.User.id') != $post['Post']['user_id']){
 						//repost button (if no array ... )
-						echo $this->Html->link(__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id'], '1'));	
+						echo $this->Html->link(__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']));	
 					}
 					
 				}?>
@@ -92,5 +92,5 @@
  
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
-	</div>
+</div>
 <?php endif;  ?>

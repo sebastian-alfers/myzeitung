@@ -15,8 +15,8 @@
 		<dd><?php echo $user['User']['firstname'].' '.$user['User']['name']; ?></dd>
 		<?php }?>
 		
-		<dt><?php __('Member since'); ?></dt>
-		<dd><?php echo date("d.m.y",strtotime($user['User']['created']));?></dd>			
+		<dt><?php __('joined'); ?></dt>
+		<dd><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?></dd>			
 	</dl>
 	
 </div>

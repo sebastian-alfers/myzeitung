@@ -1,7 +1,7 @@
 <?php
 class Paper extends AppModel {
 	var $name = 'Paper';
-	var $actsAs = array('Containable');
+	var $actsAs = array('Containable','Increment'=>array('incrementFieldName'=>'count_subscriptions'));
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

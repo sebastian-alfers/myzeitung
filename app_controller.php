@@ -99,6 +99,8 @@ class AppController extends Controller {
 			'delete' => array(1),
 			'addcontent' => array(1),
 			'references' => array(1),
+			'subscribe' => array(1),
+			'unsubscribe' => array(1)
 			),				
 		'categories' => array(
 			'index' => array(1),

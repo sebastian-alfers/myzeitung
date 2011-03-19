@@ -74,7 +74,7 @@
 				if(!in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
 					if($session->read('Auth.User.id') != $post['Post']['user_id']){
 						//repost button
-						echo $this->Html->link(__('Repost', true), array('controller' => 'posts', 'action' => 'repost', $post['Post']['id'], '1'));	
+						echo $this->Html->link(__('Repost', true), array('controller' => 'posts', 'action' => 'repost', $post['Post']['id']));	
 					}
 				}else{
 				//undoRepost button
