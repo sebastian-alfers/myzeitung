@@ -1,7 +1,7 @@
 <?php
 class Paper extends AppModel {
 	var $name = 'Paper';
-	var $actsAs = array('Containable');
+	var $actsAs = array('Containable','Increment'=>array('incrementFieldName'=>'count_subscriptions'));
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -21,6 +21,24 @@ class Paper extends AppModel {
 			'className' => 'User',
 			'foreignKey' => 'owner_id'
 			),
+			);
+			
+	var $hasAndBelongsToMany = array(
+		'Post' => array(
+			'className' => 'Post',
+			'joinTable' => 'category_paper_posts',
+			'foreignKey' => 'paper_id',
+			'associationForeignKey' => 'post_id',
+		//	'unique' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => 'CategoryPaperPost.created DESC',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+			'deleteQuery' => '',
+			'insertQuery' => ''
+			)
 			);
 
 

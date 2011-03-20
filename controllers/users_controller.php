@@ -1,52 +1,97 @@
 <?php
 class UsersController extends AppController {
+	
+
+	
+	
 
 	var $name = 'Users';
 	var $components = array('ContentPaperHelper');
 	var $uses = array('User','Group', 'Topic', 'Route', 'ContentPaper');
+	var $helpers = array('Time');
 
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('add','login','logout', 'view');
-		//can be overridden, e.g. from view()
-		$this->set('isMyProfile', 0);
+		$this->Auth->allow('add','login','logout', 'view', 'index');
+
 	}
 
 
-
-	public function login(){
-	}
-
-	function logout(){
-		$this->redirect($this->Auth->logout())	;
-	}
-
-
+     function login()  
+     {  
+     
+     }  
+   
+     function logout()  
+     {  
+       
+         $this->redirect($this->Auth->logout());  
+     }  
+ 
 	function index() {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
 
 	}
-
-	function view($id = null, $topic_id = null) {
-		if (!$id) {
+	/**
+	 * @author Tim
+	 * Action for the view of a users Blog. Show Basic Information and a Pagination of the user's posts and reposts. 
+	 * @param $id -
+	 * @param $topic_id
+	 */
+	function view($user_id = null, $topic_id = null) {
+		
+		if (!$user_id) {
 			//no param from url -> get from Auth
-			$id = $this->Auth->User("id");
-			if(!$id){
+			$user_id = $this->Auth->User("id");
+			if(!$user_id){
 				$this->Session->setFlash(__('Invalid user', true));
 				$this->redirect(array('action' => 'index'));
 			}
 		}
-		//unbinding irrelevant relations for the query
-		$this->User->contain('Post.User.id', 'Post.User.username','Post', 'Topic.id', 'Topic.name');
-		$this->set('user', $this->User->read(null, $id));
-		$this->set('topic_id', $topic_id);
-	
+
+	     /*writing all settings for the paginate function. 
+		  important here is, that only the user's posts are subject for pagination.*/
+		    $this->paginate = array(
+	        'Post' => array(
+		    //setting up the join. this conditions describe which posts are gonna be shown
+	            'joins' => array(
+	                array(
+	                    'table' => 'posts_users',
+	                    'alias' => 'PostsUser',
+	                    'type' => 'INNER',
+	                    'conditions' => array(
+	                        'PostsUser.post_id = Post.id',
+	                		'PostsUser.user_id' => $user_id
+	                    ),
+	                    
+	                    
+	                   
+	                ),
+	                
+	            ),
+	            //limit of records per page
+	            'limit' => 10,
+	            //order
+	            'order' => 'PostsUser.created DESC',
+	        	//contain array: limit the (related) data and models being loaded per post
+	            'contain' => array('User.id','User.username'),
+	         )
+	    );
+	    if($topic_id != null){
+	    	//adding the topic to the conditions array for the pagination - join
+	    	$this->paginate['Post']['joins'][0]['conditions']['PostsUser.topic_id'] = $topic_id;
+	    }		
+	   
+			//unbinding irrelevant relations for the query
+			$this->User->contain('Topic.id', 'Topic.name');
+			$this->set('user', $this->User->read(null, $user_id));
+			$this->set('posts', $this->paginate($this->User->Post));
 	}
 
 
-
+						
 	function add() {
 		if (!empty($this->data)) {
 			$this->data['User']['group_id'] = 1;
