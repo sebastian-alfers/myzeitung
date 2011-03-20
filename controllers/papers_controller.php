@@ -139,7 +139,7 @@ class PapersController extends AppController {
 	 */
 	function unsubscribe($paper_id){
 		if(isset($paper_id)){
-			$this->Paper->contain();
+			$this->Paper->contain();	
 			$this->data = $this->Paper->read(null, $paper_id);
 			if(isset($this->data['Paper']['id'])){
 				if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
