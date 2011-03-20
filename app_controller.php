@@ -111,7 +111,10 @@ class AppController extends Controller {
 			),		
 		'comments' => array(
 			'add' => array(1),
-			),			
+			),
+		'install' => array(
+			'index' => array(1),
+			),
 		);
 		
 		
