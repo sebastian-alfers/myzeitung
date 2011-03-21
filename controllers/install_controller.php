@@ -48,7 +48,7 @@ class InstallController extends AppController {
 
 	//logfile for installations
 	const LOG_FILE = 'install';
-	
+
 	//logStack
 	var $_logStack = array();
 
@@ -88,7 +88,7 @@ class InstallController extends AppController {
 	 */
 	function isSystemUpToDate(){
 		$this->_installed = false;
-		
+
 		foreach($this->_getGlobalSystemStatus() as $namespaceName => $data){
 			if(count($data) > 0){
 				$currentDbVersion = key($data[self::DB_INSTALLED_VERSION]);
@@ -130,7 +130,7 @@ class InstallController extends AppController {
 
 
 		foreach($this->_getSystemInstallations() as $index => $data){
-			
+
 			$data = $data['Install'];
 			foreach($this->getNamespacesFiles() as $namespaceName => $namespaceFiles){
 
@@ -217,7 +217,7 @@ class InstallController extends AppController {
 		if(empty($files)){
 			//all files -> new installation of namespace
 			$files = $this->getFilesInNamespace($namespaceName);
-			$files = $this->_tranformFilesToSortedVersions($namespaceName, $files);			
+			$files = $this->_tranformFilesToSortedVersions($namespaceName, $files);
 		}
 
 		if(empty($files)){
@@ -231,7 +231,7 @@ class InstallController extends AppController {
 				$this->_log('ERROR! file ' . $namespaceName . '/' . $file . ' is not valid! Can not install it.');
 				return false;
 			}
-				
+
 			if($this->_installFile($namespaceName, $file)){
 				$this->_installed = true;
 			}
@@ -239,7 +239,7 @@ class InstallController extends AppController {
 				$this->_installed = false;
 				return false;
 			}
-				
+
 		}
 
 		if($this->_latestVersionUpdates == null){
@@ -267,18 +267,26 @@ class InstallController extends AppController {
 		$fullPath = $this->getRootFolder().self::INSTALL_FOLDER.DS.$namespaceName.DS.$file;
 
 		if(file_exists($fullPath)){
-			$sql = '';//important for includes!!!
+			$sql = array();//important for includes!!!
 			$log = '';//important for logging!!!
 			try {
 				require_once $fullPath;
-				if($this->_run($sql, $log)){
-					$this->_log('install file ' . $namespaceName . '/' . $file);
-					return true;
-				}
-				else{
-					$this->_log('SQL error in file ' . $namespaceName . '/' . $file);
+				if(!is_array($sql)){
+					$this->_log('error while installing ' . $namespaceName . '/' . $file . '. $sql must be array');
 					return false;
 				}
+				foreach($sql as $query){
+					if($this->_run($query)){
+						$this->_log('installed file ' . $namespaceName . '/' . $file);
+					}
+					else{
+						$this->_log('SQL error in file ' . $namespaceName . '/' . $file);
+						return false;
+					}
+					$this->_log($log);
+					return true;
+				}
+
 			} catch (Exception $e) {
 				$this->_log($e);
 				return false;
@@ -298,9 +306,8 @@ class InstallController extends AppController {
 	 * @param string $sql
 	 * @param string $logMsg
 	 */
-	private function _run($sql, $logMsg){
+	private function _run($sql){
 		if($this->Install->run($sql)){
-			$this->_log($logMsg);
 			$this->_log(' > ' . $sql);
 			return true;
 		}

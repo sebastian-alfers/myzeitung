@@ -7,10 +7,10 @@ $this->data['Install']['version'] = 666;
 $this->Install->save($this->data); 
 */
 
-$sql = "ALTER TABLE `installs` ADD `performance` VARCHAR(10) NOT NULL AFTER `test01`";
+$sql[] = "ALTER TABLE `installs` ADD `performancemontag` VARCHAR(10) NOT NULL";
 
-//**** !2nd param is IMPORTANT! ****
-$this->_run($sql, 'added new column version to table installs 010');
+//**** !IMPORTANT! ****
+$log = 'added new column version to table installs 010';
 
 
 
