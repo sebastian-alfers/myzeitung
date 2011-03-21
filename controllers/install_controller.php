@@ -30,22 +30,34 @@ class InstallController extends AppController {
 
 	//all namespaces /folders
 	var $_installFolders = null;
+
 	//namespaces and containing files
 	var $_namespaceFiles = null;
+
 	//currently installed DB versions
 	var $_systemInstallations = null;
+
 	//namespaces, files and corresponding DB versions
 	var $_globalSystemStatus = null;
+
 	//collects versions to be updated to DB
 	var $_latestVersionUpdates = null;
+
 	//boolean that shows is installations have been done during a call to this controller
 	var $_installed = false;
+
 	//logfile for installations
 	const LOG_FILE = 'install';
+	
+	//logStack
+	var $_logStack = array();
+
 	//folder contains namespaces in root folder of cake
 	const INSTALL_FOLDER = 'install';
+
 	//array index
 	const DB_INSTALLED_VERSION = 'db_installed_version';
+
 	//array index
 	const FILE_VERSIONS = 'file_versions';
 
@@ -67,6 +79,7 @@ class InstallController extends AppController {
 		else{
 			$this->_log('system updated successfully');
 		}
+		debug($this->_logStack);
 	}
 
 	/**
@@ -75,17 +88,21 @@ class InstallController extends AppController {
 	 */
 	function isSystemUpToDate(){
 		$this->_installed = false;
+		
 		foreach($this->_getGlobalSystemStatus() as $namespaceName => $data){
-			$currentDbVersion = key($data[self::DB_INSTALLED_VERSION]);
+			if(count($data) > 0){
+				$currentDbVersion = key($data[self::DB_INSTALLED_VERSION]);
 
-			//check, if a version from file is larger then the installed version from DB
-			foreach($data[self::FILE_VERSIONS] as $intFileVersion => $fileName){
-				if($intFileVersion > $currentDbVersion){
-					//since the list of files is sorted by version, install order is corrent
-					//$this->_installFile($namespaceName, $fileName);
-					$this->_installNamespace($namespaceName, array($fileName));//can be uses for multiple files as well
+				//check, if a version from file is larger then the installed version from DB
+				foreach($data[self::FILE_VERSIONS] as $intFileVersion => $fileName){
+					if($intFileVersion > $currentDbVersion){
+						//since the list of files is sorted by version, install order is corrent
+						//$this->_installFile($namespaceName, $fileName);
+						$this->_installNamespace($namespaceName, array($fileName));//can be uses for multiple files as well
+					}
 				}
 			}
+
 
 		}
 		$this->_updateLatestVersionsInDB();
@@ -113,6 +130,7 @@ class InstallController extends AppController {
 
 
 		foreach($this->_getSystemInstallations() as $index => $data){
+			
 			$data = $data['Install'];
 			foreach($this->getNamespacesFiles() as $namespaceName => $namespaceFiles){
 
@@ -128,6 +146,7 @@ class InstallController extends AppController {
 				}
 			}
 		}
+
 		return $this->_globalSystemStatus;
 	}
 
@@ -138,13 +157,16 @@ class InstallController extends AppController {
 		if(count($this->_latestVersionUpdates) == 0) return;
 
 		foreach($this->_latestVersionUpdates as $namespaceName => $data){
-			debug($data);
-			$this->Install->create();
-			if ($this->Install->save(array('Install' => $data))){
-				debug('installed version ' . $data['version']  . ' in namesapce' . $data['namespace']);
+
+			if($this->_isNamespceInstalledInDB($namespaceName)){
+				//$this->data
 			}
-
-
+			else{
+				$this->Install->create();
+			}
+			if ($this->Install->save(array('Install' => $data))){
+				$this->_log('Updated DB version of namespace ' . $namespaceName . ' to version ' . $data['version']);
+			}
 		}
 	}
 
@@ -161,17 +183,14 @@ class InstallController extends AppController {
 			if(!isset($this->_globalSystemStatus[$namespaceName])){
 				$this->_globalSystemStatus[$namespaceName] = array();
 
-				if(!$this->_isNamespceInstalled($namespaceName)){
+				if(!$this->_isNamespceInstalledInDB($namespaceName)){
 					$this->_log('install new namespace ' . $namespaceName);
 					if($this->_installNamespace($namespaceName)){
-						debug('Successfully Installed new Namespace ' . $namespaceName);
+						$this->_log('Successfully Installed new Namespace ' . $namespaceName);
 					}
 					else{
-						debug('Error while new installing name namespace ' . $namespaceName);
+						$this->_log('Error while installing new namespace ' . $namespaceName);
 					}
-				}
-				else{
-					$this->_log('namespace ' . $namespaceName . ' is already installed in DB');
 				}
 			}
 		}
@@ -198,11 +217,11 @@ class InstallController extends AppController {
 		if(empty($files)){
 			//all files -> new installation of namespace
 			$files = $this->getFilesInNamespace($namespaceName);
-			$files = $this->_tranformFilesToSortedVersions($namespaceName, $files);
+			$files = $this->_tranformFilesToSortedVersions($namespaceName, $files);			
 		}
 
 		if(empty($files)){
-			debug('No files to install in Namespace '. $namespaceName);
+			$this->_log('Can not install namespace '. $namespaceName . '. No files to install.');
 			return false;
 		}
 
@@ -212,11 +231,15 @@ class InstallController extends AppController {
 				$this->_log('ERROR! file ' . $namespaceName . '/' . $file . ' is not valid! Can not install it.');
 				return false;
 			}
-			else{
-				$this->_log('install file ' . $namespaceName . '/' . $file);
-				$this->_installFile($namespaceName, $file);
+				
+			if($this->_installFile($namespaceName, $file)){
 				$this->_installed = true;
 			}
+			else{
+				$this->_installed = false;
+				return false;
+			}
+				
 		}
 
 		if($this->_latestVersionUpdates == null){
@@ -228,8 +251,6 @@ class InstallController extends AppController {
 		//override until last file ist installed
 		$this->_latestVersionUpdates[$namespaceName]['namespace'] = $namespaceName;
 		$this->_latestVersionUpdates[$namespaceName]['version'] = max($files);
-
-		debug($this->_latestVersionUpdates);
 
 		return true;
 
@@ -247,16 +268,25 @@ class InstallController extends AppController {
 
 		if(file_exists($fullPath)){
 			$sql = '';//important for includes!!!
+			$log = '';//important for logging!!!
 			try {
 				require_once $fullPath;
+				if($this->_run($sql, $log)){
+					$this->_log('install file ' . $namespaceName . '/' . $file);
+					return true;
+				}
+				else{
+					$this->_log('SQL error in file ' . $namespaceName . '/' . $file);
+					return false;
+				}
 			} catch (Exception $e) {
-				debug($e);
+				$this->_log($e);
+				return false;
 			}
-
-
 		}
 		else{
-			debug('Error wile loading ' . $fullPath);
+			$this->_log('Error wile loading ' . $fullPath);
+			return false;
 		}
 
 	}
@@ -269,13 +299,20 @@ class InstallController extends AppController {
 	 * @param string $logMsg
 	 */
 	private function _run($sql, $logMsg){
-		$this->_log($logMsg);
-		$this->Install->run($sql);
-
+		if($this->Install->run($sql)){
+			$this->_log($logMsg);
+			$this->_log(' > ' . $sql);
+			return true;
+		}
+		else{
+			$this->_log('Error while placing query: ' . $sql);
+			return false;
+		}
 	}
 
 	private function _log($msg){
 		CakeLog::write(self::LOG_FILE, $msg);
+		$this->_logStack[microtime()] = $msg;
 	}
 
 	/**
@@ -283,7 +320,7 @@ class InstallController extends AppController {
 	 *
 	 * @param string $namespace
 	 */
-	private function _isNamespceInstalled($namespace){
+	private function _isNamespceInstalledInDB($namespace){
 		foreach($this->_getSystemInstallations() as $index => $data){
 			$data = $data['Install'];
 			if($data['namespace'] == $namespace) return true;
@@ -304,12 +341,11 @@ class InstallController extends AppController {
 		$namespaceFilesVersions = array();
 		foreach($namespaceFiles as $file){
 			if($this->isInstallFileValid($namespaceName, $file)){
-
 				$intVersion = $this->_getIntVersionFromFileName($namespaceName, $file);
 				$namespaceFilesVersions[$intVersion] = $file;
 			}
 			else{
-				debug('can not install file ' . $file . ' in namespace ' . $namespaceName);
+				$this->_log('can not install file ' . $file . ' in namespace ' . $namespaceName);
 			}
 
 		}
@@ -333,7 +369,7 @@ class InstallController extends AppController {
 			return $intVersion;
 		}
 		else{
-			debug('Error while getting the (int) version of the file ' . $file . ' in namespace ' . $namespaceName);
+			$this->_log('Error while getting the (int) version of the file ' . $file . ' in namespace ' . $namespaceName);
 			return false;
 		}
 	}
@@ -346,7 +382,7 @@ class InstallController extends AppController {
 			return $this->_systemInstallations;
 		}
 			
-		$this->_systemInstallations =  $this->Install->find('all');
+		$this->_systemInstallations = $this->Install->find('all');
 		return $this->_systemInstallations;
 	}
 
@@ -384,7 +420,7 @@ class InstallController extends AppController {
 							$files[] = $file;
 						}
 						else{
-							debug('The file ' . $file . ' in namespace ' . $namespaceName . ' is not valid and will not be touched!');
+							$this->_log('The file ' . $file . ' in namespace ' . $namespaceName . ' is not valid and will not be touched!');
 						}
 
 					}
@@ -392,11 +428,11 @@ class InstallController extends AppController {
 				closedir($dh);
 			}
 			else{
-				debug('Not able to open directory: ' . $dir);
+				$this->_log('Not able to open directory: ' . $dir);
 			}
 		}
 		else{
-			debug('Not able to read directory: ' . $dir);
+			$this->_log('Not able to read directory: ' . $dir);
 		}
 		return $files;
 	}
@@ -411,18 +447,18 @@ class InstallController extends AppController {
 	function isInstallFileValid($namespaceName, $file){
 		//check file type
 		if('.php' != substr($file, -4)){
-			debug('Namespace-File validation Error. Wrong file extension. Only .php allowed. The file ' . $file . ' in namespace ' . $namespaceName . ' is wrong format. Format should be: [namespace]_[version].php');
+			$this->_log('Namespace-File validation Error. Wrong file extension. Only .php allowed. The file ' . $file . ' in namespace ' . $namespaceName . ' is wrong format. Format should be: [namespace]_[version].php');
 			return false;
 		}
 
 		//check if the file starts with namespace
 		if($namespaceName != substr($file, 0, strlen($namespaceName))) {
-			debug('Namespace-File validation Error. Missing / Wrong namespace in name. The file ' . $file . ' in namespace ' . $namespaceName . ' is wrong format. Format should be: [namespace]_[version].php');
+			$this->_log('Namespace-File validation Error. Missing / Wrong namespace in name. The file ' . $file . ' in namespace ' . $namespaceName . ' is wrong format. Format should be: [namespace]_[version].php');
 			return false;
 		}
 
 		if(substr($file, strlen($namespaceName), 1) != '_'){
-			debug('Namespace-File validation Error. Missing "_" after namespace. The file ' . $file . ' in namespace ' . $namespaceName . ' is wrong format. Format should be: [namespace]_[version].php');
+			$this->_log('Namespace-File validation Error. Missing "_" after namespace. The file ' . $file . ' in namespace ' . $namespaceName . ' is wrong format. Format should be: [namespace]_[version].php');
 			return false;
 		}
 
@@ -446,13 +482,16 @@ class InstallController extends AppController {
 				closedir($handle);
 			}
 			else{
-				debug('Not able to read install dir in ' . $path);
+				$this->_log('Not able to read install dir in ' . $path);
 			}
 		}
 		return $this->_installFolders;
 
 	}
 
+	/**
+	 * get root directory
+	 */
 	function getRootFolder(){
 		return ROOT.DS.APP_DIR.DS;
 	}
