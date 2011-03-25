@@ -50,7 +50,7 @@ class PaperTestCase extends CakeTestCase {
 		$this->assertTrue($paper_data = $this->Paper->read(null, 1));
 		$user_id = $user->id;
 		$paper_id = $paper_data['Paper']['id'];
-		
+			
 		//subscribe to paper
 		$this->assertTrue($this->Paper->subscribe($paper_id, $user_id));
 		
