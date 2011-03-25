@@ -77,7 +77,10 @@ class Solr extends AppModel {
 				$this->getSolr()->optimize();
 			}
 			else{
+				debug('<pre>');
+				debug(debug_print_backtrace());
 				debug('Solr not running!');
+				return;
 			}
 
 		}

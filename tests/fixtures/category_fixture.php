@@ -1,5 +1,5 @@
 <?php
-/* Category Fixture generated on: 2011-02-12 17:45:48 : 1297529148 */
+/* Category Fixture generated on: 2011-03-23 20:39:57 : 1300909197 */
 class CategoryFixture extends CakeTestFixture {
 	var $name = 'Category';
 
@@ -7,9 +7,10 @@ class CategoryFixture extends CakeTestFixture {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'parent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'paper_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'route_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'unique'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'route_id' => array('column' => 'route_id', 'unique' => 1)),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 
@@ -18,8 +19,9 @@ class CategoryFixture extends CakeTestFixture {
 			'id' => 1,
 			'parent_id' => 1,
 			'paper_id' => 1,
-			'route_id' => 1,
-			'name' => 'Lorem ipsum dolor sit amet'
+			'name' => 'Lorem ipsum dolor sit amet',
+			'created' => '2011-03-23 20:39:57',
+			'modified' => '2011-03-23 20:39:57'
 		),
 	);
 }
