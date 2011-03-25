@@ -23,6 +23,8 @@ class PapersControllerTestCase extends CakeTestCase {
 		ClassRegistry::flush();
 	}
 
+		 
+	
 	function testAdminIndex() {
 
 	}
