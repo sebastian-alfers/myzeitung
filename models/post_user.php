@@ -1,7 +1,7 @@
 <?php
 class PostUser extends AppModel {
 	var $name = 'PostUser';
-	//var $actsAs = array('Containable');
+	var $actsAs = array('Containable');
 
 	var $uses = array('Topic');
 	
@@ -51,11 +51,11 @@ class PostUser extends AppModel {
 		 * @todo part2
 		 * @author Tim
 		 * Part 2)
-		 * counting the Posts/Reposts of a User and writing it to the User
+		 * counting the Posts/Reposts of a User and writing it to the User's counter variables
 		 * 
 		 *
 		 */
-		function afterSave(){
+		function afterSave($created){
 			App::import('model','CategoryPaperPost');
 			App::import('model','Topic');
 		
@@ -66,7 +66,7 @@ class PostUser extends AppModel {
 			if(isset($this->data['PostUser']['PostUser.user_id'])){
 				$this->data['PostUser']['user_id'] = $this->data['PostUser']['PostUser.user_id'];
 			}
-
+			$this->User->contain();
 			$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
 			
 			if($userData['User']['id']){
@@ -130,8 +130,40 @@ class PostUser extends AppModel {
 				$this->debug('Error while reading user for Post!');
 			}
 
-		//Part 2 - Post-Counter
-
+			//Part 2 - Post-Counter / Repost-Counter
+			if($created){
+				//uses userdate of read in part1
+				//@todo if redudant : in aftersave and beforedelete
+				if($userData['User']['id']){	
+					//count users reposts
+					$userData['User']['count_reposts'] = $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'], 'repost' => true)));
+					//count users posts and reposts as a sum
+					$userData['User']['count_posts_reposts'] = $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'])));
+					$this->User->save($userData);
+				}			
+				
+			}
+			
 		}
+		function beforeDelete(){
+			$this->contain();
+			$this->data = $this->read(null, $this->id);
+			//reading user
+			$this->User->contain();
+			$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
+			//@todo if redudant : in aftersave and beforedelete
+			if($userData['User']['id']){	
+				//count users reposts (-1 + count, because the count is executed BEFORE the delete)
+				$userData['User']['count_reposts'] = -1 + $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'], 'repost' => true)));
+				//count users posts and reposts as a sum (-1 + count, because the count is executed BEFORE the delete)
+				$userData['User']['count_posts_reposts'] = -1 + $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'])));
+				$this->User->save($userData);
+			}	
+			return true;
+		
+		}
+	function __construct(){
+		parent::__construct();
+	}
 }
 ?>

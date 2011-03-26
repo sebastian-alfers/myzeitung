@@ -2,18 +2,13 @@
 	<h2><?php __('Users');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('Group');?></th>
 			<th><?php echo $this->Paginator->sort('firstname');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
-			<th><?php echo $this->Paginator->sort('email');?></th>
 			<th><?php echo $this->Paginator->sort('username');?></th>
-			<th><?php echo $this->Paginator->sort('password');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('modified');?></th>
-			<th><?php echo $this->Paginator->sort('lastlogin');?></th>
-			<th><?php echo $this->Paginator->sort('enabled');?></th>
-			<th class="actions"><?php __('Actions');?></th>
+			<th><?php echo $this->Paginator->sort('count_posts_reposts');?></th>
+			<th><?php echo $this->Paginator->sort('count_reposts');?></th>
+			<th><?php echo $this->Paginator->sort('count_comments');?></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -23,31 +18,15 @@
 			$class = ' class="altrow"';
 		}
 	?>
+	
 	<tr<?php echo $class;?>>
-		<td><?php echo $user['User']['id']; ?>&nbsp;</td>
-		<td><?php echo $user['Group']['name']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['firstname']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['name']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['email']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['username']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['password']; ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($user['User']['firstname'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($user['User']['name'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($user['User']['username'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
 		<td><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?>&nbsp;</td>
-		<td><?php echo $user['User']['modified']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['lastlogin']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['enabled']; ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('References', true), array('action' => 'references', $user['User']['id'])); ?>
-			<?php 
-			//if($user['Route']['source'] != ''){
-				//echo '<a href="'.$user['Route']['source'].'">'.__('View',true).'</a>';
-			//}
-			//else{
-				echo $this->Html->link(__('View', true), array('action' => 'view', $user['User']['id']));
-			//}
-			?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $user['User']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $user['User']['id'])); ?>
-		</td>
+		<td><?php echo $user['User']['count_posts_reposts']; ?>&nbsp;</td>
+		<td><?php echo $user['User']['count_reposts']; ?>&nbsp;</td>
+		<td><?php echo $user['User']['count_comments']; ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
@@ -65,7 +44,8 @@
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
+
+
 <div class="actions">
 	<?php echo $this->element('navigation'); ?>	
-
 </div>

@@ -170,7 +170,17 @@ class Post extends AppModel {
 			}
 		}
 
-
+		function beforeDelete(){
+			App::import('model','PostUser');
+			if($this->id){
+				//deleting all posts_users entries 
+				$this->PostUser = new PostUser();
+				// params conditions, cascade, fallbacks 
+				$this->PostUser->deleteAll(array('post_id' => $this->id), false, true);
+				return true;
+			}
+		}
+	
 /**
  * @todo move to abstract for all models
  * Enter description here ...

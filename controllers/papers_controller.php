@@ -13,15 +13,31 @@ class PapersController extends AppController {
 	}
 
 	function index() {
-		 $this->paginate = array(
+		$this->paginate = array(
 		 	 'Paper' => array(
 				         //limit of records per page
 			            'limit' => 10,	        
-			        	//contain array: limit the (related) data and models being loaded per paper
-			            'contain' => array('Category.id','Category.name','Category.Children', 'User.id', 'User.username'),		
+		 	            //order
+	     		        'order' => 'Paper.title ASC',
+						//contain array: limit the (related) data and models being loaded per paper
+			             'contain' => array(),	
 			         )
-			 	);		
-		$this->set('papers', $this->paginate($this->Paper));
+			 	);	
+		$papers = 	$this->paginate($this->Paper);
+		//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
+		// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this 
+		if(is_array($papers)){
+			for($i = 0; $i < count($papers); $i++){
+				$papers[$i]['Paper']['subscribed'] = false;				
+				if($this->Auth->user('id')){
+				//check for subscriptions - if yes -> subscribed = true
+					if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
+						$papers[$i]['Paper']['subscribed'] = true;
+					} 
+				}			
+			}	
+		}
+		$this->set('papers', $papers);
 	}
 
 	
@@ -81,22 +97,26 @@ class PapersController extends AppController {
 	 */
 	function subscribe($paper_id){
 		if(isset($paper_id)){
-
-			//check if the user already subscribed the paper -> just one paper/user combination allowed 
-			$subscriptionData = array(
-									'paper_id' => $paper_id,
-								   	'user_id' => $this->Auth->user('id'));
-			$subscriptions = $this->Subscription->find('all',array('conditions' => $subscriptionData));
-			// if there are no subscriptions for this paper/user combination yet
 			
-			if(!isset($subscriptions[0])){
-				//reading paper
-				$this->Paper->contain();
-				$this->data = $this->Paper->read(null, $paper_id);
-				//valid paper was found
-				if(isset($this->data['Paper']['id'])){
-					if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
+			//reading paper
+			$this->Paper->contain();
+			$this->data = $this->Paper->read(null, $paper_id);
+			$debug($this->data);
+			//valid paper was found
+			if(isset($this->data['Paper']['id'])){
+				if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
 					//post is not from subscribing user		
+	
+					//check if the user already subscribed the paper -> just one paper/user combination allowed 
+					$subscriptionData = array(
+											'paper_id' => $paper_id,
+										   	'user_id' => $this->Auth->user('id'));
+					$subscriptions = $this->Subscription->find('all',array('conditions' => $subscriptionData));
+					// if there are no subscriptions for this paper/user combination yet
+					
+					if(!isset($subscriptions[0])){
+		
+	
 						//creating subscription
 						$this->Subscription->create();
 						if($this->Subscription->save($subscriptionData)){
@@ -109,19 +129,21 @@ class PapersController extends AppController {
 							// subscription couldn't be saved
 							$this->Session->setFlash(__('The paper could not be subscribed.', true));
 						}
-					} else {
-						//user tried to subscribe his own paper
-						$this->Session->setFlash(__('You cannot subscribe your own paper. It is subscribed automatically.', true));
-						$this->log('Paper/Subscribe: User '.$this->Auth->user('id').' tried to subscribe Paper.'.$paper_id.' which is his own paper.');
+					 
+
+					}else{
+						// already subscribed
+						$this->Session->setFlash(__('Paper has already been subscribed.', true));
+						$this->log('Paper/Subscribe: User '.$this->Auth->user('id').' tried to subscribe  Paper'.$paper_id.' which he had already subscribed.');
 					}
-				}else {
-					// paper was not found
-					$this->Session->setFlash(__('Paper could not be found.', true));
+				} else {
+							//user tried to subscribe his own paper
+							$this->Session->setFlash(__('You cannot subscribe your own paper. It is subscribed automatically.', true));
+							$this->log('Paper/Subscribe: User '.$this->Auth->user('id').' tried to subscribe Paper.'.$paper_id.' which is his own paper.');
 				}
-			}else{
-				// already subscribed
-				$this->Session->setFlash(__('Paper has already been subscribed.', true));
-				$this->log('Paper/Subscribe: User '.$this->Auth->user('id').' tried to subscribe  Paper'.$paper_id.' which he had already subscribed.');
+			} else {
+				// paper was not found
+				$this->Session->setFlash(__('Paper could not be found.', true));
 			}
 		}else {
 			if(!isset($paper_id)){
@@ -356,6 +378,8 @@ class PapersController extends AppController {
 				));
 
 				$route = $this->Route->save($routeData);
+				
+			
 				if(!empty($route)){
 					$this->Session->setFlash(__('The paper has been saved', true));
 					$this->redirect(array('action' => 'index'));

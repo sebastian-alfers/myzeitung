@@ -117,7 +117,22 @@ class User extends AppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-			)
+			),
+		'Paper' => array(
+			'className' => 'Paper',
+			'joinTable' => 'subscriptions',
+			'foreignKey' => 'user_id',
+			'associationForeignKey' => 'paper_id',
+			'unique' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+			'deleteQuery' => '',
+			'insertQuery' => ''
+			),	
 			);
 
 			var $belongsTo = array(

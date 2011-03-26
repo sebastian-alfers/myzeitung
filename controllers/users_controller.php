@@ -7,13 +7,13 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
 	var $components = array('ContentPaperHelper');
-	var $uses = array('User','Group', 'Topic', 'Route', 'ContentPaper');
+	var $uses = array('User','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
 	var $helpers = array('Time');
 
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('add','login','logout', 'view', 'index');
+		$this->Auth->allow('add','login','logout', 'view', 'index', 'viewSubscriptions');
 
 	}
 
@@ -30,7 +30,28 @@ class UsersController extends AppController {
      }  
  
 	function index() {
-		$this->User->recursive = 0;
+		 //writing all settings for the paginate function. 
+	
+		    $this->paginate = array(
+	        'User' => array(
+	            //limit of records per page
+	            'limit' => 10,
+	            //order
+	            'order' => 'username ASC',
+		    	//fields - custom field sum...
+		    	'fields' => array(	'User.id',
+								  	'User.username',
+		    						'User.firstname',
+		    						'User.name',
+		    						'User.created',
+		    						'User.count_posts_reposts',	
+		    						'User.count_reposts',
+		    						'User.count_comments'  									
+		    ),
+	        	//contain array: limit the (related) data and models being loaded per post
+	            'contain' => array(),
+	         )
+	    );
 		$this->set('users', $this->paginate());
 
 	}
@@ -41,7 +62,7 @@ class UsersController extends AppController {
 	 * @param $topic_id
 	 */
 	function view($user_id = null, $topic_id = null) {
-		
+	
 		if (!$user_id) {
 			//no param from url -> get from Auth
 			$user_id = $this->Auth->User("id");
@@ -90,7 +111,73 @@ class UsersController extends AppController {
 			$this->set('posts', $this->paginate($this->User->Post));
 	}
 
+/**
+	 * @author Tim
+	 * Action for the view of of a user's subscriptions.
+	 * @param $id -
+	 * @param $topic_id
+	 */
+	function viewSubscriptions($user_id = null, $own_paper = null) {
+		
+		if (!$user_id) {
+			//no param from url -> get from Auth
+			$user_id = $this->Auth->User("id");
+			if(!$user_id){
+				$this->Session->setFlash(__('Invalid user', true));
+				$this->redirect(array('action' => 'index'));
+			}
+		}
 
+	     /*writing all settings for the paginate function. 
+		  important here is, that only the user's paper subscriptions are subject for pagination.*/
+		    $this->paginate = array(
+	        'Paper' => array(
+		    //setting up the join. this conditions describe which papers are gonna be shown
+	            'joins' => array(
+	                array(
+	                    'table' => 'subscriptions',
+	                    'alias' => 'Subscription',
+	                    'type' => 'INNER',
+	                    'conditions' => array(
+	                        'Subscription.paper_id = Paper.id',
+	                		'Subscription.user_id' => $user_id
+	                    ),
+	                ),
+	            ),
+	            //limit of records per page
+	            'limit' => 10,
+	            //order
+	            'order' => 'Subscription.own_paper DESC ,Paper.title ASC',
+	        	//contain array: limit the (related) data and models being loaded per post
+	            'contain' => array(),
+	         )
+	    );
+	    if($own_paper != null){
+	    	//adding the additional conditions  for the pagination - join
+	    	$this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = $own_paper;
+	    }		
+	   
+			//unbinding irrelevant relations for the query
+			$this->User->contain();
+			$this->set('user', $this->User->read(null, $user_id));
+			$papers = $this->paginate($this->User->Paper);
+
+			//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
+			// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this 
+			if(is_array($papers)){
+				for($i = 0; $i < count($papers); $i++){
+					$papers[$i]['Paper']['subscribed'] = false;				
+					if($this->Auth->user('id')){
+					//check for subscriptions - if yes -> subscribed = true
+						if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
+							$papers[$i]['Paper']['subscribed'] = true;
+						} 
+					}			
+				}
+			}
+			$this->set('papers', $papers);
+	}
+	
 						
 	function add() {
 		if (!empty($this->data)) {

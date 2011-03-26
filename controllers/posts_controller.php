@@ -171,9 +171,9 @@ class PostsController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		// incrementing post's view_counter
+		
 		// check if the user already read this post during this session
 		//read_posts exists in the session?
-		debug($this->Session->read('read_posts'));
 		if($this->Session->check('read_posts')){
 			$read_posts = $this->Session->read('read_posts');
 			//read_posts is an array?
@@ -194,7 +194,6 @@ class PostsController extends AppController {
 			$this->Session->write('read_posts',array($id));
 			$this->Post->doIncrement($id);
 		}			
-				debug($this->Session->read('read_posts'));
 		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$this->set('post', $this->Post->read(null, $id));
 

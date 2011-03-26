@@ -1,6 +1,7 @@
 <?php
 class Subscription extends AppModel {
 	var $name = 'Subscription';
+	var $actsAs = array('Containable');
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
@@ -20,4 +21,8 @@ class Subscription extends AppModel {
 		)
 	);
 }
+
+		function __construct(){
+			parent::__construct();
+		}
 ?>

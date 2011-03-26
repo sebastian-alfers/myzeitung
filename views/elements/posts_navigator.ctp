@@ -67,12 +67,12 @@
 				
 					
 					<?php
-						//show button only if it's the users own post on it's own blog e 
+						//EDIT Button - show button only if it's the users own post 
 						if($session->read('Auth.User.id') == $post['Post']['user_id']){
 								echo $this->Html->link(__('Edit', true), array('controller' => 'posts', 'action' => 'edit', $post['Post']['id']));
 						} ?>
 					<?php
-						//show button only if it's the users own post on it's own blog e 
+						//Delete Button - show button only if it's the users own post 
 						if($session->read('Auth.User.id') == $post['Post']['user_id']){
 							 echo $this->Html->link(__('Delete', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])); 
 						}?>

@@ -65,7 +65,9 @@ class Paper extends AppModel {
 			)
 			);
 
-				
+			/**
+			 * @todo alf: das ganze muss ohne "recursive" laufen.... alles bitte mit contain
+			 */
 			function getContentReferences($recursive = 2){
 
 				if($this->_contentReferences == null){
@@ -128,12 +130,17 @@ class Paper extends AppModel {
 			 * 1)
 			 * update solr index with saved data
 			 */
-			function afterSave(){
+			function afterSave($created){
 
 				App::import('model','Solr');
 				App::import('model','User');
-
+				App::import('model','Subscription');
+				
+			
 				if($this->id){
+					/**
+					 * @todo alf: hier wird glaub ich jedes mal nen satz erzeugt. stattdessen mŸsste ein Satz bei created angelegt werden und bei nicht created ge-updatet, bzw gelšscht und neu angelegt werden
+					 */
 					//get User information
 					$user = new User();
 					$userData = $user->read(null, $this->data['Paper']['owner_id']);
@@ -145,6 +152,19 @@ class Paper extends AppModel {
 					$this->data['Paper']['user_name'] = $userData['User']['username'];
 					$solr = new Solr();
 					$solr->add($this->removeFieldsForIndex($this->data));
+					
+					//create subscription for created paper
+					if($created){
+						 $subscriptionData = array('paper_id' => $this->id,
+						 							'user_id' => $userData['User']['id'],
+													'own_paper' => true,
+						 				           );
+						$this->Subscription = new Subscription();
+						$this->Subscription->create();
+						$this->Subscription->save($subscriptionData); 
+						 				          
+					}
+					
 
 				}
 				else{
