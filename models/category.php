@@ -55,12 +55,12 @@ class Category extends AppModel {
 					$this->data['Category']['title'] = $paperData['Paper']['title'];
 					$this->data['Category']['user_id'] = $paperData['User']['id'];
 					$this->data['Category']['user_name'] = $paperData['User']['username'];
-					
-					
+						
+						
 					$this->data['Category']['index_id'] = 'category_'.$this->id;
 					$this->data['Category']['id'] = $this->id;
 					$this->data['Category']['type'] = Solr::TYPE_CATEGORY;
-						
+
 					//$this->data['Category']['user_id'] = $userData['User']['id'];
 					//$this->data['Category']['user_name'] = $userData['User']['username'];
 					$solr = new Solr();
@@ -80,9 +80,27 @@ class Category extends AppModel {
 			private function removeFieldsForIndex($data){
 				unset($data['Category']['modified']);
 				unset($data['Category']['created']);
+				unset($data['Category']['route_id']);
+
+
 				return $data;
 			}
 
+			function delete($id){
+				$this->removeUserFromSolr($id);
+				return parent::delete($id);
+			}
 
+			/**
+			 * remove the user from solr index
+			 *
+			 * @param string $id
+			 */
+			function removeUserFromSolr($id){
+				App::import('model','Solr');
+				$solr = new Solr();
+				$solr->delete(Solr::TYPE_CATEGORY . '_' . $id);
+			}
+				
 }
 ?>

@@ -19,7 +19,7 @@ class DATABASE_CONFIG {
 		'login' => 'root',
 		'password' => 'root',
 		'database' => 'myzeitung',
-		'prefix' => 'test_'
+		'prefix' => ''
 	);	
 }
 ?>

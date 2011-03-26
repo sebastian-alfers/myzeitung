@@ -41,14 +41,14 @@ class PaperTestCase extends CakeTestCase {
 	 * 6) remove subscription
 	 */
 	function testSubscribe() {
-		// get user
+		// create
 		App::import('model', 'User');
 		$user = new User();
 		$this->assertTrue($user->save($this->_getUserData()));
+		$user_id = $user->id;
 		
 		//get paper
 		$this->assertTrue($paper_data = $this->Paper->read(null, 1));
-		$user_id = $user->id;
 		$paper_id = $paper_data['Paper']['id'];
 		
 		//subscribe to paper

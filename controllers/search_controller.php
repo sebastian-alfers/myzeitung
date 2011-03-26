@@ -26,8 +26,6 @@ class SearchController extends AppController {
 			$this->set('query', '');
 		}
 		
-		$this->Solr->add();
-
 	}
 
 }

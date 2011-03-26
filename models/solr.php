@@ -93,6 +93,21 @@ class Solr extends AppModel {
 	}
 
 	/**
+	 * removes an indexed field by id
+	 *
+	 * @param string $id
+	 */
+	function delete($id){
+		if(!empty($id)){
+			$xml = '<delete><id>'. $id .'</id></delete>';
+			$this->getSolr()->delete($xml);
+			$this->getSolr()->commit();
+			$this->getSolr()->optimize();
+		}
+
+	}
+
+	/**
 	 *
 	 * performs a query to solr and returns result
 	 *
@@ -113,7 +128,6 @@ class Solr extends AppModel {
 			$response = $this->getSolr()->search($query, 0, $limit);
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
-
 				foreach($response->response->docs as $doc){
 					if(isset($doc->type)){
 						$grouped[$doc->type][] = $doc;

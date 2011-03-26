@@ -99,6 +99,7 @@ class Paper extends AppModel {
 					foreach($allReferences as $reference){
 
 						//only topics that are not associated to a category -> direkt in paper
+
 						if($reference['Topic']['id'] && !$reference['Category']['id']	){
 							$topicReferences[] = $reference;
 						}
@@ -136,6 +137,7 @@ class Paper extends AppModel {
 				if($this->id){
 					//get User information
 					$user = new User();
+						
 					$userData = $user->read(null, $this->data['Paper']['owner_id']);
 					$this->data['Paper']['index_id'] = 'paper_'.$this->id;
 					$this->data['Paper']['id'] = $this->id;
@@ -207,17 +209,17 @@ class Paper extends AppModel {
 				}
 				return false;
 			}
-			
-			
-			
+				
+				
+				
 			/**
-			 * 
-			 * 
+			 *
+			 *
 			 * @param unknown_type $paper_id
 			 * @param unknown_type $user_id
-			 */	
+			 */
 			public function unSubscribe($paper_id, $user_id){
-				
+
 				$this->contain();
 				$this->data = $this->read(null, $paper_id);
 				if(isset($this->data['Paper']['id'])){
@@ -248,9 +250,9 @@ class Paper extends AppModel {
 							//$this->Session->setFlash(__('Subscription could not be removed or no subscription found', true));
 							$this->log('Subscription could not be removed or no subscription found');
 						}
-						
+
 						return true;
-						
+
 					} else {
 						//$this->Session->setFlash(__('You cannot unsubscribe your own paper. You can delete it.', true));
 						$this->log('Paper/unsubscribe: User '.$user_id.' tried to unsubscribe his own Paper '.$paper_id.'. This should not be possible.');
@@ -259,7 +261,7 @@ class Paper extends AppModel {
 					//$this->Session->setFlash(__('Invalid Paper id. Paper could not be found. ', true));
 					$this->log('Paper/unsubscribe: User '.$user_id.' tried to unsubscribe Paper '.$paper_id.', which could not be found.');
 				}
-				
+
 				return false;
 			}
 
@@ -274,9 +276,27 @@ class Paper extends AppModel {
 				unset($data['Paper']['created']);
 				unset($data['Paper']['owner_id']);
 				unset($data['Paper']['count_subscriptions']);
+				unset($data['Paper']['route_id']);
+
+
 
 				return $data;
 			}
 
+			function delete($id){
+				$this->removeUserFromSolr($id);
+				return parent::delete($id);
+			}
+
+			/**
+			 * remove the user from solr index
+			 *
+			 * @param string $id
+			 */
+			function removeUserFromSolr($id){
+				App::import('model','Solr');
+				$solr = new Solr();
+				$solr->delete(Solr::TYPE_PAPER . '_' . $id);
+			}
 }
 ?>

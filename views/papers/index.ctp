@@ -1,6 +1,6 @@
 <?php 
 
-debug($papers);
+//debug($papers);
 //$code = file_get_contents('http://localhost:8983/solr/select?q=video');
 //eval("\$result = " . $code . ";");
 //var_dump(($code));

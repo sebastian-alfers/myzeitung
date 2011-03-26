@@ -102,7 +102,7 @@ class User extends AppModel {
 			);
 
 
-		var $hasAndBelongsToMany = array(
+			var $hasAndBelongsToMany = array(
 		'Post' => array(
 			'className' => 'Post',
 			'joinTable' => 'posts_users',
@@ -140,28 +140,36 @@ class User extends AppModel {
 		 * update index
 		 */
 		function afterSave(){
-			/*
+
 			App::import('model','Solr');
 
-			$this->data['User']['index_id'] = 'post_'.$this->id;
-			$this->data['User']['id'] = $this->id;
-			$this->data['User']['user_name'] = $userData['User']['name'];
+			$this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
 			$this->data['User']['type'] = Solr::TYPE_USER;
+				
+			if(!isset($this->data['User']['id'])){
+				if($this->id){
+					$this->data['User']['id'] = $this->id;	
+				}
+					
+			}
 			
-			debug($this->data);die();
+			$this->data['User']['user_name'] = $this->data['User']['name'];
+			$this->data['User']['lastname'] = $this->data['User']['name'];
+			$this->data['User']['user_id'] = $this->data['User']['id'];
+			
 			$solr = new Solr();
 			$solr->add($this->removeFieldsForIndex($this->data));
-			*/
+
 			/*
 			 App::import('model','Cachekey');
 			 $cachekey = new Cachekey();
 			 $cachekey->create();
 			 if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
+			 //App::import('model','Route');
+			 //$this->save(array('route_id', $route->id));
 			 */
 
-			//App::import('model','Route');
 
-			//$this->save(array('route_id', $route->id));
 
 		}
 
@@ -194,5 +202,35 @@ class User extends AppModel {
 			}
 			return $topicReferences;
 		}
+
+		function removeFieldsForIndex($data){
+			unset($data['User']['email']);
+			unset($data['User']['password']);
+			unset($data['User']['created']);
+			unset($data['User']['modified']);
+			unset($data['User']['lastlogin']);
+			unset($data['User']['enabled']);
+			unset($data['User']['group_id']);
+			unset($data['User']['route_id']);
+				
+			return $data;
+		}
+
+		function delete($id){
+			$this->removeUserFromSolr($id);
+			return parent::delete($id);
+		}
+
+		/**
+		 * remove the user from solr index
+		 *
+		 * @param string $id
+		 */
+		function removeUserFromSolr($id){
+			App::import('model','Solr');
+			$solr = new Solr();
+			$solr->delete(Solr::TYPE_USER . '_' . $id);
+		}
+
 }
 ?>

@@ -4,28 +4,21 @@
       <input type="submit"/>
     </form>
 
-    
 <?php if(isset($results)): ?>
 
-
-
  <?php  foreach ($results['results'] as $type => $docs): ?>
- 	<?php echo "type: " . $type; ?><br />
- 	<?php foreach($docs as $doc)?>
-		<?php foreach ($doc as $field => $value): ?>
-	    	<?php if(!empty($field)) echo htmlspecialchars($field, ENT_NOQUOTES, 'utf-8'); ?>:
-	        <?php if(!empty($value)){
-	        	if(is_array($value)){
-	        		implode(" ", $value);
-	        	}
-	        	else{
-	        		echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8');	
-	        	} 
-	        }
-	        ?>;
-		<?php endforeach; ?>
+ 	<?php echo "type: " . $type; ?> (<?php echo count($docs)?>)<br />
 	
-	<br />
+ 	<?php for($i=0 ; $i < count($docs); $i++): ?>
+ 		<?php $doc = $docs[$i]; ?>
+ 		<ul>
+ 		<?php foreach ($doc as $field => $value): ?>
+	    	<li><?php echo $field?>: <?php echo $value; ?></li>
+		<?php endforeach; ?>
+		</ul>
+		<hr />	
+	<?php endfor; ?>
+	
 <?php endforeach; ?>
   
 <?php endif; ?>

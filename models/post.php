@@ -100,10 +100,10 @@ class Post extends AppModel {
 
 			// CALLBACKS
 			/**
-			 * @author: tim
-			 * unserializing the reposters-array after being read from the db.
-			 *
-			 */
+			* @author: tim
+			* unserializing the reposters-array after being read from the db.
+			*
+			*/
 			function afterFind($results) {
 				foreach ($results as $key => $val) {
 					if (!empty($val['Post']['reposters']) ) {
@@ -138,64 +138,81 @@ class Post extends AppModel {
 
 
 
-		/**
-		 * 1)
-		 * update solr index with saved data
-		 */
-		function afterSave(){
+			/**
+			 * 1)
+			 * update solr index with saved data
+			 */
+			function afterSave(){
 
-			App::import('model','Solr');
+				App::import('model','Solr');
 
-			$userData = $this->User->read(null, $this->data['Post']['user_id']);
+				$userData = $this->User->read(null, $this->data['Post']['user_id']);
 
-			if($userData['User']['id']){
-				if(isset($this->data['Post']['topic_id'])){
-					$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
-	
-					if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
-						$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+				if($userData['User']['id']){
+					if(isset($this->data['Post']['topic_id'])){
+						$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+
+						if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
+							$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+						}
 					}
+						
+					$this->data['Post']['index_id'] = 'post_'.$this->id;
+					$this->data['Post']['id'] = $this->id;
+					$this->data['Post']['user_name'] = $userData['User']['name'];
+					$this->data['Post']['type'] = Solr::TYPE_POST;
+					$solr = new Solr();
+					$solr->add($this->removeFieldsForIndex($this->data));
+
 				}
-					
-				$this->data['Post']['index_id'] = 'post_'.$this->id;
-				$this->data['Post']['id'] = $this->id;
-				$this->data['Post']['user_name'] = $userData['User']['name'];
-				$this->data['Post']['type'] = Solr::TYPE_POST;
+				else{
+					$this->log('Error while reading user for Post! No solr index update');
+				}
+			}
+
+
+			/**
+			 * @todo move to abstract for all models
+			 * Enter description here ...
+			 */
+			private function removeFieldsForIndex($data){
+				unset($data['Post']['enabled']);
+				unset($data['Post']['count_views']);
+				unset($data['Post']['count_reposts']);
+				unset($data['Post']['count_comments']);
+				unset($data['Post']['topic_id']);
+				unset($data['Post']['modified']);
+				unset($data['Post']['created']);
+				unset($data['Post']['reposters']);
+				unset($data['Post']['image']);
+				unset($data['Post']['image_details']);
+
+
+
+				return $data;
+
+			}
+
+
+			function __construct(){
+				parent::__construct();
+			}
+
+			function delete($id){
+				$this->removeUserFromSolr($id);
+				return parent::delete($id);
+			}
+
+			/**
+			 * remove the user from solr index
+			 *
+			 * @param string $id
+			 */
+			function removeUserFromSolr($id){
+				App::import('model','Solr');
 				$solr = new Solr();
-				$solr->add($this->removeFieldsForIndex($this->data));
-
+				$solr->delete(Solr::TYPE_POST . '_' . $id);
 			}
-			else{
-				$this->log('Error while reading user for Post! No solr index update');
-			}
-		}
-
-
-/**
- * @todo move to abstract for all models
- * Enter description here ...
- */
-	private function removeFieldsForIndex($data){
-		unset($data['Post']['enabled']);
-		unset($data['Post']['count_views']);
-		unset($data['Post']['count_reposts']);
-		unset($data['Post']['count_comments']);
-		unset($data['Post']['topic_id']);
-		unset($data['Post']['modified']);
-		unset($data['Post']['created']);
-		unset($data['Post']['reposters']);
-		unset($data['Post']['image']);
-		unset($data['Post']['image_details']);
-		
-		return $data;
-
-	}
-	
-
-	function __construct(){
-		parent::__construct();
-	}
-	
 }
 
 ?>

@@ -323,6 +323,7 @@ class PapersController extends AppController {
 		}
 		if (empty($this->data)) {
 			$this->data = $this->Paper->read(null, $id);
+			$this->set('owner_id', $this->data['Paper']['owner_id']);
 		}
 		$routes = $this->Paper->Route->find('list');
 		$this->set(compact('routes'));
@@ -393,12 +394,14 @@ class PapersController extends AppController {
 	}
 
 	/**
-	 *
-	 * content for a paper
-	 *
-	 * @param string $sourceType
-	 * @param int $sourceId
-	 * @param int $targetId
+	 * associate content to paper
+	 * 
+	 * @param int $paperId
+	 * @param int $categoryId
+	 * @param int $userId
+	 * @param int $topicId
+	 * 
+	 * @return boolean
 	 */
 	public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
 
