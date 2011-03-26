@@ -5,10 +5,11 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('route_id');
-		echo $this->Form->input('owner_id');
+		//echo $this->Form->input('owner_id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('description');
 		echo $this->Form->input('url');
+		echo $this->Form->hidden('owner_id', array('value' => $owner_id));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

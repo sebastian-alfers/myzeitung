@@ -97,7 +97,7 @@ class PapersController extends AppController {
 	 */
 	function subscribe($paper_id){
 		if(isset($paper_id)){
-			
+
 			//reading paper
 			$this->Paper->contain();
 			$this->data = $this->Paper->read(null, $paper_id);
@@ -144,6 +144,7 @@ class PapersController extends AppController {
 			} else {
 				// paper was not found
 				$this->Session->setFlash(__('Paper could not be found.', true));
+
 			}
 		}else {
 			if(!isset($paper_id)){
@@ -161,6 +162,7 @@ class PapersController extends AppController {
 	 */
 	function unsubscribe($paper_id){
 		if(isset($paper_id)){
+
 			$this->Paper->contain();	
 			$this->data = $this->Paper->read(null, $paper_id);
 			if(isset($this->data['Paper']['id'])){
@@ -197,6 +199,7 @@ class PapersController extends AppController {
 			} else {
 				$this->Session->setFlash(__('Invalid Paper id. Paper could not be found. ', true));
 				$this->log('Paper/unsubscribe: User '.$this->Auth->user('id').' tried to unsubscribe Paper '.$paper_id.', which could not be found.');
+
 			}
 		}
 		else {
@@ -414,6 +417,7 @@ class PapersController extends AppController {
 		}
 		if (empty($this->data)) {
 			$this->data = $this->Paper->read(null, $id);
+			$this->set('owner_id', $this->data['Paper']['owner_id']);
 		}
 		$routes = $this->Paper->Route->find('list');
 		$this->set(compact('routes'));
@@ -484,12 +488,14 @@ class PapersController extends AppController {
 	}
 
 	/**
-	 *
-	 * content for a paper
-	 *
-	 * @param string $sourceType
-	 * @param int $sourceId
-	 * @param int $targetId
+	 * associate content to paper
+	 * 
+	 * @param int $paperId
+	 * @param int $categoryId
+	 * @param int $userId
+	 * @param int $topicId
+	 * 
+	 * @return boolean
 	 */
 	public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
 

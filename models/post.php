@@ -62,7 +62,7 @@ class Post extends AppModel {
 			)
 			);
 
-			var $hasMany = array(
+	var $hasMany = array(
 		'Comment' => array(
 			'className' => 'Comment',
 			'foreignKey' => 'post_id',
@@ -80,7 +80,7 @@ class Post extends AppModel {
 
 			// temp. not necessary
 
-			/*	var $hasAndBelongsToMany = array(
+	/*	var $hasAndBelongsToMany = array(
 			 'User' => array(
 			 'className' => 'User',
 			 'joinTable' => 'posts_users',
@@ -98,93 +98,83 @@ class Post extends AppModel {
 			 )
 			 );*/
 
-			// CALLBACKS
-			/**
-			 * @author: tim
-			 * unserializing the reposters-array after being read from the db.
-			 *
-			 */
-			function afterFind($results) {
-				foreach ($results as $key => $val) {
-					if (!empty($val['Post']['reposters']) ) {
-						$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
-					}else {
-						if(isset($results[$key]['Post']['reposters'])){
-							$results[$key]['Post']['reposters'] = array();
-						}
-					}
-					if (!empty($val['reposters']) ) {
-						$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
-					}else {
-						if(isset($results[$key]['reposters'])){
-							$results[$key]['reposters'] = array();
-						}
-					}
+	// CALLBACKS
+	/**
+	* @author: tim
+	* unserializing the reposters-array after being read from the db.
+	*
+	*/
+	function afterFind($results) {
+		foreach ($results as $key => $val) {
+			if (!empty($val['Post']['reposters']) ) {
+				$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
+			}else {
+				if(isset($results[$key]['Post']['reposters'])){
+					$results[$key]['Post']['reposters'] = array();
 				}
-				return $results;
 			}
-
-			/**
-			 * @author: tim
-			 * serializing the reposters-array before being written to the db.
-			 *
-			 */
-			function beforeSave(&$Model) {
-				if(!empty($this->data['Post']['reposters'])){
-					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
+			if (!empty($val['reposters']) ) {
+				$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
+			}else {
+				if(isset($results[$key]['reposters'])){
+					$results[$key]['reposters'] = array();
 				}
-				return true;
-			}
-
-
-
-		/**
-		 * 1)
-		 * update solr index with saved data
-		 */
-		function afterSave(){
-
-			App::import('model','Solr');
-
-			$userData = $this->User->read(null, $this->data['Post']['user_id']);
-
-			if($userData['User']['id']){
-				if(isset($this->data['Post']['topic_id'])){
-					$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
-	
-					if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
-						$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
-					}
-				}
-					
-				$this->data['Post']['index_id'] = 'post_'.$this->id;
-				$this->data['Post']['id'] = $this->id;
-				$this->data['Post']['user_name'] = $userData['User']['name'];
-				$this->data['Post']['type'] = Solr::TYPE_POST;
-				$solr = new Solr();
-				$solr->add($this->removeFieldsForIndex($this->data));
-
-			}
-			else{
-				$this->log('Error while reading user for Post! No solr index update');
 			}
 		}
+		return $results;
+	}
 
-		function beforeDelete(){
-			App::import('model','PostUser');
-			if($this->id){
-				//deleting all posts_users entries 
-				$this->PostUser = new PostUser();
-				// params conditions, cascade, fallbacks 
-				$this->PostUser->deleteAll(array('post_id' => $this->id), false, true);
-				return true;
-			}
+	/**
+	 * @author: tim
+	 * serializing the reposters-array before being written to the db.
+	 *
+	 */
+	function beforeSave(&$Model) {
+		if(!empty($this->data['Post']['reposters'])){
+			$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 		}
-	
-/**
- * @todo move to abstract for all models
- * Enter description here ...
- */
+		return true;
+	}
+
+
+
+	/**
+	 * 1)
+	 * update solr index with saved data
+	 */
+	function afterSave(){
+
+		App::import('model','Solr');
+
+		$userData = $this->User->read(null, $this->data['Post']['user_id']);
+
+		if($userData['User']['id']){
+			if(isset($this->data['Post']['topic_id'])){
+				$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+
+				if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
+					$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+				}
+			}
+				
+			$this->data['Post']['index_id'] = 'post_'.$this->id;
+			$this->data['Post']['id'] = $this->id;
+			$this->data['Post']['user_name'] = $userData['User']['name'];
+			$this->data['Post']['type'] = Solr::TYPE_POST;
+			$solr = new Solr();
+			$solr->add($this->removeFieldsForIndex($this->data));
+
+		}
+		else{
+			$this->log('Error while reading user for Post! No solr index update');
+		}
+	}
+
+
+	/**
+	 * @todo move to abstract for all models
+	 * Enter description here ...
+	 */
 	private function removeFieldsForIndex($data){
 		unset($data['Post']['enabled']);
 		unset($data['Post']['count_views']);
@@ -196,16 +186,34 @@ class Post extends AppModel {
 		unset($data['Post']['reposters']);
 		unset($data['Post']['image']);
 		unset($data['Post']['image_details']);
-		
+
+
+
 		return $data;
 
 	}
-	
+
 
 	function __construct(){
 		parent::__construct();
 	}
-	
+
+	function delete($id){
+		$this->removeUserFromSolr($id);
+		return parent::delete($id);
+	}
+
+	/**
+	 * remove the user from solr index
+	 *
+	 * @param string $id
+	 */
+	function removeUserFromSolr($id){
+		App::import('model','Solr');
+		$solr = new Solr();
+		$solr->delete(Solr::TYPE_POST . '_' . $id);
+	}
+
 }
 
 ?>

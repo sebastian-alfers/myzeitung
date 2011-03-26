@@ -174,6 +174,7 @@ class PostsController extends AppController {
 		
 		// check if the user already read this post during this session
 		//read_posts exists in the session?
+
 		if($this->Session->check('read_posts')){
 			$read_posts = $this->Session->read('read_posts');
 			//read_posts is an array?
@@ -194,6 +195,7 @@ class PostsController extends AppController {
 			$this->Session->write('read_posts',array($id));
 			$this->Post->doIncrement($id);
 		}			
+
 		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$this->set('post', $this->Post->read(null, $id));
 

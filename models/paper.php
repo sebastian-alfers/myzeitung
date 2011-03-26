@@ -22,14 +22,14 @@ class Paper extends AppModel {
 			'foreignKey' => 'owner_id'
 			),
 			);
-			
-	var $hasAndBelongsToMany = array(
+
+			var $hasAndBelongsToMany = array(
 		'Post' => array(
 			'className' => 'Post',
 			'joinTable' => 'category_paper_posts',
 			'foreignKey' => 'paper_id',
 			'associationForeignKey' => 'post_id',
-		//	'unique' => true,
+			//	'unique' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => 'CategoryPaperPost.created DESC',
@@ -65,25 +65,27 @@ class Paper extends AppModel {
 			)
 			);
 
+
 			/**
 			 * @todo alf: das ganze muss ohne "recursive" laufen.... alles bitte mit contain
 			 */
+
 			function getContentReferences($recursive = 2){
 
 				if($this->_contentReferences == null){
-						
+
 					App::import('model','ContentPaper');
 					$contentPaper = new ContentPaper();
-						
-						
-						
+
+
+
 					$conditions = array('conditions' => array(
 				'ContentPaper.paper_id' => $this->id));
 					$paperReferences = array();
 					$contentPaper->recursive = $recursive;// to get user from topic
 					$paperReferences = $contentPaper->find('all', $conditions);
-						
-						
+
+
 					$this->_contentReferences =  $paperReferences;
 				}
 
@@ -101,6 +103,7 @@ class Paper extends AppModel {
 					foreach($allReferences as $reference){
 
 						//only topics that are not associated to a category -> direkt in paper
+
 						if($reference['Topic']['id'] && !$reference['Category']['id']	){
 							$topicReferences[] = $reference;
 						}
@@ -143,11 +146,12 @@ class Paper extends AppModel {
 					 */
 					//get User information
 					$user = new User();
+						
 					$userData = $user->read(null, $this->data['Paper']['owner_id']);
 					$this->data['Paper']['index_id'] = 'paper_'.$this->id;
 					$this->data['Paper']['id'] = $this->id;
 					$this->data['Paper']['type'] = Solr::TYPE_PAPER;
-					
+
 					$this->data['Paper']['user_id'] = $userData['User']['id'];
 					$this->data['Paper']['user_name'] = $userData['User']['username'];
 					$solr = new Solr();
@@ -172,6 +176,117 @@ class Paper extends AppModel {
 				}
 			}
 
+			/**
+			 * subscribes a paper to a user
+			 *
+			 */
+			public function subscribe($paper_id, $user_id){
+
+
+				//check if the user already subscribed the paper -> just one paper/user combination allowed
+				$subscriptionData = array(
+									'paper_id' => $paper_id,
+								   	'user_id' => $user_id);
+				$subscriptions = $this->Subscription->find('all',array('conditions' => $subscriptionData));
+				// if there are no subscriptions for this paper/user combination yet
+
+				if(!isset($subscriptions[0])){
+					//reading paper
+					$this->contain();
+					$this->data = $this->read(null, $paper_id);
+					//valid paper was found
+					if(isset($this->data['Paper']['id'])){
+						if($this->data['Paper']['owner_id'] != $user_id){
+							//post is not from subscribing user
+							//creating subscription
+							$this->Subscription->create();
+							if($this->Subscription->save($subscriptionData)){
+								//subscription was saved
+								//$session->setFlash(__('You have subscribed the paper successfully.', true));
+
+								$this->count_subscriptions += 1;
+								if($this->save($this->data['Paper'])){
+									return true;
+								}
+							}	else {
+								// subscription couldn't be saved
+								//$session->setFlash(__('The paper could not be subscribed.', true));
+								$this->log('The paper could not be subscribed.');
+
+							}
+						} else {
+							//user tried to subscribe his own paper
+							//$session->setFlash(__('You cannot subscribe your own paper. It is subscribed automatically.', true));
+							$this->log('Paper/Subscribe: User '.$user_id.' tried to subscribe Paper.'.$paper_id.' which is his own paper.');
+
+						}
+					}else {
+						// paper was not found
+						//$session->setFlash(__('Paper could not be found.', true));
+					}
+				}else{
+					// already subscribed
+					//$session->setFlash(__('Paper has already been subscribed.', true));
+					$this->log('Paper/Subscribe: User '.$user_id.' tried to subscribe  Paper'.$paper_id.' which he had already subscribed.');
+				}
+				return false;
+			}
+				
+				
+				
+			/**
+			 *
+			 *
+			 * @param unknown_type $paper_id
+			 * @param unknown_type $user_id
+			 */
+			public function unSubscribe($paper_id, $user_id){
+
+				$this->contain();
+				$this->data = $this->read(null, $paper_id);
+				if(isset($this->data['Paper']['id'])){
+					if($this->data['Paper']['owner_id'] != $user_id){
+							
+						// just in case there are several subscriptions for the combination post/user - all will be deleted.
+						$subscriptions =  $this->Subscription->find('all',array('conditions' => array('Subscription.paper_id' => $paper_id, 'Subscription.user_id' => $user_id)));
+						$delete_counter = 0;
+						foreach($subscriptions as $subscription){
+							//deleting the subscriptions from the db
+							$this->Subscription->delete($subscription['Subscription']['id']);
+							$delete_counter += 1;
+
+						}
+						//writing log entry if there were more than one entries for this repost (shouldnt be possible)
+						if($delete_counter > 1){
+							$this->log('Paper/unsubscribe: User '.$user_id.' had more then 1 subscription entry for Paper '.$paper_id.'. (now deleted) This should not be possible.');
+						}
+
+						if($delete_counter >= 1){
+							//$this->Session->setFlash(__('Unsubscribed successfully.', true));
+
+							//decrementing subscribers counter
+
+							$this->data['Paper']['count_subscriptions'] -= 1;
+							$this->save($this->data['Paper']);
+						} else {
+							//$this->Session->setFlash(__('Subscription could not be removed or no subscription found', true));
+							$this->log('Subscription could not be removed or no subscription found');
+						}
+
+						return true;
+
+					} else {
+						//$this->Session->setFlash(__('You cannot unsubscribe your own paper. You can delete it.', true));
+						$this->log('Paper/unsubscribe: User '.$user_id.' tried to unsubscribe his own Paper '.$paper_id.'. This should not be possible.');
+					}
+				} else {
+					//$this->Session->setFlash(__('Invalid Paper id. Paper could not be found. ', true));
+					$this->log('Paper/unsubscribe: User '.$user_id.' tried to unsubscribe Paper '.$paper_id.', which could not be found.');
+				}
+
+				return false;
+			}
+
 
 			/**
 			 * @todo move to abstract for all models
@@ -182,8 +297,28 @@ class Paper extends AppModel {
 				unset($data['Paper']['modified']);
 				unset($data['Paper']['created']);
 				unset($data['Paper']['owner_id']);
+				unset($data['Paper']['count_subscriptions']);
+				unset($data['Paper']['route_id']);
+
+
+
 				return $data;
 			}
 
+			function delete($id){
+				$this->removeUserFromSolr($id);
+				return parent::delete($id);
+			}
+
+			/**
+			 * remove the user from solr index
+			 *
+			 * @param string $id
+			 */
+			function removeUserFromSolr($id){
+				App::import('model','Solr');
+				$solr = new Solr();
+				$solr->delete(Solr::TYPE_PAPER . '_' . $id);
+			}
 }
 ?>

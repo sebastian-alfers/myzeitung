@@ -413,6 +413,8 @@
    <field name="user_name" type="text" indexed="false" stored="true" required="true" />    
    <field name="topic_name" type="text" indexed="false" stored="true" required="false" />    
    
+   <field name="firstname" type="text" indexed="false" stored="true" required="false" />    
+   <field name="lastname" type="text" indexed="false" stored="true" required="false" />    
 
 
    <field name="type" type="string" indexed="true" stored="true" required="true" />    
@@ -470,6 +472,8 @@
  <copyField source="content" dest="search_field"/>
  <copyField source="description" dest="search_field"/>
  <copyField source="name" dest="search_field"/> 
+ <copyField source="firstname" dest="search_field"/> 
+ <copyField source="lastname" dest="search_field"/> 
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>

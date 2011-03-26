@@ -77,7 +77,10 @@ class Solr extends AppModel {
 				$this->getSolr()->optimize();
 			}
 			else{
+				debug('<pre>');
+				debug(debug_print_backtrace());
 				debug('Solr not running!');
+				return;
 			}
 
 		}
@@ -85,6 +88,21 @@ class Solr extends AppModel {
 			debug('Error while adding documents to index: ' . $e->getMessage());
 			debug(debug_backtrace());
 			$this->log('Error while adding documents to index: ' . $e->getMessage());
+		}
+
+	}
+
+	/**
+	 * removes an indexed field by id
+	 *
+	 * @param string $id
+	 */
+	function delete($id){
+		if(!empty($id)){
+			$xml = '<delete><id>'. $id .'</id></delete>';
+			$this->getSolr()->delete($xml);
+			$this->getSolr()->commit();
+			$this->getSolr()->optimize();
 		}
 
 	}
@@ -110,7 +128,6 @@ class Solr extends AppModel {
 			$response = $this->getSolr()->search($query, 0, $limit);
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
-
 				foreach($response->response->docs as $doc){
 					if(isset($doc->type)){
 						$grouped[$doc->type][] = $doc;
