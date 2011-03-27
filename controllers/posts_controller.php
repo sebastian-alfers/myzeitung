@@ -4,7 +4,7 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array('JqImgcrop');
-	var $helpers = array('Image', 'Cropimage', 'Javascript', 'Cksource', 'Time');
+	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image');
  
 
 	var $uses = array('Post','PostUser', 'Route', 'Comment');

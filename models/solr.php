@@ -86,7 +86,12 @@ class Solr extends AppModel {
 		}
 		catch ( Exception $e ) {
 			debug('Error while adding documents to index: ' . $e->getMessage());
-			debug(debug_backtrace());
+			$back_trace = debug_backtrace();
+			$msg = $back_trace[0]['file'] . '<br />';
+			$msg .= 'function: ' . $back_trace[0]['function'] . '<br />';
+			$msg .= 'line: ' . $back_trace[0]['line'] . '<br />';  
+			debug($msg);
+			// @todo thorw exception
 			$this->log('Error while adding documents to index: ' . $e->getMessage());
 		}
 

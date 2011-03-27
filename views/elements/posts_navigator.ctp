@@ -27,9 +27,9 @@
 				
 			<tr<?php echo $class;?>>
 				<td>  
-					<?php // if($post['Post']['image']): ?>
-						<?php // echo $this->Html->image($image->resize($post['Post']['image'], 150, 50, true, 'post')); ?>
-					<?php // endif; ?> 
+					<?php  if($post['Post']['image']): ?>
+						<?php  echo $this->Html->image($image->resize($post['Post']['image'], 150, 50, true, 'post')); ?>
+					<?php  endif; ?> 
 				</td>
 				<td><?php echo $this->Html->link($post['User']['username'], array('controller' => 'users','action' => 'view', $post['Post']['user_id'])); ?></td>
 				<td><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></td>

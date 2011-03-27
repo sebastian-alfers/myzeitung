@@ -2,6 +2,9 @@
 class Topic extends AppModel {
 	var $name = 'Topic';
 	var $displayField = 'name';
+	
+	var $actsAs = array('Containable');
+	
 	var $validate = array(
 		'name' => array(
 			'notempty' => array(

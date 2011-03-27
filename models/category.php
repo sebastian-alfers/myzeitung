@@ -2,6 +2,9 @@
 class Category extends AppModel {
 	var $name = 'Category';
 	var $displayField = 'name';
+	
+	var $actsAs = array('Containable');
+	
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(

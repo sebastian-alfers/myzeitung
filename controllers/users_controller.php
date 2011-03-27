@@ -2,13 +2,11 @@
 class UsersController extends AppController {
 	
 
-	
-	
 
 	var $name = 'Users';
 	var $components = array('ContentPaperHelper');
 	var $uses = array('User','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
-	var $helpers = array('Time');
+	var $helpers = array('Time', 'Image');
 
 
 	public function beforeFilter(){
