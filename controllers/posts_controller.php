@@ -50,9 +50,9 @@ class PostsController extends AppController {
 			$PostUserData = array('repost' => true,
 									'post_id' => $post_id,
 								   	'PostUser.user_id' => $this->Auth->user('id'));
-			$repostEntries = $this->PostUser->find('all',array('conditions' => $PostUserData));
+			$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
 			// if there are no reposts for this post/user combination yet
-			if(!isset($repostEntries[0])){
+			if($repostCount == 0){
 				//reading post
 				$this->Post->contain();
 				$this->data = $this->Post->read(null, $post_id);
@@ -119,7 +119,12 @@ class PostsController extends AppController {
 	function undoRepost($post_id){
 		if(isset($post_id)){
 			// just in case there are several reposts (PostUser.repost => true) for the combination post/user - all will be deleted.
-			$reposts =  $this->PostUser->find('all',array('conditions' => array('PostUser.repost' => true,'PostUser.post_id' => $post_id, 'PostUser.user_id' => $this->Auth->user('id'))));
+			$this->PostUser->contain();
+			$reposts =  $this->PostUser->find('all',array(
+									'conditions' => array(
+											'PostUser.repost' => true,
+											'PostUser.post_id' => $post_id,
+											'PostUser.user_id' => $this->Auth->user('id'))));
 			$delete_counter = 0;
 			foreach($reposts as $repost){
 				//deleting the repost from the PostUser-table
@@ -186,6 +191,7 @@ class PostsController extends AppController {
 					$this->Post->doIncrement($id);
 				}
 			} else {
+				//no read-posts array
 				//user has not read the post in this session -> increment	
 				$this->Session->write('read_posts',array($id));
 				$this->Post->doIncrement($id);
@@ -268,8 +274,9 @@ class PostsController extends AppController {
 			}
 		}
 		
+		//for 'list' no contain needed. just selects the displayfield of the specific model.
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-		
+
 
 		$this->set(compact('topics'));
 		$this->set('user_id',$user_id);

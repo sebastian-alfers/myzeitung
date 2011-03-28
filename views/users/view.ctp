@@ -1,5 +1,3 @@
-
-
 <?php echo $this->element('posts_navigator'); ?>	
 <?php echo $this->element('userinfo_sidebar'); ?>	
 

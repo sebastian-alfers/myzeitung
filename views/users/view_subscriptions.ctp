@@ -1,4 +1,3 @@
-
 <?php echo $this->element('papers_navigator'); ?>	
 <?php echo $this->element('userinfo_sidebar'); ?>	
 

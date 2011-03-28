@@ -97,7 +97,7 @@ class UsersController extends AppController {
 	            //order
 	            'order' => 'PostsUser.created DESC',
 	        	//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array('User.id','User.username'),
+	            'contain' => array( 'User.id','User.username'),
 	         )
 	    );
 	    if($topic_id != null){
@@ -107,7 +107,7 @@ class UsersController extends AppController {
 	   
 			//unbinding irrelevant relations for the query
 			$this->User->contain('Topic.id', 'Topic.name');
-			$this->set('user', $this->User->read(null, $user_id));
+			$this->set('user', $this->User->read(array('id','firstname','name','username','created','count_posts_reposts','count_reposts','count_comments'), $user_id));
 			$this->set('posts', $this->paginate($this->User->Post));
 	}
 
@@ -144,6 +144,8 @@ class UsersController extends AppController {
 	                    ),
 	                ),
 	            ),
+	            //fields
+	            'fields' => array('id','owner_id','title','description','created','count_subscriptions'),
 	            //limit of records per page
 	            'limit' => 10,
 	            //order
@@ -159,7 +161,7 @@ class UsersController extends AppController {
 	   
 			//unbinding irrelevant relations for the query
 			$this->User->contain();
-			$this->set('user', $this->User->read(null, $user_id));
+			$this->set('user', $this->User->read(array('id','firstname','name','username','created','count_posts_reposts','count_reposts','count_comments'), $user_id));
 			$papers = $this->paginate($this->User->Paper);
 
 			//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
@@ -240,6 +242,7 @@ class UsersController extends AppController {
 			}
 		}
 		if (empty($this->data)) {
+			$this->User->contain();
 			$this->data = $this->User->read(null, $id);
 		}
 		$groups = $this->Group->find('list');

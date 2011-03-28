@@ -15,6 +15,8 @@ class PapersController extends AppController {
 	function index() {
 		$this->paginate = array(
 		 	 'Paper' => array(
+						  //fields
+	          			  'fields' => array('id','owner_id','title','description','created','count_subscriptions'),
 				         //limit of records per page
 			            'limit' => 10,	        
 		 	            //order
@@ -101,7 +103,6 @@ class PapersController extends AppController {
 			//reading paper
 			$this->Paper->contain();
 			$this->data = $this->Paper->read(null, $paper_id);
-			$debug($this->data);
 			//valid paper was found
 			if(isset($this->data['Paper']['id'])){
 				if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){

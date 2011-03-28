@@ -5,9 +5,6 @@ class TopicsController extends AppController {
 	var $components = array('Auth');
 	
 
-	function index() {
-		$this->set('topics', $this->paginate());
-	}
 
 	function view($id = null) {
 		if (!$id) {
