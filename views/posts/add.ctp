@@ -1,7 +1,3 @@
-<?php
-echo $javascript->link('ckeditor/ckeditor'); 
-?>
-
 <div class="posts form">
 
 <?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data"));?> 	
@@ -12,7 +8,7 @@ echo $javascript->link('ckeditor/ckeditor');
 		echo $this->Html->link(__('New Topic', true), array('controller' => 'topics',  'action' => 'add')); 
 		echo $this->Form->input('title');
 		//echo $this->Form->input('content');
-		echo $cksource->ckeditor('content');
+		echo $cksource->ckeditor('content', array('escape' => false));
         echo $form->input('image',array("type" => "file"));  		
 		echo $this->Form->hidden('user_id',array('value' => $user_id));
 

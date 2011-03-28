@@ -5,7 +5,6 @@ class User extends AppModel {
 
 	var $ContentPaper = null;
 
-	var $actsAs = array('Containable');
 
 	var $uses = array('Route', 'Cachekey');
 
@@ -227,7 +226,15 @@ class User extends AppModel {
 			unset($data['User']['enabled']);
 			unset($data['User']['group_id']);
 			unset($data['User']['route_id']);
-				
+			unset($data['User']['posts_reposts']);
+			unset($data['User']['count_posts_reposts']);
+			unset($data['User']['count_comments']);
+			
+			
+			unset($data['User']['count_reposts']);
+
+			
+			
 			return $data;
 		}
 

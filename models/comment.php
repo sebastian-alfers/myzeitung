@@ -1,7 +1,7 @@
 <?php
 class Comment extends AppModel {
 	var $name = 'Comment';
-	var $actsAs = array('Tree', 'Containable');
+	var $actsAs = array('Tree');
 	var $validate = array(
 		'user_id' => array(
 			'numeric' => array(

@@ -2,6 +2,8 @@
 class Topic extends AppModel {
 	var $name = 'Topic';
 	var $displayField = 'name';
+
+	
 	var $validate = array(
 		'name' => array(
 			'notempty' => array(

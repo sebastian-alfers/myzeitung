@@ -4,7 +4,7 @@ class PapersController extends AppController {
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('Time');
+	var $helpers = array('Time', 'Image');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -103,6 +103,7 @@ class PapersController extends AppController {
 			//reading paper
 			$this->Paper->contain();
 			$this->data = $this->Paper->read(null, $paper_id);
+
 			//valid paper was found
 			if(isset($this->data['Paper']['id'])){
 				if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){

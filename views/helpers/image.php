@@ -4,6 +4,8 @@ class ImageHelper extends Helper {
 	var $helpers = array('Html');
 	var $themeWeb = '';
 	var $cacheDir = ''; // relative to IMAGES_URL path
+	
+	const DEFAULT_IMG = 'default.jpg';
 
 	/**
 	 * Automatically resizes an image and returns formatted IMG tag
@@ -19,7 +21,6 @@ class ImageHelper extends Helper {
 	 * @access public
 	 */
 	function resize($path, $width, $height, $aspect = true, $model = 'all', $htmlAttributes = array(), $return = false) {
-
 
 		$types = array(1 => "gif", "jpeg", "png", "swf", "psd", "wbmp"); // used to determine image type
 
@@ -44,8 +45,15 @@ class ImageHelper extends Helper {
 
 		$url = $fullpath.$path;
 
-		if (!($size = getimagesize($url)))
-		return; // image doesn't exist
+		if (!file_exists($url) || !($size = getimagesize($url))){
+			if($path == self::DEFAULT_IMG){
+				//default img not there;
+				return 'default.jpg';
+			}
+			//img not there, but is in folder-structure -> resize with passed params
+			return $this->resize(self::DEFAULT_IMG, $width, $height, $aspect, 'default', $htmlAttributes, $return);	
+		}
+		
 
 		if ($aspect) { // adjust to aspect.
 			if (($size[1]/$height) > ($size[0]/$width))  // $size[0]:width, [1]:height, [2]:type

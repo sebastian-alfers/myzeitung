@@ -49,7 +49,7 @@ class CategoriesController extends AppController {
 			if(isset($this->data['Category']['parent_id']) && !empty($this->data['Category']['parent_id'])){
 				//read paper from parent id
 				$category = $this->Category->read(null, $this->data['Category']['parent_id']);
-
+				
 				if($category['Category']['id'] && $category['Paper']['id']){
 						$this->data['Category']['paper_id'] = $category['Paper']['id'];
 				}
