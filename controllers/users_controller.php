@@ -16,10 +16,29 @@ class UsersController extends AppController {
 	}
 
 
-     function login()  
-     {  
-     
-     }  
+     public function login(){
+     	// login with username or email
+     	// the following code is just for the case that the combination of user.username(!) and user.password did not work:
+     	//	trying the combination of user.email and user.password  
+     	if(
+     		!empty($this->data) &&
+     		!empty($this->Auth->data['User']['username']) &&
+     		!empty($this->Auth->data['User']['username'])
+     	){
+     		$user = $this->User->find('first', array(	'conditions' => array(
+	     													'User.email' => $this->Auth->data['User']['username'],
+	     													'User.password' => $this->Auth->data['User']['password']),
+     													'recursive' => -1
+     												));
+     		if(!empty($user) && $this->Auth->login($user)) {
+     			if($this->Auth->autoRedirect){
+     				$this->redirect($this->Auth->redirect());
+     			}		
+     		} else {
+ 				$this->Session->setFlash($this->Auth->loginError, $this->Auth->flashElement, array(), 'auth');    			
+     		}
+     	}
+      }  
    
      function logout()  
      {  
