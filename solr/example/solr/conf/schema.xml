@@ -415,6 +415,8 @@
    
    <field name="firstname" type="text" indexed="false" stored="true" required="false" />    
    <field name="lastname" type="text" indexed="false" stored="true" required="false" />    
+   <field name="username" type="text" indexed="false" stored="true" required="false" />    
+   
 
 
    <field name="type" type="string" indexed="true" stored="true" required="true" />    
@@ -474,6 +476,7 @@
  <copyField source="name" dest="search_field"/> 
  <copyField source="firstname" dest="search_field"/> 
  <copyField source="lastname" dest="search_field"/> 
+ <copyField source="username" dest="search_field"/>  
 
  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
  <solrQueryParser defaultOperator="OR"/>
