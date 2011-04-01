@@ -5,6 +5,8 @@ class PapersController extends AppController {
 	var $components = array('Auth', 'Session');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
 	var $helpers = array('Time', 'Image');
+	
+	var $test = 'adsf';
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -189,8 +191,8 @@ class PapersController extends AppController {
 	}
 
 	/**
-	 * controller to add content subscription for:
-	 * - paper / category /subcategory of category
+	 * controller to add content asociaation for:
+	 * - paper / category / subcategory of category
 	 *
 	 * Enter description here ...
 	 */

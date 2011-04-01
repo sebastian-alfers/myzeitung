@@ -166,7 +166,7 @@ class UsersController extends AppController {
 	            //limit of records per page
 	            'limit' => 10,
 	            //order
-	            'order' => 'Subscription.own_paper DESC ,Paper.title ASC',
+	            'order' => 'Subscription.own_paper ASC , Paper.title ASC',
 	        	//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
 	         )

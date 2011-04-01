@@ -19,7 +19,19 @@ class PostsController extends AppController {
 
 
 	function index() {
-		$this->Post->recursive = 0;
+		  $this->paginate = array(
+	        'Post' => array(
+	            //limit of records per page
+	            'limit' => 10,
+	            //order
+	            'order' => 'created DESC',
+		    	//fields - custom field sum...
+		    	'fields' => array(						
+		    ),
+	        	//contain array: limit the (related) data and models being loaded per post
+	            'contain' => array('User.username','User.id'),
+	         )
+	    );
 		$this->set('posts', $this->paginate());
 	}
 

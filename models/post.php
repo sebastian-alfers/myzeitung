@@ -254,7 +254,7 @@ class Post extends AppModel {
 	 * 1)
 	 * update solr index with saved data
 	 */
-	function afterSave(){
+	function afterSave($created){
 
 		App::import('model','Solr');
 
