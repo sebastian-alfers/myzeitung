@@ -27,6 +27,22 @@ class PostUser extends AppModel {
 
 			);
 
+	var $hasMany = array(
+		'CategoryPaperPost' => array(
+			'className' => 'CategoryPaperPost',
+			'foreignKey' => 'post_user_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+		
+			);		
 
 
 			/**

@@ -66,7 +66,20 @@ class Post extends AppModel {
 		'Comment' => array(
 			'className' => 'Comment',
 			'foreignKey' => 'post_id',
-			'dependent' => false,
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+		'PostUser' => array(
+			'className' => 'PostUser',
+			'foreignKey' => 'post_id',
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -76,27 +89,11 @@ class Post extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 			)
+			
 			);
 
 			// temp. not necessary
 
-	/*	var $hasAndBelongsToMany = array(
-			 'User' => array(
-			 'className' => 'User',
-			 'joinTable' => 'posts_users',
-			 'foreignKey' => 'post_id',
-			 'associationForeignKey' => 'user_id',
-			 'unique' => true,
-			 'conditions' => '',
-			 'fields' => '',
-			 'order' => '',
-			 'limit' => '',
-			 'offset' => '',
-			 'finderQuery' => '',
-			 'deleteQuery' => '',
-			 'insertQuery' => ''
-			 )
-			 );*/
 
 	// CALLBACKS
 	
@@ -185,7 +182,7 @@ class Post extends AppModel {
 		$delete_counter = 0;
 		foreach($reposts as $repost){
 			//deleting the repost from the PostUser-table
-			$this->PostUser->delete($repost['PostUser']['id']);
+			$this->PostUser->delete($repost['PostUser']['id'], true);
 			$delete_counter += 1;
 		}
 		//writing log entry if there were more than one entries for this repost (shouldnt be possible)
