@@ -59,9 +59,9 @@ class PostUser extends AppModel {
 					
 				App::import('model','CategoryPaperPost');
 				App::import('model','Topic');
+				
 
 				//Part 1 - Associations
-					
 				if(isset($this->data['PostUser']['PostUser.user_id'])){
 					$this->data['PostUser']['user_id'] = $this->data['PostUser']['PostUser.user_id'];
 				}
@@ -127,7 +127,7 @@ class PostUser extends AppModel {
 					foreach($wholeUserReferences as $wholeUserReference){
 							
 						//place post in paper or category associated to the whole user
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id']);
+						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id);
 						if($wholeUserReference['Category']['id']){
 							$categoryPaperPostData['category_id'] = $wholeUserReference['Category']['id'];
 						}
