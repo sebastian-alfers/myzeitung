@@ -1,4 +1,5 @@
 <div class="posts index">
+<?php debug($posts);?>
 
 	<h3><?php __('Posts');?></h3>
 	<?php if (!empty($posts)):?>

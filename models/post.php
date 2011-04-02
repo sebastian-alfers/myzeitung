@@ -92,9 +92,10 @@ class Post extends AppModel {
 			
 			);
 
-			// temp. not necessary
 
 
+
+	
 	// CALLBACKS
 	
 	/**
@@ -238,7 +239,7 @@ class Post extends AppModel {
 	 * serializing the reposters-array before being written to the db.
 	 *
 	 */
-	function beforeSave(&$Model) {
+	function beforeSave($Model) {
 		if(!empty($this->data['Post']['reposters'])){
 			$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 		}

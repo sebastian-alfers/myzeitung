@@ -248,7 +248,8 @@ class PostsController extends AppController {
 			$this->Session->setFlash(__('Invalid id for post', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Post->delete($id)) {
+		// second param = cascade -> delete associated records from hasmany , hasone relations
+		if ($this->Post->delete($id, true)) {
 			$this->Session->setFlash(__('Post deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}

@@ -59,7 +59,7 @@ class PapersController extends AppController {
 		
 		/*writing all settings for the paginate function. 
 		  important here is, that only the paper's posts are subject for pagination.*/
-		    $this->paginate = array(
+		/*   $this->paginate = array(
 			        'Post' => array(
 				    //setting up the join. this conditions describe which posts are gonna be shown
 			            'joins' => array(
@@ -71,23 +71,44 @@ class PapersController extends AppController {
 			                        'CategoryPaperPost.post_id = Post.id',
 			                		'CategoryPaperPost.paper_id' => $paper_id
 			                    ),
-			                   
+			                    
+			                   'fields' => array('CategoryPaperPost.post_id'),
+			                //  'group' => array('CategoryPaperPost.post_id')
 			                ),
 			                
 			            ),
+			          'group' => array('CategoryPaperPost.post_id'),
 			            //limit of records per page
-			            'limit' => 10,
+			              'limit' => 10,
+			            
+			
 			            //order
-			            'order' => 'CategoryPaperPost.created DESC',
+			          'order' => 'CategoryPaperPost.created DESC',
+			        //  'order' => 'Post.id ASC',
 			        	//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('User.id','User.username'),
 			         )
-			    );
+			    ); */
+		
+		/*		$this->paginate = array(
+						'CategoryPaperPost' => array(
+								'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
+								'limit' => 50,
+						'recursive' => 2,
+								 'fields' => array('CategoryPaperPost.post_id', 'Post.id', 'Post.user_id', 'Post.topic_id', 'Post.title', 
+							 					'Post.content', 'Post.image', 'Post.modified', 'Post.count_views', 'Post.count_reposts', 
+							 	 					'Post.count_comments', 'Post.created', 'max(CategoryPaperPost.created) AS max_created', 
+												),
+						 		'contain' => array('Post', ),
+						        'group' => 'CategoryPaperPost.post_id'		
+							)
+				);    */ 
+				
+				debug($this->paginate($this->Paper->CategoryPaperPost));
 	    if($category_id != null){
 	    	//adding the topic to the conditions array for the pagination - join
 	    	$this->paginate['Post']['joins'][0]['conditions']['CategoryPaperPost.category_id'] = $category_id;
 	    }		
-		
 		$this->Paper->contain('User.id', 'User.username', 'Category.name', 'Category.id');
 		$this->set('paper', $this->Paper->read(null, $paper_id));
 		$this->set('posts', $this->paginate($this->Paper->Post));
@@ -366,7 +387,7 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid id for paper', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Paper->delete($id)) {
+		if ($this->Paper->delete($id, true)) {
 			$this->Session->setFlash(__('Paper deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
@@ -465,7 +486,7 @@ class PapersController extends AppController {
 	 * - if the whole user is associated to a paper or a category, check if there are already
 	 *   other associations to one or more topic of the user IN THIS category
 	 *   @todo if so, give msg to user and say it is not possible to because of other refs (show references)
-	 *   @todo ask is want to delete all other refs to the user«s topics and add whole user
+	 *   @todo ask is want to delete all other refs to the userï¿½s topics and add whole user
 	 *
 	 * - if a topic is associated to a paper or a category, check if this topic isnt already
 	 *   associated in this category

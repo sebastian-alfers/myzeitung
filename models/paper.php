@@ -47,13 +47,27 @@ class Paper extends AppModel {
 		'Category' => array(
 			'className' => 'Category',
 			'foreignKey' => 'paper_id',
+			'dependent' => true,
 			'conditions' => array('parent_id' => 0),//IMPORTANT! to avoid show sub-category in root
 			//	'dependent' => false
 			),
 		'Subscription' => array(
 			'className' => 'Subscription',
 			'foreignKey' => 'paper_id',
-			'dependent' => false,
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+		'ContentPaper' => array(
+			'className' => 'ContentPaper',
+			'foreignKey' => 'paper_id',
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -63,7 +77,7 @@ class Paper extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 			)
-			);
+		);
 
 	/**
 	 * @author tim
@@ -144,6 +158,10 @@ class Paper extends AppModel {
 		}
 		return false;
 	}
+	
+
+	
+	
 	/**
 	 * @todo alf: das ganze muss ohne "recursive" laufen.... alles bitte mit contain
 	 */
@@ -220,7 +238,7 @@ class Paper extends AppModel {
 	
 		if($this->id){
 			/**
-			 * @todo alf: hier wird glaub ich jedes mal nen satz erzeugt. stattdessen mŸsste ein Satz bei created angelegt werden und bei nicht created ge-updatet, bzw gelšscht und neu angelegt werden
+			 * @todo alf: hier wird glaub ich jedes mal nen satz erzeugt. stattdessen mï¿½sste ein Satz bei created angelegt werden und bei nicht created ge-updatet, bzw gelï¿½scht und neu angelegt werden
 			 */
 			//get User information
 			$user = new User();

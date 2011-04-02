@@ -32,6 +32,8 @@ class Topic extends AppModel {
 		'Post' => array(
 			'className' => 'Post',
 			'foreignKey' => 'topic_id',
+			//if a topic is being deleted, the posts of this topic won't be deleted.
+			//-> afterdelete callback resets the topic of all posts of this deleted topic to null
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -43,6 +45,20 @@ class Topic extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+	function beforeDelete(){
+		App::import('model','Post');
+		$this->Post = new Post();
+		
+		$posts = $this->Post->find('All',array('conditions' => array('topic_id' => $this->id)));
+		foreach($posts as $post){
+			$post['Post']['topic_id'] = null;
+			$this->Post->save($post);
+		}
+		
+		
+		
+	}
 
 }
 ?>

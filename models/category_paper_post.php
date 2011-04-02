@@ -24,7 +24,10 @@ class CategoryPaperPost extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+
 	);
+
+	
 }
 ?>
