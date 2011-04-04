@@ -2,7 +2,7 @@
 class PapersController extends AppController {
 
 	var $name = 'Papers';
-	var $components = array('Auth', 'Session');
+	var $components = array('Auth', 'Session', 'Papercomp');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
 	var $helpers = array('Time', 'Image');
 
@@ -13,6 +13,7 @@ class PapersController extends AppController {
 	}
 
 	function index() {
+		
 		$this->paginate = array(
 		 	 'Paper' => array(
 		//fields
@@ -89,7 +90,9 @@ class PapersController extends AppController {
 		$this->Paper->contain('User.id', 'User.username', 'Category.name', 'Category.id');
 		$this->set('paper', $this->Paper->read(null, $paper_id));
 		$this->set('posts', $this->paginate($this->Paper->Post));
-
+		
+		$this->set('contentReferences', $this->Paper->getContentReferences());
+		
 	}
 
 	/**
@@ -201,8 +204,27 @@ class PapersController extends AppController {
 		if (!empty($this->data)) {
 
 			if($this->Paper->read(null, $this->data['Paper']['target_id'])){
+				//debug($this->data);die();
+				
+				/*
+				 * @todo the implementation is not very good in sense of using the Category Model within the paper Model
+				 *       refactor the logic while using the category model like $this->Category->associateContent()
+				 */
 				if($this->Paper->associateContent($this->data)){
-					$this->Session->setFlash(__('Content has been associated to paper', true));
+					$msg = __('Content has been associated to paper');
+					
+					//import posts to paper / category, that have been created in the past
+					//$postImportLog = $this->importPastPosts();
+						
+//					if(is_array($postImportLog)){
+//						
+//					}
+//					else{
+//						
+//					}
+					
+					
+					$this->Session->setFlash($msg, true);
 					$this->redirect(array('action' => 'index'));
 				}
 				else{
