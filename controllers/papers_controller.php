@@ -11,7 +11,7 @@ class PapersController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index');
+		$this->Auth->allow('index','view');
 	}
 
 	function index() {
@@ -92,27 +92,12 @@ class PapersController extends AppController {
 			         )
 			    );  
 		
-		/*		$this->paginate = array(
-						'CategoryPaperPost' => array(
-								'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
-								'limit' => 10,
-								'recursive' => 2,
-								 'fields' => array('CategoryPaperPost.post_id', 'Post.id', 'Post.user_id', 'Post.topic_id', 'Post.title', 
-							 					'Post.content', 'Post.image', 'Post.modified', 'Post.count_views', 'Post.count_reposts', 
-							 	 					'Post.count_comments', 'Post.created', 'max(CategoryPaperPost.created) AS max_created', 
-												),
-						 		'contain' => array('Post', 'Post.User.id', 'Post.User.username'  ),
-						        'group' => 'CategoryPaperPost.post_id'		
-							)
-				);     */
-				
-			//	debug($this->paginate($this->Paper->CategoryPaperPost));
-			
+			 //useCustom defines which kind of paginateCount the Post-Model should use. "true" -> counting entries in category_paper_posts
 			 $this->Paper->Post->useCustom = true;
-			debug($this->paginate($this->Paper->Post));
+	
 	    if($category_id != null){
 	    	//adding the topic to the conditions array for the pagination - join
-	    	$this->paginate['Post']['joins'][0]['conditions']['CategoryPaperPost.category_id'] = $category_id;
+	    	$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
 	    }		
 
 		$this->Paper->contain('User.id', 'User.username', 'Category.name', 'Category.id');

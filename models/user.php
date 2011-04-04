@@ -203,6 +203,23 @@ class User extends AppModel {
 			parent::__construct();
 		}
 
+		function beforeDelete(){
+			App::import('model','Comment');
+			$this->Comment = new Comment();
+			
+			// reading all comments of the deleted user and reseting the user_id to null
+			// "comment from -deleted user-"
+			$this->Comment->contain();
+			$comments = $this->Comment->findAllByUser_id($this->id);
+			foreach($comments as $comment){
+			 	$comment['Comment']['user_id']= null;
+			    debug($comment);
+				$this->Comment->save($comment);
+			}
+			
+		return true;
+			
+		}
 		/**
 		 * update index
 		 */

@@ -213,7 +213,7 @@ class UsersController extends AppController {
 
 				//@todo move it to a better place -> to user model
 				//afer adding user -> add new route
-				$route = new Route();
+		/*		$route = new Route();
 				$route->create();
 
 				if( $route->save(array('source' => $this->data['User']['username'] ,
@@ -221,7 +221,7 @@ class UsersController extends AppController {
 							   'target_action'     	=> 'view',
 							   'target_param'		=> $this->User->id)))
 				{
-					if($route->id){
+					if($route->id){ 
 						$this->data['User']['route_id'] = $route->id;
 						$this->User->save($this->data);
 						$this->redirect('/'.$this->data['User']['username']);
@@ -235,7 +235,7 @@ class UsersController extends AppController {
 					$this->Session->setFlash(__('Please choose a valid url key', true));
 					$this->redirect(array('action' => 'add'));
 				}
-
+                        */
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {

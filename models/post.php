@@ -89,19 +89,7 @@ class Post extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 			),
-		'CategoryPaperPost' => array(
-			'className' => 'CategoryPaperPost',
-			'foreignKey' => 'post_id',
-			'dependent' => true,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-			)
+
 			
 			);
 	
@@ -125,11 +113,14 @@ class Post extends AppModel {
 	 */
 	function repost($user_id, $topic_id = null){
 		App::import('model','PostUser');
+		//debug('ENTRY repost function model');
 		$this->PostUser = new PostUser();
 		$PostUserData = array('repost' => true,
 								'post_id' => $this->id,
 							   	'PostUser.user_id' => $user_id);
+		//debug('before count');
 		$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
+		//debug('aftercount');
 		// if there are no reposts for this post/user combination yet
 		if($repostCount == 0){
 			if($this->data['Post']['user_id'] != $user_id){
@@ -140,15 +131,21 @@ class Post extends AppModel {
 										'post_id' => $this->id,
 										'topic_id' =>  $topic_id,
 									   	'user_id' => $user_id));
+				//debug('postuser before save');
 				if($this->PostUser->save($PostUserData)){
+				//debug('postuser after save');
 						//repost was saved
 						// writing the reposter's user id into the reposters-array of the post, if not already in reposters array		
 						if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
 							$this->data['Post']['reposters'][] = $user_id;
 							//increment count_reposts for the reposted post (by count reposters array)
-							$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);							
-							$this->save($this->data['Post']);
+							$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);		
+							//debug('before save post');			
+							//debug($this->data);		
+							$this->save($this->data);
+							//debug('after save post');
 						}
+						//debug('return repost model');
 						return true;
 					}	
 			} else {
@@ -224,8 +221,9 @@ class Post extends AppModel {
 	*
 	*/
 	function afterFind($results) {
-	
-		if(isset($results[0])){
+		//debug('results vor modulation');
+		//debug($results);
+	//	if(isset($results[0])){
 			foreach ($results as $key => $val) {
 				// $results[0]['Post']['reposters']
 				if (!empty($val['Post']['reposters']) ) {
@@ -244,7 +242,7 @@ class Post extends AppModel {
 					}
 				}
 			}
-		} else {
+	/*	} else {
 			 //$results['reposters']
 			if (!empty($results['reposters'])) {
 				$results['reposters'] = unserialize($results['reposters']);
@@ -253,8 +251,9 @@ class Post extends AppModel {
 					$results['reposters'] = array();
 				}
 			}
-		}
-		
+		}*/
+		//debug('results NACH modulation');
+		//debug($results);
 		return $results;
 	}
 
@@ -263,7 +262,8 @@ class Post extends AppModel {
 	 * serializing the reposters-array before being written to the db.
 	 *
 	 */
-	function beforeSave($Model) {
+	function beforeSave() {
+		//debug('beforesave');
 		if(!empty($this->data['Post']['reposters'])){
 			$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 		}
@@ -290,6 +290,8 @@ class Post extends AppModel {
 
 		//customized paginationcount for controller:papers - action:view  (posts inner join over category_paper_posts)
 			// all unique posts (distinct on post_id) of one specific paper (defined in $conditions) are counted
+			App::import('model','PostUser');
+			$this->CategoryPaperPost = new CategoryPaperPost();
 			$count = $this->CategoryPaperPost->find('count', array('conditions' => $conditions, 'fields' => 'distinct CategoryPaperPost.post_id'));
 			return $count;
 		}
@@ -298,10 +300,22 @@ class Post extends AppModel {
 
 	/**
 	 * 1)
+	 * writing / updating PostUser-entry
+	 * 2)
 	 * update solr index with saved data
 	 */
 	function afterSave($created){
-
+		App::import('model','PostUser');
+		$this->PostUser = new PostUser();
+		
+		if($created){
+			//write PostUser-Entry
+		} else {
+			//update entry
+			
+		}
+		
+		
 		App::import('model','Solr');
 
 		$userData = $this->User->read(null, $this->data['Post']['user_id']);
