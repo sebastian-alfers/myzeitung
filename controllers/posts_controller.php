@@ -1,11 +1,13 @@
 <?php
 class PostsController extends AppController {
 
+	const NO_TOPIC_ID = 'null';
+
 	var $name = 'Posts';
 
 	var $components = array('JqImgcrop');
 	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image');
- 
+
 
 	var $uses = array('Post','PostUser', 'Route', 'Comment');
 
@@ -32,6 +34,9 @@ class PostsController extends AppController {
 	            'contain' => array('User.username','User.id'),
 	         )
 	    );
+	   //$this->Post->useCustom = false;
+	    //$this->Post->useCustom = false;
+	   
 		$this->set('posts', $this->paginate());
 	}
 
@@ -44,16 +49,16 @@ class PostsController extends AppController {
 	 *
 	 * @param int $post_id  -> reposted post
 	 * @param int $topic_id -> (optional) topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
-	 * 
+	 *
 	 * 29.03.11 /tim - moved most of the logic to the model
 
 	 */
 	function repost($post_id, $topic_id = null){
 		if(isset($post_id)){
 
-			$this->Post->contain();	
+			$this->Post->contain();
 			if($this->Post->read(null, $post_id)){
-				
+
 				if($this->Post->repost($this->Auth->user('id'), $topic_id)){
 					$this->Session->setFlash(__('Post successfully reposted.', true));
 				} else {
@@ -80,9 +85,9 @@ class PostsController extends AppController {
 	function undoRepost($post_id){
 		if(isset($post_id)){
 
-			$this->Post->contain();	
+			$this->Post->contain();
 			if($this->Post->read(null, $post_id)){
-				
+
 				if($this->Post->undoRepost($this->Auth->user('id'))){
 					$this->Session->setFlash(__('Repost successfully deleted.', true));
 				} else {
@@ -99,10 +104,10 @@ class PostsController extends AppController {
 		$this->redirect($this->referer());
 	}
 
-	
+
 	/**
 	 * @author Tim
-	 * function for preparing date to view a specific post. 
+	 * function for preparing date to view a specific post.
 	 * @param $id
 	 */
 	function view($id = null) {
@@ -111,7 +116,7 @@ class PostsController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		// incrementing post's view_counter
-		
+
 		// check if the user already read this post during this session
 		//read_posts exists in the session?
 
@@ -127,7 +132,7 @@ class PostsController extends AppController {
 				}
 			} else {
 				//no read-posts array
-				//user has not read the post in this session -> increment	
+				//user has not read the post in this session -> increment
 				$this->Session->write('read_posts',array($id));
 				$this->Post->doIncrement($id);
 			}
@@ -135,7 +140,7 @@ class PostsController extends AppController {
 			//user has not read the post in this session -> increment
 			$this->Session->write('read_posts',array($id));
 			$this->Post->doIncrement($id);
-		}			
+		}
 
 		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$this->set('post', $this->Post->read(null, $id));
@@ -145,7 +150,10 @@ class PostsController extends AppController {
 	function add() {
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-
+				
+			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
+				unset($this->data['Post']['topic_id']);
+			}
 
 			
 			$this->data["Post"]["user_id"] = $user_id;
@@ -153,32 +161,32 @@ class PostsController extends AppController {
 			$this->data['Post']['image'] = $this->data['Post']['image_details']['name'];
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
-				
-				
+
+
 				//now add new url key for post
-		/*		$route = new Route();
+				/*		$route = new Route();
 				$route->create();
 
 				if( $route->save(array('source' => $this->data['Post']['title'] ,
-				   'target_controller' 	=> 'posts',
-				   'target_action'     	=> 'view',
-				   'target_param'		=> $this->Post->id)))
+				'target_controller' 	=> 'posts',
+				'target_action'     	=> 'view',
+				'target_param'		=> $this->Post->id)))
 				{
 
 					
 				}*/
-				
 
 
-		
 
-				
+
+
+
 				$PostUserData = array('user_id' => $user_id,
 									   'post_id' => $this->Post->id);
-				if(isset($this->data['Post']['topic_id'])){
+				if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != self::NO_TOPIC_ID){
 					$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
 				}
-									 
+
 
 				//path for image
 				$img = $this->data['Post']['image_details']['name'];
@@ -187,12 +195,12 @@ class PostsController extends AppController {
 				$second = strtolower(substr($img,1,1));
 				$imgPath = 'img/post/'.$first.DS.$second;
 				if($this->data['Post']['image_details']['name']){
-					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');	
+					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
 				}
-				
-				
+
+
 				$PostUserData['image'] = $imgPath.DS.$this->data['Post']['image'];
-				
+
 				$this->PostUser->create();
 				$this->PostUser->save($PostUserData);
 
@@ -208,9 +216,10 @@ class PostsController extends AppController {
 
 			}
 		}
-		
+
 		//for 'list' no contain needed. just selects the displayfield of the specific model.
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
 
 
 		$this->set(compact('topics'));

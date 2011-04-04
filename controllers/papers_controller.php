@@ -17,38 +17,38 @@ class PapersController extends AppController {
 	function index() {
 		$this->paginate = array(
 		 	 'Paper' => array(
-						  //fields
+		//fields
 	          			  'fields' => array('id','owner_id','title','description','created','count_subscriptions'),
-				         //limit of records per page
+		//limit of records per page
 			            'limit' => 10,	        
-		 	            //order
+		//order
 	     		        'order' => 'Paper.title ASC',
-						//contain array: limit the (related) data and models being loaded per paper
+		//contain array: limit the (related) data and models being loaded per paper
 			             'contain' => array(),	
-			         )
-			 	);	
+		)
+		);
 		$papers = 	$this->paginate($this->Paper);
 		//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
-		// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this 
+		// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this
 		if(is_array($papers)){
 			for($i = 0; $i < count($papers); $i++){
-				$papers[$i]['Paper']['subscribed'] = false;				
+				$papers[$i]['Paper']['subscribed'] = false;
 				if($this->Auth->user('id')){
-				//check for subscriptions - if yes -> subscribed = true
+					//check for subscriptions - if yes -> subscribed = true
 					if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
 						$papers[$i]['Paper']['subscribed'] = true;
-					} 
-				}			
-			}	
+					}
+				}
+			}
 		}
 		$this->set('papers', $papers);
 	}
 
-	
+
 	/**
 	 * @author Tim
 	 * Action for viewing and browse a papers content.
-	 * @param $paper_id 
+	 * @param $paper_id
 	 * @param $category_id
 	 */
 	function view($paper_id = null, $category_id = null) {
@@ -56,20 +56,22 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
+
 		
 		/*writing all settings for the paginate function. 
 		  important here is, that only the paper's posts are subject for pagination.*/
-		/*   $this->paginate = array(
+		  $this->paginate = array(
+
 			        'Post' => array(
-				    //setting up the join. this conditions describe which posts are gonna be shown
+		//setting up the join. this conditions describe which posts are gonna be shown
 			            'joins' => array(
-			                array(
+		array(
 			                    'table' => 'category_paper_posts',
 			                    'alias' => 'CategoryPaperPost',
 			                    'type' => 'INNER',
 			                    'conditions' => array(
 			                        'CategoryPaperPost.post_id = Post.id',
-			                		'CategoryPaperPost.paper_id' => $paper_id
+			                	//	'CategoryPaperPost.paper_id' => $paper_id
 			                    ),
 			                    
 			                   'fields' => array('CategoryPaperPost.post_id'),
@@ -81,38 +83,42 @@ class PapersController extends AppController {
 			            //limit of records per page
 			              'limit' => 10,
 			            
-			
+					 'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
 			            //order
 			          'order' => 'CategoryPaperPost.created DESC',
 			        //  'order' => 'Post.id ASC',
 			        	//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('User.id','User.username'),
 			         )
-			    ); */
+			    );  
 		
 		/*		$this->paginate = array(
 						'CategoryPaperPost' => array(
 								'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
-								'limit' => 50,
-						'recursive' => 2,
+								'limit' => 10,
+								'recursive' => 2,
 								 'fields' => array('CategoryPaperPost.post_id', 'Post.id', 'Post.user_id', 'Post.topic_id', 'Post.title', 
 							 					'Post.content', 'Post.image', 'Post.modified', 'Post.count_views', 'Post.count_reposts', 
 							 	 					'Post.count_comments', 'Post.created', 'max(CategoryPaperPost.created) AS max_created', 
 												),
-						 		'contain' => array('Post', ),
+						 		'contain' => array('Post', 'Post.User.id', 'Post.User.username'  ),
 						        'group' => 'CategoryPaperPost.post_id'		
 							)
-				);    */ 
+				);     */
 				
-				debug($this->paginate($this->Paper->CategoryPaperPost));
+			//	debug($this->paginate($this->Paper->CategoryPaperPost));
+			
+			 $this->Paper->Post->useCustom = true;
+			debug($this->paginate($this->Paper->Post));
 	    if($category_id != null){
 	    	//adding the topic to the conditions array for the pagination - join
 	    	$this->paginate['Post']['joins'][0]['conditions']['CategoryPaperPost.category_id'] = $category_id;
 	    }		
+
 		$this->Paper->contain('User.id', 'User.username', 'Category.name', 'Category.id');
 		$this->set('paper', $this->Paper->read(null, $paper_id));
 		$this->set('posts', $this->paginate($this->Paper->Post));
-		
+
 	}
 
 	/**
@@ -123,9 +129,9 @@ class PapersController extends AppController {
 	function subscribe($paper_id){
 		if(isset($paper_id)){
 
-			$this->Paper->contain();	
+			$this->Paper->contain();
 			if($this->Paper->read(null, $paper_id)){
-				
+
 				if($this->Paper->subscribe($this->Auth->user('id'))){
 					$this->Session->setFlash(__('Subscribed successfully.', true));
 				} else {
@@ -141,7 +147,7 @@ class PapersController extends AppController {
 		}
 		$this->redirect($this->referer());
 	}
-	
+
 	/**
 	 * @autohr Tim
 	 * Function for a user to unsubscribe a paper.
@@ -150,9 +156,9 @@ class PapersController extends AppController {
 	function unsubscribe($paper_id){
 		if(isset($paper_id)){
 
-			$this->Paper->contain();	
+			$this->Paper->contain();
 			if($this->Paper->read(null, $paper_id)){
-				
+
 				if($this->Paper->unsubscribe($this->Auth->user('id'))){
 					$this->Session->setFlash(__('Unsubscribed successfully.', true));
 				} else {
@@ -168,10 +174,12 @@ class PapersController extends AppController {
 		}
 		$this->redirect($this->referer());
 	}
-	
-	
+
+
 	/**
+	 * view controller to show references for a paper or a category
 	 *
+	 * @author sebastian.alfers
 	 */
 	function references(){
 		if(!$this->_validateShowContentData($this->params)){
@@ -220,66 +228,21 @@ class PapersController extends AppController {
 	function addcontent(){
 
 		if (!empty($this->data)) {
-			//form has been submitted
 
-			if(isset($this->data['Paper'][ContentPaper::CONTENT_DATA]) && !empty($this->data['Paper'][ContentPaper::CONTENT_DATA])){
-				//validate if hidden field is paper or category
-
-				//add content for
-				$source = $this->data['Paper'][ContentPaper::CONTENT_DATA];
-				//split
-				$source = explode(ContentPaper::SEPERATOR, $source);
-				$sourceType = $source[0];
-				$sourceId   = $source[1];
-				$targetType = $this->data['Paper']['target_type'];
-
-				if($this->_isValidTargetType($targetType) &&
-				$this->_isValidSourceType($sourceType) &&
-				isset($this->data['Paper']['target_id']))
-				{
-					if(count($source) == 2){
-
-						//prepare variables to indicate whole user or only topic as source
-						$user_id = null;
-						$topic_id = null;
-						if($sourceType == ContentPaper::USER) $user_id = $sourceId;
-						if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
-
-						switch ($targetType){
-							case ContentPaper::PAPER:
-								$this->_associateContentForPaper($user_id, $topic_id);
-								break;
-							case ContentPaper::CATEGORY:
-
-								$category_id = $this->data['Paper']['target_id'];
-								//get paper for category
-								$category = $this->Category->read(null, $category_id);
-
-								if($category['Paper']['id']){
-									$paper_id = $category['Paper']['id'];
-									if($this->newContentForPaper($paper_id, $category_id, $user_id, $topic_id)){
-										// todo: save data here
-										$this->Session->setFlash(__('paper data saved', true));
-										$this->redirect(array('action' => 'index'));
-									}
-								}
-								else{
-									//category MUST have a paper
-									//not able to read paper for category -> error
-									$this->Session->setFlash(__('error while reading paper for category!', true));
-									$this->redirect(array('action' => 'index'));
-								}
-								break;
-						}
-					}
+			if($this->Paper->read(null, $this->data['Paper']['target_id'])){
+				if($this->Paper->associateContent($this->data)){
+					$this->Session->setFlash(__('Content has been associated to paper', true));
+					$this->redirect(array('action' => 'index'));
 				}
 				else{
-					//no valid source or target type
-
+					$this->Session->setFlash(__('Not able to associate content to paper', true));
+					$this->redirect(array('action' => 'index'));
 				}
-
-
 			}
+			else{
+				
+			}
+
 		}
 		else{
 			//check if paper id is as param
@@ -288,7 +251,7 @@ class PapersController extends AppController {
 				$this->Session->setFlash(__('No param for paper', true));
 				$this->redirect(array('action' => 'index'));
 			}
-			if(!$this->_isValidTargetType($this->params['pass'][0]) || !isset($this->params['pass'][1])){
+			if(!$this->Paper->isValidTargetType($this->params['pass'][0]) || !isset($this->params['pass'][1])){
 				$this->Session->setFlash(__('Wrong type do add for', true));
 				$this->redirect(array('action' => 'index'));
 			}
@@ -304,25 +267,6 @@ class PapersController extends AppController {
 		}
 	}
 
-
-	/**
-	 *
-	 * associate contenet (user or topic) to a paper
-	 *
-	 * @param int $user_id
-	 * @param int $topic_id
-	 */
-	private function _associateContentForPaper($user_id, $topic_id){
-		$paper_id = $this->data['Paper']['target_id'];
-		if($this->newContentForPaper($paper_id, null, $user_id, $topic_id)){
-			$this->Session->setFlash(__('content was associated to paper', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		else{
-			$this->Session->setFlash(__('error wile saving data for paper', true));
-			$this->redirect(array('action' => 'index'));
-		}
-	}
 
 	function add() {
 		if (!empty($this->data)) {
@@ -340,8 +284,8 @@ class PapersController extends AppController {
 				));
 
 				$route = $this->Route->save($routeData);
-				
-			
+
+					
 				if(!empty($route)){
 					$this->Session->setFlash(__('The paper has been saved', true));
 					$this->redirect(array('action' => 'index'));
@@ -422,222 +366,6 @@ class PapersController extends AppController {
 		return $content_data;
 	}
 
-	/**
-	 * get $this->data and checks if is type
-	 * paper or category for paper_content
-	 *
-	 * @return boolean
-	 */
-	private function _isValidTargetType($targetType){
-
-		return (($targetType == ContentPaper::PAPER) ||
-		($targetType == ContentPaper::CATEGORY));
-	}
-
-	/**
-	 * get $this->data and checks if is type
-	 * paper or category for paper_content
-	 *
-	 * @return boolean
-	 */
-	private function _isValidSourceType($sourceType){
-
-		return (($sourceType == ContentPaper::USER) ||
-		($sourceType == ContentPaper::TOPIC));
-	}
-
-	/**
-	 * associate content to paper
-	 * 
-	 * @param int $paperId
-	 * @param int $categoryId
-	 * @param int $userId
-	 * @param int $topicId
-	 * 
-	 * @return boolean
-	 */
-	public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
-
-		if(!$this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId)){
-			return false;
-		}
-
-		//$this->ContentPaper->find('all', )
-
-		//this->_saveNewContent(paper, ....)
-		$this->data['ContentPaper'] = array();
-		$this->data['ContentPaper']['paper_id'] 	= $paperId;
-		$this->data['ContentPaper']['category_id'] 	= $categoryId;
-		$this->data['ContentPaper']['user_id'] 		= $userId;
-		$this->data['ContentPaper']['topic_id'] 	= $topicId;
-
-		$this->ContentPaper->create();
-
-		return $this->ContentPaper->save($this->data);
-	}
-
-	/**
-	 *	returns true if is allowed to associate data (user or topic) to a paper (or category)
-	 *
-	 *
-	 * validate by following criteria
-	 * - if constelation(paper_id, category_id, user_id, topic_id) isnt already there
-	 *
-	 * - if the whole user is associated to a paper or a category, check if there are already
-	 *   other associations to one or more topic of the user IN THIS category
-	 *   @todo if so, give msg to user and say it is not possible to because of other refs (show references)
-	 *   @todo ask is want to delete all other refs to the user�s topics and add whole user
-	 *
-	 * - if a topic is associated to a paper or a category, check if this topic isnt already
-	 *   associated in this category
-	 *
-	 * @param int $paperId
-	 * @param int $categoryId
-	 * @param int $userId
-	 * @param int $topicId
-	 */
-	private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
-
-		//check for extatly this constelation
-		$conditions = array('conditions' => array(
-											'ContentPaper.paper_id' => $paperId,
-											'ContentPaper.category_id' => $categoryId,
-											'ContentPaper.user_id' => $userId,
-											'ContentPaper.topic_id' => $topicId));
-
-		$checkDoubleReference = $this->ContentPaper->find('all', $conditions);
-
-		//if we get an result -> not allowed to add this constelation
-		if(isset($checkDoubleReference[0]['ContentPaper']['id'])){
-			$this->Session->setFlash(__('this constelations already exists', true));
-			$this->redirect(array('action' => 'index'));
-		}
-
-		if($userId && $userId != null && $userId >= 0){
-			//get user topics
-			$user = $this->User->read(null, $userId);
-			$userTopics = $user['Topic'];
-
-
-			//if user has no topcis (should not be possible...)
-			if(count($userTopics) == 0) return true;
-
-			$paper = $this->Paper->read(null, $paperId);
-
-			if($categoryId){
-				//whole user to a category
-				//check, it this user has not topic in this category
-				$recursion = 1;
-				$categoryTopics = $this->Paper->getTopicReferencesToOnlyThisCategory($recursion);
-					
-				//if paper has no topics referenced
-				if(count($categoryTopics) == 0) return true;
-
-				//check if one of the user topics is in the paper topics
-				foreach($userTopics as $userTopic){
-
-					foreach($categoryTopics as $categoryTopic){
-						if($userTopic['id'] == $categoryTopic['Topic']['id']){
-							//the category has already a topic from the user
-							//@todo -> ask user if he wants to delete all topics from user to be able
-							//   to associate whole user to paper
-							$this->Session->setFlash(__('Error! there already exist a topic form this user in the category.', true));
-							$this->redirect(array('action' => 'index'));
-							return false;
-						}
-					}
-				}
-				return true;
-
-
-			}
-
-			//whole user to paper
-			//get all user topics associated to that paper
-			//check if alreay one of the users topics is associated to this paper itself or one of its categorie
-
-
-			//$this->_hasPaperTopicsFromUser($paper['Paper']['id'], $user['User']['id']);
-			$recursion = 1;
-			$paperTopics = $this->Paper->getTopicReferencesToOnlyThisPaper($recursion);
-
-			//if paper has no topics referenced
-			if(count($paperTopics) == 0) return true;
-
-			//check if one of the user topics is in the paper topics
-			foreach($userTopics as $userTopic){
-
-				foreach($paperTopics as $paperTopic){
-					if($userTopic['id'] == $paperTopic['Topic']['id']){
-						//the paper has already a topic from the user
-						//@todo ask user if he wants to delete all topics from user to be able
-						//   to associate whole user to paper
-						$this->Session->setFlash(__('Error! there already exist a topic form this user in the paper.', true));
-						$this->redirect(array('action' => 'index'));
-						return false;
-					}
-				}
-			}
-			return true;
-
-
-		}
-		else if($topicId && $topicId != null){
-			//check if this topic isnt already assocaited to this paper itself/ to category itself
-
-			$this->Topic->read(null, $topicId);
-
-			if(!$this->Topic->id){
-				$this->Session->setFlash(__('Error! topic could not be loaded', true));
-				$this->redirect(array('action' => 'index'));
-			}
-			else{
-
-
-				if($this->Topic->data['Topic']['user_id']){
-					//check if the posts user is not in this paper
-					$userId = $this->Topic->data['Topic']['user_id'];
-					$conditions = array('conditions' => array(
-											'ContentPaper.paper_id' => $paperId,
-											'ContentPaper.user_id' => $userId,
-											'ContentPaper.category_id' => null));
-
-					if($categoryId > 0){
-						//add category
-						$conditions['conditions']['ContentPaper.category_id'] = $categoryId;							
-					}
-					
-					
-
-					$checkUser = $this->ContentPaper->find('all', $conditions);
-					
-					
-					
-					if(isset($checkUser[0]['ContentPaper']['id'])){
-						//user is already in paper
-						$this->Session->setFlash(__('The owner of this topic is already in this category ', true));
-						$this->redirect(array('action' => 'index'));
-						return false;
-					}
-					//topics user is not in the paper -> can add topic to paper / category
-					return true;
-
-
-				}
-				else{
-					$this->Session->setFlash(__('Error! user for topic could not be loaded', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-			}
-
-
-		}
-
-
-		return true;
-
-	}
 
 
 	/**

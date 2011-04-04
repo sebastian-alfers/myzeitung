@@ -143,7 +143,8 @@ class PostUser extends AppModel {
 					foreach($wholeUserReferences as $wholeUserReference){
 							
 						//place post in paper or category associated to the whole user
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id);
+						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id']);
+						
 						if($wholeUserReference['Category']['id']){
 							$categoryPaperPostData['category_id'] = $wholeUserReference['Category']['id'];
 						}
@@ -166,11 +167,10 @@ class PostUser extends AppModel {
 						//if($categoryPaperPostData[''])
 						//place post in paper or category associated to the posts topic
 							
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id']);
+						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id']);
+						
 						if($topicReference['Category']['id']){
-
 							$categoryPaperPostData['category_id'] = $topicReference['Category']['id'];
-
 						}
 							
 							

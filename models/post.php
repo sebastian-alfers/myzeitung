@@ -2,7 +2,7 @@
 class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
-
+	var $useCustom = false;
 
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_views'));
 
@@ -88,15 +88,22 @@ class Post extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+			),
+		'CategoryPaperPost' => array(
+			'className' => 'CategoryPaperPost',
+			'foreignKey' => 'post_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 			)
 			
 			);
-
-
-
-
-	
-	// CALLBACKS
 	
 	/**
 	 * @author tim
@@ -212,25 +219,42 @@ class Post extends AppModel {
 	/**
 	* @author: tim
 	* unserializing the reposters-array after being read from the db.
+	* 
+	* the structure of the results array differs depending of the relation in which the posts were read. 
 	*
 	*/
 	function afterFind($results) {
-		foreach ($results as $key => $val) {
-			if (!empty($val['Post']['reposters']) ) {
-				$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
-			}else {
-				if(isset($results[$key]['Post']['reposters'])){
-					$results[$key]['Post']['reposters'] = array();
+	
+		if(isset($results[0])){
+			foreach ($results as $key => $val) {
+				// $results[0]['Post']['reposters']
+				if (!empty($val['Post']['reposters']) ) {
+					$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
+				}else {
+					if(isset($results[$key]['Post']['reposters'])){
+						$results[$key]['Post']['reposters'] = array();
+					}
+				}
+				// $results[0]['reposters']
+				if (!empty($val['reposters']) ) {
+					$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
+				}else {
+					if(isset($results[$key]['reposters'])){
+						$results[$key]['reposters'] = array();
+					}
 				}
 			}
-			if (!empty($val['reposters']) ) {
-				$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
+		} else {
+			 //$results['reposters']
+			if (!empty($results['reposters'])) {
+				$results['reposters'] = unserialize($results['reposters']);
 			}else {
-				if(isset($results[$key]['reposters'])){
-					$results[$key]['reposters'] = array();
+				if(isset($results['reposters'])){
+					$results['reposters'] = array();
 				}
 			}
 		}
+		
 		return $results;
 	}
 
@@ -247,6 +271,30 @@ class Post extends AppModel {
 	}
 
 
+	// OVERRIDES the standard paginationCount
+	function paginateCount($conditions = null, $recursive = 0, $extra = array()) {
+		
+		if(!$this->useCustom )	{
+	    //copy of standard paginationcount for normal pagination queries
+			$parameters = compact('conditions');
+
+		    if ($recursive != $this->recursive) {
+		        $parameters['recursive'] = $recursive;
+		    }
+		 
+		    $count = $this->find('count', array_merge($parameters, $extra));
+			
+  			return $count;
+
+		} else {
+
+		//customized paginationcount for controller:papers - action:view  (posts inner join over category_paper_posts)
+			// all unique posts (distinct on post_id) of one specific paper (defined in $conditions) are counted
+			$count = $this->CategoryPaperPost->find('count', array('conditions' => $conditions, 'fields' => 'distinct CategoryPaperPost.post_id'));
+			return $count;
+		}
+	}
+	
 
 	/**
 	 * 1)
