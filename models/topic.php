@@ -65,13 +65,12 @@ class Topic extends AppModel {
 	function beforeDelete(){
 		App::import('model','Post');
 		$this->Post = new Post();
-		$this->Post->Contain('PostUser');
+		$this->Post->topicChanged = true;
+		$this->Post->Contain();
 		$posts = $this->Post->findAllByTopic_id($this->id);
 		foreach($posts as $post){
-			debug($post);
-			$post['PostUser']['topic_id'] = null;
 			$post['Post']['topic_id'] = null;
-			$this->Post->saveAll($post);
+			$this->Post->save($post);
 		}
 		
 		return true;

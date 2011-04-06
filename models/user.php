@@ -154,7 +154,7 @@ class User extends AppModel {
 	);
 
 
-			var $hasAndBelongsToMany = array(
+	/*		var $hasAndBelongsToMany = array(
 		'Post' => array(
 			'className' => 'Post',
 			'joinTable' => 'posts_users',
@@ -185,7 +185,7 @@ class User extends AppModel {
 			'deleteQuery' => '',
 			'insertQuery' => ''
 			),	
-			);
+			);*/
 
 			var $belongsTo = array(
 		'Group'
