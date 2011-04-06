@@ -177,9 +177,10 @@ class Paper extends AppModel {
 
 
 					$conditions = array('conditions' => array(
-		'ContentPaper.paper_id' => $this->id));
+						'ContentPaper.paper_id' => $this->id));
 					$paperReferences = array();
-					$contentPaper->recursive = $recursive;// to get user from topic
+					$contentPaper->contain('Paper', 'Category', 'User', 'User.Post.id', 'Topic', 'Topic.User', 'Topic.Post.id');
+					//$contentPaper->recursive = $recursive;// to get user from topic
 					$paperReferences = $contentPaper->find('all', $conditions);
 
 
@@ -306,7 +307,7 @@ class Paper extends AppModel {
 							$topic_id = null;
 							if($sourceType == ContentPaper::USER) $user_id = $sourceId;
 							if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
-								
+
 							switch ($targetType){
 								case ContentPaper::PAPER:
 									return $this->_associateContentForPaper($data, $user_id, $topic_id);
@@ -390,7 +391,7 @@ class Paper extends AppModel {
 				if($userId && $userId != null && $userId >= 0){
 					//get user topics
 					$user = $this->User->read(null, $userId);
-						
+
 					$userTopics = $user['Topic'];
 
 					//if user has no topcis (should not be possible...)
@@ -516,6 +517,15 @@ class Paper extends AppModel {
 				return true;
 
 			}
+				
+			/**
+			 * after content (user or category) has be
+			 *
+			 */
+			function initialImportPosts(){
+					
+
+			}
 
 
 			/**
@@ -530,7 +540,7 @@ class Paper extends AppModel {
 			public function newContentForPaper($categoryId, $userId, $topicId){
 
 				if(!$this->_canAssociateDataToPaper($categoryId, $userId, $topicId)){
-						
+
 					return false;
 				}
 
@@ -562,7 +572,7 @@ class Paper extends AppModel {
 
 				$paper_id = $data['Paper']['target_id'];
 				if($this->newContentForPaper(null, $user_id, $topic_id)){
-						
+
 					//$this->Session->setFlash(__('content was associated to paper', true));
 					//$this->redirect(array('action' => 'index'));
 					return true;

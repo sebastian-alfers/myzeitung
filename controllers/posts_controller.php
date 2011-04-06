@@ -21,22 +21,22 @@ class PostsController extends AppController {
 
 
 	function index() {
-		  $this->paginate = array(
+		$this->paginate = array(
 	        'Post' => array(
-	            //limit of records per page
+		//limit of records per page
 	            'limit' => 10,
-	            //order
+		//order
 	            'order' => 'created DESC',
-		    	//fields - custom field sum...
+		//fields - custom field sum...
 		    	'fields' => array(						
-		    ),
-	        	//contain array: limit the (related) data and models being loaded per post
+		),
+		//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array('User.username','User.id'),
-	         )
-	    );
-	   //$this->Post->useCustom = false;
-	    //$this->Post->useCustom = false;
-	   
+		)
+		);
+		//$this->Post->useCustom = false;
+		//$this->Post->useCustom = false;
+
 		$this->set('posts', $this->paginate());
 	}
 
@@ -59,7 +59,7 @@ class PostsController extends AppController {
 			$this->Post->contain();
 			debug('repost action read');
 			if($this->Post->read(null, $post_id)){
-			debug('repost action AFTER read');
+				debug('repost action AFTER read');
 				if($this->Post->repost($this->Auth->user('id'), $topic_id)){
 					$this->Session->setFlash(__('Post successfully reposted.', true));
 				} else {
@@ -151,18 +151,28 @@ class PostsController extends AppController {
 	function add() {
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-				
+
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}
+				
+				
 
-			
+				
 			$this->data["Post"]["user_id"] = $user_id;
 			$this->data['Post']['image_details'] = $this->data['Post']['image'];
 			$this->data['Post']['image'] = $this->data['Post']['image_details']['name'];
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
+				//path for image
+				$img = $this->data['Post']['image_details']['name'];
 
+				$first = strtolower(substr($img,0,1));
+				$second = strtolower(substr($img,1,1));
+				$imgPath = 'img/post/'.$first.DS.$second;
+				if($this->data['Post']['image_details']['name']){
+					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
+				}
 
 				//now add new url key for post
 				/*		$route = new Route();
@@ -177,35 +187,14 @@ class PostsController extends AppController {
 					
 				}*/
 
-
-
-
-
-
 				$PostUserData = array('user_id' => $user_id,
 									   'post_id' => $this->Post->id);
 				if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != 'null'){
 					$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
 				}
 
-
-				//path for image
-				$img = $this->data['Post']['image_details']['name'];
-
-				$first = strtolower(substr($img,0,1));
-				$second = strtolower(substr($img,1,1));
-				$imgPath = 'img/post/'.$first.DS.$second;
-				if($this->data['Post']['image_details']['name']){
-					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
-				}
-
-
-				$PostUserData['image'] = $imgPath.DS.$this->data['Post']['image'];
-
 				$this->PostUser->create();
 				$this->PostUser->save($PostUserData);
-
-
 
 				//$this->set('uploaded',$uploaded);
 

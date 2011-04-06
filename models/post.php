@@ -235,6 +235,7 @@ class Post extends AppModel {
 				}
 				// $results[0]['reposters']
 				if (!empty($val['reposters']) ) {
+
 					$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
 				}else {
 					if(isset($results[$key]['reposters'])){
