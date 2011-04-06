@@ -32,6 +32,8 @@ class Topic extends AppModel {
 		'Post' => array(
 			'className' => 'Post',
 			'foreignKey' => 'topic_id',
+			//if a topic is being deleted, the posts of this topic won't be deleted.
+			//-> beforedelete callback resets the topic of all posts of this deleted topic to null
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -41,8 +43,42 @@ class Topic extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		),
+		'ContentPaper' => array(
+			'className' => 'ContentPaper',
+			'foreignKey' => 'topic_id',
+			//if a topic is being deleted, the posts of this topic won't be deleted.
+			//-> beforedelete callback resets the topic of all posts of this deleted topic to null
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 		)
+		
 	);
+	
+	function beforeDelete(){
+		App::import('model','Post');
+		$this->Post = new Post();
+		$this->Post->Contain('PostUser');
+		$posts = $this->Post->findAllByTopic_id($this->id);
+		foreach($posts as $post){
+			debug($post);
+			$post['PostUser']['topic_id'] = null;
+			$post['Post']['topic_id'] = null;
+			$this->Post->saveAll($post);
+		}
+		
+		return true;
+		
+		
+		
+	}
 
 }
 ?>

@@ -30,13 +30,36 @@ class Category extends AppModel {
 			)
 			);
 
-
-			var $hasMany = array(
+	var $hasMany = array(
 		'Children' => array(
 			'className' => 'Category',
 			'foreignKey' => 'parent_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+		'ContentPaper' => array(
+			'className' => 'ContentPaper',
+			'foreignKey' => 'category_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 			)
+			
 			);
+
 
 			/**
 			 * 1)

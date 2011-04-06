@@ -68,37 +68,90 @@ class User extends AppModel {
 	),
 	),
 	);
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+
 
 	var $hasMany = array(
-	/*'Post' => array(
-	 'className' => 'Post',
-	 'foreignKey' => 'user_id',
-	 'dependent' => false,
-	 'conditions' => '',
-	 'fields' => '',
-	 'order' => '',
-	 'limit' => '',
-	 'offset' => '',
-	 'exclusive' => '',
-	 'finderQuery' => '',
-	 'counterQuery' => ''
-		),*/
-
-		'Topic' => array(
-			'className' => 'Topic',
-			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-			)
-			);
+	 'Post' => array(
+	 	'className' => 'Post',
+	 	'foreignKey' => 'user_id',
+	 	'dependent' => true,
+	 	'conditions' => '',
+		 'fields' => '',
+		 'order' => '',
+		 'limit' => '',
+		 'offset' => '',
+		 'exclusive' => '',
+		 'finderQuery' => '',
+		 'counterQuery' => ''
+		),
+	 'PostUser' => array(
+	 	'className' => 'PostUser',
+	 	'foreignKey' => 'user_id',
+	 	'dependent' => true,
+	 	'conditions' => '',
+		 'fields' => '',
+		 'order' => '',
+		 'limit' => '',
+		 'offset' => '',
+		 'exclusive' => '',
+		 'finderQuery' => '',
+		 'counterQuery' => ''
+		),
+	'Topic' => array(
+		'className' => 'Topic',
+		'foreignKey' => 'user_id',
+		'dependent' => true,
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		'limit' => '',
+		'offset' => '',
+		'exclusive' => '',
+		'finderQuery' => '',
+		'counterQuery' => ''
+		),
+		
+	'ContentPaper' => array(
+		'className' => 'ContentPaper',
+		'foreignKey' => 'user_id',
+		'dependent' => true,
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		'limit' => '',
+		'offset' => '',
+		'exclusive' => '',
+		'finderQuery' => '',
+		'counterQuery' => ''
+		),
+	'Paper' => array(
+		'className' => 'Paper',
+		'foreignKey' => 'owner_id',
+		'dependent' => true,
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		'limit' => '',
+		'offset' => '',
+		'exclusive' => '',
+		'finderQuery' => '',
+		'counterQuery' => ''
+		),
+	'Subscription' => array(
+		'className' => 'Subscription',
+		'foreignKey' => 'user_id',
+		'dependent' => true,
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		'limit' => '',
+		'offset' => '',
+		'exclusive' => '',
+		'finderQuery' => '',
+		'counterQuery' => ''
+		)
+				
+	);
 
 
 			var $hasAndBelongsToMany = array(
@@ -150,6 +203,23 @@ class User extends AppModel {
 			parent::__construct();
 		}
 
+		function beforeDelete(){
+			App::import('model','Comment');
+			$this->Comment = new Comment();
+			
+			// reading all comments of the deleted user and reseting the user_id to null
+			// "comment from -deleted user-"
+			$this->Comment->contain();
+			$comments = $this->Comment->findAllByUser_id($this->id);
+			foreach($comments as $comment){
+			 	$comment['Comment']['user_id']= null;
+			    debug($comment);
+				$this->Comment->save($comment);
+			}
+			
+		return true;
+			
+		}
 		/**
 		 * update index
 		 */

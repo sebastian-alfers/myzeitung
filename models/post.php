@@ -2,7 +2,7 @@
 class Post extends AppModel {
 	var $name = 'Post';
 	var $displayField = 'title';
-
+	var $useCustom = false;
 
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_views'));
 
@@ -66,7 +66,7 @@ class Post extends AppModel {
 		'Comment' => array(
 			'className' => 'Comment',
 			'foreignKey' => 'post_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -75,30 +75,23 @@ class Post extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-			)
+			),
+		'PostUser' => array(
+			'className' => 'PostUser',
+			'foreignKey' => 'post_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+
+			
 			);
-
-			// temp. not necessary
-
-	/*	var $hasAndBelongsToMany = array(
-			 'User' => array(
-			 'className' => 'User',
-			 'joinTable' => 'posts_users',
-			 'foreignKey' => 'post_id',
-			 'associationForeignKey' => 'user_id',
-			 'unique' => true,
-			 'conditions' => '',
-			 'fields' => '',
-			 'order' => '',
-			 'limit' => '',
-			 'offset' => '',
-			 'finderQuery' => '',
-			 'deleteQuery' => '',
-			 'insertQuery' => ''
-			 )
-			 );*/
-
-	// CALLBACKS
 	
 	/**
 	 * @author tim
@@ -120,11 +113,14 @@ class Post extends AppModel {
 	 */
 	function repost($user_id, $topic_id = null){
 		App::import('model','PostUser');
+		//debug('ENTRY repost function model');
 		$this->PostUser = new PostUser();
 		$PostUserData = array('repost' => true,
 								'post_id' => $this->id,
 							   	'PostUser.user_id' => $user_id);
+		//debug('before count');
 		$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
+		//debug('aftercount');
 		// if there are no reposts for this post/user combination yet
 		if($repostCount == 0){
 			if($this->data['Post']['user_id'] != $user_id){
@@ -135,15 +131,21 @@ class Post extends AppModel {
 										'post_id' => $this->id,
 										'topic_id' =>  $topic_id,
 									   	'user_id' => $user_id));
+				//debug('postuser before save');
 				if($this->PostUser->save($PostUserData)){
+				//debug('postuser after save');
 						//repost was saved
 						// writing the reposter's user id into the reposters-array of the post, if not already in reposters array		
 						if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
 							$this->data['Post']['reposters'][] = $user_id;
 							//increment count_reposts for the reposted post (by count reposters array)
-							$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);							
-							$this->save($this->data['Post']);
+							$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);		
+							//debug('before save post');			
+							//debug($this->data);		
+							$this->save($this->data);
+							//debug('after save post');
 						}
+						//debug('return repost model');
 						return true;
 					}	
 			} else {
@@ -185,7 +187,7 @@ class Post extends AppModel {
 		$delete_counter = 0;
 		foreach($reposts as $repost){
 			//deleting the repost from the PostUser-table
-			$this->PostUser->delete($repost['PostUser']['id']);
+			$this->PostUser->delete($repost['PostUser']['id'], true);
 			$delete_counter += 1;
 		}
 		//writing log entry if there were more than one entries for this repost (shouldnt be possible)
@@ -214,25 +216,45 @@ class Post extends AppModel {
 	/**
 	* @author: tim
 	* unserializing the reposters-array after being read from the db.
+	* 
+	* the structure of the results array differs depending of the relation in which the posts were read. 
 	*
 	*/
 	function afterFind($results) {
-		foreach ($results as $key => $val) {
-			if (!empty($val['Post']['reposters']) ) {
-				$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
-			}else {
-				if(isset($results[$key]['Post']['reposters'])){
-					$results[$key]['Post']['reposters'] = array();
+		//debug('results vor modulation');
+		//debug($results);
+	//	if(isset($results[0])){
+			foreach ($results as $key => $val) {
+				// $results[0]['Post']['reposters']
+				if (!empty($val['Post']['reposters']) ) {
+					$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
+				}else {
+					if(isset($results[$key]['Post']['reposters'])){
+						$results[$key]['Post']['reposters'] = array();
+					}
+				}
+				// $results[0]['reposters']
+				if (!empty($val['reposters']) ) {
+
+					$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
+				}else {
+					if(isset($results[$key]['reposters'])){
+						$results[$key]['reposters'] = array();
+					}
 				}
 			}
-			if (!empty($val['reposters']) ) {
-				$results[$key]['reposters'] = unserialize($results[$key]['reposters']);
+	/*	} else {
+			 //$results['reposters']
+			if (!empty($results['reposters'])) {
+				$results['reposters'] = unserialize($results['reposters']);
 			}else {
-				if(isset($results[$key]['reposters'])){
-					$results[$key]['reposters'] = array();
+				if(isset($results['reposters'])){
+					$results['reposters'] = array();
 				}
 			}
-		}
+		}*/
+		//debug('results NACH modulation');
+		//debug($results);
 		return $results;
 	}
 
@@ -241,7 +263,8 @@ class Post extends AppModel {
 	 * serializing the reposters-array before being written to the db.
 	 *
 	 */
-	function beforeSave(&$Model) {
+	function beforeSave() {
+		//debug('beforesave');
 		if(!empty($this->data['Post']['reposters'])){
 			$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 		}
@@ -249,13 +272,51 @@ class Post extends AppModel {
 	}
 
 
+	// OVERRIDES the standard paginationCount
+	function paginateCount($conditions = null, $recursive = 0, $extra = array()) {
+		
+		if(!$this->useCustom )	{
+	    //copy of standard paginationcount for normal pagination queries
+			$parameters = compact('conditions');
+
+		    if ($recursive != $this->recursive) {
+		        $parameters['recursive'] = $recursive;
+		    }
+		 
+		    $count = $this->find('count', array_merge($parameters, $extra));
+			
+  			return $count;
+
+		} else {
+
+		//customized paginationcount for controller:papers - action:view  (posts inner join over category_paper_posts)
+			// all unique posts (distinct on post_id) of one specific paper (defined in $conditions) are counted
+			App::import('model','PostUser');
+			$this->CategoryPaperPost = new CategoryPaperPost();
+			$count = $this->CategoryPaperPost->find('count', array('conditions' => $conditions, 'fields' => 'distinct CategoryPaperPost.post_id'));
+			return $count;
+		}
+	}
+	
 
 	/**
 	 * 1)
+	 * writing / updating PostUser-entry
+	 * 2)
 	 * update solr index with saved data
 	 */
-	function afterSave(){
-
+	function afterSave($created){
+		App::import('model','PostUser');
+		$this->PostUser = new PostUser();
+		
+		if($created){
+			//write PostUser-Entry
+		} else {
+			//update entry
+			
+		}
+		
+		
 		App::import('model','Solr');
 
 		$userData = $this->User->read(null, $this->data['Post']['user_id']);

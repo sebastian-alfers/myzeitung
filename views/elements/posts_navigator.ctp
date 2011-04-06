@@ -1,5 +1,6 @@
 <div class="posts index">
 
+
 	<h3><?php __('Posts');?></h3>
 	<?php if (!empty($posts)):?>
 	<table cellpadding = "0" cellspacing = "0">

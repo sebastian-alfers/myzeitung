@@ -27,12 +27,28 @@ class PostUser extends AppModel {
 
 			);
 
+	var $hasMany = array(
+		'CategoryPaperPost' => array(
+			'className' => 'CategoryPaperPost',
+			'foreignKey' => 'post_user_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+		
+			);		
 
 
 			/**
 			 * @author, Sebastian
 			 * Part 1)
-			 * after a topic has been saved, it it has do be added to CategoryPaperPost table
+			 * after a post has been saved, it it has do be added to CategoryPaperPost table
 			 * a post can come to this table bacause:
 			 * - the posts user is associated to a paper/category or
 			 * - the posts topic is associated to a paper/category
@@ -137,6 +153,7 @@ class PostUser extends AppModel {
 						$this->CategoryPaperPost->save($categoryPaperPostData);
 					}
 
+					//@ todo sebastian -> refactor -> alles referenzen zu dem topic laden (wenn vorhanden) und dann post in index schreiben
 					//now all references to all topics
 					$topicReferences = $this->User->getUserTopicReferences($user_id);
 

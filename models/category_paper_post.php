@@ -24,6 +24,7 @@ class CategoryPaperPost extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+
 			)
 			);
 
@@ -47,8 +48,13 @@ class CategoryPaperPost extends AppModel {
 			public function buildWholeIndex($truncate = true){
 				//get all content_associations from any user/topic to any paper/category
 				$allContentData = $this->ContentPaper->find('all');
-				
+
 				debug($allContentData);
 			}
+
+
+
+
+
 }
 ?>

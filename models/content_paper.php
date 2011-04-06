@@ -42,6 +42,23 @@ class ContentPaper extends AppModel {
 			'fields' => '',
 			'order' => ''
 			)
-			);
+		);
+			
+	var $hasMany = array(
+		'CategoryPaperPost' => array(
+			'className' => 'CategoryPaperPost',
+			'foreignKey' => 'content_paper_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+			
+		);
 }
 ?>

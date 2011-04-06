@@ -51,7 +51,7 @@ class TopicsController extends AppController {
 			$this->Session->setFlash(__('Invalid id for topic', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Topic->delete($id)) {
+		if ($this->Topic->delete($id, true)) {
 			$this->Session->setFlash(__('Topic deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}

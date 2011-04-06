@@ -47,13 +47,27 @@ class Paper extends AppModel {
 		'Category' => array(
 			'className' => 'Category',
 			'foreignKey' => 'paper_id',
+			'dependent' => true,
 			'conditions' => array('parent_id' => 0),//IMPORTANT! to avoid show sub-category in root
 			//	'dependent' => false
 			),
 		'Subscription' => array(
 			'className' => 'Subscription',
 			'foreignKey' => 'paper_id',
-			'dependent' => false,
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+			),
+		'ContentPaper' => array(
+			'className' => 'ContentPaper',
+			'foreignKey' => 'paper_id',
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -63,7 +77,7 @@ class Paper extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 			)
-			);
+		);
 
 			/**
 			 * @author tim
@@ -75,16 +89,21 @@ class Paper extends AppModel {
 				$subscriptionData = array(
 							'paper_id' => $this->id,
 						   	'user_id' => $user_id);
+				
 				if(($this->Subscription->find('count',array('conditions' => $subscriptionData))) == 0){
-
-					if($data['Paper']['owner_id'] != $user_id){
+				
+					if($this->data['Paper']['owner_id'] != $user_id){
 						//paper is not from subscribing user
 						//creating subscription
 						$this->Subscription->create();
+						
 						if($this->Subscription->save($subscriptionData)){
+							
 							//subscription was saved
-							$data['Paper']['count_subscriptions'] += 1;
-							$this->save($data['Paper']);
+							$this->data['Paper']['count_subscriptions'] += 1;
+							debug($this->data);
+							$this->save($this->data['Paper']);
+							
 							return true;
 						}	else {
 							// subscription couldn't be saved
@@ -115,7 +134,7 @@ class Paper extends AppModel {
 			 */
 			public function unsubscribe($user_id){
 
-				if($data['Paper']['owner_id'] != $user_id){
+				if($this->data['Paper']['owner_id'] != $user_id){
 
 					// just in case there are several subscriptions for the combination post/user - all will be deleted.
 					$subscriptions =  $this->Subscription->find('all',array('conditions' => array('Subscription.paper_id' => $this->id, 'Subscription.user_id' => $user_id)));
@@ -132,8 +151,8 @@ class Paper extends AppModel {
 
 					if($delete_counter >= 1){
 						//decrementing subscribers counter
-						$data['Paper']['count_subscriptions'] -= 1;
-						$this->save($data);
+						$this->data['Paper']['count_subscriptions'] -= 1;
+						$this->save($this->data);
 					} else {
 						$this->log('Paper/unsubscribe: Subscription could not be removed or no subscription found');
 					}
@@ -221,12 +240,12 @@ class Paper extends AppModel {
 
 				if($this->id){
 					/**
-					 * @todo alf: hier wird glaub ich jedes mal nen satz erzeugt. stattdessen mŸsste ein Satz bei created angelegt werden und bei nicht created ge-updatet, bzw gelšscht und neu angelegt werden
+					 * @todo alf: hier wird glaub ich jedes mal nen satz erzeugt. stattdessen mï¿½sste ein Satz bei created angelegt werden und bei nicht created ge-updatet, bzw gelï¿½scht und neu angelegt werden
 					 */
 					//get User information
 					$user = new User();
 
-					$userData = $user->read(null, $data['Paper']['owner_id']);
+					$userData = $user->read(null, $this->data['Paper']['owner_id']);
 					$data['Paper']['index_id'] = 'paper_'.$this->id;
 					$data['Paper']['id'] = $this->id;
 					$data['Paper']['type'] = Solr::TYPE_PAPER;
@@ -254,6 +273,7 @@ class Paper extends AppModel {
 					$this->log('Error while adding paper to solr! No paper id in afterSave()');
 				}
 			}
+
 
 
 			/**
@@ -340,7 +360,7 @@ class Paper extends AppModel {
 			 * - if the whole user is associated to a paper or category, check if there are already
 			 *   other associations to one or more topic of the user IN THIS paper or category
 			 *
-			 *   @todo ask is want to delete all other refs to the user«s topics and add whole user
+			 *   @todo ask is want to delete all other refs to the userï¿½s topics and add whole user
 			 *
 			 * - if a topic is associated to a paper or a category, check if this topic isnt already
 			 *   associated in this category

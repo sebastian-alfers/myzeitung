@@ -5,11 +5,13 @@ class PapersController extends AppController {
 	var $components = array('Auth', 'Session', 'Papercomp');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
 	var $helpers = array('Time', 'Image');
+	
+	var $test = 'adsf';
 
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index');
+		$this->Auth->allow('index','view');
 	}
 
 	function index() {
@@ -56,9 +58,11 @@ class PapersController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 
-		/*writing all settings for the paginate function.
-		 important here is, that only the paper's posts are subject for pagination.*/
-		$this->paginate = array(
+		
+		/*writing all settings for the paginate function. 
+		  important here is, that only the paper's posts are subject for pagination.*/
+		  $this->paginate = array(
+
 			        'Post' => array(
 		//setting up the join. this conditions describe which posts are gonna be shown
 			            'joins' => array(
@@ -68,24 +72,34 @@ class PapersController extends AppController {
 			                    'type' => 'INNER',
 			                    'conditions' => array(
 			                        'CategoryPaperPost.post_id = Post.id',
-			                		'CategoryPaperPost.paper_id' => $paper_id
-		),
-
-		),
-			
-		),
-		//limit of records per page
-			            'limit' => 10,
-		//order
-			            'order' => 'CategoryPaperPost.created DESC',
-		//contain array: limit the (related) data and models being loaded per post
+			                	//	'CategoryPaperPost.paper_id' => $paper_id
+			                    ),
+			                    
+			                   'fields' => array('CategoryPaperPost.post_id'),
+			                //  'group' => array('CategoryPaperPost.post_id')
+			                ),
+			                
+			            ),
+			          'group' => array('CategoryPaperPost.post_id'),
+			            //limit of records per page
+			              'limit' => 10,
+			            
+					 'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
+			            //order
+			          'order' => 'CategoryPaperPost.created DESC',
+			        //  'order' => 'Post.id ASC',
+			        	//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('User.id','User.username'),
-		)
-		);
-		if($category_id != null){
-			//adding the topic to the conditions array for the pagination - join
-			$this->paginate['Post']['joins'][0]['conditions']['CategoryPaperPost.category_id'] = $category_id;
-		}
+			         )
+			    );  
+		
+			 //useCustom defines which kind of paginateCount the Post-Model should use. "true" -> counting entries in category_paper_posts
+			 $this->Paper->Post->useCustom = true;
+	
+	    if($category_id != null){
+	    	//adding the topic to the conditions array for the pagination - join
+	    	$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
+	    }		
 
 		$this->Paper->contain('User.id', 'User.username', 'Category.name', 'Category.id');
 		$this->set('paper', $this->Paper->read(null, $paper_id));
@@ -194,8 +208,8 @@ class PapersController extends AppController {
 	}
 
 	/**
-	 * controller to add content association for:
-	 * - paper / category /subcategory of category
+	 * controller to add content asociaation for:
+	 * - paper / category / subcategory of category
 	 *
 	 * Enter description here ...
 	 */
@@ -324,7 +338,7 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid id for paper', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Paper->delete($id)) {
+		if ($this->Paper->delete($id, true)) {
 			$this->Session->setFlash(__('Paper deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}

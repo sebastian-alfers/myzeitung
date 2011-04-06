@@ -21,7 +21,22 @@ class PostsController extends AppController {
 
 
 	function index() {
-		$this->Post->recursive = 0;
+		$this->paginate = array(
+	        'Post' => array(
+		//limit of records per page
+	            'limit' => 10,
+		//order
+	            'order' => 'created DESC',
+		//fields - custom field sum...
+		    	'fields' => array(						
+		),
+		//contain array: limit the (related) data and models being loaded per post
+	            'contain' => array('User.username','User.id'),
+		)
+		);
+		//$this->Post->useCustom = false;
+		//$this->Post->useCustom = false;
+
 		$this->set('posts', $this->paginate());
 	}
 
@@ -42,8 +57,9 @@ class PostsController extends AppController {
 		if(isset($post_id)){
 
 			$this->Post->contain();
+			debug('repost action read');
 			if($this->Post->read(null, $post_id)){
-
+				debug('repost action AFTER read');
 				if($this->Post->repost($this->Auth->user('id'), $topic_id)){
 					$this->Session->setFlash(__('Post successfully reposted.', true));
 				} else {
@@ -135,18 +151,28 @@ class PostsController extends AppController {
 	function add() {
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-				
+
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}
+				
+				
 
-			
+				
 			$this->data["Post"]["user_id"] = $user_id;
 			$this->data['Post']['image_details'] = $this->data['Post']['image'];
 			$this->data['Post']['image'] = $this->data['Post']['image_details']['name'];
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
+				//path for image
+				$img = $this->data['Post']['image_details']['name'];
 
+				$first = strtolower(substr($img,0,1));
+				$second = strtolower(substr($img,1,1));
+				$imgPath = 'img/post/'.$first.DS.$second;
+				if($this->data['Post']['image_details']['name']){
+					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
+				}
 
 				//now add new url key for post
 				/*		$route = new Route();
@@ -161,35 +187,14 @@ class PostsController extends AppController {
 					
 				}*/
 
-
-
-
-
-
 				$PostUserData = array('user_id' => $user_id,
 									   'post_id' => $this->Post->id);
 				if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != self::NO_TOPIC_ID){
 					$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
 				}
 
-
-				//path for image
-				$img = $this->data['Post']['image_details']['name'];
-
-				$first = strtolower(substr($img,0,1));
-				$second = strtolower(substr($img,1,1));
-				$imgPath = 'img/post/'.$first.DS.$second;
-				if($this->data['Post']['image_details']['name']){
-					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
-				}
-
-
-				$PostUserData['image'] = $imgPath.DS.$this->data['Post']['image'];
-
 				$this->PostUser->create();
 				$this->PostUser->save($PostUserData);
-
-
 
 				//$this->set('uploaded',$uploaded);
 
@@ -202,7 +207,7 @@ class PostsController extends AppController {
 			}
 		}
 
-		//for 'list' no contain needed. just selects the displayfield of the specific model.
+		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
 
@@ -242,7 +247,8 @@ class PostsController extends AppController {
 			$this->Session->setFlash(__('Invalid id for post', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Post->delete($id)) {
+		// second param = cascade -> delete associated records from hasmany , hasone relations
+		if ($this->Post->delete($id, true)) {
 			$this->Session->setFlash(__('Post deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}

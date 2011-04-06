@@ -166,7 +166,7 @@ class UsersController extends AppController {
 	            //limit of records per page
 	            'limit' => 10,
 	            //order
-	            'order' => 'Subscription.own_paper DESC ,Paper.title ASC',
+	            'order' => 'Subscription.own_paper ASC , Paper.title ASC',
 	        	//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
 	         )
@@ -213,7 +213,7 @@ class UsersController extends AppController {
 
 				//@todo move it to a better place -> to user model
 				//afer adding user -> add new route
-				$route = new Route();
+		/*		$route = new Route();
 				$route->create();
 
 				if( $route->save(array('source' => $this->data['User']['username'] ,
@@ -221,7 +221,7 @@ class UsersController extends AppController {
 							   'target_action'     	=> 'view',
 							   'target_param'		=> $this->User->id)))
 				{
-					if($route->id){
+					if($route->id){ 
 						$this->data['User']['route_id'] = $route->id;
 						$this->User->save($this->data);
 						$this->redirect('/'.$this->data['User']['username']);
@@ -235,7 +235,7 @@ class UsersController extends AppController {
 					$this->Session->setFlash(__('Please choose a valid url key', true));
 					$this->redirect(array('action' => 'add'));
 				}
-
+                        */
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -271,7 +271,7 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__('Invalid id for user', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->User->delete($id)) {
+		if ($this->User->delete($id, true)) {
 			$this->Session->setFlash(__('User deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
