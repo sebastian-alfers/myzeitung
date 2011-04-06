@@ -312,7 +312,7 @@ class Post extends AppModel {
 			//write PostUser-Entry
 		} else {
 			//update entry
-			
+	
 		}
 		
 		
