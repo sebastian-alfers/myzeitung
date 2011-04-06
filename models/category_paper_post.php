@@ -35,7 +35,6 @@ class CategoryPaperPost extends AppModel {
 				$this->ContentPaper = new ContentPaper();
 			}
 
-
 			/**
 			 * builds the complete index table
 			 *
