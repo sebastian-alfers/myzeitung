@@ -187,14 +187,7 @@ class PostsController extends AppController {
 					
 				}*/
 
-				$PostUserData = array('user_id' => $user_id,
-									   'post_id' => $this->Post->id);
-				if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != 'null'){
-					$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
-				}
-
-				$this->PostUser->create();
-				$this->PostUser->save($PostUserData);
+				
 
 				//$this->set('uploaded',$uploaded);
 

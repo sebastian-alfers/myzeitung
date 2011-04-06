@@ -309,10 +309,20 @@ class Post extends AppModel {
 		App::import('model','PostUser');
 		$this->PostUser = new PostUser();
 		
+		
 		if($created){
 			//write PostUser-Entry
+			$PostUserData = array('user_id' => $this->data['Post']['user_id'],
+									   'post_id' => $this->id);
+				if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
+					$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
+				}
+
+				$this->PostUser->create();
+				$this->PostUser->save($PostUserData);
 		} else {
 			//update entry
+			debug($this->data);
 	
 		}
 		
