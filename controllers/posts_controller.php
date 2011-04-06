@@ -187,14 +187,7 @@ class PostsController extends AppController {
 					
 				}*/
 
-				$PostUserData = array('user_id' => $user_id,
-									   'post_id' => $this->Post->id);
-				if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != self::NO_TOPIC_ID){
-					$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
-				}
-
-				$this->PostUser->create();
-				$this->PostUser->save($PostUserData);
+				
 
 				//$this->set('uploaded',$uploaded);
 
@@ -209,7 +202,7 @@ class PostsController extends AppController {
 
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
+		$topics['null'] = __('No Topic', true);
 
 
 		$this->set(compact('topics'));
