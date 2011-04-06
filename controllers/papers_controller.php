@@ -225,7 +225,7 @@ class PapersController extends AppController {
 				 *       refactor the logic while using the category model like $this->Category->associateContent()
 				 */
 				if($this->Paper->associateContent($this->data)){
-					$msg = __('Content has been associated to paper');
+					$msg = __('Content has been associated to paper', true);
 					
 					//import posts to paper / category, that have been created in the past
 					//$postImportLog = $this->importPastPosts();
