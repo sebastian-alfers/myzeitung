@@ -149,19 +149,20 @@ class PostsController extends AppController {
 	}
 
 	function add() {
+
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-
+			debug($this->data);die();
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}
-				
-				
 
-				
+
+
+
 			$this->data["Post"]["user_id"] = $user_id;
 			$this->data['Post']['image_details'] = $this->data['Post']['image'];
-			$this->data['Post']['image'] = $this->data['Post']['image_details']['name'];
+			$this->data['Post']['image'] = $this->data['Post']['image_details'];
 			$this->Post->create();
 			if ($this->Post->save($this->data)) {
 				//path for image
@@ -170,8 +171,8 @@ class PostsController extends AppController {
 				$first = strtolower(substr($img,0,1));
 				$second = strtolower(substr($img,1,1));
 				$imgPath = 'img/post/'.$first.DS.$second;
-				if($this->data['Post']['image_details']['name']){
-					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image_details'], $imgPath, '');
+				if($this->data['Post']['image']['name']){
+					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image'], $imgPath, '');
 				}
 
 				//now add new url key for post
@@ -187,7 +188,7 @@ class PostsController extends AppController {
 					
 				}*/
 
-				
+
 
 				//$this->set('uploaded',$uploaded);
 
@@ -207,12 +208,24 @@ class PostsController extends AppController {
 
 		$this->set(compact('topics'));
 		$this->set('user_id',$user_id);
+		$this->set('hash', $this->_getHash());
 
+		//same template for add and edit
+		$this->render('add_edit');
 
 	}
 
 	function edit($id = null) {
+		//debug($this->data);die();
+		unset($this->data['Post']['image']);
 
+
+		if($this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
+			//if no topic -> remote value to make NULL in db
+			unset($this->data['Post']['topic_id']);
+		}
+
+		$user_id = $this->Auth->User('id');
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect(array('action' => 'index'));
@@ -228,9 +241,17 @@ class PostsController extends AppController {
 		if (empty($this->data)) {
 			$this->Post->contain();
 			$this->data = $this->Post->read(null, $id);
+			if(empty($this->data['Post']['topic_id']))$this->data['Post']['topic_id'] = 'null';
 		}
-		$topics = $this->Post->Topic->find('list');
+		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+		$topics['null'] = __('No Topic', true);
+
 		$this->set(compact('topics', 'users'));
+
+		$this->set('hash', $this->_getHash());
+		$this->set('user_id',$user_id);
+		//same template for add and edit
+		$this->render('add_edit');
 	}
 
 
@@ -249,6 +270,42 @@ class PostsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+	/**
+	 * action to be called from multiple file upload for add / edit
+	 */
+	function ajxImageProcess(){
 
+		if(isset($_FILES['file'])){
+			$file = $_FILES['file'];
+			
+			$this->log($file);
+			
+			$img = $file['name'];
+			if(!$img){
+				return '{"name":"error"}';
+			}
+			//******************************************
+			//@todo bring to component, refactor
+			$first = strtolower(substr($img,0,1));
+			$second = strtolower(substr($img,1,1));
+			$imgPath = $first.DS.$second;
+			//******************************************
+			//$this->log($imgPath);
+			//$this->log($img);
+			
+			$uploaded = $this->JqImgcrop->uploadImage($file, $imgPath, '');
+			
+			$ret = '{"name":"'.$file['name'].'","path":"' . $imgPath.DS.$file['name'] . '","type":"'.$file['type'].'","size":"'.$file['size'].'"}';
+			$this->log($ret);
+			$this->set('files', $ret);
+		}
+
+		$this->render('ajxImageProcess', 'ajax');//custom ctp, ajax for blank layout
+	}
+
+
+	private function _getHash(){
+		return md5(microtime().$this->Session->read('sessID'));
+	}
 }
 ?>

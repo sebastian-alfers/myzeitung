@@ -46,6 +46,7 @@ class ImageHelper extends Helper {
 		$url = $fullpath.$path;
 
 		if (!file_exists($url) || !($size = getimagesize($url))){
+			$this->log('***** ' . $url);
 			if($path == self::DEFAULT_IMG){
 				//default img not there;
 				return 'default.jpg';

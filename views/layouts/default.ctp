@@ -27,6 +27,12 @@
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
+e($html->script('jquery-1.5.1.min'));
+e($html->script('jquery.fileupload'));
+e($html->script('jquery.fileupload-ui'));
+e($html->script('jquery-ui-1.8.11.min'));
+e($html->css('jquery.fileupload-ui'));
+e($html->css('jquery-ui-1.8.11'));		
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('mz.custom');
 
@@ -34,6 +40,7 @@
 	?>
 </head>
 <body>
+asdfasdf
 	<div id="container">
 		<div id="header">
 			<?php echo $this->element('header'); ?>
