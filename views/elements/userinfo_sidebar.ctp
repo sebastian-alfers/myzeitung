@@ -5,7 +5,7 @@
 								<img class="userimage" src="../img/user-image.jpg" alt="fourbai image" />
 								<a class="btn" href=""><span>+</span>Abonnieren</a>
 							</div>
-							<h4>fourbai</h4>
+							<h4><?php echo $user['User']['username'];?></h4>
 							<?php if($user['User']['firstname'] or $user['User']['name']):?>
 							<p><strong><?php echo __('Name:'); ?></strong><?php echo $user['User']['firstname'].' '.$user['User']['name'];?></p>
 							<?php endif;?>

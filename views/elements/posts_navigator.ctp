@@ -25,307 +25,51 @@
 						
 					</div>
 						
-						<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span>.</span></li>							
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor 10 min.</li>
-								<li>Von <a href="">fourbai</a><span class="repost-ico"></span><a href="">Hannes1</a></li>
-								<li><a href=""><img class="user-image" src="../img/user-image.jpg" alt="" /></a></li>
-							</ul>
-
-							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
 						
+		<?php foreach ($posts as $index => $post):	
+				$article_reposted_by_user = false;
+				$article_belongs_to_user = false;
+				if(is_array($post['Post']['reposters'])){
+					if(in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
+						$article_reposted_by_user = true;
+					}
+				}
+				if($session->read('Auth.User.id') == $post['Post']['user_id']){
+					$article_belongs_to_user = true;
+					//just if a user could somehow repost his own post
+					$article_reposted_by_user = false;
+				}
+				
+		?>
 						<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>									
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p><img src="../img/article-image.jpg" alt="article title" /></p>
-							<ul>
-								<li>Vor 30 min.</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
+						<?php if($article_reposted_by_user):?>
 						   <span class="repost">repost</span>
+						   <?php endif;?>
 							<div class="article">
 							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>								
+								<li class="reposts"><?php echo $post['Post']['count_reposts'];?></li>
+								<li class="views"><?php echo $post['Post']['count_views'];?></li>
+								<li class="comments"><?php echo $post['Post']['count_comments'];?><span>.</span></li>								
 							</ul>
 							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
+							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
+							<span><?php echo strtoupper(substr(strip_tags($post['Post']['content'],null),0,1));?></span><?php echo substr(strip_tags($post['Post']['content'], null),1); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
 							</p>
 							<ul>
-								<li>Vor fünf Tagen</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
+								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></li>
+								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id']));?><span class="repost-ico"></span><a href="">Hans.Meiser</a></li>
+								<li><?php if(!empty($post['User']['image'])){
+							 echo $this->Html->link($this->Html->image($post['User']['image']),
+							 	array('controller' => 'users', 'action' => 'view', $user['User']['id'])); 
+							 }?></li>
 							</ul>							
 							</div><!-- /.article -->
 						</div><!-- / .articlewrapper -->
-												<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span>.</span></li>							
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor 10 min.</li>
-								<li>Von <a href="">fourbai</a><span class="repost-ico"></span><a href="">Hannes1</a></li>
-								<li><a href=""><img class="user-image" src="../img/user-image.jpg" alt="" /></a></li>
-							</ul>
-
-							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
+		
+		<?php endforeach; ?>
 						
-						<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>									
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p><img src="../img/article-image.jpg" alt="article title" /></p>
-							<ul>
-								<li>Vor 30 min.</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
-						   <span class="repost">repost</span>
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>								
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor fünf Tagen</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-												<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span>.</span></li>							
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor 10 min.</li>
-								<li>Von <a href="">fourbai</a><span class="repost-ico"></span><a href="">Hannes1</a></li>
-								<li><a href=""><img class="user-image" src="../img/user-image.jpg" alt="" /></a></li>
-							</ul>
-
-							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>									
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p><img src="../img/article-image.jpg" alt="article title" /></p>
-							<ul>
-								<li>Vor 30 min.</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
-						   <span class="repost">repost</span>
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>								
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor fünf Tagen</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-												<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span>.</span></li>							
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor 10 min.</li>
-								<li>Von <a href="">fourbai</a><span class="repost-ico"></span><a href="">Hannes1</a></li>
-								<li><a href=""><img class="user-image" src="../img/user-image.jpg" alt="" /></a></li>
-							</ul>
-
-							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>									
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p><img src="../img/article-image.jpg" alt="article title" /></p>
-							<ul>
-								<li>Vor 30 min.</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
-						   <span class="repost">repost</span>
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>								
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor fünf Tagen</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-												<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span>.</span></li>							
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor 10 min.</li>
-								<li>Von <a href="">fourbai</a><span class="repost-ico"></span><a href="">Hannes1</a></li>
-								<li><a href=""><img class="user-image" src="../img/user-image.jpg" alt="" /></a></li>
-							</ul>
-
-							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>									
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p><img src="../img/article-image.jpg" alt="article title" /></p>
-							<ul>
-								<li>Vor 30 min.</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
-						<div class="articlewrapper">
-						   <span class="repost">repost</span>
-							<div class="article">
-							<ul class="iconbar">
-								<li class="reposts">1</li>
-								<li class="views">200</li>
-								<li class="comments">2<span></span></li>								
-							</ul>
-							
-							<h5><a href="">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</a></h5>
-							<p>
-							<span>A</span>onumy eirmod sed  tem por invid unt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gube sit amet, consetetur sadipscing elitr, sed diam duo dolo res et ... <a href="" >weiterlesen</a>
-							</p>
-							<ul>
-								<li>Vor fünf Tagen</li>
-								<li>Von <a href="">fourbai</a></li>
-								<li><a href=""><img class="user-image" src="../img/default-user-image.jpg" alt="" /></a></li>
-							</ul>							
-							</div><!-- /.article -->
-						</div><!-- / .articlewrapper -->
-						
+					
 						
 					<div class="article-nav article-nav-bottom">
 						<div class="pagination">
