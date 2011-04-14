@@ -36,6 +36,7 @@
 	?>
 </head>
 	<body>
+	<?php //debug($posts);?>
 		<div id="main-wrapper">
 			<?php echo $this->element('header'); ?>
 			<div id="content">

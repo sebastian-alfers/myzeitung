@@ -54,15 +54,12 @@
 							
 							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 							<p>
-							<span><?php echo strtoupper(substr(strip_tags($post['Post']['content'],null),0,1));?></span><?php echo substr(strip_tags($post['Post']['content'], null),1); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
+							<?php echo substr(strip_tags($post['Post']['content'], null),0); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
 							</p>
 							<ul>
 								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></li>
 								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id']));?><span class="repost-ico"></span><a href="">Hans.Meiser</a></li>
-								<li><?php if(!empty($post['User']['image'])){
-							 echo $this->Html->link($this->Html->image($post['User']['image']),
-							 	array('controller' => 'users', 'action' => 'view', $user['User']['id'])); 
-							 }?></li>
+								<li><?php echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?></li>
 							</ul>							
 							</div><!-- /.article -->
 						</div><!-- / .articlewrapper -->

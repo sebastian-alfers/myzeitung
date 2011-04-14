@@ -114,7 +114,7 @@ class UsersController extends AppController {
 	            //order
 	            'order' => 'PostsUser.created DESC',
 	        	//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array( 'User.id','User.username'),
+	            'contain' => array( 'User.id','User.username', 'User.image'),
 	         )
 	    );
 	    if($topic_id != null){

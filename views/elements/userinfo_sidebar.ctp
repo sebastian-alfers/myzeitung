@@ -2,7 +2,7 @@
 				<div class="leftcol">
 					<div class="leftcolcontent">
 							<div class="userstart">
-								<img class="userimage" src="../img/user-image.jpg" alt="fourbai image" />
+								<?php echo $this->Html->image($user['User']['image'], array("class" => "userimage", "alt" => $user['User']['username']."-image",));?>
 								<a class="btn" href=""><span>+</span>Abonnieren</a>
 							</div>
 							<h4><?php echo $user['User']['username'];?></h4>
@@ -13,16 +13,20 @@
 							<p><strong><?php echo __('About me:')?></strong> Lorem ipsum dolor sit amet, consetet. m voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea</p>
 							<p class="user-url"><strong>URL: </strong><a href="">www.4bai.de</a></p>
 							<hr />
+
+							<?php if(count($user['Topic']) > 0): ?>
 							<h6>Themen</h6>
 							<ul>
-	    						<li><a href="" >Alle Themen (30)</a></li>
-	    						<li><a href="" >Politik (11)</a></li>
-	    						<li><a href="" >Fu§ball (9)</a></li>
-	    						<li><a href="" >Programmieren(10)</a></li>
-	    					</ul>
+			        			<?php foreach($user['Topic'] as $topic):?>
+			        	 			<li><?php echo $this->Html->link($topic['name'], array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> </li>
+			      		  		<?php endforeach;?>
+			      		  	</ul>
 							<hr />
-							<ul>
-								<li>Abonenten: 2359 / 40</li>
+			  				  <?php endif; ?>
+
+
+							  <ul>
+						   		<li>Abonenten: 2359 / 40</li>
 								<li>Abonements: 100 / 40</li>
 								<li>Artikel: 200</li>
 								<li>Zeitungen: 3</li>
