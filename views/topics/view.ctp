@@ -72,9 +72,9 @@
 			<td><?php echo $post['modified'];?></td>
 			<td><?php echo $post['created'];?></td>
 			<td><?php echo $post['enabled'];?></td>
-			<td><?php echo $post['count_views'];?></td>
-			<td><?php echo $post['count_reposts'];?></td>
-			<td><?php echo $post['count_comments'];?></td>
+			<td><?php echo $post['view_count'];?></td>
+			<td><?php echo $post['posts_user_comment'];?></td>
+			<td><?php echo $post['comment_count'];?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View', true), array('controller' => 'posts', 'action' => 'view', $post['id'])); ?>
 				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'posts', 'action' => 'edit', $post['id'])); ?>

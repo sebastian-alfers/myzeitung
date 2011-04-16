@@ -2,25 +2,11 @@
 					<div id="maincol">
 					
 					<div class="article-nav">
-						<div class="sort-by">Sortieren nach <strong class="dropdown">Datum<span></span></strong>
-							<ul style="display:none;">
-								<li>Views</li>
-								<li>Kommentare</li>
-								<li>Reposts</li>
-							</ul>
-						</div>
+
 						<div class="pagination">
-							Seite: <strong>1</strong> 
-							<a href="">2</a> 
-							<a href="">3</a>
-							<a href="">4</a>
-							<a href="">5</a>
-							<a href="">6</a>
-							<a href="">7</a>
-							<a href="">8</a>
-							<a href="">9</a>
-							<span>... 999</span>
-							<a href="">weiter ></a>
+							<?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
+							<?php echo $this->Paginator->numbers(array('separator' => '')); ?>
+							<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
 						</div>
 						
 					</div>
@@ -47,9 +33,9 @@
 						   <?php endif;?>
 							<div class="article">
 							<ul class="iconbar">
-								<li class="reposts"><?php echo $post['Post']['count_reposts'];?></li>
-								<li class="views"><?php echo $post['Post']['count_views'];?></li>
-								<li class="comments"><?php echo $post['Post']['count_comments'];?><span>.</span></li>								
+								<li class="reposts"><?php echo $post['Post']['posts_user_count'];?></li>
+								<li class="views"><?php echo $post['Post']['view_count'];?></li>
+								<li class="comments"><?php echo $post['Post']['comment_count'];?><span>.</span></li>								
 							</ul>
 							
 							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
@@ -70,17 +56,9 @@
 						
 					<div class="article-nav article-nav-bottom">
 						<div class="pagination">
-							Seite: <strong>1</strong> 
-							<a href="">2</a> 
-							<a href="">3</a>
-							<a href="">4</a>
-							<a href="">5</a>
-							<a href="">6</a>
-							<a href="">7</a>
-							<a href="">8</a>
-							<a href="">9</a>
-							<span>... 999</span>
-							<a href="">weiter ></a>
+							<?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
+							<?php echo $this->Paginator->numbers(array('separator' => '')); ?>
+							<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
 						</div><!-- / .pagination-->
 					</div><!-- / .article-nav -->													
 					

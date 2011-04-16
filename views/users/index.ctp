@@ -6,9 +6,9 @@
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('username');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('count_posts_reposts');?></th>
-			<th><?php echo $this->Paginator->sort('count_reposts');?></th>
-			<th><?php echo $this->Paginator->sort('count_comments');?></th>
+			<th><?php echo $this->Paginator->sort('post_count');?></th>
+			<th><?php echo $this->Paginator->sort('posts_user_count');?></th>
+			<th><?php echo $this->Paginator->sort('comment_count');?></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -24,9 +24,9 @@
 		<td><?php echo $this->Html->link($user['User']['name'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
 		<td><?php echo $this->Html->link($user['User']['username'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
 		<td><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?>&nbsp;</td>
-		<td><?php echo $user['User']['count_posts_reposts']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['count_reposts']; ?>&nbsp;</td>
-		<td><?php echo $user['User']['count_comments']; ?>&nbsp;</td>
+		<td><?php echo $user['User']['post_count']; ?>&nbsp;</td>
+		<td><?php echo $user['User']['posts_user_count']; ?>&nbsp;</td>
+		<td><?php echo $user['User']['comment_count']; ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>

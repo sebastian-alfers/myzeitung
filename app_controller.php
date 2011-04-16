@@ -42,6 +42,7 @@ class AppController extends Controller {
 			'controller' => 'users',
 			'loginAction' => 'login',
 			'logoutAction' => 'logout'
+		
 		);
 
 		

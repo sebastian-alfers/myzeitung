@@ -19,28 +19,33 @@ class ContentPaper extends AppModel {
 			'foreignKey' => 'paper_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true
 			),
 		'Category' => array(
 			'className' => 'Category',
 			'foreignKey' => 'category_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true,
 			),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true,
+			
 			),
 		'Topic' => array(
 			'className' => 'Topic',
 			'foreignKey' => 'topic_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true,
 			)
 			);
 

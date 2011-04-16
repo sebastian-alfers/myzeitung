@@ -17,6 +17,7 @@
 							<?php if(count($user['Topic']) > 0): ?>
 							<h6>Themen</h6>
 							<ul>
+									<li><?php echo $this->Html->link(__('All Topics', true), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?> </li>
 			        			<?php foreach($user['Topic'] as $topic):?>
 			        	 			<li><?php echo $this->Html->link($topic['name'], array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> </li>
 			      		  		<?php endforeach;?>

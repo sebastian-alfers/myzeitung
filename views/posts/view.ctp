@@ -48,17 +48,17 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Count Views'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['count_views']; ?>
+			<?php echo $post['Post']['view_count']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Count Reposts'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['count_reposts']; ?>
+			<?php echo $post['Post']['posts_user_count']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Count Comments'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($post['Post']['count_comments'], array('controller' => 'comments', 'action' => 'show', $post['Post']['id'])); ?>
+			<?php echo $this->Html->link($post['Post']['comment_count'], array('controller' => 'comments', 'action' => 'show', $post['Post']['id'])); ?>
 			&nbsp;
 		</dd>
 	</dl>

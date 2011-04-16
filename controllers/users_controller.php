@@ -61,9 +61,9 @@ class UsersController extends AppController {
 		    						'User.firstname',
 		    						'User.name',
 		    						'User.created',
-		    						'User.count_posts_reposts',	
-		    						'User.count_reposts',
-		    						'User.count_comments'  									
+		    						'User.posts_user_count',	
+		    						'User.post_count',
+		    						'User.comment_count'  									
 		    ),
 	        	//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
@@ -103,14 +103,10 @@ class UsersController extends AppController {
 	                        'PostsUser.post_id = Post.id',
 	                		'PostsUser.user_id' => $user_id
 	                    ),
-	                    
-	                    
-	                   
-	                ),
-	                
+	                ),   
 	            ),
 	            //limit of records per page
-	            'limit' => 10,
+	            'limit' => 3,
 	            //order
 	            'order' => 'PostsUser.created DESC',
 	        	//contain array: limit the (related) data and models being loaded per post
@@ -124,7 +120,7 @@ class UsersController extends AppController {
 	   
 			//unbinding irrelevant relations for the query
 			$this->User->contain('Topic.id', 'Topic.name');
-			$this->set('user', $this->User->read(array('id','firstname','name','username','created','count_posts_reposts','count_reposts','count_comments'), $user_id));
+			$this->set('user', $this->User->read(array('id','firstname','name','username','created','image' ,'posts_user_count','post_count','comment_count'), $user_id));
 			$this->set('posts', $this->paginate($this->User->Post));
 	}
 
@@ -162,7 +158,7 @@ class UsersController extends AppController {
 	                ),
 	            ),
 	            //fields
-	            'fields' => array('id','owner_id','title','description','created','count_subscriptions'),
+	            'fields' => array('id','owner_id','title','description','created','subscription_count'),
 	            //limit of records per page
 	            'limit' => 10,
 	            //order
@@ -178,7 +174,7 @@ class UsersController extends AppController {
 	   
 			//unbinding irrelevant relations for the query
 			$this->User->contain();
-			$this->set('user', $this->User->read(array('id','firstname','name','username','created','count_posts_reposts','count_reposts','count_comments'), $user_id));
+			$this->set('user', $this->User->read(array('id','firstname','name','username','created','posts_user_count','post_count','comment_count'), $user_id));
 			$papers = $this->paginate($this->User->Paper);
 
 			//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper

@@ -15,14 +15,20 @@ class PostUser extends AppModel {
 			'foreignKey' => 'post_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			//counting just reposts
+			'counterCache' => true,
+			'counterScope' => array('repost' => true)			
 			),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			//counting just reposts
+			'counterCache' => true,
+			'counterScope' => array('repost' => true)
 			)
 
 			);
@@ -63,12 +69,7 @@ class PostUser extends AppModel {
 			 * 3. validate collected data
 			 *  - it is very important, that a paper (and his categories) containt the posts
 			 *    only once!
-			 *
-			 * @todo part2
-			 * @author Tim
-			 * Part 2)
-			 * counting the Posts/Reposts of a User and writing it to the User's counter variables
-			 *
+
 			 *
 			 */
 			function afterSave($created){
@@ -89,39 +90,11 @@ class PostUser extends AppModel {
 				}
 				
 
-				//Part 2 - Post-Counter / Repost-Counter
-				if($created){
-					//uses userdate of read in part1
-					//@todo if redudant : in aftersave and beforedelete
-					if($userData['User']['id']){
-						//count users reposts
-						$userData['User']['count_reposts'] = $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'], 'repost' => true)));
-						//count users posts and reposts as a sum
-						$userData['User']['count_posts_reposts'] = $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'])));
-						$this->User->save($userData);
-					}
-
-				}
 			}
 				
 				
-			function beforeDelete(){
-				$this->contain();
-				$this->data = $this->read(null, $this->id);
-				//reading user
-				$this->User->contain();
-				$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
-				//@todo if redudant : in aftersave and beforedelete
-				if($userData['User']['id']){
-					//count users reposts (-1 + count, because the count is executed BEFORE the delete)
-					$userData['User']['count_reposts'] = -1 + $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'], 'repost' => true)));
-					//count users posts and reposts as a sum (-1 + count, because the count is executed BEFORE the delete)
-					$userData['User']['count_posts_reposts'] = -1 + $this->find('count',array('conditions' => array('PostUser.user_id' => $userData['User']['id'])));
-					$this->User->save($userData);
-				}
-				return true;
 
-			}
+
 				
 			private function _publishPostInPaperAndCategories($userData){
 				if($userData['User']['id']){

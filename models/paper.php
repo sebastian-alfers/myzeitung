@@ -100,10 +100,7 @@ class Paper extends AppModel {
 						if($this->Subscription->save($subscriptionData)){
 							
 							//subscription was saved
-							$this->data['Paper']['count_subscriptions'] += 1;
-							debug($this->data);
-							$this->save($this->data['Paper']);
-							
+						
 							return true;
 						}	else {
 							// subscription couldn't be saved
@@ -149,11 +146,8 @@ class Paper extends AppModel {
 						$this->log('Paper/unsubscribe: User '.$user_id.' had more then 1 subscription entry for Paper '.$this->id.'. (now deleted) This should not be possible.');
 					}
 
-					if($delete_counter >= 1){
-						//decrementing subscribers counter
-						$this->data['Paper']['count_subscriptions'] -= 1;
-						$this->save($this->data);
-					} else {
+					if($delete_counter < 1){
+
 						$this->log('Paper/unsubscribe: Subscription could not be removed or no subscription found');
 					}
 					return true;

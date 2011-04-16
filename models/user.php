@@ -204,15 +204,28 @@ class User extends AppModel {
 		}
 		
 		function afterFind($results){
+			
 			//adding default user image to users without an image
 			 foreach($results as $key => $val) {
-			 					
-				if(empty($val['User']['image'])){
-						$results[$key]['User']['image'] = 'default-user-image.jpg';
-				}
-			
-				
-			}
+			 	if(isset($val['User'])){
+					if(isset($val['User']['image'])){		
+						if(empty($val['User']['image'])){
+								$results[$key]['User']['image'] = 'default-user-image.jpg';
+						}
+					}
+
+			 	}
+		 		if(isset($val['image'])){	
+					if(empty($val['image'])){
+							$results[$key]['image'] = 'default-user-image.jpg';
+					}
+				} 
+			 }
+			 if(isset($results['user'])){
+			 	if(empty($results['image'])){
+			 		$results['image'] = 'default-user-image.jpg';
+			 	}
+			 }
 			return $results;
 		}
 
@@ -309,12 +322,10 @@ class User extends AppModel {
 			unset($data['User']['enabled']);
 			unset($data['User']['group_id']);
 			unset($data['User']['route_id']);
-			unset($data['User']['posts_reposts']);
-			unset($data['User']['count_posts_reposts']);
-			unset($data['User']['count_comments']);
+
 			
 			
-			unset($data['User']['count_reposts']);
+			unset($data['User']['posts_user_count']);
 
 			
 			

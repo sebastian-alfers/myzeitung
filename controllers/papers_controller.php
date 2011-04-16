@@ -19,7 +19,7 @@ class PapersController extends AppController {
 		$this->paginate = array(
 		 	 'Paper' => array(
 		//fields
-	          			  'fields' => array('id','owner_id','title','description','created','count_subscriptions'),
+	          			  'fields' => array('id','owner_id','title','description','created','subscription_count'),
 		//limit of records per page
 			            'limit' => 10,	        
 		//order
@@ -89,7 +89,7 @@ class PapersController extends AppController {
 			          'order' => 'CategoryPaperPost.created DESC',
 			        //  'order' => 'Post.id ASC',
 			        	//contain array: limit the (related) data and models being loaded per post
-			            'contain' => array('User.id','User.username'),
+			            'contain' => array('User.id','User.username', 'User.image'),
 			         )
 			    );  
 		
@@ -101,7 +101,7 @@ class PapersController extends AppController {
 	    	$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
 	    }		
 
-		$this->Paper->contain('User.id', 'User.username', 'Category.name', 'Category.id');
+		$this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id');
 		$this->set('paper', $this->Paper->read(null, $paper_id));
 		$this->set('posts', $this->paginate($this->Paper->Post));
 		

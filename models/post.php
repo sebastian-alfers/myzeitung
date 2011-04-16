@@ -5,7 +5,7 @@ class Post extends AppModel {
 	var $useCustom = false;
 	var $topicChanged = false;
 
-	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_views'));
+	var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
 
 
 
@@ -51,7 +51,8 @@ class Post extends AppModel {
 			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true,
 			),
 		'Topic' => array(
 			'className' => 'Topic',
@@ -139,9 +140,6 @@ class Post extends AppModel {
 							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
 							if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
 								$this->data['Post']['reposters'][] = $user_id;
-								//increment count_reposts for the reposted post (by count reposters array)
-								$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);
-								//debug('before save post');
 								//debug($this->data);
 								$this->save($this->data);
 								//debug('after save post');
@@ -158,8 +156,7 @@ class Post extends AppModel {
 					// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
 					if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
 						$this->data['Post']['reposters'][] = $user_id;
-						//increment count_reposts for the reposted post (by count reposters array)
-						$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);
+						
 						$this->save($this->data['Post']);
 					}
 					$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
@@ -202,7 +199,6 @@ class Post extends AppModel {
 						$pos = array_search($user_id,$this->data['Post']['reposters']);
 						unset($this->data['Post']['reposters'][$pos]);
 					}
-					$this->data['Post']['count_reposts'] = count($this->data['Post']['reposters']);
 					$this->save($this->data['Post']);
 					return true;
 				}
@@ -372,9 +368,9 @@ class Post extends AppModel {
 			 */
 			private function removeFieldsForIndex($data){
 				unset($data['Post']['enabled']);
-				unset($data['Post']['count_views']);
-				unset($data['Post']['count_reposts']);
-				unset($data['Post']['count_comments']);
+				unset($data['Post']['view_count']);
+				unset($data['Post']['posts_user_count']);
+				unset($data['Post']['comment_count']);
 				unset($data['Post']['topic_id']);
 				unset($data['Post']['modified']);
 				unset($data['Post']['created']);

@@ -27,7 +27,7 @@
 					<?php // endif; ?> 
 				</td>
 				<td><?php echo $this->Html->link($paper['Paper']['title'], array('controller' => 'papers','action' => 'view', $paper['Paper']['id'])); ?></td>
-				<td><?php echo $paper['Paper']['count_subscriptions'];?></td>
+				<td><?php echo $paper['Paper']['subscription_count'];?></td>
 				<td class="actions">
 							
 					<?php

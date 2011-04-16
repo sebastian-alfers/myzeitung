@@ -10,15 +10,18 @@ class Subscription extends AppModel {
 			'foreignKey' => 'paper_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true 
 		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
-		)
+			'order' => '',
+			'counterCache' => true,
+			'counterScope' => array('own_paper' => false),
+				)
 	);
 }
 
