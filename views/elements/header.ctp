@@ -4,13 +4,11 @@
 						<?php if($session->read('Auth.User.id')): // logged in??>
 						<?php echo __("logged in as", true)." "; ?>
 						<?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'),
-							 array('controller' => 'users', 'action' => 'view', $user['User']['id']))."</strong> ";?>
+							 array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.username')))."</strong> ";?>
 						<?php echo $this->Html->link(__("logout", true), array('controller' => 'users', 'action' => 'logout'));?>
-						<?php /* if(!empty($session->read('Auth.User.image'))){
-							 echo $this->Html->link($this->Html->image($session->read('Auth.User.image')),
-							 	array('controller' => 'users', 'action' => 'view', $user['User']['id'])); 
-							 }
-							 */ //end logged in?>
+						<?php echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));?>
+				<?php 	//	echo $this->Html->image($session->read('Auth.User.image'), array("class" => "user-image", "alt" => $session->read('Auth.User.username')."-image", "url" => array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id'))));
+							  //end logged in?>
 						<?php else: //not logged in?>
 							<?php echo $this->Html->link(__("register", true),
 							array('controller' => 'users', 'action' => 'add'));
@@ -30,7 +28,8 @@
 							<?php echo $this->Html->link(__('Papers', true), array('controller' => 'papers', 'action' => 'index'));?></li>
 						</ul>
 						<form id="search" action="">
-							<input class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php echo __('Find', true);?>" />
+							<input class="searchinput" type="text" onblur="if (this.valu
+							e == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php echo __('Find', true);?>" />
 							<button class="submit" type="submit" value=""><?php echo __('Find', true);?></button>
 						</form>
 					</div>
@@ -44,9 +43,9 @@
 						<div id="user-nav">
 							<ul>
 							<li><?php echo $this->Html->link(__('My Blog', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
-							<li><?php echo $this->Html->link(__('Subscriptions', true), array('controller' => 'users', 'action' => 'view_subscriptions', $session->read('Auth.User.id')));?></li>
+							<li><?php echo $this->Html->link(__('Subscriptions', true), array('controller' => 'users', 'action' => 'viewSubscriptions', $session->read('Auth.User.id')));?></li>
 							<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
-							<li class="big-btn"><a class="btn" href=""><span>+</span><?php echo __('New Post');?></a></li>
+							<li class="big-btn"><?php echo $this->Html->link('<span>+</span>'.__('New Post', true), array('controller' => 'posts', 'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
 							</ul>
 						</div><!-- / #user-nav -->
 						<?php endif;?>

@@ -202,6 +202,19 @@ class User extends AppModel {
 		function __construct(){
 			parent::__construct();
 		}
+		
+		function afterFind($results){
+			//adding default user image to users without an image
+			 foreach($results as $key => $val) {
+			 					
+				if(empty($val['User']['image'])){
+						$results[$key]['User']['image'] = 'default-user-image.jpg';
+				}
+			
+				
+			}
+			return $results;
+		}
 
 		function beforeDelete(){
 			App::import('model','Comment');

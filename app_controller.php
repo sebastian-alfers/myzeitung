@@ -36,7 +36,7 @@ class AppController extends Controller {
 	var $uses = array('User');
 	
 	public function beforeFilter(){
-		$this->AutoLogin->cookieName = 'hansmeiser';
+		$this->AutoLogin->cookieName = 'myZeitung';
 		$this->AutoLogin->expires = '+1 month';
 		$this->AutoLogin->settings = array(
 			'controller' => 'users',

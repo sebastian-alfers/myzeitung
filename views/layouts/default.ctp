@@ -48,8 +48,6 @@
 
 
 	<body>
-	
-	<?php  echo $this->Html->image($image->resize('article-image.jpg', 250, 150, true)); ?>
 		<div id="main-wrapper">
 			<?php echo $this->element('header'); ?>
 			<div id="content">
