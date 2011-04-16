@@ -1,17 +1,7 @@
-<?php
-e($html->script('jquery-1.5.1.min'));
-e($html->script('jquery.fileupload'));
-e($html->script('jquery.fileupload-ui'));
-e($html->script('jquery-ui-1.8.11.min'));
-e($html->css('jquery.fileupload-ui'));
-e($html->css('jquery-ui-1.8.11'));
-
-?>
 
 
 
-
-<?php debug($this->data); ?>
+<?php //debug($this->data); ?>
 <div class="posts form"><?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data"));?>
 <fieldset><legend><?php __('Add Post'); ?></legend> <?php
 echo $this->Form->input('id');
@@ -21,13 +11,13 @@ echo $this->Form->input('topic_id');
 echo $this->Form->input('title');
 //echo $this->Form->input('content');
 echo $cksource->ckeditor('content', array('escape' => false));
-echo $form->input('image',array("type" => "file", 'label' => ''));
+//echo $form->input('image',array("type" => "file", 'label' => ''));
 echo $this->Form->hidden('user_id',array('value' => $user_id));
 echo $this->Form->hidden('hash',array('value' => $hash));
 
 ?></fieldset>
-<input name="data[Post][hidden]" type="hidden" value="adsf" />
-<table id="files"></table>
+
+<div id="files" style="float:left"></div>
 
 <?php echo $this->Form->end(__('Submit', true));?></div>
 <div class="actions"><?php echo $this->element('navigation'); ?>
@@ -38,6 +28,11 @@ echo $this->Form->hidden('hash',array('value' => $hash));
 </ul>
 </div>
 
+<?php if(isset($images)): ?>
+	<?php foreach($images as $img): ?>
+		<?php  echo $this->Html->image($image->resize($img, 150, 150, true, 'tmp')); ?> 
+	<?php endforeach; ?>
+<?php endif;?>
 
 <form id="file_upload"
 	action="http://localhost/myzeitung/posts/ajxImageProcess"
@@ -45,19 +40,9 @@ echo $this->Form->hidden('hash',array('value' => $hash));
 	type="file" name="file" multiple>
 <button>Upload</button>
 <div>Upload files</div>
-<input type="hidden" value="<?php echo $hash; ?>" />
+<input type="hidden" name="hash" value="<?php echo $hash; ?>" />
 </form>
-aa
-<div class="file_upload_progress">
-<div id="adf" class="ui-progressbar-value"></div>
-</div>
-bb
-<hr />
-cc
-<table>
-<tr style="display: none;"><td>Bildschirmfoto 2011-02-14 um 16.42.50.png</td><td class="file_upload_progress"><div><progress max="100" value="0"></progress></div></td><td class="file_upload_cancel"><button title="Cancel" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-cancel">Cancel</span></button></td></tr>
-</table>
-aa
+
 
 <script>
 	$(document).ready(function() {
@@ -102,14 +87,14 @@ aa
 		        buildUploadRow: function (files, index) {
 		            return $('<tr><td class="file_upload_preview"><\/td>' +
 				            '<td>' + files[index].name + '<\/td>' +
-		                    '<td class="file_upload_progress"><div><\/div><\/td>' +
+		                    '<td class="file_upload_progress"><?php  echo $this->Html->image('loader.gif'); ?><div><\/div><\/td>' +
 		                    '<td class="file_upload_cancel">' +
 		                    '<button class="ui-state-default ui-corner-all" title="Cancel">' +
 		                    '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
 		                    '<\/button><\/td><\/tr>');
 		        },
 		        buildDownloadRow: function (file) {
-		            return $('<tr><td><img src="/myzeitung/img/post/' + file.path + '" \/><\/td><\/tr>');
+		            return $('<div float="left"><img src="/myzeitung/' + file.path + '" width=100 \/><\/div>');
 		        },
 		        beforeSend: function (event, files, index, xhr, handler, callBack) {
 		            if (index === 0) {
@@ -143,4 +128,8 @@ aa
 		
 	});
 
+	//var url_match = /https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?/;
+
+			//alert(url_match.test("http://go4expert.com/"));
+	
 </script>

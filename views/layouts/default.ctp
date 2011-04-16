@@ -37,7 +37,7 @@
 		e($html->script('jquery-ui-1.8.11.min'));
 		e($html->css('jquery.fileupload-ui'));
 		e($html->css('jquery-ui-1.8.11'));		
-		echo $this->Html->css('mz.custom');		
+		//echo $this->Html->css('mz.custom');		
 		
 		echo $this->Html->css('style');
 	
@@ -45,15 +45,12 @@
 		echo $scripts_for_layout;
 	?>
 </head>
-<<<<<<< HEAD
-<body>
-asdfasdf
-	<div id="container">
-		<div id="header">
-=======
+
+
 	<body>
+	
+	<?php  echo $this->Html->image($image->resize('article-image.jpg', 250, 150, true)); ?>
 		<div id="main-wrapper">
->>>>>>> c77d13c34d8606597965b3a78d590edd792f41a6
 			<?php echo $this->element('header'); ?>
 			<div id="content">
 			

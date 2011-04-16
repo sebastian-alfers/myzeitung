@@ -149,55 +149,45 @@ class PostsController extends AppController {
 	}
 
 	function add() {
+		$error = false;
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-			debug($this->data);die();
+			//debug($this->data);
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}
 
-
-
-
 			$this->data["Post"]["user_id"] = $user_id;
-			$this->data['Post']['image_details'] = $this->data['Post']['image'];
-			$this->data['Post']['image'] = $this->data['Post']['image_details'];
+			//$this->data['Post']['image_details'] = $this->data['Post']['image'];
+			//$this->data['Post']['image'] = $this->data['Post']['image_details'];
+			//debug($this->data);
 			$this->Post->create();
+
 			if ($this->Post->save($this->data)) {
 				//path for image
-				$img = $this->data['Post']['image_details']['name'];
 
-				$first = strtolower(substr($img,0,1));
-				$second = strtolower(substr($img,1,1));
-				$imgPath = 'img/post/'.$first.DS.$second;
-				if($this->data['Post']['image']['name']){
-					$uploaded = $this->JqImgcrop->uploadImage($this->data['Post']['image'], $imgPath, '');
+				if($this->_hasImagesInHashFolder()){
+					if($this->_copyPostImages()){
+
+					}
+					else{
+						$this->Session->setFlash(__('not able to copy images for post', true));
+					}
 				}
 
-				//now add new url key for post
-				/*		$route = new Route();
-				$route->create();
+				if($this->images && count($this->images)){
+					$this->data['Post']['image'] = serialize($this->images);
+				}
 
-				if( $route->save(array('source' => $this->data['Post']['title'] ,
-				'target_controller' 	=> 'posts',
-				'target_action'     	=> 'view',
-				'target_param'		=> $this->Post->id)))
-				{
-
-					
-				}*/
-
-
-
-				//$this->set('uploaded',$uploaded);
 
 
 				$this->Session->setFlash(__('The post has been saved', true));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
+				debug($this->data);
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
-
+				$error = true;
 			}
 		}
 
@@ -205,10 +195,26 @@ class PostsController extends AppController {
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		$topics['null'] = __('No Topic', true);
 
+		if($error){
+			$this->set('hash', $this->data['Post']['hash']);
+
+			//get images from hash folder is available
+			if($this->_hasImagesInHashFolder()){
+				$imagesFromHash = $this->_getImagesFromHash();
+				foreach($imagesFromHash as &$img){
+					$img = 'tmp'.DS.$this->data['Post']['hash'].DS.$img;
+				}
+				debug($imagesFromHash);
+				$this->set('images', $imagesFromHash);
+			}
+		}
+		else{
+			$this->set('hash', $this->_getHash());
+		}
 
 		$this->set(compact('topics'));
 		$this->set('user_id',$user_id);
-		$this->set('hash', $this->_getHash());
+
 
 		//same template for add and edit
 		$this->render('add_edit');
@@ -277,26 +283,39 @@ class PostsController extends AppController {
 
 		if(isset($_FILES['file'])){
 			$file = $_FILES['file'];
-			
-			$this->log($file);
-			
+
+			if(!isset($_POST['hash']) || empty($_POST['hash'])){
+				$this->log('error. hash value not available. can not upload picture');
+				return '{"name":"error"}';
+			}
+
+			$hash = $_POST['hash'];
+
+
 			$img = $file['name'];
 			if(!$img){
 				return '{"name":"error"}';
 			}
+
+			$imgPath = 'img'.DS.'tmp'.DS.$hash.DS;
 			//******************************************
-			//@todo bring to component, refactor
-			$first = strtolower(substr($img,0,1));
-			$second = strtolower(substr($img,1,1));
-			$imgPath = $first.DS.$second;
-			//******************************************
-			//$this->log($imgPath);
+
 			//$this->log($img);
-			
+
+			//$this->log('****** ' . $file['name']);
+			//string to filename
+			//@todo refactor in external file
+			$file['name'] = preg_replace('/^\W+|\W+$/', '', $file['name']); // remove all non-alphanumeric chars at begin & end of string
+			$file['name'] = preg_replace('/\s+/', '_', $file['name']); // compress internal whitespace and replace with _
+			$file['name'] = strtolower(preg_replace('/\W-/', '', $file['name'])); // remove all non-alphanumeric chars except _ and -
+
+
+			//$this->log('****** ' . $file['name']);
+
 			$uploaded = $this->JqImgcrop->uploadImage($file, $imgPath, '');
-			
-			$ret = '{"name":"'.$file['name'].'","path":"' . $imgPath.DS.$file['name'] . '","type":"'.$file['type'].'","size":"'.$file['size'].'"}';
-			$this->log($ret);
+
+			$ret = '{"name":"'.$file['name'].'","path":"' . $imgPath.$file['name'] . '","type":"'.$file['type'].'","size":"'.$file['size'].'"}';
+			//$this->log($ret);
 			$this->set('files', $ret);
 		}
 
@@ -306,6 +325,97 @@ class PostsController extends AppController {
 
 	private function _getHash(){
 		return md5(microtime().$this->Session->read('sessID'));
+	}
+
+	private function _copyPostImages(){
+		$this->images = array();
+		//get tmp hash folder for images
+		$hash = $this->data['Post']['hash'];
+
+		$webroot = $this->_getWebrootUrl();
+		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+		//debug($path_to_tmp_folder);
+
+		//debug($post_img_folder);die();
+
+		if(is_dir($path_to_tmp_folder)){
+
+			$post_img_folder = $webroot.'img'.DS.'post'.DS.$this->Post->id.DS;
+			//create folder for new post
+			if(is_dir($post_img_folder)){
+				//this should NOT be possible
+				$this->log('Error. Folder for new post already exists. path: ' . $post_img_folder);
+				return false;
+			}
+			else{
+				if (!mkdir($post_img_folder, 0700, true)) {
+					$this->log('can not create directory for post: ' . $post_img_folder);
+					return false;
+				}
+			}
+			//found folder
+			if ($handle = opendir($path_to_tmp_folder)) {
+				while (false !== ($file = readdir($handle))) {
+					if ($file != "." && $file != "..") {
+						$this->log('from: ' . $path_to_tmp_folder.$file . ' -> '  . $post_img_folder.$file);
+						if (copy($path_to_tmp_folder.$file , $post_img_folder.$file)) {
+							unlink($path_to_tmp_folder.$file);
+							$this->images[] = $file;
+						}
+					}
+				}
+			}
+			else{
+				$this->log('can not open directory for copy images: ' . $path_to_tmp_folder);
+				return false;
+			}
+		}
+		else{
+			$this->log('given path is no directory:' . $path_to_tmp_folder);
+			return false;
+		}
+
+		return true;
+	}
+
+	private function _hasImagesInHashFolder(){
+		$hash = $this->data['Post']['hash'];
+
+		$webroot = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS; //until webroot/
+		$path_to_tmp_folder = $webroot.'img'.DS.'tmp'.DS.$hash.DS;
+
+		return is_dir($path_to_tmp_folder);
+	}
+
+	private function _getWebrootUrl(){
+		return  ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS; //until webroot/
+	}
+
+	private function _getPathToTmpHashFolder($hash = ''){
+		if($hash == '') $hash = $this->data['Post']['hash'];
+
+		return 'img'.DS.'tmp'.DS.$hash.DS;
+
+	}
+
+	private function _getImagesFromHash($hash = ''){
+		if($hash == '') $hash = $this->data['Post']['hash'];
+
+		$webroot = $this->_getWebrootUrl();
+		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+		
+		$imgs = array();
+		
+		//found folder
+		if ($handle = opendir($path_to_tmp_folder)) {
+			while (false !== ($file = readdir($handle))) {
+				if ($file != "." && $file != "..") {
+					
+					$imgs[] = $file;
+				}
+			}
+		}
+		return $imgs;
 	}
 }
 ?>

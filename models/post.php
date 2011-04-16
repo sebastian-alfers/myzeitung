@@ -381,7 +381,7 @@ class Post extends AppModel {
 				unset($data['Post']['reposters']);
 				unset($data['Post']['image']);
 				unset($data['Post']['image_details']);
-
+				unset($data['Post']['hash']);
 
 
 				return $data;
