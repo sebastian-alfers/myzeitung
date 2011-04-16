@@ -2,7 +2,7 @@
 class JqImgcropComponent extends Object {
 
 	function uploadImage($uploadedInfo, $uploadTo, $prefix){
-		
+		error_log('ender upload');
 		
 		$webpath = $uploadTo;
 		$upload_dir = WWW_ROOT.str_replace("/", DS, $uploadTo);
@@ -16,12 +16,17 @@ class JqImgcropComponent extends Object {
 				die('Erstellung der Verzeichnisse schlug fehl...');
 			}
 		}
+		error_log('*****');
+		//error_log(json_encode($uploadedInfo));die();
 		
 		$userfile_name = $uploadedInfo['name'];
 		$userfile_tmp =  $uploadedInfo["tmp_name"];
 		$userfile_size = $uploadedInfo["size"];
 		$filename = $prefix.basename($uploadedInfo["name"]);
 		$file_ext = substr($filename, strrpos($filename, ".") + 1);
+		// $this->log($upload_path);
+		//$this->log($filename);
+		//die();
 		$uploadTarget = $upload_path.$filename;
 
 
@@ -32,6 +37,9 @@ class JqImgcropComponent extends Object {
 		if (isset($uploadedInfo['name'])){
 			
 			move_uploaded_file($userfile_tmp, $uploadTarget );
+			
+			//$this->log($uploadTarget);
+			
 			chmod ($uploadTarget , 0777);
 			$width = $this->getWidth($uploadTarget);
 			$height = $this->getHeight($uploadTarget);

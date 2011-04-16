@@ -7,12 +7,11 @@ $this->data['Install']['version'] = 0.1.0;
 $this->Install->save($this->data); 
 */
 
-
-$sql[] = "ALTER TABLE `posts` CHANGE `image` `image` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL";
+$sql[] = "ALTER TABLE `posts` ADD `comment_count` INT NOT NULL AFTER `reposters`, ADD `posts_user_count` INT NOT NULL AFTER `comment_count`";
 
 //**** !2nd param is IMPORTANT! ****
-$log = 'users have a new field: image';
+$log = 'new counters';
+
 
 
 ?>
-

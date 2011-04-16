@@ -313,7 +313,7 @@ class User extends AppModel {
 			return $topicReferences;
 		}
 
-		function removeFieldsForIndex($data){
+		function removeFieldsForIndex($data){		
 			unset($data['User']['email']);
 			unset($data['User']['password']);
 			unset($data['User']['created']);
@@ -322,10 +322,13 @@ class User extends AppModel {
 			unset($data['User']['enabled']);
 			unset($data['User']['group_id']);
 			unset($data['User']['route_id']);
+			unset($data['User']['post_count']);
+			unset($data['User']['posts_user_count']);
+			unset($data['User']['comment_count']);
+
 
 			
-			
-			unset($data['User']['posts_user_count']);
+
 
 			
 			

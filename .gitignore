@@ -1,5 +1,5 @@
 tmp/
-webroot/img/*
+webroot/
 .buildpath
 .project
 .settings/
