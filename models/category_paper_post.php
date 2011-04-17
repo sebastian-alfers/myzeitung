@@ -16,14 +16,16 @@ class CategoryPaperPost extends AppModel {
 			'foreignKey' => 'paper_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true
 			),
 		'Category' => array(
 			'className' => 'Category',
 			'foreignKey' => 'category_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true
 
 			)
 			);

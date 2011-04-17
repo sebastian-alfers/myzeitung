@@ -107,7 +107,7 @@ class UsersController extends AppController {
 	                ),   
 	            ),
 	            //limit of records per page
-	            'limit' => 3,
+	            'limit' => 9,
 	            //order
 	            'order' => 'PostsUser.created DESC',
 	        	//contain array: limit the (related) data and models being loaded per post
@@ -120,8 +120,8 @@ class UsersController extends AppController {
 	    }		
 	   
 			//unbinding irrelevant relations for the query
-			$this->User->contain('Topic.id', 'Topic.name');
-			$this->set('user', $this->User->read(array('id','firstname','name','username','created','image' ,'posts_user_count','post_count','comment_count'), $user_id));
+			$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+			$this->set('user', $this->User->read(array('id','firstname','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
 			$this->set('posts', $this->paginate($this->User->Post));
 	}
 

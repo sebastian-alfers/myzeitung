@@ -59,9 +59,10 @@ class Post extends AppModel {
 			'foreignKey' => 'topic_id',
 			'conditions' => 'Post.topic_id != null',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true,
 
-			)
+			),
 			);
 
 			var $hasMany = array(
