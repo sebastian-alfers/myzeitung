@@ -90,6 +90,7 @@ class Category extends AppModel {
 					//$this->data['Category']['user_name'] = $userData['User']['username'];
 					$solr = new Solr();
 					$solr->add($this->removeFieldsForIndex($this->data));
+					
 
 				}
 				else{
