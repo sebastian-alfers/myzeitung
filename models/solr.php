@@ -35,29 +35,6 @@ class Solr extends AppModel {
 	function add($docs = array()){
 
 		try {
-			/*
-			 $docs = array(
-			 'doc_no1' => array(
-			 'index_id' => 1,
-			 'id' => '332',
-			 'user_name' => '332',
-			 'topic_name' => '332',
-			 'user_id' => '332',
-			 'content' => 'Alphabet',
-			 'title' => 'Franz tobi jagt im komplett verwahrlosten Taxi quer durch Bayern',
-
-			 ),
-			 'doc_no2' => array(
-			 'index_id' => 2,
-			 'id' => '332',
-			 'user_name' => '332',
-			 'topic_name' => '332',
-			 'user_id' => '332',
-			 'content' => 'Buchstaben uuu',
-			 'title' => 'jjj Polyfon zwitschernd assen MŠxchens Všgel RŸben, Joghurt und Quark.',
-
-			 ),
-			 );*/
 
 			$documents = array();
 
@@ -75,12 +52,14 @@ class Solr extends AppModel {
 				$this->getSolr()->addDocuments( $documents );
 				$this->getSolr()->commit();
 				$this->getSolr()->optimize();
+				return true;
 			}
 			else{
-				debug('<pre>');
-				debug(debug_print_backtrace());
-				debug('Solr not running!');
-				return;
+				//debug('<pre>');
+				//debug(debug_print_backtrace());
+				debug('solr not running');
+				return false;
+				
 			}
 
 		}
@@ -93,7 +72,11 @@ class Solr extends AppModel {
 			debug($msg);
 			// @todo thorw exception
 			$this->log('Error while adding documents to index: ' . $e->getMessage());
+			debug('solr not running');
+			return false;
 		}
+		debug('solr not running');
+		return false;
 
 	}
 

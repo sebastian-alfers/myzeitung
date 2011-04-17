@@ -176,9 +176,9 @@ class PostsController extends AppController {
 					}
 				}
 
-				if($this->images && count($this->images)){
-					$this->data['Post']['image'] = serialize($this->images);
-				}
+				//if($this->images && count($this->images)){
+					//$this->data['Post']['image'] = serialize($this->images);
+				//}
 
 
 
@@ -339,8 +339,15 @@ class PostsController extends AppController {
 		//debug($post_img_folder);die();
 
 		if(is_dir($path_to_tmp_folder)){
-
-			$post_img_folder = $webroot.'img'.DS.'post'.DS.$this->Post->id.DS;
+			
+			//***************************
+			
+			//important @todo use creatd date on edit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+			
+			//***************************
+			$year = date('Y');
+			$month = date('m');
+			$post_img_folder = $webroot.'img'.DS.'post'.DS.$year.DS.$month.DS.$this->Post->id.DS;
 			//create folder for new post
 			if(is_dir($post_img_folder)){
 				//this should NOT be possible
