@@ -87,7 +87,8 @@ class AppController extends Controller {
 			'edit' => array(1),
 			'view' => array(1,2),
 			'delete' => array(1),
-			'ajxImageProcess' => array(1)						
+			'ajxImageProcess' => array(1),
+			'url_content_extract' => array(1)					
 			),	
 		'papers' => array(
 			'index' => array(1),

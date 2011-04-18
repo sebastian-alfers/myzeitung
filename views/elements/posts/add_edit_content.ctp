@@ -16,7 +16,7 @@
 	//});
 		$( "#dialog:ui-dialog" ).dialog( "destroy" );
 		
-		$( "#dialog-confirm" ).dialog({
+		$( "#dialog-topic" ).dialog({
 			resizable: false,
 			height:240,
 			width:400,
@@ -33,33 +33,89 @@
 			}
 		
 	});
+
+		$( "#dialog-url" ).dialog({
+			resizable: false,
+			height:240,
+			width:400,
+			draggable:false,
+			modal: true,
+			autoOpen: false,
+			buttons: {
+				"<?php __('Add new URL'); ?>": function() {
+					prcessUrl($('#url').val());
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		
+	});
 		
 	});
 
 
 	$(document).ready(function() {	
 		
-		$('#add_topick_link').bind('click', function(){addTopic(33, 'test');});
+		$('#add_topick_link').bind('click', function(){topicDialog();});
+		$('#add_url_link').bind('click', function(){urlDialog();});
+//
+//		$('#url').keyup(function() {
+//			prcessUrl($('#url').val());
+//			});		
 		
-		function addTopic(val, text){
-			$('#dialog-confirm').dialog('open');	
+		function topicDialog(){
+			$('#dialog-topic').dialog('open');	
 			return false;
 		}
-	
+
+		function urlDialog(){
+			$('#dialog-url').dialog('open');	
+			return false;
+		}		
+		
 	});
 
-	function saveTopic(val){
+	//
+	function prcessUrl(url){
+		var urlregex = new RegExp(
+            "^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
+      	if(urlregex.test(url)){
+      		loadContentForUrl(url);
+      	}
+      	else if(urlregex.test('http://'+url)){
+      		$('#url').val('http://'+url);
+			loadContentForUrl('http://'+url);
+      	}
+      	else{
+      		alert('geht nix');
+      	}
+	}
+	/**
+	 * gets a valid url
+	 */
+	function loadContentForUrl(url){
+		alert('get content for ' + url);
+		var req = $.post('<?php echo DS.APP_DIR.'/posts/url_content_extract/'?>', {url:url})
+		   .success(function( string ){
+			   alert(string);
+				$('#url_content').html(string);
+		   })		   
+		   .error(function(){
+			   alert('error');
+		});		
+	}
 
+	function saveTopic(val){
 		var req = $.get('<?php echo DS.APP_DIR.'/topics/ajax_add/'?>'+val)
 		   .success(function( new_topic_id ){
 			   $('#PostTopicId').append($('<option></option>').val(new_topic_id).html(val));
-			   $('#dialog-confirm').dialog('close');
+			   $('#dialog-topic').dialog('close');
 			   $('#PostTopicId').val(new_topic_id).text();
 		   })
 		   .error(function(){
 			   alert('error');
 		});		
-
 	}
 		
 
@@ -68,19 +124,15 @@
 </script>
 
 
-<?php echo $this->element('topics/modal_add'); ?>
+<?php echo $this->element('topics/modal_add_topic'); ?>
+<?php echo $this->element('posts/modal_add_url'); ?>
 
 
 
 <?php //debug($this->data); ?>
 <div class="posts form"><?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data"));?>
 
-<p>
- <?php echo $this->Form->input('id'); ?>
-
- 
-	
-<?php echo $this->Form->input('topic_id');
+<p><?php echo $this->Form->input('id'); ?> <?php echo $this->Form->input('topic_id');
 
 echo $this->Form->input('title');
 //echo $this->Form->input('content');
@@ -89,17 +141,16 @@ echo $cksource->ckeditor('content', array('escape' => false));
 echo $this->Form->hidden('user_id',array('value' => $user_id));
 echo $this->Form->hidden('hash',array('value' => $hash));
 
-?>
-</p>
+?></p>
 
-<div id="files" style="float:left"></div>
+<div id="files" style="float: left"></div>
 
 <?php echo $this->Form->end(__('Submit', true));?></div>
 
 <?php if(isset($images)): ?>
-	<?php foreach($images as $img): ?>
-		<?php  echo $this->Html->image($image->resize($img, 150, 150, true, 'tmp')); ?> 
-	<?php endforeach; ?>
+<?php foreach($images as $img): ?>
+<?php  echo $this->Html->image($image->resize($img, 150, 150, true, 'tmp')); ?>
+<?php endforeach; ?>
 <?php endif;?>
 
 

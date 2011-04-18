@@ -13,6 +13,7 @@
 						
 						
 		<?php foreach ($posts as $index => $post):	
+		
 				$article_reposted_by_user = false;
 				$article_belongs_to_user = false;
 				if(is_array($post['Post']['reposters'])){
@@ -39,9 +40,17 @@
 							</ul>
 							
 							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
-							<p>
-							<?php echo substr(strip_tags($post['Post']['content'], null),0); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
-							</p>
+							
+
+							<?php if(isset($post['Post']['image'][0]) && !empty($post['User']['image'][0])): ?>
+								<p>
+									<?php  echo $this->Html->image($image->resize($post['Post']['image'][0], 290, 117, true)); ?>
+								</p>
+							<?php else:?>
+								<p>
+								<?php echo substr(strip_tags($post['Post']['content'], null),0); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
+								</p>
+							<?php endif; ?>
 							<ul>
 								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></li>
 								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id']));?><span class="repost-ico"></span><a href="">Hans.Meiser</a></li>

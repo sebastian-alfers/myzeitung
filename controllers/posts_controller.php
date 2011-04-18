@@ -9,7 +9,7 @@ class PostsController extends AppController {
 	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image');
 
 
-	var $uses = array('Post','PostUser', 'Route', 'Comment');
+	var $uses = array('Post','PostUser', 'Route', 'Comment', 'UrlContentExtract');
 
 
 	public function beforeFilter(){
@@ -159,28 +159,27 @@ class PostsController extends AppController {
 			}
 
 			$this->data["Post"]["user_id"] = $user_id;
-			//$this->data['Post']['image_details'] = $this->data['Post']['image'];
-			//$this->data['Post']['image'] = $this->data['Post']['image_details'];
-			//debug($this->data);
+
 			$this->Post->create();
 
 			if ($this->Post->save($this->data)) {
-				//path for image
 
+				//copy images after post has been saved to add new post-id to img path
 				if($this->_hasImagesInHashFolder()){
 					if($this->_copyPostImages()){
-
+						$this->data = array();
+						$this->data['Post']['image'] = $this->images;
+						$this->data["Post"]["user_id"] = $user_id;
+						
+						$this->Post->add_solr = false;
+						if (!$this->Post->save($this->data)) {
+							$this->Session->setFlash(__('Not able to copy images for post', true));	
+						}					
 					}
 					else{
-						$this->Session->setFlash(__('not able to copy images for post', true));
+						$this->Session->setFlash(__('Not able to copy images for post', true));
 					}
 				}
-
-				//if($this->images && count($this->images)){
-					//$this->data['Post']['image'] = serialize($this->images);
-				//}
-
-
 
 				$this->Session->setFlash(__('The post has been saved', true));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
@@ -339,15 +338,16 @@ class PostsController extends AppController {
 		//debug($post_img_folder);die();
 
 		if(is_dir($path_to_tmp_folder)){
-			
+
 			//***************************
-			
-			//important @todo use creatd date on edit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-			
+
+			//important @todo use creatd date on edit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 			//***************************
 			$year = date('Y');
 			$month = date('m');
-			$post_img_folder = $webroot.'img'.DS.'post'.DS.$year.DS.$month.DS.$this->Post->id.DS;
+			$new_rel_path = $year.DS.$month.DS.$this->Post->id.DS;// starting from webroot/img/* folder
+			$post_img_folder = $webroot.'img'.DS.'posts'.DS.$new_rel_path;
 			//create folder for new post
 			if(is_dir($post_img_folder)){
 				//this should NOT be possible
@@ -364,10 +364,14 @@ class PostsController extends AppController {
 			if ($handle = opendir($path_to_tmp_folder)) {
 				while (false !== ($file = readdir($handle))) {
 					if ($file != "." && $file != "..") {
-						$this->log('from: ' . $path_to_tmp_folder.$file . ' -> '  . $post_img_folder.$file);
-						if (copy($path_to_tmp_folder.$file , $post_img_folder.$file)) {
-							unlink($path_to_tmp_folder.$file);
-							$this->images[] = $file;
+						$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
+						$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
+
+						$this->log('from: ' . $tmp_path . ' -> '  . $new_full_path);
+						if (copy($tmp_path , $new_full_path)) {
+							unlink($tmp_path);
+							$new_rel_path = 'posts'.DS.$new_rel_path;
+							$this->images[] = $new_rel_path.$file;
 						}
 					}
 				}
@@ -385,8 +389,8 @@ class PostsController extends AppController {
 		return true;
 	}
 
-	private function _hasImagesInHashFolder(){
-		$hash = $this->data['Post']['hash'];
+	private function _hasImagesInHashFolder($hash = ''){
+		if($hash == '') $hash = $this->data['Post']['hash'];
 
 		$webroot = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS; //until webroot/
 		$path_to_tmp_folder = $webroot.'img'.DS.'tmp'.DS.$hash.DS;
@@ -409,20 +413,38 @@ class PostsController extends AppController {
 		if($hash == '') $hash = $this->data['Post']['hash'];
 
 		$webroot = $this->_getWebrootUrl();
-		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
-		
+		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder($hash);
+
 		$imgs = array();
-		
+
 		//found folder
-		if ($handle = opendir($path_to_tmp_folder)) {
+		if (is_dir($path_to_tmp_folder) && $handle = opendir($path_to_tmp_folder)) {
 			while (false !== ($file = readdir($handle))) {
 				if ($file != "." && $file != "..") {
-					
+
 					$imgs[] = $file;
 				}
 			}
 		}
 		return $imgs;
+	}
+
+	/**
+	 * get a valid url
+	 *
+	 */
+	function url_content_extract(){
+		if(isset($_POST['url'])){
+
+			$url = $_POST['url'];
+			$content = $this->UrlContentExtract->getContent($url);
+			$this->set('content', $content);
+		}
+		else{
+			echo '';
+		}
+
+		$this->render('ajx_url_content_extract', 'ajax');//custom ctp, ajax for blank layout
 	}
 }
 ?>

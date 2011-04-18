@@ -7,7 +7,7 @@ class Post extends AppModel {
 
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
 
-
+	var $add_solr = true;
 
 	var $CategoryPaperPost = null;
 
@@ -53,7 +53,7 @@ class Post extends AppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => true,
-			),
+	),
 		'Topic' => array(
 			'className' => 'Topic',
 			'foreignKey' => 'topic_id',
@@ -156,7 +156,7 @@ class Post extends AppModel {
 					// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
 					if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
 						$this->data['Post']['reposters'][] = $user_id;
-						
+
 						$this->save($this->data['Post']);
 					}
 					$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
@@ -230,6 +230,15 @@ class Post extends AppModel {
 							$results[$key]['Post']['reposters'] = array();
 						}
 					}
+
+					if (!empty($val['Post']['image']) ) {
+						$results[$key]['Post']['image'] = json_decode($results[$key]['Post']['image']);
+					}else {
+						if(isset($results[$key]['Post']['image'])){
+							$results[$key]['Post']['image'] = array();
+						}
+					}
+
 					// $results[0]['reposters']
 					if (!empty($val['reposters']) ) {
 
@@ -237,6 +246,15 @@ class Post extends AppModel {
 					}else {
 						if(isset($results[$key]['reposters'])){
 							$results[$key]['reposters'] = array();
+						}
+					}
+						
+
+					if (!empty($val['image']) ) {
+						$results[$key]['image'] = json_decode($results[$key]['image']);
+					}else {
+						if(isset($results[$key]['image'])){
+							$results[$key]['image'] = array();
 						}
 					}
 				}
@@ -265,6 +283,11 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
+
+				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
+					$this->data['Post']['image'] = json_encode($this->data['Post']['image']);
+				}
+
 				return true;
 			}
 
@@ -273,7 +296,7 @@ class Post extends AppModel {
 			function paginateCount($conditions = null, $recursive = 0, $extra = array()) {
 
 				if(!$this->useCustom )	{
-	    //copy of standard paginationcount for normal pagination queries
+					//copy of standard paginationcount for normal pagination queries
 					$parameters = compact('conditions');
 
 					if ($recursive != $this->recursive) {
@@ -303,8 +326,8 @@ class Post extends AppModel {
 			 * update solr index with saved data
 			 */
 			function afterSave($created){
-				
-				
+
+
 				//1) updating PostUser-Entry
 				App::import('model','PostUser');
 				$this->PostUser = new PostUser();
@@ -334,31 +357,35 @@ class Post extends AppModel {
 
 				}
 
-				//2) update solr index with saved date
-				App::import('model','Solr');
 
-				$userData = $this->User->read(null, $this->data['Post']['user_id']);
+				if($this->add_solr){
+					//2) update solr index with saved date
+					App::import('model','Solr');
 
-				if($userData['User']['id']){
-					if(isset($this->data['Post']['topic_id'])){
-						$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+					$userData = $this->User->read(null, $this->data['Post']['user_id']);
 
-						if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
-							$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+					if($userData['User']['id']){
+						if(isset($this->data['Post']['topic_id'])){
+							$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+
+							if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
+								$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
+							}
 						}
+
+						$this->data['Post']['index_id'] = 'post_'.$this->id;
+						$this->data['Post']['id'] = $this->id;
+						$this->data['Post']['user_name'] = $userData['User']['name'];
+						$this->data['Post']['type'] = Solr::TYPE_POST;
+						$solr = new Solr();
+						$solr->add($this->removeFieldsForIndex($this->data));
+
 					}
-
-					$this->data['Post']['index_id'] = 'post_'.$this->id;
-					$this->data['Post']['id'] = $this->id;
-					$this->data['Post']['user_name'] = $userData['User']['name'];
-					$this->data['Post']['type'] = Solr::TYPE_POST;
-					$solr = new Solr();
-					$solr->add($this->removeFieldsForIndex($this->data));
-
+					else{
+						$this->log('Error while reading user for Post! No solr index update');
+					}
 				}
-				else{
-					$this->log('Error while reading user for Post! No solr index update');
-				}
+
 			}
 
 

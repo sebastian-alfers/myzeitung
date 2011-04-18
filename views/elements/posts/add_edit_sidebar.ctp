@@ -15,6 +15,10 @@
 			<p>
 				<a class="btn" id="add_topick_link"><span>+</span><?php __('Add Topic'); ?></a>
 			</p>
+			<br /><br />
+			<p>
+				<a class="btn" id="add_url_link"><span>+</span><?php __('Add URL'); ?></a>
+			</p>			
 			</div>
 			
 
