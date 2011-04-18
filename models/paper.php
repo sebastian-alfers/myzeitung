@@ -19,7 +19,8 @@ class Paper extends AppModel {
 	var $belongsTo = array(
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'owner_id'
+			'foreignKey' => 'owner_id',
+			'counterCache' => true
 			),
 			);
 
@@ -220,6 +221,36 @@ class Paper extends AppModel {
 				}
 				return $categoryReferences;
 			}
+			
+			/**
+			 * 
+			 * 1) adding default image to the paper
+			 */
+		function afterFind($results){
+			
+			//adding default paper image to users without an image
+			 foreach($results as $key => $val) {
+			 	if(isset($val['Paper'])){
+					if(isset($val['Paper']['image'])){		
+						if(empty($val['Paper']['image'])){
+								$results[$key]['Paper']['image'] = 'news-image.jpg';
+						}
+					}
+
+			 	}
+		 		if(isset($val['image'])){	
+					if(empty($val['image'])){
+							$results[$key]['image'] = 'news-image.jpg';
+					}
+				} 
+			 }
+			 if(isset($results['Paper'])){
+			 	if(empty($results['image'])){
+			 		$results['image'] = 'news-image.jpg';
+			 	}
+			 }
+			return $results;
+		}
 
 			/**
 			 * 1)

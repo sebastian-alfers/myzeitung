@@ -2,7 +2,7 @@
 				<div class="leftcol">
 					<div class="leftcolcontent">
 							<div class="userstart">
-								<?php echo $this->Html->image($user['User']['image'], array("class" => "userimage", "alt" => $user['User']['username']."-image",));?>
+								<?php echo $this->Html->image($image->resize($user['User']['image'], 185, 185, true), array("class" => "userimage", "alt" => $user['User']['username']."-image",));?>
 								<a class="btn" href=""><span>+</span>Abonnieren</a>
 							</div>
 							<h4><?php echo $user['User']['username'];?></h4>
@@ -15,32 +15,55 @@
 							<hr />
 
 							<?php if(count($user['Topic']) > 0): ?>
-							<h6>Themen</h6>
+							<h6><?php echo __('Filter by Topic', true);?></h6>
 							<ul>
-									<li><?php echo $this->Html->link(__('All Topics', true), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?> </li>
+								<li>
+								<?php //show only links for not selected items?>
+								<?php if(isset($this->params['pass'][1])):?>
+									<?php /* no topic selected */ echo $this->Html->link(__('All Posts'.' ('.$user['User']['post_count'].')', true), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?>
+								<?php else:?>
+									<i><?php /* topic selected - show link*/ echo __('All Posts'.' ('.$user['User']['post_count'].')', true);?></i>
+								<?php endif;?> </li>
 			        			<?php foreach($user['Topic'] as $topic):?>
-			        	 			<li><?php echo $this->Html->link($topic['name'], array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> </li>
+				        		<li>	
+				        	    <?php  if((isset($this->params['pass'][1]) && $this->params['pass'][1] != $topic['id']) || !isset($this->params['pass'][1])):?>
+			        	 			<?php /* this topic is not selected - show link */ echo $this->Html->link($topic['name'].' ('.$topic['post_count'].')', array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> 
+			        	 		<?php else:?>
+			        	 			<i><?php  /* this topic is selected - show text*/ echo $topic['name'].' ('.$topic['post_count'].')'?></i>
+			        	 		<?php endif;?>
+			        	 		</li>
 			      		  		<?php endforeach;?>
 			      		  	</ul>
 							<hr />
-			  				  <?php endif; ?>
+			  				  <?php endif; ?>2
 
-
+							<h6><?php echo __('Activity', true);?></h6>
 							  <ul>
-						   		<li>Abonenten: 2359 / 40</li>
-								<li>Abonements: 100 / 40</li>
-								<li>Artikel: 200</li>
-								<li>Zeitungen: 3</li>
+								<li><?php echo $user['User']['post_count'].' '.__('Posts', true)?></li>
+								<li><?php echo $user['User']['posts_user_count'].' '.__('Reposts', true)?></li>
+								<li><?php echo $user['User']['comment_count'].' '.__('Comments', true)?></li>
+						   		<li><?php echo $user['User']['content_paper_count'].' '.__('Subscribers', true)?></li>
+								<li><?php echo $user['User']['subscription_count'].' '.__('Paper subscriptions', true)?></li>
+								<li><?php echo $user['User']['paper_count'].' '.__('created Papers', true)?></li>
+
 							</ul>
 							<hr />
-							<h6>fourbais Zeitungen:</h6>
+							<?php if(count($user['Paper'] > 0)):?>
+							<h6><?php echo __('Top Papers by',true).' '.$user['User']['username']?></h6>
 							<ul class="newslist">
-								<li><a href=""><?php  echo $this->Html->image("news-image.jpg"); ?></a></li>
-								<li><a href=""><img src="../img/news-image.jpg" alt="" /> Zeitungsname1</a></li>
-								<li><a href=""><img src="img/news-image.jpg" alt="" /> Zeitungsname2</a></li>
-								<li><a href=""><img src="/img/news-image.jpg" alt="" /> Zeitungsname3</a></li>
+							<?php foreach($user['Paper'] as $paper):?>
+								<li>
+								<?php /* image */ echo  $this->Html->link($this->Html->image($image->resize($paper['image'], 35, 35, true)) , array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false) );?>
+							    <?php /* title */ echo $this->Html->link($paper['title'], array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false));?>
+							    </li>
+							 <?php endforeach;?>
+							 <?php if($user['User']['paper_count'] > 3):?>
+							 	<li>
+							 <?php echo __('Show all papers by').' '.$user['User']['username'];?>
+							 	</li>
+							 <?php endif;?>
 							</ul>
-							
+							<?php endif;?>
 						 </div><!-- /.leftcolcontent -->	
 						</div><!-- /.leftcol -->
 						

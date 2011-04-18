@@ -130,8 +130,8 @@ class User extends AppModel {
 		'dependent' => true,
 		'conditions' => '',
 		'fields' => '',
-		'order' => '',
-		'limit' => '',
+		'order' => 'subscription_count DESC',
+		'limit' => 3,
 		'offset' => '',
 		'exclusive' => '',
 		'finderQuery' => '',
@@ -221,7 +221,7 @@ class User extends AppModel {
 					}
 				} 
 			 }
-			 if(isset($results['user'])){
+			 if(isset($results['User'])){
 			 	if(empty($results['image'])){
 			 		$results['image'] = 'default-user-image.jpg';
 			 	}

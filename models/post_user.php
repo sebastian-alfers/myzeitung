@@ -9,29 +9,29 @@ class PostUser extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
-	var $belongsTo = array(
-		'Post' => array(
-			'className' => 'Post',
-			'foreignKey' => 'post_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			//counting just reposts
-			'counterCache' => true,
-			'counterScope' => array('repost' => true)			
-			),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			//counting just reposts
-			'counterCache' => true,
-			'counterScope' => array('repost' => true)
-			)
+var $belongsTo = array(
+	'Post' => array(
+		'className' => 'Post',
+		'foreignKey' => 'post_id',
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		//counting just reposts
+		'counterCache' => true,
+		'counterScope' => array('repost' => true)			
+		),
+	'User' => array(
+		'className' => 'User',
+		'foreignKey' => 'user_id',
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		//counting just reposts
+		'counterCache' => true,
+		'counterScope' => array('repost' => true)
+		)
 
-			);
+);
 
 	var $hasMany = array(
 		'CategoryPaperPost' => array(
