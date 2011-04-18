@@ -17,13 +17,25 @@
 							<?php if(count($user['Topic']) > 0): ?>
 							<h6><?php echo __('Filter by Topic', true);?></h6>
 							<ul>
-									<li><?php echo $this->Html->link(__('All Posts'.' ('.$user['User']['post_count'].')', true), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?> </li>
+								<li>
+								<?php //show only links for not selected items?>
+								<?php if(isset($this->params['pass'][1])):?>
+									<?php /* no topic selected */ echo $this->Html->link(__('All Posts'.' ('.$user['User']['post_count'].')', true), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?>
+								<?php else:?>
+									<i><?php /* topic selected - show link*/ echo __('All Posts'.' ('.$user['User']['post_count'].')', true);?></i>
+								<?php endif;?> </li>
 			        			<?php foreach($user['Topic'] as $topic):?>
-			        	 			<li><?php echo $this->Html->link($topic['name'].' ('.$topic['post_count'].')', array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> </li>
+				        		<li>	
+				        	    <?php  if((isset($this->params['pass'][1]) && $this->params['pass'][1] != $topic['id']) || !isset($this->params['pass'][1])):?>
+			        	 			<?php /* this topic is not selected - show link */ echo $this->Html->link($topic['name'].' ('.$topic['post_count'].')', array('controller' => 'users',  'action' => 'view', $user['User']['id'], $topic['id'])); ?> 
+			        	 		<?php else:?>
+			        	 			<i><?php  /* this topic is selected - show text*/ echo $topic['name'].' ('.$topic['post_count'].')'?></i>
+			        	 		<?php endif;?>
+			        	 		</li>
 			      		  		<?php endforeach;?>
 			      		  	</ul>
 							<hr />
-			  				  <?php endif; ?>
+			  				  <?php endif; ?>2
 
 							<h6><?php echo __('Activity', true);?></h6>
 							  <ul>
@@ -37,7 +49,7 @@
 							</ul>
 							<hr />
 							<?php if(count($user['Paper'] > 0)):?>
-							<h6><?php echo __('Papers by',true).' '.$user['User']['username']?></h6>
+							<h6><?php echo __('Top Papers by',true).' '.$user['User']['username']?></h6>
 							<ul class="newslist">
 							<?php foreach($user['Paper'] as $paper):?>
 								<li>
@@ -45,6 +57,11 @@
 							    <?php /* title */ echo $this->Html->link($paper['title'], array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false));?>
 							    </li>
 							 <?php endforeach;?>
+							 <?php if($user['User']['paper_count'] > 3):?>
+							 	<li>
+							 <?php echo __('Show all papers by').' '.$user['User']['username'];?>
+							 	</li>
+							 <?php endif;?>
 							</ul>
 							<?php endif;?>
 						 </div><!-- /.leftcolcontent -->	

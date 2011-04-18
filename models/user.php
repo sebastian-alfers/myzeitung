@@ -131,7 +131,7 @@ class User extends AppModel {
 		'conditions' => '',
 		'fields' => '',
 		'order' => 'subscription_count DESC',
-		'limit' => '4',
+		'limit' => 3,
 		'offset' => '',
 		'exclusive' => '',
 		'finderQuery' => '',

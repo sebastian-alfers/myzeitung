@@ -2,7 +2,6 @@
 class UsersController extends AppController {
 	
 
-
 	var $name = 'Users';
 	var $components = array('ContentPaperHelper');
 	var $uses = array('User','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
