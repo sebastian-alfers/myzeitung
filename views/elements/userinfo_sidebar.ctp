@@ -7,11 +7,15 @@
 							</div>
 							<h4><?php echo $user['User']['username'];?></h4>
 							<?php if($user['User']['firstname'] or $user['User']['name']):?>
-							<p><strong><?php echo __('Name:'); ?></strong><?php echo $user['User']['firstname'].' '.$user['User']['name'];?></p>
+							<p><strong><?php echo __('Name:').' '; ?></strong><?php echo $user['User']['firstname'].' '.$user['User']['name'];?></p>
 							<?php endif;?>
-							<p><strong><?php echo __('Joined:'); ?></strong><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?></p>
-							<p><strong><?php echo __('About me:')?></strong> Lorem ipsum dolor sit amet, consetet. m voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea</p>
-							<p class="user-url"><strong>URL: </strong><a href="">www.4bai.de</a></p>
+							<p><strong><?php echo __('Joined:').' '; ?></strong><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?></p>
+							<?php if(!empty($user['User']['description'])):?>
+							<p><strong><?php echo __('About me:').' ';?></strong><?php echo strip_tags($user['User']['description'])?></p>
+							<?php endif;?>
+							<?php if(!empty($user['User']['url'])):?>
+							<p class="user-url"><strong>URL: </strong><?php echo $this->Html->link($user['User']['url'])?></p>
+							<?php endif;?>
 							<hr />
 
 							<?php if(count($user['Topic']) > 0): ?>
@@ -35,7 +39,7 @@
 			      		  		<?php endforeach;?>
 			      		  	</ul>
 							<hr />
-			  				  <?php endif; ?>2
+			  				  <?php endif; ?>
 
 							<h6><?php echo __('Activity', true);?></h6>
 							  <ul>
@@ -47,8 +51,9 @@
 								<li><?php echo $user['User']['paper_count'].' '.__('created Papers', true)?></li>
 
 							</ul>
+							
+							<?php if($user['User']['paper_count'] > 0):?>
 							<hr />
-							<?php if(count($user['Paper'] > 0)):?>
 							<h6><?php echo __('Top Papers by',true).' '.$user['User']['username']?></h6>
 							<ul class="newslist">
 							<?php foreach($user['Paper'] as $paper):?>
@@ -63,6 +68,7 @@
 							 	</li>
 							 <?php endif;?>
 							</ul>
+							
 							<?php endif;?>
 						 </div><!-- /.leftcolcontent -->	
 						</div><!-- /.leftcol -->

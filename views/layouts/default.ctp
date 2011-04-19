@@ -45,8 +45,6 @@
 		echo $scripts_for_layout;
 	?>
 </head>
-	
-
 	<body>
 		<div id="main-wrapper">
 			<?php echo $this->element('header'); ?>

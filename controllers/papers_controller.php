@@ -21,7 +21,7 @@ class PapersController extends AppController {
 		//fields
 	          			  'fields' => array('id','owner_id','title','description','created','subscription_count'),
 		//limit of records per page
-			            'limit' => 10,	        
+			            'limit' => 9,	        
 		//order
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
@@ -57,57 +57,72 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-
-
 		/*writing all settings for the paginate function.
 		 important here is, that only the paper's posts are subject for pagination.*/
+		// PROBLEM: tried to only show every post once. if a post is reposted, the newest date counts, 
 		$this->paginate = array(
-
 			        'Post' => array(
-		//setting up the join. this conditions describe which posts are gonna be shown
+						//setting up the joins. this conditions describe which posts are gonna be shown
 			            'joins' => array(
-		array(
-			                    'table' => 'category_paper_posts',
-			                    'alias' => 'CategoryPaperPost',
-			                    'type' => 'INNER',
-			                    'conditions' => array(
-			                        'CategoryPaperPost.post_id = Post.id',
-		//	'CategoryPaperPost.paper_id' => $paper_id
-		),
-		 
-			                   'fields' => array('CategoryPaperPost.post_id'),
-		//  'group' => array('CategoryPaperPost.post_id')
-		),
-		 
-		),
-			          'group' => array('CategoryPaperPost.post_id'),
-		//limit of records per page
-			              'limit' => 10,
-		 
-					 'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
-		//order
-			          'order' => 'CategoryPaperPost.created DESC',
+									array(
+				                 		'table' => 'category_paper_posts',
+				                 		'alias' => 'CategoryPaperPost',
+				                		'type' => 'RIGHT',
+				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id'),
+									),	
+										
+										
+						/*				 array(
+										 'table' => 'category_paper_posts',
+										 'alias' => 'CPP',
+										 'type' => 'RIGHT',
+										// 'fields' => array('id', 'MAX(created) as `max_created`'),
+										 'conditions' => array('CPP.id = CategoryPaperPost.id', 'CategoryPaperPost.created =  CPP.created'),		
+										 'group' => array('CPP.post_id')	,										 
+										   ),
+							*/			  						
+									 
+						/*		array(
+				                 		'table' => 'users',
+				                 		'alias' => 'Reposter',
+				                 		'type' => 'OUTER',
+				                  		'conditions' => array('CategoryPaperPost.reposter_id = Reposter.id'),			   						
+									), */
+								/*	array(
+				                 		'table' => 'posts_users',
+				                 		'alias' => 'PostsUsers',
+				                 		'type' => 'LEFT',
+				                  		'conditions' => array('CategoryPaperPost.post_user_id = PostUser.id'),			   						
+									), */
+									),
+								   
+						//order
+			        	'order' => 'last_post_repost_date DESC',
+	          			'group' => array('CategoryPaperPost.post_id'),
+						//limit of records per page
+			          	'limit' => 99,
+									
+  						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
+  						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
 
-			        //  'order' => 'Post.id ASC',
 			        	//contain array: limit the (related) data and models being loaded per post
-			            'contain' => array('User.id','User.username', 'User.image'),
-			         )
+			            'contain' => array('CategoryPaperPost' => array('Reposter'),  'User.id','User.username', 'User.image'),
+			         ),
 			    );  
 		
-			 //useCustom defines which kind of paginateCount the Post-Model should use. "true" -> counting entries in category_paper_posts
-			 $this->Paper->Post->useCustom = true;
+		//useCustom defines which kind of paginateCount the Post-Model should use. "true" -> counting entries in category_paper_posts
+		$this->Paper->Post->useCustom = true;
 	
 	    if($category_id != null){
 	    	//adding the topic to the conditions array for the pagination - join
 	    	$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
 	    }		
 
-
-		$this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id');
+	    $this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
 		$this->set('paper', $this->Paper->read(null, $paper_id));
 		$this->set('posts', $this->paginate($this->Paper->Post));
 
-		$this->set('contentReferences', $this->Paper->getContentReferences());
+		//$this->set('contentReferences', $this->Paper->getContentReferences());
 
 	}
 

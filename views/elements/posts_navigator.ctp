@@ -12,18 +12,14 @@
 		<?php foreach ($posts as $index => $post):	
 				$article_reposted_by_user = false;
 				$article_belongs_to_user = false;
-				if(is_array($post['Post']['reposters'])){
-					if(in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
-						$article_reposted_by_user = true;
-					}
+				if(is_array($post['Post']['reposters']) && in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
+					$article_reposted_by_user = true;
 				}
 				if($session->read('Auth.User.id') == $post['Post']['user_id']){
 					$article_belongs_to_user = true;
 					//just if a user could somehow repost his own post
 					$article_reposted_by_user = false;
-				}
-				
-		?>
+				}?>
 						<div class="articlewrapper">
 						<?php if($article_reposted_by_user):?>
 						   <span class="repost">repost</span>
@@ -37,30 +33,40 @@
 							
 							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 							<p>
-							<?php echo substr(strip_tags($post['Post']['content'], null),0); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
+							<?php echo substr(strip_tags($post['Post']['content'], null),0); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?> 
 							</p>
 							<ul>
 								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></li>
-								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id']));?><span class="repost-ico"></span><a href="">Hans.Meiser</a></li>
+								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])); ?> 
+									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
+										<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'): ?> 
+											<?php /* blog view - controller users action view */ ?> 
+											<?php if($post['PostUser']['repost'] == true): ?> 
+												<span class="repost-ico"></span><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?> 
+											<?php endif;?> 
+										<?php elseif($this->params['controller'] == 'posts' && $this->params['action'] == 'index'):?> 
+										<?php /* paper view - controller papers action view */ ?> 
+										
+										<?php endif;?>
+									<?php /* END showing last reposter */?>
+								</li>
 								<li><?php echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?></li>
 								<?php /* start of options: edit delete if user is logged in, and it is a post from the user itself // repost - undoRepost if it's another user */?>
-								<li>
-								<?php if(is_array($post['Post']['reposters'])):?>
-								<?php endif;?>
-								<?php if($session->read('Auth.User.id') == $post['Post']['user_id']):?>
+								<li>						
+								<?php if($article_belongs_to_user):?>
 									<?php // posts belongs to user - show edit and delete?>
 									<?php echo $this->Html->link(__('Edit Post', true), array('controller' => 'posts', 'action' => 'edit', $post['Post']['id']));?>
 									&nbsp;&nbsp;
 									<?php echo $this->Html->link(__('Delete Post', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])); ?>
-								<?php elseif(is_array($post['Post']['reposters']) && in_array($session->read('Auth.User.id'),$post['Post']['reposters'])):?>
+								<?php elseif($article_reposted_by_user):?>
 									<?php // post does not belong to user - user has already reposted post - show undo repost button?>
 									<?php echo $this->Html->link(__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']));?>
 								<?php else:?>
 									<?php // post does not belong to user - not reposted yet - show repost button?>
 									<?php echo $this->Html->link(__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']));?>
 								<?php endif;?>
-								</li>
 								
+								</li>
 							</ul>							
 							</div><!-- /.article -->
 						</div><!-- / .articlewrapper -->

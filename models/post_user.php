@@ -97,17 +97,30 @@ var $belongsTo = array(
 
 				
 			private function _publishPostInPaperAndCategories($userData){
+				App::import('model','User');
+				$this->User = new User();
 				if($userData['User']['id']){
 
 					$this->CategoryPaperPost = new CategoryPaperPost();
 					$post_id = $this->data['PostUser']['post_id'];
+					
 
+					
 					$topic_id = null;
 					if(isset($this->data['PostUser']['topic_id'])){
 						$topic_id = $this->data['PostUser']['topic_id'];
 					}
-
+					
 					$user_id = $this->data['PostUser']['user_id'];
+					
+					$reposter_id = null;
+					$reposter_username = null;
+ 					if(isset($this->data['PostUser']['repost']) && $this->data['PostUser']['repost'] == true){
+						$reposter_id = $user_id;
+						$this->User->Contain();
+						$user = $this->User->read('username', $user_id);
+						$reposter_username = $user['User']['username'];
+					}
 
 					//now all references to whole user
 					$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
@@ -116,7 +129,7 @@ var $belongsTo = array(
 					foreach($wholeUserReferences as $wholeUserReference){
 							
 						//place post in paper or category associated to the whole user
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id']);
+						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 						
 						if($wholeUserReference['Category']['id']){
 							$categoryPaperPostData['category_id'] = $wholeUserReference['Category']['id'];
@@ -140,7 +153,7 @@ var $belongsTo = array(
 						//if($categoryPaperPostData[''])
 						//place post in paper or category associated to the posts topic
 							
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id']);
+						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 						
 						if($topicReference['Category']['id']){
 							$categoryPaperPostData['category_id'] = $topicReference['Category']['id'];

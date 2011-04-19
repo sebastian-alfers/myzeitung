@@ -11,13 +11,20 @@ class CategoryPaperPost extends AppModel {
 			'fields' => '',
 			'order' => ''
 			),
+		'Reposter' => array(
+			'className' => 'User',
+			'foreignKey' => 'reposter_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+			),	
 		'Paper' => array(
 			'className' => 'Paper',
 			'foreignKey' => 'paper_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
-			'counterCache' => true
+			'counterCache' => true,
 			),
 		'Category' => array(
 			'className' => 'Category',
@@ -25,7 +32,14 @@ class CategoryPaperPost extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
-			'counterCache' => true
+			'counterCache' => true,
+			),
+		'PostUser' => array(
+			'className' => 'PostUser',
+			'foreignKey' => 'post_user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
 
 			)
 			);

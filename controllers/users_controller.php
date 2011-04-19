@@ -97,27 +97,28 @@ class UsersController extends AppController {
 	            'joins' => array(
 	                array(
 	                    'table' => 'posts_users',
-	                    'alias' => 'PostsUser',
+	                    'alias' => 'PostUser',
 	                    'type' => 'INNER',
 	                    'conditions' => array(
-	                        'PostsUser.post_id = Post.id',
-	                		'PostsUser.user_id' => $user_id
+	                        'PostUser.post_id = Post.id',
+	                		'PostUser.user_id' => $user_id
 	                    ),
 	                ),   
 	            ),
 	            //limit of records per page
 	            'limit' => 9,
 	            //order
-	            'order' => 'PostsUser.created DESC',
+	            'order' => 'PostUser.created DESC',
+	            'fields' => array('Post.*', 'PostUser.repost'),
 	        	//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array( 'User.id','User.username', 'User.image'),
 	         )
 	    );
 	    if($topic_id != null){
 	    	//adding the topic to the conditions array for the pagination - join
-	    	$this->paginate['Post']['joins'][0]['conditions']['PostsUser.topic_id'] = $topic_id;
+	    	$this->paginate['Post']['joins'][0]['conditions']['PostUser.topic_id'] = $topic_id;
 	    }		
-	   
+	   		
 			//unbinding irrelevant relations for the query
 			$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 			$this->set('user', $this->User->read(array('id','firstname','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));

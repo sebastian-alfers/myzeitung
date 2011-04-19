@@ -31,7 +31,6 @@ class Paper extends AppModel {
 			'foreignKey' => 'paper_id',
 			'associationForeignKey' => 'post_id',
 			//	'unique' => true,
-			'conditions' => '',
 			'fields' => '',
 			'order' => 'CategoryPaperPost.created DESC',
 			'limit' => '',

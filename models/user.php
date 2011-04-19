@@ -128,7 +128,6 @@ class User extends AppModel {
 		'className' => 'Paper',
 		'foreignKey' => 'owner_id',
 		'dependent' => true,
-		'conditions' => '',
 		'fields' => '',
 		'order' => 'subscription_count DESC',
 		'limit' => 3,

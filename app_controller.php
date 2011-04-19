@@ -126,6 +126,31 @@ class AppController extends Controller {
 		}
 		return false;
 	}
+/*	
+	function beforeRender()
+    {
+        if (Configure::read('debug') == 0) {
+            ob_start();
+       }
+    } 
+	
+	function afterFilter()
+    {
+       if (Configure::read('debug') == 0) {
+            $output = ob_get_contents();
+            ob_end_clean();
+            echo $this->_clean($output);
+        }
+    } 
+	
+	function _clean($string){
+        $string = str_replace("\n", '', $string);
+        $string = str_replace("\t", '', $string);
+        $string = preg_replace('/[ ]+/', ' ', $string);
+        $string = preg_replace('/<!--[^-]*-->/', '', $string);
+        return $string;
+    } 
+	*/
 }
 
 
