@@ -167,14 +167,24 @@ class PostsController extends AppController {
 				//copy images after post has been saved to add new post-id to img path
 				if($this->_hasImagesInHashFolder()){
 					if($this->_copyPostImages()){
+						$hash = $this->data['Post']['hash']; 
 						$this->data = array();
 						$this->data['Post']['image'] = $this->images;
 						$this->data["Post"]["user_id"] = $user_id;
-						
+						$this->data['Post']['hash'] = $hash;
+
 						$this->Post->add_solr = false;
-						if (!$this->Post->save($this->data)) {
-							$this->Session->setFlash(__('Not able to copy images for post', true));	
-						}					
+						if ($this->Post->save($this->data)) {
+							//remove tmp hash folder
+							$webroot = $this->_getWebrootUrl();
+							$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+							if(!rmdir($path_to_tmp_folder)){
+								$this->log('Not able to remove tmp hash folder: ' . $path_to_tmp_folder);
+							}
+						}
+						else{
+							$this->Session->setFlash(__('Not able to copy images for post', true));
+						}
 					}
 					else{
 						$this->Session->setFlash(__('Not able to copy images for post', true));
@@ -184,7 +194,6 @@ class PostsController extends AppController {
 				$this->Session->setFlash(__('The post has been saved', true));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
-				debug($this->data);
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
 				$error = true;
 			}
@@ -368,8 +377,8 @@ class PostsController extends AppController {
 						$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
 
 						$size = getimagesize($tmp_path);
-						
-						
+
+
 						$this->log('from: ' . $tmp_path . ' -> '  . $new_full_path);
 						if (copy($tmp_path , $new_full_path)) {
 							unlink($tmp_path);

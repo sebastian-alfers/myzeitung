@@ -56,6 +56,9 @@
 
 
 	$(document).ready(function() {	
+		//now show sidebar
+		$('#user_sidebar_content').show();
+		
 		
 		$('#add_topick_link').bind('click', function(){topicDialog();});
 		$('#add_url_link').bind('click', function(){urlDialog();});
@@ -159,37 +162,6 @@ echo $this->Form->hidden('hash',array('value' => $hash));
 		$('#PostImage').hide();	
 	
 
-		<?php /*
-		//counter for image names
-		var i = 0;
-		$('#file_upload').fileUploadUI({
-		    uploadTable: $('#files'),
-		    downloadTable: $('#files'),
-		    buildUploadRow: function (files, index) {
-		        return $('<tr><td class="file_upload_preview"><\/td>' +
-		                '<td>' + files[index].name + '<input  name="data[Post][images][img_'+ (i++) + ']" type="file" name="'+ files[index].name +'" /><\/td>' +
-		                '<td class="file_upload_progress"><div><\/div><\/td>' +
-		                '<td class="file_upload_start">' +
-		                '<button class="ui-state-default ui-corner-all" title="Start Upload">' +
-		                '<span class="ui-icon ui-icon-circle-arrow-e">Start Upload<\/span>' +
-		                '<\/button><\/td>' +
-		                '<td class="file_upload_cancel">' +
-		                '<button class="ui-state-default ui-corner-all" title="Cancel">' +
-		                '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
-		                '<\/button><\/td><\/tr>');
-		    },
-		    buildDownloadRow: function (file) {
-		        return $('<tr><td>' + file.name + '<\/td><\/tr>');
-		    },
-		    beforeSend: function (event, files, index, xhr, handler, callBack) {
-		        handler.uploadRow.find('.file_upload_start button').click(function () {
-		            callBack();
-		            return false;
-		        });
-		    }
-		});
-		*/ ?>
-		/*global $ */
 		$(function () {
 		    $('#file_upload').fileUploadUI({
 		        uploadTable: $('#files'),
@@ -207,6 +179,18 @@ echo $this->Form->hidden('hash',array('value' => $hash));
 		            return $('<div float="left"><img src="/myzeitung/' + file.path + '" width=100 \/><\/div>');
 		        },
 		        beforeSend: function (event, files, index, xhr, handler, callBack) {
+			        alert(files[index].size);
+			        return;
+		        	if (files[index].size > 5000000) {
+		                //handler.uploadRow.find('.file_upload_progress').html('FILE TOO BIG!');
+		                //alert('too large');
+		                setTimeout(function () {
+		                    handler.removeNode(handler.uploadRow);
+		                }, 10000);
+		                return;
+		            }
+		            callBack();
+			        
 		            if (index === 0) {
 		                // The files array is a shared object between the instances of an upload selection.
 		                // We extend it with a custom array to coordinate the upload sequence:

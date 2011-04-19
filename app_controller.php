@@ -128,10 +128,3 @@ class AppController extends Controller {
 		return false;
 	}
 }
-
-
-/*function __construct(){
-	parent::__construct();
-	$this->Auth->autoRedirect = false;
-
-}*/

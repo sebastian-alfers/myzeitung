@@ -62,10 +62,10 @@ class Post extends AppModel {
 			'order' => '',
 			'counterCache' => true,
 
-			),
-			);
+	),
+	);
 
-			var $hasMany = array(
+	var $hasMany = array(
 		'Comment' => array(
 			'className' => 'Comment',
 			'foreignKey' => 'post_id',
@@ -249,7 +249,7 @@ class Post extends AppModel {
 							$results[$key]['reposters'] = array();
 						}
 					}
-						
+
 
 					if (!empty($val['image']) ) {
 						$results[$key]['image'] = unserialize($results[$key]['image']);
@@ -284,12 +284,31 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
-				
-				
 
+
+				
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
+
+				
+				//generate preview of post
+				$content = explode(' ', strip_tags($this->data['Post']['content']));
+				foreach($content as &$word){
+					$word = trim($word);
+					$word = preg_replace('/\s\s+/', ' ', $word);
+				}
+				$prev = '';
+				$max_chars = 175;
+				$chars = 0;
+				foreach($content as $word){
+					if(($chars+strlen($word)) < $max_chars){
+						$chars += strlen($word);
+						$prev .= ' ' . $word;
+					}
+				}
+				$this->data['Post']['content_preview'] = $prev;
+
 
 				return true;
 			}
@@ -408,6 +427,9 @@ class Post extends AppModel {
 				unset($data['Post']['image']);
 				unset($data['Post']['image_details']);
 				unset($data['Post']['hash']);
+				unset($data['Post']['content_preview']);
+				
+				
 
 
 				return $data;

@@ -86,10 +86,11 @@
 									<?php  echo $this->Html->image($rel_path, array('style' => $inline_styles)); ?>
 									
 								</p>
-
+							<?php //end image rendering ?>
 							<?php else:?>
+							<?php //not image -> show text preview?>
 								<p>
-								<?php echo substr(strip_tags($post['Post']['content'], null),0); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
+								<?php echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
 								</p>
 							<?php endif; ?>
 							<ul class="footer">

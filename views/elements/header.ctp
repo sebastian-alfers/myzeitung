@@ -2,8 +2,7 @@
 				<h1 id="logo"><a href="/">myZeitung</a></h1>
 					<div id="user-info">
 						<?php if($session->read('Auth.User.id')): // logged in??>
-						<?php echo __("logged in as", true)." "; ?>
-						<?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'),
+						<?php echo __("logged in asss", true)." "; ?><?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'),
 							 array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.username')))."</strong> ";?>
 						<?php echo $this->Html->link(__("logout", true), array('controller' => 'users', 'action' => 'logout'));?>
 						<?php echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));?>
