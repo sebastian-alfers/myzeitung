@@ -233,7 +233,7 @@ class Post extends AppModel {
 					}
 
 					if (!empty($val['Post']['image']) ) {
-						$results[$key]['Post']['image'] = json_decode($results[$key]['Post']['image']);
+						$results[$key]['Post']['image'] = unserialize($results[$key]['Post']['image']);
 					}else {
 						if(isset($results[$key]['Post']['image'])){
 							$results[$key]['Post']['image'] = array();
@@ -252,7 +252,7 @@ class Post extends AppModel {
 						
 
 					if (!empty($val['image']) ) {
-						$results[$key]['image'] = json_decode($results[$key]['image']);
+						$results[$key]['image'] = unserialize($results[$key]['image']);
 					}else {
 						if(isset($results[$key]['image'])){
 							$results[$key]['image'] = array();
@@ -284,9 +284,11 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
+				
+				
 
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
-					$this->data['Post']['image'] = json_encode($this->data['Post']['image']);
+					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
 
 				return true;

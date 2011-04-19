@@ -367,11 +367,14 @@ class PostsController extends AppController {
 						$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
 						$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
 
+						$size = getimagesize($tmp_path);
+						
+						
 						$this->log('from: ' . $tmp_path . ' -> '  . $new_full_path);
 						if (copy($tmp_path , $new_full_path)) {
 							unlink($tmp_path);
 							$new_rel_path = 'posts'.DS.$new_rel_path;
-							$this->images[] = $new_rel_path.$file;
+							$this->images[] = array('path' =>$new_rel_path.$file, 'size' => $size);
 						}
 					}
 				}
