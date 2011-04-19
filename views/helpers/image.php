@@ -14,12 +14,12 @@ class ImageHelper extends Helper {
 	 * @param integer $width Image of returned image
 	 * @param integer $height Height of returned image
 	 * @param boolean $aspect Maintain aspect ratio (default: true)
-	 * @param array    $htmlAttributes Array of HTML attributes.
-	 * @param boolean $return Wheter this method should return a value or output it. This overrides AUTO_OUTPUT.
-	 * @return mixed    Either string or echos the value, depends on AUTO_OUTPUT and $return.
-	 * @access public
+	 * @param array $htmlAttributes Array of HTML attributes.
+	 * @param boolean $relativeMove adds inline css position:relative and set top minus half of max height (e.g. for post navigator)
+	 * 
+	 * @return string / array - path within cache folder, if $relativeMove == true -> add additional inline styles 
 	 */
-	function resize($path, $width, $height, $aspect = true, $htmlAttributes = array(), $return = false) {
+	function resize($path, $width, $height, $aspect = true, $relativeMove = false) {
 
 		$types = array(1 => "gif", "jpeg", "png", "swf", "psd", "wbmp"); // used to determine image type
 
@@ -71,7 +71,7 @@ class ImageHelper extends Helper {
 
 
 		//cache/post/38/90/50/bildschirmfoto_2011-02-17_um_13.06.46.png
-		$relfile = 'cache'.DS.$fullpath['path'].$fullpath['file'];
+		$relfile = $fullpath['path'].$fullpath['file'];
 
 		///Applications/MAMP/htdocs/myzeitung/webroot/img/cache/post/38/90/50/
 		$cacheFoler = $cachepath.$fullpath['path'];
@@ -85,8 +85,12 @@ class ImageHelper extends Helper {
 				die('Erstellung der Verzeichnisse schlug fehl...');
 			}
 		}
-
+		//debug ('jo cache ' . $cachefile);
+		//debug ('jo cache ' . $cachepath.$fullpath['path'].$fullpath['file']);die();
+		
 		if (file_exists($cachefile)) {
+			
+			
 			$csize = getimagesize($cachefile);
 			$cached = ($csize[0] == $width && $csize[1] == $height); // image is cached
 			if (@filemtime($cachefile) < @filemtime($url)) // check if up to date
@@ -117,7 +121,18 @@ class ImageHelper extends Helper {
 			imagedestroy ($image);
 			imagedestroy ($temp);
 		}
-		return $relfile;
+		
+		$relfile = 'cache'.DS.$relfile;
+		
+		if(!$relativeMove) return $relfile;
+		
+		//add additional infos for inline css -> post navigator
+		$return = array();
+		
+		$return['path'] = $relfile;
+		$return['height'] = $height;
+		$return['width'] = $width;
+		return $return;
 		//return $this->output(sprintf($this->Html->tags['image'], $relfile, $htmlAttributes), $return);
 	}
 

@@ -10,6 +10,7 @@
 					</div>
 									
 		<?php foreach ($posts as $index => $post):	
+		
 				$article_reposted_by_user = false;
 				$article_belongs_to_user = false;
 				if(is_array($post['Post']['reposters']) && in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
@@ -32,10 +33,63 @@
 							</ul>
 							
 							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
-							<p>
-							<?php echo substr(strip_tags($post['Post']['content'], null),0); echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?> 
-							</p>
-							<ul>
+
+							<?php if(isset($post['Post']['image'][0]) && !empty($post['User']['image'][0])): ?>
+							<?php 
+							/**
+							 * <p> overflow:hidden;height:117px;
+							 * <img>:position:relative, top:-10px;left:-10px;
+							 */
+							
+							//aspect ratio of div for image preview
+							$div_width = 200;
+							$div_height = 117;
+							$divAspectRatio = 1.7094017094; // -> 200/117;
+
+							//get aspect ratio of post image
+							$img_width = $post['Post']['image'][0]['size'][0];
+							$img_height = $post['Post']['image'][0]['size'][1];
+							$imageAspectRatio =  $img_width/$img_height;
+
+							$inline_styles = '';
+							if($imageAspectRatio > $divAspectRatio){
+								//landscape aspect ratio
+								$img_resize_info = $image->resize($post['Post']['image'][0]['path'], 332, 117, true, true);//return array bacuse of last param -> true
+								$rel_path = $img_resize_info['path']; 
+								//if image is x px wider then the div -> move the half of x to left
+								$inline_styles = 'position:relative;left:-'.(($img_resize_info['width'] - $div_width) / 2) . 'px';	
+							}
+							else{
+								//portrait aspect ratio
+								$img_resize_info = $image->resize($post['Post']['image'][0]['path'], 200, 159, true, true);//return array bacuse of last param -> true
+								$rel_path = $img_resize_info['path']; 
+								//if image is x px wider then the div -> move the half of x to left
+								$inline_styles = 'position:relative;top:-'.(($img_resize_info['height'] - $div_height) / 2) . 'px';
+							}
+							
+							//debug($post['Post']['image'][0]);die(); 
+							
+						 
+							
+
+							
+							?>
+							
+								<p style="height:117px;overflow:hidden;margin-bottom:25px;">
+									
+									<?php //echo 'h: ' .$img_info['height'] . '    -   w: ' . $img_info['width']; ?>
+									<?php  echo $this->Html->image($rel_path, array('style' => $inline_styles)); ?>
+									
+								</p>
+							<?php //end image rendering ?>
+							<?php else:?>
+							<?php //not image -> show text preview?>
+								<p>
+								<?php echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
+								</p>
+							<?php endif; ?>
+							<ul class="footer">
+
 								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></li>
 								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])); ?> 
 									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
