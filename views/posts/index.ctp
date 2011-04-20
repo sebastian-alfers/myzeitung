@@ -1,5 +1,5 @@
 
-<?php echo $this->element('posts_navigator'); ?>	
+<?php echo $this->element('posts/navigator'); ?>	
 <div class="actions">
 	<?php echo $this->element('navigation'); ?>	
 

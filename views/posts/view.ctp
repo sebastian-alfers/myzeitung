@@ -1,104 +1,46 @@
-<div class="posts view">
-<h2><?php  __('Post');?></h2>
-	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('User'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($post['User']['username'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
-			&nbsp;
-		</dd>
-		<?php if((!empty($post['User']['firstname']) || (!empty($post['User']['name'])))):?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php 
-				if(!empty($post['User']['firstname'])){
-					echo $post['User']['firstname'];echo "&nbsp;";
-				}
-				if(!empty($post['User']['name'])){
-					echo $post['User']['name'];
-				}
-			 ?>
-			&nbsp;
-		</dd>
-		<?php endif;?>
+<?php echo $this->element('users/sidebar'); ?>
+<?php
+// extracting the first paragraph and the rest of the post-content
+// important to not copy the <p> </p> tags, because these are already described in the view with a class
+$end = strpos($post['Post']['content'], '</p>', 0);
+$first_paragraph = substr($post['Post']['content'], 3 , $end+3);
+$content_after_first_paragraph = substr($post['Post']['content'], $end+4);
+?>
+<div id="maincolwrapper"> 
+	<div id="maincol">
+		<div class="article-nav">
+				<ul class="iconbar">
+					<li class="reposts"><?php echo $post['Post']['posts_user_count'];?></li>
+					<li class="views"><?php echo $post['Post']['view_count'];?></li>
+					<li class="comments"><?php echo $post['Post']['comment_count'];?><span></span></li>								
+				</ul>
 		
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Topic'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($post['Topic']['name'], array('controller' => 'topics', 'action' => 'view', $post['Topic']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Title'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['title']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Content'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['content']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['modified']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['created']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Count Views'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['view_count']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Count Reposts'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $post['Post']['posts_user_count']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Count Comments'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($post['Post']['comment_count'], array('controller' => 'comments', 'action' => 'show', $post['Post']['id'])); ?>
-			&nbsp;
-		</dd>
-	</dl>
-</div>
-<div class="actions">
-
-	<?php echo $this->element('navigation'); ?>	
-	<h3><?php __('Options'); ?></h3>
-	<ul>
-			<li><?php 
-			//if user did not repost a post yet, there will be repost button. otherwise there will be a undoRepost Button
-			if(is_array($post['Post']['reposters'])){
-				if(!in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
-					if($session->read('Auth.User.id') != $post['Post']['user_id']){
-						//repost button
-						echo $this->Html->link(__('Repost', true), array('controller' => 'posts', 'action' => 'repost', $post['Post']['id']));	
-					}
-				}else{
-				//undoRepost button
-				echo $this->Html->link(__('undoRepost', true), array('action' => 'undoRepost', $post['Post']['id']));
-				} 
-			}else 
-			{
-				if($session->read('Auth.User.id') != $post['Post']['user_id']){
-						//repost button
-						echo $this->Html->link(__('Repost', true), array('controller' => 'posts', 'action' => 'repost', $post['Post']['id'], '1'));	
-					}
+				<ul class="social-links">
+				<li><a class="btn"><span class="repost-ico icon"></span><?php echo __('Repost', true);?></a></li>
+				</ul><!-- / .social-links -->
 			
-			}
-		?></li>
-			<?php
-					//show button only if it's the users own post on it's own blog e 
-					if($session->read('Auth.User.id') == $post['Post']['user_id']){
-							echo '<li>'.$this->Html->link(__('Edit', true), array('controller' => 'posts', 'action' => 'edit', $post['Post']['id'])).'</li>';
-					} ?>
-				<?php
-					//show button only if it's the users own post on it's own blog e 
-					if($session->read('Auth.User.id') == $post['Post']['user_id']){
-						 echo '<li>'.$this->Html->link(__('Delete', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])).'</li>'; 
-					}?>
-		<li><?php echo $this->Html->link(__('Show Comments', true), array('controller' => 'comments', 'action' => 'show', $post['Post']['id'])); ?></li>
-	</ul>
-</div>
+		</div><!-- / .article-nav -->
+		
+		<div class="articleview-wrapper">
+			<div class="articleview">
+			<p><strong><?php echo __('posted', true).' '.$this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></strong><?php echo ' '.$post['Post']['comment_count'].' '.__('Comments', true);?></p>
+			<h1><?php echo $post['Post']['title'];?></h1>
+			<?php if(isset ($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):?>
+				<span class="main-article-imgs"><?php echo $this->Html->image($post['Post']['image'][0]);?></span>
+			<?php endif;?>
+			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>
+			<?php echo $content_after_first_paragraph;?>			
+			</div><!-- /. articleview -->
+			
+			<div class="comments">
+			<?php // Comment Input Box?>
+			<?php echo $this->element('comments/add'); ?>
+			<?php // Comments Pagination?>
+			<?php echo $this->element('comments/navigator'); ?>
+			</div> <!-- / .comments -->
+			
+		</div> <!-- /. articleview-wrapper -->							
+	
+	</div><!-- / #maincol -->
+
+</div><!-- / #maincolwrapper -->

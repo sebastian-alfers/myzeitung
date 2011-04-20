@@ -1,4 +1,4 @@
-<?php echo $this->element('papers_navigator'); ?>	
+<?php echo $this->element('papers/navigator'); ?>	
 
 
 <div class="actions">

@@ -37,6 +37,8 @@
 		e($html->script('jquery-ui-1.8.11.min'));
 		e($html->css('jquery.fileupload-ui'));
 		e($html->css('jquery-ui-1.8.11'));		
+		
+		
 		//echo $this->Html->css('mz.custom');		
 		
 		echo $this->Html->css('style');

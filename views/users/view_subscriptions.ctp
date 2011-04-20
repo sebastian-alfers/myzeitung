@@ -1,5 +1,5 @@
-<?php echo $this->element('papers_navigator'); ?>	
-<?php echo $this->element('userinfo_sidebar'); ?>	
+<?php echo $this->element('papers/navigator'); ?>	
+<?php echo $this->element('users/sidebar'); ?>	
 
 
 

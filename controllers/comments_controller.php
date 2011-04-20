@@ -11,7 +11,7 @@ class CommentsController extends AppController {
  	
 
 	function show($post_id = null) {
-		$this->Comment->contain('User.username','User.id');
+		$this->Comment->contain('User.username','User.id','User.image');
 		//'threaded' gets also the replies (children) and children's children etc. (for tree behavior. not sure if for not-tree also)
 		$comments = $this->Comment->find('threaded',array(
 										'conditions' => array('post_id' => $post_id),
