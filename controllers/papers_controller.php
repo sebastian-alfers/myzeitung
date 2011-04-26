@@ -100,13 +100,13 @@ class PapersController extends AppController {
 			        	'order' => 'last_post_repost_date DESC',
 	          			'group' => array('CategoryPaperPost.post_id'),
 						//limit of records per page
-			          	'limit' => 99,
+			          	'limit' => 9,
 									
   						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
 
 			        	//contain array: limit the (related) data and models being loaded per post
-			            'contain' => array('CategoryPaperPost' => array('Reposter'),  'User.id','User.username', 'User.image'),
+			            'contain' => array('User.id','User.username', 'User.image'),
 			         ),
 			    );  
 		
@@ -114,13 +114,31 @@ class PapersController extends AppController {
 		$this->Paper->Post->useCustom = true;
 	
 	    if($category_id != null){
-	    	//adding the topic to the conditions array for the pagination - join
+	    	//adding the category to the conditions array for the pagination - join
 	    	$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
 	    }		
+		$posts = $this->paginate($this->Paper->Post);
+		
+		// finding the last relevant reposter for the post in a paper / category
+			$conditions = array('paper_id' => $paper_id);
+		    if($category_id != null){
+		    	//adding the category to the conditions array 
+		    	$conditions['category_id'] = $category_id;
+		    }	
+		foreach($posts as &$post){
+			$conditions['post_id'] = $post['Post']['id'];
+			$this->CategoryPaperPost->contain();
+			$last_relevant_post = $this->CategoryPaperPost->find('first',array('order' => 'created DESC', 'conditions' => $conditions, 'fields' => array('reposter_id', 'reposter_username')));
+			$post['lastReposter']['id'] = $last_relevant_post['CategoryPaperPost']['reposter_id'];
+			$post['lastReposter']['username'] = $last_relevant_post['CategoryPaperPost']['reposter_username'];
+		}
 
+		// END - last relevant reposter
+		
+	    	
 	    $this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
 		$this->set('paper', $this->Paper->read(null, $paper_id));
-		$this->set('posts', $this->paginate($this->Paper->Post));
+		$this->set('posts', $posts);
 
 		//$this->set('contentReferences', $this->Paper->getContentReferences());
 
