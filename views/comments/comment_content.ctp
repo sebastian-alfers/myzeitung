@@ -1,0 +1,1 @@
+<?php echo $this->element('comments/comment_content', array('current_comment' => $current_comment)); ?>

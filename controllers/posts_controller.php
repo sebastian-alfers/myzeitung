@@ -148,8 +148,8 @@ class PostsController extends AppController {
 										'conditions' => array('post_id' => $id),
 										'order'=>array('created DESC'), 
 										'fields' => array('id','user_id','post_id','parent_id','text','created')));
-		
-		
+
+
 		$this->Post->contain('User.username','User.name','User.firstname', 'User.id', 'Topic.name', 'Topic.id');
 		$post = $this->Post->read(null, $id);
 		$user = $this->User->read(null, $post['Post']['user_id']);
@@ -160,10 +160,12 @@ class PostsController extends AppController {
 	}
 
 	function add() {
+
 		$error = false;
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
+
 			//debug($this->data);
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
@@ -171,6 +173,7 @@ class PostsController extends AppController {
 
 			$this->data["Post"]["user_id"] = $user_id;
 
+			$content = $this->data["Post"]["content"];
 			$this->Post->create();
 
 			if ($this->Post->save($this->data)) {
@@ -178,17 +181,32 @@ class PostsController extends AppController {
 				//copy images after post has been saved to add new post-id to img path
 				if($this->_hasImagesInHashFolder()){
 					if($this->_copyPostImages()){
-						$hash = $this->data['Post']['hash']; 
+						$hash = $this->data['Post']['hash'];
 						$this->data = array();
 						$this->data['Post']['image'] = $this->images;
 						$this->data["Post"]["user_id"] = $user_id;
 						$this->data['Post']['hash'] = $hash;
+						$this->data['Post']['content'] = $content;
 
 						$this->Post->add_solr = false;
 						if ($this->Post->save($this->data)) {
 							//remove tmp hash folder
 							$webroot = $this->_getWebrootUrl();
 							$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+							//remove files in folder
+							if ($handle = opendir($path_to_tmp_folder)) {
+								while (false !== ($file = readdir($handle))) {
+									if ($file != "." && $file != "..") {
+										$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
+										unlink($tmp_path);
+									}
+								}
+							}
+							else{
+								$this->log('can not open directory for remove images: ' . $path_to_tmp_folder);
+								return false;
+							}
+
 							if(!rmdir($path_to_tmp_folder)){
 								$this->log('Not able to remove tmp hash folder: ' . $path_to_tmp_folder);
 							}
@@ -217,26 +235,42 @@ class PostsController extends AppController {
 		if($error){
 			$this->set('hash', $this->data['Post']['hash']);
 
-			//get images from hash folder is available
-			if($this->_hasImagesInHashFolder()){
-				$imagesFromHash = $this->_getImagesFromHash();
-				foreach($imagesFromHash as &$img){
-					$img = 'tmp'.DS.$this->data['Post']['hash'].DS.$img;
+			if(isset($this->data['Post']['images']) && !empty($this->data['Post']['images'])){
+				$tmp_images = explode(',', $this->data['Post']['images']);
+				$return_imgs = array();
+
+				$webroot = $this->_getWebrootUrl();
+				$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+				foreach ($tmp_images as $img){
+					
+					$return_imgs[] = array('path' => 'tmp'.DS.$this->data['Post']['hash'].DS.$img, 'name' => $img);
 				}
-				debug($imagesFromHash);
-				$this->set('images', $imagesFromHash);
+				if(count($return_imgs) > 0){
+					$this->set('images', $return_imgs);
+				}
+
 			}
-		}
-		else{
-			$this->set('hash', $this->_getHash());
-		}
+			//get images from hash folder is available
+			//			if($this->_hasImagesInHashFolder()){
+			//				$imagesFromHash = $this->_getImagesFromHash();
+			//				foreach($imagesFromHash as &$img){
+			//					$img = 'tmp'.DS.$this->data['Post']['hash'].DS.$img;
+			//				}
+			//				debug($this->data);
+			//				debug($imagesFromHash);
+			//				$this->set('images', $imagesFromHash);
+			//			}
+			}
+			else{
+				$this->set('hash', $this->_getHash());
+			}
 
-		$this->set(compact('topics'));
-		$this->set('user_id',$user_id);
+			$this->set(compact('topics'));
+			$this->set('user_id',$user_id);
 
 
-		//same template for add and edit
-		$this->render('add_edit');
+			//same template for add and edit
+			$this->render('add_edit');
 
 	}
 
@@ -380,22 +414,27 @@ class PostsController extends AppController {
 					return false;
 				}
 			}
+
 			//found folder
+
 			if ($handle = opendir($path_to_tmp_folder)) {
-				while (false !== ($file = readdir($handle))) {
-					if ($file != "." && $file != "..") {
-						$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
-						$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
-
-						$size = getimagesize($tmp_path);
+				$images = $this->data['Post']['images'];
+				$images= explode(",", $images);
+					
+				foreach($images as $file){
 
 
-						$this->log('from: ' . $tmp_path . ' -> '  . $new_full_path);
-						if (copy($tmp_path , $new_full_path)) {
-							unlink($tmp_path);
-							$new_rel_path = 'posts'.DS.$new_rel_path;
-							$this->images[] = array('path' =>$new_rel_path.$file, 'size' => $size);
-						}
+
+					$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
+					$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
+
+					$size = getimagesize($tmp_path);
+
+
+					$this->log('from: ' . $tmp_path . ' -> '  . $new_full_path);
+					if (copy($tmp_path , $new_full_path)) {
+						unlink($tmp_path);
+						$this->images[] = array('path' => 'posts'.DS.$new_rel_path.$file, 'size' => $size);
 					}
 				}
 			}
@@ -403,6 +442,7 @@ class PostsController extends AppController {
 				$this->log('can not open directory for copy images: ' . $path_to_tmp_folder);
 				return false;
 			}
+
 		}
 		else{
 			$this->log('given path is no directory:' . $path_to_tmp_folder);

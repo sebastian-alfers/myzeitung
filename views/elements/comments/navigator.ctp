@@ -1,4 +1,4 @@
-<ul>
+<ul id="comment_list">
 	<?php foreach ($comments as $comment):?>
 		<li class="comment">
 		<?php $current_comment['Comment'] = $comment['Comment'];?>

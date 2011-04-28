@@ -27,6 +27,8 @@
 		<?php echo $title_for_layout; ?>
 	</title>
 	
+	
+	
 	<?php
 		echo $this->Html->meta('icon');
 		
@@ -46,6 +48,8 @@
 
 		echo $scripts_for_layout;
 	?>
+	<script type="text/javascript" src="http://gettopup.com/releases/latest/top_up-min.js"></script>
+	
 </head>
 	<body>
 		<div id="main-wrapper">

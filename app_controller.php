@@ -110,6 +110,9 @@ class AppController extends Controller {
 			),		
 		'comments' => array(
 			'add' => array(1),
+			'ajxAdd' => array(1),
+			'ajxGetForm' => array(1),
+			'delete' => array(1)
 			),
 		'install' => array(
 			'index' => array(1),

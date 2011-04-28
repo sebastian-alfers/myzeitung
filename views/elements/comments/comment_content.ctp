@@ -5,6 +5,17 @@
 </p>
 	<p class="content">
 	<span class="info">kommentar</span>
-	<?php echo $current_comment['Comment']['text'];?>
+	<?php echo nl2br($current_comment['Comment']['text']); ?>
 	</p>
-	<?php echo $this->Html->link('<span class="reply-icon"></span>'.__('Reply', true), array('controller' => 'comments', 'action' => 'add', $current_comment['Comment']['post_id'],$current_comment['Comment']['reply_id']), array('escape' => false, 'class' => 'btn', ));?>
+	<?php 
+		$comment_user_id = $current_comment['Comment']['user_id'];
+		$logged_in_user_id = $session->read('Auth.User.id');
+		
+		if($comment_user_id == $logged_in_user_id): ?>
+			<?php echo $this->Html->link('<span class="reply-icon"></span>'. __('Remove', true), array('controller' => 'comments', 'action' => 'delete', $current_comment['Comment']['id']), array('escape' => false, 'class' => 'btn', ));?>
+		<?php endif; ?>
+	
+<?php /*
+	<a class="reply btn"><span class="reply-icon"></span><?php __('Reply'); ?></a>
+	
+	*/ ?>

@@ -26,7 +26,7 @@
 							<?php echo $this->Html->link(__('Papers', true), array('controller' => 'papers', 'action' => 'index'));?></li>
 						</ul>
 						<form id="search" action="">
-							<input class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php echo __('Find', true);?>" />
+							<input id="inputString"  onkeyup="lookup(this.value);" class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php echo __('Find', true);?>" />
 							<button class="submit" type="submit" value=""><?php echo __('Find', true);?></button>
 						</form>
 					</div>
@@ -49,3 +49,74 @@
 						
 					</div><!-- / #nav --> 
 			</div><!-- / #header -->
+	
+
+<style type="text/css">
+	body {
+		font-family: Helvetica;
+		font-size: 11px;
+		color: #000;
+	}
+	
+	h3 {
+		margin: 0px;
+		padding: 0px;	
+	}
+
+	.suggestionsBox {
+		position: relative;
+		left: 30px;
+		margin: 10px 0px 0px 0px;
+		width: 200px;
+		background-color: #212427;
+		-moz-border-radius: 7px;
+		-webkit-border-radius: 7px;
+		border: 2px solid #000;	
+		color: #fff;
+	}
+	
+	.suggestionList {
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	.suggestionList li {
+		
+		margin: 0px 0px 3px 0px;
+		padding: 3px;
+		cursor: pointer;
+	}
+	
+	.suggestionList li:hover {
+		background-color: #659CD8;
+	}
+</style>
+
+<script>
+
+	function lookup(inputString) {
+		if(inputString.length == 0) {
+			// Hide the suggestion box.
+			$('#suggestions').hide();
+		} else {
+			inputString = $.trim(inputString);
+			$.post("<?php echo DS.APP_DIR.'/search/ajxSearch/'?>", {query: ""+inputString+""}, function(data){
+				$('#suggestions').show();
+				$('#autoSuggestionsList').html(data);
+			});
+		}
+	} // lookup
+	
+	function fill(thisValue) {
+		$('#inputString').val(thisValue);
+		setTimeout("$('#suggestions').hide();", 200);
+	}
+	</script>			
+	
+	
+			<div class="suggestionsBox" id="suggestions" style="display: none;">
+				<img src="upArrow.png" style="position: relative; top: -12px; left: 30px;" alt="upArrow" />
+				<div class="suggestionList" id="autoSuggestionsList">
+					&nbsp;
+				</div>
+			</div>	

@@ -290,9 +290,8 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
-
 				
-				//generate preview of post
+				//generate preview of post				
 				$content = explode(' ', strip_tags($this->data['Post']['content']));
 				foreach($content as &$word){
 					$word = trim($word);
@@ -428,10 +427,8 @@ class Post extends AppModel {
 				unset($data['Post']['image_details']);
 				unset($data['Post']['hash']);
 				unset($data['Post']['content_preview']);
+				unset($data['Post']['images']);
 				
-				
-
-
 				return $data;
 
 			}

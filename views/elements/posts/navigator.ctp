@@ -34,13 +34,9 @@
 							
 							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 
-							<?php if(isset($post['Post']['image'][0]) && !empty($post['User']['image'][0])): ?>
+							<?php if(isset($post['Post']['image'][0]) && !empty($post['Post']['image'][0])): ?>
 							<?php 
-							/**
-							 * <p> overflow:hidden;height:117px;
-							 * <img>:position:relative, top:-10px;left:-10px;
-							 */
-							
+
 							//aspect ratio of div for image preview
 							$div_width = 200;
 							$div_height = 117;
@@ -51,27 +47,25 @@
 							$img_height = $post['Post']['image'][0]['size'][1];
 							$imageAspectRatio =  $img_width/$img_height;
 
+							
 							$inline_styles = '';
 							if($imageAspectRatio > $divAspectRatio){
+								
 								//landscape aspect ratio
 								$img_resize_info = $image->resize($post['Post']['image'][0]['path'], 332, 117, true, true);//return array bacuse of last param -> true
 								$rel_path = $img_resize_info['path']; 
 								//if image is x px wider then the div -> move the half of x to left
-								$inline_styles = 'position:relative;left:-'.(($img_resize_info['width'] - $div_width) / 2) . 'px';	
+								$inline_styles = 'margin-left:-'.(($img_resize_info['width'] - $div_width) / 2) . 'px';	
 							}
 							else{
 								//portrait aspect ratio
-								$img_resize_info = $image->resize($post['Post']['image'][0]['path'], 200, 159, true, true);//return array bacuse of last param -> true
+								$img_resize_info = $image->resize($post['Post']['image'][0]['path'], 200, 300, true, true);//return array bacuse of last param -> true
 								$rel_path = $img_resize_info['path']; 
 								//if image is x px wider then the div -> move the half of x to left
-								$inline_styles = 'position:relative;top:-'.(($img_resize_info['height'] - $div_height) / 2) . 'px';
+								$inline_styles = 'margin-top:-'.(($img_resize_info['height'] - $div_height) / 2) . 'px';
 							}
 							
 							//debug($post['Post']['image'][0]);die(); 
-							
-						 
-							
-
 							
 							?>
 							

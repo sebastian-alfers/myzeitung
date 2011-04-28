@@ -292,7 +292,7 @@ class PapersController extends AppController {
 	}
 
 
-	function add() {
+	function add() {		
 		if (!empty($this->data)) {
 			//adding a route
 
