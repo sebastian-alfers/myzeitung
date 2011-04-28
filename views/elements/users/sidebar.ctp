@@ -6,8 +6,8 @@
 								<a class="btn" href=""><span>+</span>Abonnieren</a>
 							</div>
 							<h4><?php echo $user['User']['username'];?></h4>
-							<?php if($user['User']['firstname'] or $user['User']['name']):?>
-							<p><strong><?php echo __('Name:').' '; ?></strong><?php echo $user['User']['firstname'].' '.$user['User']['name'];?></p>
+							<?php if($user['User']['name']):?>
+							<p><strong><?php echo __('Name:').' '; ?></strong><?php echo $user['User']['name'];?></p>
 							<?php endif;?>
 							<p><strong><?php echo __('Joined:').' '; ?></strong><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?></p>
 							<?php if(!empty($user['User']['description'])):?>

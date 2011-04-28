@@ -92,9 +92,11 @@
 											<?php if($post['PostUser']['repost'] == true): ?> 
 												<span class="repost-ico"></span><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?> 
 											<?php endif;?> 
-										<?php elseif($this->params['controller'] == 'posts' && $this->params['action'] == 'index'):?> 
+										<?php elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?> 
 										<?php /* paper view - controller papers action view */ ?> 
-										
+											<?php if(!empty($post['lastReposter']['id'])):?>
+												<span class="repost-ico"></span><?php echo $this->Html->link($post['lastReposter']['username'],array('controller' => 'users', 'action' => 'view', $post['lastReposter']['id'])); ?> 
+											<?php endif;?>
 										<?php endif;?>
 									<?php /* END showing last reposter */?>
 								</li>

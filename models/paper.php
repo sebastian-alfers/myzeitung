@@ -269,17 +269,20 @@ class Paper extends AppModel {
 					//get User information
 					$user = new User();
 
+					$user->contain();
 					$userData = $user->read(null, $this->data['Paper']['owner_id']);
-					$data['Paper']['index_id'] = 'paper_'.$this->id;
+					$data['Paper']['index_id'] = Solr::TYPE_PAPER.'_'.$this->id;
 					$data['Paper']['id'] = $this->id;
 					$data['Paper']['type'] = Solr::TYPE_PAPER;
-
+					$data['Paper']['paper_title'] = $this->data['Paper']['title'];
+					$data['Paper']['paper_description'] = $this->data['Paper']['description'];
 					$data['Paper']['user_id'] = $userData['User']['id'];
-					$data['Paper']['user_name'] = $userData['User']['username'];
+					$data['Paper']['user_name'] = $userData['User']['name'];
+					$data['Paper']['user_username'] = $userData['User']['username'];
 					$solr = new Solr();
-					$solr->add($this->removeFieldsForIndex($data));
+					$solr->add($this->addFieldsForIndex($data));
 
-					//create subscription for created paper
+					//create subscription for created paper 
 					if($created){
 						$subscriptionData = array('paper_id' => $this->id,
 				 							'user_id' => $userData['User']['id'],
@@ -635,17 +638,19 @@ class Paper extends AppModel {
 			 * @todo move to abstract for all models
 			 * Enter description here ...
 			 */
-			private function removeFieldsForIndex($data){
-				unset($data['Paper']['url']);
-				unset($data['Paper']['modified']);
-				unset($data['Paper']['created']);
-				unset($data['Paper']['owner_id']);
-				unset($data['Paper']['count_subscriptions']);
-				unset($data['Paper']['route_id']);
+			private function addFieldsForIndex($data){
 
-
-
-				return $data;
+				$solrFields = array();
+				$solrFields['Paper']['id'] = $data['Paper']['id'];
+				$solrFields['Paper']['paper_title'] = $data['Paper']['paper_title'];
+				$solrFields['Paper']['paper_description'] = $data['Paper']['paper_description'];
+				$solrFields['Paper']['index_id'] = $data['Paper']['index_id'];
+				$solrFields['Paper']['user_id'] = $data['Paper']['user_id'];
+				$solrFields['Paper']['user_name'] = $data['Paper']['user_name'];
+				$solrFields['Paper']['user_username'] = $data['Paper']['user_username'];
+				$solrFields['Paper']['type'] = $data['Paper']['type'];
+			
+				return $solrFields;
 			}
 
 			function delete($id){
