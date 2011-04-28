@@ -383,11 +383,13 @@ class Post extends AppModel {
 				if($this->add_solr){
 					//2) update solr index with saved date
 					App::import('model','Solr');
-
+					
+					$this->User->contain();
 					$userData = $this->User->read(null, $this->data['Post']['user_id']);
-
+					
 					if($userData['User']['id']){
 						if(isset($this->data['Post']['topic_id'])){
+							$this->Topic->contain();
 							$topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
 
 							if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
@@ -395,12 +397,14 @@ class Post extends AppModel {
 							}
 						}
 
-						$this->data['Post']['index_id'] = 'post_'.$this->id;
+						$this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
 						$this->data['Post']['id'] = $this->id;
 						$this->data['Post']['user_name'] = $userData['User']['name'];
+						$this->data['Post']['user_username'] = $userData['User']['username'];
+						$this->data['Post']['user_id'] = $userData['User']['id'];
 						$this->data['Post']['type'] = Solr::TYPE_POST;
 						$solr = new Solr();
-						$solr->add($this->removeFieldsForIndex($this->data));
+						$solr->add($this->addFieldsForIndex($this->data));
 
 					}
 					else{
@@ -415,24 +419,21 @@ class Post extends AppModel {
 			 * @todo move to abstract for all models
 			 * Enter description here ...
 			 */
-			private function removeFieldsForIndex($data){
-				unset($data['Post']['enabled']);
-				unset($data['Post']['view_count']);
-				unset($data['Post']['posts_user_count']);
-				unset($data['Post']['comment_count']);
-				unset($data['Post']['topic_id']);
-				unset($data['Post']['modified']);
-				unset($data['Post']['created']);
-				unset($data['Post']['reposters']);
-				unset($data['Post']['image']);
-				unset($data['Post']['image_details']);
-				unset($data['Post']['hash']);
-				unset($data['Post']['content_preview']);
+			private function addFieldsForIndex($data){
 				
-				
-
-
-				return $data;
+			
+				$solrFields = array();
+				$solrFields['Post']['id'] = $data['Post']['id'];
+				$solrFields['Post']['post_title'] = $data['Post']['title'];
+				$solrFields['Post']['post_content'] = $data['Post']['content'];
+				$solrFields['Post']['topic_name'] = $data['Post']['topic_name'];
+				$solrFields['Post']['user_name'] = $data['Post']['user_name'];
+				$solrFields['Post']['user_username'] = $data['Post']['user_username'];
+				$solrFields['Post']['user_id'] = $data['Post']['user_id'];
+				$solrFields['Post']['index_id'] = $data['Post']['index_id'];
+				$solrFields['Post']['type'] = $data['Post']['type'];
+	
+				return $solrFields;
 
 			}
 

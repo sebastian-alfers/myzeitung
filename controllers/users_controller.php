@@ -57,7 +57,6 @@ class UsersController extends AppController {
 		    	//fields - custom field sum...
 		    	'fields' => array(	'User.id',
 								  	'User.username',
-		    						'User.firstname',
 		    						'User.name',
 		    						'User.created',
 		    						'User.posts_user_count',	
@@ -121,7 +120,7 @@ class UsersController extends AppController {
 	   		
 			//unbinding irrelevant relations for the query
 			$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-			$this->set('user', $this->User->read(array('id','firstname','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
+			$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
 			$this->set('posts', $this->paginate($this->User->Post));
 	}
 
@@ -175,7 +174,7 @@ class UsersController extends AppController {
 	   
 			//unbinding irrelevant relations for the query
 			$this->User->contain();
-			$this->set('user', $this->User->read(array('id','firstname','name','username','created','posts_user_count','post_count','comment_count'), $user_id));
+			$this->set('user', $this->User->read(array('id','name','username','created','posts_user_count','post_count','comment_count'), $user_id));
 			$papers = $this->paginate($this->User->Paper);
 
 			//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper

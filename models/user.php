@@ -9,19 +9,10 @@ class User extends AppModel {
 	var $uses = array('Route', 'Cachekey');
 
 	var $validate = array(
-		'firstname' => array(
-			'maxlength' => array(
-				'rule' => array('maxlength', 10),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
+
 		'name' => array(
 			'maxlength' => array(
-				'rule' => array('maxlength', 20),
+				'rule' => array('maxlength', 25),
 	//'message' => 'Your custom message here',
 	//'allowEmpty' => false,
 	//'required' => false,
@@ -263,11 +254,11 @@ class User extends AppModel {
 			}
 			
 			$this->data['User']['user_name'] = $this->data['User']['name'];
-			$this->data['User']['lastname'] = $this->data['User']['name'];
+			$this->data['User']['user_username'] = $this->data['User']['username'];
 			$this->data['User']['user_id'] = $this->data['User']['id'];
 			
 			$solr = new Solr();
-			$solr->add($this->removeFieldsForIndex($this->data));
+			$solr->add($this->addFieldsForIndex($this->data));
 
 			/*
 			 App::import('model','Cachekey');
@@ -312,26 +303,18 @@ class User extends AppModel {
 			return $topicReferences;
 		}
 
-		function removeFieldsForIndex($data){		
-			unset($data['User']['email']);
-			unset($data['User']['password']);
-			unset($data['User']['created']);
-			unset($data['User']['modified']);
-			unset($data['User']['lastlogin']);
-			unset($data['User']['enabled']);
-			unset($data['User']['group_id']);
-			unset($data['User']['route_id']);
-			unset($data['User']['post_count']);
-			unset($data['User']['posts_user_count']);
-			unset($data['User']['comment_count']);
-
-
+		function addFieldsForIndex($data){		
 			
-
-
+			$solrFields = array();
 			
+			$solrFields['User']['id'] = $data['User']['id'];
+			$solrFields['User']['user_username'] = $data['User']['user_username'];
+			$solrFields['User']['user_name'] = $data['User']['user_name'];
+			$solrFields['User']['type'] = $data['User']['type'];
+			$solrFields['User']['user_id'] = $data['User']['user_id'];
+			$solrFields['User']['index_id'] = $data['User']['index_id'];
+			return $solrFields;
 			
-			return $data;
 		}
 
 		function delete($id){

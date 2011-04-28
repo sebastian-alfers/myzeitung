@@ -2,7 +2,6 @@
 	<h2><?php __('Users');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('firstname');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('username');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
@@ -20,7 +19,6 @@
 	?>
 	
 	<tr<?php echo $class;?>>
-		<td><?php echo $this->Html->link($user['User']['firstname'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
 		<td><?php echo $this->Html->link($user['User']['name'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
 		<td><?php echo $this->Html->link($user['User']['username'], array('action' => 'view', $user['User']['id'])); ?>&nbsp;</td>
 		<td><?php echo $this->Time->timeAgoInWords($user['User']['created'], array('end' => '+1 Year'));?>&nbsp;</td>

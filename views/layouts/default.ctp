@@ -48,6 +48,7 @@
 	?>
 </head>
 	<body>
+	<?php debug($session->read('Auth'));?>
 		<div id="main-wrapper">
 			<?php echo $this->element('header'); ?>
 			<div id="content">

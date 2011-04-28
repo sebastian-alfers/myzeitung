@@ -67,7 +67,7 @@ class Category extends AppModel {
 			 */
 			function afterSave(){
 
-				App::import('model','Solr');
+			/*	App::import('model','Solr');
 				App::import('model','User');
 				App::import('model','Paper');
 
@@ -89,13 +89,14 @@ class Category extends AppModel {
 					//$this->data['Category']['user_id'] = $userData['User']['id'];
 					//$this->data['Category']['user_name'] = $userData['User']['username'];
 					$solr = new Solr();
-					$solr->add($this->removeFieldsForIndex($this->data));
+					$solr->add($this->addFieldsForIndex($this->data));
 					
 
 				}
 				else{
-					$this->log('Error while adding paper to solr! No category id in afterSave()');
+					$this->log('Error while adding category to solr! No category id in afterSave()');
 				}
+				*/
 			}
 
 
@@ -103,17 +104,19 @@ class Category extends AppModel {
 			 * @todo move to abstract for all models
 			 * Enter description here ...
 			 */
-			private function removeFieldsForIndex($data){
+			private function addFieldsForIndex($data){
 				unset($data['Category']['modified']);
 				unset($data['Category']['created']);
 				unset($data['Category']['route_id']);
-
+				debug($data);
+				$solrFields = array();
+				$solrFields['Category']['created'] = $data['Category']['created'];
 
 				return $data;
 			}
 
 			function delete($id){
-				$this->removeUserFromSolr($id);
+				$this->removeCategoryFromSolr($id);
 				return parent::delete($id);
 			}
 
@@ -122,7 +125,7 @@ class Category extends AppModel {
 			 *
 			 * @param string $id
 			 */
-			function removeUserFromSolr($id){
+			function removeCategoryFromSolr($id){
 				App::import('model','Solr');
 				$solr = new Solr();
 				$solr->delete(Solr::TYPE_CATEGORY . '_' . $id);
