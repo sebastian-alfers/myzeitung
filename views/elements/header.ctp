@@ -64,10 +64,11 @@
 	}
 
 	.suggestionsBox {
-		position: relative;
-		left: 30px;
+		position: absolute;
+		right: 18px;
+		top:70px;
 		margin: 10px 0px 0px 0px;
-		width: 200px;
+		width: 800px;
 		background-color: #212427;
 		-moz-border-radius: 7px;
 		-webkit-border-radius: 7px;
@@ -115,7 +116,7 @@
 	
 	
 			<div class="suggestionsBox" id="suggestions" style="display: none;">
-				<img src="upArrow.png" style="position: relative; top: -12px; left: 30px;" alt="upArrow" />
+				<?php echo $this->Html->image('upArrow.png', array('style' => 'position: relative; top: -12px; left: 700px;'));?>
 				<div class="suggestionList" id="autoSuggestionsList">
 					&nbsp;
 				</div>
