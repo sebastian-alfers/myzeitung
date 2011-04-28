@@ -202,19 +202,26 @@ class User extends AppModel {
 						if(empty($val['User']['image'])){
 								$results[$key]['User']['image'] = 'default-user-image.jpg';
 						}
+					} else {
+						$results[$key]['User']['image'] = 'default-user-image.jpg';
 					}
-
 			 	}
 		 		if(isset($val['image'])){	
 					if(empty($val['image'])){
 							$results[$key]['image'] = 'default-user-image.jpg';
 					}
+				} else {
+					$results[$key]['image'] = 'default-user-image.jpg';
 				} 
 			 }
 			 if(isset($results['User'])){
-			 	if(empty($results['image'])){
+			 	if(isset($results['image'])){
+			 		if(empty($results['image'])){
+			 			$results['image'] = 'default-user-image.jpg';
+			 		}
+			 	} else {
 			 		$results['image'] = 'default-user-image.jpg';
-			 	}
+				} 
 			 }
 			return $results;
 		}
