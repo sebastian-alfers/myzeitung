@@ -137,10 +137,22 @@ class PapersController extends AppController {
 		
 	    	
 	    $this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
-		$this->set('paper', $this->Paper->read(null, $paper_id));
+		$paper = $this->Paper->read(null, $paper_id);
+		
+		// getting the right postcounts for the paper and the categories
+		$this->CategoryPaperPost->contain();
+		$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('paper_id' => $paper_id)));
+		$paper['Paper']['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];
+		
+		foreach($paper['Category'] as &$category){
+			$this->CategoryPaperPost->contain();
+			$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('paper_id' => $paper_id, 'category_id' => $category['id'])));
+			$category['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];	
+		}
+		// END - getting the right postcounts
+	    $this->set('paper', $paper);
 		$this->set('posts', $posts);
 
-		//$this->set('contentReferences', $this->Paper->getContentReferences());
 
 	}
 
