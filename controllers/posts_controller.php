@@ -57,9 +57,7 @@ class PostsController extends AppController {
 		if(isset($post_id)){
 
 			$this->Post->contain();
-			debug('repost action read');
 			if($this->Post->read(null, $post_id)){
-				debug('repost action AFTER read');
 				if($this->Post->repost($this->Auth->user('id'), $topic_id)){
 					$this->Session->setFlash(__('Post successfully reposted.', true));
 				} else {

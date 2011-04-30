@@ -116,14 +116,12 @@ class Post extends AppModel {
 			 */
 			function repost($user_id, $topic_id = null){
 				App::import('model','PostUser');
-				//debug('ENTRY repost function model');
 				$this->PostUser = new PostUser();
 				$PostUserData = array('repost' => true,
 								'post_id' => $this->id,
 							   	'PostUser.user_id' => $user_id);
-				//debug('before count');
+				$this->PostUser->contain();
 				$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
-				//debug('aftercount');
 				// if there are no reposts for this post/user combination yet
 				if($repostCount == 0){
 					if($this->data['Post']['user_id'] != $user_id){
@@ -134,18 +132,13 @@ class Post extends AppModel {
 										'post_id' => $this->id,
 										'topic_id' =>  $topic_id,
 									   	'user_id' => $user_id));
-						//debug('postuser before save');
 						if($this->PostUser->save($PostUserData)){
-							//debug('postuser after save');
 							//repost was saved
 							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
 							if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
 								$this->data['Post']['reposters'][] = $user_id;
-								//debug($this->data);
 								$this->save($this->data);
-								//debug('after save post');
 							}
-							//debug('return repost model');
 							return true;
 						}
 					} else {
@@ -219,8 +212,6 @@ class Post extends AppModel {
 			 *
 			 */
 			function afterFind($results) {
-				//debug('results vor modulation');
-				//debug($results);
 				//	if(isset($results[0])){
 				foreach ($results as $key => $val) {
 					// $results[0]['Post']['reposters']
@@ -269,8 +260,7 @@ class Post extends AppModel {
 					}
 					}
 					}*/
-				//debug('results NACH modulation');
-				//debug($results);
+
 				return $results;
 			}
 
@@ -280,7 +270,6 @@ class Post extends AppModel {
 			 *
 			 */
 			function beforeSave() {
-				//debug('beforesave');
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
@@ -323,7 +312,7 @@ class Post extends AppModel {
 					if ($recursive != $this->recursive) {
 						$parameters['recursive'] = $recursive;
 					}
-
+					$this->contain();
 					$count = $this->find('count', array_merge($parameters, $extra));
 
 					return $count;
@@ -334,6 +323,7 @@ class Post extends AppModel {
 					// all unique posts (distinct on post_id) of one specific paper (defined in $conditions) are counted
 					App::import('model','PostUser');
 					$this->CategoryPaperPost = new CategoryPaperPost();
+					$this->CategoryPaperPost->contain();
 					$count = $this->CategoryPaperPost->find('count', array('conditions' => $conditions, 'fields' => 'distinct CategoryPaperPost.post_id'));
 					return $count;
 				}
@@ -371,7 +361,6 @@ class Post extends AppModel {
 						$PostUserEntries = $this->PostUser->find($PostUserData);
 						foreach($PostUserEntries as $PostUserEntry){
 							$PostUserEntry['topic_id'] = $this->data['Post']['topic_id'];
-							debug($PostUserEntry);
 							$this->PostUser->save($PostUserEntry);
 						}
 					}
@@ -423,7 +412,9 @@ class Post extends AppModel {
 				$solrFields['Post']['id'] = $data['Post']['id'];
 				$solrFields['Post']['post_title'] = $data['Post']['title'];
 				$solrFields['Post']['post_content'] = $data['Post']['content'];
-				$solrFields['Post']['topic_name'] = $data['Post']['topic_name'];
+				if(isset($data['Post']['topic_name'])){
+					$solrFields['Post']['topic_name'] = $data['Post']['topic_name'];
+				}
 				$solrFields['Post']['user_name'] = $data['Post']['user_name'];
 				$solrFields['Post']['user_username'] = $data['Post']['user_username'];
 				$solrFields['Post']['user_id'] = $data['Post']['user_id'];
