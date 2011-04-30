@@ -7,6 +7,8 @@ class User extends AppModel {
 
 
 	var $uses = array('Route', 'Cachekey');
+	
+	const DEFAULT_USER_IMAGE 	= 'default-user-image.jpg';
 
 	var $validate = array(
 
@@ -200,27 +202,27 @@ class User extends AppModel {
 			 	if(isset($val['User'])){
 					if(isset($val['User']['image'])){		
 						if(empty($val['User']['image'])){
-								$results[$key]['User']['image'] = 'default-user-image.jpg';
+								$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
 						}
 					} else {
-						$results[$key]['User']['image'] = 'default-user-image.jpg';
+						$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
 					}
 			 	}
 		 		if(isset($val['image'])){	
 					if(empty($val['image'])){
-							$results[$key]['image'] = 'default-user-image.jpg';
+							$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
 					}
 				} else {
-					$results[$key]['image'] = 'default-user-image.jpg';
+					$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
 				} 
 			 }
 			 if(isset($results['User'])){
 			 	if(isset($results['image'])){
 			 		if(empty($results['image'])){
-			 			$results['image'] = 'default-user-image.jpg';
+			 			$results['image'] = self::DEFAULT_USER_IMAGE;
 			 		}
 			 	} else {
-			 		$results['image'] = 'default-user-image.jpg';
+			 		$results['image'] = self::DEFAULT_USER_IMAGE;
 				} 
 			 }
 			return $results;
