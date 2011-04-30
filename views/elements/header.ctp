@@ -50,49 +50,6 @@
 					</div><!-- / #nav --> 
 			</div><!-- / #header -->
 	
-
-<style type="text/css">
-	body {
-		font-family: Helvetica;
-		font-size: 11px;
-		color: #000;
-	}
-	
-	h3 {
-		margin: 0px;
-		padding: 0px;	
-	}
-
-	.suggestionsBox {
-		position: absolute;
-		right: 18px;
-		top:70px;
-		margin: 10px 0px 0px 0px;
-		width: 800px;
-		background-color: #212427;
-		-moz-border-radius: 7px;
-		-webkit-border-radius: 7px;
-		border: 2px solid #000;	
-		color: #fff;
-	}
-	
-	.suggestionList {
-		margin: 0px;
-		padding: 0px;
-	}
-	
-	.suggestionList li {
-		
-		margin: 0px 0px 3px 0px;
-		padding: 3px;
-		cursor: pointer;
-	}
-	
-	.suggestionList li:hover {
-		background-color: #659CD8;
-	}
-</style>
-
 <script>
 
 	function lookup(inputString) {
@@ -112,6 +69,13 @@
 		$('#inputString').val(thisValue);
 		setTimeout("$('#suggestions').hide();", 200);
 	}
+
+	$(document).keyup(function(e) {
+		  if (e.keyCode == 27) { // esc btn 
+			  $('#suggestions').hide();
+			  $('#inputString').val('<?php __('Find'); ?>');
+		   }  
+		});	
 	</script>			
 	
 	

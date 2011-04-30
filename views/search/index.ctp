@@ -11,7 +11,7 @@
 	
  	<?php for($i=0 ; $i < count($docs); $i++): ?>
  		<?php $doc = $docs[$i]; ?>
- 		<ul>
+ 		<ul onclick="alert('');">
  		<?php foreach ($doc as $field => $value): ?>
 	    	<li><?php echo $field?>: <?php echo $value; ?></li>
 		<?php endforeach; ?>

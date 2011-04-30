@@ -3,11 +3,13 @@ class SearchController extends AppController {
 
 
 	var $uses = array ('Solr');
+	
+	var $helpers = array('Time', 'Image');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index', 'ajxSearch');
+		$this->Auth->allow('index', 'ajxSearch', 'delete');//!!!!!!!!!!!!!!!!!!!!!!!!!REMOVE delte""""""""!!!!!!!!!!!!!!!!!!!!!
 
 	}
 
@@ -20,7 +22,7 @@ class SearchController extends AppController {
 		if ($query)
 		{
 			$this->set('query', $query);
-			$results = $this->Solr->query("(so* OR so)");
+			$results = $this->Solr->query($query);
 			$this->set('results', $results);
 		}
 		else{
@@ -45,7 +47,7 @@ class SearchController extends AppController {
 			}
 			else if($length == 1){
 				$search_string = "(".$query[0]."* OR ".$query[0].")";
-				
+
 			}
 			else{
 				$search_string = '(';
@@ -54,7 +56,7 @@ class SearchController extends AppController {
 					$search_string .= $query[$i] . " AND ";
 				}
 				$search_string .= "(".$query[$length-1]."* OR ".$query[$length-1].")) or \"".$_POST['query']."\"";
-				
+
 			}
 
 			if($search_string != ''){
@@ -63,6 +65,15 @@ class SearchController extends AppController {
 				{
 					$this->set('query', $search_string);
 					$results = $this->Solr->query($search_string);
+					$split = array();//seperate results by type
+						
+					if($results && !empty($results)){
+							
+						foreach ($results['results'] as $type => $docs){
+							//$split[$type][] = 
+						}
+					}
+						
 					$this->set('results', $results);
 				}
 				else{
@@ -76,6 +87,12 @@ class SearchController extends AppController {
 		}
 
 		$this->render('autoComplete', 'ajax');//custom ctp, ajax for blank layout
+	}
+
+	function delete(){
+
+		$this->Solr->deleteIndex();
+
 	}
 
 }

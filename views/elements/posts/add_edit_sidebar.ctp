@@ -29,7 +29,7 @@
 <br /><br />
 <div id="files" style="float: left"></div>
 	<script>
-	$(function() {
+	$(document).ready(function() {
 		$( "#sortable" ).sortable();
 		$( "#sortable" ).disableSelection();
 	});

@@ -59,7 +59,7 @@ class Solr extends AppModel {
 				//debug(debug_print_backtrace());
 				debug('solr not running');
 				return false;
-				
+
 			}
 
 		}
@@ -68,7 +68,7 @@ class Solr extends AppModel {
 			$back_trace = debug_backtrace();
 			$msg = $back_trace[0]['file'] . '<br />';
 			$msg .= 'function: ' . $back_trace[0]['function'] . '<br />';
-			$msg .= 'line: ' . $back_trace[0]['line'] . '<br />';  
+			$msg .= 'line: ' . $back_trace[0]['line'] . '<br />';
 			debug($msg);
 			// @todo thorw exception
 			$this->log('Error while adding documents to index: ' . $e->getMessage());
@@ -113,7 +113,7 @@ class Solr extends AppModel {
 		try
 		{
 			$grouped = array();
-			$response = $this->getSolr()->search($query, 0, $limit);
+			$response = $this->getSolr()->search($query, 0, $limit, array('sort' => 'timestamp desc'));
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
 				foreach($response->response->docs as $doc){
@@ -176,5 +176,12 @@ class Solr extends AppModel {
 		return false;
 	}
 
+	function deleteIndex(){
+
+		var_dump($this->getSolr()->deleteByQuery('*:*'));
+		$this->getSolr()->commit();
+		echo "has been delteted";
+		return true;
+	}
 }
-?>
+
