@@ -1,3 +1,12 @@
+<pre>
+<?php 
+
+$data = $image->resize('posts/2011/04/2/80338150.jpg', 117, 300, null, true);
+print_r($data); 
+echo $this->Html->image($data['path']);
+?>
+
+<?php die();?>
 				<div id="leftcolwapper">
 				<div class="leftcol">
 					<div class="leftcolcontent">

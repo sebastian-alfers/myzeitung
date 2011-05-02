@@ -13,13 +13,15 @@ class ImageHelper extends Helper {
 	 * @param string $path Path to the image file, relative to the webroot/img/ directory.
 	 * @param integer $width Image of returned image
 	 * @param integer $height Height of returned image
-	 * @param boolean $aspect Maintain aspect ratio (default: true)
+	 * @param array $orig_size - result of method getimagesize
 	 * @param array $htmlAttributes Array of HTML attributes.
 	 * @param boolean $relativeMove adds inline css position:relative and set top minus half of max height (e.g. for post navigator)
-	 * 
-	 * @return string / array - path within cache folder, if $relativeMove == true -> add additional inline styles 
+	 *
+	 * @return string / array - path within cache folder, if $relativeMove == true -> add additional inline styles
 	 */
-	function resize($path, $width, $height, $aspect = true, $relativeMove = false) {
+	function resize($path, $width, $height, $orig_size = null, $relativeMove = false) {
+		$planned_height = $height;
+		$planned_with = $width;
 
 		$types = array(1 => "gif", "jpeg", "png", "swf", "psd", "wbmp"); // used to determine image type
 
@@ -29,7 +31,42 @@ class ImageHelper extends Helper {
 		///Applications/MAMP/htdocs/myzeitung/webroot/img/post/38/bildschirmfoto_2011-02-17_um_13.06.46.png
 		$orig_img_path = $img_path.$path;
 
-		
+		if($orig_size == null){
+			$orig_size = getimagesize($orig_img_path);
+		}
+
+		if($height != null && $width != null){
+			$planned_aspect_ratio = $width / $height;
+
+			//both values are set -> check if landscape or portrait
+			//if portrait:  calculate new height
+			if($this->_isLandscape($orig_size, $planned_aspect_ratio)){
+				echo "landsc";
+				$height = null;
+			}
+			else{
+				echo "portrait";
+				$width = null;
+			}
+		}
+			
+
+		if($width == null){
+			//calculate width
+			$orig_width = $orig_size[0];
+			$orig_height = $orig_size[1];
+			$factor = $height / $orig_height;
+			$width = ceil($orig_width * $factor);
+		}
+		if($height == null){
+			//calculate height
+			$orig_width = $orig_size[0];
+			$orig_height = $orig_size[1];
+			$factor = $width / $orig_width;
+			$height = ceil($orig_height * $factor);
+		}
+
+
 		///Applications/MAMP/htdocs/myzeitung/webroot/img/cache/
 		$cachepath = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.$this->themeWeb.IMAGES_URL.'cache'.DS;
 
@@ -42,14 +79,14 @@ class ImageHelper extends Helper {
 		///Applications/MAMP/htdocs/myzeitung/webroot/img//p/o/
 
 		$size = getimagesize($orig_img_path);
-		$fullpath = $this->_getCachePathFromImagePath($path, $size, $width, $height, $aspect);
+		$fullpath = $this->_getCachePathFromImagePath($path, $size, $width, $height, true);
 
-//		if(!is_dir($fullpath['path'])){
-//			debug($fullpath['path']);die();
-//			if (!mkdir($fullpath['path'], 0700, true)) {
-//				die('Erstellung der Verzeichnisse schlug fehl...');
-//			}
-//		}
+		//		if(!is_dir($fullpath['path'])){
+		//			debug($fullpath['path']);die();
+		//			if (!mkdir($fullpath['path'], 0700, true)) {
+		//				die('Erstellung der Verzeichnisse schlug fehl...');
+		//			}
+		//		}
 
 		///Applications/MAMP/htdocs/myzeitung/webroot/img/post/38/90/50/bildschirmfoto_2011-02-17_um_13.06.46.png
 		$url = $img_path.$fullpath['path'].$fullpath['file'];
@@ -62,7 +99,7 @@ class ImageHelper extends Helper {
 		}
 
 
-		if ($aspect) { // adjust to aspect.
+		if (true) { // adjust to aspect.
 			if (($size[1]/$height) > ($size[0]/$width))  // $size[0]:width, [1]:height, [2]:type
 			$width = ceil(($size[0]/$size[1]) * $height);
 			else
@@ -78,8 +115,8 @@ class ImageHelper extends Helper {
 
 		///Applications/MAMP/htdocs/myzeitung/webroot/img/cache/cache/post/38/90/50/bildschirmfoto_2011-02-17_um_13.06.46.png
 		$cachefile = $cachepath . $relfile;
-		
-		
+
+
 		if(!is_dir($cacheFoler)){
 			if (!mkdir($cacheFoler, 0700, true)) {
 				die('Erstellung der Verzeichnisse schlug fehl...');
@@ -87,10 +124,10 @@ class ImageHelper extends Helper {
 		}
 		//debug ('jo cache ' . $cachefile);
 		//debug ('jo cache ' . $cachepath.$fullpath['path'].$fullpath['file']);die();
-		
+
 		if (file_exists($cachefile)) {
-			
-			
+
+
 			$csize = getimagesize($cachefile);
 			$cached = ($csize[0] == $width && $csize[1] == $height); // image is cached
 			if (@filemtime($cachefile) < @filemtime($url)) // check if up to date
@@ -114,24 +151,47 @@ class ImageHelper extends Helper {
 				$temp = imagecreate ($width, $height);
 				imagecopyresized ($temp, $image, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
 			}
-			
+
 			$cachefile = $cacheFoler.$fullpath['file'];
 
 			call_user_func("image".$types[$size[2]], $temp, $cachefile);
 			imagedestroy ($image);
 			imagedestroy ($temp);
 		}
-		
+
 		$relfile = 'cache'.DS.$relfile;
-		
+
 		if(!$relativeMove) return $relfile;
-		
+
 		//add additional infos for inline css -> post navigator
 		$return = array();
-		
+
 		$return['path'] = $relfile;
 		$return['height'] = $height;
 		$return['width'] = $width;
+
+		$inline = '';
+		if($planned_height != null){
+			if($height > $planned_height){
+				$inline	.= 'margin-top:-'.(($height-$planned_with)/2);
+			}
+			else{
+				$inline	.= 'margin-top:'.(($planned_height-$height)/2);
+			}
+		}
+
+		if($planned_with != null){
+			if($width > $planned_with){
+				$inline	.= 'margin-left:-'.(($width-$planned_with)/2);
+			}
+			else{
+				$inline	.= 'margin-left:'.(($planned_with-$width)/2);
+			}
+		}
+
+
+		$return['inline'] = $inline;
+
 		return $return;
 		//return $this->output(sprintf($this->Html->tags['image'], $relfile, $htmlAttributes), $return);
 	}
@@ -141,18 +201,18 @@ class ImageHelper extends Helper {
 	 * and transforms it to a path in cache folder with resize values
 	 * Enter description here ...
 	 * @param String $path
-	 * @param boolean $aspect - keep aspect ratio or not
+
 	 * @param array $size - dimensions of image
 	 * @param int $width - width of requested img
 	 * @param int $height - width of requested img
 	 *
 	 * @return array - path, name
 	 */
-	private function _getCachePathFromImagePath($path, $size, $width, $height, $aspect){
+	private function _getCachePathFromImagePath($path, $size, $width, $height){
 
 		$ret = array();
 		//calculate aspect
-		if ($aspect) { // adjust to aspect.
+		if (true) { // adjust to aspect.
 			if (($size[1]/$height) > ($size[0]/$width))  // $size[0]:width, [1]:height, [2]:type
 			$width = ceil(($size[0]/$size[1]) * $height);
 			else
@@ -172,5 +232,31 @@ class ImageHelper extends Helper {
 
 		return $ret;
 	}
+
+	/**
+	 * the preferred dimensions are ($width x $height) e.g. 300x150
+	 * 1) calculate preferred aspect ratio
+	 *
+	 * @param unknown_type $orig_size
+	 * @param unknown_type $height
+	 * @param unknown_type $width
+	 */
+	private function _isLandscape($orig_size, $planned_aspect_ratio){
+
+		$img_width = $orig_size[0];
+		$img_height = $orig_size[1];
+
+		$imageAspectRatio =  $img_width/$img_height;
+
+			
+		$inline_styles = '';
+		if($imageAspectRatio > $planned_aspect_ratio){
+
+			return $img_width > $img_height;
+		}		
+		
+		return ($imageAspectRatio > $divAspectRatio);
+	}
+
 }
 ?>
