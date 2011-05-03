@@ -41,12 +41,11 @@ class ImageHelper extends Helper {
 			//both values are set -> check if landscape or portrait
 			//if portrait:  calculate new height
 			if($this->_isLandscape($orig_size, $planned_aspect_ratio)){
-				echo "landsc";
-				$height = null;
+				$width = null;
 			}
 			else{
-				echo "portrait";
-				$width = null;
+				$height = null;
+				
 			}
 		}
 			
@@ -173,19 +172,19 @@ class ImageHelper extends Helper {
 		$inline = '';
 		if($planned_height != null){
 			if($height > $planned_height){
-				$inline	.= 'margin-top:-'.(($height-$planned_with)/2);
+				$inline	.= 'margin-top:-'.(($height-$planned_height)/2).'px;';
 			}
 			else{
-				$inline	.= 'margin-top:'.(($planned_height-$height)/2);
+				$inline	.= 'margin-top:'.(($planned_height-$height)/2).'px;';
 			}
 		}
 
 		if($planned_with != null){
 			if($width > $planned_with){
-				$inline	.= 'margin-left:-'.(($width-$planned_with)/2);
+				$inline	.= 'margin-left:-'.(($width-$planned_with)/2).'px;';
 			}
 			else{
-				$inline	.= 'margin-left:'.(($planned_with-$width)/2);
+				$inline	.= 'margin-left:'.(($planned_with-$width)/2).'px;';
 			}
 		}
 
@@ -242,20 +241,10 @@ class ImageHelper extends Helper {
 	 * @param unknown_type $width
 	 */
 	private function _isLandscape($orig_size, $planned_aspect_ratio){
-
 		$img_width = $orig_size[0];
 		$img_height = $orig_size[1];
-
 		$imageAspectRatio =  $img_width/$img_height;
-
-			
-		$inline_styles = '';
-		if($imageAspectRatio > $planned_aspect_ratio){
-
-			return $img_width > $img_height;
-		}		
-		
-		return ($imageAspectRatio > $divAspectRatio);
+		return $imageAspectRatio > $planned_aspect_ratio;
 	}
 
 }

@@ -1,17 +1,10 @@
-<pre>
-<?php 
-
-$data = $image->resize('posts/2011/04/2/80338150.jpg', 117, 300, null, true);
-print_r($data); 
-echo $this->Html->image($data['path']);
-?>
-
-<?php die();?>
 				<div id="leftcolwapper">
 				<div class="leftcol">
 					<div class="leftcolcontent">
 							<div class="userstart">
-								<?php echo $this->Html->image($image->resize($user['User']['image'], 185, 185, true), array("class" => "userimage", "alt" => $user['User']['username']."-image",));?>
+								<?php
+								$info = $image->resize($user['User']['image'], 185, 185, null, true);
+								echo $this->Html->image($info['path'], array("class" => "userimage", "alt" => $user['User']['username']."-image", 'style' => $info['inline']));?>
 								<a class="btn" href=""><span>+</span>Abonnieren</a>
 							</div>
 							<h4><?php echo $user['User']['username'];?></h4>
@@ -67,7 +60,7 @@ echo $this->Html->image($data['path']);
 							<ul class="newslist">
 							<?php foreach($user['Paper'] as $paper):?>
 								<li>
-								<?php /* image */ echo  $this->Html->link($this->Html->image($image->resize($paper['image'], 35, 35, true)) , array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false) );?>
+								<?php /* image */ echo  $this->Html->link($this->Html->image($image->resize($paper['image'], 35, 35)) , array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false) );?>
 							    <?php /* title */ echo $this->Html->link($paper['title'], array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false));?>
 							    </li>
 							 <?php endforeach;?>

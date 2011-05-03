@@ -16,7 +16,7 @@ if(isset($class)){
 	<h3><?php echo __('Leave a comment to this Post')?></h3>
 	<p class="user-info">
 		<?php if($session->read('Auth.User.id')):?>
-			<?php echo $this->Html->link($this->Html->image($image->resize($session->read('Auth.User.image'), 65, 65, true)), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('escape' => false));?>
+			<?php echo $this->Html->link($this->Html->image($image->resize($session->read('Auth.User.image'), 65, null)), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('escape' => false));?>
 			<?php echo $this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?>
 		<?php else:?>
 			<?php echo $this->Html->image($image->resize(User::DEFAULT_USER_IMAGE, 65, 65, true));?>     

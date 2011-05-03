@@ -21,10 +21,7 @@
 				?>
 				
 			<tr<?php echo $class;?>>
-				<td>  
-					<?php // if($paper['Paper']['image']): ?>
-						<?php // echo $this->Html->image($image->resize($paper['Paper']['image'], 150, 50, true, 'paper')); ?>
-					<?php // endif; ?> 
+				<td>   
 				</td>
 				<td><?php echo $this->Html->link($paper['Paper']['title'], array('controller' => 'papers','action' => 'view', $paper['Paper']['id'])); ?></td>
 				<td><?php echo $paper['Paper']['subscription_count'];?></td>

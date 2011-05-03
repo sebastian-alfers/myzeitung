@@ -27,14 +27,13 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 			<h1><?php echo $post['Post']['title'];?></h1>
 			<?php if(isset ($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):?>
 				<?php 
-				$infos = $image->resize($post['Post']['image'][0]['path'], 300, 291, true, true);
+				$info = $image->resize($post['Post']['image'][0]['path'], 300, 291, null, true);
 				unset($post['Post']['image'][0]);
 				$images = $post['Post']['image'];
-				
-				$rel_path = $infos['path'];  
+  
 				?>
-				<span class="main-article-imgs"><?php echo $this->Html->image($rel_path);?>
-					<?php echo $this->element('posts/horizontal_image_scroll', array('images' => $images, 'width' => $infos['width'])); ?>
+				<span class="main-article-imgs"><?php echo $this->Html->image($info['path']);?>
+					<?php echo $this->element('posts/horizontal_image_scroll', array('images' => $images)); ?>
 				</span>
 			<?php endif;?>
 			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>

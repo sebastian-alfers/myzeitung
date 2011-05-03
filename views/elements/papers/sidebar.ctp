@@ -2,7 +2,7 @@
 				<div class="leftcol">
 					<div class="leftcolcontent">
 							<div class="userstart">
-								<?php echo $this->Html->image($image->resize($paper['Paper']['image'], 185, 185, true), array("class" => "userimage", "alt" => $paper['Paper']['title']."-image",));?>
+								<?php echo $this->Html->image($image->resize($paper['Paper']['image'], 185, 185, null), array("class" => "userimage", "alt" => $paper['Paper']['title']."-image",));?>
 								<a class="btn" href=""><span>+</span>Abonnieren</a>
 							</div>
 							<h4><?php echo $paper['Paper']['title'];?></h4>
