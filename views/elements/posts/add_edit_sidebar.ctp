@@ -25,33 +25,42 @@
 <br />
 <br />
 <p>
+
+
 <hr />
-<br /><br />
+<br />
+<br />
 <div id="files" style="float: left"></div>
-	<script>
-	$(document).ready(function() {
-		$( "#sortable" ).sortable();
-		$( "#sortable" ).disableSelection();
-	});
-	</script>
+<script>
+		$(document).ready(function() {
+			$( "#sortable" ).sortable();
+			$( "#sortable" ).disableSelection();
+		});
+		</script>
 
 
-<div >
+<div>
 <ul id="sortable">
-	<?php if(isset($images)): ?>
-		<?php foreach($images as $img): ?>
-			<?php //debug($img); ?>
-			<li id="<?php echo $img['name']; ?>" class="ui-state-default" style="cursor: move;"><?php echo $this->Html->image($img['path'], array('style' => 'width:100px')); ?><a class="remove_li_item" style="cursor:pointer;vertical-align:top;"><?php __('remove'); ?></a></li>
+<?php if(isset($images)): ?>
+<?php foreach($images as $img): ?>
+
+	<li id="<?php echo $img['name']; ?>"
+		class="ui-state-default" style="cursor: move;"><?php echo $this->Html->image($img['path'], array('style' => 'width:100px')); ?>
+		<a class="remove_li_item" name="img/<?php echo $img['path']; ?>" id="<?php echo $this->data['Post']['id']; ?>" style="cursor: pointer; vertical-align: top;"><?php __('remove'); ?></a>
+		</li>
 		<?php endforeach; ?>
-	<?php endif;?>
+		<?php endif;?>
 </ul>
-</div><!-- / sortable -->
+</div>
+<!-- / sortable -->
 </p>
 <p>
+
+
 <ul id="links"></ul>
 </p>
-</div><!-- / userstart -->
-
-</div><!-- /.leftcolcontent -->
-</div><!-- /.leftcol -->
-</div><!-- / #leftcolwapper -->
+</div>
+<!-- / userstart --></div>
+<!-- /.leftcolcontent --></div>
+<!-- /.leftcol --></div>
+<!-- / #leftcolwapper -->

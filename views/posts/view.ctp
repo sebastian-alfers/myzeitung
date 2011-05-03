@@ -17,6 +17,9 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 		
 				<ul class="social-links">
 				<li><a class="btn"><span class="repost-ico icon"></span><?php echo __('Repost', true);?></a></li>
+				<?php if($session->read('Auth.User.id') != null && $post['Post']['user_id'] == $session->read('Auth.User.id')): ?>
+					<li><?php echo $this->Html->link(__('Edit', true), array('controller' => 'posts',  'action' => 'edit', $post['Post']['id'])); ?></li>
+				<?php endif; ?>
 				</ul><!-- / .social-links -->
 			
 		</div><!-- / .article-nav -->

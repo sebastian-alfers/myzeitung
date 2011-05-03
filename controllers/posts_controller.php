@@ -9,6 +9,8 @@ class PostsController extends AppController {
 	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image');
 
 
+
+
 	var $uses = array('Post','PostUser', 'Route', 'Comment', 'UrlContentExtract');
 
 
@@ -146,8 +148,8 @@ class PostsController extends AppController {
 										'conditions' => array('post_id' => $id),
 										'order'=>array('created DESC'), 
 										'fields' => array('id','user_id','post_id','parent_id','text','created')));
-		
-		
+
+
 		$this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
 
 		$post = $this->Post->read(null, $id);
@@ -190,21 +192,7 @@ class PostsController extends AppController {
 						$this->Post->add_solr = false;
 						if ($this->Post->save($this->data)) {
 							//remove tmp hash folder
-							$webroot = $this->_getWebrootUrl();
-							$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
-							//remove files in folder
-							if ($handle = opendir($path_to_tmp_folder)) {
-								while (false !== ($file = readdir($handle))) {
-									if ($file != "." && $file != "..") {
-										$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
-										unlink($tmp_path);
-									}
-								}
-							}
-							else{
-								$this->log('can not open directory for remove images: ' . $path_to_tmp_folder);
-								return false;
-							}
+							$this->_removeTmpHashFolder();
 
 							if(!rmdir($path_to_tmp_folder)){
 								$this->log('Not able to remove tmp hash folder: ' . $path_to_tmp_folder);
@@ -241,7 +229,7 @@ class PostsController extends AppController {
 				$webroot = $this->_getWebrootUrl();
 				$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
 				foreach ($tmp_images as $img){
-					
+
 					$return_imgs[] = array('path' => 'tmp'.DS.$this->data['Post']['hash'].DS.$img, 'name' => $img);
 				}
 				if(count($return_imgs) > 0){
@@ -259,23 +247,41 @@ class PostsController extends AppController {
 			//				debug($imagesFromHash);
 			//				$this->set('images', $imagesFromHash);
 			//			}
-			}
-			else{
-				$this->set('hash', $this->_getHash());
-			}
+		}
+		else{
+			$this->set('hash', $this->_getHash());
+		}
 
-			$this->set(compact('topics'));
-			$this->set('user_id',$user_id);
+		$this->set(compact('topics'));
+		$this->set('user_id',$user_id);
 
 
-			//same template for add and edit
-			$this->render('add_edit');
+		//same template for add and edit
+		$this->render('add_edit');
 
 	}
 
 	function edit($id = null) {
-		//debug($this->data);die();
-		unset($this->data['Post']['image']);
+		$user_id = $this->Session->read('Auth.User.id');
+
+		if($user_id == null || empty($user_id)){
+			$this->Session->setFlash(__('No permission', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		//check, if the user owns the post
+		$this->Post->contain();
+		$post = $this->Post->read(array('user_id', 'created', 'image'), $id);
+		$owner_id = $post['Post']['user_id'];
+		$created = $post['Post']['created'];
+		$old_images = $post['Post']['image'];
+
+
+		if($owner_id != $user_id){
+			$this->Session->setFlash(__('No permission', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		//jepp, he is the owner!
 
 
 		if($this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
@@ -289,9 +295,30 @@ class PostsController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+			//save new sortet images
+
+
+			if($this->_hasImagesInHashFolder()){
+				if($this->_copyPostImages($id, $created)){
+				}
+			}
+			
+			if(!empty($this->data['Post']['images'])){				
+				$tranf_images = $this->_transformImages($this->data['Post']['images'], $id, $created);
+
+				$this->data['Post']['image'] = $tranf_images;
+			}
+			else{
+				//noe images 
+				$this->data['Post']['image'] = '';
+			}
+			
+				
+
 			if ($this->Post->save($this->data)) {
+				$this->_removeTmpHashFolder();
 				$this->Session->setFlash(__('The post has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
 			}
@@ -303,6 +330,29 @@ class PostsController extends AppController {
 		}
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		$topics['null'] = __('No Topic', true);
+
+		//set images
+		if(isset($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
+			//check, if there are already images
+			if(isset($image) && !empty($image)){
+				foreach($image as $img){
+
+				}
+			}
+
+
+			$return_imgs = array();
+
+			$webroot = $this->_getWebrootUrl();
+			$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+			foreach ($this->data['Post']['image'] as $img){
+				$return_imgs[] = array('path' => $img['path'], 'name' => $img['file_name']);
+			}
+			if(count($return_imgs) > 0){
+				$this->set('images', $return_imgs);
+			}
+
+		}
 
 		$this->set(compact('topics', 'users'));
 
@@ -331,8 +381,8 @@ class PostsController extends AppController {
 	/**
 	 * action to be called from multiple file upload for add / edit
 	 */
-	function ajxImageProcess(){
 
+	function ajxImageProcess(){
 		if(isset($_FILES['file'])){
 			$file = $_FILES['file'];
 
@@ -379,35 +429,40 @@ class PostsController extends AppController {
 		return md5(microtime().$this->Session->read('sessID'));
 	}
 
-	private function _copyPostImages(){
+	/**
+	 * copy images
+	 *
+	 * @param int id of post
+	 * @param $timestamp date the post is created
+	 */
+	private function _copyPostImages($post_id = null, $timestamp = null){
 		$this->images = array();
 		//get tmp hash folder for images
 		$hash = $this->data['Post']['hash'];
 
 		$webroot = $this->_getWebrootUrl();
 		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
-		//debug($path_to_tmp_folder);
-
-		//debug($post_img_folder);die();
 
 		if(is_dir($path_to_tmp_folder)){
 
-			//***************************
-
-			//important @todo use creatd date on edit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-			//***************************
-			$year = date('Y');
-			$month = date('m');
-			$new_rel_path = $year.DS.$month.DS.$this->Post->id.DS;// starting from webroot/img/* folder
-			$post_img_folder = $webroot.'img'.DS.'posts'.DS.$new_rel_path;
-			//create folder for new post
-			if(is_dir($post_img_folder)){
-				//this should NOT be possible
-				$this->log('Error. Folder for new post already exists. path: ' . $post_img_folder);
-				return false;
+			if($timestamp == null){
+				$year = date('Y');
+				$month = date('m');
 			}
 			else{
+				$year = date('Y', strtotime($timestamp));
+				$month = date('m', strtotime($timestamp));
+			}
+
+			if($post_id == null){
+				$post_id = $this->Post->id;
+			}
+
+			//for new posts, use current timesempt, for edit posts user the posts creation date for path
+			$new_rel_path = $year.DS.$month.DS.$post_id.DS;// starting from webroot/img/* folder
+			$post_img_folder = $webroot.'img'.DS.'posts'.DS.$new_rel_path;
+			//create folder for new post
+			if(!is_dir($post_img_folder)){
 				if (!mkdir($post_img_folder, 0700, true)) {
 					$this->log('can not create directory for post: ' . $post_img_folder);
 					return false;
@@ -422,19 +477,20 @@ class PostsController extends AppController {
 					
 				foreach($images as $file){
 
-
-
 					$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
 					$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
 
-					$size = getimagesize($tmp_path);
+					
+					if(!is_dir($tmp_path) && file_exists($tmp_path)){
+						$size = getimagesize($tmp_path);
 
-
-					$this->log('from: ' . $tmp_path . ' -> '  . $new_full_path);
-					if (copy($tmp_path , $new_full_path)) {
-						unlink($tmp_path);
-						$this->images[] = array('path' => 'posts'.DS.$new_rel_path.$file, 'size' => $size);
+						if (copy($tmp_path , $new_full_path)) {
+							unlink($tmp_path);
+							$this->images[] = array('path' => 'posts'.DS.$new_rel_path.$file, 'file_name' => $file, 'size' => $size);
+						}
 					}
+
+
 				}
 			}
 			else{
@@ -465,7 +521,9 @@ class PostsController extends AppController {
 	}
 
 	private function _getPathToTmpHashFolder($hash = ''){
-		if($hash == '') $hash = $this->data['Post']['hash'];
+		if($hash == '' && isset($this->data['Post']['hash'])) $hash = $this->data['Post']['hash'];
+
+		if(!$hash || empty($hash)) $hash = $this->_getHash();
 
 		return 'img'.DS.'tmp'.DS.$hash.DS;
 
@@ -507,6 +565,96 @@ class PostsController extends AppController {
 		}
 
 		$this->render('ajx_url_content_extract', 'ajax');//custom ctp, ajax for blank layout
+	}
+
+	/**
+	 * removes the tmp folder
+	 */
+	private function _removeTmpHashFolder(){
+		$webroot = $this->_getWebrootUrl();
+		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+		//remove files in folder
+
+
+		if (is_dir($path_to_tmp_folder) && $handle = opendir($path_to_tmp_folder)) {
+			while (false !== ($file = readdir($handle))) {
+				if ($file != "." && $file != "..") {
+					$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
+					unlink($tmp_path);
+				}
+			}
+		}
+		else{
+			$this->log('can not open directory for remove images: ' . $path_to_tmp_folder);
+			return false;
+		}
+	}
+
+	/**
+	 * removes an image from file system
+	 */
+	function ajxRemoveImage(){
+		$post_id = $_POST['id'];
+		$img_path = $_POST['path'];
+		$full_path = $this->_getWebrootUrl().$img_path;
+
+		//remove file
+		if(file_exists($full_path)){
+			if(unlink($full_path)){
+				//$msg .= __('image has been removed', true);
+			}
+			else{
+				$this->log('can not remove file: '. $full_path);
+			}
+		}
+		else{
+			$this->log('file does not exist: '. $full_path);
+		}
+
+		if($post_id && !empty($post_id)){
+			echo "delte post " . $post_id;
+			//			//update post if id is passed
+			//			$this->Post->contain();
+			//			$post = $this->Post->read(null, $post_id);
+			//			if($post['Post']['user_id'] == $this->Session->read('Auth.User.id')){
+			//				//remove file from db
+			//				foreach($post['Post']['image'] as $key => $img_details){
+			//					if($img_details['path'] ==$img_path){
+			//						unset($post['Post']['image'][$key]);
+			//					}
+			//				}
+			//				foreach($post['Post']['image'] as $key => $value){
+			//					echo $key;
+			//				}
+			//				$post['Post']['image'] = array_values($post['Post']['image']);
+			//				$this->Post->save($post);
+			//			}
+			//			else{
+			//				$msg = __('No permission', true);
+			//			}
+		}
+		$this->set('content', '');
+		$this->render('ajx_url_content_extract', 'ajax');//empty ctp, ajax for blank layout
+	}
+
+	private function _transformImages($imgs, $post_id, $timestamp){
+		$new_imgs = array();
+		$imgs = explode(',', $imgs);
+
+		$year = date('Y', strtotime($timestamp));
+		$month = date('m', strtotime($timestamp));
+
+		$rel_path = $year.DS.$month.DS.$post_id.DS;// starting from webroot/img/* folder
+
+		$root = $this->_getWebrootUrl().'img'.DS;
+			
+
+		foreach($imgs as $img){
+			$path = 'posts'.DS.$rel_path.$img;
+			$new_imgs[] = array('path' => $path, 'file_name' => $img, 'size' => getimagesize($root.$path));
+		}
+
+		return $new_imgs;
 	}
 }
 ?>

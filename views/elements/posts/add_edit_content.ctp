@@ -57,7 +57,20 @@
 
 	$(document).ready(function() {
 
+		//.live() is needed for new elemenets
 		$('.remove_li_item').live('click', function() {
+			//remove image
+			var img_path = $(this).attr('name');
+			var post_id = $(this).attr('id');
+			var req = $.post('<?php echo DS.APP_DIR.'/posts/ajxRemoveImage/'?>', {id:post_id, path:img_path})
+		   		.success(function( string ){
+			   		//alert(string);
+					//$('#url_content').html(string);
+		   		})		   
+		   		.error(function(){
+			   		alert('error');
+			});					
+			//remove image from list
 		    $(this).closest('li').remove();
 		});		
 		
@@ -65,15 +78,18 @@
 		$('#user_sidebar_content').show();
 
 		//$('#').bind('click', alert('submit form'));
-		$("#submit_post_btn").click(function(){
-
+		$("#add_post_btn").click(function(){			
 			//submit sortet images
 			var imgs = $('#sortable').sortable('toArray');
-			
 			$('#PostImages').val(imgs);
-
 			$('#PostAddForm').submit();
 		});
+		$("#edit_post_btn").click(function(){			
+			//submit sortet images
+			var imgs = $('#sortable').sortable('toArray');
+			$('#PostImages').val(imgs);
+			$('#PostEditForm').submit();
+		});		
 		
 		
 		$('#add_topick_link').bind('click', function(){topicDialog();});
@@ -180,8 +196,11 @@ echo $this->Form->hidden('images',array('value' => ''));
 ?></p>
 
 <div id="files" style="float: left"></div>
-
-<a class="btn" id="submit_post_btn"><span class="reply-icon"></span><?php __('Add Post'); ?></a>
+<?php if($this->params['action'] == 'add'): ?> <a
+	class="btn" id="add_post_btn"><span class="reply-icon"></span><?php __('Add Post'); ?></a>
+<?php elseif ($this->params['action'] == 'edit'): ?> <a
+	class="btn" id="edit_post_btn"><span class="reply-icon"></span><?php __('Edit Post'); ?></a>
+<?php endif; ?>
 </form>
 </div>
 
@@ -237,7 +256,7 @@ echo $this->Form->hidden('images',array('value' => ''));
 		                    '<\/button><\/td><\/tr>');
 		        },
 		        buildDownloadRow: function (file) {
-		            return $('<li id="' + file.name + '" class="ui-state-default" style="cursor: move;"><img src="/myzeitung/' + file.path + '" width=100 \/><a class="remove_li_item" style="cursor:pointer;vertical-align:top;"><?php __('remove'); ?></a></li>');
+		            return $('<li id="' + file.name + '" class="ui-state-default" style="cursor: move;"><img src="/myzeitung/' + file.path + '" width=100 \/><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;"><?php __('remove'); ?></a></li>');
 		        },
 		        beforeSend: function (event, files, index, xhr, handler, callBack) {
 					//check for empty files or folders
