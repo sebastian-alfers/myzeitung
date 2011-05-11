@@ -175,20 +175,30 @@ class PostsController extends AppController {
 			$content = $this->data["Post"]["content"];
 			$this->Post->create();
 
-			if ($this->Post->save($this->data)) {
+			if($this->_hasImagesInHashFolder()){
+				// if images in folder, the solr_add is executed when the correct image array is saved
+				$this->Post->add_solr = false;
+				$temp_data = $this->data;
+				unset($temp_data['Post']['id']);
+			}
 
+			if ($this->Post->save($this->data)) {
+									
 				//copy images after post has been saved to add new post-id to img path
 				if($this->_hasImagesInHashFolder()){
 					if($this->_copyPostImages()){
 						$hash = $this->data['Post']['hash'];
-						$this->data = array();
+						//$this->data = array();
+						$this->data = $temp_data;
 						$this->data['Post']['image'] = $this->images;
 						$this->data["Post"]["user_id"] = $user_id;
 						$this->data['Post']['hash'] = $hash;
 						$this->data['Post']['content'] = $content;
-
-						$this->Post->add_solr = false;
+						// writing the path of the first picture to a class variable because the array will be serialized before reaching the add_Solr method
+						$this->Post->solr_preview_image = $this->images[0]['path'];
+						$this->Post->add_solr = true;
 						if ($this->Post->save($this->data)) {
+						
 							//remove tmp hash folder
 							$webroot = $this->_getWebrootUrl();
 							$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();

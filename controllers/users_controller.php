@@ -173,8 +173,8 @@ class UsersController extends AppController {
 	    }		
 	   
 			//unbinding irrelevant relations for the query
-			$this->User->contain();
-			$this->set('user', $this->User->read(array('id','name','username','created','posts_user_count','post_count','comment_count'), $user_id));
+			$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+			$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
 			$papers = $this->paginate($this->User->Paper);
 
 			//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
