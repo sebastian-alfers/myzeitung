@@ -70,31 +70,7 @@ class PapersController extends AppController {
 				                		'type' => 'RIGHT',
 				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id'),
 									),	
-										
-										
-						/*				 array(
-										 'table' => 'category_paper_posts',
-										 'alias' => 'CPP',
-										 'type' => 'RIGHT',
-										// 'fields' => array('id', 'MAX(created) as `max_created`'),
-										 'conditions' => array('CPP.id = CategoryPaperPost.id', 'CategoryPaperPost.created =  CPP.created'),		
-										 'group' => array('CPP.post_id')	,										 
-										   ),
-							*/			  						
-									 
-						/*		array(
-				                 		'table' => 'users',
-				                 		'alias' => 'Reposter',
-				                 		'type' => 'OUTER',
-				                  		'conditions' => array('CategoryPaperPost.reposter_id = Reposter.id'),			   						
-									), */
-								/*	array(
-				                 		'table' => 'posts_users',
-				                 		'alias' => 'PostsUsers',
-				                 		'type' => 'LEFT',
-				                  		'conditions' => array('CategoryPaperPost.post_user_id = PostUser.id'),			   						
-									), */
-									),
+								),
 								   
 						//order
 			        	'order' => 'last_post_repost_date DESC',
@@ -132,24 +108,12 @@ class PapersController extends AppController {
 			$post['lastReposter']['id'] = $last_relevant_post['CategoryPaperPost']['reposter_id'];
 			$post['lastReposter']['username'] = $last_relevant_post['CategoryPaperPost']['reposter_username'];
 		}
-
 		// END - last relevant reposter
 		
 	    	
 	    $this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
 		$paper = $this->Paper->read(null, $paper_id);
-		
-		// getting the right postcounts for the paper and the categories
-		$this->CategoryPaperPost->contain();
-		$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('paper_id' => $paper_id)));
-		$paper['Paper']['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];
-		
-		foreach($paper['Category'] as &$category){
-			$this->CategoryPaperPost->contain();
-			$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('paper_id' => $paper_id, 'category_id' => $category['id'])));
-			$category['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];	
-		}
-		// END - getting the right postcounts
+
 	    $this->set('paper', $paper);
 		$this->set('posts', $posts);
 

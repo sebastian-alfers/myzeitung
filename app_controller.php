@@ -66,7 +66,7 @@ class AppController extends Controller {
 	
 	function isAuthorized() {
 		// defining the authorized usergroups for every action of every controller 
-		// 1 = admin 2=scherge
+		// 1 = admin 2=common user
 		$allowedActions = array(
 		'users' => array(
 			'index' => array(1),
@@ -118,6 +118,12 @@ class AppController extends Controller {
 		'install' => array(
 			'index' => array(1),
 			),
+		'conversations' => array(
+			'add' => array(2,1),
+			'view' => array(2,1),
+			'reply' => array(2,1),
+			'index' => array(2,1)
+ 			),
 		);
 		
 		

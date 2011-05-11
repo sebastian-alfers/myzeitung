@@ -12,12 +12,3 @@
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('Back to Comments', true), array('action' => 'show', $post_id));?></li>
-		<li><?php echo $this->Html->link(__('Back to Post', true), array('controller' => 'posts', 'action' => 'view', $post_id));?></li>
-
-	</ul>
-</div>
