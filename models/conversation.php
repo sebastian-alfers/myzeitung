@@ -3,7 +3,14 @@ class Conversation extends AppModel{
 	var $name = 'Conversation';
 	var $displayField = 'title';
 	
-
+	// new means: new message since last read in this conversation
+	const STATUS_NEW = 1;
+	// active means: not deleted and no new messages since last read
+	const STATUS_ACTIVE = 2;
+	// replied means: active + replied to the last status (if a new message arrives, the status will be 'new' again)
+	const STATUS_REPLIED = 3;
+	// removed means = hidden -> will be set back to status_new after a new reply
+	const STATUS_REMOVED = 4;
 	
 	var $validate = array(
 		'user_id' => array(
@@ -87,13 +94,7 @@ class Conversation extends AppModel{
 			'counterQuery' => ''
 		)
 	);
-	var $hasOne = array(
-			'LastMessage' => array(
-			'className' => 'ConversationMessage',
-			'foreignKey' => 'conversation_id',
 
-		),
-	);
 	
 }
 ?>

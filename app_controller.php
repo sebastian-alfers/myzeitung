@@ -122,7 +122,8 @@ class AppController extends Controller {
 			'add' => array(2,1),
 			'view' => array(2,1),
 			'reply' => array(2,1),
-			'index' => array(2,1)
+			'index' => array(2,1),
+			'remove' => array(2,1),
  			),
 		);
 		

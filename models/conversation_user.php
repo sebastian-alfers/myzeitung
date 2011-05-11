@@ -2,10 +2,7 @@
 class ConversationUser extends AppModel {
 	var $name = 'ConversationUser';
 	
-	//after getting a new message of the "deleted" conversation the user will be reactivated	
-	const STATUS_CONVERSATION_DELETED = 2;
-	const STATUS_CONVERSATION_ACTIVE = 0;
-	
+
 	var $validate = array(
 		'conversation_id' => array(
 			'notempty' => array(

@@ -41,7 +41,7 @@
 							<ul>
 							<li><?php echo $this->Html->link(__('My Blog', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
 							<li><?php echo $this->Html->link(__('Subscriptions', true), array('controller' => 'users', 'action' => 'viewSubscriptions', $session->read('Auth.User.id')));?></li>
-							<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
+							<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index', $session->read('Auth.User.id')));?></li>
 							<li class="big-btn"><?php echo $this->Html->link('<span>+</span>'.__('New Post', true), array('controller' => 'posts', 'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
 							</ul>
 						</div><!-- / #user-nav -->

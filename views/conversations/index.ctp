@@ -13,6 +13,12 @@
 		<td>
 			<strong>Last Message</strong>
 		</td>
+		<td>
+			<strong>Options</strong>
+		</td>
+		<td>
+			<strong>Status</strong>
+		</td>
 	</tr>
 	
 	<tr>
@@ -29,6 +35,15 @@
 		</td>
 		<td>
 			<?php echo $this->Html->link($conversation['Conversation']['LastMessage']['message'],array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']));?>
+		</td>
+		<td>
+			<?php echo $this->Html->link('view',array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']));?>
+			&nbsp;
+			<?php echo $this->Html->link('remove',array('controller' => 'conversations', 'action' => 'remove', $conversation['Conversation']['id']));?>
+		</td>
+		<td>
+			<?php if($conversation['ConversationUser']['status'] == conversation::STATUS_NEW) echo 'NEW';?>
+			<?php if($conversation['ConversationUser']['status'] == conversation::STATUS_REPLIED) echo 'REPLIED';?>
 		</td>
 		</tr>
 		<?php endforeach;?>
