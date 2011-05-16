@@ -54,7 +54,7 @@
 							<?php endif; ?>
 							<ul class="footer">
 
-								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></li>
+								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Week'));?></li>
 								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])); ?> 
 									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
 										<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'): ?> 

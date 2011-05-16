@@ -3,7 +3,8 @@ class Category extends AppModel {
 	var $name = 'Category';
 	var $displayField = 'name';
 	
-
+	const PARAM_CATEGORY = 'category';
+	const PARAM_PAPER	 = 'paper';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(

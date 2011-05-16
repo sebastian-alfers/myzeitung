@@ -109,10 +109,16 @@ class PapersController extends AppController {
 			$post['lastReposter']['username'] = $last_relevant_post['CategoryPaperPost']['reposter_username'];
 		}
 		// END - last relevant reposter
-		
-	    	
+		  	
 	    $this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
 		$paper = $this->Paper->read(null, $paper_id);
+		//add information if the user (if logged in) has already subscribed the paper
+		if($this->Auth->user('id') && ($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $paper['Paper']['id'])))) > 0){
+			$paper['Paper']['subscribed'] = true;
+		}else{
+			$paper['Paper']['subscribed'] = false;
+		}
+		
 
 	    $this->set('paper', $paper);
 		$this->set('posts', $posts);

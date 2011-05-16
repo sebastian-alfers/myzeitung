@@ -1,9 +1,25 @@
+				<?php 
+				if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session->read('Auth.User.id')){
+					$paper_belongs_to_user = false;
+				}elseif($paper['Paper']['owner_id'] == $session->read('Auth.User.id')){
+					$paper_belongs_to_user = true;
+				}
+
+				
+				?>
 				<div id="leftcolwapper">
 				<div class="leftcol">
 					<div class="leftcolcontent">
 							<div class="userstart">
 								<?php echo $this->Html->image($image->resize($paper['Paper']['image'], 185, 185, null), array("class" => "userimage", "alt" => $paper['Paper']['title']."-image",));?>
-								<a class="btn" href=""><span>+</span>Abonnieren</a>
+								<?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
+								<?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
+									<?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
+								<?php endif;?>
+								<?php //unsubscribe-button: if user is logged in  and  paper does not belong to user AND paper is subscribed ?>
+								<?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>
+									<?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
+								<?php endif;?>
 							</div>
 							<h4><?php echo $paper['Paper']['title'];?></h4>
 							<p><strong><?php echo __('Created:').' '; ?></strong><?php echo $this->Time->timeAgoInWords($paper['Paper']['created'], array('end' => '+1 Year'));?></p>
@@ -14,7 +30,9 @@
 							<p class="user-url"><strong>URL: </strong><?php echo $this->Html->link($paper['Paper']['url']);?></p>
 							<?php endif;?>
 							<hr />
-
+							<?php if($paper_belongs_to_user):?>
+								<?php echo $this->Html->link('<span>+</span>'.__('New Category', true), array('controller' => 'categories', 'action' => 'add', Category::PARAM_PAPER, $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
+							<?php endif;?>
 							<?php if(count($paper['Category']) > 0): ?>
 							<h6><?php echo __('Filter by Category', true);?></h6>
 							<ul>

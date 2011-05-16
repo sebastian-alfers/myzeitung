@@ -1,10 +1,10 @@
 <?php
 class CategoriesController extends AppController {
 
-	const PARAM_CATEGORY = 'category';
-	const PARAM_PAPER	 = 'paper';
 
 	var $name = 'Categories';
+	
+	var $uses = array('Paper', 'Category');
 
 	function index() {
 		$this->Category->recursive = 0;
@@ -26,21 +26,23 @@ class CategoriesController extends AppController {
 
 	/**
 	 * add a category for a paper or for a category(subcategory)
-	 *
+	 * @param type     category / paper
+	 * @param id    	paper_id / parent_category_id
+	 * @todo rewrite this crap with proper params 
 	 */
 	function add() {
 
 		if (empty($this->data)) {
 			//check for param in get url
 			if(empty($this->params['pass'][0]) || !isset($this->params['pass'][0])){
-				$this->Session->setFlash(__('No param for category', true));
+				$this->Session->setFlash(__('Invalid parameters', true));
 				$this->redirect(array('controller' => 'papers', 'action' => 'index'));
 			}
 			//pass param for paper or category for hidden value
-			if($this->params['pass'][0] == 'paper'){
+			if($this->params['pass'][0] == Category::PARAM_PAPER){
 				$this->set('paper_id', $this->params['pass'][1]);
 			}
-			elseif($this->params['pass'][0] == 'category'){
+			elseif($this->params['pass'][0] == Category::PARAM_CATEGORY){
 				$this->set('parent_id', $this->params['pass'][1]);
 			}
 				
@@ -48,6 +50,7 @@ class CategoriesController extends AppController {
 		else{
 			if(isset($this->data['Category']['parent_id']) && !empty($this->data['Category']['parent_id'])){
 				//read paper from parent id
+				$this->Category->contain('Paper.id', 'Paper.owner_id');
 				$category = $this->Category->read(null, $this->data['Category']['parent_id']);
 				
 				if($category['Category']['id'] && $category['Paper']['id']){
@@ -55,21 +58,28 @@ class CategoriesController extends AppController {
 				}
 				else{
 					$this->Session->setFlash(__('Error! Unable to read parent category!', true));
-					$this->redirect(array('controller' => 'categories', 'action' => 'index'));
-				}
+					$this->redirect(array('controller' => 'papers', 'action' => 'index'));
+				}				
+				
+			}
+			if(isset($this->data['Category']['paper_id']) && !empty($this->data['Category']['paper_id'])){
+				$this->Paper->contain();
+				$paper = $this->Paper->read(array('id', 'owner_id'),$this->data['Category']['paper_id']);
+				$owner_id = $paper['Paper']['owner_id'];
+			}
+			if($this->Auth->user('id') != $owner_id){
+					$this->Session->setFlash(__('Paper does not belong to you!', true));
+					$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
 			}
 				
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true));
-				$this->redirect(array('controller' => 'papers', 'action' => 'index'));
+				$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
 			}
 		}
-		$papers = $this->Category->Paper->find('list');
-		$routes = $this->Category->Route->find('list');
-		$this->set(compact('papers', 'routes'));
 	}
 
 	function edit($id = null) {
