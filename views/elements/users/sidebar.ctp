@@ -69,11 +69,7 @@ $(function() {
 			</div>
 			<h4><?php echo $user['User']['username'];?></h4>
 
-			<?php //elements shown when being on actions users-viewSubscriptions ?>
-			<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>
-				<?php echo $this->element('users/sidebar/subscriptions'); ?>
 
-			<?php endif;?>
 			<?php //elements shown when being on actions users-view, posts-view ?>
 			<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
 				<?php echo $this->element('users/sidebar/info'); ?>
@@ -81,8 +77,14 @@ $(function() {
 				<?php echo $this->element('users/sidebar/activity'); ?>
 				<?php echo $this->element('users/sidebar/papers'); ?>
 			<?php endif;?>
-
-
+			<?php //elements shown when being on actions users-viewSubscriptions ?>
+			<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>
+				<?php echo $this->element('users/sidebar/subscriptions'); ?>
+			<?php endif;?>
+			<?php //elements shown when being on actions in users-account settings ?>
+			<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe')):?>
+				<?php echo $this->element('users/sidebar/account_menue'); ?>
+			<?php endif;?>
 			
 		
 <?php /*?>
