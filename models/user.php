@@ -1,5 +1,7 @@
 <?php
 class User extends AppModel {
+	
+	
 	var $name = 'User';
 	var $displayField = 'name';
 
@@ -205,7 +207,9 @@ class User extends AppModel {
 								$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
 						}
 					} else {
-						$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+						if(isset($results[$key]['User']['image'])){
+							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;	
+						}
 					}
 			 	}
 		 		if(isset($val['image'])){	
@@ -299,7 +303,9 @@ class User extends AppModel {
 
 			//get all users topics
 			$this->Topic = new Topic();
+			$this->Topic->contain();
 			$topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+
 			foreach($topics as $topid_id => $topic_name){
 				$conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
 				//$this->ContentPaper->recursive = 0;

@@ -27,7 +27,11 @@
 		<?php echo $title_for_layout; ?>
 	</title>
 	
+	<script type="text/javascript">
 	
+	var base_url = '<?php echo DS.APP_DIR; ?>'
+	
+	</script>	
 	
 	<?php
 		echo $this->Html->meta('icon');
@@ -37,7 +41,7 @@
 		e($html->script('jquery.fileupload'));
 		e($html->script('jquery.fileupload-ui'));
 		e($html->script('jquery-ui-1.8.11.min'));
-
+		
 		e($html->css('jquery.fileupload-ui'));
 		e($html->css('jquery-ui-1.8.11'));		
 		

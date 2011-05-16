@@ -84,3 +84,6 @@ foreach($menus as $menuitem){
  
  *
  */
+
+
+Router::parseExtensions();

@@ -74,7 +74,8 @@ class AppController extends Controller {
 			'edit' => array(1),
 			'view' => array(1),
 			'delete' => array(1),
-			'references' => array(1)
+			'references' => array(1),
+			'subscribe' => array(1)
 			),
 		'topics' => array(
 			'ajax_add' => array(1)

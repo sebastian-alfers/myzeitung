@@ -15,7 +15,9 @@ class TopicsController extends AppController {
 		
 		if (!empty($topic_name)) {
 			$this->data['Topic']['name'] = $topic_name;
+			$this->data['Topic']['user_id'] = $this->Session->read('Auth.User.id');
 			$this->Topic->create();
+			error_log(json_encode($this->data));
 			if ($this->Topic->save($this->data)) {
 				
 				echo $this->Topic->id;

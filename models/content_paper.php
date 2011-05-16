@@ -72,8 +72,8 @@ class ContentPaper extends AppModel {
 			}
 
 			/**
-			 * after content (user or post) as been associatet to to paper / category
-			 * add posts from user/post to index
+			 * after content (user or topic) as been associatet to to paper / category
+			 * add posts from user/topics to index
 			 *
 			 * @param array $data
 			 */
@@ -97,6 +97,7 @@ class ContentPaper extends AppModel {
 
 
 				App::import('model','PostUser');
+				App::import('model','CategoryPaperPost');
 
 				foreach($posts as $post){
 					$this->CategoryPaperPost = new CategoryPaperPost();

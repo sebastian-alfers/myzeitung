@@ -307,10 +307,12 @@ class Paper extends AppModel {
 			 * associate content to a paper or category
 			 *
 			 * @param $data data from controller
+			 * 		  $data['Paper] [ContentPaper::CONTENT_DATA] = user_#userid | paper_#paperid
+			 * 		  $data['Paper']['target_type'] = ContentPaper::PAPER | ContentPaper::CATEGORY
+			 *		  $data['Paper']['target_id'] = #paperid | #categoryid
+			 *        
 			 */
 			public function associateContent($data){
-
-				//form has been submitted
 
 				if(isset($data['Paper'][ContentPaper::CONTENT_DATA]) && !empty($data['Paper'][ContentPaper::CONTENT_DATA])){
 					//validate if hidden field is paper or category
@@ -328,19 +330,18 @@ class Paper extends AppModel {
 					isset($data['Paper']['target_id']))
 					{
 						if(count($source) == 2){
-
+							
 							//prepare variables to indicate whole user or only topic as source
-							$user_id = null;
+							$user_id = $data['Paper']['user_id'];
 							$topic_id = null;
-							if($sourceType == ContentPaper::USER) $user_id = $sourceId;
+							//if($sourceType == ContentPaper::USER) $user_id = $sourceId;
 							if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
 
 							switch ($targetType){
 								case ContentPaper::PAPER:
-									return $this->_associateContentForPaper($data, $user_id, $topic_id);
+									return $this->_associateContentForPaper($data, $user_id, $topic_id);//$topic_id can be null
 									break;
 								case ContentPaper::CATEGORY:
-
 									$category_id = $data['Paper']['target_id'];
 									//get paper for category
 									$category = $this->Category->read(null, $category_id);
@@ -396,11 +397,11 @@ class Paper extends AppModel {
 			 * @param int $userId
 			 * @param int $topicId
 			 */
-			private function _canAssociateDataToPaper($categoryId, $userId, $topicId){
+			private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
 
 				//check for extatly this constelation
 				$conditions = array('conditions' => array(
-											'ContentPaper.paper_id' => $this->id,
+											'ContentPaper.paper_id' => $paperId,
 											'ContentPaper.category_id' => $categoryId,
 											'ContentPaper.user_id' => $userId,
 											'ContentPaper.topic_id' => $topicId));
@@ -564,9 +565,9 @@ class Paper extends AppModel {
 			 *
 			 * @return boolean
 			 */
-			public function newContentForPaper($categoryId, $userId, $topicId){
+			public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
 
-				if(!$this->_canAssociateDataToPaper($categoryId, $userId, $topicId)){
+				if(!$this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId)){
 
 					return false;
 				}
@@ -598,7 +599,7 @@ class Paper extends AppModel {
 			private function _associateContentForPaper($data, $user_id, $topic_id){
 
 				$paper_id = $data['Paper']['target_id'];
-				if($this->newContentForPaper(null, $user_id, $topic_id)){
+				if($this->newContentForPaper($paper_id, null, $user_id, $topic_id)){
 
 					//$this->Session->setFlash(__('content was associated to paper', true));
 					//$this->redirect(array('action' => 'index'));

@@ -43,10 +43,10 @@
 								<li><?php echo $paper['Paper']['category_paper_post_count'].' '.__('Posts', true)?></li>
 								<li><?php echo $paper['Paper']['content_paper_count'].' '.__('Subcribed Users/Topics', true)?></li>
 							</ul>
-					
+							<hr />
+											<?php /*references*/ echo $this->Html->link('References', array('controller' => 'papers', 'action' => 'references', 'paper/'.$paper['Paper']['id'])); ?>
 						 </div><!-- /.leftcolcontent -->	
 						</div><!-- /.leftcol -->
 						
-						<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fplatform&amp;width=218&amp;colorscheme=light&amp;show_faces=true&amp;stream=false&amp;header=false&amp;height=268" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:218px; height:268px;"></iframe>
 						
 				</div><!-- / #leftcolwapper -->

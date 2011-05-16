@@ -12,3 +12,5 @@
 	<?php endforeach; ?>
 </ul>
 <?php endif; ?>
+
+<?php echo $this->Html->link('< ' . __('Back to Paper', true), array('controller' => 'papers', 'action' => 'view', $paper_id)); ?>

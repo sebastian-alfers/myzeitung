@@ -1,3 +1,60 @@
+<?php 
+/*
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	$('#link_subscribe').bind('click', function(){subscribeDialog(this);});
+});	
+
+function subscribeDialog(element){
+	var user_id = $(element).attr('name');
+	var req = $.post(base_url + '/users/ajxSubscribe.json', {id:user_id})
+		.success(function( obj ){
+			$('#dialog-subscribe').html(obj.type);
+			$('#dialog-subscribe').dialog('open');		
+		})		   
+		.error(function(){
+   			alert('error');
+	});						
+	
+		
+	return false;
+}
+
+$(function() {
+
+	$( "#dialog:ui-dialog" ).dialog( "destroy" );
+	$( "#dialog-subscribe" ).dialog({
+		resizable: false,
+		height:240,
+		width:400,
+		draggable:false,
+		modal: true,
+		autoOpen: false,
+		buttons: [{
+            id:"btn-save-subscribe",
+            text: "Save Subscription",
+            click: function() {
+                    $(this).dialog("close");
+            }
+    	},{
+            id:"btn-cancel",
+            text: "Cancel",
+            click: function() {
+                    $(this).dialog("close");
+            }
+    	}]//end button
+	});//end button .dialog	
+});
+//
+</script>
+
+<?php echo $this->element('users/modal_subscribe'); ?>
+*/
+?>
+
 <div id="leftcolwapper">
 <div class="leftcol">
 	<div class="leftcolcontent">
@@ -5,7 +62,11 @@
 				<?php
 				$info = $image->resize($user['User']['image'], 185, 185, null, true);
 				echo $this->Html->image($info['path'], array("class" => "userimage", "alt" => $user['User']['username']."-image", 'style' => $info['inline']));?>
-				<a class="btn" href=""><span>+</span>Abonnieren</a>
+				
+				<?php if($user['User']['id'] != $session->read('Auth.User.id')): //can not subscribe to himself ?>
+					<?php echo $this->Html->link(__('Subscribe', true), array('controller' => 'users',  'action' => 'subscribe', $user['User']['id'])); ?>
+					
+				<?php endif; ?>
 			</div>
 			<h4><?php echo $user['User']['username'];?></h4>
 			<?php if($user['User']['name']):?>
@@ -72,6 +133,20 @@
 			</ul>
 			
 			<?php endif;?>
+			
+			<hr />
+			<h6><?php __('Writes for'); ?></h6>
+				<ul>
+				<?php foreach($wholeUserReferences as $reference): ?>
+					<li><?php echo $reference['Paper']['title']?> <?php if($reference['Category']['id'] == '') echo " (direct in paper)" ?></li>
+				<?php endforeach; ?>
+				</ul>
+				<ul>
+				<?php foreach($topicReferences as $reference): ?>
+					<li><?php echo $reference['Topic']['name']?> (topic) <?php if($reference['Category']['id'] == '') echo " (direct in paper)" ?></li>
+				<?php endforeach; ?>
+				</ul>			
+			
 		 </div><!-- /.leftcolcontent -->	
 		</div><!-- /.leftcol -->
 		

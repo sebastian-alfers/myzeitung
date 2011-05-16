@@ -224,11 +224,13 @@ class PapersController extends AppController {
 		else{
 			$type = $this->params['pass'][0];
 			$id = $this->params['pass'][1];
+			$this->set('paper_id', $id);
 			switch($type){
 				case ContentPaper::PAPER:
-
+					$this->Paper->contain();
 					$this->Paper->read(null, $id);
 					$paperReferences = $this->Paper->getContentReferences();
+					//debug($paperReferences);die();
 					$this->set('paperReferences', $paperReferences);
 					break;
 				case ContentPaper::CATEGORY:
@@ -264,38 +266,7 @@ class PapersController extends AppController {
 
 		if (!empty($this->data)) {
 
-			if($this->Paper->read(null, $this->data['Paper']['target_id'])){
-				//debug($this->data);die();
-
-				/*
-				 * @todo the implementation is not very good in sense of using the Category Model within the paper Model
-				 *       refactor the logic while using the category model like $this->Category->associateContent()
-				 */
-				if($this->Paper->associateContent($this->data)){
-					$msg = __('Content has been associated to paper', true);
-						
-					//import posts to paper / category, that have been created in the past
-					//$postImportLog = $this->importPastPosts();
-
-					//					if(is_array($postImportLog)){
-					//
-					//					}
-					//					else{
-					//
-					//					}
-							
-						
-					$this->Session->setFlash($msg, true);
-					$this->redirect(array('action' => 'index'));
-				}
-				else{
-					$this->Session->setFlash(__('Not able to associate content to paper', true));
-					$this->redirect(array('action' => 'index'));
-				}
-			}
-			else{
-
-			}
+			//moved to users_controller
 
 		}
 		else{
@@ -394,30 +365,13 @@ class PapersController extends AppController {
 	}
 
 	/**
-	 * build data for dropdown so select user or topy
+	 * build data for dropdown so select user or topic
 	 * to as reference for paper_content
 	 *
 	 * @return array()
 	 */
 	private function _generateUserSelectData(){
-		$content_data = array();
-		//build array for user
-		$users = $this->User->find('all');
-		//debug($users);die();
-		$content_data = array('options' => array());
-		foreach($users as $user){
-			//debug($user);die();
-			$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = $user['User']['username'].' (all topics)';
-			$topics = $user['Topic'];
-			if(isset($topics) && count($topics >0)){
-				foreach($topics as $topic){
-					$content_data['options'][ContentPaper::TOPIC.ContentPaper::SEPERATOR.$topic['id']] = '> topic:'.$topic['name'];
-				}
-
-			}
-			//debug($content_data);die();
-		}
-		return $content_data;
+		//moved to users_controller
 	}
 
 	/**
