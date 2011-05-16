@@ -137,14 +137,14 @@ class UsersController extends AppController {
 		$this->set('posts', $this->paginate($this->User->Post));
 
 		//references
-		$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
+	/*	$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
 		$this->set('wholeUserReferences', $wholeUserReferences);
 
 
 		//now all references to all topics
 		$topicReferences = $this->User->getUserTopicReferences($user_id);
 
-		$this->set('topicReferences', $topicReferences);
+		$this->set('topicReferences', $topicReferences); */
 	}
 
 	/**
@@ -183,7 +183,7 @@ class UsersController extends AppController {
 		//fields
 	            'fields' => array('id','owner_id','title','description','created','subscription_count'),
 		//limit of records per page
-	            'limit' => 10,
+	            'limit' => 9,
 		//order
 	            'order' => 'Subscription.own_paper ASC , Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per post
