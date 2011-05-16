@@ -1,9 +1,9 @@
-<?php echo $this->Html->script('account/upload'); ?>
+<?php echo $this->Html->script('user/upload'); ?>
 
-<h4 class="account-image"><?php __('My Profile Picture'); ?></h4>
+<h4 class="user-image"><?php __('My Profile Picture'); ?></h4>
 
 <form id="file_upload"
-	action="<?php echo DS.APP_DIR.DS.'accounts/ajxProfileImageProcess'; ?>"
+	action="<?php echo DS.APP_DIR.DS.'users/ajxProfileImageProcess'; ?>"
 	method="POST" enctype="multipart/form-data"><input
 	type="file" name="file"> 
 	<span>+</span><?php __('Add Profile Image'); ?>
@@ -22,7 +22,7 @@
 </div>
 <hr />
 <div id="submit_profile_img" style="display:none">
-<?php echo $this->Form->create('Account');?>
+<?php echo $this->Form->create('Users');?>
 
 <?php //wil be filled, right after submitting form
 echo $this->Form->hidden('images',array('value' => '')); ?>

@@ -1,7 +1,7 @@
 <?php
 class User extends AppModel {
-	
-	
+
+
 	var $name = 'User';
 	var $displayField = 'name';
 
@@ -9,7 +9,7 @@ class User extends AppModel {
 
 
 	var $uses = array('Route', 'Cachekey');
-	
+
 	const DEFAULT_USER_IMAGE 	= 'default-user-image.jpg';
 
 	var $validate = array(
@@ -78,7 +78,7 @@ class User extends AppModel {
 		 'exclusive' => '',
 		 'finderQuery' => '',
 		 'counterQuery' => ''
-		),
+		 ),
 	 'PostUser' => array(
 	 	'className' => 'PostUser',
 	 	'foreignKey' => 'user_id',
@@ -91,7 +91,7 @@ class User extends AppModel {
 		 'exclusive' => '',
 		 'finderQuery' => '',
 		 'counterQuery' => ''
-		),
+		 ),
 	'Topic' => array(
 		'className' => 'Topic',
 		'foreignKey' => 'user_id',
@@ -105,7 +105,7 @@ class User extends AppModel {
 		'finderQuery' => '',
 		'counterQuery' => ''
 		),
-		
+
 	'ContentPaper' => array(
 		'className' => 'ContentPaper',
 		'foreignKey' => 'user_id',
@@ -144,12 +144,12 @@ class User extends AppModel {
 		'finderQuery' => '',
 		'counterQuery' => ''
 		)
-				
-	);
+
+		);
 
 
-	/*		var $hasAndBelongsToMany = array(
-		'Post' => array(
+		/*		var $hasAndBelongsToMany = array(
+		 'Post' => array(
 			'className' => 'Post',
 			'joinTable' => 'posts_users',
 			'foreignKey' => 'user_id',
@@ -164,7 +164,7 @@ class User extends AppModel {
 			'deleteQuery' => '',
 			'insertQuery' => ''
 			),
-		'Paper' => array(
+			'Paper' => array(
 			'className' => 'Paper',
 			'joinTable' => 'subscriptions',
 			'foreignKey' => 'user_id',
@@ -178,10 +178,10 @@ class User extends AppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-			),	
+			),
 			);*/
 
-			var $belongsTo = array(
+		var $belongsTo = array(
 		'Group'
 		);
 
@@ -196,73 +196,85 @@ class User extends AppModel {
 		function __construct(){
 			parent::__construct();
 		}
-		
+
 		function afterFind($results){
 			//adding default user image to users without an image
 			if(isset($results['image'])){
 				if(empty($results['image'])){
 					$results['image'] =self::DEFAULT_USER_IMAGE;
 				}
-			} else { 
-				
-				 foreach($results as $key => $val) {
-				 	if(isset($val['User'])){
-						if(isset($val['User']['image'])){		
+			} else {
+
+				foreach($results as $key => $val) {
+					if(isset($val['User'])){
+						if(isset($val['User']['image'])){
 							if(empty($val['User']['image'])){
-									$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+								$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
 							}
 						} else {
 							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
 						}
-				 	}
-			 		if(isset($val['image'])){	
+					}
+					if(isset($val['image'])){
 						if(empty($val['image'])){
-								$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
+							$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
 						}
 					} else {
 
 						if(isset($results[$key]['User']['image'])){
-							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;	
+							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
 						}
 					}
-			 	}
-		 		if(isset($val['image'])){	
+				}
+				if(isset($val['image'])){
 					if(empty($val['image'])){
-							$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
+						$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
 					}
 				} else {
 					$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
-				} 
-			 }
-			 if(isset($results['User'])){
-			 	if(isset($results['image'])){
-			 		if(empty($results['image'])){
-			 			$results['image'] = self::DEFAULT_USER_IMAGE;
-			 		}
-			 	} else {
-			 		$results['image'] = self::DEFAULT_USER_IMAGE;
-				} 
-			 }
+				}
+			}
+			if(isset($results['User'])){
+				if(isset($results['image'])){
+					if(empty($results['image'])){
+						$results['image'] = self::DEFAULT_USER_IMAGE;
+					}
+				} else {
+					$results['image'] = self::DEFAULT_USER_IMAGE;
+				}
+			}
 
 			return $results;
+		}
+
+		/**
+		 *	hook into save process
+		 * 
+		 */
+		function beforeSave(){
+			if(!empty($this->data['User']['image']) && is_array($this->data['User']['image']) && !empty($this->data['User']['image'])){
+				$this->data['User']['image'] = serialize($this->data['User']['image']);
+			}
+			
+			return true;
 		}
 
 		function beforeDelete(){
 			App::import('model','Comment');
 			$this->Comment = new Comment();
-			
+				
 			// reading all comments of the deleted user and reseting the user_id to null
 			// "comment from -deleted user-"
 			$this->Comment->contain();
 			$comments = $this->Comment->findAllByUser_id($this->id);
 			foreach($comments as $comment){
-			 	$comment['Comment']['user_id']= null;
-			    debug($comment);
+				$comment['Comment']['user_id']= null;
+				debug($comment);
 				$this->Comment->save($comment);
 			}
-			
-		return true;
-			
+				
+			return true;
+				
 		}
 		/**
 		 * update index
@@ -273,18 +285,18 @@ class User extends AppModel {
 
 			$this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
 			$this->data['User']['type'] = Solr::TYPE_USER;
-				
+
 			if(!isset($this->data['User']['id'])){
 				if($this->id){
-					$this->data['User']['id'] = $this->id;	
+					$this->data['User']['id'] = $this->id;
 				}
 					
 			}
-			
+				
 			$this->data['User']['user_name'] = $this->data['User']['name'];
 			$this->data['User']['user_username'] = $this->data['User']['username'];
 			$this->data['User']['user_id'] = $this->data['User']['id'];
-			
+				
 			$solr = new Solr();
 			$solr->add($this->addFieldsForIndex($this->data));
 
@@ -335,10 +347,10 @@ class User extends AppModel {
 			return $topicReferences;
 		}
 
-		function addFieldsForIndex($data){		
-			
+		function addFieldsForIndex($data){
+				
 			$solrFields = array();
-			
+				
 			$solrFields['User']['id'] = $data['User']['id'];
 			$solrFields['User']['user_username'] = $data['User']['user_username'];
 			$solrFields['User']['user_name'] = $data['User']['user_name'];
@@ -346,7 +358,7 @@ class User extends AppModel {
 			$solrFields['User']['user_id'] = $data['User']['user_id'];
 			$solrFields['User']['index_id'] = $data['User']['index_id'];
 			return $solrFields;
-			
+				
 		}
 
 		function delete($id){

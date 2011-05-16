@@ -76,7 +76,7 @@ class AppController extends Controller {
 			'delete' => array(1),
 			'references' => array(1),
 			'subscribe' => array(1),
-			'image' => array(1),
+			'accImage' => array(1),
 			'ajxProfileImageProcess' => array(1)		
 			),
 		'topics' => array(

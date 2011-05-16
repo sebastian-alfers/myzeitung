@@ -131,9 +131,9 @@ class UsersController extends AppController {
 
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		
+
 		$this->set('user', $this->getUserForSidebar($user_id));
-		
+
 		$this->set('posts', $this->paginate($this->User->Post));
 
 		//references
@@ -190,24 +190,24 @@ class UsersController extends AppController {
 	            'contain' => array(),
 
 
-	         )
-	    );
-	    if($own_paper != null){
-	    	//adding the additional conditions  for the pagination - join
-	    	$this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = $own_paper;
-	    }		
-	   
-			//unbinding irrelevant relations for the query
-			$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-			$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
-			$papers = $this->paginate($this->User->Paper);
+		)
+		);
+		if($own_paper != null){
+			//adding the additional conditions  for the pagination - join
+			$this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = $own_paper;
+		}
 
-			//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
-			// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this 
-			if(is_array($papers)){
-				for($i = 0; $i < count($papers); $i++){
-					$papers[$i]['Paper']['subscribed'] = false;				
-					if($this->Auth->user('id')){
+		//unbinding irrelevant relations for the query
+		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
+		$papers = $this->paginate($this->User->Paper);
+
+		//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
+		// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this
+		if(is_array($papers)){
+			for($i = 0; $i < count($papers); $i++){
+				$papers[$i]['Paper']['subscribed'] = false;
+				if($this->Auth->user('id')){
 
 					//check for subscriptions - if yes -> subscribed = true
 					if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
@@ -238,28 +238,28 @@ class UsersController extends AppController {
 				//@todo move it to a better place -> to user model
 				//afer adding user -> add new route
 				/*		$route = new Route();
-				 $route->create();
+				$route->create();
 
-				 if( $route->save(array('source' => $this->data['User']['username'] ,
-				 'target_controller' 	=> 'users',
-				 'target_action'     	=> 'view',
-				 'target_param'		=> $this->User->id)))
-				 {
-				 if($route->id){
-				 $this->data['User']['route_id'] = $route->id;
-				 $this->User->save($this->data);
-				 $this->redirect('/'.$this->data['User']['username']);
-				 }
-				 else{
-				 $this->Session->setFlash(__('The user has been saved', true));
-				 $this->redirect(array('action' => 'add'));
-				 }
-				 }
-				 else{
-				 $this->Session->setFlash(__('Please choose a valid url key', true));
-				 $this->redirect(array('action' => 'add'));
-				 }
-				 */
+				if( $route->save(array('source' => $this->data['User']['username'] ,
+				'target_controller' 	=> 'users',
+				'target_action'     	=> 'view',
+				'target_param'		=> $this->User->id)))
+				{
+				if($route->id){
+				$this->data['User']['route_id'] = $route->id;
+				$this->User->save($this->data);
+				$this->redirect('/'.$this->data['User']['username']);
+				}
+				else{
+				$this->Session->setFlash(__('The user has been saved', true));
+				$this->redirect(array('action' => 'add'));
+				}
+				}
+				else{
+				$this->Session->setFlash(__('Please choose a valid url key', true));
+				$this->redirect(array('action' => 'add'));
+				}
+				*/
 				$this->Session->setFlash(__('The user has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -367,7 +367,7 @@ class UsersController extends AppController {
 				$data['Paper'][ContentPaper::CONTENT_DATA] = ContentPaper::USER.ContentPaper::SEPERATOR.$this->data['User']['user_id'];
 			}
 			$data['Paper']['user_id'] = $this->data['User']['user_id'];
-				
+
 
 
 			//check if we have options or not
@@ -646,19 +646,40 @@ class UsersController extends AppController {
 	 $this->render('ajx_subscribe');//file users/json/ajx_subscribe.ctp with layouts/json/default.ctp
 	 }
 	 */
-	
-	
-	function image(){
+
+	/**
+	 * handle upload of profile picture
+	 *
+	 */
+	function accImage(){
 		if(!empty($this->data)){
-			
-			debug($this->data);die();
-			
-			if($this->Upload->hasImagesInHashFolder($this->data['Account']['hash'])){
+			//check, if user exists
+			$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
+			if(!isset($user_data['User']['id'])){
+				$this->Session->setFlash(__('Error while loading user', true));
+				$this->redirect($this->referer());
+			}
+				
+			if($this->Upload->hasImagesInHashFolder($this->data['Users']['hash'])){
 				$image = array();
-				$image = $this->Upload->copyImagesFromHash($this->data['Account']['hash'], 666, null, $this->data['Account']['images']);
-				debug($image);die();
-				if(is_array($this->images)){
-					debug($this->images);	
+				$user_id = $this->Session->read('Auth.User.id');
+				$user_created = $user_data['User']['created'];
+				$image = $this->Upload->copyImagesFromHash($this->data['Users']['hash'], $user_id, $user_created, $this->data['Users']['images'], 'user');
+
+				if(is_array($image)){
+					$this->User->contain();
+					$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
+					$user_data['User']['image'] = $image;
+						
+					if($this->User->save($user_data)){
+						$this->Session->setFlash(__('Saved new profile image', true));
+						$this->redirect($this->referer());
+					}
+					else{
+						$this->Session->setFlash(__('Can not save profile image', true));
+						$this->redirect($this->referer());
+					}
+
 				}
 			}
 			else{
@@ -719,9 +740,9 @@ class UsersController extends AppController {
 		if($user_id == ''){
 			$user_id = $this->Session->read('Auth.User.id');
 		}
-		
+
 		return $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 	}
-	
+
 }
 ?>

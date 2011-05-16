@@ -50,7 +50,7 @@ class UploadComponent extends Object {
 	 * @param int id of post
 	 * @param $timestamp date the post is created
 	 */
-	public function copyImagesFromHash($hash, $post_id = null, $timestamp = null, $images){
+	public function copyImagesFromHash($hash, $id = null, $timestamp = null, $images, $folder){
 
 		$new_images = array();
 		
@@ -59,7 +59,7 @@ class UploadComponent extends Object {
 
 		if(is_dir($path_to_tmp_folder)){
 
-			if($timestamp == null){
+			if($timestamp !== false && $timestamp == null){
 				$year = date('Y');
 				$month = date('m');
 			}
@@ -69,8 +69,12 @@ class UploadComponent extends Object {
 			}
 				
 			//for new posts, use current timesempt, for edit posts user the posts creation date for path
-			$new_rel_path = $year.DS.$month.DS.$post_id.DS;// starting from webroot/img/* folder
-			$post_img_folder = $webroot.'img'.DS.'posts'.DS.$new_rel_path;
+			
+			//hash the id for path
+			$hash_id = md5($id);
+			
+			$new_rel_path = $year.DS.$month.DS.$hash_id.DS;// starting from webroot/img/* folder
+			$post_img_folder = $webroot.'img'.DS.$folder.DS.$new_rel_path;
 			//create folder for new post
 			if(!is_dir($post_img_folder)){
 				if (!mkdir($post_img_folder, 0700, true)) {

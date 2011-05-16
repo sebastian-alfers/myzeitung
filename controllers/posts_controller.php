@@ -188,7 +188,7 @@ class PostsController extends AppController {
 									
 				//copy images after post has been saved to add new post-id to img path
 				if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
-					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $this->data['Post']['images']); 
+					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $this->data['Post']['images'], 'post'); 
 					if(is_array($this->images)){
 						$hash = $this->data['Post']['hash'];
 						//$this->data = array();
@@ -310,7 +310,7 @@ class PostsController extends AppController {
 
 
 			if($this->_hasImagesInHashFolder()){
-				$this->images = $this->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images']);
+				$this->images = $this->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images'], 'post');
 				if(is_array($this->images)){
 				}
 			}
