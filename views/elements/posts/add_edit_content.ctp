@@ -15,6 +15,8 @@ echo $cksource->ckeditor('content', array('escape' => false));
 //echo $form->input('image',array("type" => "file", 'label' => ''));
 echo $this->Form->hidden('user_id',array('value' => $user_id));
 echo $this->Form->hidden('hash',array('value' => $hash));
+
+//wil be filled, right after submitting form
 echo $this->Form->hidden('images',array('value' => ''));
 
 

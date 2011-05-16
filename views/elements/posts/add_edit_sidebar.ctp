@@ -7,9 +7,11 @@
 
 
 <form id="file_upload"
-	action="http://localhost/myzeitung/posts/ajxImageProcess"
+	action="<?php echo DS.APP_DIR.DS.'posts/ajxImageProcess'; ?>"
 	method="POST" enctype="multipart/form-data"><input
-	type="file" name="file" multiple> <span>+</span><?php __('Add Images'); ?>
+	type="file" name="file" multiple>
+	
+	 <span>+</span><?php __('Add Images'); ?>
 
 <input type="hidden" name="hash"
 	value="<?php echo $hash; ?>" /></form>

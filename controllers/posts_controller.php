@@ -5,7 +5,7 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
 
-	var $components = array('JqImgcrop');
+	var $components = array('JqImgcrop', 'Upload');
 	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image');
 
 
@@ -177,7 +177,7 @@ class PostsController extends AppController {
 			$content = $this->data["Post"]["content"];
 			$this->Post->create();
 
-			if($this->_hasImagesInHashFolder()){
+			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
 				// if images in folder, the solr_add is executed when the correct image array is saved
 				$this->Post->add_solr = false;
 				$temp_data = $this->data;
@@ -187,8 +187,9 @@ class PostsController extends AppController {
 			if ($this->Post->save($this->data)) {
 									
 				//copy images after post has been saved to add new post-id to img path
-				if($this->_hasImagesInHashFolder()){
-					if($this->_copyPostImages()){
+				if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
+					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $this->data['Post']['images']); 
+					if(is_array($this->images)){
 						$hash = $this->data['Post']['hash'];
 						//$this->data = array();
 						$this->data = $temp_data;
@@ -202,7 +203,7 @@ class PostsController extends AppController {
 						if ($this->Post->save($this->data)) {
 						
 							//remove tmp hash folder
-							$this->_removeTmpHashFolder();
+							$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 
 							if(!rmdir($path_to_tmp_folder)){
 								$this->log('Not able to remove tmp hash folder: ' . $path_to_tmp_folder);
@@ -236,8 +237,8 @@ class PostsController extends AppController {
 				$tmp_images = explode(',', $this->data['Post']['images']);
 				$return_imgs = array();
 
-				$webroot = $this->_getWebrootUrl();
-				$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+				$webroot = $this->Upload->getWebrootUrl();
+				$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
 				foreach ($tmp_images as $img){
 
 					$return_imgs[] = array('path' => 'tmp'.DS.$this->data['Post']['hash'].DS.$img, 'name' => $img);
@@ -259,7 +260,7 @@ class PostsController extends AppController {
 			//			}
 		}
 		else{
-			$this->set('hash', $this->_getHash());
+			$this->set('hash', $this->Upload->getHash());
 		}
 
 		$this->set(compact('topics'));
@@ -309,7 +310,8 @@ class PostsController extends AppController {
 
 
 			if($this->_hasImagesInHashFolder()){
-				if($this->_copyPostImages($id, $created)){
+				$this->images = $this->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images']);
+				if(is_array($this->images)){
 				}
 			}
 			
@@ -326,7 +328,7 @@ class PostsController extends AppController {
 				
 
 			if ($this->Post->save($this->data)) {
-				$this->_removeTmpHashFolder();
+				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 				$this->Session->setFlash(__('The post has been saved', true));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
@@ -353,8 +355,8 @@ class PostsController extends AppController {
 
 			$return_imgs = array();
 
-			$webroot = $this->_getWebrootUrl();
-			$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
+			$webroot = $this->Upload->getWebrootUrl();
+			$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
 			foreach ($this->data['Post']['image'] as $img){
 				$return_imgs[] = array('path' => $img['path'], 'name' => $img['file_name']);
 			}
@@ -366,7 +368,7 @@ class PostsController extends AppController {
 
 		$this->set(compact('topics', 'users'));
 
-		$this->set('hash', $this->_getHash());
+		$this->set('hash', $this->Upload->getHash());
 		$this->set('user_id',$user_id);
 		//same template for add and edit
 		$this->render('add_edit');
@@ -412,15 +414,8 @@ class PostsController extends AppController {
 			$imgPath = 'img'.DS.'tmp'.DS.$hash.DS;
 			//******************************************
 
-			//$this->log($img);
-
-			//$this->log('****** ' . $file['name']);
-			//string to filename
-			//@todo refactor in external file
-			$file['name'] = preg_replace('/^\W+|\W+$/', '', $file['name']); // remove all non-alphanumeric chars at begin & end of string
-			$file['name'] = preg_replace('/\s+/', '_', $file['name']); // compress internal whitespace and replace with _
-			$file['name'] = strtolower(preg_replace('/\W-/', '', $file['name'])); // remove all non-alphanumeric chars except _ and -
-
+			//remove whitespace etc from img name
+			$file['name'] = $this->Upload->transformFileName($file['name']);
 
 			//$this->log('****** ' . $file['name']);
 
@@ -435,114 +430,13 @@ class PostsController extends AppController {
 	}
 
 
-	private function _getHash(){
-		return md5(microtime().$this->Session->read('sessID'));
-	}
-
-	/**
-	 * copy images
-	 *
-	 * @param int id of post
-	 * @param $timestamp date the post is created
-	 */
-	private function _copyPostImages($post_id = null, $timestamp = null){
-		$this->images = array();
-		//get tmp hash folder for images
-		$hash = $this->data['Post']['hash'];
-
-		$webroot = $this->_getWebrootUrl();
-		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
-
-		if(is_dir($path_to_tmp_folder)){
-
-			if($timestamp == null){
-				$year = date('Y');
-				$month = date('m');
-			}
-			else{
-				$year = date('Y', strtotime($timestamp));
-				$month = date('m', strtotime($timestamp));
-			}
-
-			if($post_id == null){
-				$post_id = $this->Post->id;
-			}
-
-			//for new posts, use current timesempt, for edit posts user the posts creation date for path
-			$new_rel_path = $year.DS.$month.DS.$post_id.DS;// starting from webroot/img/* folder
-			$post_img_folder = $webroot.'img'.DS.'posts'.DS.$new_rel_path;
-			//create folder for new post
-			if(!is_dir($post_img_folder)){
-				if (!mkdir($post_img_folder, 0700, true)) {
-					$this->log('can not create directory for post: ' . $post_img_folder);
-					return false;
-				}
-			}
-
-			//found folder
-
-			if ($handle = opendir($path_to_tmp_folder)) {
-				$images = $this->data['Post']['images'];
-				$images= explode(",", $images);
-					
-				foreach($images as $file){
-
-					$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
-					$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
-
-					
-					if(!is_dir($tmp_path) && file_exists($tmp_path)){
-						$size = getimagesize($tmp_path);
-
-						if (copy($tmp_path , $new_full_path)) {
-							unlink($tmp_path);
-							$this->images[] = array('path' => 'posts'.DS.$new_rel_path.$file, 'file_name' => $file, 'size' => $size);
-						}
-					}
 
 
-				}
-			}
-			else{
-				$this->log('can not open directory for copy images: ' . $path_to_tmp_folder);
-				return false;
-			}
-
-		}
-		else{
-			$this->log('given path is no directory:' . $path_to_tmp_folder);
-			return false;
-		}
-
-		return true;
-	}
-
-	private function _hasImagesInHashFolder($hash = ''){
-		if($hash == '') $hash = $this->data['Post']['hash'];
-
-		$webroot = ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS; //until webroot/
-		$path_to_tmp_folder = $webroot.'img'.DS.'tmp'.DS.$hash.DS;
-
-		return is_dir($path_to_tmp_folder);
-	}
-
-	private function _getWebrootUrl(){
-		return  ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS; //until webroot/
-	}
-
-	private function _getPathToTmpHashFolder($hash = ''){
-		if($hash == '' && isset($this->data['Post']['hash'])) $hash = $this->data['Post']['hash'];
-
-		if(!$hash || empty($hash)) $hash = $this->_getHash();
-
-		return 'img'.DS.'tmp'.DS.$hash.DS;
-
-	}
 
 	private function _getImagesFromHash($hash = ''){
 		if($hash == '') $hash = $this->data['Post']['hash'];
 
-		$webroot = $this->_getWebrootUrl();
+		$webroot = $this->Upload->getWebrootUrl();
 		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder($hash);
 
 		$imgs = array();
@@ -578,35 +472,12 @@ class PostsController extends AppController {
 	}
 
 	/**
-	 * removes the tmp folder
-	 */
-	private function _removeTmpHashFolder(){
-		$webroot = $this->_getWebrootUrl();
-		$path_to_tmp_folder = $webroot.$this->_getPathToTmpHashFolder();
-		//remove files in folder
-
-
-		if (is_dir($path_to_tmp_folder) && $handle = opendir($path_to_tmp_folder)) {
-			while (false !== ($file = readdir($handle))) {
-				if ($file != "." && $file != "..") {
-					$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
-					unlink($tmp_path);
-				}
-			}
-		}
-		else{
-			$this->log('can not open directory for remove images: ' . $path_to_tmp_folder);
-			return false;
-		}
-	}
-
-	/**
 	 * removes an image from file system
 	 */
 	function ajxRemoveImage(){
 		$post_id = $_POST['id'];
 		$img_path = $_POST['path'];
-		$full_path = $this->_getWebrootUrl().$img_path;
+		$full_path = $this->Upload->getWebrootUrl().$img_path;
 
 		//remove file
 		if(file_exists($full_path)){
@@ -656,7 +527,7 @@ class PostsController extends AppController {
 
 		$rel_path = $year.DS.$month.DS.$post_id.DS;// starting from webroot/img/* folder
 
-		$root = $this->_getWebrootUrl().'img'.DS;
+		$root = $this->Upload->getWebrootUrl().'img'.DS;
 			
 
 		foreach($imgs as $img){
