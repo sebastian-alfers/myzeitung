@@ -45,7 +45,8 @@ class ConversationsController extends AppController {
 			}
 		}
 		
-		//$this->set('recipent_id', $recipent_id);
+		$this->User->contain();
+		$this->set('recipent', $this->User->read(array('id', 'username', 'name'), $recipent_id));
 		$this->set('user_id', $this->Auth->user('id'));	
 	}
 	

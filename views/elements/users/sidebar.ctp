@@ -6,6 +6,8 @@
 				$info = $image->resize($user['User']['image'], 185, 185, null, true);
 				echo $this->Html->image($info['path'], array("class" => "userimage", "alt" => $user['User']['username']."-image", 'style' => $info['inline']));?>
 				<a class="btn" href=""><span>+</span>Abonnieren</a>
+				<br>
+				<?php echo $this->Html->link('<span>+</span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user['User']['id']), array('escape' => false, 'class' => 'btn', ));?>
 			</div>
 			<h4><?php echo $user['User']['username'];?></h4>
 			<?php if($user['User']['name']):?>

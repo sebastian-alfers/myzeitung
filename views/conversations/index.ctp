@@ -1,7 +1,7 @@
 <div class="conversations">
 	<h2><?php __('Conversations');?></h2>
 	<table cellpadding="0" cellspacing="0">
-	<?php foreach($conversations as $conversation):?>
+	
 	
 	<tr>
 		<td>
@@ -21,6 +21,7 @@
 		</td>
 	</tr>
 	
+	<?php foreach($conversations as $conversation):?>
 	<tr>
 		<td>
 		<?php echo "you";?>
