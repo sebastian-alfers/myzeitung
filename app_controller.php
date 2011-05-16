@@ -68,11 +68,6 @@ class AppController extends Controller {
 		// defining the authorized usergroups for every action of every controller 
 		// 1 = admin 2=common user
 		$allowedActions = array(
-		'account' => array(
-			'index' => array(1),
-			'image' => array(1),
-			'ajxProfileImageProcess' => array(1)
-		),
 		'users' => array(
 			'index' => array(1),
 			'add' => array(1,2),
@@ -80,7 +75,9 @@ class AppController extends Controller {
 			'view' => array(1),
 			'delete' => array(1),
 			'references' => array(1),
-			'subscribe' => array(1)
+			'subscribe' => array(1),
+			'image' => array(1),
+			'ajxProfileImageProcess' => array(1)		
 			),
 		'topics' => array(
 			'ajax_add' => array(1)

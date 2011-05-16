@@ -3,9 +3,8 @@ class UsersController extends AppController {
 
 
 
-
 	var $name = 'Users';
-	var $components = array('ContentPaperHelper', 'RequestHandler');
+	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
 	var $helpers = array('Time', 'Image', 'Js' => array('Jquery'));
 
@@ -132,7 +131,9 @@ class UsersController extends AppController {
 
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
+		
+		$this->set('user', $this->getUserForSidebar($user_id));
+		
 		$this->set('posts', $this->paginate($this->User->Post));
 
 		//references
@@ -645,5 +646,82 @@ class UsersController extends AppController {
 	 $this->render('ajx_subscribe');//file users/json/ajx_subscribe.ctp with layouts/json/default.ctp
 	 }
 	 */
+	
+	
+	function image(){
+		if(!empty($this->data)){
+			
+			debug($this->data);die();
+			
+			if($this->Upload->hasImagesInHashFolder($this->data['Account']['hash'])){
+				$image = array();
+				$image = $this->Upload->copyImagesFromHash($this->data['Account']['hash'], 666, null, $this->data['Account']['images']);
+				debug($image);die();
+				if(is_array($this->images)){
+					debug($this->images);	
+				}
+			}
+			else{
+				$this->Session->setFlash(__('Can not save profile image', true));
+				$this->redirect($this->referer());
+			}
+		}
+
+		$this->set('user', $this->getUserForSidebar());
+		$this->set('hash', $this->Upload->getHash());
+	}
+
+
+	/**
+	 * handle upload of user profile image
+	 *
+	 */
+	function ajxProfileImageProcess(){
+
+		if(isset($_FILES['file'])){
+
+
+			$file = $_FILES['file'];
+
+			if(!isset($_POST['hash']) || empty($_POST['hash'])){
+				$this->log('error. hash value not available. can not upload picture');
+				return '{"name":"error"}';
+			}
+			$hash = $_POST['hash'];
+			$img = $file['name'];
+			if(!$img){
+				return '{"name":"error"}';
+			}
+
+			$imgPath = 'img'.DS.'tmp'.DS.$hash.DS;
+
+			//remove whitespace etc from img name
+			$file['name'] = $this->Upload->transformFileName($file['name']);
+
+			$uploaded = $this->JqImgcrop->uploadImage($file, $imgPath, '');
+
+			$ret = '{"name":"'.$file['name'].'","path":"' . $imgPath.$file['name'] . '","type":"'.$file['type'].'","size":"'.$file['size'].'"}';
+			//$this->log($ret);
+			$this->set('files', $ret);
+		}
+
+		$this->render('ajxProfileImageProcess', 'ajax');//custom ctp, ajax for blank layout
+			
+
+	}
+
+	/**
+	 * load a user needed for sidebar
+	 * Enter description here ...
+	 * @param unknown_type $user_id
+	 */
+	private function getUserForSidebar($user_id = ''){
+		if($user_id == ''){
+			$user_id = $this->Session->read('Auth.User.id');
+		}
+		
+		return $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+	}
+	
 }
 ?>
