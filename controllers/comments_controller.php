@@ -74,7 +74,7 @@ class CommentsController extends AppController {
 				
 				
 			} else {
-				$this->log('cam not save ajax comment for post '. $_POST['post_id'] .' with text: ' . $_POST['text']);
+				$this->log('can not save ajax comment for post '. $_POST['post_id'] .' with text: ' . $_POST['text']);
 			}
 		}
 

@@ -10,16 +10,6 @@ class PostUser extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 var $belongsTo = array(
-	'Post' => array(
-		'className' => 'Post',
-		'foreignKey' => 'post_id',
-		'conditions' => '',
-		'fields' => '',
-		'order' => '',
-		//counting just reposts
-		'counterCache' => true,
-		'counterScope' => array('repost' => true)			
-		),
 	'User' => array(
 		'className' => 'User',
 		'foreignKey' => 'user_id',
@@ -27,9 +17,19 @@ var $belongsTo = array(
 		'fields' => '',
 		'order' => '',
 		//counting just reposts
-		'counterCache' => true,
+		'counterCache' => 'posts_user_count',
 		'counterScope' => array('repost' => true)
-		)
+		),
+	'Post' => array(
+		'className' => 'Post',
+		'foreignKey' => 'post_id',
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		//counting just reposts
+		'counterCache' => 'posts_user_count',
+		'counterScope' => array('repost' => true)		
+		),
 
 );
 
@@ -98,6 +98,10 @@ var $belongsTo = array(
 				
 			private function _publishPostInPaperAndCategories($userData){
 				App::import('model','User');
+				// arrays for Papers and Categories the new post / repost goes into. Needed to know which post-counters have to be updated afterwards.
+				$affectedPapers = array();
+				$affectedCategories = array();
+				
 				$this->User = new User();
 				if($userData['User']['id']){
 
@@ -125,14 +129,16 @@ var $belongsTo = array(
 					//now all references to whole user
 					$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
 
-
 					foreach($wholeUserReferences as $wholeUserReference){
 							
 						//place post in paper or category associated to the whole user
 						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 						
+						$affectedPapers[$wholeUserReference['Paper']['id']] = '';
+						
 						if($wholeUserReference['Category']['id']){
 							$categoryPaperPostData['category_id'] = $wholeUserReference['Category']['id'];
+							$affectedCategories[$wholeUserReference['Category']['id']] = '';
 						}
 							
 						$this->CategoryPaperPost->create();
@@ -155,8 +161,11 @@ var $belongsTo = array(
 							
 						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 						
+						$affectedPapers[$wholeUserReference['Paper']['id']] = '';
+						
 						if($topicReference['Category']['id']){
 							$categoryPaperPostData['category_id'] = $topicReference['Category']['id'];
+							$affectedCategories[$wholeUserReference['Category']['id']] = '';
 						}
 							
 							
@@ -167,6 +176,36 @@ var $belongsTo = array(
 
 					//update index to associate paper->content / category->content
 
+					
+					//updating category_paper_post_counters of all papers and categores the post was added too in category_paper_post table (a post counts only once per paper or category - a post and several reposts of the same post are counted as one. )
+					foreach($affectedCategories as $key => $value){
+						App::import('model','Category');
+						$this->Category = new Category();
+						//counting distinct posts
+						$this->CategoryPaperPost->contain();
+						$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('category_id' => $key)));
+						$categoryData['Category']['id'] = $key;
+						$categoryData['Category']['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];
+						//saving category	
+						$this->Category->save($categoryData);
+					}
+					foreach($affectedPapers as $key => $value){
+						App::import('model','Paper');
+						$this->Paper = new Paper();
+						//counting distinct posts
+						$this->CategoryPaperPost->contain();
+						$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('paper_id' => $key)));
+						$paperData['Paper']['id'] = $key;
+						$paperData['Paper']['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];
+						//saving paper
+						$this->Paper->doAfterSave = false;
+						$this->Paper->save($paperData);
+					}
+					
+			
+					
+					
+					
 				}
 				else{
 					$this->debug('Error while reading user for Post!');

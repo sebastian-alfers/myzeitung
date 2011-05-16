@@ -2,8 +2,9 @@
 				<h1 id="logo"><a href="/">myZeitung</a></h1>
 					<div id="user-info">
 						<?php if($session->read('Auth.User.id')): // logged in??>
-						<?php echo __("logged in asss", true)." "; ?><?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'),
-							 array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?>
+						<?php echo __("logged in as", true)." "; ?><?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'),
+							 array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.username')))."</strong> ";?>
+
 						<?php echo $this->Html->link(__("logout", true), array('controller' => 'users', 'action' => 'logout'));?>
 						<?php echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));?>
 						<?php   //end logged in?>
@@ -41,7 +42,7 @@
 							<ul>
 							<li><?php echo $this->Html->link(__('My Blog', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
 							<li><?php echo $this->Html->link(__('Subscriptions', true), array('controller' => 'users', 'action' => 'viewSubscriptions', $session->read('Auth.User.id')));?></li>
-							<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
+							<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index', $session->read('Auth.User.id')));?></li>
 							<li class="big-btn"><?php echo $this->Html->link('<span>+</span>'.__('New Post', true), array('controller' => 'posts', 'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
 							</ul>
 						</div><!-- / #user-nav -->

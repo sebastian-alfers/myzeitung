@@ -411,6 +411,8 @@
    <field name="post_title" type="text" indexed="true" stored="true" />
    <field name="post_content" type="text" indexed="true" stored="true"/>   
    <field name="post_topic_name" type="text" indexed="true" stored="true"/>      
+   <field name="post_image" type="text" indexed="false" stored="true"/>
+   <field name="post_content_preview" type="text" indexed="false" stored="true"/>  		
 
    <field name="paper_id" type="string" indexed="false" stored="true" required="false" /> 
    <field name="paper_title" type="text" indexed="true" stored="true" required="false" /> 

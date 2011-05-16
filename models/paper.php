@@ -5,9 +5,12 @@ class Paper extends AppModel {
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+	var $doAfterSave = true;
+	
 	private  $_contentReferences = null;
 
 
+	
 	var $hasOne = array(
 		'Route' => array(
 			'className' => 'Route',
@@ -256,7 +259,8 @@ class Paper extends AppModel {
 			 * update solr index with saved data
 			 */
 			function afterSave($created){
-
+				
+				if(!$this->doAfterSave)return;
 				App::import('model','Solr');
 				App::import('model','User');
 				App::import('model','Subscription');

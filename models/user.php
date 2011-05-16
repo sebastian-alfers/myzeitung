@@ -198,15 +198,29 @@ class User extends AppModel {
 		}
 		
 		function afterFind($results){
-			
 			//adding default user image to users without an image
-			 foreach($results as $key => $val) {
-			 	if(isset($val['User'])){
-					if(isset($val['User']['image'])){		
-						if(empty($val['User']['image'])){
-								$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+			if(isset($results['image'])){
+				if(empty($results['image'])){
+					$results['image'] =self::DEFAULT_USER_IMAGE;
+				}
+			} else { 
+				
+				 foreach($results as $key => $val) {
+				 	if(isset($val['User'])){
+						if(isset($val['User']['image'])){		
+							if(empty($val['User']['image'])){
+									$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+							}
+						} else {
+							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+						}
+				 	}
+			 		if(isset($val['image'])){	
+						if(empty($val['image'])){
+								$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
 						}
 					} else {
+
 						if(isset($results[$key]['User']['image'])){
 							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;	
 						}
@@ -229,6 +243,7 @@ class User extends AppModel {
 			 		$results['image'] = self::DEFAULT_USER_IMAGE;
 				} 
 			 }
+
 			return $results;
 		}
 
@@ -294,6 +309,7 @@ class User extends AppModel {
 			//$this->ContentPaper->recursive = 0;
 
 			$this->ContentPaper = new ContentPaper();
+			$this->ContentPaper->contain('Paper', 'Category');
 			$wholeUserReferences = $this->ContentPaper->find('all', $conditions);
 			return $wholeUserReferences;
 		}
@@ -309,6 +325,7 @@ class User extends AppModel {
 			foreach($topics as $topid_id => $topic_name){
 				$conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
 				//$this->ContentPaper->recursive = 0;
+				$this->ContentPaper->contain('Paper', 'Category', 'Topic');
 				$topicRef = $this->ContentPaper->find('all', $conditions);
 				if(isset($topicRef[0]['ContentPaper']['id']) && !empty($topicRef[0]['ContentPaper']['id'])){
 					$topicReferences[] = $topicRef[0];

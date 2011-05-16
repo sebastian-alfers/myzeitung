@@ -187,24 +187,27 @@ class UsersController extends AppController {
 	            'order' => 'Subscription.own_paper ASC , Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
-		)
-		);
-		if($own_paper != null){
-			//adding the additional conditions  for the pagination - join
-			$this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = $own_paper;
-		}
 
-		//unbinding irrelevant relations for the query
-		$this->User->contain();
-		$this->set('user', $this->User->read(array('id','name','username','created','posts_user_count','post_count','comment_count'), $user_id));
-		$papers = $this->paginate($this->User->Paper);
 
-		//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
-		// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this
-		if(is_array($papers)){
-			for($i = 0; $i < count($papers); $i++){
-				$papers[$i]['Paper']['subscribed'] = false;
-				if($this->Auth->user('id')){
+	         )
+	    );
+	    if($own_paper != null){
+	    	//adding the additional conditions  for the pagination - join
+	    	$this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = $own_paper;
+	    }		
+	   
+			//unbinding irrelevant relations for the query
+			$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+			$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id));
+			$papers = $this->paginate($this->User->Paper);
+
+			//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
+			// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this 
+			if(is_array($papers)){
+				for($i = 0; $i < count($papers); $i++){
+					$papers[$i]['Paper']['subscribed'] = false;				
+					if($this->Auth->user('id')){
+
 					//check for subscriptions - if yes -> subscribed = true
 					if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
 						$papers[$i]['Paper']['subscribed'] = true;

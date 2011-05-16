@@ -8,6 +8,7 @@ class Post extends AppModel {
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
 
 	var $add_solr = true;
+	var $solr_preview_image = '';
 
 	var $CategoryPaperPost = null;
 
@@ -214,6 +215,8 @@ class Post extends AppModel {
 			function afterFind($results) {
 				//	if(isset($results[0])){
 				foreach ($results as $key => $val) {
+					
+					
 					// $results[0]['Post']['reposters']
 					if (!empty($val['Post']['reposters']) ) {
 						$results[$key]['Post']['reposters'] = unserialize($results[$key]['Post']['reposters']);
@@ -223,6 +226,7 @@ class Post extends AppModel {
 						}
 					}
 
+					
 					if (!empty($val['Post']['image']) ) {
 						$results[$key]['Post']['image'] = unserialize($results[$key]['Post']['image']);
 					}else {
@@ -270,6 +274,8 @@ class Post extends AppModel {
 			 *
 			 */
 			function beforeSave() {
+				
+				
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
@@ -296,7 +302,7 @@ class Post extends AppModel {
 					}
 				}
 				$this->data['Post']['content_preview'] = $prev;
-
+			//	debug($this->data);
 
 				return true;
 			}
@@ -337,7 +343,7 @@ class Post extends AppModel {
 			 * update solr index with saved data
 			 */
 			function afterSave($created){
-
+				
 
 				//1) updating PostUser-Entry
 				App::import('model','PostUser');
@@ -367,7 +373,7 @@ class Post extends AppModel {
 
 				}
 
-
+				
 				if($this->add_solr){
 					//2) update solr index with saved date
 					App::import('model','Solr');
@@ -384,13 +390,16 @@ class Post extends AppModel {
 								$this->data['Post']['topic_name'] = $topicData['Topic']['name'];
 							}
 						}
-
+						if(!empty($this->solr_preview_image)){
+							$this->data['Post']['image'] = $this->solr_preview_image;	
+						}
 						$this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
 						$this->data['Post']['id'] = $this->id;
 						$this->data['Post']['user_name'] = $userData['User']['name'];
 						$this->data['Post']['user_username'] = $userData['User']['username'];
 						$this->data['Post']['user_id'] = $userData['User']['id'];
 						$this->data['Post']['type'] = Solr::TYPE_POST;
+
 						$solr = new Solr();
 						$solr->add($this->addFieldsForIndex($this->data));
 
@@ -412,6 +421,9 @@ class Post extends AppModel {
 				$solrFields['Post']['id'] = $data['Post']['id'];
 				$solrFields['Post']['post_title'] = $data['Post']['title'];
 				$solrFields['Post']['post_content'] = $data['Post']['content'];
+				if(isset($data['Post']['image'])){
+					$solrFields['Post']['post_image'] = $data['Post']['image'];
+				}
 				if(isset($data['Post']['topic_name'])){
 					$solrFields['Post']['topic_name'] = $data['Post']['topic_name'];
 				}
@@ -420,6 +432,8 @@ class Post extends AppModel {
 				$solrFields['Post']['user_id'] = $data['Post']['user_id'];
 				$solrFields['Post']['index_id'] = $data['Post']['index_id'];
 				$solrFields['Post']['type'] = $data['Post']['type'];
+				$solrFields['Post']['post_content_preview'] = $data['Post']['content_preview'];
+				
 				return $solrFields;
 			}
 
