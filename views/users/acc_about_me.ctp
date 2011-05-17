@@ -17,9 +17,33 @@
 				</p>
 				
 				<p class="optional info-p"><label for="data[User][description]" ><?php echo __('About Me', true);?></label>
-					<textarea id="UserDescription" rows="2" cols="35" maxlength="300" name="data[User][description]"></textarea>
+					<input id="UserDescription" class="textinput" type="text" maxlength="300" name="data[User][description]">
 					<span class="info"><?php echo __('(optional) If you want to describe yourself.')?></span>
 				</p>
+				
+				<p class="optional info-p"><label for="data[User][email]" ><?php echo __('Email', true);?></label>
+					<input id="UserDescription" class="textinput" type="text" maxlength="200" name="data[User][email]">
+					<span class="info"><?php echo __('(optional) If you want to describe yourself.')?></span>
+				</p>		
+				
+				<div class="password">
+				<p class="optional info-p">
+					<label for="data[User][password]" ><?php echo __('Password', true);?></label>
+					<a onclick="$('.password ul').toggle();" class="more-options">Erweiterte Einstellungen<b></b></a>
+				<p>
+				<ul style="display:none;">
+					<li><input type="checkbox" /><strong>Bestimmte E-Mail Benachrichtigungen</strong></li>
+					<li><input type="checkbox" /><strong>Bestimmte E-Mail Benachrichtigungen</strong></li>
+					<li><input type="checkbox" /><strong>Bestimmte E-Mail Benachrichtigungen</strong></li>
+				</ul>				
+				
+				</div>
+
+				
+				<p class="optional info-p"><label for="data[User][password]" ><?php echo __('Password', true);?></label>
+					<input id="UserDescription" class="textinput" type="text" maxlength="200" name="data[User][password]">
+					<span class="info"><?php echo __('(optional) If you want to describe yourself.')?></span>
+				</p>		
 			
 				<div class="accept">
 

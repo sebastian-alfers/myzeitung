@@ -34,6 +34,12 @@ function ajxSubmitComment(){
 		   var options = {};
 		   $("#replywrapper").toggle( 'blind', options, 500 );
 		   $('#comment_text').val('');
+
+		   var old_count = $('#comment_counter').attr('name');
+		   new_count = parseInt(old_count) + 1;
+		   $('#comment_counter').attr('name', new_count)
+		   $('#comment_counter').html(new_count+'<span></span>');
+		   
 		   
 			//$('#url_content').html(string);
 	   })		   

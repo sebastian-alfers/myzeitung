@@ -12,7 +12,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 				<ul class="iconbar">
 					<li class="reposts"><?php echo $post['Post']['posts_user_count'];?></li>
 					<li class="views"><?php echo $post['Post']['view_count'];?></li>
-					<li class="comments"><?php echo $post['Post']['comment_count'];?><span></span></li>								
+					<li class="comments" id="comment_counter" name="<?php echo $post['Post']['comment_count'];?>"><?php echo $post['Post']['comment_count'];?><span></span></li>								
 				</ul>
 		
 				<ul class="social-links">
@@ -26,7 +26,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 		
 		<div class="articleview-wrapper">
 			<div class="articleview">
-			<p><strong><?php echo __('posted', true).' '.$this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></strong><?php echo ' '.$post['Post']['comment_count'].' '.__('Comments', true);?></p>
+			<p><strong><?php echo __('posted', true).' '.$this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></strong></p>
 			<h1><?php echo $post['Post']['title'];?></h1>
 			<?php if(isset ($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):?>
 				<?php 
@@ -42,12 +42,14 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>
 			<?php echo $content_after_first_paragraph;?>			
 			</div><!-- /. articleview -->
-			<br /><br /><br /><br /><br />
-			<div class="comments">
-			<?php // Comment Input Box?>
-			<?php echo $this->element('comments/add', array('post_id' => $post['Post']['id'])); ?>
-			<?php // Comments Pagination?>
-			<?php echo $this->element('comments/navigator'); ?>
+			
+			<div class="comments" style="clear:both">
+				<?php // Comment Input Box?>
+				<?php if($session->read('Auth.User.id')):?>
+					<?php echo $this->element('comments/add', array('post_id' => $post['Post']['id'])); ?>
+				<?php endif; ?>
+				<?php // Comments Pagination?>
+				<?php echo $this->element('comments/navigator'); ?>
 			</div> <!-- / .comments -->
 			
 		</div> <!-- /. articleview-wrapper -->							

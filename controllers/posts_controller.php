@@ -309,8 +309,8 @@ class PostsController extends AppController {
 			//save new sortet images
 
 
-			if($this->_hasImagesInHashFolder()){
-				$this->images = $this->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images'], 'post');
+			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
+				$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images'], 'post');
 				if(is_array($this->images)){
 				}
 			}
@@ -356,7 +356,9 @@ class PostsController extends AppController {
 			$return_imgs = array();
 
 			$webroot = $this->Upload->getWebrootUrl();
-			$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
+			
+			
+			//$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
 			foreach ($this->data['Post']['image'] as $img){
 				$return_imgs[] = array('path' => $img['path'], 'name' => $img['file_name']);
 			}
@@ -525,13 +527,13 @@ class PostsController extends AppController {
 		$year = date('Y', strtotime($timestamp));
 		$month = date('m', strtotime($timestamp));
 
-		$rel_path = $year.DS.$month.DS.$post_id.DS;// starting from webroot/img/* folder
+		$rel_path = $year.DS.$month.DS.md5($post_id).DS;// starting from webroot/img/* folder
 
 		$root = $this->Upload->getWebrootUrl().'img'.DS;
 			
 
 		foreach($imgs as $img){
-			$path = 'posts'.DS.$rel_path.$img;
+			$path = 'post'.DS.$rel_path.$img;
 			$new_imgs[] = array('path' => $path, 'file_name' => $img, 'size' => getimagesize($root.$path));
 		}
 

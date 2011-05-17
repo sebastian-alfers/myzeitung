@@ -60,19 +60,10 @@ $(function() {
 	<div class="leftcolcontent">
 			<div class="userstart">
 				<?php
-				$img_data = $image->getUserImpPath($user['User']['image']);
-				if(is_array($img_data)){
-					
-					//debug($img_data);die();
-					//found img in db
-					$info = $image->resize($img_data['path'], 185, 185, $img_data['size'], true);
-					echo $this->Html->image($info['path'], array("class" => "userimage", "alt" => $user['User']['username']."-image", 'style' => $info['inline']));
-				}
-				else{
-					$info = $image->resize($img_data, 185, 185, null, false);
-					echo $this->Html->image($info, array("class" => "userimage", "alt" => $user['User']['username']."-image"));
-				}
-				?>
+				$link_data = array();
+				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+				$link_data['additional'] = array('class' => 'user-image');
+				echo $image->userImage($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 				
 				<?php if($user['User']['id'] != $session->read('Auth.User.id')): //can not subscribe to himself - cannot send a message to himself ?>
 					<?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'users',  'action' => 'subscribe', $user['User']['id']), array('escape' => false, 'class' => 'btn', ));?>

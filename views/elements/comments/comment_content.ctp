@@ -1,7 +1,29 @@
 <p class="user-info">
 		<?php
-		$info = $image->resize($current_comment['User']['image'],65, 65, null, true);
-		echo $this->Html->link($this->Html->image($info['path']),array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']),array('class' => "user-image", 'style' => $info['inline'], 'escape' => false));?>
+		//$info = $image->resize(['image'],65, 65, null, true);
+		//echo $this->Html->link($this->Html->image($info['path']),array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']),array('class' => "user-image", 'style' => $info['inline'], 'escape' => false));
+		
+
+		$user = $current_comment['User'];
+		$img_data = $image->getImgPath($user['image']);
+		if(is_array($img_data)){
+							
+			//debug($img_data);die();
+			//found img in db
+			$info = $image->resize($img_data['path'], 65, 65, $img_data['size'], true);
+			$img = $this->Html->image($info['path'], array("alt" => $user['username'], 'style' => $info['inline']));
+			echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $user['id']), array('class' => "user-image", 'escape' => false, 'style' => 'overflow:hidden;height:65px;width:65px;'));
+		}
+		else{
+			//not logged in
+			$path = $image->resize($img_data, 65, 65, null, false);
+			$img = $this->Html->image($path, array("alt" => $user['username']));							
+			echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $user['id']), array('class' => "user-image", 'escape' => false));
+		}
+		?>		
+		
+		
+		
 		<?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']));?>
 		<?php echo $this->Time->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
 </p>

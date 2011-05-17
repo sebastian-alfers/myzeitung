@@ -11,24 +11,12 @@
 						<?php 
 						//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));
 						$user = $session->read('Auth.User');
- 
-						$img_data = $image->getUserImpPath($user['image']);
-						if(is_array($img_data)){
-							
-							//debug($img_data);die();
-							//found img in db
-							$info = $image->resize($img_data['path'], 30, 30, $img_data['size'], true);
-							$img = $this->Html->image($info['path'], array("alt" => $user['username'], 'style' => $info['inline']));
-							echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $user['id']), array('class' => "user-image", 'escape' => false, 'style' => 'overflow:hidden;height:30px;width:30px;'));
-						}
-						else{
-							//not logged in
-							$path = $image->resize($img_data, 30, null, null, false);
-							$img = $this->Html->image($path, array("alt" => $user['username']));							
-							echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $user['id']), array('class' => "user-image", 'escape' => false));
-						}
+						$link_data = array();
+						$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
+						$link_data['additional'] = array('class' => 'user-image');
+						echo $image->userImage($user, 30, 30, array("alt" => $user['username']), $link_data);
+												
 						?>						
-						
 						
 						<?php   //end logged in?>
 						<?php else: //not logged in?>
