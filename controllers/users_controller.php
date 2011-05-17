@@ -647,6 +647,9 @@ class UsersController extends AppController {
 	 }
 	 */
 
+	function accAboutMe(){
+		$this->set('user', $this->getUserForSidebar());
+	}
 	/**
 	 * handle upload of profile picture
 	 *
@@ -691,6 +694,8 @@ class UsersController extends AppController {
 		$this->set('user', $this->getUserForSidebar());
 		$this->set('hash', $this->Upload->getHash());
 	}
+	
+	
 
 
 	/**
@@ -732,17 +737,23 @@ class UsersController extends AppController {
 	}
 
 	/**
-	 * load a user needed for sidebar
-	 * Enter description here ...
+	 * reading user from session or db, depending of the view. 
+	 * IMPORTANT : containments must be defined in the action
 	 * @param unknown_type $user_id
 	 */
 	private function getUserForSidebar($user_id = ''){
 		if($user_id == ''){
-			$user_id = $this->Session->read('Auth.User.id');
+		//reading logged in user from session
+			$user['User'] = $this->Session->read('Auth.User');
+		} else {
+		//reading user
+			$user = $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
+		
+		return $user;
 
-		return $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 	}
+	
 
 }
 ?>
