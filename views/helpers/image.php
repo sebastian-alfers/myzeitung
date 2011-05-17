@@ -13,13 +13,15 @@ class ImageHelper extends Helper {
 	 * @param string $path Path to the image file, relative to the webroot/img/ directory.
 	 * @param integer $width Image of returned image
 	 * @param integer $height Height of returned image
-	 * @param array $orig_size - result of method getimagesize
+	 * @param array $orig_size - result of method getimagesize - saved in db
 	 * @param array $htmlAttributes Array of HTML attributes.
 	 * @param boolean $relativeMove adds inline css position:relative and set top minus half of max height (e.g. for post navigator)
 	 *
 	 * @return string / array - path within cache folder, if $relativeMove == true -> add additional inline styles
 	 */
 	function resize($path, $width, $height, $orig_size = null, $relativeMove = false) {
+		
+		
 		$planned_height = $height;
 		$planned_with = $width;
 
@@ -245,6 +247,23 @@ class ImageHelper extends Helper {
 		$img_height = $orig_size[1];
 		$imageAspectRatio =  $img_width/$img_height;
 		return $imageAspectRatio > $planned_aspect_ratio;
+	}
+	
+	
+	/**
+	 * gets the value of a user image from db
+	 * 
+	 */
+	function getUserImpPath($img){
+		if($img == ''){
+			return User::DEFAULT_USER_IMAGE;
+		}
+		
+		$data = unserialize($img);
+		
+		if(isset($data[0])) return $data[0];
+		
+		return User::DEFAULT_USER_IMAGE;
 	}
 
 }

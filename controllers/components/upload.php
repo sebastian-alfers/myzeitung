@@ -100,7 +100,7 @@ class UploadComponent extends Object {
 
 						if (copy($tmp_path , $new_full_path)) {
 							unlink($tmp_path);
-							$new_images[] = array('path' => 'posts'.DS.$new_rel_path.$file, 'file_name' => $file, 'size' => $size);
+							$new_images[] = array('path' => $folder.DS.$new_rel_path.$file, 'file_name' => $file, 'size' => $size);
 						}
 					}
 
