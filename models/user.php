@@ -197,55 +197,61 @@ class User extends AppModel {
 			parent::__construct();
 		}
 
-		function afterFind($results){
-			//adding default user image to users without an image
-			if(isset($results['image'])){
-				if(empty($results['image'])){
-					$results['image'] =self::DEFAULT_USER_IMAGE;
-				}
-			} else {
-
-				foreach($results as $key => $val) {
-					if(isset($val['User'])){
-						if(isset($val['User']['image'])){
-							if(empty($val['User']['image'])){
-								$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
-							}
-						} else {
-							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
-						}
-					}
-					if(isset($val['image'])){
-						if(empty($val['image'])){
-							$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
-						}
-					} else {
-
-						if(isset($results[$key]['User']['image'])){
-							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
-						}
-					}
-				}
-				if(isset($val['image'])){
-					if(empty($val['image'])){
-						$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
-					}
-				} else {
-					$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
-				}
-			}
-			if(isset($results['User'])){
-				if(isset($results['image'])){
-					if(empty($results['image'])){
-						$results['image'] = self::DEFAULT_USER_IMAGE;
-					}
-				} else {
-					$results['image'] = self::DEFAULT_USER_IMAGE;
-				}
-			}
-
-			return $results;
-		}
+//		function afterFind($results){
+			
+			
+//			//adding default user image to users without an image
+//			if(isset($results['image'])){
+//				if(empty($results['image'])){
+//					$results['image'] =self::DEFAULT_USER_IMAGE;
+//				}
+//			} else {
+//
+//				foreach($results as $key => $val) {
+//					if(isset($val['User'])){
+//						if(isset($val['User']['image'])){
+//							if(empty($val['User']['image'])){
+//								$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+//							}
+//						} else {
+//							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+//						}
+//					}
+//					if(isset($val['image'])){
+//						if(empty($val['image'])){
+//							$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
+//						}
+//					} else {
+//
+//						if(isset($results[$key]['User']['image'])){
+//							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
+//						}
+//					}
+//				}
+//				if(isset($val['image'])){
+//					if(empty($val['image'])){
+//						$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
+//					}
+//				} else {
+//					$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
+//				}
+//			}
+//			if(isset($results['User'])){
+//				if(isset($results['image'])){
+//					if(empty($results['image'])){
+//						$results['image'] = self::DEFAULT_USER_IMAGE;
+//					}
+//				} else {
+//					$results['image'] = self::DEFAULT_USER_IMAGE;
+//				}
+//			}
+//			
+//
+//			debug($results);
+//			die();			
+//
+//			return $results;
+//		}
 
 		/**
 		 *	hook into save process

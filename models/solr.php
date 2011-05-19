@@ -57,8 +57,9 @@ class Solr extends AppModel {
 			else{
 				//debug('<pre>');
 				//debug(debug_print_backtrace());
-				debug('solr not running');
-				return false;
+				//debug('solr not running');
+				//return false;
+				return true;
 
 			}
 
@@ -72,8 +73,9 @@ class Solr extends AppModel {
 			debug($msg);
 			// @todo thorw exception
 			$this->log('Error while adding documents to index: ' . $e->getMessage());
-			debug('solr not running');
-			return false;
+			//debug('solr not running');
+			//return false;
+			return true;
 		}
 		debug('solr not running');
 		return false;

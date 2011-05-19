@@ -6,7 +6,18 @@
 							 array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?>
 
 						<?php echo $this->Html->link(__("logout", true), array('controller' => 'users', 'action' => 'logout'));?>
-						<?php echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));?>
+						
+						
+						<?php 
+						//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));
+						$user = $session->read('Auth.User');
+						$link_data = array();
+						$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
+						$link_data['additional'] = array('class' => 'user-image');
+						echo $image->userImage($user, 30, 30, array("alt" => $user['username']), $link_data);
+												
+						?>						
+						
 						<?php   //end logged in?>
 						<?php else: //not logged in?>
 							<?php echo $this->Html->link(__("register", true),

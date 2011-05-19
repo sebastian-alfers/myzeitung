@@ -70,7 +70,34 @@
 										<?php endif;?>
 									<?php /* END showing last reposter */?>
 								</li>
-								<li><?php echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?></li>
+								<li>
+								<?php //echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?>
+								<?php 
+								$link_data = array();
+								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+								$link_data['additional'] = array('class' => 'user-image');
+								echo $image->userImage($user['User'], 50, 50, array("alt" => $user['User']['username']), $link_data);
+								
+								
+//								$img_data = $image->getImgPath($post['User']['image']);
+//								if(is_array($img_data)){
+//									
+//									//debug($img_data);die();
+//									//found img in db
+//									$info = $image->resize($img_data['path'], 48, 48, $img_data['size'], true);
+//									$img = $this->Html->image($info['path'], array("alt" => $post['User']['username']));
+//
+//									echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $post['User']['id']), array('class' => "user-image", 'escape' => false, 'style' => 'overflow:hidden;height:48px;width:48px;'));
+//								}
+//								else{
+//									//not logged in
+//									$path = $image->resize($img_data, 48, 50, null, false);
+//									$img = $this->Html->image($path, array("alt" => $post['User']['username']));							
+//									echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $post['User']['id']), array('class' => "user-image", 'escape' => false));
+//								}
+								?>						
+														
+								</li>
 								<?php /* start of options: edit delete if user is logged in, and it is a post from the user itself // repost - undoRepost if it's another user */?>
 								<li>						
 								<?php if($article_belongs_to_user):?>

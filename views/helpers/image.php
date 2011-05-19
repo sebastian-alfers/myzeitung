@@ -13,13 +13,15 @@ class ImageHelper extends Helper {
 	 * @param string $path Path to the image file, relative to the webroot/img/ directory.
 	 * @param integer $width Image of returned image
 	 * @param integer $height Height of returned image
-	 * @param array $orig_size - result of method getimagesize
+	 * @param array $orig_size - result of method getimagesize - saved in db
 	 * @param array $htmlAttributes Array of HTML attributes.
 	 * @param boolean $relativeMove adds inline css position:relative and set top minus half of max height (e.g. for post navigator)
 	 *
 	 * @return string / array - path within cache folder, if $relativeMove == true -> add additional inline styles
 	 */
 	function resize($path, $width, $height, $orig_size = null, $relativeMove = false) {
+
+
 		$planned_height = $height;
 		$planned_with = $width;
 
@@ -45,7 +47,7 @@ class ImageHelper extends Helper {
 			}
 			else{
 				$height = null;
-				
+
 			}
 		}
 			
@@ -245,6 +247,79 @@ class ImageHelper extends Helper {
 		$img_height = $orig_size[1];
 		$imageAspectRatio =  $img_width/$img_height;
 		return $imageAspectRatio > $planned_aspect_ratio;
+	}
+
+
+	/**
+	 * gets the value of a user image from db
+	 *
+	 */
+	function getImgPath($img){
+		if($img == ''){
+			return User::DEFAULT_USER_IMAGE;
+		}
+
+		$data = unserialize($img);
+
+		if(isset($data[0])) return $data[0];
+
+		return User::DEFAULT_USER_IMAGE;
+	}
+
+	/**
+	 *
+	 * Enter description here ...
+	 * @param array $data - data of e.g. user
+	 * @param int $width
+	 * @param int $height
+	 * @param array $img_extra - additional image data like alt-tag for image
+	 * @param array $link_data - array widh: -> key for controller data; -> key for additional data
+	 */
+	public function userImage($data, $width, $height, $img_extra = array(), $link_data = null){
+
+
+		$img_data = $this->getImgPath($data['image']);
+
+		if(is_array($img_data)){
+
+			//debug($img_data);die();
+			//found img in db
+			$info = $this->resize($img_data['path'], $width, $height, $img_data['size'], true);
+
+			if(is_array($img_extra) && !isset($img_extra['style'])){
+				$img_extra['style'] = $info['inline'];
+			}
+			$img = $this->Html->image($info['path'], $img_extra);
+
+			//echo $this->Html->link($img, , array('class' => "user-image", 'escape' => false, 'style' => 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;'));
+		}
+		else{
+			$path = $this->resize($img_data, $width, $height, null, false);
+			$img = $this->Html->image($path, $img_extra);
+		}
+
+		if($link_data != null &&
+		is_array($link_data) &&
+		isset($link_data['url'])){
+				
+			//also make link out of it
+			$additional_img_data = array();
+			if(isset($link_data['additional'])){
+				$additional_img_data = $link_data['additional'];
+			}
+			if(!isset($additional_img_data['style'])){
+				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
+			}
+			if(!isset($additional_img_data['escape'])){
+				$additional_img_data['escape'] = false;
+			}
+				
+			echo $this->Html->link($img, $link_data['url'], $additional_img_data);
+		}
+		else{
+			echo $img;
+		}
+
 	}
 
 }
