@@ -1,3 +1,20 @@
+<script type="text/javascript">
+<!--
+$(document).ready(function() {	
+
+	$("#link_add_user").click(function(){
+		
+		if($('#accept_conditions').attr('checked') == true){
+			$('#register-form').submit();
+		}
+		else{
+			alert('please confirm Terms and Conditions');
+		}
+	});	
+
+});
+//-->
+</script>
 				<div id="maincolwrapper" class="onecol"> 
 					<div id="maincol">
 						<div class="register">
@@ -28,8 +45,8 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 								</p>
 								
 								<div class="accept">
-									<p><input type="checkbox" /> <strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong></p>					
-									<a class="btn big" ><span>+</span>Konto erstellen</a>
+									<p><input type="checkbox" id="accept_conditions"/> <strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong></p>					
+									<a class="btn big" id="link_add_user"><span>+</span>Konto erstellen</a>
 								</div>
 								
 								<?php echo $this->Form->end(); ?>	
