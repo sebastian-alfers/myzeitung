@@ -31,9 +31,6 @@
 	
 </head>
 	<body>
-		<div id="main-wrapper">
-			<?php echo $this->element('header'); ?>
-			<div id="content">
 			
 			<?php echo $this->Session->flash(); ?>
 

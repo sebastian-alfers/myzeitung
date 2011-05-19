@@ -54,6 +54,7 @@ class AppController extends Controller {
 			$this->Auth->authorize = 'controller';
 			// only enabled users are able to log in
 			$this->Auth->userScope = array('User.enabled' => 1);
+			$this->Auth->logoutRedirect = array('controller' => 'home', 'action' => 'index');
 		}
 
 	}
