@@ -63,7 +63,7 @@ $(function() {
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
 				$link_data['additional'] = array('class' => 'user-image');
-				echo $image->userImage($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
+				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 				
 				<?php if($user['User']['id'] != $session->read('Auth.User.id')): //can not subscribe to himself - cannot send a message to himself ?>
 					<?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'users',  'action' => 'subscribe', $user['User']['id']), array('escape' => false, 'class' => 'btn', ));?>

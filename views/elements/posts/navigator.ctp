@@ -76,7 +76,7 @@
 								$link_data = array();
 								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
 								$link_data['additional'] = array('class' => 'user-image');
-								echo $image->userImage($user['User'], 50, 50, array("alt" => $user['User']['username']), $link_data);
+								echo $image->render($user['User'], 50, 50, array("alt" => $user['User']['username']), $link_data);
 								
 								
 //								$img_data = $image->getImgPath($post['User']['image']);

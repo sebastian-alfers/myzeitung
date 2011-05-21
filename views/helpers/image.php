@@ -251,34 +251,39 @@ class ImageHelper extends Helper {
 
 
 	/**
-	 * gets the value of a user image from db
+	 * gets the value of a image from db
 	 *
 	 */
 	function getImgPath($img){
+
 		if($img == ''){
 			return User::DEFAULT_USER_IMAGE;
 		}
+		if(!is_array($img)){
+            $data = unserialize($img);
+        }
+        else{
+            $data[] = $img;
+        }
 
-		$data = unserialize($img);
-
-		if(isset($data[0])) return $data[0];
-
+		if(is_array($data[0])) return $data[0];
+        if(is_array($data)) return $data;
 		return User::DEFAULT_USER_IMAGE;
 	}
 
 	/**
 	 *
 	 * Enter description here ...
-	 * @param array $data - data of e.g. user
+	 * @param array $data - data of e.g. user - path/file_name/size
 	 * @param int $width
 	 * @param int $height
 	 * @param array $img_extra - additional image data like alt-tag for image
-	 * @param array $link_data - array widh: -> key for controller data; -> key for additional data
+	 * @param array $container_data - array widh: -> key for controller data; -> key for additional data
 	 */
-	public function userImage($data, $width, $height, $img_extra = array(), $link_data = null){
-
+	public function render($data, $width, $height, $img_extra = array(), $container_data = null){
 
 		$img_data = $this->getImgPath($data['image']);
+
 
 		if(is_array($img_data)){
 
@@ -298,14 +303,14 @@ class ImageHelper extends Helper {
 			$img = $this->Html->image($path, $img_extra);
 		}
 
-		if($link_data != null &&
-		is_array($link_data) &&
-		isset($link_data['url'])){
+		if($container_data != null &&
+		is_array($container_data) &&
+		isset($container_data['url'])){
 				
 			//also make link out of it
 			$additional_img_data = array();
-			if(isset($link_data['additional'])){
-				$additional_img_data = $link_data['additional'];
+			if(isset($container_data['additional'])){
+				$additional_img_data = $container_data['additional'];
 			}
 			if(!isset($additional_img_data['style'])){
 				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
@@ -314,8 +319,25 @@ class ImageHelper extends Helper {
 				$additional_img_data['escape'] = false;
 			}
 				
-			echo $this->Html->link($img, $link_data['url'], $additional_img_data);
+			echo $this->Html->link($img, $container_data['url'], $additional_img_data);
 		}
+        elseif(isset($container_data['tag'])){
+			//also make link out of it
+			$additional_img_data = array();
+			if(isset($container_data['additional'])){
+				$additional_img_data = $container_data['additional'];
+			}
+			if(!isset($additional_img_data['style'])){
+				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
+			}
+			if(!isset($additional_img_data['escape'])){
+				$additional_img_data['escape'] = false;
+			}
+
+            //sourround img with container
+            $t = $container_data['tag'];
+            echo '<'.$t.' style="'.$additional_img_data['style'].'">'.$img.'</'.$t.'>';
+        }
 		else{
 			echo $img;
 		}

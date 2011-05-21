@@ -20,6 +20,7 @@ class UsersController extends AppController {
 		// login with username or email
 		// the following code is just for the case that the combination of user.username(!) and user.password did not work:
 		//	trying the combination of user.email and user.password
+
 		if(
 		!empty($this->data) &&
 		!empty($this->Auth->data['User']['username']) &&
@@ -260,8 +261,10 @@ class UsersController extends AppController {
 				$this->redirect(array('action' => 'add'));
 				}
 				*/
-				$this->Session->setFlash(__('The user has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('Thank you for registration', true));
+				
+				$this->redirect(array('action' => 'login'));
+				
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
 			}

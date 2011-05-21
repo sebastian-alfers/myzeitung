@@ -1,9 +1,7 @@
 <script type="text/javascript">
 <!--
-$(document).ready(function() {	
-
+$(document).ready(function() {
 	$("#link_add_user").click(function(){
-		
 		if($('#accept_conditions').attr('checked') == true){
 			$('#register-form').submit();
 		}

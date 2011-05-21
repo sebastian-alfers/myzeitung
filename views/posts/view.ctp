@@ -29,14 +29,20 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 			<p><strong><?php echo __('posted', true).' '.$this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></strong></p>
 			<h1><?php echo $post['Post']['title'];?></h1>
 			<?php if(isset ($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):?>
-				<?php 
-				$info = $image->resize($post['Post']['image'][0]['path'], 300, 291, null, true);
+				<?php
+				$link_data = array();
+				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+				$link_data['additional'] = array('class' => 'user-image');
+
+                $img_details['image'] = $post['Post']['image'][0];
+
 				unset($post['Post']['image'][0]);
 				$images = $post['Post']['image'];
   
 				?>
-				<span class="main-article-imgs"><?php echo $this->Html->image($info['path']);?>
-					<?php echo $this->element('posts/horizontal_image_scroll', array('images' => $images)); ?>
+				<span class="main-article-imgs">
+					<?php echo $image->render($img_details, 300, 200, array("alt" => 'main image')); ?>
+                    <?php echo $this->element('posts/horizontal_image_scroll', array('images' => $images)); ?>
 				</span>
 			<?php endif;?>
 			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>

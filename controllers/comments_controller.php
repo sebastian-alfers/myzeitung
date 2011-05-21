@@ -66,11 +66,13 @@ class CommentsController extends AppController {
 				//prepare data for ctp file comment_content.ctp
 				$current_comment['User']['image'] = $this->Session->read('Auth.User.image');
 				$current_comment['User']['id'] = $this->Session->read('Auth.User.id');
-				$current_comment['User']['username'] = $this->Session->read('Auth.User.username');;
+				$current_comment['User']['username'] = $this->Session->read('Auth.User.username');
+                $current_comment['Comment']['id'] = $this->Comment->id;
 				$current_comment['Comment']['created'] = $this->data['Comment']['created'];
 				$current_comment['Comment']['text'] = $this->data['Comment']['text'];
 				$current_comment['Comment']['post_id']  = $this->data['Comment']['post_id'];
 				$current_comment['Comment']['reply_id'] = $this->Comment->id;
+                $current_comment['Comment']['user_id'] = $this->Session->read('Auth.User.id');
 				
 				
 			} else {

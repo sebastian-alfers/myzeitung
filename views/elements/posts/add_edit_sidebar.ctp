@@ -7,7 +7,7 @@
 
 
 <form id="file_upload"
-	action="<?php echo DS.APP_DIR.DS.'posts/ajxImageProcess'; ?>"
+	action="<?php echo FULL_BASE_URL.DS.'posts/ajxImageProcess'; ?>"
 	method="POST" enctype="multipart/form-data"><input
 	type="file" name="file" multiple>
 	

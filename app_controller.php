@@ -32,10 +32,14 @@
  */
 class AppController extends Controller {
 	//load debug toolbar in plugins/debug_toolbar/
-	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', );
+	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User');
 	
 	public function beforeFilter(){
+		
+	    $this->RequestHandler->setContent('json', 'text/x-json');
+		
+		
 		$this->AutoLogin->cookieName = 'myZeitung';
 		$this->AutoLogin->expires = '+1 month';
 		$this->AutoLogin->settings = array(
@@ -178,3 +182,4 @@ class AppController extends Controller {
 
 }*/
 
+Router::parseExtensions('json');
