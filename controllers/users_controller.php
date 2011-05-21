@@ -36,7 +36,7 @@ class UsersController extends AppController {
 					$this->redirect($this->Auth->redirect());
 				}
 			} else {
-				$this->Session->setFlash($this->Auth->loginError, $this->Auth->flashElement, array(), 'auth');
+				$this->Session->setFlash($this->Auth->loginError);
 			}
 		}
 	}
@@ -227,7 +227,7 @@ class UsersController extends AppController {
 		if (!empty($this->data)) {
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
-
+			$this->User->updateSolr = true;
 			if ($this->User->save($this->data)) {
 
 				//after adding user -> add new topic
@@ -267,6 +267,7 @@ class UsersController extends AppController {
 				
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
+				
 			}
 		}
 	}
@@ -664,13 +665,14 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__('No permission', true));
 			$this->redirect($this->referer());
 		}	
-		
+		debug($this->data);
 		if (!empty($this->data)) {
-			if ($this->User->save($this->data, true, array('email', 'password'))) {
+			if ($this->User->save($this->data, true, array('email', 'password', 'passwd', 'passwd_confirm'))) {
 				$this->Session->setFlash(__('The changes have been saved', true));
 				//update session variables:
 				$this->Session->write("Auth.User.email", $this->data['User']['email']);
 			} else {
+								debug($this->User->validationErrors);
 				$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
 			}
 		}
@@ -701,6 +703,7 @@ class UsersController extends AppController {
 		}	
 		
 		if (!empty($this->data)) {
+			$this->User->updateSolr = true;
 			if ($this->User->save($this->data, true, array('name', 'description'))) {
 				$this->Session->setFlash(__('The changes have been saved', true));
 				//update session variables:
@@ -720,8 +723,41 @@ class UsersController extends AppController {
 		$this->set('user', $user);
 	}
 	
-	
+	function accPrivacy($id = null){
+		if(!$id){
+			$id = $this->Session->read('Auth.User.id');
+		}
 		
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}	
+		if(!($id == $this->Session->read('Auth.User.id'))){
+			$this->Session->setFlash(__('No permission', true));
+			$this->redirect($this->referer());
+		}	
+		
+		if (!empty($this->data)) {
+			if ($this->User->save($this->data, true, array('allow_comments', 'allow_messages'))) {
+				$this->Session->setFlash(__('The changes have been saved', true));
+				//update session variables:
+				$this->Session->write("Auth.User.allow_messages", $this->data['User']['allow_messages']);
+				$this->Session->write("Auth.User.allow_comments", $this->data['User']['allow_comments']);
+			} else {
+				$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
+			}
+		}
+		if (empty($this->data)) {
+			$this->User->contain();
+			$this->data = $this->User->read(null, $id);
+		}
+
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
+	}
+	
+	
 
 	/**
 	 * handle upload of profile picture
@@ -749,19 +785,20 @@ class UsersController extends AppController {
 					$user_data['User']['image'] = $image;
 
 					if($this->User->save($user_data, true, array('image'))){
-						$this->Session->setFlash(__('Saved new profile image', true));
+   						$this->Session->setFlash(__('Saved new profile image', true));
+	    				$this->User->updateSolr = true;
 						$this->Session->write("Auth.User.image", $user_data['User']['image']);
 						$this->redirect($this->referer());
 					}
 					else{
-						$this->Session->setFlash(__('Can not save profile image', true));
+						$this->Session->setFlash(__('Could not save profile picture, please try again.', true));
 						$this->redirect($this->referer());
 					}
 
 				}
 			}
 			else{
-				$this->Session->setFlash(__('Can not save profile image', true));
+				$this->Session->setFlash(__('Could not save profile picture, please try again.', true));
 				$this->redirect($this->referer());
 			}
 		}
