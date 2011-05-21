@@ -1,6 +1,6 @@
 	<div class="start-header">
 			<div id="header">
-				<h1 id="logo"><a href="article-overview.html">myZeitung</a></h1>
+				<h1 id="logo"><a href="/">myZeitung</a></h1>
 				<p class="slogan">Mit <span>myZeitung</span> bist du immer gut Informiert.</p>
 			
 			
@@ -40,9 +40,13 @@
 							  
 							<?php foreach($papers as $paper):?>
 								<li>
-									<?php echo $this->Html->image("../img/news-image-big.jpg", /* @todo ALF hier bild tauschen */
-													array('alt' => $paper['Paper']['title'], 
-													  'url' => array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id'] )))?>
+									<?php
+                                    $link_data = array();
+                                    $link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
+                                    //$link_data['additional'] = array('class' => 'user-image');
+                                    $img['image'] = $paper['Paper']['image'];
+                                    echo $image->render($img, 58, 58, array("alt" => $paper['Paper']['title']), $link_data, ImageHelper::PAPER);
+                                    ?>
 							    </li>
 				
 							<?php endforeach;?>
@@ -53,10 +57,13 @@
 							
 							<?php foreach($users as $user):?>
 								<li>
-									<?php echo $this->Html->image("../img/default-user-image-big.jpg", /* @todo ALF hier bild tauschen */
-													array('alt' => $user['User']['username'], 
-													  'url' => array('controller' => 'users', 'action' => 'view', $user['User']['id'] )))?>
-													  <span><?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></span>
+									<?php
+                                    $link_data = array();
+                                    $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+                                    $link_data['additional'] = array('class' => 'user-image');
+                                    echo $image->render($user['User'], 58, 58, array("alt" => $user['User']['username']), $link_data);
+                                    ?>
+									<span><?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></span>
 							    </li>
 							<?php endforeach;?>
 						</ul>
@@ -71,11 +78,14 @@
 									<?php // post headline?>
 									<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 									<?php // user container?>
-									<?php echo $this->Html->link(
-											// link content -  image + span with username and name of user 
-											$this->Html->image("../img/default-user-image.-small.jpg" /* @todo ALF hier bild tauschen */, array('class' => 'user-image')).'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>'
-											//link options array
-											 , array('controller' => 'users', 'action' => 'view',$post['User']['id']), array('class' => "user", 'escape' => false));?>
+									<?php
+                                    $link_data = array();
+                                    $link_data['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
+                                    $link_data['additional'] = array('class' => 'user-image');
+                                    echo $image->render($post['User'], 26, 26, array("alt" => $post['User']['username']), $link_data);
+                                    echo $this->Html->link(
+											'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>'
+									, array('controller' => 'users', 'action' => 'view',$post['User']['id']), array('class' => "user", 'escape' => false));?>
 								</div>
 							<?php endforeach;?>
 

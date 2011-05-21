@@ -79,7 +79,7 @@
 
 								echo $image->render($user['User'], 50, 50, array("alt" => $user['User']['username']), $link_data);
 
-								echo $image->userImage($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
+								//echo $image->userImage($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
 
 								
 

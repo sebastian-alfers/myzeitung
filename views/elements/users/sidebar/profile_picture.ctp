@@ -3,7 +3,7 @@
 <h4 class="user-image"><?php __('My Profile Picture'); ?></h4>
 
 <form id="file_upload"
-	action="<?php echo DS.APP_DIR.DS.'users/ajxProfileImageProcess'; ?>"
+	action="<?php echo FULL_BASE_URL.DS.'users/ajxProfileImageProcess'; ?>"
 	method="POST" enctype="multipart/form-data"><input
 	type="file" name="file"> 
 	<span>+</span><?php __('Add Profile Image'); ?>

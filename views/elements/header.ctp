@@ -70,7 +70,7 @@
 			$('#suggestions').hide();
 		} else {
 			inputString = $.trim(inputString);
-			$.post("<?php echo DS.APP_DIR.'/search/ajxSearch/'?>", {query: ""+inputString+""}, function(data){
+			$.post("<?php echo FULL_BASE_URL.DS.'search/ajxSearch/'?>", {query: ""+inputString+""}, function(data){
 				$('#suggestions').show();
 				$('#autoSuggestionsList').html(data);
 			});

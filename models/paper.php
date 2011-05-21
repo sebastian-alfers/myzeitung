@@ -1,6 +1,9 @@
 <?php
 class Paper extends AppModel {
-	var $name = 'Paper';
+
+    const DEFAULT_PAPER_IMAGE = 'news-image.jpg';
+
+    var $name = 'Paper';
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_subscriptions'));
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -228,23 +231,23 @@ class Paper extends AppModel {
 			 * 
 			 * 1) adding default image to the paper
 			 */
-		function afterFind($results){
-			
+/*		function afterFind($results){
+
 			//adding default paper image to users without an image
 			 foreach($results as $key => $val) {
 			 	if(isset($val['Paper'])){
-					if(isset($val['Paper']['image'])){		
+					if(isset($val['Paper']['image'])){
 						if(empty($val['Paper']['image'])){
 								$results[$key]['Paper']['image'] = 'news-image.jpg';
 						}
 					}
 
 			 	}
-		 		if(isset($val['image'])){	
+		 		if(isset($val['image'])){
 					if(empty($val['image'])){
 							$results[$key]['image'] = 'news-image.jpg';
 					}
-				} 
+				}
 			 }
 			 if(isset($results['Paper'])){
 			 	if(empty($results['image'])){
@@ -253,6 +256,7 @@ class Paper extends AppModel {
 			 }
 			return $results;
 		}
+ */
 
 			/**
 			 * 1)

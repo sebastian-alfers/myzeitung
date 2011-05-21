@@ -748,7 +748,7 @@ class UsersController extends AppController {
 					$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
 					$user_data['User']['image'] = $image;
 
-					if($this->User->save($user_data)){
+					if($this->User->save($user_data, true, array('image'))){
 						$this->Session->setFlash(__('Saved new profile image', true));
 						$this->Session->write("Auth.User.image", $user_data['User']['image']);
 						$this->redirect($this->referer());

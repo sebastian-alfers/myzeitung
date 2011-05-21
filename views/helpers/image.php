@@ -6,6 +6,8 @@ class ImageHelper extends Helper {
 	var $cacheDir = ''; // relative to IMAGES_URL path
 
 	const DEFAULT_IMG = 'default.jpg';
+    const USER = 'user';
+    const PAPER = 'paper';
 
 	/**
 	 * Automatically resizes an image and returns formatted IMG tag
@@ -254,10 +256,14 @@ class ImageHelper extends Helper {
 	 * gets the value of a image from db
 	 *
 	 */
-	function getImgPath($img){
+	function getImgPath($img, $model){
 
 		if($img == ''){
-			return User::DEFAULT_USER_IMAGE;
+            if($model == self::USER)
+			    return User::DEFAULT_USER_IMAGE;
+
+            if($model == self::PAPER)
+                return Paper::DEFAULT_PAPER_IMAGE;
 		}
 		if(!is_array($img)){
             $data = unserialize($img);
@@ -280,15 +286,18 @@ class ImageHelper extends Helper {
 	 * @param array $img_extra - additional image data like alt-tag for image
 	 * @param array $container_data - array widh: -> key for controller data; -> key for additional data
 	 */
-	public function render($data, $width, $height, $img_extra = array(), $container_data = null){
+	public function render($data, $width, $height, $img_extra = array(), $container_data = null, $model = self::USER){
 
-		$img_data = $this->getImgPath($data['image']);
+		$img_data = $this->getImgPath($data['image'], $model);
 
 
 		if(is_array($img_data)){
 
 			//debug($img_data);die();
 			//found img in db
+            if(!isset($img_data['path'])){
+                $img_data = $img_data[0];
+            }
 			$info = $this->resize($img_data['path'], $width, $height, $img_data['size'], true);
 
 			if(is_array($img_extra) && !isset($img_extra['style'])){
@@ -313,7 +322,7 @@ class ImageHelper extends Helper {
 				$additional_img_data = $container_data['additional'];
 			}
 			if(!isset($additional_img_data['style'])){
-				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
+				$additional_img_data['style'] = 'display:block;overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
 			}
 			if(!isset($additional_img_data['escape'])){
 				$additional_img_data['escape'] = false;
