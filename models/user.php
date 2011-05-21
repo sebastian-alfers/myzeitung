@@ -8,7 +8,7 @@ class User extends AppModel {
 
 	var $ContentPaper = null;
 
-
+	var $updateSolr = false;
 	var $uses = array('Route', 'Cachekey');
 
 	const DEFAULT_USER_IMAGE 	= 'default-user-image.jpg';
@@ -123,13 +123,15 @@ class User extends AppModel {
 			),
 			
 			'email' => array(
-				'title' => array(
+				'empty' => array(
 					'rule' => 'notEmpty',
 					'message' => __('Please enter your email adress.', true),
-					),
+					'last' => true,
+				),
 				'email' => array(
 					'rule'		=> array('email'),
 					'message'	=> __('Please enter a valid email address.', true),
+					'last' => true,
 				),
 				'unique' => array(
 					'rule'		=> 'isUnique',
@@ -160,9 +162,7 @@ class User extends AppModel {
 			),
 			'passwd_confirm' => array (  
                 'match' =>  array(  
-                    'rule'          => 'validatePasswdConfirm',  
-                    'required'      => true,  
-                    'allowEmpty'    => false,  
+                    'rule'          => 'validatePasswdConfirm',   
                     'message'       => __('Passwords do not match', true)  
                 )  
             )  
@@ -247,8 +247,7 @@ class User extends AppModel {
 			}
 			// to prevent hashing before validation: temp field passwd is used
 		    if (isset($this->data['User']['passwd'])){  
-				$this->data['User']['password'] =  
-				Security::hash($this->data['User']['passwd'], null, true);  
+				$this->data['User']['password'] = Security::hash($this->data['User']['passwd'], null, true);  
 				unset($this->data['User']['passwd']);  
     		}
 			
@@ -256,7 +255,6 @@ class User extends AppModel {
 			{  
 				unset($this->data['User']['passwd_confirm']);  
 			}  
-    		
 			return true;
 		}
 
@@ -282,37 +280,37 @@ class User extends AppModel {
 
 		 */
 		function afterSave(){
-
-			//update solr index
-			App::import('model','Solr');
-
-			$this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
-			$this->data['User']['type'] = Solr::TYPE_USER;
-
-			if(!isset($this->data['User']['id'])){
-				if($this->id){
-					$this->data['User']['id'] = $this->id;
+			if($this->updateSolr){
+				//update solr index
+				App::import('model','Solr');
+	
+				$this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
+				$this->data['User']['type'] = Solr::TYPE_USER;
+	
+				if(!isset($this->data['User']['id'])){
+					if($this->id){
+						$this->data['User']['id'] = $this->id;
+					}
+						
 				}
 					
+				$this->data['User']['user_name'] = $this->data['User']['name'];
+				$this->data['User']['user_username'] = $this->data['User']['username'];
+				$this->data['User']['user_id'] = $this->data['User']['id'];
+					
+				$solr = new Solr();
+				$solr->add($this->addFieldsForIndex($this->data));
+	
+				/*
+				 App::import('model','Cachekey');
+				 $cachekey = new Cachekey();
+				 $cachekey->create();
+				 if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
+				 //App::import('model','Route');
+				 //$this->save(array('route_id', $route->id));
+				 */
+
 			}
-				
-			$this->data['User']['user_name'] = $this->data['User']['name'];
-			$this->data['User']['user_username'] = $this->data['User']['username'];
-			$this->data['User']['user_id'] = $this->data['User']['id'];
-				
-			$solr = new Solr();
-			$solr->add($this->addFieldsForIndex($this->data));
-
-			/*
-			 App::import('model','Cachekey');
-			 $cachekey = new Cachekey();
-			 $cachekey->create();
-			 if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
-			 //App::import('model','Route');
-			 //$this->save(array('route_id', $route->id));
-			 */
-
-
 		}
 
 		function getWholeUserReferences($user_id){
