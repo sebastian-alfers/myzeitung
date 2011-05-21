@@ -33,7 +33,7 @@
 class AppController extends Controller {
 	//load debug toolbar in plugins/debug_toolbar/
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
-	var $uses = array('User');
+	var $uses = array('User','ConversationUser');
 	
 	public function beforeFilter(){
 		
@@ -61,7 +61,24 @@ class AppController extends Controller {
 			$this->Auth->logoutRedirect = array('controller' => 'home', 'action' => 'index');
 		}
 
+		//load unread-message-count for logged in users with enabled messaging
+		// called again in conversations/view action, cos the counter might have been updated (if a -new- conversations has been clicked)
+		if($this->Session->read('Auth.User.id')){
+			if($this->Session->read('Auth.User.allow_messages')){
+				$this->setConversationCount();
+			}	
+		}		
+		
 	}
+	
+	
+	protected function setConversationCount(){
+		$this->ConversationUser->contain();
+		$this->set('conversation_count', $this->ConversationUser->find('count', 
+											array('conditions' => array('user_id' => $this->Session->read('Auth.User.id'),
+												 'status' => Conversation::STATUS_NEW))));
+	}
+	
 	
 	public function _autoLogin($user) {
 		// Do something

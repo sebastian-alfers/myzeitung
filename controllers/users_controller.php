@@ -859,7 +859,7 @@ class UsersController extends AppController {
 			$user['User'] = $this->Session->read('Auth.User');
 		} else {
 		//reading user
-			$user = $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+			$user = $this->User->read(array('id','name','username','created','image' , 'description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
 		
 		return $user;

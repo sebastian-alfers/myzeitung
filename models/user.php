@@ -121,6 +121,12 @@ class User extends AppModel {
 					'message'	=> __('Names can only be 30 characters long.', true),
 				),
 			),
+			'description' => array(
+				'maxlength' => array(
+					'rule'		=> array('maxlength', 200),
+					'message'	=> __('Names can only be 200 characters long.', true),
+				),
+			),
 			
 			'email' => array(
 				'empty' => array(
