@@ -28,7 +28,7 @@ function ajxSubmitComment(){
 		alert('please fill the field');
 		return false;
 	}
-	var req = $.post('<?php echo DS.APP_DIR.'/comments/ajxAdd'?>', {text:text, post_id:<?php echo $post_id; ?>, parent_id:parent_post_id})
+	var req = $.post('<?php echo FULL_BASE_URL.'/comments/ajxAdd'?>', {text:text, post_id:<?php echo $post_id; ?>, parent_id:parent_post_id})
 	   .success(function( comment ){
 		   $("#comment_list").prepend('<li class="comment" style="display:none" id="replywrapper">' +comment+ '</li>');
 		   var options = {};

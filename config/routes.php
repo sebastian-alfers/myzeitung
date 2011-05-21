@@ -104,4 +104,4 @@ foreach($menus as $menuitem){
  */
 
 
-Router::parseExtensions();
+Router::parseExtensions('json');

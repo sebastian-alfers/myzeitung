@@ -198,16 +198,14 @@ class PostsController extends AppController {
 						$this->data['Post']['hash'] = $hash;
 						$this->data['Post']['content'] = $content;
 						// writing the path of the first picture to a class variable because the array will be serialized before reaching the add_Solr method
+						
 						$this->Post->solr_preview_image = $this->images[0]['path'];
 						$this->Post->add_solr = true;
 						if ($this->Post->save($this->data)) {
 						
 							//remove tmp hash folder
 							$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
-
-							if(!rmdir($path_to_tmp_folder)){
-								$this->log('Not able to remove tmp hash folder: ' . $path_to_tmp_folder);
-							}
+							
 						}
 						else{
 							$this->Session->setFlash(__('Not able to copy images for post', true));

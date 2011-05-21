@@ -26,9 +26,10 @@ if(!isset($images)) {
 	return;
 }
 
+
+
 //remove emtpy elements
 $imgs = array();
-
 foreach($images as $img){
 	$imgs[] = $img;
 }
@@ -61,17 +62,17 @@ $is_scroling = $count_sub_images > 2;//now, we scroll only two images
 	<a class="prev browse left"></a>
 	<?php endif; //end scrolling or not?>
 	 
-	<div class="scrollable" style="width: 180px;">
+	<div class="scrollable" style="width: 160px;">
 		<div class="items">
 			<div>
 			<?php for($i = 0; $i <= $count_sub_images; $i++): ?>
 	
 				<?php 
 				if(!isset($images[$i])) continue;
-		
-				$info = $image->resize($images[$i]['path'], 80, 80, null, true);//return array bacuse of last param -> true
-
-				echo $this->Html->image($info['path'], array('style' => $info['inline'])); ?>
+		        $img_details['image'] = $images[$i];
+                echo $image->render($img_details, 80, 80, array("alt" => 'sub'), array('tag' => 'div'));
+				//$info = $image->resize($images[$i]['path'], 80, 80, null, true);//return array because of last param -> true
+				//echo $this->Html->image($info['path'], array('style' => $info['inline'])); ?>
 		
 				<?php if((($i+1)%2) == 0 && isset($images[($i+1)])): ?>
 					</div><div><?php //seperator after 2 images?>

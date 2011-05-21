@@ -76,12 +76,16 @@
 								$link_data = array();
 								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
 								$link_data['additional'] = array('class' => 'user-image');
+
+								echo $image->render($user['User'], 50, 50, array("alt" => $user['User']['username']), $link_data);
+
 								echo $image->userImage($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
+
 								
-								
+
 //								$img_data = $image->getImgPath($post['User']['image']);
 //								if(is_array($img_data)){
-//									
+//
 //									//debug($img_data);die();
 //									//found img in db
 //									$info = $image->resize($img_data['path'], 48, 48, $img_data['size'], true);
@@ -92,10 +96,10 @@
 //								else{
 //									//not logged in
 //									$path = $image->resize($img_data, 48, 50, null, false);
-//									$img = $this->Html->image($path, array("alt" => $post['User']['username']));							
+//									$img = $this->Html->image($path, array("alt" => $post['User']['username']));
 //									echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $post['User']['id']), array('class' => "user-image", 'escape' => false));
 //								}
-								?>						
+								?>
 														
 								</li>
 								<?php /* start of options: edit delete if user is logged in, and it is a post from the user itself // repost - undoRepost if it's another user */?>
