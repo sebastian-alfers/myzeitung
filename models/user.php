@@ -1,6 +1,7 @@
 <?php
 class User extends AppModel {
 
+	//field-validation in constructor -> otherwise it's not possible to use "__('translate this', true)" in error messages.
 
 	var $name = 'User';
 	var $displayField = 'name';
@@ -11,58 +12,6 @@ class User extends AppModel {
 	var $uses = array('Route', 'Cachekey');
 
 	const DEFAULT_USER_IMAGE 	= 'default-user-image.jpg';
-
-	var $validate = array(
-
-		'name' => array(
-			'maxlength' => array(
-				'rule' => array('maxlength', 25),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
-		'email' => array(
-			'email' => array(
-				'rule' => array('email'),
-	//'message' => 'Your custom message here',
-				'allowEmpty' => false,
-				'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
-		'username' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
-		'password' => array(
-			'maxlength' => array(
-				'rule' => array('maxlength', 999),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-			'minlength' => array(
-				'rule' => array('minlength', 4),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
-	);
 
 
 	var $hasMany = array(
@@ -148,38 +97,6 @@ class User extends AppModel {
 		);
 
 
-		/*		var $hasAndBelongsToMany = array(
-		 'Post' => array(
-			'className' => 'Post',
-			'joinTable' => 'posts_users',
-			'foreignKey' => 'user_id',
-			'associationForeignKey' => 'post_id',
-			'unique' => true,
-			'conditions' => '',
-			'fields' => '',
-			'order' => 'PostsUser.created DESC',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-			),
-			'Paper' => array(
-			'className' => 'Paper',
-			'joinTable' => 'subscriptions',
-			'foreignKey' => 'user_id',
-			'associationForeignKey' => 'paper_id',
-			'unique' => true,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-			),
-			);*/
 
 		var $belongsTo = array(
 		'Group'
@@ -193,9 +110,76 @@ class User extends AppModel {
 		);
 
 
-		function __construct(){
-			parent::__construct();
-		}
+	function __construct(){
+		parent::__construct();
+			
+		$this->validate = array(
+
+			'name' => array(
+				'maxlength' => array(
+					'rule'		=> array('maxlength', 30),
+					'message'	=> __('Names can only be 30 characters long.', true),
+				),
+			),
+			
+			'email' => array(
+				'title' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter your email adress.', true),
+					),
+				'email' => array(
+					'rule'		=> array('email'),
+					'message'	=> __('Please enter a valid email address.', true),
+				),
+				'unique' => array(
+					'rule'		=> 'isUnique',
+					'message'	=> __('This email address has already been registered.', true),
+				),
+			),
+			
+			'username' => array(
+				'length' => array(
+					'rule'		=> array('between', 3, 15),
+					'message'	=> __('Usernames must be between 3 and 15 characters long.', true)
+				),
+				'alpha' => array(
+					'rule'		=> 'alphaNumeric',
+					'message'	=> __('Usernames must only contain letters and numbers.', true)
+	    		),
+	    		'unique' => array(
+					'rule'		=> 'isUnique',
+					'message'	=> __('This username has already been taken.', true)
+				)
+			),
+			//the auth component hashes the pwd before the save method - before validation. so we are using a temp field for validating first.
+			'passwd' => array(
+				'length' => array(
+					'rule' => array('between', 5, 20),
+					'message' => __('Passwords must be between 5 and 20 characters long.', true)
+				),
+			),
+			'passwd_confirm' => array (  
+                'match' =>  array(  
+                    'rule'          => 'validatePasswdConfirm',  
+                    'required'      => true,  
+                    'allowEmpty'    => false,  
+                    'message'       => __('Passwords do not match', true)  
+                )  
+            )  
+		);
+			
+				
+	}
+	
+   function validatePasswdConfirm($data)  
+    {  
+        if ($this->data['User']['passwd'] !== $data['passwd_confirm'])  
+        {  
+            return false;  
+        }  
+  
+        return true;  
+    }   
 
 //		function afterFind($results){
 			
@@ -261,7 +245,18 @@ class User extends AppModel {
 			if(!empty($this->data['User']['image']) && is_array($this->data['User']['image']) && !empty($this->data['User']['image'])){
 				$this->data['User']['image'] = serialize($this->data['User']['image']);
 			}
+			// to prevent hashing before validation: temp field passwd is used
+		    if (isset($this->data['User']['passwd'])){  
+				$this->data['User']['password'] =  
+				Security::hash($this->data['User']['passwd'], null, true);  
+				unset($this->data['User']['passwd']);  
+    		}
 			
+			if (isset($this->data['User']['passwd_confirm']))  
+			{  
+				unset($this->data['User']['passwd_confirm']);  
+			}  
+    		
 			return true;
 		}
 
@@ -283,10 +278,12 @@ class User extends AppModel {
 				
 		}
 		/**
-		 * update index
+		 * 1.update solr index
+
 		 */
 		function afterSave(){
 
+			//update solr index
 			App::import('model','Solr');
 
 			$this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
@@ -314,7 +311,6 @@ class User extends AppModel {
 			 //App::import('model','Route');
 			 //$this->save(array('route_id', $route->id));
 			 */
-
 
 
 		}

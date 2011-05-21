@@ -73,9 +73,9 @@
 									<?php // user container?>
 									<?php echo $this->Html->link(
 											// link content -  image + span with username and name of user 
-											$this->Html->image("../img/default-user-image.-small.jpg" /* @todo ALF hier bild tauschen */, array('class' => 'user-image')).'<span>'.$user['User']['username'].'<br />'.$user['User']['name'].'</span>'
+											$this->Html->image("../img/default-user-image.-small.jpg" /* @todo ALF hier bild tauschen */, array('class' => 'user-image')).'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>'
 											//link options array
-											 , array('controller' => 'users', 'action' => 'view',$user['User']['id']), array('class' => "user", 'escape' => false));?>
+											 , array('controller' => 'users', 'action' => 'view',$post['User']['id']), array('class' => "user", 'escape' => false));?>
 								</div>
 							<?php endforeach;?>
 

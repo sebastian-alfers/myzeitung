@@ -31,10 +31,10 @@ class HomeController extends AppController {
 		$user_options = array('limit' => 9, 'order' => array('created DESC'), 'fields' => array('id', 'image', 'username', 'name', 'description'));
 		$this->set('users', $this->User->find('all', $user_options));
 		//loading users
-		$this->Post->contain('User.id', 'User.username', 'User.name');
+		$this->Post->contain('User.id', 'User.username', 'User.name', 'User.image');
 		$post_options = array('limit' => 6, 'order' => array('Post.created DESC'), 'fields' => array('id','title'));
 		$this->set('posts', $this->Post->find('all', $post_options));
-	
+		
 		$this->layout = 'home';
 	}
 	
