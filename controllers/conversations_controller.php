@@ -139,7 +139,6 @@ class ConversationsController extends AppController {
         	$conversation['Conversation']['LastMessage'] = $lastMessage['ConversationMessage'];
 		}
 
-		debug($conversations);
         $this->set('conversations', $conversations);
 	} 
 	
