@@ -36,9 +36,11 @@ class DATABASE_CONFIG
 		if(isset($_SERVER['SERVER_NAME'])){
 			switch($_SERVER['SERVER_NAME']){
 				case 'myzeitung.loc':
+                    define('USE_SOLR', true);
 					$this->default = $this->dev;
 					break;
 				case 'www.on-line-solutions.de':
+                    define('USE_SOLR', false);
 					$this->default = $this->test;
 					break;
 			}

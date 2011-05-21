@@ -23,7 +23,9 @@ class Solr extends AppModel {
 	function __construct(){
 		parent::__construct();
 
-		$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
+        if(USE_SOLR){
+		    $this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
+        }
 
 	}
 
@@ -33,6 +35,7 @@ class Solr extends AppModel {
 	 * @param array $documents
 	 */
 	function add($docs = array()){
+        if(!USE_SOLR) return;
 
 		try {
 
@@ -88,6 +91,8 @@ class Solr extends AppModel {
 	 * @param string $id
 	 */
 	function delete($id){
+        if(!USE_SOLR) return;
+
 		if(!empty($id)){
 			$xml = '<delete><id>'. $id .'</id></delete>';
 			$this->getSolr()->delete($xml);
@@ -106,6 +111,8 @@ class Solr extends AppModel {
 	 * @param boolean $grouped
 	 */
 	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true){
+        if(!USE_SOLR) return;
+
 		if(empty($query)) return false;
 		$results = array();
 
@@ -154,6 +161,8 @@ class Solr extends AppModel {
 	 * checks if possibel to ping
 	 */
 	function getSolr(){
+        if(!USE_SOLR) return;
+
 		if($this->solr == null){
 			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
 		}
@@ -169,6 +178,8 @@ class Solr extends AppModel {
 	 *
 	 */
 	function canPing(){
+        if(!USE_SOLR) return;
+
 		if($this->solr instanceof Apache_Solr_Service && $this->solr != null){
 			if (!$this->solr->ping()) return false;
 			return true;
@@ -179,6 +190,7 @@ class Solr extends AppModel {
 	}
 
 	function deleteIndex(){
+        if(!USE_SOLR) return;
 
 		var_dump($this->getSolr()->deleteByQuery('*:*'));
 		$this->getSolr()->commit();
