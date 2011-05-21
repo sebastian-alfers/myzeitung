@@ -23,12 +23,12 @@ class UsersController extends AppController {
 		if(
 		!empty($this->data) &&
 		!empty($this->Auth->data['User']['username']) &&
-		!empty($this->Auth->data['User']['username'])
+		!empty($this->Auth->data['User']['password'])
 		){
-			$user = $this->User->find('first', array(	'conditions' => array(
-	     													'User.email' => $this->Auth->data['User']['username'],
-	     													'User.password' => $this->Auth->data['User']['password']),
-     													'recursive' => -1
+			$user = $this->User->find('first', array('conditions' => array(
+	     											'User.email' => $this->Auth->data['User']['username'],
+	     											'User.password' => $this->Auth->data['User']['password']),
+     												'recursive' => -1
 			));
 			if(!empty($user) && $this->Auth->login($user)) {
 				if($this->Auth->autoRedirect){
@@ -647,9 +647,79 @@ class UsersController extends AppController {
 	 }
 	 */
 
-	function accAboutMe(){
-		$this->set('user', $this->getUserForSidebar());
+	
+	function accGeneral($id = null){
+		if(!$id){
+			$id = $this->Session->read('Auth.User.id');
+		}
+				
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}	
+		if(!($id == $this->Session->read('Auth.User.id'))){
+			$this->Session->setFlash(__('No permission', true));
+			$this->redirect($this->referer());
+		}	
+		
+		if (!empty($this->data)) {
+			if ($this->User->save($this->data, true, array('email', 'password'))) {
+				$this->Session->setFlash(__('The changes have been saved', true));
+				//update session variables:
+				$this->Session->write("Auth.User.email", $this->data['User']['email']);
+			} else {
+				$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
+			}
+		}
+		if (empty($this->data)) {
+			$this->User->contain();
+			$this->data = $this->User->read(null, $id);
+		}
+
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
+	}	
+	
+	
+	
+	function accAboutMe($id = null){
+		if(!$id){
+			$id = $this->Session->read('Auth.User.id');
+		}
+		
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}	
+		if(!($id == $this->Session->read('Auth.User.id'))){
+			$this->Session->setFlash(__('No permission', true));
+			$this->redirect($this->referer());
+		}	
+		
+		if (!empty($this->data)) {
+			if ($this->User->save($this->data, true, array('name', 'description'))) {
+				$this->Session->setFlash(__('The changes have been saved', true));
+				//update session variables:
+				$this->Session->write("Auth.User.name", $this->data['User']['name']);
+				$this->Session->write("Auth.User.description", $this->data['User']['description']);
+			} else {
+				$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
+			}
+		}
+		if (empty($this->data)) {
+			$this->User->contain();
+			$this->data = $this->User->read(null, $id);
+		}
+
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
 	}
+	
+	
+		
+
 	/**
 	 * handle upload of profile picture
 	 *
@@ -657,6 +727,7 @@ class UsersController extends AppController {
 	function accImage(){
 		if(!empty($this->data)){
 			//check, if user exists
+			$this->User->contain();
 			$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
 			if(!isset($user_data['User']['id'])){
 				$this->Session->setFlash(__('Error while loading user', true));
@@ -673,9 +744,10 @@ class UsersController extends AppController {
 					$this->User->contain();
 					$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
 					$user_data['User']['image'] = $image;
-						
+
 					if($this->User->save($user_data)){
 						$this->Session->setFlash(__('Saved new profile image', true));
+						$this->Session->write("Auth.User.image", $user_data['User']['image']);
 						$this->redirect($this->referer());
 					}
 					else{
@@ -690,7 +762,7 @@ class UsersController extends AppController {
 				$this->redirect($this->referer());
 			}
 		}
-
+		$this->User->contain();
 		$this->set('user', $this->getUserForSidebar());
 		$this->set('hash', $this->Upload->getHash());
 	}

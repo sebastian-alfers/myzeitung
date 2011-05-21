@@ -74,9 +74,9 @@
 								<?php //echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?>
 								<?php 
 								$link_data = array();
-								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
 								$link_data['additional'] = array('class' => 'user-image');
-								echo $image->userImage($user['User'], 50, 50, array("alt" => $user['User']['username']), $link_data);
+								echo $image->userImage($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
 								
 								
 //								$img_data = $image->getImgPath($post['User']['image']);

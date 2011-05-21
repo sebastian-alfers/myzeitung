@@ -79,7 +79,9 @@ class AppController extends Controller {
 			'subscribe' => array(1),
 			'accImage' => array(1),
 			'ajxProfileImageProcess' => array(1),		
-			'accAboutMe' => array(1)
+			'accAboutMe' => array(2,1),
+			'accGeneral' => array(2,1),
+			'accPrivacy' => array(2,1),
 			),
 		'topics' => array(
 			'ajax_add' => array(1)
