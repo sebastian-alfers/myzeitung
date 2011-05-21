@@ -38,7 +38,7 @@ class DATABASE_CONFIG
 				case 'myzeitung.loc':
 					$this->default = $this->dev;
 					break;
-				case 'on-line-solutions.de':
+				case 'www.on-line-solutions.de':
 					$this->default = $this->test;
 					break;
 			}
