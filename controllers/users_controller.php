@@ -785,19 +785,19 @@ class UsersController extends AppController {
 					$user_data['User']['image'] = $image;
 					$this->User->updateSolr = true;
 					if($this->User->save($user_data)){
-						$this->Session->setFlash(__('Saved new profile image', true));
+						$this->Session->setFlash(__('Profile picture has benn saved.', true));
 						$this->Session->write("Auth.User.image", $user_data['User']['image']);
 						$this->redirect($this->referer());
 					}
 					else{
-						$this->Session->setFlash(__('Can not save profile image', true));
+						$this->Session->setFlash(__('Could not save profile picture, please try again.', true));
 						$this->redirect($this->referer());
 					}
 
 				}
 			}
 			else{
-				$this->Session->setFlash(__('Can not save profile image', true));
+				$this->Session->setFlash(__('Could not save profile picture, please try again.', true));
 				$this->redirect($this->referer());
 			}
 		}
