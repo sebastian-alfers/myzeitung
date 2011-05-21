@@ -12,7 +12,7 @@ class JqImgcropComponent extends Object {
 
 		if(!is_dir($upload_path)){
 			
-			if (!mkdir($upload_path, 0700, true)) {
+			if (!mkdir($upload_path, 0755, true)) {
 				die('Erstellung der Verzeichnisse schlug fehl...');
 			}
 		}
@@ -40,7 +40,7 @@ class JqImgcropComponent extends Object {
 			
 			//$this->log($uploadTarget);
 			
-			chmod ($uploadTarget , 0777);
+			chmod ($uploadTarget , 0755);
 			$width = $this->getWidth($uploadTarget);
 			$height = $this->getHeight($uploadTarget);
 			// Scale the image if it is greater than the width set above

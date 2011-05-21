@@ -121,7 +121,7 @@ class ImageHelper extends Helper {
 
 
 		if(!is_dir($cacheFoler)){
-			if (!mkdir($cacheFoler, 0700, true)) {
+			if (!mkdir($cacheFoler, 0755, true)) {
 				die('Erstellung der Verzeichnisse schlug fehl...');
 			}
 		}

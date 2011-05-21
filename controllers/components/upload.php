@@ -77,7 +77,7 @@ class UploadComponent extends Object {
 			$post_img_folder = $webroot.'img'.DS.$folder.DS.$new_rel_path;
 			//create folder for new post
 			if(!is_dir($post_img_folder)){
-				if (!mkdir($post_img_folder, 0700, true)) {
+				if (!mkdir($post_img_folder, 0755, true)) {
 					$this->log('can not create directory for post: ' . $post_img_folder);
 					return false;
 				}
