@@ -65,16 +65,13 @@ $(function() {
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
 				$link_data['additional'] = array('class' => 'user-image');
 				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
-			
-				<?php if($user['User']['id'] != $session->read('Auth.User.id')): //can not subscribe to himself - cannot send a message to himself ?>
-					<hr />
+			</div>
+			<?php if($user['User']['id'] != $session->read('Auth.User.id')): //can not subscribe to himself - cannot send a message to himself ?>
                     <?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'users',  'action' => 'subscribe', $user['User']['id']), array('escape' => false, 'class' => 'btn', ));?>
 					<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user['User']['id']), array('escape' => false, 'class' => 'btn btn-send', ));?>
 				<?php endif; ?>
-			</div>
+
 			<h4><?php echo $user['User']['username'];?></h4>
-
-
 			<?php //elements shown when being on actions users-view, posts-view ?>
 			<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
 				<?php echo $this->element('users/sidebar/info'); ?>

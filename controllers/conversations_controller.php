@@ -115,6 +115,9 @@ class ConversationsController extends AppController {
 		}
 		$this->set('messages', $messages);
 		
+		// setting the messagecount (again) because: if you view an conversation which has had the status "new", the message_count must be reset, because this specific conversation is not new anymore (updated above)
+		parent::setConversationCount();
+		
 		$this->Conversation->contain();
 		$this->set('conversation', $this->Conversation->read(array('title','created'),$conversation_id));
 		$this->ConversationUser->contain('User.id','User.username', 'User.image');
