@@ -4,6 +4,8 @@ class ConversationsController extends AppController {
 	var $name = 'Conversations';
 	var $uses = array('Conversation','ConversationUser','ConversationMessage');
 
+    var $helpers = array('Image');
+
 	function add($recipent_id = null){
 		if (!empty($this->data)) {
 			$this->Conversation->create();
@@ -121,6 +123,8 @@ class ConversationsController extends AppController {
 
 	function index() {
 		$user_id = $this->Auth->user('id');
+
+
         $options = array('conditions' => array('ConversationUser.status <'  => Conversation::STATUS_REMOVED, 'ConversationUser.user_id' => $user_id),
                   	    'group' => array('ConversationUser.conversation_id HAVING SUM(case when ConversationUser.`user_id` in (\''.$user_id.'\') then 1 else 0 end) = 1'),
                         'contain' => array('Conversation' => array()),
@@ -134,8 +138,7 @@ class ConversationsController extends AppController {
            	$lastMessage = $this->ConversationMessage->read(array('user_id','message','created'), $conversation['Conversation']['last_message_id']);
         	$conversation['Conversation']['LastMessage'] = $lastMessage['ConversationMessage'];
 		}
-		
-		//debug($conversations);
+
         $this->set('conversations', $conversations);
 	} 
 	

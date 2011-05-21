@@ -3,7 +3,12 @@
 			<ul class="newslist">
 			<?php foreach($user['Paper'] as $paper):?>
 				<li>
-				<?php /* image */ echo  $this->Html->link($this->Html->image($image->resize($paper['image'], 35, 35)) , array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false) );?>
+				<?php /* image */
+                $link_data = array();
+                $link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper['id']);
+                //$link_data['additional'] = array('class' => 'user-image');
+                echo $image->render($paper, 35, 35, array("alt" => $paper['title']), $link_data, ImageHelper::PAPER);
+                //echo  $this->Html->link($this->Html->image($image->resize($paper['image'], 35, 35)) , array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false) );?>
 			    <?php /* title */ echo $this->Html->link($paper['title'], array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false));?>
 			    </li>
 			 <?php endforeach;?>
