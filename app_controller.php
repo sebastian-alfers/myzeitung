@@ -66,7 +66,7 @@ class AppController extends Controller {
 		if($this->Session->read('Auth.User.id')){
 			if($this->Session->read('Auth.User.allow_messages')){
 				$this->setConversationCount();
-			}	
+			}
 		}		
 		
 	}

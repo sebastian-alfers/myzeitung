@@ -1,4 +1,3 @@
-		<?php debug($conversation_count);?>
 			<div id="header">
 				<h1 id="logo"><a href="/">myZeitung</a></h1>
 					<div id="user-info">
@@ -8,7 +7,8 @@
 
 						<form class="user-actions">
 						<select name="options" id="PostTopicId">
-							<option value="4">Account Settings</option>
+							<option value="">Actions</option>
+                            <option value="http://www.spiegel.de/">Account Settings</option>
 							<option value="null"><?php echo $this->Html->link(__("logout", true), array('controller' => 'users', 'action' => 'logout'));?></option>
 						</select>
 						</form>
@@ -58,7 +58,7 @@
 							<li><?php echo $this->Html->link(__('My Blog', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
 							<li><?php echo $this->Html->link(__('Subscriptions', true), array('controller' => 'users', 'action' => 'viewSubscriptions', $session->read('Auth.User.id')));?></li>
 							<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index', $session->read('Auth.User.id')));?>
-								<?php if($conversation_count > 0):?>
+								<?php if($this->Session->read('Auth.User.allow_messages') && isset($conversation_count) && $conversation_count > 0):?>
 								<span class="round-icon"><?php echo $conversation_count;?></span>
 								<?php endif;?>
 							</li>
