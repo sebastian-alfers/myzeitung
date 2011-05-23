@@ -157,7 +157,7 @@ class PostsController extends AppController {
 		$this->set('post', $post);
 		$this->set('user', $user);
 		$this->set('comments',$comments);
-
+	
 	}
 
 	function add() {
