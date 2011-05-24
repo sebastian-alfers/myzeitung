@@ -470,7 +470,7 @@ msgstr ""
 
 #: /views/users/index.ctp:2
 msgid "Users"
-msgstr "asdfasdf"
+msgstr ""
 
 #: /views/users/view.ctp:60
 msgid "Delete User"
