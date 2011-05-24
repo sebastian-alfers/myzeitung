@@ -7,6 +7,20 @@ class ConversationsController extends AppController {
     var $helpers = array('Image');
 
 	function add($recipent_id = null){
+		if(!$recipent_id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid recipent', true));
+			$this->redirect($this->referer());
+		}	
+		
+		if($recipent_id){
+			$this->User->contain();
+			$recipent = $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipent_id);
+			if($recipent['User']['allow_messages'] = false){
+				$this->Session->setFlash(__('This recipent does not acceppt messages.', true));
+				$this->redirect($this->referer());
+			}
+		}
+		
 		if (!empty($this->data)) {
 			$this->Conversation->create();
 			$recipents = explode(" ", $this->data['Conversation']['recipents']);
@@ -46,9 +60,12 @@ class ConversationsController extends AppController {
 				$this->Session->setFlash(__('The Message could not be sent. Please, try again.', true));
 			}
 		}
+		if(!($recipent_id)){
+			
+		}
 		
-		$this->User->contain();
-		$this->set('recipent', $this->User->read(array('id', 'username', 'name'), $recipent_id));
+		
+		$this->set('recipent', $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipent_id));
 		$this->set('user_id', $this->Auth->user('id'));	
 	}
 	

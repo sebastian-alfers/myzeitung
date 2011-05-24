@@ -328,7 +328,7 @@ class ImageHelper extends Helper {
 				$additional_img_data['escape'] = false;
 			}
 				
-			echo $this->Html->link($img, $container_data['url'], $additional_img_data);
+			return $this->Html->link($img, $container_data['url'], $additional_img_data);
 		}
         elseif(isset($container_data['tag'])){
 			//also make link out of it
@@ -345,10 +345,10 @@ class ImageHelper extends Helper {
 
             //sourround img with container
             $t = $container_data['tag'];
-            echo '<'.$t.' style="'.$additional_img_data['style'].'">'.$img.'</'.$t.'>';
+            return '<'.$t.' style="'.$additional_img_data['style'].'">'.$img.'</'.$t.'>';
         }
 		else{
-			echo $img;
+			return $img;
 		}
 
 	}
