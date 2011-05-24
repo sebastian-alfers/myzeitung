@@ -140,7 +140,8 @@ class ImageHelper extends Helper {
 		}
 
 		if (!$cached) {
-			$resize = ($size[0] > $width || $size[1] > $height) || ($size[0] < $width || $size[1] < $height);
+			$resize = ($size[0] >= $width || $size[1] > $height) || ($size[0] <= $width || $size[1] < $height);
+
 		} else {
 			$resize = false;
 		}

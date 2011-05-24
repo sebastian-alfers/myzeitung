@@ -26,23 +26,6 @@ if(isset($class)){
         $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
         $link_data['additional'] = array('class' => 'user-image');
         echo $image->render($user, 65, 65, array("alt" => $user['username']), $link_data);
-
-        /*
-		if(is_array($img_data)){
-							
-			//debug($img_data);die();
-			//found img in db
-			$info = $image->resize($img_data['path'], 65, 65, $img_data['size'], true);
-			$img = $this->Html->image($info['path'], array("alt" => $user['username'], 'style' => $info['inline']));
-			echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $user['id']), array('class' => "user-image", 'escape' => false, 'style' => 'overflow:hidden;height:65px;width:65px;'));
-		}
-		else{
-			//not logged in
-			$path = $image->resize($img_data, 65, 65, null, false);
-			$img = $this->Html->image($path, array("alt" => $user['username']));							
-			echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $user['id']), array('class' => "user-image", 'escape' => false));
-		}
-        */
 		?>
 	</p>
 	
