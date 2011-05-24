@@ -3,8 +3,16 @@
 			<ul class="newslist">
 			<?php foreach($user['Paper'] as $paper):?>
 				<li>
-                <?php echo $this->Html->link($image->render($paper, 35, 35, array("alt" => $paper['title']), null, ImageHelper::PAPER).' '.$paper['title'],
-                							 array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false));?>
+                <?php
+                $container_data['tag'] = 'div';
+                $container_data['additional']['float'] = 'left';
+                $container_data['additional']['margin-right'] = '15px';
+
+                $img = $image->render($paper, 35, 35, array("alt" => $paper['title']), $container_data, ImageHelper::PAPER);
+                echo $this->Html->link($img.' '.$paper['title'],
+                            array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false));
+                ?>
+
 			    </li>
 			 <?php endforeach;?>
 			 <?php if($user['User']['paper_count'] > 3):?>

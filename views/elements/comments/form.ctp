@@ -23,7 +23,11 @@ if(isset($class)){
 
 		<?php
 		$user = $session->read('Auth.User');
-		$img_data = $image->getImgPath($user['image']);
+        $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
+        $link_data['additional'] = array('class' => 'user-image');
+        echo $image->render($user, 65, 65, array("alt" => $user['username']), $link_data);
+
+        /*
 		if(is_array($img_data)){
 							
 			//debug($img_data);die();
@@ -38,6 +42,7 @@ if(isset($class)){
 			$img = $this->Html->image($path, array("alt" => $user['username']));							
 			echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $user['id']), array('class' => "user-image", 'escape' => false));
 		}
+        */
 		?>
 	</p>
 	

@@ -339,6 +339,12 @@ class ImageHelper extends Helper {
 			if(!isset($additional_img_data['style'])){
 				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
 			}
+            if(isset($additional_img_data['float'])){
+                $additional_img_data['style'] .= 'float:'.$additional_img_data['float'];
+            }
+            if(isset($additional_img_data['margin-right'])){
+                $additional_img_data['style'] .= ';margin-right:'.$additional_img_data['margin-right'];
+            }
 			if(!isset($additional_img_data['escape'])){
 				$additional_img_data['escape'] = false;
 			}
