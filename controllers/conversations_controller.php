@@ -12,12 +12,16 @@ class ConversationsController extends AppController {
 			$this->redirect($this->referer());
 		}	
 		
-		if($recipent_id){
+		if($recipent_id || !empty($this->data)){
+			if(!$recipent_id){
+				// @todo after multi-user conversations are supported, this must be changed to a multiuser validation
+				$recipent_id = $this->data['Conversation']['recipents'];
+			}
 			$this->User->contain();
 			$recipent = $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipent_id);
-			if($recipent['User']['allow_messages'] = false){
+			if($recipent['User']['allow_messages'] == false){
 				$this->Session->setFlash(__('This recipent does not acceppt messages.', true));
-				$this->redirect($this->referer());
+				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
 			}
 		}
 		
@@ -55,7 +59,7 @@ class ConversationsController extends AppController {
 					$this->Session->setFlash(__('The Message has been sent', true));
 				}
 				
-				$this->redirect($this->referer());
+				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The Message could not be sent. Please, try again.', true));
 			}
