@@ -677,5 +677,17 @@ class Paper extends AppModel {
 				$solr = new Solr();
 				$solr->delete(Solr::TYPE_PAPER . '_' . $id);
 			}
+
+   		/**
+		 *	hook into save process
+		 *
+		 */
+		function beforeSave(){
+			if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
+				$this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
+			}
+
+			return true;
+		}
 }
 ?>

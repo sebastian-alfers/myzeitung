@@ -2,16 +2,25 @@
 class PapersController extends AppController {
 
 	var $name = 'Papers';
-	var $components = array('Auth', 'Session', 'Papercomp');
+	var $components = array('Auth', 'Session', 'Papercomp', 'Upload');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
 	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax');
 
-	var $test = 'adsf';
+    var $allowedSettingsActions = array('image');
+
+	//var $test = 'adsf';
+
 
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
 		$this->Auth->allow('index','view');
+
+        //add security
+        //$this->Security->requireAuth('add', 'edit', 'saveImage');
+
+        $this->Security->disableFields = array('new_image', 'data[Paper][id]', 'id', 'data[Paper][hash]', 'hash');
+
 	}
 
 	function index() {
@@ -118,13 +127,69 @@ class PapersController extends AppController {
 		}else{
 			$paper['Paper']['subscribed'] = false;
 		}
-		
+
+        $this->set('hash', $this->Upload->getHash());
 
 	    $this->set('paper', $paper);
 		$this->set('posts', $posts);
 
 
 	}
+
+    function saveImage(){
+
+
+		if (empty($this->data)) {
+			$this->Session->setFlash(__('Error while uploading photo', true));
+			$this->redirect($this->referer());
+		}
+
+        $paper_id = $this->data['Paper']['id'];
+
+        //check is user owns this paper id
+        if(parent::canEdit('Paper', $paper_id, 'owner_id')){
+            $this->log('can edit');
+            $hash = $this->data['Paper']['hash'];
+			if($this->Upload->hasImagesInHashFolder($hash)){
+                $this->log('has in hash');
+				$image = array();
+                $this->Paper->contain();
+                $paper_data = $this->Paper->read(null, $paper_id);
+				$paper_created = $paper_data['Paper']['created'];
+				$image = $this->Upload->copyImagesFromHash($hash, $paper_id, $paper_created, $this->data['Paper']['new_image'], 'paper');
+
+				if(is_array($image)){
+                    $this->log('jo image');
+                    $paper_data['Paper']['image'] = $image;
+
+					if($this->Paper->save($paper_data, true, array('image'))){
+   						$this->Session->setFlash(__('Image has been saved', true));
+	    				$this->User->updateSolr = true;
+						$this->redirect($this->referer());
+					}
+					else{
+						$this->Session->setFlash(__('Could not save paper picture, please try again.', true));
+						$this->redirect($this->referer());
+					}
+				}
+			}
+			else{
+				$this->Session->setFlash(__('Could not save paper picture, please try again.', true));
+				$this->redirect($this->referer());
+			}
+
+        }
+        else{
+			$this->Session->setFlash(__('You do not have permissions', true));
+			$this->redirect($this->referer());
+        }
+
+
+
+
+
+
+    }
 
 	/**
 	 * @author tim
@@ -334,6 +399,44 @@ class PapersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+    /**
+     * wrapper action for differend actions
+     * @param  $path - action to be called
+     * @param  $paper_id
+     * @return void
+     */
+    public function settings($path, $paper_id){
+		if (!$paper_id || !in_array($path, $this->allowedSettingsActions)) {
+            $this->Session->setFlash(__('Invalid paper', true));
+            $this->redirect($this->referer());
+        }
+        //check if paper belongs to logged in user
+        if(!parent::canEdit('Paper', $paper_id, 'owner_id')){
+            $this->Session->setFlash(__('Wrong permissions', true));
+            $this->redirect($this->referer());
+        }
+        switch ($path){
+            case "image":
+                $this->settingsImage();
+                break;
+
+        echo $path;
+        echo $paper_id;
+        }
+
+        die();
+
+    }
+
+    /**
+     * process image save action
+     * @return void
+     */
+    private function settingsImage(){
+        echo "save image";
+    }
+
+
 	/**
 	 * build data for dropdown so select user or topic
 	 * to as reference for paper_content
@@ -364,6 +467,11 @@ class PapersController extends AppController {
 
 		return $this->ContentPaper->save($this->data);
 	}
+
+    function blackHoleCallback(){
+        echo "jo";
+        die();
+    }
 
 
 

@@ -31,12 +31,16 @@
  * @subpackage    cake.app
  */
 class AppController extends Controller {
+
+    const LOG_LEVEL_SECURITY = 'secutity';
+
 	//load debug toolbar in plugins/debug_toolbar/
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
 	
 	public function beforeFilter(){
-		
+        //$this->Security->blackHoleCallback = 'blackHole';
+
 	    $this->RequestHandler->setContent('json', 'text/x-json');
 		
 		
@@ -70,6 +74,8 @@ class AppController extends Controller {
 		}		
 		
 	}
+
+
 	
 	
 	protected function setConversationCount(){
@@ -90,6 +96,9 @@ class AppController extends Controller {
 		// defining the authorized usergroups for every action of every controller 
 		// 1 = admin 2=common user
 		$allowedActions = array(
+        'ajax' => array(
+            'uploadPicture' => array(1)
+        ),
 		'users' => array(
 			'index' => array(1),
 			'add' => array(1,2),
@@ -128,7 +137,9 @@ class AppController extends Controller {
 			'addcontent' => array(1),
 			'references' => array(1),
 			'subscribe' => array(1),
-			'unsubscribe' => array(1)
+			'unsubscribe' => array(1),
+            'settings' => array(1),
+            'saveImage' => array(1),
 			),				
 		'categories' => array(
 			'index' => array(1),
@@ -167,14 +178,99 @@ class AppController extends Controller {
 		return false;
 	}
 
-/*	
+    /**
+     * get a name of a model and an id (primary key) and
+     * checks, if the user is the owner of the moddel
+     *
+     * @param  $model - name of model
+     * @param  $id - primary key
+     * @return boolean
+     */
+    protected function canEdit($model_name, $id, $field){
+        $logged_in_user_id = $this->Session->read('Auth.User.id');
+
+        if(!$logged_in_user_id){
+            $this->log('User not logged in - can not load ' . $model . ' to check permissions');
+            return false;
+        }
+
+        if(class_exists($model_name)){
+            $model = new $model_name();
+            $model->contain();
+            $model_data = $model->read(null, $id);
+
+
+            if($model->id){
+                if($model_data[$model_name][$field] == $logged_in_user_id){
+                    return true;
+                }
+                else{
+                    $this->log('User ' . $logged_in_user_id . ' trys to change ' . $model . ' with id ' . $model->id . ' without beeing the owner!');
+                    return false;
+                }
+            }
+            else{
+                $this->log('Can not load ' . get_class($model) . ' with id ' . $id);
+                return false;
+            }
+        }
+        else{
+            $this->log('Model ' . $model . ' not found');
+            return false;
+        }
+
+
+
+
+
+    }
+
+    /**
+     * @param  $method
+     * @param  $messages
+     * @return void
+     */
+    /*
+    function appError($method, $messages){
+
+        switch($method){
+            //case 'missingController':
+                // s.th
+                //break
+            default:
+                $this->cakeError('error404');
+        }
+        die();
+    }
+     */
+
+    function _setErrorLayout() {
+      if ($this->name == 'CakeError') {
+        $this->layout = 'error';
+      }
+    }
+
+    /**
+     * is triggered, when user manipulates the security hash
+     */
+    function blackHole() {
+      $this->log("blackHole()", self::LOG_LEVEL_SECURITY);
+      $this->log($_SERVER, self::LOG_LEVEL_SECURITY);
+      $this->log($_REQUEST, self::LOG_LEVEL_SECURITY);
+      die("You IP has been saved!");
+    }
+
+
 	function beforeRender()
     {
-        if (Configure::read('debug') == 0) {
-            ob_start();
-       }
+        //$this->_setErrorLayout();
+
+        //???????????????????????????????
+        //if (Configure::read('debug') == 0) {
+            //ob_start();
+       //}
     } 
-	
+/*
 	function afterFilter()
     {
        if (Configure::read('debug') == 0) {

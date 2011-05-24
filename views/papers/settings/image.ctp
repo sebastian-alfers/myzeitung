@@ -5,7 +5,7 @@
 		<?php echo $this->Html->script('user/upload'); ?>
 		<h4 class="account-title"><?php echo __('Profile picture', true);?></h4>
 				
-		<form id="file_upload"
+							<form id="file_upload"
 					action="<?php echo FULL_BASE_URL.DS.'users/ajxProfileImageProcess'; ?>"
 					method="POST" enctype="multipart/form-data"><input
 					type="file" name="file"> 
@@ -13,10 +13,10 @@
 				
 				<input type="hidden" name="hash"
 					value="<?php echo $hash; ?>" />
-		</form>
+				</form>
 				
 				<div id="files" style="float: left"></div>
-					<ul id="profile_img_preview"></ul>
+					<ul id="profile_img_preview">
 				</div>
 				<hr />
 				<div id="submit_profile_img" style="display:none">

@@ -1,4 +1,4 @@
-<div id="dialog-url" title="<?php __('add URL'); ?>" style="display:hidden">
+<div id="dialog-url" title="<?php __('add URL'); ?>" style="display:none">
 	 <p>
 		<input type="text" id="url">
 	</p> 
