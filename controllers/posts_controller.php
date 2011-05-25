@@ -2,6 +2,9 @@
 class PostsController extends AppController {
 
 	const NO_TOPIC_ID = 'null';
+	const ALLOW_COMMENTS_DEFAULT = 'default';
+	const ALLOW_COMMENTS_TRUE = 'true';
+	const ALLOW_COMMENTS_FALSE = 'false';
 
 	var $name = 'Posts';
 
@@ -168,8 +171,8 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-
-			//debug($this->data);
+			
+			//debug($this->data);die();
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}
@@ -228,8 +231,13 @@ class PostsController extends AppController {
 
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-		$topics['null'] = __('No Topic', true);
-
+		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
+		$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
+		
+		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
+		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
+		$allow_comments[self::ALLOW_COMMENTS_FALSE] = __('No',true);
+		
 		if($error){
 			$this->set('hash', $this->data['Post']['hash']);
 
@@ -262,8 +270,9 @@ class PostsController extends AppController {
 		else{
 			$this->set('hash', $this->Upload->getHash());
 		}
-
 		$this->set(compact('topics'));
+		
+		$this->set('allow_comments', $allow_comments);
 		$this->set('user_id',$user_id);
 
 
@@ -340,9 +349,14 @@ class PostsController extends AppController {
 			$this->data = $this->Post->read(null, $id);
 			if(empty($this->data['Post']['topic_id']))$this->data['Post']['topic_id'] = 'null';
 		}
+		
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-		$topics['null'] = __('No Topic', true);
-
+		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
+		
+		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
+		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
+		$allow_comments[self::ALLOW_COMMENTS_FALSE] = __('No',true);
+		
 		//set images
 		if(isset($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 			//check, if there are already images
@@ -367,7 +381,7 @@ class PostsController extends AppController {
 			}
 
 		}
-
+		$this->set('allow_comments', $allow_comments);
 		$this->set(compact('topics', 'users'));
 
 		$this->set('hash', $this->Upload->getHash());
