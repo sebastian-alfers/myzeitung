@@ -20,6 +20,31 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+/* set environment */
+Configure::write('Hosting.environment.local', false);
+Configure::write('Hosting.environment.dev', false);
+Configure::write('Hosting.environment.live', false);
+
+//check to see if server name is set (thanks Frank)
+if(isset($_SERVER['SERVER_NAME'])){
+    switch($_SERVER['SERVER_NAME']){
+        case 'myzeitung.loc':
+            Configure::write('Hosting.environment.local', true);
+            //Configure::write('Hosting.environment.dev', true);
+            define('USE_SOLR', true);
+            break;
+        case 'www.on-line-solutions.de':
+            Configure::write('Hosting.environment.dev', true);
+            define('USE_SOLR', false);
+            break;
+    }
+}
+else // we are likely baking, use our local db
+{
+    Configure::write('Hosting.environment.local', true);
+}
+
+
 /**
  * CakePHP Debug Level:
  *
