@@ -37,6 +37,9 @@ class AppController extends Controller {
 	//load debug toolbar in plugins/debug_toolbar/
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
+
+    var $helpers = array('Cf', 'Session');
+
 	
 	public function beforeFilter(){
         //$this->Security->blackHoleCallback = 'blackHole';

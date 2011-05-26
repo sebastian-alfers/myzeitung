@@ -7,21 +7,20 @@
 echo $this->Html->meta('icon');
 
 
-e($html->script('jquery-1.5.1.min'));
-e($html->script('jquery.fileupload'));
-e($html->script('jquery.fileupload-ui'));
-e($html->script('jquery-ui-1.8.11.min'));
-e($html->script('jquery.jqtransform'));
-e($html->script('global/AjaxRequest'));
+e($cf->script('jquery-1.5.1.min'));
+e($cf->script('jquery.fileupload'));
+e($cf->script('jquery.fileupload-ui'));
+e($cf->script('jquery-ui-1.8.11.min'));
+e($cf->script('jquery.jqtransform'));
+e($cf->script('global/AjaxRequest'));
+e($cf->script('jquery.pop.js'));
+e($cf->script('jquery.tipsy.js'));
 
-e($html->css('jquery.fileupload-ui'));
-e($html->css('jquery-ui-1.8.11'));
+e($cf->css('jquery.fileupload-ui'));
+e($cf->css('jquery-ui-1.8.11'));
 
 
-
-//echo $this->Html->css('mz.custom');
-
-echo $this->Html->css('style');
+echo $cf->css('style');
 
 
 //	echo $scripts_for_layout;

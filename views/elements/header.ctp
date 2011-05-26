@@ -2,17 +2,9 @@
 				<h1 id="logo"><a href="/">myZeitung</a></h1>
 					<div id="user-info">
 						<?php if($session->read('Auth.User.id')): // logged in??>
-						<?php echo __("logged in as", true)." "; ?><?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'),
-							 array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?>
-
-						<form class="user-actions">
-						<select name="options" id="PostTopicId">
-							<option value="">Actions</option>
-                            <option value="http://www.spiegel.de/">Account Settings</option>
-							<option value="null"><?php echo $this->Html->link(__("logout", true), array('controller' => 'users', 'action' => 'logout'));?></option>
-						</select>
-						</form>
-						<?php 
+						<?php echo __("logged in as", true)." "; ?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?>
+                        <a href="login" class="signin"><span><strong><?php echo $session->read('Auth.User.username'); ?></strong></span></a>
+						<?php
 						//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));
 						$user = $session->read('Auth.User');
 						$link_data = array();
@@ -104,4 +96,46 @@
 				<div class="suggestionList" id="autoSuggestionsList">
 					&nbsp;
 				</div>
-			</div>	
+
+	</div>
+
+
+
+
+
+
+                <div id="signin_menu">
+                    <div style="background-color:#ff0000;height:20px;width:100px;"></div>
+                    <ul>
+                        <li><?php __('My Account');?></li>
+                    </ul>
+                </div>
+
+
+              <script type="text/javascript">
+                      $(document).ready(function() {
+
+                          $(".signin").click(function(e) {
+                              e.preventDefault();
+                              $("div#signin_menu").toggle();
+                              $(".signin").toggleClass("menu-open");
+                          });
+
+                          $("div#signin_menu").mouseup(function() {
+                              return false
+                          });
+                          $(document).mouseup(function(e) {
+                              if($(e.target).parent("a.signin").length==0) {
+                                  $(".signin").removeClass("menu-open");
+                                  $("div#signin_menu").hide();
+                              }
+                          });
+
+                      });
+              </script>
+
+              <script type='text/javascript'>
+                  $(function() {
+                    $('#forgot_username_link').tipsy({gravity: 'w'});
+                  });
+                </script>

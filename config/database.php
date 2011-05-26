@@ -33,21 +33,13 @@ class DATABASE_CONFIG
 	function __construct ()
 	{
 		//check to see if server name is set (thanks Frank)
-		if(isset($_SERVER['SERVER_NAME'])){
-			switch($_SERVER['SERVER_NAME']){
-				case 'myzeitung.loc':
-                    define('USE_SOLR', true);
-					$this->default = $this->dev;
-					break;
-				case 'www.on-line-solutions.de':
-                    define('USE_SOLR', false);
-					$this->default = $this->test;
-					break;
-			}
+		if(Configure::read('Hosting.environment.local')){
+            $this->default = $this->dev;
+        }
+
+        if(Configure::read('Hosting.environment.dev')){
+            $this->default = $this->test;
 		}
-	    else // we are likely baking, use our local db
-	    {
-	        $this->default = $this->dev;
-	    }
+
 	}
 }
