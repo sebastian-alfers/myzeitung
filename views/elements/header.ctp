@@ -105,9 +105,17 @@
 
 
                 <div id="signin_menu">
-                    <div style="background-color:#ff0000;height:20px;width:100px;"></div>
                     <ul>
-                        <li><?php __('My Account');?></li>
+                        <li><?php echo $this->Html->link('My Account', array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id'))); ?></li>
+                    </ul>
+                    <ul>
+                        <li><?php __('My Papers');?></li>
+                    </ul>
+                    <ul>
+                        <li><?php __('My Posts');?></li>
+                    </ul>
+                    <ul>
+                        <li><?php __('Logout');?></li>
                     </ul>
                 </div>
 
