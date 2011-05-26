@@ -52,7 +52,7 @@
 							<?php endforeach;?>
 							</ul>
 						<hr />			
-						<h3>Top Autoren</h3>
+						<h3><?php echo __('Top Authors', true);?></h3>
 							<ul>
 							
 							<?php foreach($users as $user):?>

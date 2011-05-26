@@ -17,10 +17,10 @@ $(document).ready(function() {
 				<?php echo $this->Form->hidden('id' , array('value' => $user['User']['id']));?>
 				<?php echo $this->Form->hidden('username' , array('value' => $user['User']['username']));?>
 				<?php echo $this->Form->hidden('image' , array('value' => $user['User']['image']));?>
-				<p><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'div' => false,'label' => __('Email', true))); ?></p>
+				<div><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'div' => false,'label' => __('Email', true))); ?></div>
 				
-				<p><?php  echo $this->Form->input('passwd', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Password', true))); ?></p>
-				<p><?php  echo $this->Form->input('passwd_confirm', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Confirm Password', true))); ?></p>			
+				<div><?php  echo $this->Form->input('passwd', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Password', true))); ?></div>
+				<div><?php  echo $this->Form->input('passwd_confirm', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Confirm Password', true))); ?></div>			
 				<div class="accept">	
 					<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save Changes', true);?></a>
 				</div>
