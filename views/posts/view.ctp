@@ -49,6 +49,8 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 			<?php echo $content_after_first_paragraph;?>			
 			</div><!-- /. articleview -->
 			
+			
+			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['User']['allow_comments'] == true)):?>
 			<div class="comments" style="clear:both">
 				<?php // Comment Input Box?>
 				<?php if($session->read('Auth.User.id')):?>
@@ -57,7 +59,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 				<?php // Comments Pagination?>
 				<?php echo $this->element('comments/navigator'); ?>
 			</div> <!-- / .comments -->
-			
+			<?php endif;?>
 		</div> <!-- /. articleview-wrapper -->							
 	
 	</div><!-- / #maincol -->

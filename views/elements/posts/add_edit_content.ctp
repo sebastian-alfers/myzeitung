@@ -7,7 +7,8 @@
 <?php //debug($this->data); ?>
 <div class="posts form"><?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data"));?>
 
-<p><?php echo $this->Form->input('id'); ?> <?php echo $this->Form->input('topic_id');
+<p><?php echo $this->Form->input('id'); ?> 
+<?php echo $this->Form->input('topic_id');
 
 echo $this->Form->input('title');
 //echo $this->Form->input('content');
@@ -18,7 +19,7 @@ echo $this->Form->hidden('hash',array('value' => $hash));
 
 //wil be filled, right after submitting form
 echo $this->Form->hidden('images',array('value' => ''));
-
+echo $this->Form->input('allow_comments',array('type'=>'select','options'=>$allow_comments)); 
 
 ?></p>
 
