@@ -12,7 +12,7 @@ e($cf->script('jquery.fileupload'));
 e($cf->script('jquery.fileupload-ui'));
 e($cf->script('jquery-ui-1.8.11.min'));
 e($cf->script('jquery.jqtransform'));
-e($cf->script('global/AjaxRequest'));
+e($cf->script('global/myzeitung'));
 e($cf->script('jquery.pop.js'));
 e($cf->script('jquery.tipsy.js'));
 

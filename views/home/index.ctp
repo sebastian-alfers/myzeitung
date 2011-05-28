@@ -3,7 +3,6 @@
 				<h1 id="logo"><a href="/">myZeitung</a></h1>
 				<p class="slogan">Mit <span>myZeitung</span> bist du immer gut Informiert.</p>
 			
-			
 			<?php  echo $this->Form->create('User', array('id' => 'login-form', 'controller' => 'users', 'action' => 'login')); ?>
 			<?php  echo $this->Form->input('username', array('class' => 'textinput-login', 'div' => false,'label' => false)); ?>
 			<?php  echo $this->Form->input('password', array('class' => 'textinput-login', 'div' => false, 'label' => false)); ?>
@@ -43,7 +42,7 @@
 									<?php
                                     $link_data = array();
                                     $link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
-                                    //$link_data['additional'] = array('class' => 'user-image');
+                                    $link_data['additional'] = array('class' => 'tt-title', 'title' => $paper['Paper']['title']);
                                     $img['image'] = $paper['Paper']['image'];
                                     echo $image->render($img, 58, 58, array("alt" => $paper['Paper']['title']), $link_data, ImageHelper::PAPER);
                                     ?>
