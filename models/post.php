@@ -12,38 +12,6 @@ class Post extends AppModel {
 
 	var $CategoryPaperPost = null;
 
-	var $validate = array(
-		'user_id' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
-		'title' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
-		'content' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-	//'message' => 'Your custom message here',
-	//'allowEmpty' => false,
-	//'required' => false,
-	//'last' => false, // Stop validation after this rule
-	//'on' => 'create', // Limit validation to 'create' or 'update' operations
-	),
-	),
-	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
@@ -436,8 +404,36 @@ class Post extends AppModel {
 			}
 
 
-			function __construct(){
-				parent::__construct();
+	function __construct(){
+		parent::__construct();
+		
+		$this->validate = array(
+			'title' => array(
+				'empty' => array(
+					'rule' 			=> 'notEmpty',
+					'message' 		=> __('Please enter a title.', true),
+					'last' 			=> true,
+				),
+				'maxlength' => array(
+					'rule'			=> array('maxlength', 100),
+					'message'		=> __('Titles can only be 100 characters long.', true),
+					'last' 			=> true,
+				),
+			),
+			'content' => array(
+				'empty' => array(
+					'rule' 			=> 'notEmpty',
+					'message' 		=> __('Please enter your message.', true),
+					'last' 			=> true,
+				),
+			),
+		);
+				
+				
+				
+				
+				
+				
 			}
 
 			function delete($id){

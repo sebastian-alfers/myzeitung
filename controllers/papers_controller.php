@@ -161,7 +161,7 @@ class PapersController extends AppController {
 				if(is_array($image)){
                     $this->log('jo image');
                     $paper_data['Paper']['image'] = $image;
-
+					$this->Paper->doAfterSave = true;
 					if($this->Paper->save($paper_data, true, array('image'))){
    						$this->Session->setFlash(__('Image has been saved', true));
 	    				$this->User->updateSolr = true;
@@ -334,6 +334,7 @@ class PapersController extends AppController {
 
 			$this->Paper->create();
 			$this->data['Paper']['owner_id'] = $this->Auth->User("id");
+			$this->Paper->doAfterSave = true;
 			if ($this->Paper->save($this->data)) {
 				$routeData = array('Route' => array(
 									'source' => $this->data['Paper']['title'],
@@ -371,6 +372,7 @@ class PapersController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+			$this->Paper->doAfterSave = true;
 			if ($this->Paper->save($this->data)) {
 				$this->Session->setFlash(__('The paper has been saved', true));
 				$this->redirect(array('action' => 'index'));

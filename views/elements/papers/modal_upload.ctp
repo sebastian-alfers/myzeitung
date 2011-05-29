@@ -24,4 +24,3 @@
     <div id="files" style="float: left"></div>
         <ul id="new_img_preview"></ul>
     </div>
-</div>

@@ -1,14 +1,12 @@
-<?php debug ($this->Form->error('User.username'));?>
+<?php debug($this->Form->error('User.tos_accept'));?>
 <script type="text/javascript">
 <!--
 $(document).ready(function() {
 	$("#link_add_user").click(function(){
-		if($('#accept_conditions').attr('checked') == true){
+
 			$('#register-form').submit();
-		}
-		else{
-			alert('please confirm Terms and Conditions');
-		}
+
+
 	});	
 
 });
@@ -60,7 +58,11 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 								</p>
 								
 								<div class="accept">
-									<p><input type="checkbox" id="accept_conditions"/> <strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong></p>					
+									<div><?php  echo $this->Form->input('tos_accept', array('type' => 'checkbox', 'class' => 'textinput', 'label' => false)); ?><strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong>
+									<?php if(!is_null($this->Form->error('User.tos_accept'))): ?>
+										<div class="error-message"><b></b><?php echo $this->Form->error('User.tos_accept', array('wrap'=> false));?></div>
+									<?php endif; ?>
+									</div>					
 									<a class="btn big" id="link_add_user"><span>+</span><?php echo __('Create Account', true);?></a>
 								</div>
 								
