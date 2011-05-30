@@ -117,61 +117,81 @@ class User extends AppModel {
 
 			'name' => array(
 				'maxlength' => array(
-					'rule'		=> array('maxlength', 30),
-					'message'	=> __('Names can only be 30 characters long.', true),
+					'rule'			=> array('maxlength', 30),
+					'message'		=> __('Names can only be 30 characters long.', true),
+					'last' 			=> true,
 				),
 			),
 			'description' => array(
 				'maxlength' => array(
-					'rule'		=> array('maxlength', 200),
-					'message'	=> __('Names can only be 200 characters long.', true),
+					'rule'			=> array('maxlength', 200),
+					'message'		=> __('Names can only be 200 characters long.', true),
+					'last'			=> true,
 				),
 			),
 			
 			'email' => array(
 				'empty' => array(
-					'rule' => 'notEmpty',
-					'message' => __('Please enter your email adress.', true),
-					'last' => true,
+					'rule'			=> 'notEmpty',
+					'message' 		=> __('Please enter your email adress.', true),
+					'last' 			=> true,
 				),
 				'email' => array(
-					'rule'		=> array('email'),
-					'message'	=> __('Please enter a valid email address.', true),
-					'last' => true,
+					'rule'			=> array('email'),
+					'message'		=> __('Please enter a valid email address.', true),
+					'last' 			=> true,
 				),
 				'unique' => array(
-					'rule'		=> 'isUnique',
-					'message'	=> __('This email address has already been registered.', true),
+					'rule'			=> 'isUnique',
+					'message'		=> __('This email address has already been registered.', true),
+					'last' 			=> true,
 				),
 			),
 			
 			'username' => array(
+				'empty' => array(
+					'rule' 			=> 'notEmpty',
+					'message' 		=> __('Please enter your desired username.', true),
+					'last' 			=> true,
+				),
 				'length' => array(
-					'rule'		=> array('between', 3, 15),
-					'message'	=> __('Usernames must be between 3 and 15 characters long.', true)
+					'rule'			=> array('between', 3, 15),
+					'message'		=> __('Usernames must be between 3 and 15 characters long.', true),
+					'last'			=> true,
 				),
 				'alpha' => array(
-					'rule'		=> 'alphaNumeric',
-					'message'	=> __('Usernames must only contain letters and numbers.', true)
-	    		),
+					'rule'			=> 'alphaNumeric',
+					'message'		=> __('Usernames must only contain letters and numbers.', true),
+					'last'			=> true,	
+				),
 	    		'unique' => array(
-					'rule'		=> 'isUnique',
-					'message'	=> __('This username has already been taken.', true)
-				)
+					'rule'			=> 'isUnique',
+					'message'		=> __('This username has already been taken.', true),
+					'last'			=> true,
+				),
 			),
 			//the auth component hashes the pwd before the save method - before validation. so we are using a temp field for validating first.
 			'passwd' => array(
 				'length' => array(
-					'rule' => array('between', 5, 20),
-					'message' => __('Passwords must be between 5 and 20 characters long.', true)
+					'rule' 			=> array('between', 5, 20),
+					'message'		=> __('Passwords must be between 5 and 20 characters long.', true),
+					'last'			=> true,
 				),
 			),
 			'passwd_confirm' => array (  
                 'match' =>  array(  
                     'rule'          => 'validatePasswdConfirm',   
-                    'message'       => __('Passwords do not match', true)  
+                    'message'       => __('Passwords do not match', true),  
+					'last'			=> true,
                 )  
-            )  
+            ),
+            'tos_accept' => array (  
+                'match' =>  array(  
+                    'rule'          => array('equalTo', '1'),
+                    'message'       => __('accept or die', true),  
+					'last'			=> true,
+                )  
+            ) 
 		);
 			
 				
@@ -261,6 +281,11 @@ class User extends AppModel {
 			{  
 				unset($this->data['User']['passwd_confirm']);  
 			}  
+			if (isset($this->data['User']['tos_accept']))  
+			{  
+				unset($this->data['User']['tos_accept']);  
+			}  
+			
 			return true;
 		}
 
@@ -303,7 +328,7 @@ class User extends AppModel {
 				$this->data['User']['user_name'] = $this->data['User']['name'];
 				$this->data['User']['user_username'] = $this->data['User']['username'];
 				$this->data['User']['user_id'] = $this->data['User']['id'];
-					
+				
 				$solr = new Solr();
 				$solr->add($this->addFieldsForIndex($this->data));
 	
@@ -363,6 +388,9 @@ class User extends AppModel {
 			$solrFields['User']['type'] = $data['User']['type'];
 			$solrFields['User']['user_id'] = $data['User']['user_id'];
 			$solrFields['User']['index_id'] = $data['User']['index_id'];
+			if(isset($data['User']['image'])){
+				$solrFields['User']['user_image'] = $data['User']['image'];
+			}
 			return $solrFields;
 				
 		}

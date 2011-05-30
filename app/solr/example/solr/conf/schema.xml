@@ -417,10 +417,12 @@
    <field name="paper_id" type="string" indexed="false" stored="true" required="false" /> 
    <field name="paper_title" type="text" indexed="true" stored="true" required="false" /> 
    <field name="paper_description" type="text" indexed="true" stored="true"/>       
+   <field name="paper_image" type="text" indexed="false" stored="true"/>  
    
    <field name="user_id" type="string" indexed="false" stored="true" required="true" />   
    <field name="user_name" type="text" indexed="false" stored="true" required="true" />    
    <field name="user_username" type="text" indexed="false" stored="true" required="false" />   
+   <field name="user_image" type="text" indexed="false" stored="true"/>
    
    <field name="topic_name" type="text" indexed="false" stored="true" required="false" />    
    

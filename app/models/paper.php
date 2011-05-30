@@ -271,9 +271,6 @@ class Paper extends AppModel {
 
 
 				if($this->id){
-					/**
-					 * @todo alf: hier wird glaub ich jedes mal nen satz erzeugt. stattdessen m�sste ein Satz bei created angelegt werden und bei nicht created ge-updatet, bzw gel�scht und neu angelegt werden
-					 */
 					//get User information
 					$user = new User();
 
@@ -287,6 +284,7 @@ class Paper extends AppModel {
 					$data['Paper']['user_id'] = $userData['User']['id'];
 					$data['Paper']['user_name'] = $userData['User']['name'];
 					$data['Paper']['user_username'] = $userData['User']['username'];
+					$data['Paper']['paper_image'] = $this->data['Paper']['image'];
 					$solr = new Solr();
 					$solr->add($this->addFieldsForIndex($data));
 
@@ -650,15 +648,18 @@ class Paper extends AppModel {
 			private function addFieldsForIndex($data){
 
 				$solrFields = array();
-				$solrFields['Paper']['id'] = $data['Paper']['id'];
-				$solrFields['Paper']['paper_title'] = $data['Paper']['paper_title'];
-				$solrFields['Paper']['paper_description'] = $data['Paper']['paper_description'];
-				$solrFields['Paper']['index_id'] = $data['Paper']['index_id'];
-				$solrFields['Paper']['user_id'] = $data['Paper']['user_id'];
-				$solrFields['Paper']['user_name'] = $data['Paper']['user_name'];
-				$solrFields['Paper']['user_username'] = $data['Paper']['user_username'];
-				$solrFields['Paper']['type'] = $data['Paper']['type'];
-			
+				$solrFields['Paper']['id']					= $data['Paper']['id'];
+				$solrFields['Paper']['paper_title']			= $data['Paper']['paper_title'];
+				$solrFields['Paper']['paper_description']	= $data['Paper']['paper_description'];
+				$solrFields['Paper']['index_id']			= $data['Paper']['index_id'];
+				$solrFields['Paper']['user_id']				= $data['Paper']['user_id'];
+				$solrFields['Paper']['user_name']			= $data['Paper']['user_name'];
+				$solrFields['Paper']['user_username']		= $data['Paper']['user_username'];
+				$solrFields['Paper']['type']				= $data['Paper']['type'];
+				if(isset($data['Paper']['paper_image'])){
+					$solrFields['Paper']['paper_image'] = $data['Paper']['paper_image'];
+				}
+				debug($solrFields);
 				return $solrFields;
 			}
 

@@ -652,20 +652,15 @@ class UsersController extends AppController {
 	 */
 
 	
-	function accGeneral($id = null){
-		if(!$id){
-			$id = $this->Session->read('Auth.User.id');
-		}
-				
+	function accGeneral(){
+		
+		$id = $this->Session->read('Auth.User.id');
+			
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect($this->referer());
 		}	
-		if(!($id == $this->Session->read('Auth.User.id'))){
-			$this->Session->setFlash(__('No permission', true));
-			$this->redirect($this->referer());
-		}	
-		debug($this->data);
+
 		if (!empty($this->data)) {
 			if ($this->User->save($this->data, true, array('email', 'password', 'passwd', 'passwd_confirm'))) {
 				$this->Session->setFlash(__('The changes have been saved', true));
@@ -688,17 +683,12 @@ class UsersController extends AppController {
 	
 	
 	
-	function accAboutMe($id = null){
-		if(!$id){
-			$id = $this->Session->read('Auth.User.id');
-		}
-		
+	function accAboutMe(){
+
+		$id = $this->Session->read('Auth.User.id');
+
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
-			$this->redirect($this->referer());
-		}	
-		if(!($id == $this->Session->read('Auth.User.id'))){
-			$this->Session->setFlash(__('No permission', true));
 			$this->redirect($this->referer());
 		}	
 		
@@ -723,17 +713,13 @@ class UsersController extends AppController {
 		$this->set('user', $user);
 	}
 	
-	function accPrivacy($id = null){
-		if(!$id){
-			$id = $this->Session->read('Auth.User.id');
-		}
+	function accPrivacy(){
+
+		$id = $this->Session->read('Auth.User.id');
+
 		
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
-			$this->redirect($this->referer());
-		}	
-		if(!($id == $this->Session->read('Auth.User.id'))){
-			$this->Session->setFlash(__('No permission', true));
 			$this->redirect($this->referer());
 		}	
 		
@@ -783,10 +769,11 @@ class UsersController extends AppController {
 					$this->User->contain();
 					$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
 					$user_data['User']['image'] = $image;
-
+					
+					$this->User->updateSolr = true;
 					if($this->User->save($user_data, true, array('image'))){
    						$this->Session->setFlash(__('Saved new profile image', true));
-	    				$this->User->updateSolr = true;
+	    				
 						$this->Session->write("Auth.User.image", $user_data['User']['image']);
 						$this->redirect($this->referer());
 					}

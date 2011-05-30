@@ -11,22 +11,35 @@ $(document).ready(function() {
 
 <div id="maincolwrapper"> 
 	<div id="maincol" class="account">
+
 		<h4 class="account-title"><?php echo __('General Settings', true);?></h4>
 
-				<?php echo $this->Form->create('User');?>
+				<?php echo $this->Form->create('User',array( 'inputDefaults' => array('error' => false, 'div' => false)));?>
 				<?php echo $this->Form->hidden('id' , array('value' => $user['User']['id']));?>
 				<?php echo $this->Form->hidden('username' , array('value' => $user['User']['username']));?>
 				<?php echo $this->Form->hidden('image' , array('value' => $user['User']['image']));?>
-				<p><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'div' => false,'label' => __('Email', true))); ?></p>
+				<div><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'div' => false,'label' => __('Email', true))); ?>
+				<?php if(!is_null($this->Form->error('User.email'))): ?>
+					<div class="error-message"><b></b><?php echo $this->Form->error('User.email', array('wrap'=> false));?></div>
+				<?php endif; ?>
+				</div>
 				
-				<p><?php  echo $this->Form->input('passwd', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Password', true))); ?></p>
-				<p><?php  echo $this->Form->input('passwd_confirm', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Confirm Password', true))); ?></p>			
+				<div><?php  echo $this->Form->input('passwd', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Password', true))); ?>
+				<?php if(!is_null($this->Form->error('User.passwd'))): ?>
+					<div class="error-message"><b></b><?php echo $this->Form->error('User.passwd', array('wrap'=> false));?></div>
+				<?php endif; ?>
+				</div>
+				<div><?php  echo $this->Form->input('passwd_confirm', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Confirm Password', true))); ?>
+				<?php if(!is_null($this->Form->error('User.passwd_confirm'))): ?>
+					<div class="error-message"><b></b><?php echo $this->Form->error('User.passwd_confirm', array('wrap'=> false));?></div>
+				<?php endif; ?>
+				</div>			
 				<div class="accept">	
 					<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save Changes', true);?></a>
 				</div>
 								
 				<?php echo $this->Form->end(); ?>	
-							
+
 	</div><!-- / #maincol -->
 
 </div><!-- / #maincolwrapper -->

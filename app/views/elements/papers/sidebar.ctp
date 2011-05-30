@@ -28,7 +28,7 @@ if($paper_belongs_to_user){
 
                 //echo $this->Html->image($image->resize(['image'], 185, 185, null), array("class" => "userimage", "alt" => $paper['Paper']['title']."-image",));?>
 
-
+			</div>
                 <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
                 <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
                     <?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
@@ -37,23 +37,28 @@ if($paper_belongs_to_user){
                 <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>
                     <?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
                 <?php endif;?>
-            </div>
+            
             <h4><?php echo $paper['Paper']['title'];?></h4>
-            <p><strong><?php echo __('Created:').' '; ?></strong><?php echo $this->Time->timeAgoInWords($paper['Paper']['created'], array('end' => '+1 Year'));?></p>
             <?php if(!empty($paper['Paper']['description'])): ?>
-            <p><strong><?php echo __('Description:').' ';?></strong> <?php echo strip_tags($paper['Paper']['description']);?></p>
+            <p><?php echo strip_tags($paper['Paper']['description']);?></p>
             <?php endif;?>
+            <p><?php echo __('created').' '; ?><?php echo $this->Time->timeAgoInWords($paper['Paper']['created'], array('end' => '+1 Year'));?></p>
+
             <?php if(!empty($paper['Paper']['url'])): ?>
             <p class="user-url"><strong>URL: </strong><?php echo $this->Html->link($paper['Paper']['url']);?></p>
+			            
             <?php endif;?>
-            <hr />
+			<hr />
+         	<?php ?>
             <?php if($paper_belongs_to_user):?>
                 <ul>
                     <li><?php echo $this->Html->link('<span>+</span>'.__('New Category', true), array('controller' => 'categories', 'action' => 'add', Category::PARAM_PAPER, $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
                     <li><a class="btn" id="paper_add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
                 </ul>
+                <hr />
             <?php endif;?>
-            <hr />
+            <?php ?>
+            
             <?php if(count($paper['Category']) > 0): ?>
             <h6><?php echo __('Filter by Category', true);?></h6>
             <ul>
@@ -83,7 +88,7 @@ if($paper_belongs_to_user){
                 <li><?php echo $paper['Paper']['content_paper_count'].' '.__('Subcribed Users/Topics', true)?></li>
             </ul>
             <hr />
-                            <?php /*references*/ echo $this->Html->link('References', array('controller' => 'papers', 'action' => 'references', 'paper/'.$paper['Paper']['id'])); ?>
+                            <?php /*references*/ // echo $this->Html->link('References', array('controller' => 'papers', 'action' => 'references', 'paper/'.$paper['Paper']['id'])); ?>
          </div><!-- /.leftcolcontent -->
         </div><!-- /.leftcol -->
 
