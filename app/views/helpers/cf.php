@@ -20,7 +20,7 @@ class CfHelper extends AppHelper {
  * Possible options: 'assets.example.com', if you only have one host
  * Or: 'assets%d.example.com', if you have multiple hosts. %d gets replaced with host number
  */
-  private $assetHost = 'd27w2atmcs0um2.cloudfront.net';
+  private $assetHost = 'dcc3ee7xblkrc.cloudfront.net';
   
 /**
  * If above is 'assets%d.example.com' will generate host names from 0 - 3
@@ -62,7 +62,7 @@ class CfHelper extends AppHelper {
  */  
   private $assetDir = NULL;
 
- private $_isLocal = false;
+ private $_isLocal = true;
   
 /**
  * We should really force the timestamp to improve caching.
@@ -71,8 +71,8 @@ class CfHelper extends AppHelper {
   private $forceTimestamp = FALSE;
 
  public function __construct(){
-     if(Configure::read('Hosting.environment.local')){
-        $this->_isLocal = true;
+     if(Configure::read('Hosting.environment.live')){
+        $this->_isLocal = false;
      }
  }
 
