@@ -91,7 +91,7 @@ class CfHelper extends AppHelper {
  */     
   public function image($assets, $options = array()) {
     if($this->_isLocal){
-
+        return $this->Html->image($assets, $options);
     }
 
     $this->setAssetDir($this->imgDir);      
