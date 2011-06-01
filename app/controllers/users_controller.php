@@ -667,7 +667,6 @@ class UsersController extends AppController {
 				//update session variables:
 				$this->Session->write("Auth.User.email", $this->data['User']['email']);
 			} else {
-								debug($this->User->validationErrors);
 				$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
 			}
 		}

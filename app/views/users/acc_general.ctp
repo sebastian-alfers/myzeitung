@@ -18,9 +18,9 @@ $(document).ready(function() {
 				<?php echo $this->Form->hidden('id' , array('value' => $user['User']['id']));?>
 				<?php echo $this->Form->hidden('username' , array('value' => $user['User']['username']));?>
 				<?php echo $this->Form->hidden('image' , array('value' => $user['User']['image']));?>
-				<div><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'div' => false,'label' => __('Email', true))); ?>
+				<div><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'label' => __('Email', true))); ?>
 				<?php if(!is_null($this->Form->error('User.email'))): ?>
-					<div class="error-message"><b></b><?php echo $this->Form->error('User.email', array('wrap'=> false));?></div>
+				 	<div class="error-message"><b></b><?php echo $this->Form->error('User.email', array('wrap'=> false));?></div>
 				<?php endif; ?>
 				</div>
 				
