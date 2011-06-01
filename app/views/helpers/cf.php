@@ -107,7 +107,7 @@ class CfHelper extends AppHelper {
     }
 
     $this->setAssetDir($this->jsDir);
-    return $this->Javascript->link($this->setAssetPath($assets).'.js', $inline);
+    return $this->Javascript->link($this->setAssetPath($assets), $inline);
   }
   
  /**
