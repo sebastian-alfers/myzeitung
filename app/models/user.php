@@ -125,7 +125,7 @@ class User extends AppModel {
 			'description' => array(
 				'maxlength' => array(
 					'rule'			=> array('maxlength', 200),
-					'message'		=> __('Names can only be 200 characters long.', true),
+					'message'		=> __('Your description can only be 200 characters long.', true),
 					'last'			=> true,
 				),
 			),
@@ -188,7 +188,7 @@ class User extends AppModel {
             'tos_accept' => array (  
                 'match' =>  array(  
                     'rule'          => array('equalTo', '1'),
-                    'message'       => __('accept or die', true),  
+                    'message'       => __('Please accept the terms of service and privacy policy.', true),  
 					'last'			=> true,
                 )  
             ) 

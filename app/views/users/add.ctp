@@ -1,4 +1,3 @@
-<?php debug($this->Form->error('User.tos_accept'));?>
 <script type="text/javascript">
 <!--
 $(document).ready(function() {
@@ -60,7 +59,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 								<div class="accept">
 									<div><?php  echo $this->Form->input('tos_accept', array('type' => 'checkbox', 'class' => 'textinput', 'label' => false)); ?><strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong>
 									<?php if(!is_null($this->Form->error('User.tos_accept'))): ?>
-										<div class="error-message"><b></b><?php echo $this->Form->error('User.tos_accept', array('wrap'=> false));?></div>
+									<div class="error-message"><b></b><?php echo $this->Form->error('User.tos_accept', array('wrap'=> false));?></div>
 									<?php endif; ?>
 									</div>					
 									<a class="btn big" id="link_add_user"><span>+</span><?php echo __('Create Account', true);?></a>

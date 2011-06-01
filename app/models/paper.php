@@ -1,7 +1,7 @@
 <?php
 class Paper extends AppModel {
 
-    const DEFAULT_PAPER_IMAGE = 'news-image.jpg';
+    const DEFAULT_PAPER_IMAGE = 'assets/news-image.jpg';
 
     var $name = 'Paper';
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_subscriptions'));
@@ -27,10 +27,10 @@ class Paper extends AppModel {
 			'className' => 'User',
 			'foreignKey' => 'owner_id',
 			'counterCache' => true
-			),
-			);
+		),
+	);
 
-			var $hasAndBelongsToMany = array(
+	var $hasAndBelongsToMany = array(
 		'Post' => array(
 			'className' => 'Post',
 			'joinTable' => 'category_paper_posts',
@@ -44,19 +44,19 @@ class Paper extends AppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-			)
-			);
+		)
+	);
 
 
 
-			var $hasMany = array(
+	var $hasMany = array(
 		'Category' => array(
 			'className' => 'Category',
 			'foreignKey' => 'paper_id',
 			'dependent' => true,
 			'conditions' => array('parent_id' => 0),//IMPORTANT! to avoid show sub-category in root
 			//	'dependent' => false
-			),
+		),
 		'Subscription' => array(
 			'className' => 'Subscription',
 			'foreignKey' => 'paper_id',
@@ -82,8 +82,44 @@ class Paper extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-			)
+		)
+	);
+	
+function __construct(){
+		parent::__construct();
+			
+		$this->validate = array(
+
+			'title' => array(
+				'empty' => array(
+					'rule'			=> 'notEmpty',
+					'message' 		=> __('Please enter a title for your paper', true),
+					'last' 			=> true,
+				),
+				'maxlength' => array(
+					'rule'			=> array('maxlength', 15),
+					'message'		=> __('Paper titles can only be 15 characters long.', true),
+					'last' 			=> true,
+				),
+			),
+			'description' => array(
+				'maxlength' => array(
+					'rule'			=> array('maxlength', 200),
+					'message'		=> __('Descriptions can only be 200 characters long.', true),
+					'last'			=> true,
+				),
+			),
+			'url' => array(
+				'valid_url' => array(
+					'rule'			=> array('url', true),
+					'message'		=> __('Please provide a valid URL. http://your.link', true),
+					'last'			=> true,
+				),
+			),
 		);
+			
+				
+	}
 
 			/**
 			 * @author tim
@@ -284,7 +320,9 @@ class Paper extends AppModel {
 					$data['Paper']['user_id'] = $userData['User']['id'];
 					$data['Paper']['user_name'] = $userData['User']['name'];
 					$data['Paper']['user_username'] = $userData['User']['username'];
-					$data['Paper']['paper_image'] = $this->data['Paper']['image'];
+					if(isset($this->data['Paper']['image'])){
+						$data['Paper']['paper_image'] = $this->data['Paper']['image'];
+					}
 					$solr = new Solr();
 					$solr->add($this->addFieldsForIndex($data));
 
@@ -659,7 +697,6 @@ class Paper extends AppModel {
 				if(isset($data['Paper']['paper_image'])){
 					$solrFields['Paper']['paper_image'] = $data['Paper']['paper_image'];
 				}
-				debug($solrFields);
 				return $solrFields;
 			}
 
