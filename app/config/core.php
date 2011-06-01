@@ -37,7 +37,7 @@ if(isset($_SERVER['SERVER_NAME'])){
             Configure::write('Hosting.environment.dev', true);
             define('USE_SOLR', false);
             break;
-        case 'http://www.myzeitung.de/':
+        case 'www.myzeitung.de':
             Configure::write('Hosting.environment.live', true);
             define('USE_SOLR', true);
             break;
