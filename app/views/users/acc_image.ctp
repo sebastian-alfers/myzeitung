@@ -31,7 +31,7 @@
 				<div class="accept">	
 					<a class="btn big" id="add_profile_img_btn"><span>+</span><?php echo __('Save Changes', true);?></a>
 				</div>			
-				<?php echo $this->Form->end(); ?>	
+				<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>	
 							
 	</div><!-- / #maincol -->
 

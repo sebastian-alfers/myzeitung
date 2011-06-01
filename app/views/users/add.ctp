@@ -66,7 +66,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 									<a class="btn big" id="link_add_user"><span>+</span><?php echo __('Create Account', true);?></a>
 								</div>
 								
-								<?php echo $this->Form->end(); ?>	
+								<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>	
 						
 						</div> <!-- /register -->
 
