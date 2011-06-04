@@ -42,12 +42,13 @@ if($paper_belongs_to_user){
             <?php if(!empty($paper['Paper']['description'])): ?>
             <p><?php echo strip_tags($paper['Paper']['description']);?></p>
             <?php endif;?>
-            <p><?php echo __('created').' '; ?><?php echo $this->Time->timeAgoInWords($paper['Paper']['created'], array('end' => '+1 Year'));?></p>
+           
 
             <?php if(!empty($paper['Paper']['url'])): ?>
-            <p class="user-url"><strong>URL: </strong><?php echo $this->Html->link($paper['Paper']['url']);?></p>
-			            
+            <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow'));?></p>        
             <?php endif;?>
+            
+ 			<p><?php echo __('created').' '; ?><?php echo $this->Time->timeAgoInWords($paper['Paper']['created'], array('end' => '+1 Year'));?></p>
 			<hr />
          	<?php ?>
             <?php if($paper_belongs_to_user):?>

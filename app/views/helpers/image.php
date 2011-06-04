@@ -1,7 +1,7 @@
 <?php
 class ImageHelper extends Helper {
 
-	var $helpers = array('Html');
+	var $helpers = array('Html', 'Cf');
 	var $themeWeb = '';
 	var $cacheDir = ''; // relative to IMAGES_URL path
 
@@ -304,7 +304,7 @@ class ImageHelper extends Helper {
 			if(is_array($img_extra) && !isset($img_extra['style'])){
 				$img_extra['style'] = $info['inline'];
 			}
-			$img = $this->Html->image($info['path'], $img_extra);
+			$img = $this->Cf->image($info['path'], $img_extra);
 
 			//echo $this->Html->link($img, , array('class' => "user-image", 'escape' => false, 'style' => 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;'));
 		}

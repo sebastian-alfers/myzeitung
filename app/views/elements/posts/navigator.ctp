@@ -1,14 +1,14 @@
 <div id="maincolwrapper"> 
 					<div id="maincol">
 					
-					<div class="article-nav">
+				<div class="article-nav">
 						<div class="pagination">
 							<?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
 							<?php echo $this->Paginator->numbers(array('separator' => '')); ?>
 							<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
 						</div>			
 					</div>
-									
+
 		<?php foreach ($posts as $index => $post):	
 		
 				$article_reposted_by_user = false;
@@ -27,9 +27,10 @@
 						   <?php endif;?>
 							<div class="article">
 							<ul class="iconbar">
-								<li class="reposts"><?php echo $post['Post']['posts_user_count'];?></li>
-								<li class="views"><?php echo $post['Post']['view_count'];?></li>
-								<li class="comments"><?php echo $post['Post']['comment_count'];?><span>.</span></li>								
+							<?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
+								<li class="reposts tt-title" title="<?php echo $post['Post']['posts_user_count'].' '.__('reposts', true);?>"><?php echo $post['Post']['posts_user_count'];?></li>
+								<li class="views tt-title" title="<?php echo $post['Post']['view_count'].' '.__('times viewed', true);?>"><?php echo $post['Post']['view_count'];?></li>
+								<li class="comments tt-title" title="<?php echo $post['Post']['comment_count'].' '.__('comments', true);?>"><?php echo $post['Post']['comment_count'];?><span>.</span></li>								
 							</ul>
 							
 							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
@@ -125,13 +126,13 @@
 						
 					
 						
-					<div class="article-nav article-nav-bottom">
+				<div class="article-nav article-nav-bottom">
 						<div class="pagination">
 							<?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
 							<?php echo $this->Paginator->numbers(array('separator' => '')); ?>
 							<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
 						</div><!-- / .pagination-->
-					</div><!-- / .article-nav -->													
+					</div><!-- / .article-nav -->												
 					
 					</div><!-- / #maincol -->
 					

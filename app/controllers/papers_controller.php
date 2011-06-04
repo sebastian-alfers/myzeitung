@@ -359,12 +359,17 @@ class PapersController extends AppController {
 			}
 
 
-
+		
 
 		}
-		//$routes = $this->Paper->Route->find('list');
-		//$this->set(compact('routes'));
+		//unbinding irrelevant relations for the query
+		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
+		$papers = $this->paginate($this->User->Paper);
+		//same template for add and edit
+		$this->render('add_edit');
 	}
+	
 
 	function edit($id = null) {
 		if (!$id && empty($this->data)) {
@@ -384,8 +389,12 @@ class PapersController extends AppController {
 			$this->data = $this->Paper->read(null, $id);
 			$this->set('owner_id', $this->data['Paper']['owner_id']);
 		}
-		$routes = $this->Paper->Route->find('list');
-		$this->set(compact('routes'));
+		//unbinding irrelevant relations for the query
+		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
+		$papers = $this->paginate($this->User->Paper);
+		//same template for add and edit
+		$this->render('add_edit');
 	}
 
 	function delete($id = null) {
