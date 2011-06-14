@@ -5,7 +5,7 @@ class ImageHelper extends Helper {
 	var $themeWeb = '';
 	var $cacheDir = ''; // relative to IMAGES_URL path
 
-	const DEFAULT_IMG = 'default.jpg';
+	const DEFAULT_IMG = 'assets/default.jpg';
     const USER = 'user';
     const PAPER = 'paper';
 
@@ -98,7 +98,7 @@ class ImageHelper extends Helper {
 
 			//default img not there;
 			debug('can not load ' . $orig_img_path);
-			return 'default.jpg';
+			return self::DEFAULT_IMG;
 		}
 
 

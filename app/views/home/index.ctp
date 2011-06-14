@@ -101,7 +101,7 @@
 						
 						<h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</h3>
 						
-						<?php echo $this->Html->image('../img/video.jpg');?>
+						<?php echo $this->Html->image('../img/assets/video.jpg');?>
 						
 					
 					</div><!-- /.col3 -->

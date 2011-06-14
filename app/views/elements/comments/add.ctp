@@ -61,7 +61,6 @@ $(document).ready(function() {
 		reply = true;
 		
 		//get form from ajax
-		//var newSibling = '<div class="your-comment" style="top:150px;height:400px;">	 		<h3>Leave a comment to this Post</h3>			<p class="user-info">				<a href="/myzeitung/users/view/3"><img alt="" src="/myzeitung/img/cache/64/65/default-user-image.jpg"></a>			<a href="/myzeitung/users/view/3">alf2</a>		</p>						<form class="leave-comment" action="">				<label>Kommentar</label>				<textarea id="comment_text" cols="10" rows="5"></textarea>				<a id="add_comment" href="#" class="btn"><span>+</span>Post comment</a>			</form>		</div>';
 		var reply_btn = this;
 		
 		var req = $.post('<?php echo DS.APP_DIR.'/comments/ajxGetForm/'?>', {level:'first'})

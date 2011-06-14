@@ -1,7 +1,7 @@
 <?php
 class Paper extends AppModel {
 
-    const DEFAULT_PAPER_IMAGE = 'news-image.jpg';
+    const DEFAULT_PAPER_IMAGE = 'assets/news-image.jpg';
 
     var $name = 'Paper';
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_subscriptions'));
@@ -238,20 +238,20 @@ class Paper extends AppModel {
 			 	if(isset($val['Paper'])){
 					if(isset($val['Paper']['image'])){
 						if(empty($val['Paper']['image'])){
-								$results[$key]['Paper']['image'] = 'news-image.jpg';
+								$results[$key]['Paper']['image'] = 'assets/news-image.jpg';
 						}
 					}
 
 			 	}
 		 		if(isset($val['image'])){
 					if(empty($val['image'])){
-							$results[$key]['image'] = 'news-image.jpg';
+							$results[$key]['image'] = 'assets/news-image.jpg';
 					}
 				}
 			 }
 			 if(isset($results['Paper'])){
 			 	if(empty($results['image'])){
-			 		$results['image'] = 'news-image.jpg';
+			 		$results['image'] = 'assets/news-image.jpg';
 			 	}
 			 }
 			return $results;
