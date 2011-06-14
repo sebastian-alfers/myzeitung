@@ -274,6 +274,7 @@ class PostsController extends AppController {
 		
 		$this->set('allow_comments', $allow_comments);
 		$this->set('user_id',$user_id);
+        $this->set('content_class', 'create-article');//for css in main layout file
 
 
 		//same template for add and edit
@@ -318,7 +319,9 @@ class PostsController extends AppController {
 			//save new sortet images
 
 
+
 			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
+
 				$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images'], 'post');
 				if(is_array($this->images)){
 				}
@@ -386,6 +389,9 @@ class PostsController extends AppController {
 
 		$this->set('hash', $this->Upload->getHash());
 		$this->set('user_id',$user_id);
+
+        $this->set('content_class', 'create-article');//for css in main layout file
+
 		//same template for add and edit
 		$this->render('add_edit');
 	}

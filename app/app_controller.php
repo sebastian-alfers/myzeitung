@@ -38,7 +38,7 @@ class AppController extends Controller {
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
 
-    var $helpers = array('Cf', 'Session');
+    var $helpers = array('Cf', 'Session', 'Mzform');
 
 	
 	public function beforeFilter(){
