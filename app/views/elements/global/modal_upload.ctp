@@ -19,7 +19,7 @@
 			    echo $this->Form->hidden('images',array('value' => '')); ?>
 
             <?php echo $this->Form->hidden('hash',array('value' => $hash)); ?>
-            <div class="accept">
+            <div>
                 <a class="btn big" id="submit_new_image_btn"><span>+</span><?php echo __('Save Changes', true);?></a>
             </div>
         </form>

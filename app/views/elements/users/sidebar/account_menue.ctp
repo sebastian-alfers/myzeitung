@@ -19,7 +19,7 @@ echo $this->element('global/modal_upload',
     <?php echo $this->Html->link('<span class="icon icon-about"></span>'.__('About Me', true), array('controller' => 'users', 'action' => 'accAboutMe'), array('escape' => false,));?></li>
 
     <li id="add_image">
-        <span class="icon icon-profilpic"></span><?php __('Profile Picture'); ?>
+        <span class="icon icon-profilpic"></span><a><?php __('Profile Picture'); ?></a>
     </li>
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accPrivacy'):?><li class="active"><?php else:?><li><?php endif;?>
