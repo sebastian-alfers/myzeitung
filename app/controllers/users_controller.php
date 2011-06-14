@@ -1,8 +1,6 @@
 <?php
 class UsersController extends AppController {
 
-
-
 	var $name = 'Users';
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
@@ -678,6 +676,7 @@ class UsersController extends AppController {
 		$this->User->contain();
 		$user= $this->getUserForSidebar();
 		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
 	}	
 	
 	
@@ -710,6 +709,7 @@ class UsersController extends AppController {
 		$this->User->contain();
 		$user= $this->getUserForSidebar();
 		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
 	}
 	
 	function accPrivacy(){
@@ -740,6 +740,7 @@ class UsersController extends AppController {
 		$this->User->contain();
 		$user= $this->getUserForSidebar();
 		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
 	}
 	
 	
@@ -750,6 +751,7 @@ class UsersController extends AppController {
 	 */
 	function accImage(){
 		if(!empty($this->data)){
+
 			//check, if user exists
 			$this->User->contain();
 			$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
@@ -757,12 +759,12 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('Error while loading user', true));
 				$this->redirect($this->referer());
 			}
-				
-			if($this->Upload->hasImagesInHashFolder($this->data['Users']['hash'])){
+
+			if($this->Upload->hasImagesInHashFolder($this->data['User']['hash'])){
 				$image = array();
 				$user_id = $this->Session->read('Auth.User.id');
 				$user_created = $user_data['User']['created'];
-				$image = $this->Upload->copyImagesFromHash($this->data['Users']['hash'], $user_id, $user_created, $this->data['Users']['images'], 'user');
+				$image = $this->Upload->copyImagesFromHash($this->data['User']['hash'], $user_id, $user_created, $this->data['User']['new_image'], 'user');
 
 				if(is_array($image)){
 					$this->User->contain();
@@ -770,6 +772,7 @@ class UsersController extends AppController {
 					$user_data['User']['image'] = $image;
 					
 					$this->User->updateSolr = true;
+
 					if($this->User->save($user_data, true, array('image'))){
    						$this->Session->setFlash(__('Saved new profile image', true));
 	    				

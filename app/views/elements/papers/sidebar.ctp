@@ -6,13 +6,14 @@ if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session-
 }
 
 if($paper_belongs_to_user){
-    echo $html->script('paper/upload');
-    echo $this->element('papers/modal_upload',
+    echo $html->script('global/upload');
+    echo $this->element('global/modal_upload',
                          array('title'  => 'upload paper picture',
                                'hash'   => $hash,
                                'model'  => 'Paper',
+                               'model_id'=> $paper['Paper']['id'],
                                'submit' => array('controller' => 'papers', 'action' => 'saveImage')));
-}
+}//end pape_belongs_to_user
 
 ?>
 
@@ -54,7 +55,7 @@ if($paper_belongs_to_user){
             <?php if($paper_belongs_to_user):?>
                 <ul>
                     <li><?php echo $this->Html->link('<span>+</span>'.__('New Category', true), array('controller' => 'categories', 'action' => 'add', Category::PARAM_PAPER, $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
-                    <li><a class="btn" id="paper_add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
+                    <li><a class="btn" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
                 </ul>
                 <hr />
             <?php endif;?>
