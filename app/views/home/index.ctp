@@ -57,9 +57,15 @@
 							<?php foreach($users as $user):?>
 								<li>
 									<?php
+									$tipsy_name= $user['User']['username'];
+									if($user['User']['name']){
+										$tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
+									}
+									
+									
                                     $link_data = array();
                                     $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
-                                    $link_data['additional'] = array('class' => 'user-image');
+                                    $link_data['additional'] = array('class' => 'user-image tt-title', 'title' => $tipsy_name);
                                     echo $image->render($user['User'], 58, 58, array("alt" => $user['User']['username']), $link_data);
                                     ?>
 									<span><?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></span>

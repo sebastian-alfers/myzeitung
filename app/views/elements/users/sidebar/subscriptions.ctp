@@ -1,8 +1,4 @@
 
-			<?php if($user['User']['id'] == $session->read('Auth.User.id')): //can not subscribe to himself ?>
-					<?php echo $this->Html->link('<span>+</span>'.__('New Paper', true), array('controller' => 'papers',  'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?>
-			<?php endif; ?>
-
 			<hr />
 			<h6><?php echo __('Filter Papers', true);?></h6>
 			<ul>

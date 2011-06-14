@@ -24,7 +24,7 @@ $(document).ready(function() {
 				<a class="btn big" id="link_login"><span>+</span><?php echo __('Login', true);?></a>
 			</div>
 			
-			<?php echo $this->Form->end(); ?>	
+			<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>	
 	
 		</div> <!-- /register -->
 

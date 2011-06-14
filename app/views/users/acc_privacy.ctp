@@ -23,7 +23,7 @@ $(document).ready(function() {
 					<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save Changes', true);?></a>
 				</div>
 								
-				<?php echo $this->Form->end(); ?>	
+				<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>	
 							
 	</div><!-- / #maincol -->
 
