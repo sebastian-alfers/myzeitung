@@ -92,7 +92,7 @@
 	
 	
 			<div class="suggestionsBox" id="suggestions" style="display: none;">
-				<?php echo $this->Html->image('upArrow.png', array('style' => 'position: relative; top: -12px; left: 700px;'));?>
+				<?php echo $this->Html->image('assets/upArrow.png', array('style' => 'position: relative; top: -12px; left: 700px;'));?>
 				<div class="suggestionList" id="autoSuggestionsList">
 					&nbsp;
 				</div>

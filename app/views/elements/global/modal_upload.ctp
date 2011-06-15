@@ -11,12 +11,15 @@
                 value="<?php echo $hash; ?>" />
     </form>
     <div id="submit_new_image" style="display:none">
-        <?php echo $this->Form->create($model, array('action' => 'saveImage', 'id' => 'NewImageForm')); ?>
+        <?php echo $this->Form->create($model, array('controller' => $submit['controller'], 'action' => $submit['action'], 'id' => 'NewImageForm')); ?>
 
             <input type="hidden" value="" id="new_image" name="data[<?php echo $model; ?>][new_image]" />
-            <?php echo $this->Form->hidden('id' , array('value' => $paper['Paper']['id']));?>
+            <?php echo $this->Form->hidden('id' , array('value' => $model_id));?>
+            <?php //wil be filled, right after submitting form
+			    echo $this->Form->hidden('images',array('value' => '')); ?>
+
             <?php echo $this->Form->hidden('hash',array('value' => $hash)); ?>
-            <div class="accept">
+            <div>
                 <a class="btn big" id="submit_new_image_btn"><span>+</span><?php echo __('Save Changes', true);?></a>
             </div>
         </form>

@@ -159,7 +159,7 @@ class PapersController extends AppController {
 				$image = $this->Upload->copyImagesFromHash($hash, $paper_id, $paper_created, $this->data['Paper']['new_image'], 'paper');
 
 				if(is_array($image)){
-                    $this->log('jo image');
+
                     $paper_data['Paper']['image'] = $image;
 					$this->Paper->doAfterSave = true;
 					if($this->Paper->save($paper_data, true, array('image'))){
