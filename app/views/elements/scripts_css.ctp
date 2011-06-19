@@ -35,7 +35,7 @@ echo $cf->css('style');
 
 <script type="text/javascript" language="javascript">
 		$(function(){
-			//$('form').jqTransform({imgPath:'jqtransformplugin/img/'});
+			$('form').jqTransform({imgPath:'jqtransformplugin/img/'});
 		});
 	</script>
 
