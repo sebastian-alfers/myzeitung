@@ -45,8 +45,11 @@ if(isset($_SERVER['SERVER_NAME'])){
 }
 else // we are likely baking, use our local db
 {
+echo "jo";
     Configure::write('Hosting.environment.local', true);
 }
+
+    Configure::write('Hosting.environment.local', true);
 
 
 /**

@@ -9,7 +9,7 @@ class DATABASE_CONFIG
 	var $local = array(
             'driver' => 'mysql',
             'persistent' => false,
-            'host' => '127.0.0.1',
+            'host' => 'localhost',
             'port' => '',
             'login' => 'root',
             'password' => 'root',
