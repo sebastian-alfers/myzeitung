@@ -1,7 +1,8 @@
 <div id="header">
 	<h1 id="logo"><a href="/">myZeitung</a></h1>
-		<div id="user-info">
+		
 			<?php if($session->read('Auth.User.id')): // logged in??>
+			<div id="user-info">
 			<?php echo __("logged in as", true)." "; ?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?>
                         <a href="login" class="signin"><span><strong><?php echo $session->read('Auth.User.username'); ?></strong></span></a>
 			<?php
@@ -16,11 +17,15 @@
 			
 			<?php   //end logged in?>
 			<?php else: //not logged in?>
-				<?php echo $this->Html->link(__("register", true),
-				array('controller' => 'users', 'action' => 'add'));
-				echo " ".__("already have an account?", true)." ";
-				echo $this->Html->link(__("login", true),
-				array('controller' => 'users', 'action' => 'login')); ?>
+				<div id="user-info" class="not-loggedin">
+				<?php 
+				echo __("You already have an account?", true);
+				echo $this->Html->link(__("Login", true),
+				array('controller' => 'users', 'action' => 'login'), array('class' => 'btn')); 
+				echo __("No?", true);
+				echo $this->Html->link(__("Register", true),
+				array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register'));
+				?>
 			<?php endif; //end not logged in? ?>
 		</div> <!-- /#user-info -->
 		
