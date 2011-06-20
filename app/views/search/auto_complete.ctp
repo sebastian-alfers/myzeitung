@@ -1,19 +1,28 @@
-<?php if(isset($results)): ?>
+<?php if(isset($results) && !empty($results)): ?>
  <?php  foreach ($results['results'] as $type => $docs): ?>
  	
  	<?php if($type == 'post'):?>
- 		<div class="posts">
- 			<?php echo $this->element('search/autocomplete/posts', array('post_documents' => $docs)); ?>
- 		</div>
+		<li class="type-article">
+			<h6>Artikel</h6>
+			<?php echo $this->element('search/autocomplete/posts', array('post_documents' => $docs)); ?>
+		</li><!-- /type-article --> 	
  	<?php elseif($type == 'paper'): ?>
- 		<div class="papers">
+ 		<li class="type-newspaper">
+			<h6>Zeitungen</h6>
  			<?php echo $this->element('search/autocomplete/papers', array('paper_documents' => $docs)); ?>
- 		</div>
+ 		</li>
  	<?php elseif($type == 'user'): ?>
- 		<div class="user">
+		<li class="type-user">
+			<h6>Autoren</h6>
  			<?php echo $this->element('search/autocomplete/users', array('user_documents' => $docs)); ?>
- 		</div> 	
+		</li> 	
  	<?php endif; ?>
+ 	<?php echo $type;?>
 <?php endforeach; ?>
-  
+<li class="big-btn">
+<a href="" class="btn big"><span class="send-icon"></span>Alle Suchergebnisse anzeigennn<?php echo count($results); ?></a>
+</li>  
 <?php endif; ?>
+
+
+					

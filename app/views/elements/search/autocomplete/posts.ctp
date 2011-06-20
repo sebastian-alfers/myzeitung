@@ -5,17 +5,29 @@
 ?>
 
 <?php if(isset($post_documents)): ?>
-<hr />
-<h2><?php __('Posts');?> (<?php echo count($post_documents); ?>)</h2>
 	<ul>
 	<?php foreach($post_documents as $post): ?>
 		<?php if($post instanceof Apache_Solr_Document): ?>
-			<li  onclick="window.location = '<?php  echo DS.APP_DIR.DS; ?>posts/view/<?php echo $post->id; ?>';"><?php echo $post->post_title;?>
-			<br />
-			by <?php echo $post->user_name?> <?php if(isset($post->user_username) && !empty($post->user_username)) echo '('.$post->user_username. ')'; ?> - <?php echo $this->Time->timeAgoInWords($post->timestamp, array('end' => '+1 Year'));?>
 			
-			</li>
-			
+			<li class="art">
+				<?php 
+				$img = $post->post_image;
+				$link_data = array();
+				$link_data['url'] = array('controller' => 'users', 'action' => 'view', 666);
+				$link_data['additional'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');				
+				echo $image->render(array('image' => unserialize($img)), 50, 50,null, $link_data, 'post');				
+				?>
+				<h6><a href=""><?php echo $post->post_title;?></a></h6>
+				<br />
+				<span class="from">von <a><strong><?php echo $post->user_name; ?></strong>, <?php echo $this->Time->timeAgoInWords($post->timestamp); ?></a></span>
+				<?php /*
+				<ul class="iconbar">
+					<li class="reposts tt-title" title="1 repost">1</li>
+					<li class="views tt-title" title="200 views">200</li>
+					<li class="comments tt-title" title="2 comments">2<span>.</span></li>
+				</ul>
+				*/ ?>
+			</li>			
 		<?php endif; ?>			
 	<?php endforeach; ?>
 	</ul>

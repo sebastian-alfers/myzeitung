@@ -34,9 +34,14 @@
 				<?php echo $this->Html->link(__('Papers', true), array('controller' => 'papers', 'action' => 'index'));?></li>
 			</ul>
 			<form id="search" action="/search/" method="get">
-				<input name="q" id="inputString"  onkeyup="lookup(this.value);" class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php  echo isset($query)? $query:  __('Find', true);?>" />
+				<input name="q" id="inputString" autocomplete="off" class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php  echo isset($query)? $query:  __('Find', true);?>" />
 				<button class="submit" type="submit" value=""><?php echo __('Find', true);?></button>
-			</form>
+
+				<ul id="search-suggest" style="display:none">
+				</li><!-- /type-article -->
+									
+				</ul><!-- end auto suggest -->
+			</form>			
 		</div>
 		
 		<div id="nav">
@@ -65,42 +70,54 @@
 <script>
 
 	function lookup(inputString) {
-		if(inputString.length == 0) {
+		if(inputString.length == 0) { // esc btn) {
 			// Hide the suggestion box.
-			$('#suggestions').hide();
+			$('#search-suggest').hide();
 		} else {
 			inputString = $.trim(inputString);
 			$.post("<?php echo FULL_BASE_URL.DS.'search/ajxSearch/'?>", {query: ""+inputString+""}, function(data){
-				$('#suggestions').show();
-				$('#autoSuggestionsList').html(data);
+				$('#search-suggest').show();
+				$('#search-suggest').html(data);
 			});
 		}
 	} // lookup
-	
-	function fill(thisValue) {
-		$('#inputString').val(thisValue);
-		setTimeout("$('#suggestions').hide();", 200);
-	}
 
-	$(document).keyup(function(e) {
-		  if (e.keyCode == 27) { // esc btn 
-			  $('#suggestions').hide();
-			  $('#inputString').val('<?php __('Find'); ?>');
+	$(document).bind('click', function(){
+		if($('#search-suggest').is(":visible")){
+			hideSuggestion();
+		}
+		
+	});
+
+	$('#inputString').focus(function(e){
+		if($('#inputString').val() != '<?php echo __('Find', true);?>') {
+			lookup($('#inputString').val());
+		}
+	});
+
+	$('#inputString').keyup(function(e){
+		if (e.keyCode == 27) { // esc btn
+			hideSuggestion('');
+			$('#inputString').val('');
+		}
+		else{
+			lookup($('#inputString').val());			  
+		}
+	});
+	
+	$(document).bind('keyup', function(e){
+		  if (e.keyCode == 27) { // esc btn
+			  hideSuggestion();
+			  $('#inputString').val('');
 		   }  
 		});	
+
+	function hideSuggestion(value){
+		$('#search-suggest').hide();
+		lookup('');
+		$('#search-suggest').html('');
+	}
 	</script>			
-	
-	
-			<div class="suggestionsBox" id="suggestions" style="display: none;">
-				<?php echo $this->Html->image('assets/upArrow.png', array('style' => 'position: relative; top: -12px; left: 700px;'));?>
-				<div class="suggestionList" id="autoSuggestionsList">
-					&nbsp;
-				</div>
-
-	</div>
-
-
-
 
 
 
