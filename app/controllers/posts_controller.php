@@ -64,7 +64,7 @@ class PostsController extends AppController {
 			$this->Post->contain();
 			if($this->Post->read(null, $post_id)){
 				if($this->Post->repost($this->Auth->user('id'), $topic_id)){
-					$this->Session->setFlash(__('Post successfully reposted.', true));
+					$this->Session->setFlash(__('Post successfully reposted.', true), 'default', array('class' => 'success'));
 				} else {
 					$this->Session->setFlash(__('Post could not be reposted', true));
 				}
@@ -93,7 +93,7 @@ class PostsController extends AppController {
 			if($this->Post->read(null, $post_id)){
 
 				if($this->Post->undoRepost($this->Auth->user('id'))){
-					$this->Session->setFlash(__('Repost successfully deleted.', true));
+					$this->Session->setFlash(__('Repost deleted successfully.', true), 'default', array('class' => 'success'));
 				} else {
 					$this->Session->setFlash(__('Repost could not be deleted', true));
 				}
@@ -221,7 +221,7 @@ class PostsController extends AppController {
 					}
 				}
 
-				$this->Session->setFlash(__('The post has been saved', true));
+				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
@@ -341,7 +341,7 @@ class PostsController extends AppController {
 
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
-				$this->Session->setFlash(__('The post has been saved', true));
+				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
 				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
@@ -405,7 +405,7 @@ class PostsController extends AppController {
 		}
 		// second param = cascade -> delete associated records from hasmany , hasone relations
 		if ($this->Post->delete($id, true)) {
-			$this->Session->setFlash(__('Post deleted', true));
+			$this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Post was not deleted', true));

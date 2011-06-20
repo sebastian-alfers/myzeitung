@@ -115,6 +115,7 @@ class AppController extends Controller {
 			'accAboutMe' => array(2,1),
 			'accGeneral' => array(2,1),
 			'accPrivacy' => array(2,1),
+        	'accDelete' => array(2,1),
 			),
 		'topics' => array(
 			'ajax_add' => array(1)

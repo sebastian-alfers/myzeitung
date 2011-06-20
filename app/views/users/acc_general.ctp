@@ -24,7 +24,12 @@ $(document).ready(function() {
 				<?php endif; ?>
 				</div>
 				
-				<div><?php  echo $this->Form->input('passwd', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Password', true))); ?>
+				<div><?php  echo $this->Form->input('old_password', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('Old Password', true))); ?>
+				<?php if(!is_null($this->Form->error('User.old_password'))): ?>
+					<div class="error-message"><b></b><?php echo $this->Form->error('User.old_password', array('wrap'=> false));?></div>
+				<?php endif; ?>
+				</div>
+				<div><?php  echo $this->Form->input('passwd', array('type' => 'password', 'class' => 'textinput', 'div' => false,'label' => __('New Password', true))); ?>
 				<?php if(!is_null($this->Form->error('User.passwd'))): ?>
 					<div class="error-message"><b></b><?php echo $this->Form->error('User.passwd', array('wrap'=> false));?></div>
 				<?php endif; ?>
@@ -37,8 +42,12 @@ $(document).ready(function() {
 				<div class="accept">	
 					<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save Changes', true);?></a>
 				</div>
+				<div class="accept">
+					<p><?php echo $this->Html->link(__('I want to delete my Account', true), array('controller' => 'users', 'action' => 'accDelete'));?></p>
 								
-				<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>	
+				</div>
+				<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>			
+
 
 	</div><!-- / #maincol -->
 
