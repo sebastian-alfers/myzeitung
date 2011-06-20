@@ -84,7 +84,7 @@ echo $this->element('users/modal_subscribe');
 				<?php echo $this->element('users/sidebar/subscriptions'); ?>
 			<?php endif;?>
 			<?php //elements shown when being on actions in users-account settings ?>
-			<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe')):?>
+			<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe')):?>
 				<?php echo $this->element('users/sidebar/account_menue', array('user_id' => $user['User']['id'])); ?>
 			<?php endif;?>
 			

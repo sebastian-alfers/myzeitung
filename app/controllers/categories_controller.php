@@ -75,7 +75,7 @@ class CategoriesController extends AppController {
 				
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
-				$this->Session->setFlash(__('The category has been saved', true));
+				$this->Session->setFlash(__('The category has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
@@ -90,7 +90,7 @@ class CategoriesController extends AppController {
 		}
 		if (!empty($this->data)) {
 			if ($this->Category->save($this->data)) {
-				$this->Session->setFlash(__('The category has been saved', true));
+				$this->Session->setFlash(__('The category has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
@@ -110,7 +110,7 @@ class CategoriesController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->Category->delete($id, true)) {
-			$this->Session->setFlash(__('Category deleted', true));
+			$this->Session->setFlash(__('Category deleted', true), 'default', array('class' => 'success'));
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Category was not deleted', true));

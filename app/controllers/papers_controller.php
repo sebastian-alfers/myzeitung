@@ -163,7 +163,7 @@ class PapersController extends AppController {
                     $paper_data['Paper']['image'] = $image;
 					$this->Paper->doAfterSave = true;
 					if($this->Paper->save($paper_data, true, array('image'))){
-   						$this->Session->setFlash(__('Image has been saved', true));
+   						$this->Session->setFlash(__('Image has been saved', true), 'default', array('class' => 'success'));
 	    				$this->User->updateSolr = true;
 						$this->redirect($this->referer());
 					}
@@ -203,7 +203,7 @@ class PapersController extends AppController {
 			if($this->Paper->read(null, $paper_id)){
 
 				if($this->Paper->subscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(__('Subscribed successfully.', true));
+					$this->Session->setFlash(__('Subscribed successfully.', true), 'default', array('class' => 'success'));
 				} else {
 					$this->Session->setFlash(__('Could not subscribe', true));
 				}
@@ -230,7 +230,7 @@ class PapersController extends AppController {
 			if($this->Paper->read(null, $paper_id)){
 
 				if($this->Paper->unsubscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(__('Unsubscribed successfully.', true));
+					$this->Session->setFlash(__('Unsubscribed successfully.', true), 'default', array('class' => 'success'));
 				} else {
 					$this->Session->setFlash(__('Could not unsubscribe', true));
 				}
@@ -348,7 +348,7 @@ class PapersController extends AppController {
 
 					
 				if(!empty($route)){
-					$this->Session->setFlash(__('The paper has been saved', true));
+					$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
 					$this->redirect(array('action' => 'index'));
 				}
 				else{
@@ -379,7 +379,7 @@ class PapersController extends AppController {
 		if (!empty($this->data)) {
 			$this->Paper->doAfterSave = true;
 			if ($this->Paper->save($this->data)) {
-				$this->Session->setFlash(__('The paper has been saved', true));
+				$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
@@ -403,7 +403,7 @@ class PapersController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->Paper->delete($id, true)) {
-			$this->Session->setFlash(__('Paper deleted', true));
+			$this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('Paper was not deleted', true));

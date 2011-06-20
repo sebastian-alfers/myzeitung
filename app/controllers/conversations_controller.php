@@ -56,7 +56,7 @@ class ConversationsController extends AppController {
 					}
 					//updating the last message id of the new conversation
 					$this->Conversation->save(array('id' => $this->Conversation->id, 'last_message_id' => $this->ConversationMessage->id));
-					$this->Session->setFlash(__('The Message has been sent', true));
+					$this->Session->setFlash(__('The Message has been sent', true), 'default', array('class' => 'success'));
 				}
 				
 				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
@@ -87,14 +87,20 @@ class ConversationsController extends AppController {
 				if($this->ConversationMessage->save($messageData)){
 					//update last_message_id of the conversation
 					$this->Conversation->save(array('id' => $conversation_id, 'last_message_id' => $this->ConversationMessage->id));
-					$this->Session->setFlash(__('The Message has been sent', true));	
+					$this->Session->setFlash(__('The Message has been sent', true), 'default', array('class' => 'success'));	
 					//update ConversationUser Status for recipents of the reply to "new message"
 					$this->ConversationUser->contain();
 					$recipents = $this->ConversationUser->findAllByConversationId($this->data['Conversation']['id']);
 					foreach($recipents as $recipent){
-						//change status only for recipents - not for author of the reply
+						//change status only for recipents - not for author of the reply 
 						if($recipent['ConversationUser']['user_id'] != $this->Auth->user('id')){
-							$recipent['ConversationUser']['status'] = Conversation::STATUS_NEW;
+							if($recipent['ConversationUser']['user_id']){
+								//active users get status : new message
+								$recipent['ConversationUser']['status'] = Conversation::STATUS_NEW;
+							}else{
+								//if there is a deleted user in a conversation the message won't get the status "new".
+								$recipent['ConversationUser']['status'] = Conversation::STATUS_REMOVED;
+							}
 						}else {
 							$recipent['ConversationUser']['status'] = Conversation::STATUS_REPLIED;
 						}
@@ -126,10 +132,11 @@ class ConversationsController extends AppController {
 			//update status of the conversation for reading user
 			$this->ConversationUser->contain();
 			$userData = $this->ConversationUser->find('first', array('fields' =>array('id', 'status', 'last_viewed_message'), 'conditions' => array('user_id' =>  $this->Auth->user('id'), 'conversation_id' => $conversation_id)));
-			$userData['ConversationUser']['status'] = conversation::STATUS_ACTIVE;
-			$userData['ConversationUser']['last_viewed_message'] = $messages[count($messages) -1]['ConversationMessage']['id'];
-			$this->ConversationUser->save($userData);
-			
+			if($userData['ConversationUser']['status'] != conversation::STATUS_REPLIED){
+				$userData['ConversationUser']['status'] = conversation::STATUS_ACTIVE;
+				$userData['ConversationUser']['last_viewed_message'] = $messages[count($messages) -1]['ConversationMessage']['id'];
+				$this->ConversationUser->save($userData);
+			}
 		} else {
 			$this->Session->setFlash(__('You do not participate in this particular conversation.', true));
 			$this->redirect($this->referer());

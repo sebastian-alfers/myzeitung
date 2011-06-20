@@ -171,6 +171,7 @@ class User extends AppModel {
 				),
 			),
 			//the auth component hashes the pwd before the save method - before validation. so we are using a temp field for validating first.
+
 			'passwd' => array(
 				'length' => array(
 					'rule' 			=> array('between', 5, 20),
@@ -185,6 +186,13 @@ class User extends AppModel {
 					'last'			=> true,
                 )  
             ),
+            'old_password' => array(
+				'length' => array(
+					'rule' 			=> 'validateOldPassword',
+					'message'		=> __('Your old password does not match.', true),
+					'last'			=> true,
+				),
+			),
             'tos_accept' => array (  
                 'match' =>  array(  
                     'rule'          => array('equalTo', '1'),
@@ -192,9 +200,7 @@ class User extends AppModel {
 					'last'			=> true,
                 )  
             ) 
-		);
-			
-				
+		);		
 	}
 	
    function validatePasswdConfirm($data)  
@@ -203,9 +209,17 @@ class User extends AppModel {
         {  
             return false;  
         }  
-  
         return true;  
-    }   
+    }  
+    
+    function validateOldPassword($data)  
+    {  
+        if (Security::hash($this->data['User']['old_password'], null, true) !== $this->data['User']['password'])  
+        {  
+            return false;  
+        }  
+        return true;  
+    }    
 
 //		function afterFind($results){
 			
@@ -281,6 +295,10 @@ class User extends AppModel {
 			{  
 				unset($this->data['User']['passwd_confirm']);  
 			}  
+			if (isset($this->data['User']['old_password']))  
+			{  
+				unset($this->data['User']['old_password']);  
+			}  
 			if (isset($this->data['User']['tos_accept']))  
 			{  
 				unset($this->data['User']['tos_accept']);  
@@ -299,10 +317,34 @@ class User extends AppModel {
 			$comments = $this->Comment->findAllByUser_id($this->id);
 			foreach($comments as $comment){
 				$comment['Comment']['user_id']= null;
-				debug($comment);
 				$this->Comment->save($comment);
 			}
+			
+			App::import('model','ConversationMessage');
+			$this->ConversationMessage = new ConversationMessage();
 				
+			// reading all conversationmessages of the deleted user and reseting the user_id to null
+			// "message from -deleted user-"
+			$this->ConversationMessage->contain();
+			$messages = $this->ConversationMessage->findAllByUser_id($this->id);
+			foreach($messages as $message){
+				$message['ConversationMessage']['user_id']= null;
+				$this->ConversationMessage->save($message);
+			}
+			
+			
+			App::import('model','ConversationUser');
+			$this->ConversationUser = new ConversationUser();
+			// reading all conversationusers of the deleted user and reseting the user_id to null
+			// "message between X,Y and deleted user"
+			$this->ConversationUser->contain();
+			$conversationusers = $this->ConversationUser->findAllByUser_id($this->id);
+			foreach($conversationusers as $conversationuser){
+				$conversationuser['ConversationUser']['user_id']= null;
+				$conversationuser['ConversationUser']['status']= Conversation::STATUS_REMOVED;
+				$this->ConversationUser->save($conversationuser);
+			}
+			
 			return true;
 				
 		}
