@@ -1,3 +1,4 @@
+
 <?php echo $this->element('posts/add_edit_sidebar'); ?>
 
 <div id="maincolwrapper"> 
