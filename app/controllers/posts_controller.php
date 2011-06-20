@@ -307,7 +307,7 @@ class PostsController extends AppController {
 
 		if($this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 			//if no topic -> remote value to make NULL in db
-			unset($this->data['Post']['topic_id']);
+			$this->data['Post']['topic_id'] = NULL;
 		}
 
 		$user_id = $this->Auth->User('id');
@@ -491,6 +491,15 @@ class PostsController extends AppController {
 		}
 
 		$this->render('ajx_url_content_extract', 'ajax');//custom ctp, ajax for blank layout
+	}
+	
+	/**
+	 * json method go validate an get preview image
+	 * and video from url if valid 
+	 * 
+	 */
+	function getVideoPreview(){
+				
 	}
 
 	/**

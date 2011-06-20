@@ -18,17 +18,16 @@
                         <input type="hidden" name="hash" value="<?php echo $hash; ?>" />
                     </form>
 
-                        <a class="btn "><span>+</span><?php __('Add Video'); ?></a>
+                        <a class="btn" id="add_url_video_link"><span>+</span><?php __('Add Video'); ?></a>
 
 					<hr>
 					
-					<h5>Themen:</h5>
-						<ul class="themes">
-							<li><a>Politik<span class="icon icon-delete"></span></a></li>
-							<li><a>Atompolitik <span class="icon icon-delete"></span></a></li>
-						</ul>
-						
-						<a class="btn "><span>+</span>Thema hinzufügen</a>
+					<h5><?php __('Theme:'); ?></h5>
+                        <?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data", 'id' => 'tmp_form_topic'));?>
+                            <?php echo $this->Form->input('topic_id', array('label' => false, 'id' => 'SelectPostTopicId')); ?>
+						</form>
+                        <br /><br />
+						<a class="btn" onclick="topicDialog()"><span>+</span><?php __('Add Theme'); ?></a>
 					<hr>
 					
 					<h5>Quellen:</h5>
