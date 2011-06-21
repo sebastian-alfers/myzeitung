@@ -38,7 +38,7 @@
 				<?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'index'):?><li class="current"><?php else:?><li><?php endif;?>
 				<?php echo $this->Html->link(__('Papers', true), array('controller' => 'papers', 'action' => 'index'));?></li>
 			</ul>
-			<form id="search" action="/search/" method="get">
+			<form id="search" action="/search/" method="get" class="jqtransform">
 				<input name="q" id="inputString" autocomplete="off" class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php  echo isset($query)? $query:  __('Find', true);?>" />
 				<button class="submit" type="submit" value=""><?php echo __('Find', true);?></button>
 

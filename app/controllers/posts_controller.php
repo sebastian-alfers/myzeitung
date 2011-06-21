@@ -156,13 +156,13 @@ class PostsController extends AppController {
 		$this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
 
 		$post = $this->Post->read(null, $id);
-		
+
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
 		$this->set('post', $post);
 		$this->set('user', $user);
 		$this->set('comments',$comments);
-	
+
 	}
 
 	function add() {
@@ -171,7 +171,7 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-			
+				
 			//debug($this->data);die();
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
@@ -189,11 +189,12 @@ class PostsController extends AppController {
 				unset($temp_data['Post']['id']);
 			}
 
+			$this->processLinks();
 			if ($this->Post->save($this->data)) {
-									
+					
 				//copy images after post has been saved to add new post-id to img path
 				if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
-					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $this->data['Post']['images'], 'post'); 
+					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $this->data['Post']['images'], 'post');
 					if(is_array($this->images)){
 						$hash = $this->data['Post']['hash'];
 						//$this->data = array();
@@ -203,14 +204,14 @@ class PostsController extends AppController {
 						$this->data['Post']['hash'] = $hash;
 						$this->data['Post']['content'] = $content;
 						// writing the path of the first picture to a class variable because the array will be serialized before reaching the add_Solr method
-						
+
 						$this->Post->solr_preview_image = $this->images[0]['path'];
 						$this->Post->add_solr = true;
 						if ($this->Post->save($this->data)) {
-						
+
 							//remove tmp hash folder
 							$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
-							
+								
 						}
 						else{
 							$this->Session->setFlash(__('Not able to copy images for post', true));
@@ -233,11 +234,11 @@ class PostsController extends AppController {
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
 		$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
-		
+
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
 		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
 		$allow_comments[self::ALLOW_COMMENTS_FALSE] = __('No',true);
-		
+
 		if($error){
 			$this->set('hash', $this->data['Post']['hash']);
 
@@ -271,10 +272,10 @@ class PostsController extends AppController {
 			$this->set('hash', $this->Upload->getHash());
 		}
 		$this->set(compact('topics'));
-		
+
 		$this->set('allow_comments', $allow_comments);
 		$this->set('user_id',$user_id);
-        $this->set('content_class', 'create-article');//for css in main layout file
+		$this->set('content_class', 'create-article');//for css in main layout file
 
 
 		//same template for add and edit
@@ -283,6 +284,7 @@ class PostsController extends AppController {
 	}
 
 	function edit($id = null) {
+
 		$user_id = $this->Session->read('Auth.User.id');
 
 		if($user_id == null || empty($user_id)){
@@ -318,26 +320,25 @@ class PostsController extends AppController {
 		if (!empty($this->data)) {
 			//save new sortet images
 
-
-
 			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
 
 				$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images'], 'post');
 				if(is_array($this->images)){
 				}
 			}
-			
-			if(!empty($this->data['Post']['images'])){				
+				
+			if(!empty($this->data['Post']['images'])){
 				$tranf_images = $this->_transformImages($this->data['Post']['images'], $id, $created);
 
 				$this->data['Post']['image'] = $tranf_images;
 			}
 			else{
-				//noe images 
+				//noe images
 				$this->data['Post']['image'] = '';
 			}
-			
 				
+			//process links
+			$this->processLinks();
 
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
@@ -352,14 +353,14 @@ class PostsController extends AppController {
 			$this->data = $this->Post->read(null, $id);
 			if(empty($this->data['Post']['topic_id']))$this->data['Post']['topic_id'] = 'null';
 		}
-		
+
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
-		
+
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
 		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
 		$allow_comments[self::ALLOW_COMMENTS_FALSE] = __('No',true);
-		
+
 		//set images
 		if(isset($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 			//check, if there are already images
@@ -373,8 +374,8 @@ class PostsController extends AppController {
 			$return_imgs = array();
 
 			$webroot = $this->Upload->getWebrootUrl();
-			
-			
+				
+				
 			//$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
 			foreach ($this->data['Post']['image'] as $img){
 				$return_imgs[] = array('path' => $img['path'], 'name' => $img['file_name']);
@@ -382,15 +383,19 @@ class PostsController extends AppController {
 			if(count($return_imgs) > 0){
 				$this->set('images', $return_imgs);
 			}
-
-		}
+		}//end images
+		
+		if(isset($this->data['Post']['links']) && !empty($this->data['Post']['links'])){
+			$this->set('links', unserialize($this->data['Post']['links']));			
+		}		
+		
 		$this->set('allow_comments', $allow_comments);
 		$this->set(compact('topics', 'users'));
 
 		$this->set('hash', $this->Upload->getHash());
 		$this->set('user_id',$user_id);
 
-        $this->set('content_class', 'create-article');//for css in main layout file
+		$this->set('content_class', 'create-article');//for css in main layout file
 
 		//same template for add and edit
 		$this->render('add_edit');
@@ -492,14 +497,14 @@ class PostsController extends AppController {
 
 		$this->render('ajx_url_content_extract', 'ajax');//custom ctp, ajax for blank layout
 	}
-	
+
 	/**
 	 * json method go validate an get preview image
-	 * and video from url if valid 
-	 * 
+	 * and video from url if valid
+	 *
 	 */
 	function getVideoPreview(){
-				
+
 	}
 
 	/**
@@ -567,6 +572,17 @@ class PostsController extends AppController {
 		}
 
 		return $new_imgs;
+	}
+
+	/**
+	 * get links from form and prepare them
+	 */
+
+	private function processLinks(){
+		$links = $this->data['Post']['links'];
+		if(isset($links) && !empty($links) && !is_array($links)){
+			$this->data['Post']['links'] = serialize(array_filter(explode(',', $links)));
+		}
 	}
 }
 ?>

@@ -19,6 +19,6 @@
  	<?php endif; ?>
 <?php endforeach; ?>
 <li class="big-btn">
-<a href="" class="btn big"><span class="send-icon"></span>Alle Suchergebnisse anzeigennn<?php echo count($results); ?></a>
+<a href="" class="btn big"><span class="send-icon"></span>Alle Suchergebnisse anzeigen</a>
 </li>  
 <?php endif; ?>

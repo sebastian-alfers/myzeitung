@@ -30,14 +30,17 @@
 						<a class="btn" onclick="topicDialog()"><span>+</span><?php __('Add Theme'); ?></a>
 					<hr>
 					
-					<h5>Quellen:</h5>
+					<h5><?php __('Links'); ?></h5>
 					
-					<ul class="themes">
-							<li><a>Bild.de/Atompolitik/xyz<span class="icon icon-delete"></span></a></li>
-							<li><a>heise-online.de/news/article <span class="icon icon-delete"></span></a></li>
+					<ul class="themes" id="links">
+					<?php if(isset($links) && !empty($links)): ?>
+						<?php foreach($links as $link): ?>
+						<li><li id="<?php echo $link; ?>"><a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a><br /><a class="remove_li_item"><?php __('remove'); ?></a></li>
+						<?php endforeach; ?>
+					<?php endif;?>
 					</ul>
 					
-     					<a class="btn "><span>+</span>Quelle hinzufügen</a>
+     					<a class="btn" id="btn-add-link"><span>+</span>Quelle hinzufügen</a>
 													
 						 </div><!-- /.leftcolcontent -->	
 						</div><!-- /.leftcol -->
