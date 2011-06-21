@@ -1,6 +1,6 @@
 <?php echo $html->script('post/add_edit.js'); ?>
 <?php echo $this->element('topics/modal_add_topic'); ?>
-<?php //echo $this->element('posts/modal_add_url'); ?>
+<?php echo $this->element('posts/modal_add_url'); ?>
 <?php echo $this->element('posts/modal_add_video_url'); ?>
 
 
@@ -22,11 +22,10 @@
 <?php echo $this->Form->input('id'); ?>
 <?php //echo $this->Form->input('topic_id'); ?>
 <?php echo $this->Form->hidden('topic_id',array('value' => $mzform->value($this, 'Post', 'topic_id'))); ?>
-
 <?php echo $this->Form->hidden('user_id',array('value' => $user_id)); ?>
 <?php echo $this->Form->hidden('hash',array('value' => $hash)); ?>
 <?php echo $this->Form->hidden('images',array('value' => '')); ?>
-<?php //echo $this->Form->input('allow_comments',array('type'=>'select','options'=>$allow_comments)); ?>
+<?php echo $this->Form->hidden('links',array('value' => '')); ?>
 <?php echo $this->Form->hidden('allow_comments',array('value' => $mzform->value($this, 'Post', 'topic_id'))); ?>
 
     <p>
@@ -37,7 +36,7 @@
     <div class="article-content">
         <label><?php __('Content'); ?></label>
 
-    <textarea id="elm1"  name="data[Post][content]" rows="15" cols="80" style="height:400px;" class="tinymce">
+    <textarea id="PostContent" name="data[Post][content]" rows="15" cols="80" style="height:400px;" class="tinymce">
     <?php echo $mzform->value($this, 'Post', 'content'); ?>
         </textarea>
     </div>

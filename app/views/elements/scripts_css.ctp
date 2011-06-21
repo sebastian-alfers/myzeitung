@@ -35,7 +35,8 @@ echo $cf->css('style');
 
 <script type="text/javascript" language="javascript">
 		$(function(){
-			$('form').jqTransform({imgPath:'jqtransformplugin/img/'});
+		    $('form.jqtransform').jqTransform({imgPath:'jqtransformplugin/img/'});
+			
 		});
 	</script>
 
@@ -43,7 +44,8 @@ echo $cf->css('style');
 <script type="text/javascript">
 tinyMCE.init({
         // General options
-        mode : "textareas",
+        mode : "exact",
+        elements : "PostContent",
         theme : "advanced",
         width : 728,
         theme_advanced_resizing_max_width: 728,

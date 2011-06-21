@@ -5,8 +5,6 @@
 ?>
 
 <?php if(isset($user_documents)): ?>
-<hr />
-<h2><?php __('users');?> (<?php echo count($user_documents); ?>)</h2>
 	<ul>
 	<?php foreach($user_documents as $user): ?>
 		<?php if($user instanceof Apache_Solr_Document): ?>
