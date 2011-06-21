@@ -70,17 +70,14 @@ class SearchController extends AppController {
 						$this->data = $this->User->read('allow_messages', $result->id);
 						$result->user_allow_messages = $this->data['User']['allow_messages'];
 					}
-					//reading post counters
+					//reading post counters and reposters array
 					if($result->type == 'post'){
-						debug('post');
 						$result->post_comment_count = 0;
 						$result->post_posts_user_count = 0;
 						$result->post_view_count = 0;
 						$result->post_reposters = array();
 						$this->Post->contain();
-						debug($result);
 						$this->data = $this->Post->read(array('reposters', 'comment_count', 'posts_user_count', 'view_count'), $result->id);
-						debug($this->data);
 						$result->post_comment_count = $this->data['Post']['comment_count'];
 						$result->post_posts_user_count = $this->data['Post']['posts_user_count'];
 						$result->post_view_count = $this->data['Post']['view_count'];
