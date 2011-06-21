@@ -130,7 +130,7 @@ class Solr extends AppModel {
 				
 			if(!empty($this->fields)){
 				foreach($this->fields as $field_name => $filter_value){
-					$query.= ' AND ' . $field_name.'."'.$filter_value.'"';
+					$query.= ' AND ' . $field_name.':"'.$filter_value.'"';
 				}
 			}
 				

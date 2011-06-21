@@ -22,7 +22,9 @@ class SearchController extends AppController {
 		if ($query)
 		{
 			$this->set('query', $query);
+			//********************************************
 			$this->Solr->setSearchFields(array('type' => 'user'));
+			//********************************************			
 			$results = $this->Solr->query($query, Solr::DEFAULT_LIMIT, false);
 			$this->set('results', $results);
 			
