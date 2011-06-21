@@ -15,7 +15,7 @@ class SearchController extends AppController {
 
 
 	function index() {
-		$limit = 10;
+		$limit = 20;
 		$query = isset($_REQUEST['q']) ? $_REQUEST['q'] : false;
 		$results = false;
 
