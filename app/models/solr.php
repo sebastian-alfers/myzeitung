@@ -16,6 +16,9 @@ class Solr extends AppModel {
 
 	var $useTable = false;
 
+	//additional fields
+	var $fields = array();
+
 	CONST DEFAULT_LIMIT = 10;
 
 	private $solr = null;
@@ -23,9 +26,9 @@ class Solr extends AppModel {
 	function __construct(){
 		parent::__construct();
 
-        if(USE_SOLR){
-		    $this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
-        }
+		if(USE_SOLR){
+			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
+		}
 
 	}
 
@@ -35,7 +38,7 @@ class Solr extends AppModel {
 	 * @param array $documents
 	 */
 	function add($docs = array()){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		try {
 
@@ -91,7 +94,7 @@ class Solr extends AppModel {
 	 * @param string $id
 	 */
 	function delete($id){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		if(!empty($id)){
 			$xml = '<delete><id>'. $id .'</id></delete>';
@@ -111,7 +114,8 @@ class Solr extends AppModel {
 	 * @param boolean $grouped
 	 */
 	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true){
-        if(!USE_SOLR) return;
+
+		if(!USE_SOLR) return;
 
 		if(empty($query)) return false;
 		$results = array();
@@ -121,9 +125,15 @@ class Solr extends AppModel {
 
 		try
 		{
-			
-			$data = array();	
-			
+				
+			$data = array();
+				
+			if(!empty($this->fields)){
+				foreach($this->fields as $field_name => $filter_value){
+					$query.= ' AND ' . $field_name.'."'.$filter_value.'"';
+				}
+			}
+				
 			$response = $this->getSolr()->search($query, 0, $limit, array('sort' => 'score desc'));
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
@@ -163,7 +173,7 @@ class Solr extends AppModel {
 	 * checks if possibel to ping
 	 */
 	function getSolr(){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		if($this->solr == null){
 			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
@@ -180,7 +190,7 @@ class Solr extends AppModel {
 	 *
 	 */
 	function canPing(){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		if($this->solr instanceof Apache_Solr_Service && $this->solr != null){
 			if (!$this->solr->ping()) return false;
@@ -192,12 +202,24 @@ class Solr extends AppModel {
 	}
 
 	function deleteIndex(){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		var_dump($this->getSolr()->deleteByQuery('*:*'));
 		$this->getSolr()->commit();
 		echo "has been delteted";
 		return true;
+	}
+
+	/**
+	 * add one or more fields to be added in addition to default serach field "search_field"
+	 * @param array of type [field_name=>filter_value]
+	 */
+	function setSearchFields($fields){
+		if(!empty($fields)){
+			foreach($fields as $field_name => $filter_value){
+				$this->fields[$field_name] = $filter_value;
+			}
+		}
 	}
 }
 
