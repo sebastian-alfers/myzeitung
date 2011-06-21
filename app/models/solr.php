@@ -121,21 +121,23 @@ class Solr extends AppModel {
 
 		try
 		{
-			$grouped = array();
-			$response = $this->getSolr()->search($query, 0, $limit, array('sort' => 'timestamp desc'));
+			
+			$data = array();	
+			
+			$response = $this->getSolr()->search($query, 0, $limit, array('sort' => 'score desc'));
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
 				foreach($response->response->docs as $doc){
-					if(isset($doc->type)){
-						$grouped[$doc->type][] = $doc;
+					if(isset($doc->type) && !$grouped === false){
+						$data[$doc->type][] = $doc;
 					}
 					else{
-						$grouped[self::TYPE_UNKNOWN][] = $doc;
+						$data[] = $doc;
 					}
 				}
 
-				if(!empty($grouped)){
-					$results['results'] = $grouped;
+				if(!empty($data)){
+					$results['results'] = $data;
 				}
 				else{
 					$results['results'] = $response;
