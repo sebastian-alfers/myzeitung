@@ -16,7 +16,9 @@
 	<h3><?php echo $user->user_username;?></h3>
 	<p><?php echo $user->user_name;?></p>								
 	<div class="actions">
+	<?php if($user->id != $session->read('Auth.User.id') && $user->user_allow_messages == true):?>
 		<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user->id), array('escape' => false, 'class' => 'btn btn-send', ));?>
+	<?php endif;?>
 	</div>
 	<p class="from"><strong><?php echo __('Author', true);?></strong></p>
 

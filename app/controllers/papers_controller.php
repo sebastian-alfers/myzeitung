@@ -45,6 +45,7 @@ class PapersController extends AppController {
 				$papers[$i]['Paper']['subscribed'] = false;
 				if($this->Auth->user('id')){
 					//check for subscriptions - if yes -> subscribed = true
+					$this->Subscription->contain();
 					if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
 						$papers[$i]['Paper']['subscribed'] = true;
 					}
@@ -122,6 +123,7 @@ class PapersController extends AppController {
 	    $this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
 		$paper = $this->Paper->read(null, $paper_id);
 		//add information if the user (if logged in) has already subscribed the paper
+		$this->Subscription->contain();
 		if($this->Auth->user('id') && ($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $paper['Paper']['id'])))) > 0){
 			$paper['Paper']['subscribed'] = true;
 		}else{
