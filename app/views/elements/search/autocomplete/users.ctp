@@ -10,7 +10,7 @@
 	<ul>
 	<?php foreach($user_documents as $user): ?>
 		<?php if($user instanceof Apache_Solr_Document): ?>
-			<li class="art">
+			<li class="user">
 				<?php
 				if(isset($user->user_image)){
 					$img = unserialize($user->user_image);
@@ -26,10 +26,11 @@
 				?>									
 				<h6><a href="/users/view/<?php echo $user->id; ?>"><?php echo $user->user_username; ?></a></h6>
 				<?php if(isset($user->user_name) && !empty($user->user_name)): ?>
-					<p><?php echo $user->user_name; ?></p>
+					<p><a href="/users/view/<?php echo $user->id; ?>"><?php echo $user->user_name; ?></a></p>
 				<?php endif; ?>				
 			</li>						
 		<?php endif; ?>			
 	<?php endforeach; ?>
 	</ul>
 <?php endif; ?>
+

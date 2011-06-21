@@ -22,6 +22,3 @@
 <a href="" class="btn big"><span class="send-icon"></span>Alle Suchergebnisse anzeigennn<?php echo count($results); ?></a>
 </li>  
 <?php endif; ?>
-
-
-					

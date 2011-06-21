@@ -11,11 +11,17 @@
 			
 			<li class="art">
 				<?php 
-				$img = $post->post_image;
+				if(isset($post->post_image)){
+					$img = unserialize($post->post_image);
+				}
+				else{
+					$img = '';
+				}				
+
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', 666);
 				$link_data['additional'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');				
-				echo $image->render(array('image' => unserialize($img)), 50, 50,null, $link_data, 'post');				
+				echo $image->render(array('image' => $img), 50, 50,null, $link_data, 'post');				
 				?>
 				<h6><a href=""><?php echo $post->post_title;?></a></h6>
 				<br />
