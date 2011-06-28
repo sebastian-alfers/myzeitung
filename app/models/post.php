@@ -332,7 +332,7 @@ class Post extends AppModel {
 						
 						//delete old entry -> important for deleting all data-associations (from old topic)
 						$this->PostUser->contain();
-						$this->PostUser->deleteAll(array('repost'=> false, 'user_id' => $this->data['Post']['user_id'], 'post_id', $this->data['Post']['id']), true);
+						$this->PostUser->deleteAll(array('repost'=> false, 'user_id' => $this->data['Post']['user_id'], 'post_id' => $this->data['Post']['id']), true);
 						
 						//creating new postuser entry for new associations for new topic
 						$this->PostUser->create();

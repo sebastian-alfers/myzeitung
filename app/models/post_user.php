@@ -132,7 +132,7 @@ var $belongsTo = array(
 					foreach($wholeUserReferences as $wholeUserReference){
 							
 						//place post in paper or category associated to the whole user
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
+						$categoryPaperPostData = array('created' => $this->data['PostUser']['created'], 'post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 						
 						$affectedPapers[$wholeUserReference['Paper']['id']] = '';
 						
@@ -160,7 +160,7 @@ var $belongsTo = array(
 							//if($categoryPaperPostData[''])
 							//place post in paper or category associated to the posts topic
 								
-							$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
+							$categoryPaperPostData = array('created' => $this->data['PostUser']['created'], 'post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 							
 							$affectedPapers[$wholeUserReference['Paper']['id']] = '';
 							
