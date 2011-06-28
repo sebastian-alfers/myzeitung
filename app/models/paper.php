@@ -388,6 +388,7 @@ function __construct(){
 								case ContentPaper::CATEGORY:
 									$category_id = $data['Paper']['target_id'];
 									//get paper for category
+									$this->Category->contain('Paper');
 									$category = $this->Category->read(null, $category_id);
 
 									if($category['Paper']['id']){
@@ -462,13 +463,15 @@ function __construct(){
 
 				if($userId && $userId != null && $userId >= 0){
 					//get user topics
+					$this->User->contain('Topic');
 					$user = $this->User->read(null, $userId);
 
 					$userTopics = $user['Topic'];
 
 					//if user has no topcis (should not be possible...)
 					if(count($userTopics) == 0) return true;
-
+					
+					$this->contain();
 					$paper = $this->read(null, $this->id);
 
 					if($categoryId){
@@ -481,7 +484,10 @@ function __construct(){
 						if(count($categoryTopics) == 0) return true;
 
 						//check if one of the user topics is in the paper topics
-						foreach($userTopics as $userTopic){
+						
+				// no neccessary anymore because we want to subscribe different topics a one user to different cats		
+						
+			/*			foreach($userTopics as $userTopic){
 
 							foreach($categoryTopics as $categoryTopic){
 								if($userTopic['id'] == $categoryTopic['Topic']['id']){
@@ -493,7 +499,7 @@ function __construct(){
 									return false;
 								}
 							}
-						}
+						} */
 						return true;
 
 
@@ -534,6 +540,7 @@ function __construct(){
 
 					App::import('model','Topic');
 					$topic = new Topic();
+					$this->Topic->contain();
 					$topic->read(null, $topicId);
 
 					if(!$topic->id){
