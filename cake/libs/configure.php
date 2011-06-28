@@ -123,13 +123,14 @@ class Configure extends Object {
 			}
 
 			if (isset($_this->log) && $_this->log) {
-				if (!class_exists('CakeLog')) {
-					require LIBS . 'cake_log.php';
-				}
 				if (is_integer($_this->log) && !$_this->debug) {
 					$reporting = $_this->log;
 				} else {
 					$reporting = E_ALL & ~E_DEPRECATED;
+				}
+				error_reporting($reporting);
+				if (!class_exists('CakeLog')) {
+					require LIBS . 'cake_log.php';
 				}
 			}
 			error_reporting($reporting);
@@ -388,7 +389,6 @@ class Configure extends Object {
 	function __loadBootstrap($boot) {
 		if ($boot) {
 			Configure::write('App', array('base' => false, 'baseUrl' => false, 'dir' => APP_DIR, 'webroot' => WEBROOT_DIR, 'www_root' => WWW_ROOT));
-
 
 			if (!include(CONFIGS . 'core.php')) {
 				trigger_error(sprintf(__("Can't find application core file. Please create %score.php, and make sure it is readable by PHP.", true), CONFIGS), E_USER_ERROR);

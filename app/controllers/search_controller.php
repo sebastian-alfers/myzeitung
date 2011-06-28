@@ -52,7 +52,7 @@ class SearchController extends AppController {
 				if($result instanceof Apache_Solr_Document){
 					
 					if($result->type == 'paper'){
-					//if a result is a paper, and the user DOES NOT OWN it, there are two options: user has subscribed the paper (unsubscribe button) 
+					//if a result is a paper, and the user DOES NOT OWN this paper, there are two options: user has subscribed the paper (unsubscribe button) 
 					//																				user has not subscribed the paper (subscribe button) 
 					$result->paper_subscribed = false;
 					//check for subscriptions - if yes -> subscribed = true

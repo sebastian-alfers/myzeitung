@@ -344,7 +344,7 @@ class PostsController extends AppController {
 				$this->Post->topicChanged = true;
 			}
 	
-			
+			$this->Post->add_Solr = true;
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));

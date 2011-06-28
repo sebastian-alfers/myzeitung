@@ -10,6 +10,16 @@ class PostUser extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 var $belongsTo = array(
+	'Post' => array(
+		'className' => 'Post',
+		'foreignKey' => 'post_id',
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		//counting just reposts
+		'counterCache' => 'posts_user_count',
+		'counterScope' => array('repost' => true)	
+		),
 	'User' => array(
 		'className' => 'User',
 		'foreignKey' => 'user_id',
@@ -20,16 +30,7 @@ var $belongsTo = array(
 		'counterCache' => 'posts_user_count',
 		'counterScope' => array('repost' => true)
 		),
-	'Post' => array(
-		'className' => 'Post',
-		'foreignKey' => 'post_id',
-		'conditions' => '',
-		'fields' => '',
-		'order' => '',
-		//counting just reposts
-		'counterCache' => 'posts_user_count',
-		'counterScope' => array('repost' => true)		
-		),
+
 
 );
 

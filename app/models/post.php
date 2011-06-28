@@ -7,7 +7,7 @@ class Post extends AppModel {
 
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
 
-	var $add_solr = true;
+	var $add_solr = false;
 	var $solr_preview_image = '';
 
 	var $CategoryPaperPost = null;
@@ -326,10 +326,12 @@ class Post extends AppModel {
 
 					$this->PostUser->create();
 					$this->PostUser->save($PostUserData);
+			
 				} else {
+
 					//update PostUser-Entry - but ONLY IF the topic_id has changed
 					if($this->topicChanged){
-						
+
 						//delete old entry -> important for deleting all data-associations (from old topic)
 						$this->PostUser->contain();
 						$this->PostUser->deleteAll(array('repost'=> false, 'user_id' => $this->data['Post']['user_id'], 'post_id' => $this->data['Post']['id']), true);
@@ -348,6 +350,7 @@ class Post extends AppModel {
 
 				
 				if($this->add_solr){
+
 					//2) update solr index with saved date
 					App::import('model','Solr');
 					

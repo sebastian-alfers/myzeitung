@@ -353,6 +353,7 @@ class User extends AppModel {
 
 		 */
 		function afterSave(){
+
 			if($this->updateSolr){
 				//update solr index
 				App::import('model','Solr');
