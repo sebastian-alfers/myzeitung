@@ -10,10 +10,6 @@ class Solr extends AppModel {
 	const TYPE_CATEGORY = 'category';
 	const TYPE_UNKNOWN = 'unknown';
 
-	const HOST = 'localhost';
-	const PORT = 8983;
-	const PATH = '/solr';
-
 	var $useTable = false;
 
 	//additional fields
@@ -27,7 +23,7 @@ class Solr extends AppModel {
 		parent::__construct();
 
 		if(USE_SOLR){
-			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
+			$this->solr = new Apache_Solr_Service(SOLR_HOST, SOLR_PORT, SOLR_PATH);
 		}
 
 	}
@@ -114,9 +110,9 @@ class Solr extends AppModel {
 	 * @param boolean $grouped
 	 */
 	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true){
-
+		
 		if(!USE_SOLR) return;
-
+		
 		if(empty($query)) return false;
 		$results = array();
 
@@ -124,8 +120,7 @@ class Solr extends AppModel {
 		if (get_magic_quotes_gpc() == 1) $query = stripslashes($query);
 
 		try
-		{
-				
+		{				
 			$data = array();
 				
 			if(!empty($this->fields)){
@@ -175,9 +170,6 @@ class Solr extends AppModel {
 	function getSolr(){
 		if(!USE_SOLR) return;
 
-		if($this->solr == null){
-			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
-		}
 		if(!$this->canPing()){
 			$this->solr = null;
 		}

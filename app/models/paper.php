@@ -380,9 +380,8 @@ function __construct(){
 							$topic_id = null;
 							//if($sourceType == ContentPaper::USER) $user_id = $sourceId;
 							if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
-
 							switch ($targetType){
-								case ContentPaper::PAPER:
+								case ContentPaper::PAPER:									
 									return $this->_associateContentForPaper($data, $user_id, $topic_id);//$topic_id can be null
 									break;
 								case ContentPaper::CATEGORY:
@@ -476,23 +475,29 @@ function __construct(){
 						//check, it this user has not topic in this category
 						$recursion = 1;
 						$categoryTopics = $this->getTopicReferencesToOnlyThisCategory($recursion);
+						
 							
 						//if paper has no topics referenced
 						if(count($categoryTopics) == 0) return true;
 
 						//check if one of the user topics is in the paper topics
 						foreach($userTopics as $userTopic){
-
-							foreach($categoryTopics as $categoryTopic){
-								if($userTopic['id'] == $categoryTopic['Topic']['id']){
-									//the category has already a topic from the user
-									//@todo -> ask user if he wants to delete all topics from user to be able
-									//   to associate whole user to paper
-									//$this->Session->setFlash(__('Error! there already exist a topic form this user in the category.', true));
-									//$this->redirect(array('action' => 'index'));
-									return false;
-								}
-							}
+							
+							/**
+							 * commentet out because:
+							 * - 
+							 */
+							
+//							foreach($categoryTopics as $categoryTopic){
+//								if($userTopic['id'] == $categoryTopic['Topic']['id']){
+//									//the category has already a topic from the user
+//									//@todo -> ask user if he wants to delete all topics from user to be able
+//									//   to associate whole user to paper
+//									//$this->Session->setFlash(__('Error! there already exist a topic form this user in the category.', true));
+//									//$this->redirect(array('action' => 'index'));									
+//									return false;
+//								}
+//							}
 						}
 						return true;
 
@@ -612,7 +617,6 @@ function __construct(){
 			public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
 
 				if(!$this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId)){
-
 					return false;
 				}
 

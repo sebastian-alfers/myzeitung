@@ -445,7 +445,7 @@ class UsersController extends AppController {
 		}
 
 		/**
-		 * can not associate user itself
+		 * can not associate user himself
 		 */
 		if($logged_in_user_id == $user_id){
 			$this->Session->setFlash(__('Can not subscribe yourself', true));
