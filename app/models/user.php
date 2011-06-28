@@ -390,7 +390,7 @@ class User extends AppModel {
 			App::import('model','ContentPaper');
 			App::import('model','Topic');
 			$wholeUserReferences = array();
-			$conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
+			$conditions = array('conditions' => array('ContentPaper.topic_id' => null, 'ContentPaper.user_id' => $user_id));
 			//$this->ContentPaper->recursive = 0;
 
 			$this->ContentPaper = new ContentPaper();

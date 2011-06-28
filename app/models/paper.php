@@ -203,19 +203,22 @@ function __construct(){
 			 * @todo alf: das ganze muss ohne "recursive" laufen.... alles bitte mit contain
 			 */
 
-			function getContentReferences($recursive = 2){
+			function getContentReferences($category_id = null){
 
 				if($this->_contentReferences == null){
 
 					App::import('model','ContentPaper');
 					$contentPaper = new ContentPaper();
 
-
-
 					$conditions = array('conditions' => array(
 						'ContentPaper.paper_id' => $this->id));
+					
+					if($category_id !=  null){
+						$conditions['conditions']['ContentPaper.category_id'] = $category_id;
+					}
+					
 					$paperReferences = array();
-					$contentPaper->contain('Paper', 'Category', 'User', 'User.Post.id', 'Topic', 'Topic.User', 'Topic.Post.id');
+					$contentPaper->contain('Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id');
 					//$contentPaper->recursive = $recursive;// to get user from topic
 					$paperReferences = $contentPaper->find('all', $conditions);
 
@@ -387,6 +390,7 @@ function __construct(){
 								case ContentPaper::CATEGORY:
 									$category_id = $data['Paper']['target_id'];
 									//get paper for category
+									$this->Category->contain('Paper');
 									$category = $this->Category->read(null, $category_id);
 
 									if($category['Paper']['id']){
@@ -461,13 +465,15 @@ function __construct(){
 
 				if($userId && $userId != null && $userId >= 0){
 					//get user topics
+					$this->User->contain('Topic');
 					$user = $this->User->read(null, $userId);
 
 					$userTopics = $user['Topic'];
 
 					//if user has no topcis (should not be possible...)
 					if(count($userTopics) == 0) return true;
-
+					
+					$this->contain();
 					$paper = $this->read(null, $this->id);
 
 					if($categoryId){
@@ -481,24 +487,24 @@ function __construct(){
 						if(count($categoryTopics) == 0) return true;
 
 						//check if one of the user topics is in the paper topics
-						foreach($userTopics as $userTopic){
-							
-							/**
-							 * commentet out because:
-							 * - 
-							 */
-							
-//							foreach($categoryTopics as $categoryTopic){
-//								if($userTopic['id'] == $categoryTopic['Topic']['id']){
-//									//the category has already a topic from the user
-//									//@todo -> ask user if he wants to delete all topics from user to be able
-//									//   to associate whole user to paper
-//									//$this->Session->setFlash(__('Error! there already exist a topic form this user in the category.', true));
-//									//$this->redirect(array('action' => 'index'));									
-//									return false;
-//								}
-//							}
-						}
+
+						
+				// no neccessary anymore because we want to subscribe different topics a one user to different cats		
+						
+			/*			foreach($userTopics as $userTopic){
+
+							foreach($categoryTopics as $categoryTopic){
+								if($userTopic['id'] == $categoryTopic['Topic']['id']){
+									//the category has already a topic from the user
+									//@todo -> ask user if he wants to delete all topics from user to be able
+									//   to associate whole user to paper
+									//$this->Session->setFlash(__('Error! there already exist a topic form this user in the category.', true));
+									//$this->redirect(array('action' => 'index'));
+									return false;
+								}
+							}
+						} */
+
 						return true;
 
 
@@ -539,6 +545,7 @@ function __construct(){
 
 					App::import('model','Topic');
 					$topic = new Topic();
+					$this->Topic->contain();
 					$topic->read(null, $topicId);
 
 					if(!$topic->id){

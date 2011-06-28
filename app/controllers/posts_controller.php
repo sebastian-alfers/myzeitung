@@ -293,7 +293,7 @@ class PostsController extends AppController {
 		}
 		//check, if the user owns the post
 		$this->Post->contain();
-		$post = $this->Post->read(array('user_id', 'created', 'image'), $id);
+		$post = $this->Post->read(array('user_id', 'created', 'image', 'topic_id'), $id);
 		$owner_id = $post['Post']['user_id'];
 		$created = $post['Post']['created'];
 		$old_images = $post['Post']['image'];
@@ -318,7 +318,7 @@ class PostsController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
-			//save new sortet images
+			//save new sorted images
 
 			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
 
@@ -340,6 +340,11 @@ class PostsController extends AppController {
 			//process links
 			$this->processLinks();
 
+			if($post['Post']['topic_id'] != $this->data['Post']['topic_id']){
+				$this->Post->topicChanged = true;
+			}
+	
+			
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));

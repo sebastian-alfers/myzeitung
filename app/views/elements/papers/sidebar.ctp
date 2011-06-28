@@ -1,3 +1,5 @@
+<?php echo $this->element('papers/modal_references'); ?>
+
 <?php
 if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session->read('Auth.User.id')){
     $paper_belongs_to_user = false;
@@ -64,7 +66,7 @@ if($paper_belongs_to_user){
             <?php if(count($paper['Category']) > 0): ?>
             <h6><?php echo __('Filter by Category', true);?></h6>
             <ul>
-                <li>
+                <li><span class="icon icon-userresults show-associations" id="paper/<?php echo $paper['Paper']['id']?>"></span>
                 <?php //show only links for not selected items?>
                 <?php if(isset($this->params['pass'][1])):?>
                     <?php /* no topic selected */ echo $this->Html->link(__('All Posts'.' ('.$paper['Paper']['category_paper_post_count'].')', true), array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'])); ?>
@@ -72,7 +74,7 @@ if($paper_belongs_to_user){
                     <i><?php /* topic selected - show link*/ echo __('All Posts'.' ('.$paper['Paper']['category_paper_post_count'].')', true);?></i>
                 <?php endif;?> </li>
                 <?php foreach($paper['Category'] as $category):?>
-                <li>
+                <li><span class="icon icon-userresults show-associations"id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>"></span>
                 <?php  if((isset($this->params['pass'][1]) && $this->params['pass'][1] != $category['id']) || !isset($this->params['pass'][1])):?>
                     <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name'].' ('.$category['category_paper_post_count'].')', array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'], $category['id'])); ?>
                 <?php else:?>

@@ -329,12 +329,19 @@ class Post extends AppModel {
 				} else {
 					//update PostUser-Entry - but ONLY IF the topic_id has changed
 					if($this->topicChanged){
+						
+						//delete old entry -> important for deleting all data-associations (from old topic)
 						$this->PostUser->contain();
-						$PostUserEntries = $this->PostUser->find($PostUserData);
-						foreach($PostUserEntries as $PostUserEntry){
-							$PostUserEntry['topic_id'] = $this->data['Post']['topic_id'];
-							$this->PostUser->save($PostUserEntry);
+						$this->PostUser->deleteAll(array('repost'=> false, 'user_id' => $this->data['Post']['user_id'], 'post_id' => $this->data['Post']['id']), true);
+						
+						//creating new postuser entry for new associations for new topic
+						$this->PostUser->create();
+						$PostUserData['created'] = $this->data['Post']['created'];
+
+						if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
+							$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
 						}
+						$this->PostUser->save($PostUserData);
 					}
 
 				}

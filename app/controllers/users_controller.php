@@ -296,7 +296,7 @@ class UsersController extends AppController {
 		$groups = $this->Group->find('list');
 		$this->set('groups',$groups);
 	}
-
+/*
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for user', true));
@@ -309,7 +309,7 @@ class UsersController extends AppController {
 		$this->Session->setFlash(__('User was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
-
+*/
 	/**
 	 * show all references from content_papers table to this user
 	 * - whole user references (to paper itself or category)
