@@ -2,12 +2,18 @@
 <!--
 $(document).ready(function() {
 	$('.show-associations').click(function(element){
+		$('#contente-show-references').html('');
 		$( "#dialog-show-references" ).dialog('open');
 		var url = $(this).attr('id');
-
+		var req = $.post(base_url + '/papers/references/' + url)
+   		.success(function( string ){
+	   		$('#contente-show-references').html(string);
+   		})		   
+   		.error(function(){
+	   		alert('error');
+		});		
 		
 		
-		$('#contente-show-references').html(url);
 		
 	});
 
