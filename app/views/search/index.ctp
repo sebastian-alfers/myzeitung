@@ -3,29 +3,26 @@
 	<div id="maincol">
 	
 	<h4 class="nav-title"><span><?php echo __('Searchresults for')?></span> <?php echo $query;?></h4>
-		<ul class="search-result">
-		<?php if(isset($results)): ?>	 
-			<?php  foreach ($results['results'] as $result): ?>
-				<?php if($result instanceof Apache_Solr_Document): ?>
-					<?php if($result->type == 'user'):?>
-					<?php echo $this->element('search/results/user', array('user' => $result)); ?>
-					<?php elseif($result->type == 'post'):?>
-					<?php echo $this->element('search/results/post', array('post' => $result)); ?>
-					<?php elseif($result->type == 'paper'):?>
-					<?php echo $this->element('search/results/paper', array('paper' => $result)); ?>
-					<?php endif;?>
-				<?php endif;?>
-			<?php endforeach; ?>
-		<?php endif; ?>
-		</ul> <!-- / .search-result -->
-						
-	<p><a href="" class="more-results" >Weitere Ergebnisse anzeigen</a></p>
-	
+	<?php echo $this->element('search/results', array('results' => $results)); ?>			
 	</div><!-- / #maincol -->
 </div><!-- / #maincolwrapper -->
 
 
-
+<script type="text/javascript">
+<!--
+$('.more-results').bind('click', function() {
+	var type="more";
+	alert(base_url + '/search/index/');
+	var req = $.post(base_url + '/search/index/', {type:type, q:"<?php echo $query; ?>"})
+	.success(function( obj ){
+		alert(obj);		
+	})		   
+	.error(function(){
+			alert('error');
+	});			  
+});	
+//-->
+</script>
 
 
 <?php /*?>

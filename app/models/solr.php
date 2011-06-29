@@ -28,7 +28,7 @@ class Solr extends AppModel {
 	//additional fields
 	var $fields = array();
 
-	CONST DEFAULT_LIMIT = 10;
+	CONST DEFAULT_LIMIT = 2;
 	CONST SUGGEST_LIMIT = 6;
 	
 	private $solr = null;

@@ -1,0 +1,1 @@
+<?php echo $this->element('search/results', array('results' => $results)); ?>

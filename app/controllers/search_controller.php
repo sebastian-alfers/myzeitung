@@ -15,7 +15,11 @@ class SearchController extends AppController {
 
 
 	function index() {
-		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS);		
+		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS);
+
+		if($this->params['isAjax']){
+			$this->render('more_results', 'ajax');
+		}
 	}
 	
 	function users() {
@@ -49,7 +53,14 @@ class SearchController extends AppController {
 	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS){
 		if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 			//search results
-			$query = isset($_REQUEST['q']) ? $_REQUEST['q'] : false;
+			
+			$query = isset($this->params['url']['q']) ? $this->params['url']['q'] : false;
+			
+			if(!$query)//for "more results"
+				$query = isset($this->params['form']['q']) ? $this->params['form']['q'] : false;
+			
+			debug($query);die();
+				
 			$grouped = false;
 			$limit = solr::DEFAULT_LIMIT;
 		} else {
