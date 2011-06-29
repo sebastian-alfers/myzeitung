@@ -386,10 +386,68 @@ class User extends AppModel {
 
 			}
 		}
+		
+		/**
+		 * if a user writes for a paper / category is definded in content_papers
+		 * this method retuns all users references
+		 * 
+		 * @param $user_id
+		 * @package $group_by_paper
+		 */
+		function getAllUserContentReferences($user_id, $group_by_paper = true){
+			App::import('model','ContentPaper');
+			//App::import('model','Topic');
+			$references = array();
+			$conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
+
+			$this->ContentPaper = new ContentPaper();
+			$this->ContentPaper->contain('Paper', 'Category', 'Topic');
+			$references = $this->ContentPaper->find('all', $conditions);
+			
+			if(!$group_by_paper) return $references;
+			
+			$grouped_references = array();
+
+			foreach($references as $ref){
+				$paper_id = $ref['ContentPaper']['paper_id'];
+				
+				if(!isset($grouped_references[$paper_id]))
+					$grouped_references[$paper_id]['Paper'] = $ref['Paper'];//save paper
+					
+				//now save all references to this paper
+				
+					
+				//check if whole user is in paper
+				if(empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['whole_user_in_paper'] = true;
+				}
+
+				//check if user topic is in whole paper
+				if(empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['user_topic_in_paper'][]['Topic'] = $ref['Topic'];
+				}								
+				
+				//check if whole user is in category
+				if(!empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['whole_user_in_category'][]['Category'] = $ref['Category'];
+				}				
+
+				//check if user topic is in category
+				if(!empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['user_topic_in_category'][] = array('Category' => $ref['Category'],
+															'Topic' => $ref['Topic']);
+				}		
+
+				$grouped_references[$paper_id]['references'] = $grouped_references[$paper_id]['references'];
+				
+			}
+			
+			return $grouped_references;			
+		}
 
 		function getWholeUserReferences($user_id){
 			App::import('model','ContentPaper');
-			App::import('model','Topic');
+			//App::import('model','Topic');
 			$wholeUserReferences = array();
 			$conditions = array('conditions' => array('ContentPaper.topic_id' => null, 'ContentPaper.user_id' => $user_id));
 			//$this->ContentPaper->recursive = 0;

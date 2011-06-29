@@ -11,8 +11,6 @@ class Paper extends AppModel {
 	var $doAfterSave = true;
 	
 	private  $_contentReferences = null;
-
-
 	
 	var $hasOne = array(
 		'Route' => array(
@@ -379,7 +377,9 @@ function __construct(){
 						if(count($source) == 2){
 							
 							//prepare variables to indicate whole user or only topic as source
-							$user_id = $data['Paper']['user_id'];
+							//$user_id = $data['Paper']['user_id'];
+							$user_id = $sourceId;
+							
 							$topic_id = null;
 							//if($sourceType == ContentPaper::USER) $user_id = $sourceId;
 							if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
@@ -445,7 +445,7 @@ function __construct(){
 			 * @param int $topicId
 			 */
 			private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
-
+				
 				//check for extatly this constelation
 				$conditions = array('conditions' => array(
 											'ContentPaper.paper_id' => $paperId,
@@ -462,8 +462,8 @@ function __construct(){
 					//$this->redirect(array('action' => 'index'));
 					return false;
 				}
-
-				if($userId && $userId != null && $userId >= 0){
+				
+				if(!$topicId){
 					//get user topics
 					$this->User->contain('Topic');
 					$user = $this->User->read(null, $userId);
@@ -476,38 +476,24 @@ function __construct(){
 					$this->contain();
 					$paper = $this->read(null, $this->id);
 
+					if($categoryId && $topicId){
+						debug('topic in category');
+					}
+					
+					if($categoryId && $topicId){
+						debug('topic in category');
+					}					
+					
 					if($categoryId){
 						//whole user to a category
 						//check, it this user has not topic in this category
 						$recursion = 1;
 						$categoryTopics = $this->getTopicReferencesToOnlyThisCategory($recursion);
-						
 							
 						//if paper has no topics referenced
 						if(count($categoryTopics) == 0) return true;
 
-						//check if one of the user topics is in the paper topics
-
-						
-				// no neccessary anymore because we want to subscribe different topics a one user to different cats		
-						
-			/*			foreach($userTopics as $userTopic){
-
-							foreach($categoryTopics as $categoryTopic){
-								if($userTopic['id'] == $categoryTopic['Topic']['id']){
-									//the category has already a topic from the user
-									//@todo -> ask user if he wants to delete all topics from user to be able
-									//   to associate whole user to paper
-									//$this->Session->setFlash(__('Error! there already exist a topic form this user in the category.', true));
-									//$this->redirect(array('action' => 'index'));
-									return false;
-								}
-							}
-						} */
-
 						return true;
-
-
 					}
 
 					//whole user to paper
@@ -519,9 +505,13 @@ function __construct(){
 					$recursion = 1;
 					$paperTopics = $this->getTopicReferencesToOnlyThisPaper($recursion);
 
+					
+					
 					//if paper has no topics referenced
 					if(count($paperTopics) == 0) return true;
-
+					
+					
+					
 					//check if one of the user topics is in the paper topics
 					foreach($userTopics as $userTopic){
 
@@ -540,12 +530,14 @@ function __construct(){
 
 
 				}
-				else if($topicId && $topicId != null){
+				else{
+
+					
 					//check if this topic isnt already assocaited to this paper itself/ to category itself
 
 					App::import('model','Topic');
 					$topic = new Topic();
-					$this->Topic->contain();
+					$topic->contain();
 					$topic->read(null, $topicId);
 
 					if(!$topic->id){
