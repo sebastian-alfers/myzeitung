@@ -184,12 +184,16 @@ class PostsController extends AppController {
 
 			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
 				// if images in folder, the solr_add is executed when the correct image array is saved
-				$this->Post->add_solr = false;
+			//	$this->Post->updateSolr = false;
 				$temp_data = $this->data;
 				unset($temp_data['Post']['id']);
 			}
 
 			$this->processLinks();
+			//add to solr if no pictures must be saved
+			if(!($this->Upload->hasImagesInHashFolder($this->data['Post']['hash']))){
+				$this->Post->updateSolr = true;
+			}
 			if ($this->Post->save($this->data)) {
 					
 				//copy images after post has been saved to add new post-id to img path
@@ -203,10 +207,10 @@ class PostsController extends AppController {
 						$this->data["Post"]["user_id"] = $user_id;
 						$this->data['Post']['hash'] = $hash;
 						$this->data['Post']['content'] = $content;
-						// writing the path of the first picture to a class variable because the array will be serialized before reaching the add_Solr method
+						// writing the path of the first picture to a class variable because the array will be serialized before reaching the updateSolr method
 
 						$this->Post->solr_preview_image = $this->images[0]['path'];
-						$this->Post->add_solr = true;
+						$this->Post->updateSolr = true;
 						if ($this->Post->save($this->data)) {
 
 							//remove tmp hash folder
@@ -344,7 +348,8 @@ class PostsController extends AppController {
 				$this->Post->topicChanged = true;
 			}
 	
-			$this->Post->add_Solr = true;
+			$this->Post->updateSolr = true;
+			$this->Post->solr_preview_image = $this->images[0]['path'];
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));

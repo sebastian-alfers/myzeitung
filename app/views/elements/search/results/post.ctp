@@ -16,7 +16,7 @@
 
 
 
-	if(isset($post->post_image)){
+	if(isset($post->post_image) and !empty($post->post_image)){
 		$img = unserialize($post->post_image);
 	}
 	else{

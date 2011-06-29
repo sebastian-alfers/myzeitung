@@ -7,7 +7,7 @@ class Post extends AppModel {
 
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
 
-	var $add_solr = false;
+	var $updateSolr = false;
 	var $solr_preview_image = '';
 
 	var $CategoryPaperPost = null;
@@ -268,7 +268,7 @@ class Post extends AppModel {
 					}
 				}
 				$this->data['Post']['content_preview'] = $prev;
-			//	debug($this->data);
+	
 
 				return true;
 			}
@@ -348,9 +348,8 @@ class Post extends AppModel {
 
 				}
 
-				
-				if($this->add_solr){
 
+				if($this->updateSolr){
 					//2) update solr index with saved date
 					App::import('model','Solr');
 					

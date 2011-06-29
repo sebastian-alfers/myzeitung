@@ -9,7 +9,14 @@ class Solr extends AppModel {
 	const TYPE_PAPER = 'paper';
 	const TYPE_CATEGORY = 'category';
 	const TYPE_UNKNOWN = 'unknown';
-
+	
+	const QUERY_TYPE_AUTO_SUGGEST = 'auto';
+	const QUERY_TYPE_SEARCH_RESULTS = 'search';
+	
+	const SEARCH_RESULT_SEARCH_FIELD = 'search_field';
+	const SEARCH_RESULT_SEARCH_FIELD_PHONETIC = 'search_field_phonetic';
+	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
+	
 	const HOST = 'localhost';
 	const PORT = 8983;
 	const PATH = '/solr';
@@ -20,7 +27,8 @@ class Solr extends AppModel {
 	var $fields = array();
 
 	CONST DEFAULT_LIMIT = 10;
-
+	CONST SUGGEST_LIMIT = 6;
+	
 	private $solr = null;
 
 	function __construct(){
