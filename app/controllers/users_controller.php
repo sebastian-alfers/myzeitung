@@ -316,26 +316,22 @@ class UsersController extends AppController {
 	 * - references to a specific topic (to paper itself or category)
 	 * Enter description here ...
 	 */
-	function references(){
+	function references($user_id){
 
 
 		//check for param in get url
-		if(empty($this->params['pass'][0]) || !isset($this->params['pass'][0])){
+		if(empty($user_id) || !isset($user_id)){
 			$this->Session->setFlash(__('No user param', true));
 			$this->redirect(array('action' => 2));
 		}
 		$user_id = $this->params['pass'][0];
 
-		//now all references to whole user
-		$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
-		$this->set('wholeUserReferences', $wholeUserReferences);
+		$references = $this->User->getAllUserContentReferences($user_id);
+		//debug($references);
+		$this->set('references', $references);
 
-
-		//now all references to all topics
-		$topicReferences = $this->User->getUserTopicReferences($user_id);
-
-		$this->set('topicReferences', $topicReferences);
-
+		
+		$this->render('references', 'ajax');
 	}
 
 	/**
@@ -374,8 +370,6 @@ class UsersController extends AppController {
 				$data['Paper'][ContentPaper::CONTENT_DATA] = ContentPaper::USER.ContentPaper::SEPERATOR.$this->data['User']['user_id'];
 			}
 			$data['Paper']['user_id'] = $this->data['User']['user_id'];
-
-
 
 			//check if we have options or not
 			if(isset($this->data['User']['paper_category_content_data'])){
@@ -445,7 +439,7 @@ class UsersController extends AppController {
 		}
 
 		/**
-		 * can not associate user itself
+		 * can not associate user himself
 		 */
 		if($logged_in_user_id == $user_id){
 			$this->Session->setFlash(__('Can not subscribe yourself', true));

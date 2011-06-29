@@ -15,26 +15,49 @@ class SearchController extends AppController {
 
 
 	function index() {
-		$this->getResults();		
+		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS);		
 	}
 	
 	function users() {
-		$this->getResults(solr::TYPE_USER);		
+		$this->getResults(solr::TYPE_USER , solr::QUERY_TYPE_SEARCH_RESULTS);		
 		$this->render('index');
 	}
 	
 	function papers() {
-		$this->getResults(solr::TYPE_PAPER);
+		$this->getResults(solr::TYPE_PAPER, solr::QUERY_TYPE_SEARCH_RESULTS);
 		$this->render('index');		
 	}
 	
 	function posts() {
-		$this->getResults(solr::TYPE_POST);	
+		$this->getResults(solr::TYPE_POST, solr::QUERY_TYPE_SEARCH_RESULTS);	
 		$this->render('index');	
 	}
 	
-	private function getResults($type = null){
-		$query = isset($_REQUEST['q']) ? $_REQUEST['q'] : false;
+	
+	function ajxSearch(){
+		$this->getResults(null, solr::QUERY_TYPE_AUTO_SUGGEST);
+		$this->render('autoComplete', 'ajax');//custom ctp, ajax for blank layout
+	}
+	
+	
+	/**
+	 * getting and setting the results. calling sub functions in-between.
+	 * @param unknown_type $type
+	 * @param unknown_type $queryType
+	 */
+	
+	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS){
+		if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
+			//search results
+			$query = isset($_REQUEST['q']) ? $_REQUEST['q'] : false;
+			$grouped = false;
+			$limit = solr::DEFAULT_LIMIT;
+		} else {
+			//auto suggest
+			$query = $_POST['query'];
+			$grouped = true;
+			$limit = solr::SUGGEST_LIMIT;
+		}
 		$results = false;
 		if ($query)
 		{
@@ -43,114 +66,130 @@ class SearchController extends AppController {
 			if(isset($type) and in_array($type, array(solr::TYPE_PAPER, solr::TYPE_POST, solr::TYPE_USER))){
 				$this->Solr->setSearchFields(array('type' => $type));
 			}
-			//********************************************			
-			$results = $this->Solr->query($query, Solr::DEFAULT_LIMIT, false);
-			
-			//feeding results with addtional info (as you can see below)																				
-			foreach($results['results'] as &$result){
-				
-				if($result instanceof Apache_Solr_Document){
-					
-					if($result->type == 'paper'){
-					//if a result is a paper, and the user DOES NOT OWN this paper, there are two options: user has subscribed the paper (unsubscribe button) 
-					//																				user has not subscribed the paper (subscribe button) 
-					$result->paper_subscribed = false;
-					//check for subscriptions - if yes -> subscribed = true
-						if($this->Auth->user('id')){
-							$this->Subscription->contain();
-							if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $result->id)))) > 0){
-								$result->paper_subscribed = true;
-							}
-						} 						
-					}
-					//reading if the user allows messages
-					if($result->type == 'user'){
-						$result->user_allow_messages = false;
-						$this->User->contain();
-						$this->data = $this->User->read('allow_messages', $result->id);
-						$result->user_allow_messages = $this->data['User']['allow_messages'];
-					}
-					//reading post counters and reposters array
-					if($result->type == 'post'){
-						$result->post_comment_count = 0;
-						$result->post_posts_user_count = 0;
-						$result->post_view_count = 0;
-						$result->post_reposters = array();
-						$this->Post->contain();
-						$this->data = $this->Post->read(array('reposters', 'comment_count', 'posts_user_count', 'view_count'), $result->id);
-						$result->post_comment_count = $this->data['Post']['comment_count'];
-						$result->post_posts_user_count = $this->data['Post']['posts_user_count'];
-						$result->post_view_count = $this->data['Post']['view_count'];
-						$result->post_reposters = $this->data['Post']['reposters'];
-					}
-				}
+			//********************************************	
+			$search_string = $this->enhanceQuery($query, $queryType);		
+			debug($search_string);
+			$results = $this->Solr->query($search_string, $limit, $grouped);
+			if($results and $queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
+				$results = $this->addExtraInformation($results);
 			}
-		
 			$this->set('results', $results);
 		}
 		else{
 			$this->set('query', '');
 		}
 	}
+
 	
-
-	function ajxSearch(){
-
-		$query = $_POST['query'];
-		$results = array();
+	
+	
+	
+	/**
+	 * modify the query sent to solr depending of which type of query is needed :   search suggest or the default search results.
+	 * @param unknown_type $query - typed query
+	 * @param unknown_type $queryType 
+	 */
+	private function enhanceQuery($query = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS){
 		$search_string = '';
-		if(!empty($query)){
-
+		if($query != null) {
 			$query = explode(" ", $query);
-
 			$length = count($query);
-
-			if($length == 0){
-				$this->set('query', '');
-			}
-			else if($length == 1){
-				$search_string = "(".$query[0]."* OR ".$query[0].")";
-
-			}
-			else{
-				$search_string = '(';
-				for($i = 0; $i < $length-1; $i++){
-
-					$search_string .= $query[$i] . " AND ";
-				}
-				$search_string .= "(".$query[$length-1]."* OR ".$query[$length-1].")) or \"".$_POST['query']."\"";
-
-			}
-
-			if($search_string != ''){
-
-				if ($search_string)
-				{
-					$this->set('query', $search_string);
-					$results = $this->Solr->query($search_string);
-					$split = array();//seperate results by type
-						
-					if($results && !empty($results)){
-							
-						foreach ($results['results'] as $type => $docs){
-							//$split[$type][] = 
-						}
-					}
-						
-					$this->set('results', $results);
+			
+			//enhance query string for search results  / example:
+			// original query = "Donald Duck"
+			// modified =  "(search_field:Donald OR search_field_phonetic:Donald) AND (search_field:Donald OR search_field_phonetic:Donald)"
+			if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
+				if($length == 0){
+					$this->set('query', '');
 				}
 				else{
-
+					$search_string = '';
+					for($i = 0; $i < $length; $i++){
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[0].")";
+						if($i < $length-1){
+							$search_string .= " AND ";
+						}
+					}
+				}
+				
+	
+			//enhance query string for auto suggest / example
+			// original query = "Donald Duck"  (two or more words)
+			// modified= "((search_field_auto_suggest:Donald OR search_field_phonetic:Donald) 
+			//				AND (search_field_auto_suggest:Duck* OR (search_field_auto_suggest:Duck OR search_field_phonetic:Duck)))
+			//				 OR (search_field_auto_suggest:"Donald Duck" OR search_field_phonetic:"Donald Duck")"
+			// original query = "Donald"  (one word)
+			// modified= (search_field_auto_suggest:Donald* OR (search_field_auto_suggest:Donald OR search_field_phonetic:Donald))
+			} elseif($queryType == solr::QUERY_TYPE_AUTO_SUGGEST){
+				if($length == 0){
+					$this->set('query', '');
+				}
+				else if($length == 1){
+					$search_string = "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[0]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[0]."))";
+				}
+				else{
+					$search_string = '(';
+					for($i = 0; $i < $length-1; $i++){
+	
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$i].")" . " AND ";
+					}
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$length-1]."))) OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":\"".$_POST['query']."\" OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":\"".$_POST['query']."\")";
 				}
 			}
-
-
-			//(title:Pirates AND title:of AND (title:th* OR title:th)) OR title:"pirates of th"
-
 		}
-
-		$this->render('autoComplete', 'ajax');//custom ctp, ajax for blank layout
+		return $search_string;
 	}
+	
+	
+	/**
+	 * Adding some Information to the results that is not indexed in solr.
+	 * @param unknown_type $results
+	 */
+	private function addExtraInformation($results = null){
+		if($results){
+				//feeding results with addtional info (as you can see below)																				
+				foreach($results['results'] as &$result){
+					
+					if($result instanceof Apache_Solr_Document){
+						
+						if($result->type == 'paper'){
+						//if a result is a paper, and the user DOES NOT OWN this paper, there are two options: user has subscribed the paper (unsubscribe button) 
+						//																				user has not subscribed the paper (subscribe button) 
+						$result->paper_subscribed = false;
+						//check for subscriptions - if yes -> subscribed = true
+							if($this->Auth->user('id')){
+								$this->Subscription->contain();
+								if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $result->id)))) > 0){
+									$result->paper_subscribed = true;
+								}
+							} 						
+						}
+						//reading if the user allows messages
+						if($result->type == 'user'){
+							$result->user_allow_messages = false;
+							$this->User->contain();
+							$this->data = $this->User->read('allow_messages', $result->id);
+							$result->user_allow_messages = $this->data['User']['allow_messages'];
+						}
+						//reading post counters and reposters array
+						if($result->type == 'post'){
+							$result->post_comment_count = 0;
+							$result->post_posts_user_count = 0;
+							$result->post_view_count = 0;
+							$result->post_reposters = array();
+							$this->Post->contain();
+							$this->data = $this->Post->read(array('reposters', 'comment_count', 'posts_user_count', 'view_count'), $result->id);
+							$result->post_comment_count = $this->data['Post']['comment_count'];
+							$result->post_posts_user_count = $this->data['Post']['posts_user_count'];
+							$result->post_view_count = $this->data['Post']['view_count'];
+							$result->post_reposters = $this->data['Post']['reposters'];
+						}
+					}
+				}
+			}
+		return $results;
+	}
+
 
 	function delete(){
 

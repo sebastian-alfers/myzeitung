@@ -6,7 +6,7 @@ class PapersController extends AppController {
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
 	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax');
 
-    var $allowedSettingsActions = array('image');
+	var $allowedSettingsActions = array('image');
 
 	//var $test = 'adsf';
 
@@ -16,10 +16,10 @@ class PapersController extends AppController {
 		//declaration which actions can be accessed without being logged in
 		$this->Auth->allow('index','view');
 
-        //add security
-        //$this->Security->requireAuth('add', 'edit', 'saveImage');
+		//add security
+		//$this->Security->requireAuth('add', 'edit', 'saveImage');
 
-        $this->Security->disableFields = array('new_image', 'data[Paper][id]', 'id', 'data[Paper][hash]', 'hash');
+		$this->Security->disableFields = array('new_image', 'data[Paper][id]', 'id', 'data[Paper][hash]', 'hash');
 
 	}
 
@@ -69,48 +69,48 @@ class PapersController extends AppController {
 		}
 		/*writing all settings for the paginate function.
 		 important here is, that only the paper's posts are subject for pagination.*/
-		// PROBLEM: tried to only show every post once. if a post is reposted, the newest date counts, 
+		// PROBLEM: tried to only show every post once. if a post is reposted, the newest date counts,
 		$this->paginate = array(
 			        'Post' => array(
-						//setting up the joins. this conditions describe which posts are gonna be shown
+		//setting up the joins. this conditions describe which posts are gonna be shown
 			            'joins' => array(
-									array(
+		array(
 				                 		'table' => 'category_paper_posts',
 				                 		'alias' => 'CategoryPaperPost',
 				                		'type' => 'RIGHT',
 				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id'),
-									),	
-								),
-								   
-						//order
+		),
+		),
+			
+		//order
 			        	'order' => 'last_post_repost_date DESC',
 	          			'group' => array('CategoryPaperPost.post_id'),
-						//limit of records per page
+		//limit of records per page
 			          	'limit' => 9,
-									
+			
   						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
 
-			        	//contain array: limit the (related) data and models being loaded per post
+		//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('User.id','User.username', 'User.image'),
-			         ),
-			    );  
-		
+		),
+		);
+
 		//useCustom defines which kind of paginateCount the Post-Model should use. "true" -> counting entries in category_paper_posts
 		$this->Paper->Post->useCustom = true;
-	
-	    if($category_id != null){
-	    	//adding the category to the conditions array for the pagination - join
-	    	$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
-	    }		
+
+		if($category_id != null){
+			//adding the category to the conditions array for the pagination - join
+			$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
+		}
 		$posts = $this->paginate($this->Paper->Post);
-		
+
 		// finding the last relevant reposter for the post in a paper / category
-			$conditions = array('paper_id' => $paper_id);
-		    if($category_id != null){
-		    	//adding the category to the conditions array 
-		    	$conditions['category_id'] = $category_id;
-		    }	
+		$conditions = array('paper_id' => $paper_id);
+		if($category_id != null){
+			//adding the category to the conditions array
+			$conditions['category_id'] = $category_id;
+		}
 		foreach($posts as &$post){
 			$conditions['post_id'] = $post['Post']['id'];
 			$this->CategoryPaperPost->contain();
@@ -119,8 +119,8 @@ class PapersController extends AppController {
 			$post['lastReposter']['username'] = $last_relevant_post['CategoryPaperPost']['reposter_username'];
 		}
 		// END - last relevant reposter
-		  	
-	    $this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
+		 
+		$this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.content_paper_count', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
 		$paper = $this->Paper->read(null, $paper_id);
 		//add information if the user (if logged in) has already subscribed the paper
 		$this->Subscription->contain();
@@ -130,15 +130,15 @@ class PapersController extends AppController {
 			$paper['Paper']['subscribed'] = false;
 		}
 
-        $this->set('hash', $this->Upload->getHash());
+		$this->set('hash', $this->Upload->getHash());
 
-	    $this->set('paper', $paper);
+		$this->set('paper', $paper);
 		$this->set('posts', $posts);
 
 
 	}
 
-    function saveImage(){
+	function saveImage(){
 
 
 		if (empty($this->data)) {
@@ -146,27 +146,27 @@ class PapersController extends AppController {
 			$this->redirect($this->referer());
 		}
 
-        $paper_id = $this->data['Paper']['id'];
+		$paper_id = $this->data['Paper']['id'];
 
-        //check is user owns this paper id
-        if(parent::canEdit('Paper', $paper_id, 'owner_id')){
-            $this->log('can edit');
-            $hash = $this->data['Paper']['hash'];
+		//check is user owns this paper id
+		if(parent::canEdit('Paper', $paper_id, 'owner_id')){
+			$this->log('can edit');
+			$hash = $this->data['Paper']['hash'];
 			if($this->Upload->hasImagesInHashFolder($hash)){
-                $this->log('has in hash');
+				$this->log('has in hash');
 				$image = array();
-                $this->Paper->contain();
-                $paper_data = $this->Paper->read(null, $paper_id);
+				$this->Paper->contain();
+				$paper_data = $this->Paper->read(null, $paper_id);
 				$paper_created = $paper_data['Paper']['created'];
 				$image = $this->Upload->copyImagesFromHash($hash, $paper_id, $paper_created, $this->data['Paper']['new_image'], 'paper');
 
 				if(is_array($image)){
 
-                    $paper_data['Paper']['image'] = $image;
+					$paper_data['Paper']['image'] = $image;
 					$this->Paper->doAfterSave = true;
 					if($this->Paper->save($paper_data, true, array('image'))){
-   						$this->Session->setFlash(__('Image has been saved', true), 'default', array('class' => 'success'));
-	    				$this->User->updateSolr = true;
+						$this->Session->setFlash(__('Image has been saved', true), 'default', array('class' => 'success'));
+						$this->User->updateSolr = true;
 						$this->redirect($this->referer());
 					}
 					else{
@@ -180,18 +180,18 @@ class PapersController extends AppController {
 				$this->redirect($this->referer());
 			}
 
-        }
-        else{
+		}
+		else{
 			$this->Session->setFlash(__('You do not have permissions', true));
 			$this->redirect($this->referer());
-        }
+		}
 
 
 
 
 
 
-    }
+	}
 
 	/**
 	 * @author tim
@@ -253,32 +253,25 @@ class PapersController extends AppController {
 	 *
 	 * @author sebastian.alfers
 	 */
-	function references(){
+	function references($type, $id, $category_id = null){
 		if(!$this->_validateShowContentData($this->params)){
 			$this->Session->setFlash(__('invalid data for content view ', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		else{
-			$type = $this->params['pass'][0];
-			$id = $this->params['pass'][1];
-			$this->set('paper_id', $id);
-			switch($type){
-				case ContentPaper::PAPER:
-					$this->Paper->contain();
-					$this->Paper->read(null, $id);
-					$paperReferences = $this->Paper->getContentReferences();
-					//debug($paperReferences);die();
-					$this->set('paperReferences', $paperReferences);
-					break;
-				case ContentPaper::CATEGORY:
+			
+			$this->Paper->contain();
+			$this->Paper->read(null, $id);
+			
+			$references = array();
+			$references = $this->Paper->getContentReferences($category_id);
+			
+			$this->set('references', $references);
 
-					break;
-				default:
-					$this->Session->setFlash(__('invalid data for content view ', true));
-					$this->redirect(array('action' => 'index'));
-					exit;
-			}
 		}
+		
+		$this->render('references', 'ajax');//custom ctp, ajax for blank layout
+		
 	}
 
 	/**
@@ -330,7 +323,7 @@ class PapersController extends AppController {
 	}
 
 
-	function add() {		
+	function add() {
 		if (!empty($this->data)) {
 			//adding a route
 
@@ -361,7 +354,7 @@ class PapersController extends AppController {
 			}
 
 
-		
+
 
 		}
 		//unbinding irrelevant relations for the query
@@ -371,7 +364,7 @@ class PapersController extends AppController {
 		//same template for add and edit
 		$this->render('add_edit');
 	}
-	
+
 
 	function edit($id = null) {
 		if (!$id && empty($this->data)) {
@@ -412,42 +405,42 @@ class PapersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-    /**
-     * wrapper action for differend actions
-     * @param  $path - action to be called
-     * @param  $paper_id
-     * @return void
-     */
-    public function settings($path, $paper_id){
+	/**
+	 * wrapper action for differend actions
+	 * @param  $path - action to be called
+	 * @param  $paper_id
+	 * @return void
+	 */
+	public function settings($path, $paper_id){
 		if (!$paper_id || !in_array($path, $this->allowedSettingsActions)) {
-            $this->Session->setFlash(__('Invalid paper', true));
-            $this->redirect($this->referer());
-        }
-        //check if paper belongs to logged in user
-        if(!parent::canEdit('Paper', $paper_id, 'owner_id')){
-            $this->Session->setFlash(__('Wrong permissions', true));
-            $this->redirect($this->referer());
-        }
-        switch ($path){
-            case "image":
-                $this->settingsImage();
-                break;
+			$this->Session->setFlash(__('Invalid paper', true));
+			$this->redirect($this->referer());
+		}
+		//check if paper belongs to logged in user
+		if(!parent::canEdit('Paper', $paper_id, 'owner_id')){
+			$this->Session->setFlash(__('Wrong permissions', true));
+			$this->redirect($this->referer());
+		}
+		switch ($path){
+			case "image":
+				$this->settingsImage();
+				break;
 
-        echo $path;
-        echo $paper_id;
-        }
+				echo $path;
+				echo $paper_id;
+		}
 
-        die();
+		die();
 
-    }
+	}
 
-    /**
-     * process image save action
-     * @return void
-     */
-    private function settingsImage(){
-        echo "save image";
-    }
+	/**
+	 * process image save action
+	 * @return void
+	 */
+	private function settingsImage(){
+		echo "save image";
+	}
 
 
 	/**
@@ -481,10 +474,10 @@ class PapersController extends AppController {
 		return $this->ContentPaper->save($this->data);
 	}
 
-    function blackHoleCallback(){
-        echo "jo";
-        die();
-    }
+	function blackHoleCallback(){
+		echo "jo";
+		die();
+	}
 
 
 

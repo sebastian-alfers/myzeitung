@@ -1,0 +1,14 @@
+﻿#!/bin/sh
+
+RSYNC=/usr/bin/rsync
+JETTY=/etc/init.d/jetty
+
+SOURCE=/vagrant/app/solr/example/solr/conf/schema.xml
+
+TARGET=/etc/solr/conf/schema.xml
+
+$RSYNC -rzv $SOURCE $TARGET --delete
+
+
+sudo $JETTY stop
+sudo $JETTY start

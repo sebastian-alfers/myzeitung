@@ -58,6 +58,7 @@ echo $this->element('users/modal_subscribe');
 
 ?>
 
+<?php echo $this->element('users/modal_activity'); ?>
 
 <div id="leftcolwapper">
 <div class="leftcol">
