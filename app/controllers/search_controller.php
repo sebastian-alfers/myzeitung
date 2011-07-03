@@ -15,11 +15,23 @@ class SearchController extends AppController {
 
 
 	function index() {
-		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS);
+		
+		if(!isset($this->params['form']['start'])){
+			$start = 0 ;
+		}
+		else{
+			$start = $this->params['form']['start'];
+		}
+		
+		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS, $start);
 
-		if($this->params['isAjax']){
+		$this->set('start', $start);
+		$this->set('per_page', solr::DEFAULT_LIMIT);		
+		
+		if($this->params['isAjax']){	
 			$this->render('more_results', 'ajax');
 		}
+				
 	}
 	
 	function users() {
@@ -50,7 +62,7 @@ class SearchController extends AppController {
 	 * @param unknown_type $queryType
 	 */
 	
-	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS){
+	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS, $start = 0){
 		if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 			//search results
 			
@@ -59,7 +71,7 @@ class SearchController extends AppController {
 			if(!$query)//for "more results"
 				$query = isset($this->params['form']['q']) ? $this->params['form']['q'] : false;
 			
-			debug($query);die();
+			//debug($query);die();
 				
 			$grouped = false;
 			$limit = solr::DEFAULT_LIMIT;
@@ -79,11 +91,13 @@ class SearchController extends AppController {
 			}
 			//********************************************	
 			$search_string = $this->enhanceQuery($query, $queryType);		
-			debug($search_string);
-			$results = $this->Solr->query($search_string, $limit, $grouped);
+			
+			$results = $this->Solr->query($search_string, $limit, $grouped, $start);
 			if($results and $queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 				$results = $this->addExtraInformation($results);
 			}
+			
+			$this->set('rows', $results['rows']);
 			$this->set('results', $results);
 		}
 		else{

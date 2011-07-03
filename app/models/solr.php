@@ -19,7 +19,7 @@ class Solr extends AppModel {
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 	
 	const HOST = 'localhost';
-	const PORT = 8983;
+	const PORT = 8080;
 	const PATH = '/solr';
 
 
@@ -37,7 +37,7 @@ class Solr extends AppModel {
 		parent::__construct();
 
 		if(USE_SOLR){
-			$this->solr = new Apache_Solr_Service(SOLR_HOST, SOLR_PORT, SOLR_PATH);
+			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
 		}
 
 	}
@@ -122,8 +122,9 @@ class Solr extends AppModel {
 	 * @param string $query
 	 * @param int $limit
 	 * @param boolean $grouped
+	 * @param int - pagination, start from document $start
 	 */
-	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true){
+	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $start = 0){
 		
 		if(!USE_SOLR) return;
 		
@@ -142,8 +143,8 @@ class Solr extends AppModel {
 					$query.= ' AND ' . $field_name.':"'.$filter_value.'"';
 				}
 			}
-				
-			$response = $this->getSolr()->search($query, 0, $limit, array('sort' => 'score desc'));
+
+			$response = $this->getSolr()->search($query, $start, $limit, array('sort' => 'score desc'));
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
 				foreach($response->response->docs as $doc){
@@ -182,6 +183,7 @@ class Solr extends AppModel {
 	 * checks if possibel to ping
 	 */
 	function getSolr(){
+
 		if(!USE_SOLR) return;
 
 		if(!$this->canPing()){

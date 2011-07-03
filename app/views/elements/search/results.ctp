@@ -11,8 +11,6 @@
 			<?php endif;?>
 		<?php endif;?>
 	<?php endforeach; ?>
-	</ul> <!-- / .search-result -->
-	<p><a class="more-results" ><?php __('more results'); ?></a></p>
-	
+	</ul> <!-- / .search-result -->	
 <?php endif; ?>
 
