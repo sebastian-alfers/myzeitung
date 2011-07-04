@@ -19,7 +19,7 @@
 						$img = '';
 					}					
 					$link_data = array();
-					$link_data['url'] = array('controller' => 'paper', 'action' => 'view', $paper->id);
+					$link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper->id);
 					$link_data['additional'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');				
 					echo $image->render(array('image' => $img), 50, 50,null, $link_data, 'paper');
 					?>

@@ -20,7 +20,7 @@ class CfHelper extends AppHelper {
  * Possible options: 'assets.example.com', if you only have one host
  * Or: 'assets%d.example.com', if you have multiple hosts. %d gets replaced with host number
  */
-  private $assetHost = 'dcc3ee7xblkrc.cloudfront.net';
+  private $assetHost = 'da9ek6keqxm2e.cloudfront.net';
   
 /**
  * If above is 'assets%d.example.com' will generate host names from 0 - 3

@@ -15,7 +15,23 @@ class SearchController extends AppController {
 
 
 	function index() {
-		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS);		
+		
+		if(!isset($this->params['form']['start'])){
+			$start = 0 ;
+		}
+		else{
+			$start = $this->params['form']['start'];
+		}
+		
+		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS, $start);
+
+		$this->set('start', $start);
+		$this->set('per_page', solr::DEFAULT_LIMIT);		
+		
+		if($this->params['isAjax']){	
+			$this->render('more_results', 'ajax');
+		}
+				
 	}
 	
 	function users() {
@@ -46,12 +62,21 @@ class SearchController extends AppController {
 	 * @param unknown_type $queryType
 	 */
 	
-	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS){
-		$params = array();
+
+
+	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS, $start = 0){
 		if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 			//search results
-			$query = isset($_REQUEST['q']) ? $_REQUEST['q'] : false;
-			$filter_query = isset($_REQUEST['fq']) ? $_REQUEST['fq'] : false;
+			
+			$query = isset($this->params['url']['q']) ? $this->params['url']['q'] : false;
+			//			$filter_query = isset($_REQUEST['fq']) ? $_REQUEST['fq'] : false;
+			
+			if(!$query)//for "more results"
+				$query = isset($this->params['form']['q']) ? $this->params['form']['q'] : false;
+			
+			//debug($query);die();
+				
+
 			$grouped = false;
 			$limit = solr::DEFAULT_LIMIT;
 			$params[''];
@@ -75,11 +100,15 @@ class SearchController extends AppController {
 			}
 			//********************************************	
 			$search_string = $this->enhanceQuery($query, $queryType);		
-			debug($search_string);
-			$results = $this->Solr->query($search_string, $limit, $grouped, $params);
+
+
+			$results = $this->Solr->query($search_string, $limit, $grouped,$start ,$params);
+
 			if($results and $queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 				$results = $this->addExtraInformation($results);
 			}
+			
+			$this->set('rows', $results['rows']);
 			$this->set('results', $results);
 		}
 		else{

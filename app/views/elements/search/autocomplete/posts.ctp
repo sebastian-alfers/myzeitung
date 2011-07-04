@@ -19,13 +19,13 @@
 				}				
 
 				$link_data = array();
-				$link_data['url'] = array('controller' => 'users', 'action' => 'view', 666);
+				$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
 				$link_data['additional'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');				
 				echo $image->render(array('image' => $img), 50, 50,null, $link_data, 'post');				
 				?>
-				<h6><a href=""><?php echo $post->post_title;?></a></h6>
+				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $post->post_title;?></a></h6>
 				<br />
-				<span class="from">von <a><strong><?php echo $post->user_name; ?></strong>, <?php echo $this->Time->timeAgoInWords($post->timestamp); ?></a></span>
+				<span class="from"><?php __('by');?> <a href="/users/view/<?php echo $post->user_id; ?>"><strong><?php echo $post->user_name; ?></strong></a>, <?php echo $this->Time->timeAgoInWords($post->timestamp); ?></span>
 				<?php /*
 				<ul class="iconbar">
 					<li class="reposts tt-title" title="1 repost">1</li>
