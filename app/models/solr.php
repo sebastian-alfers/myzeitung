@@ -37,7 +37,7 @@ class Solr extends AppModel {
 		parent::__construct();
 
 		if(USE_SOLR){
-			$this->solr = new Apache_Solr_Service(SOLR_HOST, SOLR_PORT, SOLR_PATH);
+			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
 		}
 
 	}
@@ -123,13 +123,14 @@ class Solr extends AppModel {
 	 * @param int $limit
 	 * @param boolean $grouped
 	 */
-	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true){
+	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $params = null){
 		
 		if(!USE_SOLR) return;
 		
 		if(empty($query)) return false;
 		$results = array();
-
+		$params['sort'] = 'score desc';
+		
 		// if magic quotes is enabled then stripslashes will be needed
 		if (get_magic_quotes_gpc() == 1) $query = stripslashes($query);
 
@@ -143,7 +144,7 @@ class Solr extends AppModel {
 				}
 			}
 				
-			$response = $this->getSolr()->search($query, 0, $limit, array('sort' => 'score desc'));
+			$response = $this->getSolr()->search($query, 0, $limit ,$params);
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
 				foreach($response->response->docs as $doc){
