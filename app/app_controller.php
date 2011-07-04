@@ -38,7 +38,7 @@ class AppController extends Controller {
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
 
-    var $helpers = array('Cf', 'Session');
+    var $helpers = array('Cf', 'Session', 'Mzform');
 
 	
 	public function beforeFilter(){
@@ -115,6 +115,7 @@ class AppController extends Controller {
 			'accAboutMe' => array(2,1),
 			'accGeneral' => array(2,1),
 			'accPrivacy' => array(2,1),
+        	'accDelete' => array(2,1),
 			),
 		'topics' => array(
 			'ajax_add' => array(1)

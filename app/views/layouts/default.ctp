@@ -33,7 +33,7 @@
 	<body>
 		<div id="main-wrapper">
 			<?php echo $this->element('header'); ?>
-			<div id="content">
+			<div id="content" <?php if(isset($content_class)){ echo 'class="'.$content_class.'"';} ?>>
 			
 			<?php echo $this->Session->flash(); ?>
 

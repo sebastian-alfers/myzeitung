@@ -10,6 +10,16 @@ class PostUser extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 var $belongsTo = array(
+	'Post' => array(
+		'className' => 'Post',
+		'foreignKey' => 'post_id',
+		'conditions' => '',
+		'fields' => '',
+		'order' => '',
+		//counting just reposts
+		'counterCache' => 'posts_user_count',
+		'counterScope' => array('repost' => true)	
+		),
 	'User' => array(
 		'className' => 'User',
 		'foreignKey' => 'user_id',
@@ -20,16 +30,7 @@ var $belongsTo = array(
 		'counterCache' => 'posts_user_count',
 		'counterScope' => array('repost' => true)
 		),
-	'Post' => array(
-		'className' => 'Post',
-		'foreignKey' => 'post_id',
-		'conditions' => '',
-		'fields' => '',
-		'order' => '',
-		//counting just reposts
-		'counterCache' => 'posts_user_count',
-		'counterScope' => array('repost' => true)		
-		),
+
 
 );
 
@@ -132,7 +133,7 @@ var $belongsTo = array(
 					foreach($wholeUserReferences as $wholeUserReference){
 							
 						//place post in paper or category associated to the whole user
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
+						$categoryPaperPostData = array('created' => $this->data['PostUser']['created'], 'post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 						
 						$affectedPapers[$wholeUserReference['Paper']['id']] = '';
 						
@@ -149,29 +150,31 @@ var $belongsTo = array(
 					//now all references to all topics
 					$topicReferences = $this->User->getUserTopicReferences($user_id);
 
+					if(isset($this->data['PostUser']['topic_id'])){
+						foreach($topicReferences as $topicReference){
+								
 
-					foreach($topicReferences as $topicReference){
+							if($topicReference['Topic']['id'] != $this->data['PostUser']['topic_id']){
+								//check, if current topic-reference is equal to the topic, the post has been placed in
+								continue;
+							}
+							//if($categoryPaperPostData[''])
+							//place post in paper or category associated to the posts topic
+								
+							$categoryPaperPostData = array('created' => $this->data['PostUser']['created'], 'post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 							
-						if($topicReference['Topic']['id'] != $this->data['PostUser']['topic_id']){
-							//check, if current topic-reference is equal to the topic, the post has been placed in
-							continue;
+							$affectedPapers[$wholeUserReference['Paper']['id']] = '';
+							
+							if($topicReference['Category']['id']){
+								$categoryPaperPostData['category_id'] = $topicReference['Category']['id'];
+								$affectedCategories[$wholeUserReference['Category']['id']] = '';
+							}
+								
+								
+								
+							$this->CategoryPaperPost->create();
+							$this->CategoryPaperPost->save($categoryPaperPostData);
 						}
-						//if($categoryPaperPostData[''])
-						//place post in paper or category associated to the posts topic
-							
-						$categoryPaperPostData = array('post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
-						
-						$affectedPapers[$wholeUserReference['Paper']['id']] = '';
-						
-						if($topicReference['Category']['id']){
-							$categoryPaperPostData['category_id'] = $topicReference['Category']['id'];
-							$affectedCategories[$wholeUserReference['Category']['id']] = '';
-						}
-							
-							
-							
-						$this->CategoryPaperPost->create();
-						$this->CategoryPaperPost->save($categoryPaperPostData);
 					}
 
 					//update index to associate paper->content / category->content

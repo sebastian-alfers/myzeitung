@@ -1,24 +1,33 @@
- <form  accept-charset="utf-8" method="get">
-      <label for="q">Search:</label>
-      <input id="q" name="q" type="text" value="<?php echo htmlspecialchars($query, ENT_QUOTES, 'utf-8'); ?>"/>
-      <input type="submit"/>
-    </form>
+<?php echo $this->element('search/results/sidebar'); ?>
+<div id="maincolwrapper"> 
+	<div id="maincol">
+		<div id="search-result">
+			<h4 class="nav-title"><span><?php echo __('Searchresults for')?></span> <?php echo $query;?></h4>
+			<?php echo $this->element('search/results', array('results' => $results)); ?>
+		</div><!-- / #searchresult -->
+	<?php if(($start + $per_page) < $rows): ?>
+		<p><a class="more-results" id="link-more-results"><?php __('more results'); ?></a></p>
+	<?php endif; ?>		
+	</div><!-- / #maincol -->
+</div><!-- / #maincolwrapper -->
 
-<?php if(isset($results)): ?>
+<script type="text/javascript">
+<!--
 
- <?php  foreach ($results['results'] as $type => $docs): ?>
- 	<?php echo "type: " . $type; ?> (<?php echo count($docs)?>)<br />
-	
- 	<?php for($i=0 ; $i < count($docs); $i++): ?>
- 		<?php $doc = $docs[$i]; ?>
- 		<ul onclick="alert('');">
- 		<?php foreach ($doc as $field => $value): ?>
-	    	<li><?php echo $field?>: <?php echo $value; ?></li>
-		<?php endforeach; ?>
-		</ul>
-		<hr />	
-	<?php endfor; ?>
-	
-<?php endforeach; ?>
-  
-<?php endif; ?>
+var start = 0;
+var increment = <?php echo $per_page?>;
+
+$('.more-results').live('click', function() {
+	start +=increment;
+	var req = $.post(base_url + '/search/index/', {q:"<?php echo $query; ?>", start:start})
+	.success(function( obj ){
+		$('#search-result').append(obj);
+		var options = {};
+		$('#more-results'+start).toggle( 'blind', options, 500 );
+	})		   
+	.error(function(){
+			alert('error');
+	});		
+});	
+//-->
+</script>

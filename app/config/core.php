@@ -22,30 +22,34 @@
 
 /* set environment */
 Configure::write('Hosting.environment.local', false);
-Configure::write('Hosting.environment.dev', false);
+Configure::write('Hosting.environment.staging', false);
 Configure::write('Hosting.environment.live', false);
 
-//check to see if server name is set (thanks Frank)
-if(isset($_SERVER['SERVER_NAME'])){
-    switch($_SERVER['SERVER_NAME']){
-        case 'myzeitung.loc':
-            Configure::write('Hosting.environment.local', true);
-            //Configure::write('Hosting.environment.dev', true);
-            define('USE_SOLR', true);
-            break;
-        case 'www.on-line-solutions.de':
-            Configure::write('Hosting.environment.dev', true);
-            define('USE_SOLR', false);
-            break;
-        case 'www.myzeitung.de':
-            Configure::write('Hosting.environment.live', true);
-            define('USE_SOLR', true);
-            break;
-    }
+$envs = array('local', 'staging', 'live');
+
+//check to see if server name is set
+if(!isset($_SERVER['APPLICATION_ENV']) || empty($_SERVER['APPLICATION_ENV']) || !in_array($_SERVER['APPLICATION_ENV'], $envs)){
+	$_SERVER['APPLICATION_ENV'] = 'local';
 }
-else // we are likely baking, use our local db
-{
-    Configure::write('Hosting.environment.local', true);
+
+switch($_SERVER['APPLICATION_ENV']){
+	case 'local':
+		Configure::write('Hosting.environment.local', true);
+		//Configure::write('Hosting.environment.dev', true);
+		define('USE_SOLR', true);
+		define('SOLR_HOST', $_SERVER['SOLR_HOST']);
+		define('SOLR_PORT', $_SERVER['SOLR_PORT']);
+		define('SOLR_PATH', $_SERVER['SOLR_PATH']);
+
+		break;
+	#case 'staging':
+	#	Configure::write('Hosting.environment.dev', true);
+	#	define('USE_SOLR', false);
+	#	break;
+	case 'live':
+		Configure::write('Hosting.environment.live', true);
+		define('USE_SOLR', true);
+		break;
 }
 
 
@@ -62,7 +66,7 @@ else // we are likely baking, use our local db
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 2);
+Configure::write('debug', 2);
 
 /**
  * CakePHP Log Level:
@@ -77,12 +81,12 @@ else // we are likely baking, use our local db
  *    Configure::write('log', E_ERROR | E_WARNING);
  *    Configure::write('log', E_ALL ^ E_NOTICE);
  */
-	Configure::write('log', true);
+Configure::write('log', true);
 
 /**
  * Application wide charset encoding
  */
-	Configure::write('App.encoding', 'UTF-8');
+Configure::write('App.encoding', 'UTF-8');
 
 /**
  * To configure CakePHP *not* to use mod_rewrite and to
@@ -95,7 +99,7 @@ else // we are likely baking, use our local db
  *
  * And uncomment the App.baseUrl below:
  */
-	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
+//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 
 /**
  * Uncomment the define below to use CakePHP prefix routes.
@@ -114,13 +118,13 @@ else // we are likely baking, use our local db
  *
  * [Note Routing.admin is deprecated in 1.3.  Use Routing.prefixes instead]
  */
-	Configure::write('Routing.prefixes', array('admin'));
+Configure::write('Routing.prefixes', array('admin'));
 
 /**
  * Turn off all caching application-wide.
  *
  */
-	//Configure::write('Cache.disable', true);
+//Configure::write('Cache.disable', true);
 
 /**
  * Enable cache checking.
@@ -131,13 +135,13 @@ else // we are likely baking, use our local db
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+//Configure::write('Cache.check', true);
 
 /**
  * Defines the default error type when using the log() function. Used for
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
-	define('LOG_ERROR', 2);
+define('LOG_ERROR', 2);
 
 /**
  * The preferred session handling method. Valid values:
@@ -153,7 +157,7 @@ else // we are likely baking, use our local db
  * the cake shell command: cake schema create Sessions
  *
  */
-	Configure::write('Session.save', 'database');
+Configure::write('Session.save', 'database');
 
 /**
  * The model name to be used for the session model.
@@ -162,7 +166,7 @@ else // we are likely baking, use our local db
  *
  * The model name set here should *not* be used elsewhere in your application.
  */
-	Configure::write('Session.model', 'Session');
+Configure::write('Session.model', 'Session');
 
 /**
  * The name of the table used to store CakePHP database sessions.
@@ -176,14 +180,14 @@ else // we are likely baking, use our local db
  *
  * [Note: Session.table is deprecated as of CakePHP 1.3]
  */
-	Configure::write('Session.table', 'cake_sessions');
+Configure::write('Session.table', 'cake_sessions');
 
 /**
  * The DATABASE_CONFIG::$var to use for database session handling.
  *
  * 'Session.save' must be set to 'database' in order to utilize this constant.
  */
-	Configure::write('Session.database', 'default');
+Configure::write('Session.database', 'default');
 
 /**
  * The name of CakePHP's session cookie.
@@ -193,25 +197,25 @@ else // we are likely baking, use our local db
  * characters."
  * @link http://php.net/session_name
  */
-	Configure::write('Session.cookie', 'CAKEPHP');
+Configure::write('Session.cookie', 'CAKEPHP');
 
 /**
  * Session time out time (in seconds).
  * Actual value depends on 'Security.level' setting.
  */
-	Configure::write('Session.timeout', '120');
+Configure::write('Session.timeout', '120');
 
 /**
  * If set to false, sessions are not automatically started.
  */
-	Configure::write('Session.start', true);
+Configure::write('Session.start', true);
 
 /**
  * When set to false, HTTP_USER_AGENT will not be checked
  * in the session. You might want to set the value to false, when dealing with
  * older versions of IE, Chrome Frame or certain web-browsing devices and AJAX
  */
-	Configure::write('Session.checkAgent', true);
+Configure::write('Session.checkAgent', true);
 
 /**
  * The level of CakePHP security. The session timeout time defined
@@ -225,17 +229,17 @@ else // we are likely baking, use our local db
  * CakePHP session IDs are also regenerated between requests if
  * 'Security.level' is set to 'high'.
  */
-	Configure::write('Security.level', 'medium');
+Configure::write('Security.level', 'medium');
 
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', '28289aee155392e1d31cae6e71d91a0a1a0e804e');
+Configure::write('Security.salt', '28289aee155392e1d31cae6e71d91a0a1a0e804e');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '336438393438393163623961636433');
+Configure::write('Security.cipherSeed', '336438393438393163623961636433');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -245,7 +249,7 @@ else // we are likely baking, use our local db
  * Set to `true` to apply timestamps, when debug = 0, or set to 'force' to always enable
  * timestamping.
  */
-	//Configure::write('Asset.timestamp', true);
+//Configure::write('Asset.timestamp', true);
 /**
  * Compress CSS output by removing comments, whitespace, repeating tags, etc.
  * This requires a/var/cache directory to be writable by the web server for caching.
@@ -253,7 +257,7 @@ else // we are likely baking, use our local db
  *
  * To use, prefix the CSS link URL with '/ccss/' instead of '/css/' or use HtmlHelper::css().
  */
-	//Configure::write('Asset.filter.css', 'css.php');
+//Configure::write('Asset.filter.css', 'css.php');
 
 /**
  * Plug in your own custom JavaScript compressor by dropping a script in your webroot to handle the
@@ -261,20 +265,20 @@ else // we are likely baking, use our local db
  *
  * To use, prefix your JavaScript link URLs with '/cjs/' instead of '/js/' or use JavaScriptHelper::link().
  */
-	//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
+//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
 
 /**
  * The classname and database used in CakePHP's
  * access control lists.
  */
-	Configure::write('Acl.classname', 'DbAcl');
-	Configure::write('Acl.database', 'default');
+Configure::write('Acl.classname', 'DbAcl');
+Configure::write('Acl.database', 'default');
 
 /**
  * If you are on PHP 5.3 uncomment this line and correct your server timezone
  * to fix the date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+//date_default_timezone_set('UTC');
 
 /**
  *
@@ -329,7 +333,7 @@ else // we are likely baking, use our local db
  *	));
  *
  */
-	Cache::config('default', array('engine' => 'File'));
+Cache::config('default', array('engine' => 'File'));
 
-	
+
 Configure::write('Config.language', 'eng');

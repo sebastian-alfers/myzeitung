@@ -171,6 +171,7 @@ class User extends AppModel {
 				),
 			),
 			//the auth component hashes the pwd before the save method - before validation. so we are using a temp field for validating first.
+
 			'passwd' => array(
 				'length' => array(
 					'rule' 			=> array('between', 5, 20),
@@ -185,6 +186,13 @@ class User extends AppModel {
 					'last'			=> true,
                 )  
             ),
+            'old_password' => array(
+				'length' => array(
+					'rule' 			=> 'validateOldPassword',
+					'message'		=> __('Your old password does not match.', true),
+					'last'			=> true,
+				),
+			),
             'tos_accept' => array (  
                 'match' =>  array(  
                     'rule'          => array('equalTo', '1'),
@@ -192,9 +200,7 @@ class User extends AppModel {
 					'last'			=> true,
                 )  
             ) 
-		);
-			
-				
+		);		
 	}
 	
    function validatePasswdConfirm($data)  
@@ -203,9 +209,17 @@ class User extends AppModel {
         {  
             return false;  
         }  
-  
         return true;  
-    }   
+    }  
+    
+    function validateOldPassword($data)  
+    {  
+        if (Security::hash($this->data['User']['old_password'], null, true) !== $this->data['User']['password'])  
+        {  
+            return false;  
+        }  
+        return true;  
+    }    
 
 //		function afterFind($results){
 			
@@ -281,6 +295,10 @@ class User extends AppModel {
 			{  
 				unset($this->data['User']['passwd_confirm']);  
 			}  
+			if (isset($this->data['User']['old_password']))  
+			{  
+				unset($this->data['User']['old_password']);  
+			}  
 			if (isset($this->data['User']['tos_accept']))  
 			{  
 				unset($this->data['User']['tos_accept']);  
@@ -299,10 +317,34 @@ class User extends AppModel {
 			$comments = $this->Comment->findAllByUser_id($this->id);
 			foreach($comments as $comment){
 				$comment['Comment']['user_id']= null;
-				debug($comment);
 				$this->Comment->save($comment);
 			}
+			
+			App::import('model','ConversationMessage');
+			$this->ConversationMessage = new ConversationMessage();
 				
+			// reading all conversationmessages of the deleted user and reseting the user_id to null
+			// "message from -deleted user-"
+			$this->ConversationMessage->contain();
+			$messages = $this->ConversationMessage->findAllByUser_id($this->id);
+			foreach($messages as $message){
+				$message['ConversationMessage']['user_id']= null;
+				$this->ConversationMessage->save($message);
+			}
+			
+			
+			App::import('model','ConversationUser');
+			$this->ConversationUser = new ConversationUser();
+			// reading all conversationusers of the deleted user and reseting the user_id to null
+			// "message between X,Y and deleted user"
+			$this->ConversationUser->contain();
+			$conversationusers = $this->ConversationUser->findAllByUser_id($this->id);
+			foreach($conversationusers as $conversationuser){
+				$conversationuser['ConversationUser']['user_id']= null;
+				$conversationuser['ConversationUser']['status']= Conversation::STATUS_REMOVED;
+				$this->ConversationUser->save($conversationuser);
+			}
+			
 			return true;
 				
 		}
@@ -311,6 +353,7 @@ class User extends AppModel {
 
 		 */
 		function afterSave(){
+
 			if($this->updateSolr){
 				//update solr index
 				App::import('model','Solr');
@@ -343,12 +386,70 @@ class User extends AppModel {
 
 			}
 		}
+		
+		/**
+		 * if a user writes for a paper / category is definded in content_papers
+		 * this method retuns all users references
+		 * 
+		 * @param $user_id
+		 * @package $group_by_paper
+		 */
+		function getAllUserContentReferences($user_id, $group_by_paper = true){
+			App::import('model','ContentPaper');
+			//App::import('model','Topic');
+			$references = array();
+			$conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
+
+			$this->ContentPaper = new ContentPaper();
+			$this->ContentPaper->contain('Paper', 'Category', 'Topic');
+			$references = $this->ContentPaper->find('all', $conditions);
+			
+			if(!$group_by_paper) return $references;
+			
+			$grouped_references = array();
+
+			foreach($references as $ref){
+				$paper_id = $ref['ContentPaper']['paper_id'];
+				
+				if(!isset($grouped_references[$paper_id]))
+					$grouped_references[$paper_id]['Paper'] = $ref['Paper'];//save paper
+					
+				//now save all references to this paper
+				
+					
+				//check if whole user is in paper
+				if(empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['whole_user_in_paper'] = true;
+				}
+
+				//check if user topic is in whole paper
+				if(empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['user_topic_in_paper'][]['Topic'] = $ref['Topic'];
+				}								
+				
+				//check if whole user is in category
+				if(!empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['whole_user_in_category'][]['Category'] = $ref['Category'];
+				}				
+
+				//check if user topic is in category
+				if(!empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
+					$grouped_references[$paper_id]['references']['user_topic_in_category'][] = array('Category' => $ref['Category'],
+															'Topic' => $ref['Topic']);
+				}		
+
+				$grouped_references[$paper_id]['references'] = $grouped_references[$paper_id]['references'];
+				
+			}
+			
+			return $grouped_references;			
+		}
 
 		function getWholeUserReferences($user_id){
 			App::import('model','ContentPaper');
-			App::import('model','Topic');
+			//App::import('model','Topic');
 			$wholeUserReferences = array();
-			$conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
+			$conditions = array('conditions' => array('ContentPaper.topic_id' => null, 'ContentPaper.user_id' => $user_id));
 			//$this->ContentPaper->recursive = 0;
 
 			$this->ContentPaper = new ContentPaper();

@@ -10,22 +10,35 @@ class Solr extends AppModel {
 	const TYPE_CATEGORY = 'category';
 	const TYPE_UNKNOWN = 'unknown';
 
+	
+	const QUERY_TYPE_AUTO_SUGGEST = 'auto';
+	const QUERY_TYPE_SEARCH_RESULTS = 'search';
+	
+	const SEARCH_RESULT_SEARCH_FIELD = 'search_field';
+	const SEARCH_RESULT_SEARCH_FIELD_PHONETIC = 'search_field_phonetic';
+	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
+	
 	const HOST = 'localhost';
-	const PORT = 8983;
+	const PORT = 8080;
 	const PATH = '/solr';
+
 
 	var $useTable = false;
 
-	CONST DEFAULT_LIMIT = 10;
+	//additional fields
+	var $fields = array();
 
+	CONST DEFAULT_LIMIT = 2;
+	CONST SUGGEST_LIMIT = 6;
+	
 	private $solr = null;
 
 	function __construct(){
 		parent::__construct();
 
-        if(USE_SOLR){
-		    $this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
-        }
+		if(USE_SOLR){
+			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
+		}
 
 	}
 
@@ -35,7 +48,7 @@ class Solr extends AppModel {
 	 * @param array $documents
 	 */
 	function add($docs = array()){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		try {
 
@@ -91,7 +104,7 @@ class Solr extends AppModel {
 	 * @param string $id
 	 */
 	function delete($id){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		if(!empty($id)){
 			$xml = '<delete><id>'. $id .'</id></delete>';
@@ -109,33 +122,45 @@ class Solr extends AppModel {
 	 * @param string $query
 	 * @param int $limit
 	 * @param boolean $grouped
+	 * @param int - pagination, start from document $start
 	 */
-	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true){
-        if(!USE_SOLR) return;
 
+	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $start = 0,$params = null){
+
+		
+		if(!USE_SOLR) return;
+		
 		if(empty($query)) return false;
 		$results = array();
-
+		$params['sort'] = 'score desc';
+		
 		// if magic quotes is enabled then stripslashes will be needed
 		if (get_magic_quotes_gpc() == 1) $query = stripslashes($query);
 
 		try
-		{
-			$grouped = array();
-			$response = $this->getSolr()->search($query, 0, $limit, array('sort' => 'timestamp desc'));
+		{				
+			$data = array();
+				
+			if(!empty($this->fields)){
+				foreach($this->fields as $field_name => $filter_value){
+					$query.= ' AND ' . $field_name.':"'.$filter_value.'"';
+				}
+			}
+			$response = $this->getSolr()->search($query, $start, $limit, $params);
+
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
 				foreach($response->response->docs as $doc){
-					if(isset($doc->type)){
-						$grouped[$doc->type][] = $doc;
+					if(isset($doc->type) && !$grouped === false){
+						$data[$doc->type][] = $doc;
 					}
 					else{
-						$grouped[self::TYPE_UNKNOWN][] = $doc;
+						$data[] = $doc;
 					}
 				}
 
-				if(!empty($grouped)){
-					$results['results'] = $grouped;
+				if(!empty($data)){
+					$results['results'] = $data;
 				}
 				else{
 					$results['results'] = $response;
@@ -161,11 +186,9 @@ class Solr extends AppModel {
 	 * checks if possibel to ping
 	 */
 	function getSolr(){
-        if(!USE_SOLR) return;
 
-		if($this->solr == null){
-			$this->solr = new Apache_Solr_Service(self::HOST, self::PORT, self::PATH);
-		}
+		if(!USE_SOLR) return;
+
 		if(!$this->canPing()){
 			$this->solr = null;
 		}
@@ -178,7 +201,7 @@ class Solr extends AppModel {
 	 *
 	 */
 	function canPing(){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		if($this->solr instanceof Apache_Solr_Service && $this->solr != null){
 			if (!$this->solr->ping()) return false;
@@ -190,12 +213,24 @@ class Solr extends AppModel {
 	}
 
 	function deleteIndex(){
-        if(!USE_SOLR) return;
+		if(!USE_SOLR) return;
 
 		var_dump($this->getSolr()->deleteByQuery('*:*'));
 		$this->getSolr()->commit();
 		echo "has been delteted";
 		return true;
+	}
+
+	/**
+	 * add one or more fields to be added in addition to default serach field "search_field"
+	 * @param array of type [field_name=>filter_value]
+	 */
+	function setSearchFields($fields){
+		if(!empty($fields)){
+			foreach($fields as $field_name => $filter_value){
+				$this->fields[$field_name] = $filter_value;
+			}
+		}
 	}
 }
 

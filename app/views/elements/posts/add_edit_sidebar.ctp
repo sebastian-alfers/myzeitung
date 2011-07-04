@@ -1,68 +1,48 @@
 <div id="leftcolwapper">
-<div class="leftcol">
-<div class="leftcolcontent">
-<div class="userstart" id="user_sidebar_content"
-	style="display: none;">
-<p>
+				<div class="leftcol">
+					<div class="leftcolcontent">
+					
+					<h5>Veröffentlichen: </h5>
 
+					<a class="btn btn-send"><span class="send-icon"></span>Veröffentlichen</a>
+					<a class="btn"><span class="icon-tick-mini"></span>Speichern</a>
+                    <hr />
+                    <h5>Media</h5>
 
-<form id="file_upload"
-	action="<?php echo FULL_BASE_URL.DS.'posts/ajxImageProcess'; ?>"
-	method="POST" enctype="multipart/form-data"><input
-	type="file" name="file" multiple>
-	
-	 <span>+</span><?php __('Add Images'); ?>
+                    <form id="file_upload"
+                        action="<?php echo FULL_BASE_URL.DS.'posts/ajxImageProcess'; ?>"
+                        method="POST" enctype="multipart/form-data"><input
+                        type="file" name="file" multiple>
 
-<input type="hidden" name="hash"
-	value="<?php echo $hash; ?>" /></form>
-</p>
-<br />
-<br />
-<p><a class="btn" id="add_topick_link"><span>+</span><?php __('Add Topic'); ?></a>
-</p>
-<br />
-<br />
-<p><a class="btn" id="add_url_link"><span>+</span><?php __('Add URL'); ?></a>
-</p>
-<br />
-<br />
-<p>
+                        	 <span>+</span><?php __('Add Images'); ?>
+                        <input type="hidden" name="hash" value="<?php echo $hash; ?>" />
+                    </form>
 
+                        <a class="btn" id="add_url_video_link"><span>+</span><?php __('Add Video'); ?></a>
 
-<hr />
-<br />
-<br />
-<div id="files" style="float: left"></div>
-<script>
-		$(document).ready(function() {
-			$( "#sortable" ).sortable();
-			$( "#sortable" ).disableSelection();
-		});
-		</script>
-
-
-<div>
-<ul id="sortable">
-<?php if(isset($images)): ?>
-<?php foreach($images as $img): ?>
-
-	<li id="<?php echo $img['name']; ?>"
-		class="ui-state-default" style="cursor: move;"><?php echo $this->Html->image($img['path'], array('style' => 'width:100px')); ?>
-		<a class="remove_li_item" name="img/<?php echo $img['path']; ?>" id="<?php echo $this->data['Post']['id']; ?>" style="cursor: pointer; vertical-align: top;"><?php __('remove'); ?></a>
-		</li>
-		<?php endforeach; ?>
-		<?php endif;?>
-</ul>
-</div>
-<!-- / sortable -->
-</p>
-<p>
-
-
-<ul id="links"></ul>
-</p>
-</div>
-<!-- / userstart --></div>
-<!-- /.leftcolcontent --></div>
-<!-- /.leftcol --></div>
-<!-- / #leftcolwapper -->
+					<hr>
+					
+					<h5><?php __('Theme:'); ?></h5>
+                        <?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data", 'id' => 'tmp_form_topic'));?>
+                            <?php echo $this->Form->input('topic_id', array('label' => false, 'id' => 'SelectPostTopicId')); ?>
+						</form>
+                        <br /><br />
+						<a class="btn" onclick="topicDialog()"><span>+</span><?php __('Add Theme'); ?></a>
+					<hr>
+					
+					<h5><?php __('Links'); ?></h5>
+					
+					<ul class="themes" id="links">
+					<?php if(isset($links) && !empty($links)): ?>
+						<?php foreach($links as $link): ?>
+						<li><li id="<?php echo $link; ?>"><a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a><br /><a class="remove_li_item"><?php __('remove'); ?></a></li>
+						<?php endforeach; ?>
+					<?php endif;?>
+					</ul>
+					
+     					<a class="btn" id="btn-add-link"><span>+</span>Quelle hinzufügen</a>
+													
+						 </div><!-- /.leftcolcontent -->	
+						</div><!-- /.leftcol -->
+						
+				</div>

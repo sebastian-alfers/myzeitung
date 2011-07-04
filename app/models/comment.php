@@ -58,6 +58,8 @@ class Comment extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+
 
 
 }

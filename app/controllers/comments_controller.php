@@ -29,7 +29,7 @@ class CommentsController extends AppController {
 		if (!empty($this->data)) {
 			$this->Comment->create();
 			if ($this->Comment->save($this->data)) {
-				$this->Session->setFlash(__('The comment has been saved', true));
+				$this->Session->setFlash(__('The comment has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('controller' => 'comments', 'action' => 'show', $this->data['Comment']['post_id']));
 			} else {
 				$this->Session->setFlash(__('The comment could not be saved. Please, try again.', true));
@@ -124,7 +124,7 @@ class CommentsController extends AppController {
 		
 		
 		if ($this->Comment->delete($id, true)) {
-			$this->Session->setFlash(__('Comment deleted', true));
+			$this->Session->setFlash(__('Comment deleted', true), 'default', array('class' => 'success'));
 			$this->redirect($this->referer());
 		}
 		$this->Session->setFlash(__('Comment was not deleted', true));

@@ -259,9 +259,14 @@ class UsersController extends AppController {
 				$this->redirect(array('action' => 'add'));
 				}
 				*/
-				$this->Session->setFlash(__('Thank you for registration', true));
 				
-				$this->redirect(array('action' => 'login'));
+				//Auto-Login after Register
+				$userData = array('username' => $this->data['User']['username'], 'password' => $this->Auth->password($this->data['User']['passwd']));
+				$this->Session->setFlash(__('Thank you for registration.', true), 'default', array('class' => 'success'));
+				if($this->Auth->login($userData)){
+					$this->redirect(array('controller' => 'papers' , 'action' => 'index'));
+				}
+				
 				
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
@@ -278,7 +283,7 @@ class UsersController extends AppController {
 		}
 		if (!empty($this->data)) {
 			if ($this->User->save($this->data)) {
-				$this->Session->setFlash(__('The user has been saved', true));
+				$this->Session->setFlash(__('The user has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
@@ -291,46 +296,42 @@ class UsersController extends AppController {
 		$groups = $this->Group->find('list');
 		$this->set('groups',$groups);
 	}
-
+/*
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for user', true));
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->User->delete($id, true)) {
-			$this->Session->setFlash(__('User deleted', true));
+			$this->Session->setFlash(__('User deleted', true), 'default', array('class' => 'success'));
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('User was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
-
+*/
 	/**
 	 * show all references from content_papers table to this user
 	 * - whole user references (to paper itself or category)
 	 * - references to a specific topic (to paper itself or category)
 	 * Enter description here ...
 	 */
-	function references(){
+	function references($user_id){
 
 
 		//check for param in get url
-		if(empty($this->params['pass'][0]) || !isset($this->params['pass'][0])){
+		if(empty($user_id) || !isset($user_id)){
 			$this->Session->setFlash(__('No user param', true));
 			$this->redirect(array('action' => 2));
 		}
 		$user_id = $this->params['pass'][0];
 
-		//now all references to whole user
-		$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
-		$this->set('wholeUserReferences', $wholeUserReferences);
+		$references = $this->User->getAllUserContentReferences($user_id);
+		//debug($references);
+		$this->set('references', $references);
 
-
-		//now all references to all topics
-		$topicReferences = $this->User->getUserTopicReferences($user_id);
-
-		$this->set('topicReferences', $topicReferences);
-
+		
+		$this->render('references', 'ajax');
 	}
 
 	/**
@@ -369,8 +370,6 @@ class UsersController extends AppController {
 				$data['Paper'][ContentPaper::CONTENT_DATA] = ContentPaper::USER.ContentPaper::SEPERATOR.$this->data['User']['user_id'];
 			}
 			$data['Paper']['user_id'] = $this->data['User']['user_id'];
-
-
 
 			//check if we have options or not
 			if(isset($this->data['User']['paper_category_content_data'])){
@@ -418,7 +417,7 @@ class UsersController extends AppController {
 				if($this->Paper->associateContent($data)){
 					$msg = __('Content has been associated to paper', true);
 
-					$this->Session->setFlash($msg, true);
+					$this->Session->setFlash($msg,'default', array('class' => 'success'));
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
 				}
 				else{
@@ -440,7 +439,7 @@ class UsersController extends AppController {
 		}
 
 		/**
-		 * can not associate user itself
+		 * can not associate user himself
 		 */
 		if($logged_in_user_id == $user_id){
 			$this->Session->setFlash(__('Can not subscribe yourself', true));
@@ -554,7 +553,7 @@ class UsersController extends AppController {
 				if($this->Paper->associateContent($data)){
 					$msg = __('Content has been associated to paper', true);
 
-					$this->Session->setFlash($msg, true);
+					$this->Session->setFlash($msg, 'default', array('class' => 'success'));
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
 				}
 				else{
@@ -661,18 +660,39 @@ class UsersController extends AppController {
 		}	
 
 		if (!empty($this->data)) {
-			if ($this->User->save($this->data, true, array('email', 'password', 'passwd', 'passwd_confirm'))) {
-				$this->Session->setFlash(__('The changes have been saved', true));
-				//update session variables:
-				$this->Session->write("Auth.User.email", $this->data['User']['email']);
-			} else {
-				$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
+			
+			//save/validate email AND password
+			if(!empty($this->data['User']['old_password']) || !empty($this->data['User']['passwd']) || !empty($this->data['User']['passwd_confirm']) ){
+			
+				$this->User->contain();
+				$this->User->read('password', $id);
+				if ($this->User->save($this->data, true, array('email', 'password', 'old_password', 'passwd', 'passwd_confirm'))) {
+					$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
+					//clear password fields
+					$this->data['User']['old_password'] = '';
+					$this->data['User']['passwd'] = '';
+					$this->data['User']['passwd_confirm'] = '';
+					//update session variables:
+					$this->Session->write("Auth.User.email", $this->data['User']['email']);
+				} else {
+					$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
+				}
+			//just save/validate email
+			}else{
+				if ($this->User->save($this->data, true, array('email'))) {
+					$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
+					
+					//update session variables:
+					$this->Session->write("Auth.User.email", $this->data['User']['email']);
+				} else {
+					$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
+				}
 			}
 		}
 		if (empty($this->data)) {
 			$this->User->contain();
 			$this->data = $this->User->read(null, $id);
-		}
+		} 
 
 		$this->User->contain();
 		$user= $this->getUserForSidebar();
@@ -694,7 +714,7 @@ class UsersController extends AppController {
 		if (!empty($this->data)) {
 			$this->User->updateSolr = true;
 			if ($this->User->save($this->data, true, array('name', 'description'))) {
-				$this->Session->setFlash(__('The changes have been saved', true));
+				$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
 				//update session variables:
 				$this->Session->write("Auth.User.name", $this->data['User']['name']);
 				$this->Session->write("Auth.User.description", $this->data['User']['description']);
@@ -725,7 +745,7 @@ class UsersController extends AppController {
 		
 		if (!empty($this->data)) {
 			if ($this->User->save($this->data, true, array('allow_comments', 'allow_messages'))) {
-				$this->Session->setFlash(__('The changes have been saved', true));
+				$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
 				//update session variables:
 				$this->Session->write("Auth.User.allow_messages", $this->data['User']['allow_messages']);
 				$this->Session->write("Auth.User.allow_comments", $this->data['User']['allow_comments']);
@@ -744,7 +764,35 @@ class UsersController extends AppController {
         $this->set('hash', $this->Upload->getHash());
 	}
 	
-	
+	function accDelete(){
+
+		$id = $this->Session->read('Auth.User.id');
+
+		
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}	
+		
+		if (!empty($this->data)) {
+
+			if($this->data['User']['delete'] == true){
+				if($this->User->delete($id, true)) {
+
+					$this->Session->setFlash(__('Your account has been deleted.', true), 'default', array('class' => 'success'));
+					$this->redirect(array('controller' => 'users', 'action' => 'logout'));
+				} else {
+					$this->Session->setFlash(__('Your account could not be deleted.', true));
+					$this->log('User/accDelete: user '.$id.' could not delete his/her account');
+				}
+			}
+		}
+
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
+	}
 
 	/**
 	 * handle upload of profile picture
@@ -775,7 +823,7 @@ class UsersController extends AppController {
 					$this->User->updateSolr = true;
 
 					if($this->User->save($user_data, true, array('image'))){
-   						$this->Session->setFlash(__('Saved new profile image', true));
+   						$this->Session->setFlash(__('Your new profile picture has been saved.', true), 'default', array('class' => 'success'));
 	    				
 						$this->Session->write("Auth.User.image", $user_data['User']['image']);
 						$this->redirect($this->referer());
@@ -796,6 +844,7 @@ class UsersController extends AppController {
 		$this->set('user', $this->getUserForSidebar());
 		$this->set('hash', $this->Upload->getHash());
 	}
+
 	
 	
 
