@@ -408,6 +408,9 @@ class Apache_Solr_Service
 		//Use the provided host or use the default
 		if (empty($host))
 		{
+			
+			echo "<pre>";
+			var_dump(debug_backtrace());die();
 			throw new Exception('Host parameter is empty');
 		}
 		else

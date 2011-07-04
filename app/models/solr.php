@@ -124,13 +124,16 @@ class Solr extends AppModel {
 	 * @param boolean $grouped
 	 * @param int - pagination, start from document $start
 	 */
-	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $start = 0){
+
+	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $start = 0,$params = null){
+
 		
 		if(!USE_SOLR) return;
 		
 		if(empty($query)) return false;
 		$results = array();
-
+		$params['sort'] = 'score desc';
+		
 		// if magic quotes is enabled then stripslashes will be needed
 		if (get_magic_quotes_gpc() == 1) $query = stripslashes($query);
 
@@ -143,8 +146,8 @@ class Solr extends AppModel {
 					$query.= ' AND ' . $field_name.':"'.$filter_value.'"';
 				}
 			}
+			$response = $this->getSolr()->search($query, $start, $limit, $params);
 
-			$response = $this->getSolr()->search($query, $start, $limit, array('sort' => 'score desc'));
 			if ( $response->getHttpStatus() == 200 ) {
 				//debug($response->response->docs);die();
 				foreach($response->response->docs as $doc){

@@ -62,25 +62,34 @@ class SearchController extends AppController {
 	 * @param unknown_type $queryType
 	 */
 	
+
+
 	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS, $start = 0){
 		if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 			//search results
 			
 			$query = isset($this->params['url']['q']) ? $this->params['url']['q'] : false;
+			//			$filter_query = isset($_REQUEST['fq']) ? $_REQUEST['fq'] : false;
 			
 			if(!$query)//for "more results"
 				$query = isset($this->params['form']['q']) ? $this->params['form']['q'] : false;
 			
 			//debug($query);die();
 				
+
 			$grouped = false;
 			$limit = solr::DEFAULT_LIMIT;
+			$params[''];
 		} else {
 			//auto suggest
 			$query = $_POST['query'];
 			$grouped = true;
 			$limit = solr::SUGGEST_LIMIT;
 		}
+		if(isset($filter_query) && !empty($filter_query)){
+			$params['fq'] = $filter_query;
+		}
+		//debug($filter_query);
 		$results = false;
 		if ($query)
 		{
@@ -91,8 +100,10 @@ class SearchController extends AppController {
 			}
 			//********************************************	
 			$search_string = $this->enhanceQuery($query, $queryType);		
-			
-			$results = $this->Solr->query($search_string, $limit, $grouped, $start);
+
+
+			$results = $this->Solr->query($search_string, $limit, $grouped,$start ,$params);
+
 			if($results and $queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 				$results = $this->addExtraInformation($results);
 			}
@@ -110,7 +121,7 @@ class SearchController extends AppController {
 	
 	
 	/**
-	 * modify the query sent to solr depending of which type of query is needed :   search suggest or the default search results.
+	 * modify the query sent to solr depending on which type of query is needed :   search suggest or the default search results.
 	 * @param unknown_type $query - typed query
 	 * @param unknown_type $queryType 
 	 */
