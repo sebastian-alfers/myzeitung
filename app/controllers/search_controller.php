@@ -135,7 +135,7 @@ class SearchController extends AppController {
 			
 			//enhance query string for search results  / example:
 			// original query = "Donald Duck"
-			// modified =  "(search_field:Donald OR search_field_phonetic:Donald) AND (search_field:Donald OR search_field_phonetic:Donald)"
+			// modified =  "(search_field:Donald OR search_field_phonetic:Donald OR search_field_ngrm:Donald) AND (search_field:Duck OR search_field_phonetic:Duck OR search_field_ngrm:Duck)"
 			if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 				if($length == 0){
 					$this->set('query', '');
@@ -143,7 +143,7 @@ class SearchController extends AppController {
 				else{
 					$search_string = '';
 					for($i = 0; $i < $length; $i++){
-						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[0].")";
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[0].")";
 						if($i < $length-1){
 							$search_string .= " AND ";
 						}
@@ -153,25 +153,25 @@ class SearchController extends AppController {
 	
 			//enhance query string for auto suggest / example
 			// original query = "Donald Duck"  (two or more words)
-			// modified= "((search_field_auto_suggest:Donald OR search_field_phonetic:Donald) 
-			//				AND (search_field_auto_suggest:Duck* OR (search_field_auto_suggest:Duck OR search_field_phonetic:Duck)))
-			//				 OR (search_field_auto_suggest:"Donald Duck" OR search_field_phonetic:"Donald Duck")"
+			// modified= "((search_field_auto_suggest:Donald OR search_field_phonetic:Donald OR search_field_ngrm:Donal) 
+			//				AND (search_field_auto_suggest:Duck* OR (search_field_auto_suggest:Duck OR search_field_phonetic:Duck  OR search_field_ngrm:Duck)))
+			//				 OR (search_field_auto_suggest:"Donald Duck" OR search_field_phonetic:"Donald Duck"  OR search_field_ngrm:"Donald Duck")"
 			// original query = "Donald"  (one word)
-			// modified= (search_field_auto_suggest:Donald* OR (search_field_auto_suggest:Donald OR search_field_phonetic:Donald))
+			// modified= (search_field_auto_suggest:Donald* OR (search_field_auto_suggest:Donald OR search_field_phonetic:Donald  OR search_field_ngrm:Donald))
 			} elseif($queryType == solr::QUERY_TYPE_AUTO_SUGGEST){
 				if($length == 0){
 					$this->set('query', '');
 				}
 				else if($length == 1){
-					$search_string = "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[0]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[0]."))";
+					$search_string = "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[0]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[0]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[0]."))";
 				}
 				else{
 					$search_string = '(';
 					for($i = 0; $i < $length-1; $i++){
 	
-						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$i].")" . " AND ";
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$i].")" . " AND ";
 					}
-						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$length-1]."))) OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":\"".$_POST['query']."\" OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":\"".$_POST['query']."\")";
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$length-1]."))) OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":\"".$_POST['query']."\" OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":\"".$_POST['query']."\ OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":\"".$_POST['query']."\")";
 				}
 			}
 		}
