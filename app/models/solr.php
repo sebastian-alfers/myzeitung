@@ -16,6 +16,7 @@ class Solr extends AppModel {
 	
 	const SEARCH_RESULT_SEARCH_FIELD = 'search_field';
 	const SEARCH_RESULT_SEARCH_FIELD_PHONETIC = 'search_field_phonetic';
+	const SEARCH_RESULT_SEARCH_FIELD_NGRM = 'search_field_ngrm';
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 	
 	const HOST = 'localhost';
