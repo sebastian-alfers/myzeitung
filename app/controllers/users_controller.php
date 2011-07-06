@@ -518,6 +518,7 @@ class UsersController extends AppController {
 				}
 			}
 
+
 			if($has_more_papers){
 				//read all papers
 				$paper_category_drop_down = $this->_generatePaperSelectData($logged_in_user_id);

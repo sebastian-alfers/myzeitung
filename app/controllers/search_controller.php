@@ -65,6 +65,7 @@ class SearchController extends AppController {
 
 
 	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS, $start = 0){
+		$params = array();
 		if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 			//search results
 			
@@ -79,7 +80,8 @@ class SearchController extends AppController {
 
 			$grouped = false;
 			$limit = solr::DEFAULT_LIMIT;
-			$params[''];
+			
+			//$params[''];
 		} else {
 			//auto suggest
 			$query = $_POST['query'];
@@ -102,7 +104,7 @@ class SearchController extends AppController {
 			$search_string = $this->enhanceQuery($query, $queryType);		
 
 
-			$results = $this->Solr->query($search_string, $limit, $grouped,$start ,$params);
+			$results = $this->Solr->query($search_string, $limit, $grouped, $start ,$params);
 
 			if($results and $queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 				$results = $this->addExtraInformation($results);
