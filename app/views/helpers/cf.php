@@ -20,7 +20,7 @@ class CfHelper extends AppHelper {
  * Possible options: 'assets.example.com', if you only have one host
  * Or: 'assets%d.example.com', if you have multiple hosts. %d gets replaced with host number
  */
-  private $assetHost = 'da9ek6keqxm2e.cloudfront.net';
+  private $assetHost = 'd224qf9il37feo.cloudfront.net';
   
 /**
  * If above is 'assets%d.example.com' will generate host names from 0 - 3
@@ -71,7 +71,7 @@ class CfHelper extends AppHelper {
   private $forceTimestamp = FALSE;
 
  public function __construct(){
-     if(Configure::read('Hosting.environment.live')){
+     if(USE_CDN){
         $this->_isLocal = false;
      }
  }
