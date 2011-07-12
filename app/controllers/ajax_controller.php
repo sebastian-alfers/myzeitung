@@ -5,7 +5,7 @@ class AjaxController extends AppController {
     var $components = array('RequestHandler', 'JqImgcrop', 'Upload');
 
     var $name = 'Ajax';
-    var $uses = array('JsonResponse');
+    var $uses = array('JsonResponse', 'Complaint');
 
     /**
      * action to be called with json suffix

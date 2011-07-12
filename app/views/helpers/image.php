@@ -324,7 +324,7 @@ class ImageHelper extends Helper {
 				$additional_img_data = $container_data['additional'];
 			}
 			if(!isset($additional_img_data['style'])){
-				$additional_img_data['style'] = 'display:block;overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
+				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
 			}
 			if(!isset($additional_img_data['escape'])){
 				$additional_img_data['escape'] = false;
