@@ -127,18 +127,21 @@
 
 
                 <div id="signin_menu">
-                    <ul>
-                        <li><?php echo $this->Html->link('My Account', array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id'))); ?></li>
-                    </ul>
-                    <ul>
-                        <li><?php __('My Papers');?></li>
-                    </ul>
-                    <ul>
-                        <li><?php __('My Posts');?></li>
-                    </ul>
-                    <ul>
-                        <li><?php __('Logout');?></li>
-                    </ul>
+                    <div style="float:left;width:117px;">
+                        <ul>
+                            <li><a href="/posts/add"><?php __('New Post'); ?></a></li>
+                            <li class="spacer"><a href="/papers/add"><?php __('New Paper'); ?></a></li>
+                            <li><a href="/users/view/<?php echo $session->read('Auth.User.id'); ?>"><?php __('my Posts'); ?></a></li>
+                            <li><a href="/users/viewSubscriptions/<?php echo $session->read('Auth.User.id'); ?>"><?php __('Subscriptions'); ?></a></li>
+                            <?php /*<li><a href="/posts/add"><?php __('my Comments'); ?></a></li> */ ?>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul style="float:left">
+                            <li><a href="/users/accGeneral"><?php __('Account / Settings'); ?></a></li>
+                            <li><a href="/users/logout"><?php __('Logout'); ?></a></li>
+                        </ul>
+                    </div>
                 </div>
 
 

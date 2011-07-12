@@ -273,25 +273,71 @@ class PapersController extends AppController {
 	 * @author sebastian.alfers
 	 */
 	function references($type, $id, $category_id = null){
+
 		if(!$this->_validateShowContentData($this->params)){
 			$this->Session->setFlash(__('invalid data for content view ', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		else{
-			
+
+            //check, if a user is requested to be deleted from references
+            if($this->_getContentPaperDeleteId()){
+                $content_paper_id = $this->_getContentPaperDeleteId();
+
+                //check, if the logged in user owns the paper
+                if(parent::canEdit('Paper', $id, 'owner_id')){
+                    //delete the subscription
+                    $this->log($content_paper_id);
+
+                    $this->ContentPaper->delete($content_paper_id, true);
+                }
+                else{
+                    $this->log('controller/papers/references: a user, who is not the owner of the paper with id ' . $id . ', wants to delete a subscribed user (ContentPaper) with id ' . $content_paper_id);
+                }
+
+
+            }
+
+
 			$this->Paper->contain();
 			$this->Paper->read(null, $id);
-			
+
 			$references = array();
 			$references = $this->Paper->getContentReferences($category_id);
-			
+
 			$this->set('references', $references);
 
 		}
-		
+
 		$this->render('references', 'ajax');//custom ctp, ajax for blank layout
-		
+
 	}
+
+    /**
+     * to remove a user that is subscribed into a paper,
+     * the owner can do this.
+     *
+     * this methos checks, if a user should be removed from the subscriber list
+     *
+     * @return boolean|int
+     */
+    private function _isDelteContentPaperRequeset(){
+        return (isset($this->params['form']['content_paper_id']) && !empty($this->params['form']['content_paper_id']));
+    }
+
+    /**
+     * get the id of the user, that should be removed from subscriber list
+     *
+     * @return bool|int
+     */
+    private function _getContentPaperDeleteId(){
+        if($this->_isDelteContentPaperRequeset()){
+            return $this->params['form']['content_paper_id'];
+        }
+
+        return false;
+
+    }
 
 	/**
 	 * returns true if all data are valid

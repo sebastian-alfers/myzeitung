@@ -32,6 +32,15 @@ if(!isset($_SERVER['APPLICATION_ENV']) || empty($_SERVER['APPLICATION_ENV']) || 
 	$_SERVER['APPLICATION_ENV'] = 'local';
 }
 
+
+
+if(!isset($_SERVER['USE_CDN']) || empty($_SERVER['USE_CDN'])){
+	define('USE_CDN', false);
+}
+else{
+    define('USE_CDN', true);
+}
+
 switch($_SERVER['APPLICATION_ENV']){
 	case 'local':
 		Configure::write('Hosting.environment.local', true);
@@ -48,7 +57,7 @@ switch($_SERVER['APPLICATION_ENV']){
 	#	break;
 	case 'live':
 		Configure::write('Hosting.environment.live', true);
-		define('USE_SOLR', true);
+		define('USE_SOLR', false);
 		break;
 }
 
@@ -336,4 +345,6 @@ Configure::write('Acl.database', 'default');
 Cache::config('default', array('engine' => 'File'));
 
 
-Configure::write('Config.language', 'eng');
+Configure::write('Config.language', 'deu');
+
+define('CAKE_ADMIN', 'admin');
