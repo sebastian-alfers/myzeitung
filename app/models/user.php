@@ -1,6 +1,8 @@
 <?php
 class User extends AppModel {
 
+    const DEFAULT_USER_IMAGE 	= 'assets/default-user-image.jpg';
+
 	//field-validation in constructor -> otherwise it's not possible to use "__('translate this', true)" in error messages.
 
 
@@ -13,7 +15,7 @@ class User extends AppModel {
 	var $updateSolr = false;
 	var $uses = array('Route', 'Cachekey');
 
-	const DEFAULT_USER_IMAGE 	= 'assets/default-user-image.jpg';
+
 
 
 	var $hasMany = array(

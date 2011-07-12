@@ -3,10 +3,14 @@
 	<div id="maincol">
 		<div id="search-result">
 			<h4 class="nav-title"><span><?php echo __('Searchresults for')?></span> <?php echo $query;?></h4>
-			<?php echo $this->element('search/results', array('results' => $results)); ?>
+            <?php if(isset($results)): ?>
+       		    <?php echo $this->element('search/results', array('results' => $results)); ?>
+            <?php endif;?>
 		</div><!-- / #searchresult -->
-	<?php if(($start + $per_page) < $rows): ?>
-		<p><a class="more-results" id="link-more-results"><?php __('more results'); ?></a></p>
+    <?php if(isset($results)): ?>
+	    <?php if(($start + $per_page) < $rows): ?>
+		    <p><a class="more-results" id="link-more-results"><?php __('more results'); ?></a></p>
+         <?php endif;?>
 	<?php endif; ?>		
 	</div><!-- / #maincol -->
 </div><!-- / #maincolwrapper -->

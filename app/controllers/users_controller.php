@@ -51,25 +51,27 @@ class UsersController extends AppController {
 		$this->paginate = array(
 	        'User' => array(
 		//limit of records per page
-	            'limit' => 10,
+	            'limit' => 12,
 		//order
-	            'order' => 'username ASC',
+	            'order' => 'User.content_paper_count DESC',
 		//fields - custom field sum...
 		    	'fields' => array(	'User.id',
+                                    'User.image',
 								  	'User.username',
 		    						'User.name',
 		    						'User.created',
 		    						'User.posts_user_count',	
 		    						'User.post_count',
-		    						'User.comment_count'  									
+		    						'User.comment_count',
+                                    'User.content_paper_count'
 		    						),
 		    						//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
-		    						)
-		    						);
-		    						$this->set('users', $this->paginate());
+            )
+        );
 
-
+        
+        $this->set('users', $this->paginate());
 	}
 	/**
 	 * @author Tim
@@ -180,20 +182,24 @@ class UsersController extends AppController {
 		),
 		),
 		//fields
-	            'fields' => array('id','owner_id','title','description','created','subscription_count'),
+	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'content_paper_count', 'category_paper_post_count'),
 		//limit of records per page
 	            'limit' => 9,
 		//order
-	            'order' => 'Subscription.own_paper ASC , Paper.title ASC',
+	            'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array(),
+	            'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
 
 
 		)
 		);
 		if($own_paper != null){
 			//adding the additional conditions  for the pagination - join
-			$this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = $own_paper;
+            if($own_paper == Paper::FILTER_OWN){
+                $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = true;
+            } elseif ($own_paper == Paper::FILTER_SUBSCRIBED){
+                $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = false;
+            }
 		}
 
 		//unbinding irrelevant relations for the query

@@ -1,7 +1,13 @@
 <?php
 class Paper extends AppModel {
 
-    const DEFAULT_PAPER_IMAGE = 'assets/news-image.jpg';
+    const DEFAULT_PAPER_IMAGE = 'assets/default-paper-image.jpg';
+
+    const FILTER_OWN = 'own';
+    const FILTER_ALL = 'all';
+    const FILTER_SUBSCRIBED = 'subscriptions';
+
+
 
     var $name = 'Paper';
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_subscriptions'));
@@ -82,7 +88,17 @@ class Paper extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-	
+
+    function beforeValidate() {
+        debug($this->data);
+        if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
+            $this->data['Paper']['url'] = '';
+        }
+        debug($this->data);
+        return true;
+    }
+
+
 function __construct(){
 		parent::__construct();
 			
@@ -109,11 +125,12 @@ function __construct(){
 			),
 			'url' => array(
 				'valid_url' => array(
-					'rule'			=> array('url', true),
-					'message'		=> __('Please provide a valid URL. http://your.link', true),
-					'last'			=> true,
+					'rule'			=> array('url', true), /* second param defines wether you force an input of a protocol like http:// ftp:// etc */
+					'message'		=> __('Please provide a valid URL. http://your-link.domain', true),
+					'allowEmpty'    => true,
+                    'last'			=> true,
 				),
-			),
+			), 
 		);
 			
 				
@@ -730,6 +747,10 @@ function __construct(){
 			if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
 				$this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
 			}
+            if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
+                $this->data['Paper']['url'] = '';
+            }
+
 
 			return true;
 		}

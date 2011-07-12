@@ -266,6 +266,7 @@ class ImageHelper extends Helper {
             if($model == self::PAPER)
                 return Paper::DEFAULT_PAPER_IMAGE;
 		}
+
 		if(!is_array($img)){
             $data = unserialize($img);
         }
@@ -288,7 +289,7 @@ class ImageHelper extends Helper {
 	 * @param array $container_data - array widh: -> key for controller data; -> key for additional data
 	 */
 	public function render($data, $width, $height, $img_extra = array(), $container_data = null, $model = self::USER){
-
+            
 		$img_data = $this->getImgPath($data['image'], $model);
 
 

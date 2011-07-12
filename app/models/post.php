@@ -243,7 +243,7 @@ class Post extends AppModel {
 			 */
 			function beforeSave() {
 				
-				
+				debug($this->data);
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
@@ -254,22 +254,24 @@ class Post extends AppModel {
 				
 				//generate preview of post				
 				$content = explode(' ', strip_tags($this->data['Post']['content']));
-				foreach($content as &$word){
-					$word = trim($word);
-					$word = preg_replace('/\s\s+/', ' ', $word);
+				for($i = 0; $i < count($content); $i++){
+					$content[$i] = trim($content[$i]);
+					$content[$i] = preg_replace('/\s\s+/', ' ', $content[$i]);
 				}
 				$prev = '';
-				$max_chars = 175;
-				$chars = 0;
-				foreach($content as $word){
+                $max_chars = 175;
+                $chars = 0;
+                for($i = 0; $i < count($content); $i++){
+                    $word = $content[$i];
 					if(($chars+strlen($word)) < $max_chars){
 						$chars += strlen($word);
 						$prev .= ' ' . $word;
 					}
+
 				}
 				$this->data['Post']['content_preview'] = $prev;
-	
 
+             
 				return true;
 			}
 
@@ -395,7 +397,7 @@ class Post extends AppModel {
 				$solrFields = array();
 				$solrFields['Post']['id'] = $data['Post']['id'];
 				$solrFields['Post']['post_title'] = $data['Post']['title'];
-				$solrFields['Post']['post_content'] = $data['Post']['content'];
+				$solrFields['Post']['post_content'] = strip_tags($data['Post']['content']);
 				if(isset($data['Post']['image'])){
 					$solrFields['Post']['post_image'] = $data['Post']['image'];
 				}
@@ -415,12 +417,11 @@ class Post extends AppModel {
 
 	function __construct(){
 		parent::__construct();
-		
 		$this->validate = array(
 			'title' => array(
 				'empty' => array(
 					'rule' 			=> 'notEmpty',
-					'message' 		=> __('Please enter a title.', true),
+					'message' 		=> __('Please enter a Title.', true),
 					'last' 			=> true,
 				),
 				'maxlength' => array(
@@ -431,35 +432,36 @@ class Post extends AppModel {
 			),
 			'content' => array(
 				'empty' => array(
-					'rule' 			=> 'notEmpty',
-					'message' 		=> __('Please enter your message.', true),
+					'rule' 			=> 'checkForContent',
+					'message' 		=> __('Please provide additional content: a picture, a video, a message or a link.', true),
 					'last' 			=> true,
 				),
 			),
 		);
-				
-				
-				
-				
-				
-				
-			}
+}
 
-			function delete($id){
-				$this->removeUserFromSolr($id);
-				return parent::delete($id);
-			}
+    function checkForContent($data) {
+        if(empty($data['content']) && empty($this->data['Post']['images']) && empty($this->data['Post']['links'])){
+            return false;
+        }
+        return true;
+    }
 
-			/**
-			 * remove the user from solr index
-			 *
-			 * @param string $id
-			 */
-			function removeUserFromSolr($id){
-				App::import('model','Solr');
-				$solr = new Solr();
-				$solr->delete(Solr::TYPE_POST . '_' . $id);
-			}
+    function delete($id){
+        $this->removeUserFromSolr($id);
+        return parent::delete($id);
+    }
+
+    /**
+     * remove the user from solr index
+     *
+     * @param string $id
+     */
+    function removeUserFromSolr($id){
+        App::import('model','Solr');
+        $solr = new Solr();
+        $solr->delete(Solr::TYPE_POST . '_' . $id);
+    }
 
 }
 

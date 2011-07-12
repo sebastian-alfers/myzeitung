@@ -1,6 +1,2 @@
-<?php echo $this->element('papers/navigator'); ?>	
-
-
-<div class="actions">
-	<?php echo $this->element('navigation'); ?>	
-</div>
+<?php echo $this->element('papers/index/sidebar'); ?>
+<?php echo $this->element('papers/navigator'); ?>

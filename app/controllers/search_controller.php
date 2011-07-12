@@ -171,10 +171,11 @@ class SearchController extends AppController {
 	
 						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$i].")" . " AND ";
 					}
-						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$length-1]."))) OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":\"".$_POST['query']."\" OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":\"".$_POST['query']."\ OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":\"".$_POST['query']."\")";
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$length-1]."))) OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":\'".$_POST['query']."\' OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":\'".$_POST['query']."\' OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":\'".$_POST['query']."\')";
 				}
-			}
+            }
 		}
+        $this->log($search_string);
 		return $search_string;
 	}
 	
@@ -236,4 +237,9 @@ class SearchController extends AppController {
 	}
 
 }
+
+
+
+
+
 ?>
