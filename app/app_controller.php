@@ -42,6 +42,11 @@ class AppController extends Controller {
 
 	
 	public function beforeFilter(){
+        //load locale
+        App::import('Core', 'L10n');
+        $this->L10n = new L10n();
+        $this->L10n->get('deu');
+
         //$this->Security->blackHoleCallback = 'blackHole';
 
 	    $this->RequestHandler->setContent('json', 'text/x-json');

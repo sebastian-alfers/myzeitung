@@ -290,8 +290,9 @@ class InstallController extends AppController {
 						return false;
 					}
 					$this->_log($log);
-					return true;
+
 				}
+                return true;
 
 			} catch (Exception $e) {
 				$this->_log($e);

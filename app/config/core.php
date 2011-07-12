@@ -345,4 +345,6 @@ Configure::write('Acl.database', 'default');
 Cache::config('default', array('engine' => 'File'));
 
 
-Configure::write('Config.language', 'eng');
+Configure::write('Config.language', 'deu');
+
+define('CAKE_ADMIN', 'admin');

@@ -214,7 +214,10 @@ function __construct(){
 					if($category_id !=  null){
 						$conditions['conditions']['ContentPaper.category_id'] = $category_id;
 					}
-					
+                    else{
+                        $conditions['conditions']['ContentPaper.category_id'] = NULL;
+                    }
+
 					$paperReferences = array();
 					$contentPaper->contain('Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id');
 					//$contentPaper->recursive = $recursive;// to get user from topic

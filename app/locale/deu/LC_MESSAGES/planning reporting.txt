@@ -1,0 +1,11 @@
+User
+Paper
+Post
+Comment 
+
+
+id, paper_id, post_id, user_id, comment_id, reason_id, comments, reporder_id, reporder_email, status, created, updated
+
+
+reason
+id, value
