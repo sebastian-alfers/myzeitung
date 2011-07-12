@@ -415,12 +415,11 @@ class Post extends AppModel {
 
 	function __construct(){
 		parent::__construct();
-		
 		$this->validate = array(
 			'title' => array(
 				'empty' => array(
 					'rule' 			=> 'notEmpty',
-					'message' 		=> __('Please enter a title.', true),
+					'message' 		=> __('Please enter a Title.', true),
 					'last' 			=> true,
 				),
 				'maxlength' => array(
@@ -431,35 +430,36 @@ class Post extends AppModel {
 			),
 			'content' => array(
 				'empty' => array(
-					'rule' 			=> 'notEmpty',
-					'message' 		=> __('Please enter your message.', true),
+					'rule' 			=> 'checkForContent',
+					'message' 		=> __('Please provide additional content: a picture, a video, a message or a link.', true),
 					'last' 			=> true,
 				),
 			),
 		);
-				
-				
-				
-				
-				
-				
-			}
+}
 
-			function delete($id){
-				$this->removeUserFromSolr($id);
-				return parent::delete($id);
-			}
+    function checkForContent($data) {
+        if(empty($data['content']) && empty($this->data['Post']['images']) && empty($this->data['Post']['links'])){
+            return false;
+        }
+        return true;
+    }
 
-			/**
-			 * remove the user from solr index
-			 *
-			 * @param string $id
-			 */
-			function removeUserFromSolr($id){
-				App::import('model','Solr');
-				$solr = new Solr();
-				$solr->delete(Solr::TYPE_POST . '_' . $id);
-			}
+    function delete($id){
+        $this->removeUserFromSolr($id);
+        return parent::delete($id);
+    }
+
+    /**
+     * remove the user from solr index
+     *
+     * @param string $id
+     */
+    function removeUserFromSolr($id){
+        App::import('model','Solr');
+        $solr = new Solr();
+        $solr->delete(Solr::TYPE_POST . '_' . $id);
+    }
 
 }
 

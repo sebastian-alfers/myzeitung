@@ -36,7 +36,7 @@ class PostsController extends AppController {
 		    	'fields' => array(						
 		),
 		//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array('User.username','User.id'),
+	            'contain' => array('User.username','User.id', 'User.name', 'User.image'),
 		)
 		);
 		//$this->Post->useCustom = false;
@@ -193,7 +193,12 @@ class PostsController extends AppController {
 			//add to solr if no pictures must be saved
 			if(!($this->Upload->hasImagesInHashFolder($this->data['Post']['hash']))){
 				$this->Post->updateSolr = true;
+
 			}
+            // temp. necessary until there is a dropdown for allow comments in post add edit view
+            if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){
+                $this->data['Post']['allow_comments'] = self::ALLOW_COMMENTS_DEFAULT;
+             }
 			if ($this->Post->save($this->data)) {
 					
 				//copy images after post has been saved to add new post-id to img path
@@ -278,6 +283,7 @@ class PostsController extends AppController {
 		$this->set(compact('topics'));
 
 		$this->set('allow_comments', $allow_comments);
+
 		$this->set('user_id',$user_id);
 		$this->set('content_class', 'create-article');//for css in main layout file
 
@@ -347,15 +353,32 @@ class PostsController extends AppController {
 			if($post['Post']['topic_id'] != $this->data['Post']['topic_id']){
 				$this->Post->topicChanged = true;
 			}
-	
+            // temp. necessary until there is a dropdown for allow comments in post add edit view
+            if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){
+                $this->data['Post']['allow_comments'] = self::ALLOW_COMMENTS_DEFAULT;
+             }
+
+
+
 			$this->Post->updateSolr = true;
-			$this->Post->solr_preview_image = $this->images[0]['path'];
+            if(isset($this->images[0]['path'])){
+                $this->Post->solr_preview_image = $this->images[0]['path'];
+            }
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
-				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
+                $errors = $this->Post->invalidFields();
+                $flashMessage = __('The post could not be saved. Please, try again.', true);
+                if(is_array($errors)){
+                    // using first error as flashs
+                    foreach($errors as $error){
+                        $flashMessage = $error;
+                        break;
+                    }
+                }
+				$this->Session->setFlash($flashMessage);
 			}
 		}
 		if (empty($this->data)) {

@@ -22,12 +22,12 @@
 
 					<hr>
 					
-					<h5><?php __('Theme:'); ?></h5>
+					<h5><?php __('Topic'); ?></h5>
                         <?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data", 'id' => 'tmp_form_topic'));?>
                             <?php echo $this->Form->input('topic_id', array('label' => false, 'id' => 'SelectPostTopicId')); ?>
 						</form>
                         <br /><br />
-						<a class="btn" onclick="topicDialog()"><span>+</span><?php __('Add Theme'); ?></a>
+						<a class="btn" onclick="topicDialog()"><span>+</span><?php __('Add Topic'); ?></a>
 					<hr>
 					
 					<h5><?php __('Links'); ?></h5>
@@ -39,9 +39,12 @@
 						<?php endforeach; ?>
 					<?php endif;?>
 					</ul>
-					
-     					<a class="btn" id="btn-add-link"><span>+</span>Quelle hinzufügen</a>
-													
+                        <a class="btn" id="btn-add-link"><span>+</span>Quelle hinzufügen</a>
+
+                    <hr>
+                    <h5><?php __('Comments'); ?></h5>
+                          <?php echo $this->Form->input('allow_comments', array('type' => 'select', 'label' => false, 'id' => 'SelectPostAllowComments' , 'options' => $allow_comments)); ?>
+
 						 </div><!-- /.leftcolcontent -->	
 						</div><!-- /.leftcol -->
 						

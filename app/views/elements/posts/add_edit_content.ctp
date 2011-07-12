@@ -26,7 +26,7 @@
 <?php echo $this->Form->hidden('hash',array('value' => $hash)); ?>
 <?php echo $this->Form->hidden('images',array('value' => '')); ?>
 <?php echo $this->Form->hidden('links',array('value' => '')); ?>
-<?php echo $this->Form->hidden('allow_comments',array('value' => $mzform->value($this, 'Post', 'topic_id'))); ?>
+<?php echo $this->Form->hidden('allow_comments',array('value' => $mzform->value($this, 'Post', 'allow_comments'))); ?>
 
     <p>
         <label><?php __('Title'); ?></label>
