@@ -48,7 +48,7 @@ if($paper_belongs_to_user){
            
 
             <?php if(!empty($paper['Paper']['url'])): ?>
-            <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow'));?></p>        
+            <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow', 'target' => '_blank'));?></p>
             <?php endif;?>
             
  			<p><?php echo __('created').' '; ?><?php echo $this->Time->timeAgoInWords($paper['Paper']['created'], array('end' => '+1 Year'));?></p>

@@ -45,7 +45,7 @@ class UsersController extends AppController {
 		$this->redirect($this->Auth->logout());
 	}
 
-	function index() {
+	function index($order = null) {
 		//writing all settings for the paginate function.
 
 		$this->paginate = array(
@@ -53,23 +53,41 @@ class UsersController extends AppController {
 		//limit of records per page
 	            'limit' => 10,
 		//order
-	            'order' => 'username ASC',
+	            'order' => 'content_paper_count DESC',
 		//fields - custom field sum...
 		    	'fields' => array(	'User.id',
+                                    'User.image',
 								  	'User.username',
 		    						'User.name',
 		    						'User.created',
 		    						'User.posts_user_count',	
 		    						'User.post_count',
-		    						'User.comment_count'  									
+		    						'User.comment_count',
+                                    'User.content_paper_count'
 		    						),
 		    						//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
-		    						)
-		    						);
-		    						$this->set('users', $this->paginate());
+            )
+        );
 
-
+        // defining ordner
+        if(isset($order) && $order != null){
+            switch($order):
+                case User::ORDER_POST_COUNT:
+                    $this->paginate['User']['order'] = 'post_count DESC';
+                    break;
+                 case User::ORDER_SUBSCRIBERS:
+                    $this->paginate['User']['order'] = 'content_paper_count DESC';
+                    break;
+                 case User::ORDER_USERNAME:
+                    $this->paginate['User']['order'] = 'Username ASC';
+                    break;
+                 case User::ORDER_DATE:
+                    $this->paginate['User']['order'] = 'created DESC';
+                    break;
+            endswitch;
+        }
+        $this->set('users', $this->paginate());
 	}
 	/**
 	 * @author Tim
@@ -152,7 +170,7 @@ class UsersController extends AppController {
 	 * @param $id -
 	 * @param $topic_id
 	 */
-	function viewSubscriptions($user_id = null, $own_paper = null) {
+	function viewSubscriptions($user_id = null, $order = null, $own_paper = null) {
 
 		if (!$user_id) {
 			//no param from url -> get from Auth
@@ -180,21 +198,44 @@ class UsersController extends AppController {
 		),
 		),
 		//fields
-	            'fields' => array('id','owner_id','title','description','created','subscription_count'),
+	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'content_paper_count', 'category_paper_post_count'),
 		//limit of records per page
 	            'limit' => 9,
 		//order
-	            'order' => 'Subscription.own_paper ASC , Paper.title ASC',
+	            'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array(),
+	            'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
 
 
 		)
 		);
 		if($own_paper != null){
 			//adding the additional conditions  for the pagination - join
-			$this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = $own_paper;
+            if($own_paper == Paper::FILTER_OWN){
+                $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = true;
+            } elseif ($own_paper == Paper::FILTER_SUBSCRIBED){
+                $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = false;
+            }
 		}
+
+        // defining ordner
+        if(isset($order) && $order != null){
+            switch($order):
+                case Paper::ORDER_ARTICLE_COUNT:
+                    $this->paginate['Paper']['order'] = 'Paper.category_paper_post_count DESC';
+                    break;
+                 case Paper::ORDER_AUTHORS_COUNT:
+                    $this->paginate['Paper']['order'] = 'Paper.content_paper_count DESC';
+                    break;
+                 case Paper::ORDER_SUBSCRIPTION_COUNT:
+                    $this->paginate['Paper']['order'] = 'Paper.subscription_count DESC';
+                    break;
+                 case Paper::ORDER_TITLE:
+                    $this->paginate['Paper']['order'] = 'Paper.title ASC';
+                    break;
+            endswitch;
+        }
+
 
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');

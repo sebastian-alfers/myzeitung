@@ -2,11 +2,7 @@
 					<div id="maincol">
 					
 				<div class="article-nav">
-						<div class="pagination">
-							<?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
-							<?php echo $this->Paginator->numbers(array('separator' => '')); ?>
-							<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
-						</div>			
+                         <?php echo $this->element('global/paginate'); ?>
 					</div>
 
 		<?php foreach ($posts as $index => $post):	
@@ -127,11 +123,7 @@
 					
 						
 				<div class="article-nav article-nav-bottom">
-						<div class="pagination">
-							<?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
-							<?php echo $this->Paginator->numbers(array('separator' => '')); ?>
-							<?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?> 
-						</div><!-- / .pagination-->
+                          <?php echo $this->element('global/paginate'); ?>
 					</div><!-- / .article-nav -->												
 					
 					</div><!-- / #maincol -->

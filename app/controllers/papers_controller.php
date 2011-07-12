@@ -23,20 +23,39 @@ class PapersController extends AppController {
 
 	}
 
-	function index() {
+	function index($order = null) {
 
 		$this->paginate = array(
 		 	 'Paper' => array(
 		//fields
-	          			  'fields' => array('id','owner_id','title','description','created','subscription_count'),
+	          			 'fields' => array('id', 'image', 'owner_id','title','description','created','subscription_count', 'content_paper_count', 'category_paper_post_count'),
 		//limit of records per page
 			            'limit' => 9,	        
 		//order
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
-			             'contain' => array(),	
+			             'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
 		)
 		);
+
+        // defining ordner
+        if(isset($order) && $order != null){
+            switch($order):
+                case Paper::ORDER_ARTICLE_COUNT:
+                    $this->paginate['Paper']['order'] = 'Paper.category_paper_post_count DESC';
+                    break;
+                 case Paper::ORDER_AUTHORS_COUNT:
+                    $this->paginate['Paper']['order'] = 'Paper.content_paper_count DESC';
+                    break;
+                 case Paper::ORDER_SUBSCRIPTION_COUNT:
+                    $this->paginate['Paper']['order'] = 'Paper.subscription_count DESC';
+                    break;
+                 case Paper::ORDER_TITLE:
+                    $this->paginate['Paper']['order'] = 'Paper.title ASC';
+                    break;
+            endswitch;
+        }
+
 		$papers = 	$this->paginate($this->Paper);
 		//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
 		// @todo !! REDUNDANT users_subscriptions and papers index -> build a component or something like that for this
