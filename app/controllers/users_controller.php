@@ -45,15 +45,15 @@ class UsersController extends AppController {
 		$this->redirect($this->Auth->logout());
 	}
 
-	function index($order = null) {
+	function index() {
 		//writing all settings for the paginate function.
 
 		$this->paginate = array(
 	        'User' => array(
 		//limit of records per page
-	            'limit' => 10,
+	            'limit' => 12,
 		//order
-	            'order' => 'content_paper_count DESC',
+	            'order' => 'User.content_paper_count DESC',
 		//fields - custom field sum...
 		    	'fields' => array(	'User.id',
                                     'User.image',
@@ -70,23 +70,7 @@ class UsersController extends AppController {
             )
         );
 
-        // defining ordner
-        if(isset($order) && $order != null){
-            switch($order):
-                case User::ORDER_POST_COUNT:
-                    $this->paginate['User']['order'] = 'post_count DESC';
-                    break;
-                 case User::ORDER_SUBSCRIBERS:
-                    $this->paginate['User']['order'] = 'content_paper_count DESC';
-                    break;
-                 case User::ORDER_USERNAME:
-                    $this->paginate['User']['order'] = 'Username ASC';
-                    break;
-                 case User::ORDER_DATE:
-                    $this->paginate['User']['order'] = 'created DESC';
-                    break;
-            endswitch;
-        }
+        
         $this->set('users', $this->paginate());
 	}
 	/**
@@ -170,7 +154,7 @@ class UsersController extends AppController {
 	 * @param $id -
 	 * @param $topic_id
 	 */
-	function viewSubscriptions($user_id = null, $order = null, $own_paper = null) {
+	function viewSubscriptions($user_id = null, $own_paper = null) {
 
 		if (!$user_id) {
 			//no param from url -> get from Auth
@@ -217,25 +201,6 @@ class UsersController extends AppController {
                 $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = false;
             }
 		}
-
-        // defining ordner
-        if(isset($order) && $order != null){
-            switch($order):
-                case Paper::ORDER_ARTICLE_COUNT:
-                    $this->paginate['Paper']['order'] = 'Paper.category_paper_post_count DESC';
-                    break;
-                 case Paper::ORDER_AUTHORS_COUNT:
-                    $this->paginate['Paper']['order'] = 'Paper.content_paper_count DESC';
-                    break;
-                 case Paper::ORDER_SUBSCRIPTION_COUNT:
-                    $this->paginate['Paper']['order'] = 'Paper.subscription_count DESC';
-                    break;
-                 case Paper::ORDER_TITLE:
-                    $this->paginate['Paper']['order'] = 'Paper.title ASC';
-                    break;
-            endswitch;
-        }
-
 
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');

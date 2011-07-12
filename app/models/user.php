@@ -1,10 +1,6 @@
 <?php
 class User extends AppModel {
 
-    const ORDER_SUBSCRIBERS = 'subscribers';
-    const ORDER_POST_COUNT = 'posts';
-    const ORDER_USERNAME = 'username';
-    const ORDER_DATE = 'date';
     const DEFAULT_USER_IMAGE 	= 'assets/default-user-image.jpg';
 
 	//field-validation in constructor -> otherwise it's not possible to use "__('translate this', true)" in error messages.

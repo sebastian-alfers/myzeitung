@@ -1,7 +1,8 @@
-					<div id="maincolwrapper" class="paper-view">
-					<div id="maincol">
-                        <h2><?php echo __('Browse Papers', true);?></h2>
-
+<div id="maincolwrapper" class="paper-view">
+    <div id="maincol">
+         <?php if($this->params['action'] == 'index'):?>
+          <h2><?php echo __('Browse Papers', true);?></h2>
+        <?php endif;?>
 			    	<div class="article-nav">
                          <?php echo $this->element('global/paginate'); ?>
 					</div>

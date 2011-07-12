@@ -1,9 +1,11 @@
-<div id="maincolwrapper"> 
-					<div id="maincol">
-					
-				<div class="article-nav">
-                         <?php echo $this->element('global/paginate'); ?>
-					</div>
+<div id="maincolwrapper" class="post-view">
+    <div id="maincol">
+        <?php if($this->params['action'] == 'index'):?>
+        <h2><?php echo __('Browse Posts', true);?></h2>
+        <?php endif;?>
+        <div class="article-nav">
+             <?php echo $this->element('global/paginate'); ?>
+        </div>
 
 		<?php foreach ($posts as $index => $post):	
 		

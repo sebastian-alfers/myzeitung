@@ -2,10 +2,7 @@
 class Paper extends AppModel {
 
     const DEFAULT_PAPER_IMAGE = 'assets/news-image.jpg';
-    const ORDER_AUTHORS_COUNT = 'authors';
-    const ORDER_SUBSCRIPTION_COUNT = 'subscriptions';
-    const ORDER_ARTICLE_COUNT = 'articles';
-    const ORDER_TITLE = 'title';
+
     const FILTER_OWN = 'own';
     const FILTER_ALL = 'all';
     const FILTER_SUBSCRIBED = 'subscriptions';

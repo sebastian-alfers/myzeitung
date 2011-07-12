@@ -1,8 +1,9 @@
 
 <div id="maincolwrapper" class="user-view">
-<div id="maincol">
-     <h2><?php echo __('Browse Authors', true);?></h2>
-
+    <div id="maincol">
+        <?php if($this->params['action'] == 'index'):?>
+          <h2><?php echo __('Browse Users', true);?></h2>
+        <?php endif;?>
 <div class="article-nav">
     <?php echo $this->element('global/paginate'); ?>
 </div>
