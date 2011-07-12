@@ -4,7 +4,7 @@
 			<ul class="filter-search">
 				<?php // all results?>
 			    <?php if($this->params['controller'] == 'search' && $this->params['action'] == 'index'):?><li class="active"><?php else:?><li><?php endif;?>
-    			<?php echo $this->Html->link('<span class="icon icon-allresults"></span>'.__('All Results', true), array('controller' => 'search', 'action' => 'index'), array('escape' => false,));?> (<?php echo $rows; ?>)</li>
+    			<?php echo $this->Html->link('<span class="icon icon-allresults"></span>'.__('All Results', true), array('controller' => 'search', 'action' => 'index'), array('escape' => false,));?> <?php if(isset($rows)) echo '('.$rows.')'; ?></li>
     			<?php // just users?>
 				<?php if($this->params['controller'] == 'search' && $this->params['action'] == 'users'):?><li class="active"><?php else:?><li><?php endif;?>
     			<?php echo $this->Html->link('<span class="icon icon-userresults"></span>'.__('Users', true), array('controller' => 'search', 'action' => 'users'), array('escape' => false,));?></li>

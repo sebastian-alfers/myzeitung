@@ -1,6 +1,5 @@
 <li class="type-article">
 <?php
-
 //defining variables relevant for the repost / undo repost button
 	$article_reposted_by_user = false;
 	$article_belongs_to_user = false;
@@ -23,7 +22,7 @@
 		$img = '';
 	}
 	$link_data = array();
-	$link_data['url'] = array('controller' => 'post', 'action' => 'view', $post->id);				
+	$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
 	echo $image->render(array('image' => $img), 58, 58,null, $link_data, 'post');
 				 				
 ?>		
