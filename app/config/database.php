@@ -2,14 +2,23 @@
 
 class DATABASE_CONFIG
 {
-	//initalize variable as null
-	var $default=null;
+
+	// default
+	var $default = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => '127.0.0.1',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'myzeitung',
+		'prefix' => '',
+	);
 
 	// local
 	var $local = array(
             'driver' => 'mysql',
             'persistent' => false,
-            'host' => 'localhost',
+            'host' => '127.0.0.1',
             'port' => '',
             'login' => 'root',
             'password' => 'root',

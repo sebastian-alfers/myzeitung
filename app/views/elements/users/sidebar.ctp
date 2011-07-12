@@ -104,6 +104,9 @@ echo $this->element('users/modal_subscribe');
 				<?php endforeach; ?>
 				</ul>			
 			<?php */?>
+
+        <hr />
+        <?php echo $this->element('complaints/button', array('class' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
 		 </div><!-- /.leftcolcontent -->	
 		</div><!-- /.leftcol -->
 		

@@ -46,6 +46,26 @@ class AjaxController extends AppController {
 
     }
 
+    /**
+     * we use the Complaint model to validate a string to be an email
+     *
+     * @return void
+     */
+    function validateEmail(){
+        $this->log($this->params);
+
+        $this->Complaint->set(  array('reporter_email' => 'mailname.deeee'));
+
+        if($this->Complaint->validates(array('fieldList' => array('reporter_email')))){
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('super' => 'data')));
+        }
+        else{
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+        }
+
+        die();
+    }
+
 }
 
 ?>

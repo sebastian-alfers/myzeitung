@@ -3,6 +3,8 @@ class User extends AppModel {
 
 	//field-validation in constructor -> otherwise it's not possible to use "__('translate this', true)" in error messages.
 
+
+
 	var $name = 'User';
 	var $displayField = 'name';
 

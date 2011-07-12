@@ -38,7 +38,17 @@ class AppController extends Controller {
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
 
-    var $helpers = array('Cf', 'Session', 'Mzform');
+    var $helpers = array('Cf', 'Session', 'Mzform', 'Image');
+
+    //acl groups
+    var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
+    var $admin = array(self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
+    var $superadmin = array(self::ROLE_SUPERADMIN);
+    
+    //acl roles
+    const ROLE_USER = 1; //normal, logged in user
+    const ROLE_ADMIN = 2; //normal, logged in user
+    const ROLE_SUPERADMIN = 3; //
 
 	
 	public function beforeFilter(){
@@ -73,13 +83,26 @@ class AppController extends Controller {
 			$this->Auth->logoutRedirect = array('controller' => 'home', 'action' => 'index');
 		}
 
+        //set user role to frontend
+        $is_user = $this->Session->read('Auth.User.id') === self::ROLE_USER;
+        $is_admin = $this->Session->read('Auth.User.id') === self::ROLE_ADMIN;
+        $is_superadmin = $this->Session->read('Auth.User.id') === self::ROLE_SUPERADMIN;
+        $this->set(compact('is_user', 'is_admin', 'is_superadmin'));
+
 		//load unread-message-count for logged in users with enabled messaging
 		// called again in conversations/view action, cos the counter might have been updated (if a -new- conversations has been clicked)
 		if($this->Session->read('Auth.User.id')){
 			if($this->Session->read('Auth.User.allow_messages')){
 				$this->setConversationCount();
 			}
-		}		
+		}
+
+        //change layout if admin
+		$pos = strpos($_SERVER['REQUEST_URI'], CAKE_ADMIN);
+		if($pos == true)
+		{
+		    $this->layout='admin';
+		}
 		
 	}
 
@@ -101,77 +124,86 @@ class AppController extends Controller {
 		
 	
 	function isAuthorized() {
+
+
 		// defining the authorized usergroups for every action of every controller 
 		// 1 = admin 2=common user
 		$allowedActions = array(
         'ajax' => array(
-            'uploadPicture' => array(1)
+            'uploadPicture' => $this->user,
+            'validateEmail' => $this->user
         ),
 		'users' => array(
-			'index' => array(1),
-			'add' => array(1,2),
-			'edit' => array(1),
-			'view' => array(1),
-			'delete' => array(1),
-			'references' => array(1),
-			'subscribe' => array(1),
-			'accImage' => array(1),
-			'ajxProfileImageProcess' => array(1),		
-			'accAboutMe' => array(2,1),
-			'accGeneral' => array(2,1),
-			'accPrivacy' => array(2,1),
-        	'accDelete' => array(2,1),
+			'index' => $this->user,
+			'add' => $this->user,
+			'edit' => $this->user,
+			'view' => $this->user,
+			'delete' => $this->user,
+			'references' => $this->user,
+			'subscribe' => $this->user,
+			'accImage' => $this->user,
+			'ajxProfileImageProcess' => $this->user,		
+			'accAboutMe' => $this->user,
+			'accGeneral' => $this->user,
+			'accPrivacy' => $this->user,
+        	'accDelete' => $this->user,
 			),
 		'topics' => array(
-			'ajax_add' => array(1)
+			'ajax_add' => $this->user
 			),
 		'posts' => array(
-			'index' => array(1),
-			'repost' => array(1),
-			'undoRepost' => array(1),
-			'add' => array(1),
-			'edit' => array(1),
-			'view' => array(1,2),
-			'delete' => array(1),
-			'ajxImageProcess' => array(1),
-			'url_content_extract' => array(1),
-			'ajxRemoveImage' => array(1)					
+			'index' => $this->user,
+			'repost' => $this->user,
+			'undoRepost' => $this->user,
+			'add' => $this->user,
+			'edit' => $this->user,
+			'view' => $this->user,
+			'delete' => $this->user,
+			'ajxImageProcess' => $this->user,
+			'url_content_extract' => $this->user,
+			'ajxRemoveImage' => $this->user					
 			),	
 		'papers' => array(
-			'index' => array(1),
-			'add' => array(1),
-			'edit' => array(1),
-			'view' => array(1,2),
-			'delete' => array(1),
-			'addcontent' => array(1),
-			'references' => array(1),
-			'subscribe' => array(1),
-			'unsubscribe' => array(1),
-            'settings' => array(1),
-            'saveImage' => array(1),
+			'index' => $this->user,
+			'add' => $this->user,
+			'edit' => $this->user,
+			'view' => $this->user,
+			'delete' => $this->user,
+			'addcontent' => $this->user,
+			'references' => $this->user,
+			'subscribe' => $this->user,
+			'unsubscribe' => $this->user,
+            'settings' => $this->user,
+            'saveImage' => $this->user,
 			),				
 		'categories' => array(
-			'index' => array(1),
-			'add' => array(1),
-			'edit' => array(1),
-			'view' => array(1,2),
-			'delete' => array(1),
+			'index' => $this->user,
+			'add' => $this->user,
+			'edit' => $this->user,
+			'view' => $this->user,
+			'delete' => $this->user,
 			),		
 		'comments' => array(
-			'add' => array(1),
-			'ajxAdd' => array(1),
-			'ajxGetForm' => array(1),
-			'delete' => array(1)
+			'add' => $this->user,
+			'ajxAdd' => $this->user,
+			'ajxGetForm' => $this->user,
+			'delete' => $this->user
 			),
 		'install' => array(
-			'index' => array(1),
+			'index' => $this->user,
 			),
 		'conversations' => array(
-			'add' => array(2,1),
-			'view' => array(2,1),
-			'reply' => array(2,1),
-			'index' => array(2,1),
-			'remove' => array(2,1),
+			'add' => $this->user,
+			'view' => $this->user,
+			'reply' => $this->user,
+			'index' => $this->user,
+			'remove' => $this->user,
+ 			),
+		'complaints' => array(
+			'admin_index' => $this->admin,
+            'admin_view' => $this->admin,
+            'admin_edit' => $this->superadmin,
+            'admin_delete' => array(333),
  			),
 		);
 		
@@ -184,6 +216,7 @@ class AppController extends Controller {
 				return true;
 			}
 		}
+        $this->Session->setFlash(__('No Permission', true));
 		return false;
 	}
 
