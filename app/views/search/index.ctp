@@ -1,12 +1,12 @@
 <?php echo $this->element('search/results/sidebar'); ?>
 <div id="maincolwrapper"> 
 	<div id="maincol">
-		<div id="search-result">
+
 			<h4 class="nav-title"><span><?php echo __('Searchresults for')?></span> <?php echo $query;?></h4>
             <?php if(isset($results)): ?>
        		    <?php echo $this->element('search/results', array('results' => $results)); ?>
             <?php endif;?>
-		</div><!-- / #searchresult -->
+		
     <?php if(isset($results)): ?>
 	    <?php if(($start + $per_page) < $rows): ?>
 		    <p><a class="more-results" id="link-more-results"><?php __('more results'); ?></a></p>
