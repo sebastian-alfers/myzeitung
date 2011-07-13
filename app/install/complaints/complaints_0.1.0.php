@@ -22,7 +22,7 @@ $sql[] = "INSERT INTO `reasons` (`id`, `value`) VALUES
                     (1, 'Against the Law'),
                     (2, 'Other reason (see comment below)');";
 
-$sql[] = "CREATE TABLE `myzeitung`.`complaintstatus` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `value` VARCHAR(200) NOT NULL) ENGINE = MyISAM;";
+$sql[] = "CREATE TABLE `myzeitung`.`complaintstatuses` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, `value` VARCHAR(200) NOT NULL) ENGINE = MyISAM;";
 $sql[] = "INSERT INTO `complaintstatus` (`id`, `value`) VALUES
                     (1, 'New'),
                     (2, 'In Progress'),

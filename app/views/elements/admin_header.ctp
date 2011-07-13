@@ -29,8 +29,13 @@
 
 			<?php if($session->read('Auth.User.id')):?>
 			<div id="user-nav">
+                <?php if($is_superadmin): ?>
+                    <ul>
+				        <li><a href="/admin/users/index"><?php __('User Management'); ?></a></li>
+				    </ul>
+                <?php endif; ?>
 				<ul>
-				<li><a href="/admin/complaints/index"><?php __('Complaints'); ?></a></li>
+				    <li><a href="/admin/complaints/index"><?php __('Complaints'); ?></a></li>
 				</ul>
 			</div><!-- / #user-nav -->
 			<?php endif;?>

@@ -52,6 +52,7 @@ class AppController extends Controller {
 
 	
 	public function beforeFilter(){
+
         //load locale
         App::import('Core', 'L10n');
         $this->L10n = new L10n();
@@ -70,10 +71,6 @@ class AppController extends Controller {
 			'logoutAction' => 'logout'
 		
 		);
-
-		
-		
-         
          
 		if(isset($this->Auth)) {
 			// this makes the Auth-component use the isAuthorized()-method below
@@ -84,9 +81,9 @@ class AppController extends Controller {
 		}
 
         //set user role to frontend
-        $is_user = $this->Session->read('Auth.User.id') === self::ROLE_USER;
-        $is_admin = $this->Session->read('Auth.User.id') === self::ROLE_ADMIN;
-        $is_superadmin = $this->Session->read('Auth.User.id') === self::ROLE_SUPERADMIN;
+        $is_user = (int)$this->Session->read('Auth.User.group_id') === self::ROLE_USER;
+        $is_admin = (int)$this->Session->read('Auth.User.group_id') === self::ROLE_ADMIN;
+        $is_superadmin = (int)$this->Session->read('Auth.User.group_id') === self::ROLE_SUPERADMIN;
         $this->set(compact('is_user', 'is_admin', 'is_superadmin'));
 
 		//load unread-message-count for logged in users with enabled messaging
@@ -103,7 +100,7 @@ class AppController extends Controller {
 		{
 		    $this->layout='admin';
 		}
-		
+
 	}
 
 
@@ -147,6 +144,10 @@ class AppController extends Controller {
 			'accGeneral' => $this->user,
 			'accPrivacy' => $this->user,
         	'accDelete' => $this->user,
+            'admin_index' => $this->admin,
+            'admin_edit' => $this->superadmin,
+            'admin_delete' => $this->superadmin,
+            'admin_view' => $this->admin,
 			),
 		'topics' => array(
 			'ajax_add' => $this->user
@@ -205,6 +206,9 @@ class AppController extends Controller {
             'admin_edit' => $this->superadmin,
             'admin_delete' => array(333),
  			),
+        'admin' => array(
+            'admin_index' => $this->admin
+            ),
 		);
 		
 		
@@ -339,4 +343,4 @@ class AppController extends Controller {
 
 }*/
 
-Router::parseExtensions('json');
+//Router::parseExtensions('json');

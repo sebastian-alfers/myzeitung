@@ -19,7 +19,7 @@ class DATABASE_CONFIG
             'driver' => 'mysql',
             'persistent' => false,
             'host' => '127.0.0.1',
-            'port' => '',
+            'port' => '3306',
             'login' => 'root',
             'password' => 'root',
             'database' => 'myzeitung',
