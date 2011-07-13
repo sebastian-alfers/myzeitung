@@ -23,11 +23,33 @@
 		echo $this->Form->input('id');
 
 		echo $this->Form->input('reason_id');
-		echo $this->Form->input('comments');
-		//echo $this->Form->input('reporter_id');
-		echo $this->Form->input('reporter_email');
-		echo $this->Form->input('complaintstatus_id');
+        echo $this->Form->input('complaintstatus_id');
+
+		echo $this->Form->input('comments', array('name' => "data[Complaint][new_comment]", 'id' => 'new_comment', 'value' => '', 'label' => false));
+
+
+
+
 	?>
+    <?php echo $this->Form->end(__('Submit', true));?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
 </div>
+
+<h2><?php __('Comment History'); ?></h2>
+<div>
+    <?php
+    foreach(array_reverse(unserialize($this->data['Complaint']['comments'])) as $comment){
+            if(isset($this->data['Complaint']['comment_author'])){
+                echo __('Written by', true) . $this->data['Complaint']['comment_author'];
+            }
+            echo $this->Time->timeAgoInWords($comment['date'], array('end' => '+1 Week'));
+            echo "<br />";
+            echo $comment['comment'];
+            echo "<hr>";
+    }
+
+
+            echo date('Y-m-d H:i:s');
+    ?>
+</div>
+

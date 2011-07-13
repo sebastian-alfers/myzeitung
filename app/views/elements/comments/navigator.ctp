@@ -1,6 +1,6 @@
 <ul id="comment_list">
 	<?php foreach ($comments as $comment):?>
-		<li class="comment">
+		<li class="comment" id="<?php echo $comment['Comment']['id']; ?>">
 		<?php $current_comment['Comment'] = $comment['Comment'];?>
 		<?php $current_comment['User'] = $comment['User'];?>
 		<?php $current_comment['Comment']['reply_id'] = $comment['Comment']['id'];?>

@@ -7,13 +7,9 @@
 			<th><?php echo $this->Paginator->sort('post_id');?></th>
 			<th><?php echo $this->Paginator->sort('comment_id');?></th>
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
-			<th><?php echo $this->Paginator->sort('reason_id');?></th>
 			<th><?php echo $this->Paginator->sort('comments');?></th>
 			<th><?php echo $this->Paginator->sort('reporter_id');?></th>
 			<th><?php echo $this->Paginator->sort('reporter_email');?></th>
-			<th><?php echo $this->Paginator->sort('complaintstatus_id');?></th>
-			<th><?php echo $this->Paginator->sort('created');?></th>
-			<th><?php echo $this->Paginator->sort('updated');?></th>
 			<th class="actions"><?php __('Actions');?></th>
 	</tr>
 	<?php
@@ -38,19 +34,20 @@
 		<td>
 			<?php echo $this->Html->link($complaint['User']['name'], array('controller' => 'users', 'action' => 'view', $complaint['User']['id'])); ?>
 		</td>
-		<td>
-			<?php echo $this->Html->link($complaint['Reason']['id'], array('controller' => 'reasons', 'action' => 'view', $complaint['Reason']['id'])); ?>
-		</td>
-		<td><?php echo $complaint['Complaint']['comments']; ?>&nbsp;</td>
+		<td><?php
+            $count = count(unserialize($complaint['Complaint']['comments']));
+            if($count > 1){
+                echo $count . " " . __('comments', true);
+            }
+            else{
+                echo $count . " " . __('comment', true);
+            }
+
+                ?></td>
 		<td>
 			<?php echo $this->Html->link($complaint['Reporter']['name'], array('controller' => 'users', 'action' => 'view', $complaint['Reporter']['id'])); ?>
 		</td>
 		<td><?php echo $complaint['Complaint']['reporter_email']; ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($complaint['Complaintstatus']['id'], array('controller' => 'complaintstatuses', 'action' => 'view', $complaint['Complaintstatus']['id'])); ?>
-		</td>
-		<td><?php echo $complaint['Complaint']['created']; ?>&nbsp;</td>
-		<td><?php echo $complaint['Complaint']['updated']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $complaint['Complaint']['id'])); ?>
 			<?php if($is_superadmin): ?>

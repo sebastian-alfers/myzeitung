@@ -5,8 +5,9 @@ class ComplaintsController extends AppController {
 
     var $uses = array('Complaint', 'JsonResponse');
 
+    const DATE_FORMAT = 'Y-m-d H:i:s';
 
-	var $helpers = array('Form');
+	var $helpers = array('Form', 'Time');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -23,7 +24,7 @@ class ComplaintsController extends AppController {
             $id = $this->data['Complaint']['type_id'];
             $this->data['Complaint'][$type.'_id'] = $id;
 
-            $this->log($this->data);
+            $this->data['Complaint']['comments'] = serialize(array(array('date' => date(self::DATE_FORMAT), 'comment' => $this->data['Complaint']['comments'])));
 
 			$this->Complaint->create();
 			if ($this->Complaint->save($this->data)) {
@@ -76,34 +77,25 @@ class ComplaintsController extends AppController {
 		$this->set('complaint', $this->Complaint->read(null, $id));
 	}
 
-	function admin_add() {
-		if (!empty($this->data)) {
-			$this->Complaint->create();
-			if ($this->Complaint->save($this->data)) {
-				$this->Session->setFlash(__('The complaint has been saved', true));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The complaint could not be saved. Please, try again.', true));
-			}
-		}
-		$papers = $this->Complaint->Paper->find('list');
-		$posts = $this->Complaint->Post->find('list');
-		$comments = $this->Complaint->Comment->find('list');
-		$users = $this->Complaint->User->find('list');
-		$reasons = $this->Complaint->Reason->find('list');
-		$reporters = $this->Complaint->Reporter->find('list');
-		$complaintstatuses = $this->Complaint->Complaintstatus->find('list');
-		$this->set(compact('papers', 'posts', 'comments', 'users', 'reasons', 'reporters', 'complaintstatuses'));
-	}
-
 	function admin_edit($id = null) {
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid complaint', true));
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+            $new_comment = $this->data['Complaint']['new_comment'];
+            //load old comments
+            if(isset($this->data['Complaint']['id'])){
+                 $this->Complaint->contain();
+                 $data = $this->Complaint->read('comments', $this->data['Complaint']['id']);
+                 $old_comments = unserialize($data['Complaint']['comments']);
+
+                 $old_comments[] = array('comment_author' => $this->Session->read('Auth.User.username'), 'date' => date(self::DATE_FORMAT), 'comment' => $new_comment);
+
+                 $this->data['Complaint']['comments'] = serialize($old_comments);
+             }
 			if ($this->Complaint->save($this->data)) {
-				$this->Session->setFlash(__('The complaint has been saved', true));
+				$this->Session->setFlash(__('The complaint has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The complaint could not be saved. Please, try again.', true));

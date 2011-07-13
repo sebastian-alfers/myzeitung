@@ -77,9 +77,17 @@ $(document).ready(function() {
 		   });
 		
 	 });
+
+
+    //show / hide button
+    $('.comment').live('hover', function(){
+        var id = $(this).attr('id');
+        $("#btn_comment_complain_"+id).toggle();
+    });
 	
 		
 });
+
 
 
 

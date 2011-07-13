@@ -41,7 +41,7 @@ class UsersController extends AppController {
 
 	function logout()
 	{
-			
+
 		$this->redirect($this->Auth->logout());
 	}
 
@@ -60,7 +60,7 @@ class UsersController extends AppController {
 								  	'User.username',
 		    						'User.name',
 		    						'User.created',
-		    						'User.posts_user_count',	
+		    						'User.posts_user_count',
 		    						'User.post_count',
 		    						'User.comment_count',
                                     'User.content_paper_count'
@@ -70,7 +70,7 @@ class UsersController extends AppController {
             )
         );
 
-        
+
         $this->set('users', $this->paginate());
 	}
 	/**
@@ -265,18 +265,18 @@ class UsersController extends AppController {
 				$this->redirect(array('action' => 'add'));
 				}
 				*/
-				
+
 				//Auto-Login after Register
 				$userData = array('username' => $this->data['User']['username'], 'password' => $this->Auth->password($this->data['User']['passwd']));
 				$this->Session->setFlash(__('Thank you for registration.', true), 'default', array('class' => 'success'));
 				if($this->Auth->login($userData)){
 					$this->redirect(array('controller' => 'papers' , 'action' => 'index'));
 				}
-				
-				
+
+
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
-				
+
 			}
 		}
 	}
@@ -336,7 +336,7 @@ class UsersController extends AppController {
 		//debug($references);
 		$this->set('references', $references);
 
-		
+
 		$this->render('references', 'ajax');
 	}
 
@@ -656,21 +656,21 @@ class UsersController extends AppController {
 	 }
 	 */
 
-	
+
 	function accGeneral(){
-		
+
 		$id = $this->Session->read('Auth.User.id');
-			
+
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect($this->referer());
-		}	
+		}
 
 		if (!empty($this->data)) {
-			
+
 			//save/validate email AND password
 			if(!empty($this->data['User']['old_password']) || !empty($this->data['User']['passwd']) || !empty($this->data['User']['passwd_confirm']) ){
-			
+
 				$this->User->contain();
 				$this->User->read('password', $id);
 				if ($this->User->save($this->data, true, array('email', 'password', 'old_password', 'passwd', 'passwd_confirm'))) {
@@ -688,7 +688,7 @@ class UsersController extends AppController {
 			}else{
 				if ($this->User->save($this->data, true, array('email'))) {
 					$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
-					
+
 					//update session variables:
 					$this->Session->write("Auth.User.email", $this->data['User']['email']);
 				} else {
@@ -699,16 +699,16 @@ class UsersController extends AppController {
 		if (empty($this->data)) {
 			$this->User->contain();
 			$this->data = $this->User->read(null, $id);
-		} 
+		}
 
 		$this->User->contain();
 		$user= $this->getUserForSidebar();
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
-	}	
-	
-	
-	
+	}
+
+
+
 	function accAboutMe(){
 
 		$id = $this->Session->read('Auth.User.id');
@@ -716,8 +716,8 @@ class UsersController extends AppController {
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect($this->referer());
-		}	
-		
+		}
+
 		if (!empty($this->data)) {
 			$this->User->updateSolr = true;
 			if ($this->User->save($this->data, true, array('name', 'description'))) {
@@ -739,17 +739,17 @@ class UsersController extends AppController {
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
 	}
-	
+
 	function accPrivacy(){
 
 		$id = $this->Session->read('Auth.User.id');
 
-		
+
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect($this->referer());
-		}	
-		
+		}
+
 		if (!empty($this->data)) {
 			if ($this->User->save($this->data, true, array('allow_comments', 'allow_messages'))) {
 				$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
@@ -770,17 +770,17 @@ class UsersController extends AppController {
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
 	}
-	
+
 	function accDelete(){
 
 		$id = $this->Session->read('Auth.User.id');
 
-		
+
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect($this->referer());
-		}	
-		
+		}
+
 		if (!empty($this->data)) {
 
 			if($this->data['User']['delete'] == true){
@@ -826,12 +826,12 @@ class UsersController extends AppController {
 					$this->User->contain();
 					$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
 					$user_data['User']['image'] = $image;
-					
+
 					$this->User->updateSolr = true;
 
 					if($this->User->save($user_data, true, array('image'))){
    						$this->Session->setFlash(__('Your new profile picture has been saved.', true), 'default', array('class' => 'success'));
-	    				
+
 						$this->Session->write("Auth.User.image", $user_data['User']['image']);
 						$this->redirect($this->referer());
 					}
@@ -852,8 +852,8 @@ class UsersController extends AppController {
 		$this->set('hash', $this->Upload->getHash());
 	}
 
-	
-	
+
+
 
 
 	/**
@@ -890,12 +890,12 @@ class UsersController extends AppController {
 		}
 
 		$this->render('ajxProfileImageProcess', 'ajax');//custom ctp, ajax for blank layout
-			
+
 
 	}
 
 	/**
-	 * reading user from session or db, depending of the view. 
+	 * reading user from session or db, depending of the view.
 	 * IMPORTANT : containments must be defined in the action
 	 * @param unknown_type $user_id
 	 */
@@ -907,11 +907,59 @@ class UsersController extends AppController {
 		//reading user
 			$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
-		
+
 		return $user;
 
 	}
-	
+
+
+	function admin_index() {
+		$this->User->recursive = 0;
+		$this->set('users', $this->paginate());
+	}
+
+	function admin_view($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->set('user', $this->User->read(null, $id));
+	}
+
+	function admin_edit($id = null) {
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true), 'default', array('class' => 'success'));
+			$this->redirect(array('action' => 'index'));
+		}
+		if (!empty($this->data)) {
+			if ($this->User->save($this->data)) {
+				$this->Session->setFlash(__('The user has been saved', true), 'default', array('class' => 'success'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
+			}
+		}
+		if (empty($this->data)) {
+			$this->data = $this->User->read(null, $id);
+		}
+		$groups = array(AppController::ROLE_USER => __('Author', true),
+                        AppController::ROLE_ADMIN => __('Admin', true),
+                        AppController::ROLE_SUPERADMIN => __('Superadmin', true));
+		$this->set(compact('groups'));
+	}
+
+	function admin_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for user', true));
+			$this->redirect(array('action'=>'index'));
+		}
+		if ($this->User->delete($id)) {
+			$this->Session->setFlash(__('User deleted', true), 'default', array('class' => 'success'));
+			$this->redirect(array('action'=>'index'));
+		}
+		$this->Session->setFlash(__('User was not deleted', true));
+		$this->redirect(array('action' => 'index'));
+	}
 
 }
 ?>

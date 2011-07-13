@@ -124,8 +124,6 @@
 	}
 	</script>			
 
-
-
                 <div id="signin_menu">
                     <div style="float:left;width:117px;">
                         <ul>
@@ -139,7 +137,10 @@
                     <div>
                         <ul style="float:left">
                             <li><a href="/users/accGeneral"><?php __('Account / Settings'); ?></a></li>
-                            <li><a href="/users/logout"><?php __('Logout'); ?></a></li>
+                            <li class="spacer"><a href="/users/logout"><?php __('Logout'); ?></a></li>
+                            <?php if($is_admin || $is_superadmin): ?>
+                                <li><a href="/admin/admin"><?php __('Admin'); ?></a></li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>

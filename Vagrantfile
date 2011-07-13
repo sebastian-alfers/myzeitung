@@ -6,7 +6,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port "phpmyadmin", 8182, 8182
   config.ssh.max_tries = 50
 
-  #config.vm.boot_mode = :gui
+  config.vm.boot_mode = :gui
   config.vm.network "33.33.33.10"
   config.vm.share_folder("myzeitung", "/vagrant", "/Applications/MAMP/htdocs/myzeitung", :nfs => true)
 
