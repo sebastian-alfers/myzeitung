@@ -33,8 +33,7 @@ class PostsController extends AppController {
 		//order
 	            'order' => 'Post.created DESC',
 		//fields - custom field sum...
-		    	'fields' => array(						
-		),
+		    	'fields' => array(),
 		//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array('User.username','User.id', 'User.name', 'User.image'),
 		)

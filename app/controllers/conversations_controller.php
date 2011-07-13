@@ -4,7 +4,7 @@ class ConversationsController extends AppController {
 	var $name = 'Conversations';
 	var $uses = array('Conversation','ConversationUser','ConversationMessage');
 
-    var $helpers = array('Image');
+    var $helpers = array('Image', 'Time');
 
 	function add($recipent_id = null){
 		if(!$recipent_id && empty($this->data)) {
@@ -126,7 +126,7 @@ class ConversationsController extends AppController {
 		$this->ConversationUser->contain();
 		if($this->ConversationUser->find('count', array('conditions' => array('conversation_id' => $conversation_id, 'user_id' => $this->Auth->user('id'))))){
 	
-			$this->ConversationMessage->contain('User.image','User.username', 'User.id');
+			$this->ConversationMessage->contain('User.image','User.username', 'User.name', 'User.id');
 			$messages = $this->ConversationMessage->find('all', array('conditions' => array('ConversationMessage.conversation_id' => $conversation_id), 'order' => 'ConversationMessage.created'));
 			
 			//update status of the conversation for reading user
@@ -155,13 +155,23 @@ class ConversationsController extends AppController {
 	function index() {
 		$user_id = $this->Auth->user('id');
 
-
-        $options = array('conditions' => array('ConversationUser.status <'  => Conversation::STATUS_REMOVED, 'ConversationUser.user_id' => $user_id),
+        $this->paginate = array('ConversationUser' => array(
+                        'conditions' => array('ConversationUser.status <'  => Conversation::STATUS_REMOVED, 'ConversationUser.user_id' => $user_id),
+                  //	    'group' => array('ConversationUser.conversation_id HAVING SUM(case when ConversationUser.`user_id` in (\''.$user_id.'\') then 1 else 0 end) = 1'),
+                        'limit' => 10,
+                        'contain' => array('Conversation' => array()),
+                        'order' => array('Conversation.last_message_id'=>'DESC'),
+                ));
+       // debug($this->paginate("ConversationUser", array('ConversationUser.status <'  => Conversation::STATUS_REMOVED, 'ConversationUser.user_id' => $user_id)));die();
+        // DONT DELETE cos i really dont know if it works without the group statement, which does not work in paginate.
+    /*    $options = array(
+                        'conditions' => array('ConversationUser.status <'  => Conversation::STATUS_REMOVED, 'ConversationUser.user_id' => $user_id),
                   	    'group' => array('ConversationUser.conversation_id HAVING SUM(case when ConversationUser.`user_id` in (\''.$user_id.'\') then 1 else 0 end) = 1'),
                         'contain' => array('Conversation' => array()),
                         'order' => array('Conversation.last_message_id'=>'DESC'),
-                );
-		$conversations = $this->ConversationUser->find('all', $options);
+                );*/
+		//$conversations = $this->ConversationUser->find('all', $options);
+        $conversations = $this->paginate("ConversationUser", array('ConversationUser.status <'  => Conversation::STATUS_REMOVED, 'ConversationUser.user_id' => $user_id));
 		foreach($conversations as &$conversation){
           	$this->ConversationUser->contain('User.image', 'User.username', 'User.id');
            	$conversation['Conversation']['ConversationUser'] = $this->ConversationUser->find('all', array('fields' => array(''), 'conditions' => array('conversation_id' => $conversation['Conversation']['id'])));
