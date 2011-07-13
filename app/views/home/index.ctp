@@ -83,14 +83,14 @@
 									<?php // post headline?>
 									<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 									<?php // user container?>
-									<?php
-                                    $link_data = array();
-                                    $link_data['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
-                                    $link_data['additional'] = array('class' => 'user-image');
-                                    echo $image->render($post['User'], 26, 26, array("alt" => $post['User']['username']), $link_data);
-                                    echo $this->Html->link(
-											'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>'
-									, array('controller' => 'users', 'action' => 'view',$post['User']['id']), array('class' => "user", 'escape' => false));?>
+									
+                                     <?php echo $this->Html->link(
+                                            $image->render($post['User'], 26, 26, array( "alt" => $post['User']['username'], "class" => 'user-image'), array(), ImageHelper::USER)
+                                            .'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>',
+                                                array('controller' => 'users', 'action' => 'view', $post['User']['id']),
+                                                array('class' => "user",'escape' => false));?>
+
+                                
 								</div>
 							<?php endforeach;?>
 
