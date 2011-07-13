@@ -22,8 +22,14 @@
 				$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
 				$link_data['additional'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');				
 				echo $image->render(array('image' => $img), 50, 50,null, $link_data, 'post');				
-				?>
-				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $post->post_title;?></a></h6>
+                // post headline
+                $headline = substr($post->post_title,0,27);
+                if(strlen($post->post_title) > 27){
+                    $headline .='...';
+                }
+                                    ?>
+
+				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $headline;?></a></h6>
 				<br />
 				<span class="from"><?php __('by');?> <a href="/users/view/<?php echo $post->user_id; ?>"><strong><?php echo $post->user_name; ?></strong></a>, <?php echo $this->Time->timeAgoInWords($post->timestamp); ?></span>
 				<?php /*

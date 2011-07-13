@@ -28,7 +28,7 @@ class HomeController extends AppController {
 		$this->set('papers', $this->Paper->find('all', $paper_options));
 		//loading users
 		$this->User->contain();
-		$user_options = array('limit' => 9, 'order' => array('created DESC'), 'fields' => array('id', 'image', 'username', 'name', 'description'));
+		$user_options = array('limit' => 12, 'order' => array('created DESC'), 'fields' => array('id', 'image', 'username', 'name', 'description'));
 		$this->set('users', $this->User->find('all', $user_options));
 		//loading users
 		$this->Post->contain('User.id', 'User.username', 'User.name', 'User.image');

@@ -446,11 +446,12 @@ class UsersController extends AppController {
 
 		/**
 		 * can not associate user himself
+         * update: YES, WE CAN! =)
 		 */
-		if($logged_in_user_id == $user_id){
+		/*if($logged_in_user_id == $user_id){
 			$this->Session->setFlash(__('Can not subscribe yourself', true));
 			$this->redirect(array('action' => 'view', $logged_in_user_id));
-		}
+		}*/
 
 		//get paper of logged in user
 		$this->Paper->contain('Category');//load only paper data

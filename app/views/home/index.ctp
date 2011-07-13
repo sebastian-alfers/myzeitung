@@ -68,7 +68,7 @@
                                     $link_data['additional'] = array('class' => 'user-image tt-title', 'title' => $tipsy_name);
                                     echo $image->render($user['User'], 58, 58, array("alt" => $user['User']['username']), $link_data);
                                     ?>
-									<span><?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></span>
+									<?php /*<span><?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></span>*/?>
 							    </li>
 							<?php endforeach;?>
 						</ul>
@@ -80,8 +80,13 @@
 							
 							<?php foreach($posts as $post):?>
 								<div class="article"> 
-									<?php // post headline?>
-									<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
+									<?php // post headline
+                                        $headline = substr($post['Post']['title'],0,50);
+                                        if(strlen($post['Post']['title']) > 50){
+                                            $headline .='...';
+                                        }
+                                    ?>
+                                    <h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 									<?php // user container?>
 									
                                      <?php echo $this->Html->link(

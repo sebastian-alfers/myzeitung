@@ -21,13 +21,23 @@
 	else{
 		$img = '';
 	}
+
 	$link_data = array();
 	$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
 	echo $image->render(array('image' => $img), 58, 58,null, $link_data, 'post');
-				 				
+    // post headline
+    $headline = substr($post->post_title,0,60);
+    if(strlen($post->post_title) > 60){
+    $headline .='...';
+    }
+    $content_preview= substr($post->post_content_preview,0,150);
+    if(strlen($post->post_content_preview) > 150){
+    $content_preview .='...';
+    }
+    //$content_preview =
 ?>		
-	<h3><?php echo $post->post_title;?></h3>
-	<p><?php echo $post->post_content_preview;?></p>
+	<h3><?php echo $headline;?></h3>
+	<p><?php echo $content_preview;?></p>
 	<p class="from"><strong><?php echo __('Post', true);?></strong> <?php echo __('from', true);?> <a><strong><?php echo $post->user_username;?></strong></a> &#8212; <?php echo $post->user_name?></p>
 	
 
