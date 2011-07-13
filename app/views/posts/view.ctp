@@ -6,7 +6,7 @@ $end = strpos($post['Post']['content'], '</p>', 0);
 $first_paragraph = substr($post['Post']['content'], 3 , $end+3);
 $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 ?>
-<div id="maincolwrapper"> 
+<div id="maincolwrapper">
 	<div id="maincol">
 		<div class="article-nav">
 				<ul class="iconbar">

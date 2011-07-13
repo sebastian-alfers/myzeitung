@@ -106,7 +106,12 @@ echo $this->element('users/modal_subscribe');
 			<?php */?>
 
         <hr />
-        <?php echo $this->element('complaints/button', array('class' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
+        <?php if($this->params['controller'] == 'users'): ?>
+            <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
+        <?php endif; ?>
+        <?php if($this->params['controller'] == 'posts'): ?>
+            <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
+        <?php endif; ?>
 		 </div><!-- /.leftcolcontent -->	
 		</div><!-- /.leftcol -->
 		

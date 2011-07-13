@@ -19,12 +19,17 @@ class ComplaintsController extends AppController {
 
 		if (!empty($this->data)) {
 
+            $type = $this->data['Complaint']['type'];
+            $id = $this->data['Complaint']['type_id'];
+            $this->data['Complaint'][$type.'_id'] = $id;
+
+            $this->log($this->data);
 
 			$this->Complaint->create();
 			if ($this->Complaint->save($this->data)) {
 
-                $this->Session->setFlash(__('Your complaint will be processed.', true));
-
+                $this->Session->setFlash(__('Thank you for you help! Your complaint will be processed.', true), 'default', array('class' => 'success'));
+                $this->redirect($this->referer());
 
 			} else {
 
@@ -33,13 +38,26 @@ class ComplaintsController extends AppController {
         $user_id = null;
         if($this->Auth->user('id')){
             $user_id = $this->Auth->user('id');
-            $user_name = $this->Auth->user('name');
+            $user_name = $this->Auth->user('username');
+            $user_email = $this->Auth->user('email');
 
-            $this->set(compact('user_name'));
+            if($this->Auth->user('name')){
+                $user_name .= " (".$this->Auth->user('name').")";
+            }
+
+            $this->set(compact('user_name', 'user_email'));
         }
 
 		$reasons = $this->Complaint->Reason->find('list');
 		$this->set(compact('reasons', 'user_id'));
+
+        if(isset($this->params['form']['type'])){
+            $this->set('type', $this->params['form']['type']);
+        }
+        if(isset($this->params['form']['id'])){
+            $this->set('id', $this->params['form']['id']);
+        }
+
 
         if($ajx)
             $this->render('add', 'ajax');
