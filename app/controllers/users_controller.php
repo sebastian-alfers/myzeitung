@@ -927,12 +927,12 @@ class UsersController extends AppController {
 
 	function admin_edit($id = null) {
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid user', true, 'default', array('class' => 'success'));
+			$this->Session->setFlash(__('Invalid user', true), 'default', array('class' => 'success'));
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
 			if ($this->User->save($this->data)) {
-				$this->Session->setFlash(__('The user has been saved', true, 'default', array('class' => 'success'));
+				$this->Session->setFlash(__('The user has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
@@ -953,7 +953,7 @@ class UsersController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->User->delete($id)) {
-			$this->Session->setFlash(__('User deleted', true, 'default', array('class' => 'success'));
+			$this->Session->setFlash(__('User deleted', true), 'default', array('class' => 'success'));
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('User was not deleted', true));

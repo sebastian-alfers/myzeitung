@@ -18,9 +18,7 @@
 	    <?php echo nl2br($current_comment['Comment']['text']); ?>
 	</p>
 
-    <p>
-        <?php echo $this->element('complaints/link', array('model' => 'comment', 'complain_target_id' => $current_comment['Comment']['id'])); ?>
-    </p>
+
 
 	<?php 
 		$comment_user_id = $current_comment['Comment']['user_id'];
@@ -30,6 +28,9 @@
 			<?php echo $this->Html->link('<span class="reply-icon"></span>'. __('Remove', true), array('controller' => 'comments', 'action' => 'delete', $current_comment['Comment']['id']), array('escape' => false, 'class' => 'btn', ));?>
 		<?php endif; ?>
 
+        <div id="btn_comment_complain_<?php echo $current_comment['Comment']['id']; ?>" style="display: none;">
+            <?php echo $this->element('complaints/link', array('model' => 'comment', 'complain_target_id' => $current_comment['Comment']['id'])); ?>
+        </div>
 
 	
 <?php /*

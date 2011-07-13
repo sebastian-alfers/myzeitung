@@ -432,7 +432,7 @@ msgstr "Füge eine Kategorie hinzu."
 #: /views/topics/edit.ctp:10
 #: /views/users/subscribe.ctp:26
 msgid "Submit"
-msgstr "Einreichen"
+msgstr "Speichern"
 
 #: /views/categories/edit.ctp:4
 #: /views/categories/view.ctp:34
@@ -656,7 +656,7 @@ msgstr "Neue Nachricht"
 #: /views/conversations/index.ctp:2
 #: /views/elements/header.ctp:62
 #: /views/elements/header/breadcrumbs.ctp:50;52;55
-msgid "Conversations"
+msgid "Nachrichten"
 msgstr ""
 
 #: /views/conversations/view.ctp:2
@@ -669,12 +669,12 @@ msgstr "Thema: "
 
 #: /views/elements/header.ctp:6
 msgid "logged in as"
-msgstr "eingeloggt als"
+msgstr "ingeloggt als"
 
 #: /views/elements/header.ctp:22
 #: /views/users/add.ctp:19
 msgid "You already have an account?"
-msgstr "Hast Du bereits ein Benutzerkonto"
+msgstr "Hast Du bereits ein Nutzerkonto?"
 
 #: /views/elements/header.ctp:23
 #: /views/users/login.ctp:15;24
@@ -714,7 +714,7 @@ msgstr "Zeitungen"
 
 #: /views/elements/header.ctp:42;42;42;43;98
 msgid "Find"
-msgstr "Finden"
+msgstr "Suchen"
 
 #: /views/elements/header.ctp:60
 msgid "My Blog"
@@ -792,13 +792,13 @@ msgstr "Änderungen speichern"
 #: /views/elements/posts/navigator.ctp:109
 #: /views/posts/edit.ctp:4
 msgid "Edit Post"
-msgstr "Artikel editieren"
+msgstr "editieren"
 
 #: /views/elements/header/breadcrumbs.ctp:27
 #: /views/elements/search/results/sidebar.ctp:10
 #: /views/users/index.ctp:2
 msgid "Users"
-msgstr "Nutzer"
+msgstr "Autoren"
 
 #: /views/elements/header/breadcrumbs.ctp:29
 msgid "Account Settings"
@@ -950,7 +950,7 @@ msgstr "von"
 
 #: /views/elements/posts/navigator.ctp:111
 msgid "Delete Post"
-msgstr "Artikel löschen"
+msgstr "löschen"
 
 #: /views/elements/posts/navigator.ctp:114
 msgid "Undo Repost"
@@ -960,7 +960,7 @@ msgstr "Weiterleitung beenden"
 #: /views/elements/search/results/post.ctp:46
 #: /views/posts/view.ctp:19
 msgid "Repost"
-msgstr "Weiterleitung"
+msgstr "Weiterleiten"
 
 #: /views/elements/search/results/paper.ctp:17
 #: /views/elements/search/results/post.ctp:32
@@ -1012,7 +1012,7 @@ msgstr "Privatsphäre"
 
 #: /views/elements/users/sidebar/activity.ctp:4
 msgid "Reposts"
-msgstr "Weiterleitung"
+msgstr "Weiterleitungen"
 
 #: /views/elements/users/sidebar/activity.ctp:6
 msgid "Subscribers"
@@ -1028,7 +1028,7 @@ msgstr "Erstellte Zeitungen"
 
 #: /views/elements/users/sidebar/info.ctp:4
 msgid "joined"
-msgstr "beigetreten"
+msgstr "beigetreten vor"
 
 #: /views/elements/users/sidebar/papers.ctp:2
 msgid "Top Papers by"
@@ -1044,20 +1044,20 @@ msgstr "Zeitungen auflisten"
 
 #: /views/elements/users/sidebar/subscriptions.ctp:8;10
 msgid "All Papers"
-msgstr "Alle zeitungen"
+msgstr "Alle Zeitungen"
 
 #: /views/elements/users/sidebar/topics.ctp:2
 msgid "Show Posts by Topic"
-msgstr "Zeige Artikel thematisch sortiert"
+msgstr "Themen der Artikel"
 
 #: /views/home/index.ctp:12
 #: /views/users/login.ctp:23
 msgid "Remember Me"
-msgstr "Merke mich"
+msgstr "Angemeldet bleiben"
 
 #: /views/home/index.ctp:37
 msgid "Top Papers"
-msgstr "Top zeitungen"
+msgstr "Top Zeitungen"
 
 #: /views/home/index.ctp:79
 msgid "Newest Articles"
@@ -1140,7 +1140,7 @@ msgstr "URL / Link"
 
 #: /views/papers/add_edit.ctp:35
 msgid "If you want to specify a link of which this paper is about."
-msgstr ""
+msgstr "Falls Du einen Link zu dieser Zeitung hinzufügen willst."
 
 #: /views/papers/add_edit.ctp:43
 msgid "Save paper"
