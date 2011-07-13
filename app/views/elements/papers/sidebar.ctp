@@ -92,6 +92,9 @@ if($paper_belongs_to_user){
                 <li><?php echo $paper['Paper']['content_paper_count'].' '.__('Subcribed Users/Topics', true)?></li>
             </ul>
             <hr />
+            <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
+
+
                             <?php /*references*/ // echo $this->Html->link('References', array('controller' => 'papers', 'action' => 'references', 'paper/'.$paper['Paper']['id'])); ?>
          </div><!-- /.leftcolcontent -->
         </div><!-- /.leftcol -->

@@ -7,6 +7,12 @@ class AjaxController extends AppController {
     var $name = 'Ajax';
     var $uses = array('JsonResponse', 'Complaint');
 
+	public function beforeFilter(){
+		parent::beforeFilter();
+		//declaration which actions can be accessed without being logged in
+		$this->Auth->allow('validateEmail');
+	}
+
     /**
      * action to be called with json suffix
      * like /upload/picture.json
@@ -52,18 +58,22 @@ class AjaxController extends AppController {
      * @return void
      */
     function validateEmail(){
-        $this->log($this->params);
 
-        $this->Complaint->set(  array('reporter_email' => 'mailname.deeee'));
+        $email = '';
+
+        if(isset($this->params['form']['email'])){
+            $email = $this->params['form']['email'];
+        }
+
+        $this->Complaint->set(  array('reporter_email' => $email));
 
         if($this->Complaint->validates(array('fieldList' => array('reporter_email')))){
-            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('super' => 'data')));
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
         }
         else{
+            $this->log($email . ' is not valid');
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
         }
-
-        die();
     }
 
 }
