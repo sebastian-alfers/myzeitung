@@ -439,6 +439,8 @@ class UsersController extends AppController {
 		}
 
 
+
+
 		if(empty($user_id)){
 			$this->Session->setFlash(__('No user param', true));
 			$this->redirect(array('action' => 'view', $logged_in_user_id));
@@ -458,9 +460,26 @@ class UsersController extends AppController {
 
 		if(count($papers) == 0){
 			//user has no paper
-			//what do do?
-			$this->Session->setFlash(__('User has no paper', true));
-			$this->redirect(array('action' => 'view', $logged_in_user_id));
+			//create new initial paper for user
+            $owner_id = $logged_in_user_id;
+            $title = __('myZeitung', true);
+            $data = array('Paper' => array('owner_id' => $owner_id,
+                                           'title'    => $title,
+                                           'description' => ''
+                                            ));
+
+            $this->Paper->create();
+			if ($this->Paper->save($data)) {
+                $this->set('new_paper', 'jau neu wa');
+
+                $this->subscribe($user_id);
+            }
+            else{
+
+            }
+
+			//$this->Session->setFlash(__('User has no paper', true));
+			//$this->redirect(array('action' => 'view', $logged_in_user_id));
 		}
 
 		//determine to show the user a selection of papers / categories or not
@@ -576,6 +595,8 @@ class UsersController extends AppController {
 
 		}
 
+        $this->render('subscribe', 'ajax');
+
 	}
 
 	/**
@@ -622,10 +643,10 @@ class UsersController extends AppController {
 			$paper_data = $this->Paper->find('all', array('conditions' => array('Paper.owner_id' => $user_id)));
 
 			foreach($paper_data as $paper){
-				$content_data['options'][ContentPaper::PAPER.ContentPaper::SEPERATOR.$paper['Paper']['id']] = $paper['Paper']['title'].' (' .('direct into paper').')';
+				$content_data['options'][ContentPaper::PAPER.ContentPaper::SEPERATOR.$paper['Paper']['id']] = $paper['Paper']['title'].' (' .('front page').')';
 				if(isset($paper['Category']) && count(isset($paper['Category']) > 0)){
 					foreach ($paper['Category'] as $category){
-						$content_data['options'][ContentPaper::CATEGORY.ContentPaper::SEPERATOR.$category['id']] = '> category:'.$category['name'];
+						$content_data['options'][ContentPaper::CATEGORY.ContentPaper::SEPERATOR.$category['id']] = '    '.$category['name'].' (category)';
 					}
 
 				}

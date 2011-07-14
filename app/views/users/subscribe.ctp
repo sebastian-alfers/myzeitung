@@ -16,14 +16,14 @@
 <?php endif; //isset paper_id?>
 
 <?php if(isset($paper_category_chooser)): ?>
-	<?php echo $this->Form->input('paper_category_content_data', $paper_category_chooser); ?>
+    <h2><?php __('Choose your paper:'); ?></h2>
+	<?php echo $this->Form->input('paper_category_content_data' , array('type'=>'select','options'=> $paper_category_chooser, 'label' => false)); ?>
 <?php endif; //drop down for paper / category?>
 
 <?php if(isset($paper_name)): ?>
 	<?php __('Into: '); ?><?php echo $paper_name; ?>
 <?php endif; ?>
 
-<?php echo $this->Form->end(__('Submit', true));?>
-
+</form>
 
 </div>

@@ -6,7 +6,7 @@
         echo __('Your Name: ', true) . $user_name."<br />";
         echo __('Your Email: ', true) . $user_email;
 
-		echo $this->Form->hidden('reporter_id', array('value' =>  123));
+		echo $this->Form->hidden('reporter_id', array('value' =>  $user_id));
     }
     else{
         echo $this->Form->input('reporter_firstname', array('id' => 'ComplaintReporterFirstname', 'value' => $mzform->value($this, 'Complaint', 'reporter_firstname'), 'label' => __('Firstname', true)));
