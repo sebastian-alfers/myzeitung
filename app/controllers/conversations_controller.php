@@ -2,7 +2,7 @@
 class ConversationsController extends AppController {
 
 	var $name = 'Conversations';
-	var $uses = array('Conversation','ConversationUser','ConversationMessage');
+	var $uses = array('User' ,'Conversation','ConversationUser','ConversationMessage');
 
     var $helpers = array('Image', 'Time');
 
@@ -150,6 +150,8 @@ class ConversationsController extends AppController {
 		$this->set('conversation', $this->Conversation->read(array('title','created'),$conversation_id));
 		$this->ConversationUser->contain('User.id','User.username', 'User.image');
 		$this->set('users', $this->ConversationUser->find('all', array('conditions' => array('conversation_id' => $conversation_id))));
+        $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+        $this->set('user', $this->getUserForSidebar($this->Auth->user('id')));
 	}
 
 	function index() {
@@ -173,12 +175,14 @@ class ConversationsController extends AppController {
 		//$conversations = $this->ConversationUser->find('all', $options);
         $conversations = $this->paginate("ConversationUser", array('ConversationUser.status <'  => Conversation::STATUS_REMOVED, 'ConversationUser.user_id' => $user_id));
 		foreach($conversations as &$conversation){
-          	$this->ConversationUser->contain('User.image', 'User.username', 'User.id');
+          	$this->ConversationUser->contain('User.image', 'User.username' ,'User.name', 'User.id');
            	$conversation['Conversation']['ConversationUser'] = $this->ConversationUser->find('all', array('fields' => array(''), 'conditions' => array('conversation_id' => $conversation['Conversation']['id'])));
 		  	$this->ConversationMessage->contain();
            	$lastMessage = $this->ConversationMessage->read(array('user_id','message','created'), $conversation['Conversation']['last_message_id']);
         	$conversation['Conversation']['LastMessage'] = $lastMessage['ConversationMessage'];
 		}
+        $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+        $this->set('user', $this->getUserForSidebar($user_id));
 
         $this->set('conversations', $conversations);
 	} 
@@ -198,8 +202,28 @@ class ConversationsController extends AppController {
 		}
 		$this->redirect($this->referer());
 	}
-	
+
+    	/**
+	 * reading user from session or db, depending of the view.
+	 * IMPORTANT : containments must be defined in the action
+	 * @param unknown_type $user_id
+	 */
+	protected function getUserForSidebar($user_id = ''){
+		if($user_id == ''){
+		//reading logged in user from session
+			$user['User'] = $this->Session->read('Auth.User');
+		} else {
+		//reading user
+			$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+		}
+
+		return $user;
+
+	}
+
+
 }
+
 
 
 ?>
