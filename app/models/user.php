@@ -497,6 +497,8 @@ class User extends AppModel {
 				
 		}
 
+
+
 		function delete($id){
 			$this->removeUserFromSolr($id);
 			return parent::delete($id);

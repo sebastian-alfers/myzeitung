@@ -30,8 +30,14 @@
 								<li class="views tt-title" title="<?php echo $post['Post']['view_count'].' '.__('times viewed', true);?>"><?php echo $post['Post']['view_count'];?></li>
 								<li class="comments tt-title" title="<?php echo $post['Post']['comment_count'].' '.__('comments', true);?>"><?php echo $post['Post']['comment_count'];?><span>.</span></li>								
 							</ul>
-							
-							<h5><?php echo $this->Html->link($post['Post']['title'], array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
+
+                            <?php // post headline
+                                $headline = substr($post['Post']['title'],0,50);
+                                if(strlen($post['Post']['title']) > 50){
+                                    $headline .='...';
+                            }
+                            ?>
+							<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 
 							<?php if(isset($post['Post']['image'][0]) && !empty($post['Post']['image'][0])): ?>
 							<?php 

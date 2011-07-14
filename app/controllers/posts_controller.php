@@ -33,8 +33,7 @@ class PostsController extends AppController {
 		//order
 	            'order' => 'Post.created DESC',
 		//fields - custom field sum...
-		    	'fields' => array(						
-		),
+		    	'fields' => array(),
 		//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array('User.username','User.id', 'User.name', 'User.image'),
 		)
@@ -73,8 +72,8 @@ class PostsController extends AppController {
 			}
 		}
 		else {
-			// no paper $id
-			$this->Session->setFlash(__('No paper id', true));
+			// no post $id
+			$this->Session->setFlash(__('No post id', true));
 		}
 		$this->redirect($this->referer());
 	}
@@ -82,7 +81,7 @@ class PostsController extends AppController {
 
 	/**
 	 * @author tim
-	 * calling undoRepost in the model - explanation there
+<?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'users',  'action' => 'subscribe', $user['User']['id']), array('escape' => false, 'class' => 'btn', ));?>	 * calling undoRepost in the model - explanation there
 	 *
 	 * @param $post_id - id of the post, for that the user wants to delete his repost
 	 */
@@ -102,8 +101,8 @@ class PostsController extends AppController {
 			}
 		}
 		else {
-			// no paper $id
-			$this->Session->setFlash(__('No paper id', true));
+			// no post $id
+			$this->Session->setFlash(__('No post id', true));
 		}
 		$this->redirect($this->referer());
 	}
