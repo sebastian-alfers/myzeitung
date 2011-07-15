@@ -26,6 +26,24 @@ class ComplaintsController extends AppController {
 
             $this->data['Complaint']['comments'] = serialize(array(array('date' => date(self::DATE_FORMAT), 'comment' => $this->data['Complaint']['comments'])));
 
+            if(isset($this->data['Complaint']['reporter_id']) && !empty($this->data['Complaint']['reporter_id'])){
+                //load email from user
+                $this->User->contain();
+                $data = $this->User->read('email, name, username', $this->data['Complaint']['reporter_id']);
+
+                $this->data['Complaint']['reporter_email'] = $data['User']['email'];
+                $this->data['Complaint']['reporter_name'] = $data['User']['username'];
+
+                if(!empty($data['User']['name'])){
+                    $this->data['Complaint']['reporter_name'].= ' ('.$data['User']['name'].')';
+                }
+
+            }
+
+            if(isset($this->data['Complaint']['reporter_firstname']) && !empty($this->data['Complaint']['reporter_firstname'])){
+                    $this->data['Complaint']['reporter_name'].= $this->data['Complaint']['reporter_firstname'] . ' ' . $this->data['Complaint']['reporter_name'];
+            }
+
 			$this->Complaint->create();
 			if ($this->Complaint->save($this->data)) {
 
@@ -66,6 +84,9 @@ class ComplaintsController extends AppController {
 
 	function admin_index() {
 		$this->Complaint->recursive = 0;
+
+        $this->paginate = array('Complaint' => array('order'=>'Complaint.id DESC'));
+
 		$this->set('complaints', $this->paginate());
 	}
 

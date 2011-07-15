@@ -33,13 +33,19 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Comments'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $complaint['Complaint']['comments']; ?>
+            <div>
+            <?php
+                echo $this->element('complaints/admin_comments', array('comments' => $complaint['Complaint']['comments']));
+            ?>
+            </div>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Reporter'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($complaint['Reporter']['name'], array('controller' => 'users', 'action' => 'view', $complaint['Reporter']['id'])); ?>
-			&nbsp;
+            <?php if(isset($complaint['Reporter']['id']) && !empty($complaint['Reporter']['id'])): ?>
+               <a href="/users/view/<?php echo $complaint['Reporter']['id']; ?>" target="blank"><?php echo $complaint['Reporter']['name']; ?></a>
+            <?php endif; ?>
+            <?php echo $complaint['Complaint']['reporter_email']; ?>
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Reporter Email'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
@@ -48,18 +54,16 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Complaintstatus'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($complaint['Complaintstatus']['id'], array('controller' => 'complaintstatuses', 'action' => 'view', $complaint['Complaintstatus']['id'])); ?>
+			<?php echo $complaint['Complaintstatus']['value']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $complaint['Complaint']['created']; ?>
-			&nbsp;
+			<?php echo $this->Time->timeAgoInWords($complaint['Complaint']['created'], array('end' => '+1 Week')); ?>
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Updated'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $complaint['Complaint']['updated']; ?>
-			&nbsp;
+            <?php echo $this->Time->timeAgoInWords($complaint['Complaint']['modified'], array('end' => '+1 Week')); ?>
 		</dd>
 	</dl>
 </div>

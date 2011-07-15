@@ -3,14 +3,10 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-			<th><?php echo $this->Paginator->sort('paper_id');?></th>
-			<th><?php echo $this->Paginator->sort('post_id');?></th>
-			<th><?php echo $this->Paginator->sort('comment_id');?></th>
-			<th><?php echo $this->Paginator->sort('user_id');?></th>
-			<th><?php echo $this->Paginator->sort('comments');?></th>
-			<th><?php echo $this->Paginator->sort('reporter_id');?></th>
-			<th><?php echo $this->Paginator->sort('reporter_email');?></th>
-			<th class="actions"><?php __('Actions');?></th>
+			<th><?php echo __('Complain Type'); ?></th>
+            <th><?php __('Comments'); ?></th>
+			<th><?php __('Reporter'); ?></th>
+			<th class="actions"></th>
 	</tr>
 	<?php
 	$i = 0;
@@ -22,18 +18,33 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $complaint['Complaint']['id']; ?>&nbsp;</td>
+        <?php if(!empty($complaint['Complaint']['paper_id'])): ?>
 		<td>
-			<?php echo $this->Html->link($complaint['Paper']['title'], array('controller' => 'papers', 'action' => 'view', $complaint['Paper']['id'])); ?>
+			<?php __('Paper:'); ?> <a href="/papers/view/<?php echo $complaint['Paper']['id']; ?>" target="blank"><?php echo $complaint['Paper']['title']; ?> </a>
 		</td>
+        <?php endif; ?>
+        <?php if(!empty($complaint['Complaint']['post_id'])): ?>
 		<td>
-			<?php echo $this->Html->link($complaint['Post']['title'], array('controller' => 'posts', 'action' => 'view', $complaint['Post']['id'])); ?>
+			<?php __('Post:'); ?> <a href="/posts/view/<?php echo $complaint['Post']['id']; ?>" target="blank"><?php echo $complaint['Post']['title']; ?> </a>
 		</td>
+        <?php endif; ?>
+        <?php if(!empty($complaint['Complaint']['comment_id'])): ?>
 		<td>
-			<?php echo $this->Html->link($complaint['Comment']['id'], array('controller' => 'comments', 'action' => 'view', $complaint['Comment']['id'])); ?>
+			<?php __('Comment:'); ?> <a href="/posts/view/<?php echo $complaint['Comment']['post_id']; ?>/#comment_<?php echo $complaint['Comment']['id']; ?>" target="blank">
+            <?php if(strlen($complaint['Comment']['text']) > 30){
+                    echo substr($complaint['Comment']['text'], 0, 30) . ' ...';
+                }
+                else{
+                    echo $complaint['Comment']['text'];
+                }
+            ?></a>
 		</td>
+        <?php endif; ?>
+        <?php if(!empty($complaint['Complaint']['user_id'])): ?>
 		<td>
-			<?php echo $this->Html->link($complaint['User']['name'], array('controller' => 'users', 'action' => 'view', $complaint['User']['id'])); ?>
+			<?php __('User:'); ?> <a href="/users/view/<?php echo $complaint['User']['id']; ?>" target="blank"><?php echo $complaint['User']['name']; ?></a>
 		</td>
+        <?php endif; ?>
 		<td><?php
             $count = count(unserialize($complaint['Complaint']['comments']));
             if($count > 1){
@@ -45,9 +56,14 @@
 
                 ?></td>
 		<td>
-			<?php echo $this->Html->link($complaint['Reporter']['name'], array('controller' => 'users', 'action' => 'view', $complaint['Reporter']['id'])); ?>
+            <?php if(isset($complaint['Reporter']['id']) && !empty($complaint['Reporter']['id'])): ?>
+               <a href="/users/view/<?php echo $complaint['Reporter']['id']; ?>" target="blank"><?php echo $complaint['Reporter']['name']; ?></a>
+            <?php endif; ?>
+            <br />
+            <?php echo $complaint['Complaint']['reporter_name']; ?><br />
+            <?php echo $complaint['Complaint']['reporter_email']; ?>
+
 		</td>
-		<td><?php echo $complaint['Complaint']['reporter_email']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $complaint['Complaint']['id'])); ?>
 			<?php if($is_superadmin): ?>

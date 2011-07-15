@@ -1,26 +1,35 @@
 <?php 
-/*
+echo $this->element('users/modal_subscribe');
+?>
 
 <script type="text/javascript">
 
 $(document).ready(function() {
 	
-	$('#link_subscribe').bind('click', function(){subscribeDialog(this);});
+	$('.subscribe-user').bind('click', function(){subscribeDialog(this);});
+
+    $('#btn-submit-subscription').bind('click', function(){
+        $('#UserSubscribeForm').submit();
+    });
+
 });	
 
 function subscribeDialog(element){
-	var user_id = $(element).attr('name');
-	var req = $.post(base_url + '/users/ajxSubscribe.json', {id:user_id})
-		.success(function( obj ){
-			$('#dialog-subscribe').html(obj.type);
-			$('#dialog-subscribe').dialog('open');		
-		})		   
-		.error(function(){
-   			alert('error');
-	});						
-	
+	loadForm();
+    $('#dialog-subscribe').dialog('open');
 		
 	return false;
+}
+
+function loadForm(target_id, target_type){
+    $('#dialog-subscribe-content').html("");
+    var req = $.post(base_url + '/users/subscribe/1')
+       .success(function( string ){
+           $('#dialog-subscribe-content').html(string);
+       })
+       .error(function(){
+           alert('error');
+    });
 }
 
 $(function() {
@@ -28,35 +37,16 @@ $(function() {
 	$( "#dialog:ui-dialog" ).dialog( "destroy" );
 	$( "#dialog-subscribe" ).dialog({
 		resizable: false,
-		height:240,
+		height:340,
 		width:400,
 		draggable:false,
 		modal: true,
-		autoOpen: false,
-		buttons: [{
-            id:"btn-save-subscribe",
-            text: "Save Subscription",
-            click: function() {
-                    $(this).dialog("close");
-            }
-    	},{
-            id:"btn-cancel",
-            text: "Cancel",
-            click: function() {
-                    $(this).dialog("close");
-            }
-    	}]//end button
-	});//end button .dialog	
+		autoOpen: false
+    });//end button .dialog
 });
 //
 </script>
 
-echo $this->element('users/modal_subscribe');
-*/
-
-
-
-?>
 
 <?php echo $this->element('users/modal_activity'); ?>
 

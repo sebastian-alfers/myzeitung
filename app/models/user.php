@@ -15,9 +15,6 @@ class User extends AppModel {
 	var $updateSolr = false;
 	var $uses = array('Route', 'Cachekey');
 
-
-
-
 	var $hasMany = array(
 	 'Post' => array(
 	 	'className' => 'Post',

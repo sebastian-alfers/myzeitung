@@ -37,19 +37,8 @@
 
 <h2><?php __('Comment History'); ?></h2>
 <div>
-    <?php
-    foreach(array_reverse(unserialize($this->data['Complaint']['comments'])) as $comment){
-            if(isset($this->data['Complaint']['comment_author'])){
-                echo __('Written by', true) . $this->data['Complaint']['comment_author'];
-            }
-            echo $this->Time->timeAgoInWords($comment['date'], array('end' => '+1 Week'));
-            echo "<br />";
-            echo $comment['comment'];
-            echo "<hr>";
-    }
-
-
-            echo date('Y-m-d H:i:s');
-    ?>
+<?php
+    echo $this->element('complaints/admin_comments', array('comments' => $this->data['Complaint']['comments']);
+?>
 </div>
 
