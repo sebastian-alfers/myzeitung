@@ -1,11 +1,12 @@
 			<h6><?php echo __('Activity', true);?></h6>
 			  <ul>
-				<li><?php echo $user['User']['post_count'].' '.__('Posts', true)?></li>
-				<li><?php echo $user['User']['posts_user_count'].' '.__('Reposts', true)?></li>
-				<li><?php echo $user['User']['comment_count'].' '.__('Comments', true)?></li>
-		   		<li><a id="show-subscribers" href="#show-subscribers" title="users/references/<?php echo $user['User']['id']; ?>"><?php echo $user['User']['content_paper_count'].' '.__('Subscribers', true)?></a></li>
-				<li><?php echo $user['User']['subscription_count'].' '.__('Paper subscriptions', true)?></li>
-				<li><?php echo $user['User']['paper_count'].' '.__('created Papers', true)?></li>
+                  <?php $post_count =$user['User']['post_count'];?>
+				<li><?php echo sprintf(__n('%d post', '%d posts', $post_count,true), $user['User']['post_count']);?></li>
+                <li><?php echo sprintf(__n('%d pepost', '%d reposts', $user['User']['posts_user_count'],true), $user['User']['posts_user_count']);?></li>
+                <li><?php echo sprintf(__n('%d comment', '%d comments', $user['User']['comment_count'],true), $user['User']['comment_count']);?></li>
+		   		<li><a id="show-subscribers" href="#show-subscribers" title="users/references/<?php echo $user['User']['id']; ?>"><?php echo sprintf(__n('%d subscriber', '%d subscribers', $user['User']['content_paper_count'],true), $user['User']['content_paper_count']);?></a></li>
+				<li><?php echo sprintf(__n('%d paper subscription', '%d paper subscriptions', $user['User']['subscription_count'],true), $user['User']['subscription_count']);?></li>
+                <li><?php echo sprintf(__n('%d paper', '%d papers', $user['User']['paper_count'],true), $user['User']['paper_count']);?></li>
 			</ul>
 			<hr />
 			

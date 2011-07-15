@@ -1,6 +1,6 @@
 <li class="type-user">
 <?php
-	if(isset($user->user_image)){
+    if(isset($user->user_image)){
 		$img = unserialize($user->user_image);
 	}
 	else{

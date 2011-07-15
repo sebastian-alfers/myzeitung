@@ -90,11 +90,9 @@ class Paper extends AppModel {
 	);
 
     function beforeValidate() {
-        debug($this->data);
         if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
             $this->data['Paper']['url'] = '';
         }
-        debug($this->data);
         return true;
     }
 

@@ -243,7 +243,7 @@ class Post extends AppModel {
 			 */
 			function beforeSave() {
 				
-				debug($this->data);
+				//debug($this->data);
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
@@ -251,6 +251,10 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
+                if(!empty($this->solr_preview_image)){
+					$this->solr_preview_image = serialize($this->solr_preview_image);
+				}
+
 				
 				//generate preview of post				
 				$content = explode(' ', strip_tags($this->data['Post']['content']));
@@ -354,7 +358,6 @@ class Post extends AppModel {
 				if($this->updateSolr){
 					//2) update solr index with saved date
 					App::import('model','Solr');
-					
 					$this->User->contain();
 					$userData = $this->User->read(null, $this->data['Post']['user_id']);
 					
@@ -368,7 +371,8 @@ class Post extends AppModel {
 							}
 						}
 						if(!empty($this->solr_preview_image)){
-							$this->data['Post']['image'] = $this->solr_preview_image;	
+							$this->data['Post']['image'] = $this->solr_preview_image;
+                            debug($this->solr_preview_image);
 						}
 						$this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
 						$this->data['Post']['id'] = $this->id;
@@ -398,6 +402,7 @@ class Post extends AppModel {
 				$solrFields['Post']['id'] = $data['Post']['id'];
 				$solrFields['Post']['post_title'] = $data['Post']['title'];
 				$solrFields['Post']['post_content'] = strip_tags($data['Post']['content']);
+               // debug($data);
 				if(isset($data['Post']['image'])){
 					$solrFields['Post']['post_image'] = $data['Post']['image'];
 				}

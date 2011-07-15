@@ -137,7 +137,7 @@ class User extends AppModel {
 			'email' => array(
 				'empty' => array(
 					'rule'			=> 'notEmpty',
-					'message' 		=> __('Please enter your email adress.', true),
+					'message' 		=> __('Please enter your email address.', true),
 					'last' 			=> true,
 				),
 				'email' => array(
@@ -466,7 +466,7 @@ class User extends AppModel {
 			$topicReferences = array();
 
 			//get all users topics
-			$this->Topic = new Topic();
+			$this->Topic = new Topic();$this->log($this->Complaint->invalidFields());
 			$this->Topic->contain();
 			$topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 

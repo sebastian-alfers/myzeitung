@@ -1,7 +1,7 @@
 <?php
 class Complaint extends AppModel {
 	var $name = 'Complaint';
-	var $validate = array(
+	/*var $validate = array(
 		'comments' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
@@ -23,14 +23,14 @@ class Complaint extends AppModel {
 			),
 			'email' => array(
 				'rule' => array('email'),
-				//'message' => 'Your custom message here',
+				'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-	);
+	);*/
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
@@ -84,5 +84,37 @@ class Complaint extends AppModel {
 			'order' => ''
 		)
 	);
+
+    function __construct(){
+		parent::__construct();
+
+	$this->validate = array(
+		'comments' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+        'reporter_email' => array(
+				'empty' => array(
+					'rule'			=> 'notEmpty',
+					'message' 		=> __('Please enter your email address.', true),
+					'last' 			=> true,
+				),
+				'email' => array(
+					'rule'			=> array('email'),
+					'message'		=> __('Please enter a valid email address.', true),
+					'last' 			=> true,
+				),
+
+			),
+
+	);
+
+    }
 
 }

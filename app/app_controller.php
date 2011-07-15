@@ -54,9 +54,9 @@ class AppController extends Controller {
 	public function beforeFilter(){
 
         //load locale
-        App::import('Core', 'L10n');
-        $this->L10n = new L10n();
-        $this->L10n->get('deu');
+     //   App::import('Core', 'L10n');
+     //   $this->L10n = new L10n();
+     //   $this->L10n->get('deu');
 
         //$this->Security->blackHoleCallback = 'blackHole';
 
@@ -128,7 +128,8 @@ class AppController extends Controller {
 		$allowedActions = array(
         'ajax' => array(
             'uploadPicture' => $this->user,
-            'validateEmail' => $this->user
+            'validateEmail' => $this->user,
+            'validateUrl' => $this->user,
         ),
 		'users' => array(
 			'index' => $this->user,
