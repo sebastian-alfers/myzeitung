@@ -54,7 +54,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 
                 <?php if(isset($post['Post']['links']) && !empty($post['Post']['links'])):?>
                     <?php $links = unserialize($post['Post']['links'])?>
-                    <h6><?php echo __n('Quelle', 'Quellen', count($links, true)); ?></h6>
+                    <h6><?php echo __n('Reference', 'References', count($links, true)); ?></h6>
                     <ul>
                         <?php foreach($links as $link):?>
                           <li><?php echo $this->Html->link($link, $link, array('target'  =>'blank','rel' => 'nofollow'));?></li>
@@ -62,7 +62,6 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 
                     </ul>
                 <?php endif;?>
-                <h6>quellen</h6>
             </div><!-- /. articleview -->
 
 
