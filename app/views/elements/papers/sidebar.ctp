@@ -33,12 +33,14 @@ if($paper_belongs_to_user){
 
 			</div>
                 <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
-                <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
-                    <?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
-                <?php endif;?>
-                <?php //unsubscribe-button: if user is logged in  and  paper does not belong to user AND paper is subscribed ?>
-                <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>
-                    <?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
+                <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
+                    <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
+                        <?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
+                    <?php endif;?>
+                    <?php //unsubscribe-button: if user is logged in  and  paper does not belong to user AND paper is subscribed ?>
+                    <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>
+                        <?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
+                    <?php endif;?>
                 <?php endif;?>
             
             <h4><?php echo $paper['Paper']['title'];?></h4>
@@ -88,8 +90,8 @@ if($paper_belongs_to_user){
 
             <h6><?php echo __('Activity', true);?></h6>
               <ul>
-                <li><?php echo $paper['Paper']['category_paper_post_count'].' '.__('Posts', true)?></li>
-                <li><?php echo $paper['Paper']['content_paper_count'].' '.__('Subcribed Users/Topics', true)?></li>
+                 <li><?php echo sprintf(__n('%d Post', '%d Posts', $paper['Paper']['category_paper_post_count'],true), $paper['Paper']['category_paper_post_count']);?></li>
+                 <li><?php echo sprintf(__n('%d Subscribed User/Topic', '%d Subscribed Users/Topics', $paper['Paper']['content_paper_count'],true), $paper['Paper']['content_paper_count']);?></li>
             </ul>
             <hr />
             <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>

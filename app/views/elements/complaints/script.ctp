@@ -67,7 +67,6 @@ $(document).ready(function() {
 
             //validate emial - located in js/global/myzeitung.js
             if(!isEmailValid($('#ComplaintReporterEmail').val())){
-                alert('Please enter a valid email.');
                 return false;
             }
         }

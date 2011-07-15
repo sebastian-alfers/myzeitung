@@ -68,10 +68,16 @@
 									</li>
 									<li class="message-info">
 										<h5><?php echo $this->Html->link($conversation['Conversation']['title'],array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']));?></h5>
-										<p class="from"><?php echo __('between', true);?>&nbsp;<strong><?php echo __('you', true);?></strong>
+										<?php // show all participants ?>
+                                        <p class="from"><?php echo sprintf(__('between you and', true));?>
                                             <?php foreach($conversation['Conversation']['ConversationUser'] as $user){
                                                 if($user['User']['id'] != $session->read('Auth.User.id')){
-                                                    echo '<strong>'.$user['User']['username'].'</strong>';
+                                                    $tipsy_name= $user['User']['username'];
+									                if($user['User']['name']){
+										                $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
+									                }
+                                                    echo '<strong>'.$this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', $user['User']['id']), array('class' => 'user-image tt-title', 'title' => $tipsy_name, 'escape' => false)).'</strong>';
+                                                  
                                                 }
                                             }?>
 

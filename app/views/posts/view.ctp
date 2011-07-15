@@ -72,9 +72,13 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 	<div id="maincol">
 		<div class="article-nav">
 				<ul class="iconbar">
-					<li class="reposts"><?php echo $post['Post']['posts_user_count'];?></li>
-					<li class="views"><?php echo $post['Post']['view_count'];?></li>
-					<li class="comments" id="comment_counter" name="<?php echo $post['Post']['comment_count'];?>"><?php echo $post['Post']['comment_count'];?><span></span></li>								
+				    <?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
+                     <?php $tipsy_title = sprintf(__n('%d repost', '%d reposts', $post['Post']['posts_user_count'],true), $post['Post']['posts_user_count']);?>
+                    <li class="reposts tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['posts_user_count'];?></li>
+                     <?php $tipsy_title = sprintf(__n('%d time viewed', '%d times viewed', $post['Post']['view_count'],true), $post['Post']['view_count']);?>
+                    <li class="views tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['view_count'];?></li>
+                     <?php $tipsy_title = sprintf(__n('%d comment', '%d comments', $post['Post']['comment_count'],true), $post['Post']['comment_count']);?>
+                    <li class="comments tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['comment_count'];?><span>.</span></li>
 				</ul>
 		
 				<ul class="social-links">
@@ -109,6 +113,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
                     <?php //echo $this->element('posts/horizontal_image_scroll', array('images' => $images)); ?>
 				</span>
 			<?php endif;?>
+
 
 			<?php echo $content_after_first_paragraph;?>
 			</div><!-- /. articleview -->

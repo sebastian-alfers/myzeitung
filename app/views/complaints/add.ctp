@@ -1,6 +1,5 @@
 <div class="complaints form">
 <?php echo $this->Form->create('Complaint');?>
-
     <?php
     if($user_id != null){
         echo __('Your Name: ', true) . $user_name."<br />";
@@ -14,10 +13,6 @@
         echo $this->Form->input('reporter_email', array('id' => 'ComplaintReporterEmail', 'value' =>  $mzform->value($this, 'Complaint', 'reporter_email'), 'label' => __('Email', true)));
     }
     ?>
-
-
-
-
 
 	<?php
 		echo $this->Form->input('reason_id');

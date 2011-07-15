@@ -14,8 +14,10 @@
         <div class="article">
             <ul class="iconbar">
                 <?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
-             <li class="articles tt-title" title="<?php echo $user['User']['post_count'].' '.__('posts', true);?>"><?php echo $user['User']['post_count']; ?></li>
-             <li class="authors tt-title" title="writes for <?php echo $user['User']['post_count'].' '.__(' papers', true);?>"><?php echo $user['User']['content_paper_count']; ?></li>
+                <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $user['User']['post_count'],true), $user['User']['post_count']);?>
+                 <li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['post_count']; ?></li>
+                <?php $tipsy_title = sprintf(__n('published in %d paper', 'published in %d papers', $user['User']['content_paper_count'],true), $user['User']['content_paper_count']);?>
+                <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['content_paper_count']; ?></li>
             </ul>
             <h4><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></h4>
             <h5><?php echo $this->Html->link($user['User']['name'],array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></h5>

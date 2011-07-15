@@ -63,8 +63,8 @@ $(function() {
 
 			<?php echo $this->element('users/sidebar/buttons'); ?>
 			<h4><?php echo $user['User']['username'];?></h4>
-			<?php //elements shown when being on actions users-view, posts-view ?>
-			<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
+			<?php //standard profile : elements shown when being on actions users-view, posts-view, conversations ?>
+			<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || $this->params['controller'] == 'conversations'):?>
 				<?php echo $this->element('users/sidebar/info'); ?>
 				<?php echo $this->element('users/sidebar/topics'); ?>
 				<?php echo $this->element('users/sidebar/activity'); ?>
@@ -93,14 +93,16 @@ $(function() {
 					<li><?php echo $reference['Topic']['name']?> (topic) <?php if($reference['Category']['id'] == '') echo " (direct in paper)" ?></li>
 				<?php endforeach; ?>
 				</ul>			
-			<?php */?>
+		 */	?>
 
-        <hr />
+        <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
+        <hra />
         <?php if($this->params['controller'] == 'users'): ?>
             <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
         <?php endif; ?>
         <?php if($this->params['controller'] == 'posts'): ?>
             <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
+        <?php endif; ?>
         <?php endif; ?>
 		 </div><!-- /.leftcolcontent -->	
 		</div><!-- /.leftcol -->

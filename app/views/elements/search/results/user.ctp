@@ -1,7 +1,7 @@
 <li class="type-user">
 <div class="left image">
 <?php
-	if(isset($user->user_image)){
+    if(isset($user->user_image)){
 		$img = unserialize($user->user_image);
 	}
 	else{

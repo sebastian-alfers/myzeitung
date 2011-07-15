@@ -46,9 +46,14 @@
 
 	<div class="actions">	
 		<ul class="iconbar">
-			<li class="reposts"><?php echo $post->post_posts_user_count;?></li>
-			<li class="views"><?php echo $post->post_view_count;?></li>
-			<li class="comments"><?php echo $post->post_comment_count;?><span>.</span></li>							
+            <?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
+                 <?php $tipsy_title = sprintf(__n('%d repost', '%d reposts', $post->post_posts_user_count,true), $post->post_posts_user_count);?>
+                <li class="reposts tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post->post_posts_user_count;?></li>
+                 <?php $tipsy_title = sprintf(__n('%d time viewed', '%d times viewed', $post->post_view_count,true), $post->post_view_count);?>
+                <li class="views tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post->post_view_count;?></li>
+                 <?php $tipsy_title = sprintf(__n('%d comment', '%d comments', $post->post_comment_count,true), $post->post_comment_count);?>
+                <li class="comments tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post->post_comment_count;?><span>.</span></li>
+						
 		</ul>
 		<?php if(!$article_belongs_to_user):?>
 			<?php if($article_reposted_by_user):?>

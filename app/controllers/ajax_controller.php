@@ -5,7 +5,7 @@ class AjaxController extends AppController {
     var $components = array('RequestHandler', 'JqImgcrop', 'Upload');
 
     var $name = 'Ajax';
-    var $uses = array('JsonResponse', 'Complaint');
+    var $uses = array('JsonResponse', 'Complaint', 'Paper');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -65,15 +65,41 @@ class AjaxController extends AppController {
             $email = $this->params['form']['email'];
         }
 
-        $this->Complaint->set(  array('reporter_email' => $email));
+        $this->Complaint->set(array('reporter_email' => $email));
 
         if($this->Complaint->validates(array('fieldList' => array('reporter_email')))){
+
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
         }
         else{
-            $this->log($email . ' is not valid');
-            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+            $messages = $this->Complaint->invalidFields();
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['reporter_email'])));
         }
+    }
+
+        /**
+     * we use the Paper model to validate a string to be an url
+     *
+     * @return void
+     */
+        function validateUrl(){
+
+            $url = '';
+
+        if(isset($this->params['form']['url'])){
+            $url = $this->params['form']['url'];
+        }
+
+        $this->Paper->set(  array('url' => $url));
+
+        if($this->Paper->validates(array('fieldList' => array('url')))){
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
+
+        }
+        else{
+            $messages = $this->Paper->invalidFields();
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['url'])));
+         }
     }
 
 }

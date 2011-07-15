@@ -213,7 +213,8 @@ class PostsController extends AppController {
 						$this->data['Post']['content'] = $content;
 						// writing the path of the first picture to a class variable because the array will be serialized before reaching the updateSolr method
 
-						$this->Post->solr_preview_image = $this->images[0]['path'];
+						$this->Post->solr_preview_image = $this->images[0];
+                        debug($this->images);
 						$this->Post->updateSolr = true;
 						if ($this->Post->save($this->data)) {
 
