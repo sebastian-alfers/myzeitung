@@ -1,4 +1,5 @@
 <li class="type-article">
+<div class="left image">
 <?php
 //defining variables relevant for the repost / undo repost button
 	$article_reposted_by_user = false;
@@ -24,7 +25,7 @@
 
 	$link_data = array();
 	$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
-	echo $image->render(array('image' => $img), 58, 58,null, $link_data, 'post');
+	echo $image->render(array('image' => $img), 58, 58,array("alt" => $post->post_title), $link_data, 'post');
     // post headline
     $headline = substr($post->post_title,0,60);
     if(strlen($post->post_title) > 60){
@@ -35,7 +36,9 @@
     $content_preview .='...';
     }
     //$content_preview =
-?>		
+?>
+    </div>
+<div class="left">
 	<h3><?php echo $headline;?></h3>
 	<p><?php echo $content_preview;?></p>
 	<p class="from"><strong><?php echo __('Post', true);?></strong> <?php echo __('from', true);?> <a><strong><?php echo $post->user_username;?></strong></a> &#8212; <?php echo $post->user_name?></p>
@@ -56,5 +59,6 @@
 			<?php //repost button?>
 			<?php endif;?>
 		<?php endif;?>
-	</div> 
+	</div>
+    </div>
 </li> <!-- /.type-article -->	

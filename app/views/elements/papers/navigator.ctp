@@ -23,7 +23,7 @@
 							</ul>
 							<h4><?php echo $paper['Paper']['title'];?></h4>
                             <?php echo $this->Html->link(
-                                $image->render($paper['Paper'], 110, 110, array(), array(), ImageHelper::PAPER),
+                                $image->render($paper['Paper'], 118, 100, array(), array(), ImageHelper::PAPER),
                                     array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']),
                                     array('escape' => false));?>
 

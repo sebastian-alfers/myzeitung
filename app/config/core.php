@@ -46,10 +46,6 @@ switch($_SERVER['APPLICATION_ENV']){
 		Configure::write('Hosting.environment.local', true);
 		//Configure::write('Hosting.environment.dev', true);
 		define('USE_SOLR', true);
-		define('SOLR_HOST', $_SERVER['SOLR_HOST']);
-		define('SOLR_PORT', $_SERVER['SOLR_PORT']);
-		define('SOLR_PATH', $_SERVER['SOLR_PATH']);
-
 		break;
 	#case 'staging':
 	#	Configure::write('Hosting.environment.dev', true);
@@ -58,6 +54,7 @@ switch($_SERVER['APPLICATION_ENV']){
 	case 'live':
 		Configure::write('Hosting.environment.live', true);
 		define('USE_SOLR', true);
+		define('SOLR_HOST', 8080);
 		break;
 }
 
