@@ -463,7 +463,8 @@ class User extends AppModel {
 			$topicReferences = array();
 
 			//get all users topics
-			$this->Topic = new Topic();$this->log($this->Complaint->invalidFields());
+			$this->Topic = new Topic();
+
 			$this->Topic->contain();
 			$topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 

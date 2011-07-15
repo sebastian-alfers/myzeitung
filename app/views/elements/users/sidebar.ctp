@@ -8,22 +8,20 @@ $(document).ready(function() {
 	
 	$('.subscribe-user').bind('click', function(){subscribeDialog(this);});
 
-    $('#btn-submit-subscription').bind('click', function(){
-        $('#UserSubscribeForm').submit();
-    });
 
 });	
 
 function subscribeDialog(element){
-	loadForm();
+    var user_subscribe_id = $(element).attr('id');
+	loadForm(user_subscribe_id);
     $('#dialog-subscribe').dialog('open');
 		
 	return false;
 }
 
-function loadForm(target_id, target_type){
+function loadForm(user_subscribe_id){
     $('#dialog-subscribe-content').html("");
-    var req = $.post(base_url + '/users/subscribe/1')
+    var req = $.post(base_url + '/users/subscribe/'+user_subscribe_id)
        .success(function( string ){
            $('#dialog-subscribe-content').html(string);
        })
@@ -63,8 +61,8 @@ $(function() {
 
 			<?php echo $this->element('users/sidebar/buttons'); ?>
 			<h4><?php echo $user['User']['username'];?></h4>
-			<?php //standard profile : elements shown when being on actions users-view, posts-view, conversations ?>
-			<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || $this->params['controller'] == 'conversations'):?>
+			<?php //elements shown when being on actions users-view, posts-view ?>
+			<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
 				<?php echo $this->element('users/sidebar/info'); ?>
 				<?php echo $this->element('users/sidebar/topics'); ?>
 				<?php echo $this->element('users/sidebar/activity'); ?>
@@ -78,8 +76,8 @@ $(function() {
 			<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe')):?>
 				<?php echo $this->element('users/sidebar/account_menue', array('user_id' => $user['User']['id'])); ?>
 			<?php endif;?>
-			
-		
+
+
 <?php /*?>
 	<hr />
 		<h6><?php __('Writes for'); ?></h6>
@@ -92,17 +90,15 @@ $(function() {
 				<?php foreach($topicReferences as $reference): ?>
 					<li><?php echo $reference['Topic']['name']?> (topic) <?php if($reference['Category']['id'] == '') echo " (direct in paper)" ?></li>
 				<?php endforeach; ?>
-				</ul>			
-		 */	?>
+				</ul>
+			<?php */?>
 
-        <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
-        <hra />
+        <hr />
         <?php if($this->params['controller'] == 'users'): ?>
             <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
         <?php endif; ?>
         <?php if($this->params['controller'] == 'posts'): ?>
             <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
-        <?php endif; ?>
         <?php endif; ?>
 		 </div><!-- /.leftcolcontent -->	
 		</div><!-- /.leftcol -->
