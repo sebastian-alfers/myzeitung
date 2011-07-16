@@ -361,6 +361,8 @@ class UsersController extends AppController {
 	 *
 	 */
 	function subscribe($user_id = ''){
+
+
 		$logged_in_user_id = $this->Session->read('Auth.User.id');
 
 		if(isset($this->data) && !empty($this->data)){
@@ -439,8 +441,6 @@ class UsersController extends AppController {
 
 			}
 		}
-
-
 
 
 		if(empty($user_id)){
@@ -581,24 +581,28 @@ class UsersController extends AppController {
 
 				if($this->Paper->associateContent($data)){
 					$msg = __('Content has been associated to paper', true);
+                    echo $msg;
 
-					$this->Session->setFlash($msg, 'default', array('class' => 'success'));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
+					//$this->Session->setFlash($msg, 'default', array('class' => 'success'));
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
+                    //return;
 				}
 				else{
-					$this->Session->setFlash(__('Not able to associate content to paper', true));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
+                    echo __('Not able to associate content to paper', true);
+					//$this->Session->setFlash(__('Not able to associate content to paper', true));
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
+                    //return;
 				}
 
-				echo 'macht user ' . $user_id . ' in paper ' .$papers[0]['Paper']['id'];
+				//echo 'macht user ' . $user_id . ' in paper ' .$papers[0]['Paper']['id'];
 			}
 			else{
-				$this->Session->setFlash(__('Error while reading paper', true));
-				$this->redirect(array('action' => 'view', $logged_in_user_id));
+				//$this->Session->setFlash(__('Error while reading paper', true));
+				//$this->redirect(array('action' => 'view', $logged_in_user_id));
+
 			}
 
 		}
-
         $this->render('subscribe', 'ajax');
 
 	}

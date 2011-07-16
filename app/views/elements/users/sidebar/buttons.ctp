@@ -1,4 +1,4 @@
-<a href="#" class="btn subscribe-user"><span>+</span><?php __('Subscribe'); ?></a>
+<a href="#" class="btn subscribe-user" id="<?php echo $user['User']['id']; ?>"><span>+</span><?php __('Subscribe'); ?></a>
 <?php if($user['User']['id'] != $session->read('Auth.User.id')): // - cannot send a message to himself ?>
 	<?php if($user['User']['allow_messages']):?>
 

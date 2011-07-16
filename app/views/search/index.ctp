@@ -25,7 +25,8 @@ $('.more-results').live('click', function() {
 	start +=increment;
 	var req = $.post(base_url + '/search/index/', {q:"<?php echo $query; ?>", start:start})
 	.success(function( obj ){
-		$('#search-result').append(obj);
+
+		$('.search-result').append(obj);
 		var options = {};
 		$('#more-results'+start).toggle( 'blind', options, 500 );
 	})		   

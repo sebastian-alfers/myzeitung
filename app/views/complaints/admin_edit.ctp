@@ -38,7 +38,7 @@
 <h2><?php __('Comment History'); ?></h2>
 <div>
 <?php
-    echo $this->element('complaints/admin_comments', array('comments' => $this->data['Complaint']['comments']);
+    echo $this->element('complaints/admin_comments', array('comments' => $this->data['Complaint']['comments']));
 ?>
 </div>
 

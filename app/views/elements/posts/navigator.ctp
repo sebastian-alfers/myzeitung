@@ -41,7 +41,6 @@
                             }
                             ?>
 							<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
-
 							<?php if(isset($post['Post']['image'][0]) && !empty($post['Post']['image'][0])): ?>
 							<?php 
 							$info = $image->resize($post['Post']['image'][0]['path'], 200, 117, null, true);//return array bacuse of last param -> true							

@@ -5,6 +5,8 @@ class ImageHelper extends Helper {
 	var $themeWeb = '';
 	var $cacheDir = ''; // relative to IMAGES_URL path
 
+    var $default_img_sizes = array();
+
 	const DEFAULT_IMG = 'assets/default.jpg';
     const USER = 'user';
     const PAPER = 'paper';
@@ -97,7 +99,7 @@ class ImageHelper extends Helper {
 		if (!file_exists($orig_img_path) || !($size)){
 
 			//default img not there;
-			debug('can not load ' . $orig_img_path);
+			//debug('can not load ' . $orig_img_path);
 			return self::DEFAULT_IMG;
 		}
 
@@ -149,6 +151,12 @@ class ImageHelper extends Helper {
 		if ($resize) {
 
 			$image = call_user_func('imagecreatefrom'.$types[$size[2]], $orig_img_path);
+
+            if($types[$size[2]] == 'png'){
+                imagealphablending($image, false);
+                imagesavealpha($image, true); // save alphablending setting (important)
+            }
+
 			if (function_exists("imagecreatetruecolor") && ($temp = imagecreatetruecolor ($width, $height))) {
 				imagecopyresampled ($temp, $image, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
 			} else {
@@ -292,6 +300,11 @@ class ImageHelper extends Helper {
             
 		$img_data = $this->getImgPath($data['image'], $model);
 
+        if(!is_array($img_data)){
+            //default image
+
+
+        }
 
 		if(is_array($img_data)){
 
@@ -317,7 +330,7 @@ class ImageHelper extends Helper {
 		if($container_data != null &&
 		is_array($container_data) &&
 		isset($container_data['url'])){
-				
+
 			//also make link out of it
 			$additional_img_data = array();
 			if(isset($container_data['additional'])){
@@ -360,6 +373,16 @@ class ImageHelper extends Helper {
 		}
 
 	}
+
+
+    /**
+     * reads the getimagesize() for the default images and saves them
+     *
+     * @return string
+     */
+    private function getDefaultImgSizes(){
+
+    }
 
 }
 ?>

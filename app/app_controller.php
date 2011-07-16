@@ -205,7 +205,7 @@ class AppController extends Controller {
 			'admin_index' => $this->admin,
             'admin_view' => $this->admin,
             'admin_edit' => $this->superadmin,
-            'admin_delete' => array(333),
+            'admin_delete' => $this->superadmin,
  			),
         'admin' => array(
             'admin_index' => $this->admin

@@ -1,4 +1,5 @@
-<li class="type-news"> 
+<li class="type-news">
+<div class="left image">
 <?php
 	if(isset($paper->paper_image)){
 		$img = unserialize($paper->paper_image);
@@ -11,7 +12,8 @@
 	echo $image->render(array('image' => $img), 58, 58,null, $link_data, 'paper');
 				 				
 ?>		
-	
+</div>
+<div class="left">
 	<h3><?php echo $paper->paper_title;?></h3>
 	<p><?php echo $paper->paper_description;?></p>
 	<p class="from"><strong><?php echo __('Paper', true);?></strong> <?php echo __('from', true);?> <a><strong><?php echo $paper->user_username;?></strong></a> &#8212; <?php echo $paper->user_name;?></p>
@@ -31,4 +33,5 @@
 						}
 					?>
 	</div>
+</div>
 </li> <!-- /.type-news -->	

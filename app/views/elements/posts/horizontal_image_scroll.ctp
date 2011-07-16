@@ -1,6 +1,6 @@
 <?php e($html->script('jquery.tools.min.js')); ?>
-<?php 
-/**
+<?php
+        /**
  * @param array - arry of images with this structure
  *   [] => Array
         (
@@ -56,12 +56,12 @@ $sub_width += 40; //padding for buddon (left and right)
 
 $is_scroling = $count_sub_images > 2;//now, we scroll only two images
 ?>
-<p>
+
 
 	<?php if($is_scroling): ?>
 	<a class="prev browse left"></a>
-	<?php endif; //end scrolling or not?>
-	 
+	<?php endif; //end scrolling or not ?>
+<p>
 	<div class="scrollable" style="width: 160px;">
 		<div class="items">
 			<div>

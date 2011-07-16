@@ -27,3 +27,7 @@
 </form>
 
 </div>
+    <div>
+        <a class="btn big" id="btn-submit-subscription" onclick="$('#UserSubscribeForm').submit();"><span class="icon icon-send"></span><?php __('Save'); ?></a>
+    </div>
+

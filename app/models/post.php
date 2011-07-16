@@ -242,8 +242,7 @@ class Post extends AppModel {
 			 *
 			 */
 			function beforeSave() {
-				
-				//debug($this->data);
+
 				if(!empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
