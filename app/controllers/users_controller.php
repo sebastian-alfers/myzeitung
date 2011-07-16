@@ -2,14 +2,14 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
+	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
 	var $helpers = array('Time', 'Image', 'Js' => array('Jquery'));
 
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('add','login','logout', 'view', 'index', 'viewSubscriptions');
+		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions');
 
 	}
 
@@ -265,11 +265,13 @@ class UsersController extends AppController {
 				$this->redirect(array('action' => 'add'));
 				}
 				*/
-
-				//Auto-Login after Register
-				$userData = array('username' => $this->data['User']['username'], 'password' => $this->Auth->password($this->data['User']['passwd']));
-				$this->Session->setFlash(__('Thank you for registration.', true), 'default', array('class' => 'success'));
-				if($this->Auth->login($userData)){
+                
+                //send welcome email to new user
+                $this->_sendWelcomeEmail($this->User->id);
+                //Auto-Login after Register
+                $userData = array('username' => $this->data['User']['username'], 'password' => $this->Auth->password($this->data['User']['passwd']));
+                $this->Session->setFlash(__('Thank you for registration.', true), 'default', array('class' => 'success'));
+                if($this->Auth->login($userData)){
 					$this->redirect(array('controller' => 'papers' , 'action' => 'index'));
 				}
 
@@ -677,7 +679,23 @@ class UsersController extends AppController {
 	 $this->render('ajx_subscribe');//file users/json/ajx_subscribe.ctp with layouts/json/default.ctp
 	 }
 	 */
-
+    function forgotPassword() {
+      if(!empty($this->data)) {
+        $this->User->contain();
+        $user = $this->User->findByEmail($this->data['User']['email']);
+        if($user) {
+          $user['User']['tmp_password'] = $this->User->createTempPassword(7);
+          $user['User']['password'] = $this->Auth->password($user['User']['tmp_password']);
+          if($this->User->save($user, false)) {
+            $this->__sendPasswordEmail($user['User']['id'], $user['User']['tmp_password']);
+            $this->Session->setFlash('An email has been sent with your new password.','default', array('class' => 'success'));
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+          }
+        } else {
+          $this->Session->setFlash('No user was found with the submitted email address.');
+        }
+      }
+    }
 
 	function accGeneral(){
 
@@ -929,11 +947,55 @@ class UsersController extends AppController {
 		//reading user
 			$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
-
 		return $user;
-
 	}
 
+    protected function _sendWelcomeEmail($user_id){
+        $this->User->contain();
+        $user = $this->User->read(null, $user_id);
+
+        //configuration of Email-Component
+        $this->Email->to = $user['User']['email'];
+        $this->Email->subject = __('Welcome to myZeitung', true);
+        $this->Email->replyTo = 'noreply@myzeitung.de';
+        $this->Email->from = 'myZeitung <noreply@myzeitung.de>';
+        $this->Email->template = 'welcome';
+        //sending as html and text as fallback
+        $this->Email->sendAs = 'both';
+        $this->Email->delivery = 'mail';
+
+        //setting params for template
+        $this->set('username', $user['User']['username']);
+
+        //send mail
+        if(!($this->Email->send())){
+            $this->log('UsersController/sendWelcomeEmail - send email failed for user id'.$user['User']['id'].' to emailaddress '.$user['User']['id']);
+        }
+
+
+    }
+    function __sendPasswordEmail($user_id, $password) {
+        $this->User->contain();
+        $user = $this->User->read(null, $user_id);
+
+      $this->set('user', $user['User']);
+      $this->set('password', $password);
+
+    //configuration of Email-Component
+    $this->Email->to = $user['User']['email'];
+    $this->Email->subject = __('Password change request', true);
+    $this->Email->replyTo = 'noreply@myzeitung.de';
+    $this->Email->from = 'myZeitung <noreply@myzeitung.de>';
+    $this->Email->template = 'forgot_password';
+    //sending as html and text as fallback
+    $this->Email->sendAs = 'both';
+    $this->Email->delivery = 'mail';
+
+//what is this cookie stuff for?!!
+      $this->Cookie->write('Referer', $this->referer(), true, '+2 weeks');
+      $this->Session->setFlash('A new password has been sent to your supplied email address.');
+      return $this->Email->send();
+}
 
 }
 ?>

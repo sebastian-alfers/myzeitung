@@ -234,7 +234,16 @@ class PostsController extends AppController {
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
-				$this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
+                $validation_errors= $this->Post->invalidFields();
+
+                foreach($validation_errors as $validation_error){
+                    $flash = $validation_error;
+                }
+                if(empty($flash)){
+                    $this->Session->setFlash(__('The post could not be saved. Please, try again.', true));
+                } else {
+                    $this->Session->setFlash($flash);
+                }
 				$error = true;
 			}
 		}

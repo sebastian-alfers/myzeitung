@@ -55,18 +55,18 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy.
 								</textarea>
 								</p>
-								
-								<div class="accept">
-									<div><?php  echo $this->Form->input('tos_accept', array('type' => 'checkbox', 'class' => 'textinput', 'label' => false)); ?><strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong>
-									<?php if(!is_null($this->Form->error('User.tos_accept'))): ?>
-									<div class="error-message"><b></b><?php echo $this->Form->error('User.tos_accept', array('wrap'=> false));?></div>
-									<?php endif; ?>
-									</div>					
-									<a class="btn big" id="link_add_user"><span>+</span><?php echo __('Create Account', true);?></a>
-								</div>
-								
-								<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>	
-						
+
+                            <div class="accept">
+                                <div><?php  echo $this->Form->input('tos_accept', array('type' => 'checkbox', 'class' => 'textinput', 'label' => false)); ?><strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong>
+                                    <?php if(!is_null($this->Form->error('User.tos_accept'))): ?>
+                                        <div class="error-message"><b></b><?php echo $this->Form->error('User.tos_accept', array('wrap'=> false));?></div>
+                                        <?php endif; ?>
+                                </div>
+                                <a class="btn big" id="link_add_user"><span>+</span><?php echo __('Create Account', true);?></a>
+                            </div>
+
+                            <?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>
+
 						</div> <!-- /register -->
 
 					</div><!-- / #maincol -->
