@@ -1,6 +1,5 @@
 <div id="header">
 	<h1 id="logo"><a href="/">myZeitung</a></h1>
-		
 			<?php if($session->read('Auth.User.id')): // logged in??>
 			<div id="user-info">
 			<?php echo __("logged in as", true)." "; ?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?>

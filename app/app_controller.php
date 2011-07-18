@@ -305,7 +305,19 @@ class AppController extends Controller {
       $this->log("blackHole()", self::LOG_LEVEL_SECURITY);
       $this->log($_SERVER, self::LOG_LEVEL_SECURITY);
       $this->log($_REQUEST, self::LOG_LEVEL_SECURITY);
-      die("You IP has been saved!");
+      die("Your IP has been saved!");
+    }
+    function _sendMail($to,$subject,$template) {
+
+        $this->Email->to = $to;
+        // $this->Email->bcc = array('secret@example.com'); // copies
+        $this->Email->subject = $subject;
+        $this->Email->replyTo = 'noreply@myzeitung.de';
+        $this->Email->from = 'myZeitung.de <noreply@myzeitung.de>';
+        $this->Email->template = $template;
+        $this->Email->sendAs = 'both'; //Send as 'html', 'text' or 'both' (default is 'text')
+        $this->Email->delivery = 'mail';
+        $this->Email->send();
     }
 
 
