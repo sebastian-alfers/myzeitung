@@ -66,55 +66,58 @@ class ContentPaper extends AppModel {
 
 			);
 
-			public function afterSave(){
+    public function afterSave(){
 
-				$this->updateIndex($this->data);
-			}
+        $this->updateIndex($this->data);
+    //    debug($this->data);
+     //   $this->sendEmailToSubscribedAuthor($this->data);
 
-			/**
-			 * after content (user or topic) as been associatet to to paper / category
-			 * add posts from user/topics to index
-			 *
-			 * @param array $data
-			 */
-			public function updateIndex($data){
+    }
 
-				$data = $data['ContentPaper'];
+    /**
+     * after content (user or topic) has been associatet to to paper / category
+     * add posts from user/topics to index
+     *
+     * @param array $data
+     */
+    public function updateIndex($data){
 
-				App::import('model','PostUser');
-				$this->PostUser = new PostUser();
-				$this->PostUser->contain();//no fields
+        $data = $data['ContentPaper'];
 
-				if(isset($data['user_id']) && !empty($data['user_id'])){
-					$conditions = array('PostUser.user_id' => $data['user_id']);
-				}
+        App::import('model','PostUser');
+        $this->PostUser = new PostUser();
+        $this->PostUser->contain();//no fields
 
-				if(isset($data['topic_id']) && !empty($data['topic_id'])){
-					$conditions = array('PostUser.topic_id' => $data['topic_id']);
-				}
+        if(isset($data['user_id']) && !empty($data['user_id'])){
+            $conditions = array('PostUser.user_id' => $data['user_id']);
+        }
 
-				$posts = $this->PostUser->find('all', array('fields' => 'id, post_id' , 'conditions' => $conditions));
+        if(isset($data['topic_id']) && !empty($data['topic_id'])){
+            $conditions = array('PostUser.topic_id' => $data['topic_id']);
+        }
 
-
-				App::import('model','PostUser');
-				App::import('model','CategoryPaperPost');
-
-				foreach($posts as $post){
-					$this->CategoryPaperPost = new CategoryPaperPost();
-					$new_posts = array();
-					$new_posts['CategoryPaperPost']['post_id'] = $post['PostUser']['post_id'];
-					$new_posts['CategoryPaperPost']['paper_id'] = $data['paper_id'];
-					$new_posts['CategoryPaperPost']['post_user_id'] = $post['PostUser']['id'];
-					$new_posts['CategoryPaperPost']['content_paper_id'] = $this->id;
-
-					if(isset($data['category_id']) && !empty($data['category_id'])){
-						$new_posts['CategoryPaperPost']['category_id'] = $data['category_id'];
-					}
-					$this->CategoryPaperPost->save($new_posts);
-				}
+        $posts = $this->PostUser->find('all', array('fields' => 'id, post_id' , 'conditions' => $conditions));
 
 
+        App::import('model','PostUser');
+        App::import('model','CategoryPaperPost');
 
-			}
+        foreach($posts as $post){
+            $this->CategoryPaperPost = new CategoryPaperPost();
+            $new_posts = array();
+            $new_posts['CategoryPaperPost']['post_id'] = $post['PostUser']['post_id'];
+            $new_posts['CategoryPaperPost']['paper_id'] = $data['paper_id'];
+            $new_posts['CategoryPaperPost']['post_user_id'] = $post['PostUser']['id'];
+            $new_posts['CategoryPaperPost']['content_paper_id'] = $this->id;
+
+            if(isset($data['category_id']) && !empty($data['category_id'])){
+                $new_posts['CategoryPaperPost']['category_id'] = $data['category_id'];
+            }
+            $this->CategoryPaperPost->save($new_posts);
+        }
+
+
+
+    }
 }
 ?>

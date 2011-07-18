@@ -520,6 +520,7 @@ class PapersController extends AppController {
 
 		$this->ContentPaper->create();
 
+
 		return $this->ContentPaper->save($this->data);
 	}
 

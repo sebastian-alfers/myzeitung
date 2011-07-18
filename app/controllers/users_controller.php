@@ -223,7 +223,7 @@ class UsersController extends AppController {
 		}
 		$this->set('papers', $papers);
 
-		//debug($papers);die();
+
 	}
 
 
@@ -366,6 +366,10 @@ class UsersController extends AppController {
 		$logged_in_user_id = $this->Session->read('Auth.User.id');
 
 		if(isset($this->data) && !empty($this->data)){
+            $email_user_id = null;
+            $email_topic_id = null;
+            $email_paper_id = null;
+            $email_category_id = null;
 			//save subscription and redirect
 
 			//prepare data for association
@@ -374,6 +378,12 @@ class UsersController extends AppController {
 			if(isset($this->data['User']['user_topic_content_data'])){
 				//process the selected drop down for user/category
 				$data['Paper'][ContentPaper::CONTENT_DATA] = $this->data['User']['user_topic_content_data'];
+
+                $target = explode(ContentPaper::SEPERATOR, $this->data['User']['user_topic_content_data']);
+				$target_type = $target[0];
+                if($target_type == ContentPaper::TOPIC){
+                    $email_topic_id = $target[1];
+                }
 			}
 			else{
 				//build static content data
@@ -381,6 +391,7 @@ class UsersController extends AppController {
 			}
 			$data['Paper']['user_id'] = $this->data['User']['user_id'];
 
+			$email_user_id = $this->data['User']['user_id'];
 			//check if we have options or not
 			if(isset($this->data['User']['paper_category_content_data'])){
 				//determine what is the target type, paper or categorty ?
@@ -400,21 +411,24 @@ class UsersController extends AppController {
 				//if target is category -> read paper id from category
 				if($target_type == ContentPaper::CATEGORY){
 					$category_id = $target[1];
-
-					$this->Category->contain();
+                    $email_category_id = $category_id;
+                    $this->Category->contain();
 					$category_data = $this->Category->read('paper_id', $category_id);
-
+                    $email_paper_id = $category_data['Category']['paper_id'];
 					$this->data['User']['paper_id'] = $category_data['Category']['paper_id'];
 				}
 				else{
 					//taraget is paper
 					$this->data['User']['paper_id'] = $target[1];
-				}
+                    $email_paper_id = $target[1];
+      				}
 
 			}
 			else{
 				//only one paper without category
 				$data['Paper']['target_id'] = $this->data['User']['paper_id'];
+                $email_paper_id = $this->data['User']['paper_id'];
+
 				//now, we have a valid target type
 				$data['Paper']['target_type'] = ContentPaper::PAPER;
 			}
@@ -424,9 +438,12 @@ class UsersController extends AppController {
 			if($this->Paper->read(null, $this->data['User']['paper_id'])){
 
 				//save association with prepared data
+
+
 				if($this->Paper->associateContent($data)){
 					$msg = __('Content has been associated to paper', true);
 
+                    $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
 				}
@@ -569,6 +586,7 @@ class UsersController extends AppController {
 			//one paper, no category, no topics for user
 			//read paper, prepare data, associate
 			$paper_id = $papers[0]['Paper']['id'];
+            $this->Paper->contain();
 			if($this->Paper->read(null, $paper_id)){
 
 				//prepare data
@@ -578,9 +596,11 @@ class UsersController extends AppController {
 				$data['Paper'][ContentPaper::CONTENT_DATA] = ContentPaper::USER.ContentPaper::SEPERATOR.$user_id;
 				$data['Paper']['target_type'] = ContentPaper::PAPER;
 				$data['Paper']['target_id'] = $paper_id;
+                
 
 				if($this->Paper->associateContent($data)){
 					$msg = __('Content has been associated to paper', true);
+                    $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
                     echo $msg;
 
 					//$this->Session->setFlash($msg, 'default', array('class' => 'success'));
@@ -623,7 +643,6 @@ class UsersController extends AppController {
 			$this->User->contain('Topic');
 			$users = $this->User->find('all', array('conditions' => array('User.id' => $user_id)));
 			foreach($users as $user){
-				//debug($user);die();
 				$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = $user['User']['username'].' (all topics)';
 				$topics = $user['Topic'];
 				if(isset($topics) && count($topics >0)){
@@ -691,7 +710,7 @@ class UsersController extends AppController {
           $user['User']['tmp_password'] = $this->User->createTempPassword(7);
           $user['User']['password'] = $this->Auth->password($user['User']['tmp_password']);
           if($this->User->save($user, false)) {
-            $this->__sendPasswordEmail($user['User']['id'], $user['User']['tmp_password']);
+            $this->_sendPasswordEmail($user['User']['id'], $user['User']['tmp_password']);
             $this->Session->setFlash('An email has been sent with your new password.','default', array('class' => 'success'));
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
           }
@@ -958,48 +977,59 @@ class UsersController extends AppController {
         $this->User->contain();
         $user = $this->User->read(null, $user_id);
 
-        //configuration of Email-Component
-        $this->Email->to = $user['User']['email'];
-        $this->Email->subject = __('Welcome to myZeitung', true);
-        $this->Email->replyTo = 'noreply@myzeitung.de';
-        $this->Email->from = 'myZeitung <noreply@myzeitung.de>';
-        $this->Email->template = 'welcome';
-        //sending as html and text as fallback
-        $this->Email->sendAs = 'both';
-        $this->Email->delivery = 'mail';
-
         //setting params for template
         $this->set('username', $user['User']['username']);
-
         //send mail
-        if(!($this->Email->send())){
-            $this->log('UsersController/sendWelcomeEmail - send email failed for user id'.$user['User']['id'].' to emailaddress '.$user['User']['id']);
-        }
-
-
+        $this->_sendMail($user['User']['email'], __('Welcome to myZeitung', true),'welcome');
     }
-    function __sendPasswordEmail($user_id, $password) {
+    protected function _sendPasswordEmail($user_id, $password) {
         $this->User->contain();
         $user = $this->User->read(null, $user_id);
 
       $this->set('user', $user['User']);
       $this->set('password', $password);
-
-    //configuration of Email-Component
-    $this->Email->to = $user['User']['email'];
-    $this->Email->subject = __('Password change request', true);
-    $this->Email->replyTo = 'noreply@myzeitung.de';
-    $this->Email->from = 'myZeitung <noreply@myzeitung.de>';
-    $this->Email->template = 'forgot_password';
-    //sending as html and text as fallback
-    $this->Email->sendAs = 'both';
-    $this->Email->delivery = 'mail';
-
-//what is this cookie stuff for?!!
-      $this->Cookie->write('Referer', $this->referer(), true, '+2 weeks');
+      $this->_sendMail($user['User']['email'], __('Password change request', true),'forgot_password');
       $this->Session->setFlash('A new password has been sent to your supplied email address.');
-      return $this->Email->send();
-}
+    }
+
+    /**
+     * send an email to a user that got subscribed by another user.
+     */
+    protected function _sendSubscriptionEmail($user_id, $topic_id, $paper_id, $category_id) {
+        $user = array();
+        $topic = null;
+        $paper = array();
+        $category = null;
+
+        $this->Paper->contain();
+        $paper = $this->Paper->read(array('id', 'title', 'owner_id'), $paper_id);
+        //send only an email if the user did not subscribe himself
+        if($paper['Paper']['owner_id'] != $user_id){
+            $this->User->contain();
+            $user = $this->User->read(array('id', 'username', 'name', 'email'), $user_id);
+
+            if($topic_id != null){
+                $this->Topic->contain();
+                $topic = $this->Topic->read(array('id', 'name'), $topic_id);
+            }
+            if($category != null){
+                $this->Category->contain();
+                $category = $this->Category->read(array('id', 'name'), $category_id);
+            }
+
+            $this->set('user', $user);
+            $this->set('paper', $paper);
+            $this->set('category', $category);
+            $this->set('topic', $topic);
+
+            $this->_sendMail($user['User']['email'], __('Subscription info', true),'subscription');
+        }
+
+    }
+
+
+
+
 
 }
 ?>

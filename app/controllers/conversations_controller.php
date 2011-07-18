@@ -4,31 +4,33 @@ class ConversationsController extends AppController {
 	var $name = 'Conversations';
 	var $uses = array('User' ,'Conversation','ConversationUser','ConversationMessage');
 
+    var $components = array('Email');
+
     var $helpers = array('Image', 'Time');
 
-	function add($recipent_id = null){
-		if(!$recipent_id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid recipent', true));
+	function add($recipient_id = null){
+		if(!$recipient_id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid recipient', true));
 			$this->redirect($this->referer());
 		}	
 		
-		if($recipent_id || !empty($this->data)){
-			if(!$recipent_id){
+		if($recipient_id || !empty($this->data)){
+			if(!$recipient_id){
 				// @todo after multi-user conversations are supported, this must be changed to a multiuser validation
-				$recipent_id = $this->data['Conversation']['recipents'];
+				$recipient_id = $this->data['Conversation']['recipients'];
 			}
 			$this->User->contain();
-			$recipent = $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipent_id);
-			if($recipent['User']['allow_messages'] == false){
-				$this->Session->setFlash(__('This recipent does not acceppt messages.', true));
+			$recipient = $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipient_id);
+			if($recipient['User']['allow_messages'] == false){
+				$this->Session->setFlash(__('This recipient does not acceppt messages.', true));
 				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
 			}
 		}
 		
 		if (!empty($this->data)) {
 			$this->Conversation->create();
-			$recipents = explode(" ", $this->data['Conversation']['recipents']);
-			$recipents[] = $this->data['Conversation']['user_id'];
+			$recipients = explode(" ", $this->data['Conversation']['recipients']);
+			$recipients[] = $this->data['Conversation']['user_id'];
 			$conversationData['Conversation']['user_id'] = $this->data['Conversation']['user_id'];
 			$conversationData['Conversation']['title'] = $this->data['Conversation']['title'];
  			
@@ -40,15 +42,17 @@ class ConversationsController extends AppController {
 				$messageData['ConversationMessage']['message'] = $this->data['Conversation']['message'];
 				//saving the (first) message of the conversation
 				if ($this->ConversationMessage->save($messageData)) {
-					//saving all recipents + the sender as conversationusers
-					foreach($recipents as $recipent){
+					//saving all recipients + the sender as conversationusers
+					foreach($recipients as $recipient){
 						$this->ConversationUser->create();
 						$userData['ConversationUser']['conversation_id'] = $this->Conversation->id;
-						$userData['ConversationUser']['user_id'] = $recipent;	
-						if($recipent == $this->Auth->user('id')){
+						$userData['ConversationUser']['user_id'] = $recipient;
+						if($recipient == $this->Auth->user('id')){
 							$userData['ConversationUser']['status'] = Conversation::STATUS_ACTIVE;
 						} else {
 							$userData['ConversationUser']['status'] = Conversation::STATUS_NEW;
+                            //send email to recipient
+                            $this->_sendNewMessageEmail($userData['ConversationUser']['user_id'], $this->Auth->user('id'), $this->Conversation->id);
 						}	
 						
 						$userData['ConversationUser']['last_viewed_message'] = $this->ConversationMessage->id;		
@@ -64,12 +68,12 @@ class ConversationsController extends AppController {
 				$this->Session->setFlash(__('The Message could not be sent. Please, try again.', true));
 			}
 		}
-		if(!($recipent_id)){
+		if(!($recipient_id)){
 			
 		}
 		
 		
-		$this->set('recipent', $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipent_id));
+		$this->set('recipient', $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipient_id));
 		$this->set('user_id', $this->Auth->user('id'));	
 	}
 	
@@ -88,23 +92,26 @@ class ConversationsController extends AppController {
 					//update last_message_id of the conversation
 					$this->Conversation->save(array('id' => $conversation_id, 'last_message_id' => $this->ConversationMessage->id));
 					$this->Session->setFlash(__('The Message has been sent', true), 'default', array('class' => 'success'));	
-					//update ConversationUser Status for recipents of the reply to "new message"
+					//update ConversationUser Status for recipients of the reply to "new message"
 					$this->ConversationUser->contain();
-					$recipents = $this->ConversationUser->findAllByConversationId($this->data['Conversation']['id']);
-					foreach($recipents as $recipent){
-						//change status only for recipents - not for author of the reply 
-						if($recipent['ConversationUser']['user_id'] != $this->Auth->user('id')){
-							if($recipent['ConversationUser']['user_id']){
+					$recipients = $this->ConversationUser->findAllByConversationId($this->data['Conversation']['id']);
+					foreach($recipients as $recipient){
+						//change status only for recipients - not for author of the reply
+						if($recipient['ConversationUser']['user_id'] != $this->Auth->user('id')){
+							if($recipient['ConversationUser']['user_id']){
 								//active users get status : new message
-								$recipent['ConversationUser']['status'] = Conversation::STATUS_NEW;
+								$recipient['ConversationUser']['status'] = Conversation::STATUS_NEW;
+                                 //send email to recipient
+
+                                 $this->_sendNewMessageEmail($recipient['ConversationUser']['user_id'], $this->Auth->user('id'), $conversation_id);
 							}else{
 								//if there is a deleted user in a conversation the message won't get the status "new".
-								$recipent['ConversationUser']['status'] = Conversation::STATUS_REMOVED;
+								$recipient['ConversationUser']['status'] = Conversation::STATUS_REMOVED;
 							}
 						}else {
-							$recipent['ConversationUser']['status'] = Conversation::STATUS_REPLIED;
+							$recipient['ConversationUser']['status'] = Conversation::STATUS_REPLIED;
 						}
-						$this->ConversationUser->save($recipent);
+						$this->ConversationUser->save($recipient);
 					}
 					
 				} else {
@@ -220,6 +227,34 @@ class ConversationsController extends AppController {
 		return $user;
 
 	}
+
+    /**
+       * send an email to a user that got subscribed by another user.
+       */
+      protected function _sendNewMessageEmail($recipient_id, $sender_id ,$conversation_id) {
+          $recipient = array();
+          $sender = array();
+          $conversation = array();
+
+          $this->User->contain();
+          $recipient = $this->User->read(array('id', 'username', 'name', 'email'), $recipient_id);
+          $this->User->contain();
+          $sender = $this->User->read(array('id', 'username', 'name'), $sender_id);
+          $this->Conversation->contain(array('ConversationMessage' =>
+                                        array('User' =>
+                                             array('fields' => array('id', 'name', 'username', 'image')))));
+
+          $conversation = $this->Conversation->read(null, $conversation_id);
+
+          $this->set('sender', $sender);
+          $this->set('recipient', $recipient);
+          $this->set('conversation', $conversation);
+
+          $this->_sendMail($recipient['User']['email'], __('New Message from', true).' '.$sender['User']['username'].' in Conversation '.$conversation['Conversation']['title'],'new_message');
+
+
+      }
+
 
 
 }
