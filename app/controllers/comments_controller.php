@@ -2,8 +2,9 @@
 class CommentsController extends AppController {
 
 	var $name = 'Comments';
-
+    var $uses = array('Comment', 'Post', 'User');
 	var $helpers = array('Time', 'Image');
+    var $components = array('Email');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -59,7 +60,7 @@ class CommentsController extends AppController {
 			}
 
 			$this->data['Comment']['text'] = $_POST['text'];
-			
+			$this->log($this->data);
 			$this->Comment->create();
 			if ($this->data = $this->Comment->save($this->data)) {
 				
@@ -73,7 +74,9 @@ class CommentsController extends AppController {
 				$current_comment['Comment']['post_id']  = $this->data['Comment']['post_id'];
 				$current_comment['Comment']['reply_id'] = $this->Comment->id;
                 $current_comment['Comment']['user_id'] = $this->Session->read('Auth.User.id');
-				
+
+                $this->_sendCommentEmail($this->data);
+
 				
 			} else {
 				$this->log('can not save ajax comment for post '. $_POST['post_id'] .' with text: ' . $_POST['text']);
@@ -129,7 +132,31 @@ class CommentsController extends AppController {
 		}
 		$this->Session->setFlash(__('Comment was not deleted', true));
 		$this->redirect($this->referer());
-	}	
+	}
+
+        /**
+        * send an email to the owner of a post
+        */
+    protected function _sendCommentEmail($comment) {
+      $owner = array();
+      $commentator = array();
+      $post = array();
+
+      $this->Post->contain();
+      $post = $this->Post->read(array('id', 'title', 'user_id'), $comment['Comment']['post_id']);
+      $this->User->contain();
+      $owner = $this->User->read(array('id', 'username', 'name', 'email'), $post['Post']['user_id']);
+      $this->User->contain();
+      $commentator = $this->User->read(array('id', 'username', 'name'), $comment['Comment']['user_id']);
+
+      $this->set('owner', $owner);
+      $this->set('commentator', $commentator);
+      $this->set('comment', $comment);
+
+      $this->_sendMail($owner['User']['email'], __('New comment on your post:', true).' '.$post['Post']['title'],'new_comment');
+
+
+     }
 	
 }
 ?>

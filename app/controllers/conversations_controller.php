@@ -155,7 +155,7 @@ class ConversationsController extends AppController {
 		
 		$this->Conversation->contain();
 		$this->set('conversation', $this->Conversation->read(array('title','created'),$conversation_id));
-		$this->ConversationUser->contain('User.id','User.username', 'User.image');
+		$this->ConversationUser->contain('User.id','User.username', 'User.image', 'User.name');
 		$this->set('users', $this->ConversationUser->find('all', array('conditions' => array('conversation_id' => $conversation_id))));
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
         $this->set('user', $this->getUserForSidebar($this->Auth->user('id')));

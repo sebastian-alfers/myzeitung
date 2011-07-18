@@ -1,8 +1,16 @@
 			<?php echo $this->element('users/sidebar'); ?>
 					<div id="maincolwrapper">
 					<div id="maincol" class="account message-overview message-view">
-
 						<h4 class="account-title message-title"><?php echo $conversation['Conversation']['title'];?></h4>
+
+                        <p class="from-top"><?php echo __('Conversation between you',true);?>
+                            <?php foreach($users as $user):?>
+                                <?php if($user['User']['id'] != $session->read('Auth.User.id')):?>
+                                    ,&nbsp;<strong>&nbsp;<?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></strong>
+                                <?php endif; ?>
+                            <?php endforeach;?>
+                            </p>
+
 						<ul class="messages">
                             <?php foreach($messages as $message): ?>
 							<li class="message">
