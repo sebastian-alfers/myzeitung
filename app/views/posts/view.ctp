@@ -62,6 +62,19 @@ var mygallery=new simpleGallery({
 
 <?php echo $this->element('users/sidebar'); ?>
 <?php
+    $article_reposted_by_user = false;
+    $article_belongs_to_user = false;
+    if(is_array($post['Post']['reposters']) && in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
+        $article_reposted_by_user = true;
+    }
+    if($session->read('Auth.User.id') == $post['Post']['user_id']){
+        $article_belongs_to_user = true;
+        //just if a user could somehow repost his own post
+        $article_reposted_by_user = false;
+}?>
+
+
+<?php
 // extracting the first paragraph and the rest of the post-content
 // important to not copy the <p> </p> tags, because these are already described in the view with a class
 $end = strpos($post['Post']['content'], '</p>', 0);
@@ -82,14 +95,20 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 				</ul>
 		
 				<ul class="social-links">
-				<li><a class="btn"><span class="repost-ico icon"></span><?php echo __('Repost', true);?></a></li>
+                <?php if($article_belongs_to_user == false): ?>
+                    <?php if($article_reposted_by_user == true):?>
+                         <li><?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']),array('class' => 'btn', 'escape' => false));?></li>
+                    <?php else:?>
+                        <li><?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']),array('class' => 'btn', 'escape' => false));?></li>
+                    <?php endif;?>
+                <?php endif;?>
 				<?php if($session->read('Auth.User.id') != null && $post['Post']['user_id'] == $session->read('Auth.User.id')): ?>
 					<li><?php echo $this->Html->link(__('Edit', true), array('controller' => 'posts',  'action' => 'edit', $post['Post']['id'])); ?></li>
 				<?php endif; ?>
 				</ul><!-- / .social-links -->
 			
 		</div><!-- / .article-nav -->
-		
+
 		<div class="articleview-wrapper">
 			<div class="articleview">
 			<p><strong><?php echo __('posted', true).' '.$this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></strong></p>
