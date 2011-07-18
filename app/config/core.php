@@ -54,7 +54,7 @@ switch($_SERVER['APPLICATION_ENV']){
 	case 'live':
 		Configure::write('Hosting.environment.live', true);
 		define('USE_SOLR', true);
-		define('SOLR_HOST', 8080);
+		define('SOLR_PORT', 8080);
 		break;
 }
 
