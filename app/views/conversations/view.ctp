@@ -13,25 +13,7 @@
 
 						<ul class="messages">
                             <?php foreach($messages as $message): ?>
-							<li class="message">
-
-								<ul>
-									<li class="user-image">
-                                        <?php echo $this->Html->link($image->render($message['User'], 37, 37, array( "alt" => $message['User']['username'], "class" => 'user-image'), array(), ImageHelper::USER),array('controller' => 'users', 'action' => 'view',$message['User']['id']), array('escape' => false));?>
-									</li>
-									<li class="is-answer">
-									</li>
-									<li class="message-info">
-										<p class="from"><?php echo __("from", true);?>&nbsp;<?php echo $this->Html->link('<strong>'.$message['User']['username'].'</strong>'.$message['User']['name'],array('controller' => 'users', 'action' => 'view',$message['User']['id']), array('escape' => false));?>
-                                           
-										<p class="message-content"><?php echo $message['ConversationMessage']['message'];?></p>
-									</li>
-									<li class="actions">
-										<p><?php echo $this->Time->timeAgoInWords($message['ConversationMessage']['created'], array('end' => '+1 Week'));?></p>
-									</li>
-                                </ul>
-
-                            </li><!-- /.message -->
+							    <?php echo $this->element('conversations/message', array('message' => $message)); ?>
                             <?php endforeach; ?>
 
                         </ul>
@@ -39,8 +21,8 @@
 						<div class="write-anwer">
 								<form action="">
 									<h4>Antworten</h4>
-									<textarea rows="5" cols="10" ></textarea>
-									<a class="btn big"><span class="icon icon-send"></span>Nachricht senden</a>
+									<textarea rows="5" cols="10" id="reply_value"></textarea>
+									<a class="btn big" id="btn_reply"><span class="icon icon-send"></span>Nachricht senden</a>
 								</form>
 						</div>
 
@@ -48,10 +30,42 @@
 
 				</div><!-- / #maincolwrapper -->
 
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#btn_reply').click(function(){
+        var reply = $('#reply_value').val();
+        if(reply == ''){
+            alert('Please fill all fields');
+        }
+        else{
+
+
+
+            var req = $.post(base_url+'/conversations/reply.json', {conversation_id:<?php echo $conversation['Conversation']['id'];?>, reply:reply})
+        	   .success(function( reply ){
+
+                    if(reply.status == 'success'){
+                        $('.messages').append(reply.data.html);
+                        var options = {};
+                        $('#'+reply.data.id+'').toggle( 'blind', options, 500 );
+                    }
+                    else{
+                        alert('Error while placing the reply');
+                    }
+	        })
+	        .error(function(){
+		        alert('error');
+	        });
+        }
+    });
+});
+
+
+</script>
+
+
 
 <?php
-
-
 /*
 
 <div class="conversation view">
@@ -82,3 +96,5 @@
 	</table>
 </div>
             */ ?>
+
+
