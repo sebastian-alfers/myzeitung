@@ -130,6 +130,7 @@ class AppController extends Controller {
             'uploadPicture' => $this->user,
             'validateEmail' => $this->user,
             'validateUrl' => $this->user,
+            'getVideoPreview' => $this->user,
         ),
 		'users' => array(
 			'index' => $this->user,
