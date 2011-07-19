@@ -43,7 +43,7 @@ if($paper_belongs_to_user){
                     <?php endif;?>
                 <?php endif;?>
             
-            <h4><?php echo $paper['Paper']['title'];?></h4>
+            <?php /*<h4><?php echo $paper['Paper']['title'];?></h4> */?>
             <?php if(!empty($paper['Paper']['description'])): ?>
             <p><?php echo strip_tags($paper['Paper']['description']);?></p>
             <?php endif;?>

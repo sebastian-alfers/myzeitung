@@ -122,7 +122,7 @@ class UsersController extends AppController {
 	            'order' => 'PostUser.created DESC',
 	            'fields' => array('Post.*', 'PostUser.repost'),
 		//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array( 'User.id','User.username', 'User.image'),
+	            'contain' => array( 'User.id','User.username', 'User.name', 'User.image'),
 		)
 		);
 		if($topic_id != null){
@@ -443,16 +443,18 @@ class UsersController extends AppController {
                 debug($email_topic_id);
                 debug($email_paper_id);
                 debug($email_category_id);die();*/
-				if($this->Paper->associateContent($data)){
-					$msg = __('Content has been associated to paper', true);
+
+                $return_code = $this->Paper->associateContent($data);
+				if(in_array($return_code,$this->Paper->return_codes_success)){
+					$msg = $this->Paper->return_code_messages[$return_code];
 
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
 				}
 				else{
-
-					$this->Session->setFlash(__('Not able to associate content to paper', true));
+                    $msg = $this->Paper->return_code_messages[$return_code];
+					$this->Session->setFlash($msg, true);
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
 
 				}
@@ -605,21 +607,19 @@ class UsersController extends AppController {
                     debug($email_topic_id);
                     debug($email_paper_id);
                     debug($email_category_id);die();*/
-				if($this->Paper->associateContent($data)){
+				    $return_code =$this->Paper->associateContent($data);
+                    if(in_array($return_code,$this->Paper->return_codes_success)){
+					$msg = $this->Paper->return_code_messages[$return_code];
 
-					$msg = __('Content has been associated to paper', true);
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
-                    echo $msg;
-
-					//$this->Session->setFlash($msg, 'default', array('class' => 'success'));
-					//$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
-                    //return;
+					$this->Session->setFlash($msg,'default', array('class' => 'success'));
+					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
 				}
 				else{
-                    echo __('Not able to associate content to paper', true);
-					//$this->Session->setFlash(__('Not able to associate content to paper', true));
-					//$this->redirect(array('controller' => 'users', 'action' => 'view', $logged_in_user_id));
-                    //return;
+                    $msg = $this->Paper->return_code_messages[$return_code];
+					$this->Session->setFlash($msg, true);
+					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+
 				}
 
 				//echo 'macht user ' . $user_id . ' in paper ' .$papers[0]['Paper']['id'];

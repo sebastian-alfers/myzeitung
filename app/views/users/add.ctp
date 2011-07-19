@@ -26,7 +26,7 @@ $(document).ready(function() {
 							<?php endif; ?>
 							</div>
 							
-							<div class="optional info-p"><?php  echo $this->Form->input('name', array('type' => 'text', 'class' => 'textinput', 'label' => __('Name', true))); ?>
+							<div class="optional info-p"><?php  echo $this->Form->input('name', array('maxlength' => 40, 'type' => 'text', 'class' => 'textinput', 'label' => __('Name', true))); ?>
 							<span class="info"><?php echo __('(optional)', true);?>&nbsp;<?php echo __('If you want to be found by your name', true);?></span>
 							<?php if(!is_null($this->Form->error('User.name'))): ?>
 								<div class="error-message"><b></b><?php echo $this->Form->error('User.name', array('wrap'=> false));?></div>

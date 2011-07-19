@@ -118,8 +118,8 @@ class User extends AppModel {
 
 			'name' => array(
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 30),
-					'message'		=> __('Names can only be 30 characters long.', true),
+					'rule'			=> array('maxlength', 40),
+					'message'		=> __('Names can only be 40 characters long.', true),
 					'last' 			=> true,
 				),
 			),
