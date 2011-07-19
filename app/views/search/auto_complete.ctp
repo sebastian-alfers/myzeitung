@@ -19,6 +19,6 @@
  	<?php endif; ?>
 <?php endforeach; ?>
 <li class="big-btn">
-<a href="#" onclick="alert('adf');$('#search').submit();" class="btn big"><span class="send-icon"></span><?php __('Show all results'); ?></a>
+<a href="#" onclick="$('#search').submit();" class="btn big"><span class="send-icon"></span><?php __('Show all results'); ?></a>
 </li>  
 <?php endif; ?>
