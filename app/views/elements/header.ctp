@@ -42,8 +42,6 @@
 				<button class="submit" type="submit" value=""><?php echo __('Find', true);?></button>
 
 				<ul id="search-suggest" style="display:none">
-				</li><!-- /type-article -->
-									
 				</ul><!-- end auto suggest -->
 			</form>			
 		</div>
@@ -70,105 +68,56 @@
 			
 		</div><!-- / #nav --> 
 </div><!-- / #header -->
-	
-<script>
-
-	function lookup(inputString) {
-		if(inputString.length == 0) { // esc btn) {
-			// Hide the suggestion box.
-			$('#search-suggest').hide();
-		} else {
-			inputString = $.trim(inputString);
-			$.post("<?php echo FULL_BASE_URL.DS.'search/ajxSearch/'?>", {query: ""+inputString+""}, function(data){
-				$('#search-suggest').show();
-				$('#search-suggest').html(data);
-			});
-		}
-	} // lookup
-
-	$(document).bind('click', function(){
-		if($('#search-suggest').is(":visible")){
-			hideSuggestion();
-		}
-		
-	});
-
-	$('#inputString').focus(function(e){
-		if($('#inputString').val() != '<?php echo __('Find', true);?>') {
-			lookup($('#inputString').val());
-		}
-	});
-
-	$('#inputString').keyup(function(e){
-		if (e.keyCode == 27) { // esc btn
-			hideSuggestion('');
-			$('#inputString').val('');
-		}
-		else{
-			lookup($('#inputString').val());			  
-		}
-	});
-	
-	$(document).bind('keyup', function(e){
-		  if (e.keyCode == 27) { // esc btn
-			  hideSuggestion();
-			  $('#inputString').val('');
-		   }  
-		});	
-
-	function hideSuggestion(value){
-		$('#search-suggest').hide();
-		lookup('');
-		$('#search-suggest').html('');
-	}
-	</script>			
-
-                <div id="signin_menu">
-                    <div style="float:left;width:117px;">
-                        <ul>
-                            <li><a href="/posts/add"><?php __('New Post'); ?></a></li>
-                            <li class="spacer"><a href="/papers/add"><?php __('New Paper'); ?></a></li>
-                            <li><a href="/users/view/<?php echo $session->read('Auth.User.id'); ?>"><?php __('my Posts'); ?></a></li>
-                            <li><a href="/users/viewSubscriptions/<?php echo $session->read('Auth.User.id'); ?>"><?php __('Subscriptions'); ?></a></li>
-                            <?php /*<li><a href="/posts/add"><?php __('my Comments'); ?></a></li> */ ?>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul style="float:left">
-                            <li><a href="/users/accGeneral"><?php __('Account / Settings'); ?></a></li>
-                            <li class="spacer"><a href="/users/logout"><?php __('Logout'); ?></a></li>
-                            <?php if($is_admin || $is_superadmin): ?>
-                                <li><a href="/admin/admin"><?php __('Admin'); ?></a></li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
 
 
-              <script type="text/javascript">
-                      $(document).ready(function() {
+<div id="signin_menu">
+    <div style="float:left;width:117px;">
+        <ul>
+            <li><a href="/posts/add"><?php __('New Post'); ?></a></li>
+            <li class="spacer"><a href="/papers/add"><?php __('New Paper'); ?></a></li>
+            <li><a href="/users/view/<?php echo $session->read('Auth.User.id'); ?>"><?php __('my Posts'); ?></a></li>
+            <li><a href="/users/viewSubscriptions/<?php echo $session->read('Auth.User.id'); ?>"><?php __('Subscriptions'); ?></a></li>
+            <?php /*<li><a href="/posts/add"><?php __('my Comments'); ?></a></li> */ ?>
+        </ul>
+    </div>
+    <div>
+        <ul style="float:left">
+            <li><a href="/users/accGeneral"><?php __('Account / Settings'); ?></a></li>
+            <li class="spacer"><a href="/users/logout"><?php __('Logout'); ?></a></li>
+            <?php if($is_admin || $is_superadmin): ?>
+                <li><a href="/admin/admin"><?php __('Admin'); ?></a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>
 
-                          $(".signin").click(function(e) {
-                              e.preventDefault();
-                              $("div#signin_menu").toggle();
-                              $(".signin").toggleClass("menu-open");
-                          });
 
-                          $("div#signin_menu").mouseup(function() {
-                              return false
-                          });
-                          $(document).mouseup(function(e) {
-                              if($(e.target).parent("a.signin").length==0) {
-                                  $(".signin").removeClass("menu-open");
-                                  $("div#signin_menu").hide();
-                              }
-                          });
+<script type="text/javascript">
+      $(document).ready(function() {
 
-                      });
-              </script>
+          $(".signin").click(function(e) {
+              e.preventDefault();
+              $("div#signin_menu").toggle();
+              $(".signin").toggleClass("menu-open");
+          });
 
-              <script type='text/javascript'>
-                  $(function() {
-                    $('#forgot_username_link').tipsy({gravity: 'w'});
-                  });
-                </script>
+          $("div#signin_menu").mouseup(function() {
+              return false
+          });
+          $(document).mouseup(function(e) {
+              if($(e.target).parent("a.signin").length==0) {
+                  $(".signin").removeClass("menu-open");
+                  $("div#signin_menu").hide();
+              }
+          });
+
+      });
+</script>
+
+<script type='text/javascript'>
+  $(function() {
+    $('#forgot_username_link').tipsy({gravity: 'w'});
+  });
+</script>
+
+<?php echo $this->element('search/autocomplete/script'); ?>

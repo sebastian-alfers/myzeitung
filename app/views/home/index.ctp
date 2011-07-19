@@ -16,9 +16,11 @@
 					
 					<div id="mainnav">
 					
-						<form id="search" action="" class="jqtransform">
-							<input class="searchinput" type="text" onblur="if (this.value == '') {this.value = 'Suchen';}" onfocus="if (this.value == 'Suchen') {this.value = '';}" value="Suchen" />
+						<form id="search" action="/search/" class="jqtransform">
+                            <input name="q" id="inputString" autocomplete="off" class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php  __('Search'); ?>" />
 							<button class="submit" type="submit" value="">Suchen</button>
+                            <ul id="search-suggest" style="display:none">
+                            </ul><!-- end auto suggest -->
 						</form>
 					</div>
 
@@ -122,3 +124,5 @@
 					</div><!-- / #maincol -->
 				
 				</div><!-- / #maincolwrapper -->
+
+<?php echo $this->element('search/autocomplete/script'); ?>
