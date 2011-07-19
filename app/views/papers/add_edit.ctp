@@ -18,7 +18,7 @@ $(document).ready(function() {
 				<?php echo $this->Form->hidden('id');?>
 				<?php echo $this->Form->hidden('owner_id'); ?>
 				
-				<div><?php  echo $this->Form->input('title', array('type' => 'text', 'class' => 'textinput', 'label' => __('Title', true))); ?>
+				<div><?php  echo $this->Form->input('title', array('maxlength' => 40 ,'type' => 'text', 'class' => 'textinput', 'label' => __('Title', true))); ?>
 				<?php if(!is_null($this->Form->error('Paper.title'))): ?>
 				 	<div class="error-message"><b></b><?php echo $this->Form->error('Paper.title', array('wrap'=> false));?></div>
 				<?php endif; ?>

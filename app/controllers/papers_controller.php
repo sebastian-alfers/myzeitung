@@ -95,7 +95,7 @@ class PapersController extends AppController {
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
 
 		//contain array: limit the (related) data and models being loaded per post
-			            'contain' => array('User.id','User.username', 'User.image'),
+			            'contain' => array('User.id','User.username','User.name',  'User.image'),
 		),
 		);
 
@@ -120,6 +120,11 @@ class PapersController extends AppController {
 			$last_relevant_post = $this->CategoryPaperPost->find('first',array('order' => 'created DESC', 'conditions' => $conditions, 'fields' => array('reposter_id', 'reposter_username')));
 			$post['lastReposter']['id'] = $last_relevant_post['CategoryPaperPost']['reposter_id'];
 			$post['lastReposter']['username'] = $last_relevant_post['CategoryPaperPost']['reposter_username'];
+            if($post['lastReposter']['id']){
+                $this->User->contain();
+                $tempUser = $this->User->read('name',$post['lastReposter']['id']);
+                $post['lastReposter']['name'] = $tempUser['User']['name'];
+            }
 		}
 		// END - last relevant reposter
 		 
@@ -393,7 +398,7 @@ class PapersController extends AppController {
 					
 				if(!empty($route)){
 					$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-					$this->redirect(array('action' => 'index'));
+					$this->redirect(array('controller' => 'users', 'action' => 'viewSubscriptions', $this->Auth->User("id")));
 				}
 				else{
 					$this->Session->setFlash(__('Paper saved, error wile saving the paper route', true));

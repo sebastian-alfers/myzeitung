@@ -1,5 +1,6 @@
 <?php
 
+//$max_crumb_length = 35;
 //standard-crumb
 $this->Html->addCrumb('myZeitung', array('controller' => 'home', 'action' => 'index'), array('escape' => false));
 
@@ -8,12 +9,20 @@ if($this->params['controller'] == 'posts'){
 	 if($this->params['action'] == 'add'){
 	 	$this->Html->addCrumb(__('New Post', true), null , array('escape' => false));	
 	 }elseif($this->params['action'] == 'index'){	
-	 	$this->Html->addCrumb(__('Posts', true), array('controller' => 'posts', 'action' => 'index'), array('escape' => false));	
+	 	$this->Html->addCrumb(__('Browse Posts', true), array('controller' => 'posts', 'action' => 'index'), array('escape' => false));
 	 }elseif($this->params['action'] == 'edit'){
 	 	$this->Html->addCrumb(__('Edit Post', true), null , array('escape' => false));	
 	 }elseif($this->params['action'] == 'view'){
-	 	$this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']) , array('escape' => false));	
-	 	$this->Html->addCrumb($post['Post']['title'], null , array('escape' => false));	
+         
+
+
+	 	$this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']) , array('escape' => false));
+        if(strlen($post['Post']['title']) > 20){
+            $crumbtext = substr($post['Post']['title'],0,18).'...';
+        }else{
+            $crumbtext = $post['Post']['title'];
+        }
+	 	$this->Html->addCrumb($crumbtext, null , array('escape' => false));
 	 }
 		 
 		 
@@ -23,6 +32,10 @@ if($this->params['controller'] == 'posts'){
 
 	 if($this->params['action'] == 'add'){
 	 	$this->Html->addCrumb(__('Register', true), null , array('escape' => false));
+     }elseif($this->params['action'] == 'login'){
+	 	$this->Html->addCrumb(__('Login', true), null , array('escape' => false));
+     }elseif($this->params['action'] == 'forgotPassword'){
+	 	$this->Html->addCrumb(__('I forgot my password', true), null , array('escape' => false));
 	 }elseif($this->params['action'] == 'index'){	
 	 	$this->Html->addCrumb(__('Users', true), null , array('escape' => false));
 	 }elseif(in_array($this->params['action'],array('accGeneral', 'accImage', 'accPrivacy', 'accAboutMe'))){

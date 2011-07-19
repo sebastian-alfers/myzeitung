@@ -6,8 +6,20 @@ class Paper extends AppModel {
     const FILTER_OWN = 'own';
     const FILTER_ALL = 'all';
     const FILTER_SUBSCRIBED = 'subscriptions';
+    const RETURN_CODE_SUCCESS = 1;
+    const RETURN_CODE_SUCCESS_DELETED_TOPICS = 2;
+    const RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION = 3;
+    const RETURN_CODE_ERROR_WHOLE_USER_ALREADY_SUBCRIBED = 4;
+    const RETURN_CODE_ERROR_INVALID_TOPIC = 5;
+    const RETURN_CODE_ERROR_ASSO_NOT_SAVED = 6;
+    const RETURN_CODE_ERROR_NO_PAPER_TO_CATEGORY = 7;
+    const RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE = 8;
+    
+    var $return_codes_success =
+                array(self::RETURN_CODE_SUCCESS,
+                      self::RETURN_CODE_SUCCESS_DELETED_TOPICS);
 
-
+    var $return_code_messages = array();
 
     var $name = 'Paper';
 	var $actsAs = array('Increment'=>array('incrementFieldName'=>'count_subscriptions'));
@@ -22,7 +34,7 @@ class Paper extends AppModel {
 		'Route' => array(
 			'className' => 'Route',
 			'foreignKey' => 'ref_id',//important to have FK
-	),
+	    ),
 	);
 
 
@@ -109,8 +121,8 @@ function __construct(){
 					'last' 			=> true,
 				),
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 15),
-					'message'		=> __('Paper titles can only be 15 characters long.', true),
+					'rule'			=> array('maxlength', 40),
+					'message'		=> __('Paper titles can only be 40 characters long.', true),
 					'last' 			=> true,
 				),
 			),
@@ -130,7 +142,19 @@ function __construct(){
 				),
 			), 
 		);
-			
+
+        $this->return_code_messages = array(
+            self::RETURN_CODE_SUCCESS => __('User/Topic successfully subscribed to your Paper/Category', true),
+            self::RETURN_CODE_SUCCESS_DELETED_TOPICS => __('Subscription successfully saved. There was at least one topic of this user subscribed to your Paper/Category which has been replaced to allow this new Subscription.', true),
+            self::RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION => __('This exact Subscription already exists', true),
+            self::RETURN_CODE_ERROR_WHOLE_USER_ALREADY_SUBCRIBED => __('You already subscribed this User (with all topics) to this Paper/Category', true),
+            self::RETURN_CODE_ERROR_INVALID_TOPIC => __('Invalid Topic chosen', true),
+            self::RETURN_CODE_ERROR_ASSO_NOT_SAVED => __('The Subscription could not be saved, please try again', true),
+            self::RETURN_CODE_ERROR_NO_PAPER_TO_CATEGORY => __('The Paper of the your chosen Category could not be found.', true),
+            self::RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE => __('No valid User/Topic or Paper/Category chosen', true),
+        );
+
+
 				
 	}
 
@@ -233,8 +257,9 @@ function __construct(){
                         $conditions['conditions']['ContentPaper.category_id'] = NULL;
                     }
 
+
 					$paperReferences = array();
-					$contentPaper->contain('Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id');
+					$contentPaper->contain(/*'Topic.id' ,'Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id'*/);
 					//$contentPaper->recursive = $recursive;// to get user from topic
 					$paperReferences = $contentPaper->find('all', $conditions);
 
@@ -249,15 +274,17 @@ function __construct(){
 			/**
 			 * get a list of all topic associations related to this paper
 			 */
-			function getTopicReferencesToOnlyThisPaper($recursion = 2){
-				$allReferences = $this->getContentReferences($recursion);
+			function getTopicReferencesToOnlyThisPaper(){
+				$allReferences = $this->getContentReferences();
+                $this->log('all ref paper only');
+                $this->log($allReferences);
 				$topicReferences = array();
 				if(count($allReferences) > 0){
 					foreach($allReferences as $reference){
 
 						//only topics that are not associated to a category -> direkt in paper
 
-						if($reference['Topic']['id'] && !$reference['Category']['id']	){
+						if($reference['ContentPaper']['topic_id'] && !$reference['ContentPaper']['category_id']	){
 							$topicReferences[] = $reference;
 						}
 					}
@@ -268,13 +295,15 @@ function __construct(){
 			/**
 			 * get a list of all topic associations related to this paper
 			 */
-			function getTopicReferencesToOnlyThisCategory($recursion = 2){
-				$allReferences = $this->getContentReferences($recursion);
+			function getTopicReferencesToOnlyThisCategory($category_id = null){
+				$allReferences = $this->getContentReferences($category_id);
 				$categoryReferences = array();
+                $this->log('all ref');
+                $this->log($allReferences);
 				if(count($allReferences) > 0){
 					foreach($allReferences as $reference){
 						//only topics that are not associated to a category -> direkt in paper
-						if($reference['Topic']['id'] && $reference['Category']['id']){
+						if($reference['ContentPaper']['topic_id'] && $reference['ContentPaper']['category_id']){
 							$categoryReferences[] = $reference;
 						}
 					}
@@ -393,10 +422,9 @@ function __construct(){
 					isset($data['Paper']['target_id']))
 					{
 						if(count($source) == 2){
-							
 							//prepare variables to indicate whole user or only topic as source
-							//$user_id = $data['Paper']['user_id'];
-							$user_id = $sourceId;
+							$user_id = $data['Paper']['user_id'];
+							//$user_id = $sourceId;
 							
 							$topic_id = null;
 							//if($sourceType == ContentPaper::USER) $user_id = $sourceId;
@@ -413,9 +441,10 @@ function __construct(){
 
 									if($category['Paper']['id']){
 										$paper_id = $category['Paper']['id'];
-										if($this->newContentForPaper($paper_id, $category_id, $user_id, $topic_id)){
+                                        $return_code = $this->newContentForPaper($paper_id, $category_id, $user_id, $topic_id);
+										if(in_array($return_code, $this->return_codes_success)){
 											// todo: save data here
-											return true;
+											return $return_code;
 										}
 									}
 									else{
@@ -423,21 +452,21 @@ function __construct(){
 										//not able to read paper for category -> error
 										//$this->Session->setFlash(__('error while reading paper for category!', true));
 										//$this->redirect(array('action' => 'index'));
-										return false;
+										return self::RETURN_CODE_ERROR_NO_PAPER_TO_CATEGORY;
 									}
 									break;
 							}
 						}
-					}
-					else{
+					}else{
 						//no valid source or target type
-						return false;
+                        $this->log('numero uno');
+						return self::RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE;
 
 					}
 
 
 				}
-				return false;
+               return $return_code;
 
 
 			}
@@ -464,7 +493,7 @@ function __construct(){
 			 */
 			private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
 				
-				//check for extatly this constelation
+				//check if there is already a subscription for exactly this constellation
 				$conditions = array('conditions' => array(
 											'ContentPaper.paper_id' => $paperId,
 											'ContentPaper.category_id' => $categoryId,
@@ -476,20 +505,20 @@ function __construct(){
 
 				//if we get an result -> not allowed to add this constelation
 				if(isset($checkDoubleReference[0]['ContentPaper']['id'])){
-					//$this->Session->setFlash(__('this constelations already exists', true));
-					//$this->redirect(array('action' => 'index'));
-					return false;
+                    return self::RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION;
 				}
 				
 				if(!$topicId){
 					//get user topics
-					$this->User->contain('Topic');
+					$this->User->contain('Topic.id');
 					$user = $this->User->read(null, $userId);
 
-					$userTopics = $user['Topic'];
 
+					$userTopics = $user['Topic'];
+                    $this->log('user topics');
+                    $this->log($userTopics);
 					//if user has no topcis (should not be possible...)
-					if(count($userTopics) == 0) return true;
+                    if(count($userTopics) == 0) return self::RETURN_CODE_SUCCESS;
 					
 					$this->contain();
 					$paper = $this->read(null, $this->id);
@@ -504,54 +533,54 @@ function __construct(){
 					
 					if($categoryId){
 						//whole user to a category
-						//check, it this user has not topic in this category
-						$recursion = 1;
-						$categoryTopics = $this->getTopicReferencesToOnlyThisCategory($recursion);
-							
-						//if paper has no topics referenced
-						if(count($categoryTopics) == 0) return true;
-
-						return true;
+						//reading all topics of the category.
+						$categoryTopics = $this->getTopicReferencesToOnlyThisCategory($categoryId);
+						//if category has no topics referenced
+  						if(count($categoryTopics) == 0) return self::RETURN_CODE_SUCCESS;
 					}
 
 					//whole user to paper
-					//get all user topics associated to that paper
-					//check if alreay one of the users topics is associated to this paper itself or one of its categorie
+					//get all user topics associated to that paper  ( front page)
+					//check if already one of the users topics is associated to this paper itself (front page)
+    				$paperTopics = $this->getTopicReferencesToOnlyThisPaper();
 
+					//if paper has no topics referenced and there is no category referenced
+					if(count($paperTopics && !$categoryId) == 0) return self::RETURN_CODE_SUCCESS;
 
-					//$this->_hasPaperTopicsFromUser($paper['Paper']['id'], $user['User']['id']);
-					$recursion = 1;
-					$paperTopics = $this->getTopicReferencesToOnlyThisPaper($recursion);
+                    //"overwrite" all topic associations of the user with the "whole user association" by deleting all topics of this user
+                    // in the specific category or paper-frontpage
+					if($categoryId == null){
+                        //check if one of the user topics is in the paper topics (front page)
+                        $this->log('categoryid = null ');
+                        foreach($userTopics as $userTopic){
 
-					
-					
-					//if paper has no topics referenced
-					if(count($paperTopics) == 0) return true;
-					
-					
-					
-					//check if one of the user topics is in the paper topics
-					foreach($userTopics as $userTopic){
-
-						foreach($paperTopics as $paperTopic){
-							if($userTopic['id'] == $paperTopic['Topic']['id']){
-								//the paper has already a topic from the user
-								//@todo ask user if he wants to delete all topics from user to be able
-								//   to associate whole user to paper
-								//$this->Session->setFlash(__('Error! there already exist a topic form this user in the paper.', true));
-								//$this->redirect(array('action' => 'index'));
-								return false;
-							}
-						}
-					}
-					return true;
+                            foreach($paperTopics as $paperTopic){
+                                if($userTopic['id'] == $paperTopic['ContentPaper']['topic_id']){
+                                    //delete the topic association, because it is gonna be redundant after the whole user is subscribed
+                                    $this->ContentPaper->delete($paperTopic['ContentPaper']['id'], true);
+                                }
+                            }
+                        }
+                    }else{
+                        $this->log('categoryid != null ');
+                          //check if one of the user topics is in the paper topics (front page)
+                        foreach($userTopics as $userTopic){
+                            foreach($categoryTopics as $categoryTopic){
+                                if($userTopic['id'] == $categoryTopic['ContentPaper']['topic_id']){
+                                    //delete the topic association, because it is gonna be redundant after the whole user is subscribed
+                                    $this->ContentPaper->delete($categoryTopic['ContentPaper']['id'], true);
+                                  }
+                            }
+                        }
+                    }
+					return self::RETURN_CODE_SUCCESS_DELETED_TOPICS;
 
 
 				}
 				else{
 
 					
-					//check if this topic isnt already assocaited to this paper itself/ to category itself
+					//check if the complete user is not already in the same category (or frontpage) as the topic thats gonna be subscribed
 
 					App::import('model','Topic');
 					$topic = new Topic();
@@ -559,20 +588,18 @@ function __construct(){
 					$topic->read(null, $topicId);
 
 					if(!$topic->id){
-						//$this->Session->setFlash(__('Error! topic could not be loaded', true));
-						//$this->redirect(array('action' => 'index'));
-						return false;
-					}
-					else{
+						return self::RETURN_CODE_ERROR_INVALID_TOPIC;
+					}else{
 
 
 						if($topic->data['Topic']['user_id']){
-							//check if the posts user is not in this paper
+							//check if the topics user is not in this part of the paper (frontpage or category)
 							$userId = $topic->data['Topic']['user_id'];
 							$conditions = array('conditions' => array(
 											'ContentPaper.paper_id' => $this->id,
 											'ContentPaper.user_id' => $userId,
-											'ContentPaper.category_id' => null));
+											'ContentPaper.category_id' => null,
+                                            'ContentPaper.topic_id' => null));
 
 							if($categoryId > 0){
 								//add category
@@ -580,36 +607,24 @@ function __construct(){
 							}
 
 
-
+                            $contentPaper->contain();
 							$checkUser = $contentPaper->find('all', $conditions);
-
-
 
 							if(isset($checkUser[0]['ContentPaper']['id'])){
 								//user is already in paper
 								//$this->Session->setFlash(__('The owner of this topic is already in this category ', true));
 								//$this->redirect(array('action' => 'index'));
-								return false;
+								return self::RETURN_CODE_ERROR_WHOLE_USER_ALREADY_SUBCRIBED;
 							}
 							//topics user is not in the paper -> can add topic to paper / category
-							return true;
-
-
+							return self::RETURN_CODE_SUCCESS;
 						}
 						else{
-							//$this->Session->setFlash(__('Error! user for topic could not be loaded', true));
-							//$this->redirect(array('action' => 'index'));
-							return false;
+							return self::RETURN_CODE_ERROR_INVALID_TOPIC;
 						}
-
 					}
-
-
 				}
-
-
-				return true;
-
+				return self::RETURN_CODE_SUCCESS;
 			}
 				
 			/**
@@ -633,9 +648,10 @@ function __construct(){
 			 */
 			public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
 
-				if(!$this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId)){
-					return false;
-				}
+                $return_code = $this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId);
+				if(!in_array($return_code, $this->return_codes_success)){
+					return $return_code;
+                }
 
 				//$this->ContentPaper->find('all', )
 
@@ -650,8 +666,11 @@ function __construct(){
 				App::import('model','ContentPaper');
 				$contentPaper = new ContentPaper();
 				$contentPaper->create();
-
-				return $contentPaper->save($data);
+                if(!$contentPaper->save($data)){
+                    return self::RETURN_CODE_ERROR_ASSO_NOT_SAVED;
+                }else{
+                    return $return_code;
+                }
 			}
 
 			/**
@@ -664,13 +683,8 @@ function __construct(){
 			private function _associateContentForPaper($data, $user_id, $topic_id){
 
 				$paper_id = $data['Paper']['target_id'];
-				if($this->newContentForPaper($paper_id, null, $user_id, $topic_id)){
+                return  $this->newContentForPaper($paper_id, null, $user_id, $topic_id);
 
-					//$this->Session->setFlash(__('content was associated to paper', true));
-					//$this->redirect(array('action' => 'index'));
-					return true;
-				}
-				return false;
 			}
 
 

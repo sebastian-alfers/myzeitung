@@ -1,8 +1,12 @@
 <div id="maincolwrapper" class="post-view">
     <div id="maincol">
-        <?php if($this->params['action'] == 'index'):?>
+        <?php if($this->params['controller'] == 'posts' &&$this->params['action'] == 'index'):?>
         <h2><?php echo __('Browse Posts', true);?></h2>
         <?php endif;?>
+        <?php if($this->params['controller'] == 'papers' &&$this->params['action'] == 'view'):?>
+                <h2><?php echo $paper['Paper']['title'];?></h2>
+        <?php endif;?>
+
         <div class="article-nav">
              <?php echo $this->element('global/paginate'); ?>
         </div>
@@ -62,17 +66,49 @@
 							<ul class="footer">
 
 								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Week'));?></li>
-								<li><?php echo __("by", true)." "; echo $this->Html->link($post['User']['username'],array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])); ?> 
+                                <?php // shorten the username depending of: post is shown as repost? -> short names? post regular -> longer names?>
+                                  <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true) ||
+                                           ($this->params['controller'] == 'papers' && $this->params['action'] == 'view' && !empty($post['lastReposter']['id']))){
+                                           if(strlen($post['User']['username']) > 5){
+                                               $linktext = substr($post['User']['username'],0,4).'...';
+                                           }else{
+                                                $linktext = $post['User']['username'];
+                                           }
+                                        //not paper-view or user-view OR not a repost
+                                        }else{
+                                             if(strlen($post['User']['username']) > 10){
+                                               $linktext = substr($post['User']['username'],0,10).'...';
+                                           }else{
+                                                $linktext = $post['User']['username'];
+                                           }
+                                        }?>
+                                <?php $tipsy_name= $post['User']['username'];
+                                        if($post['User']['name']){
+                                            $tipsy_name = $post['User']['username'].' - '.$post['User']['name'];
+                                        }?>
+								<li><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $post['Post']['user_id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
 										<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'): ?> 
 											<?php /* blog view - controller users action view */ ?> 
-											<?php if($post['PostUser']['repost'] == true): ?> 
-												<span class="repost-ico"></span><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?> 
+											<?php if($post['PostUser']['repost'] == true): ?>
+												<span class="repost-ico"></span>
+                                                 <?php $tipsy_name= $user['User']['username'];
+                                                if($user['User']['name']){
+                                                    $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
+                                                }?>
+                                                <?php if(strlen($user['User']['username']) > 5){ $linktext = substr($user['User']['username'],0,4).'...';}else{$linktext = $user['User']['username'];}?>
+                                                <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $user['User']['id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 											<?php endif;?> 
 										<?php elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?> 
 										<?php /* paper view - controller papers action view */ ?> 
 											<?php if(!empty($post['lastReposter']['id'])):?>
-												<span class="repost-ico"></span><?php echo $this->Html->link($post['lastReposter']['username'],array('controller' => 'users', 'action' => 'view', $post['lastReposter']['id'])); ?> 
+												<span class="repost-ico"></span>
+                                                <?php $tipsy_name= $post['lastReposter']['username'];
+                                                if($post['lastReposter']['name']){
+                                                    $tipsy_name = $post['lastReposter']['username'].' - '.$post['lastReposter']['name'];
+                                                }?>
+                                                 <?php if(strlen($post['lastReposter']['username']) > 5){ $linktext = substr($post['lastReposter']['username'],0,4).'...';}else{$linktext = $post['lastReposter']['username'];}?>
+                                                <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $post['lastReposter']['id']),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 											<?php endif;?>
 										<?php endif;?>
 									<?php /* END showing last reposter */?>
@@ -85,25 +121,6 @@
 								$link_data['additional'] = array('class' => 'user-image');
 								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
 
-								//echo $image->userImage($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
-
-								
-
-//								$img_data = $image->getImgPath($post['User']['image']);
-//								if(is_array($img_data)){
-//
-//									//debug($img_data);die();
-//									//found img in db
-//									$info = $image->resize($img_data['path'], 48, 48, $img_data['size'], true);
-//									$img = $this->Html->image($info['path'], array("alt" => $post['User']['username']));
-//
-//									echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $post['User']['id']), array('class' => "user-image", 'escape' => false, 'style' => 'overflow:hidden;height:48px;width:48px;'));
-//								}
-//								else{
-//									//not logged in
-//									$path = $image->resize($img_data, 48, 50, null, false);
-//									$img = $this->Html->image($path, array("alt" => $post['User']['username']));
-//									echo $this->Html->link($img, array('controller' => 'users', 'action' => 'view', $post['User']['id']), array('class' => "user-image", 'escape' => false));
 //								}
 								?>
 														
@@ -114,7 +131,7 @@
 									<?php // posts belongs to user - show edit and delete?>
 									<?php echo $this->Html->link(__('Edit Post', true), array('controller' => 'posts', 'action' => 'edit', $post['Post']['id']));?>
 									&nbsp;&nbsp;
-									<?php echo $this->Html->link(__('Delete Post', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $post['Post']['id'])); ?>
+									<?php echo $this->Html->link(__('Delete Post', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete your post: %s?', true), $post['Post']['title'])); ?>
 								<?php elseif($article_reposted_by_user):?>
 									<?php // post does not belong to user - user has already reposted post - show undo repost button?>
 									<?php echo $this->Html->link(__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']));?>
