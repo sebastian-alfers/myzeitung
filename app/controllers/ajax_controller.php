@@ -5,7 +5,7 @@ class AjaxController extends AppController {
     var $components = array('RequestHandler', 'JqImgcrop', 'Upload');
 
     var $name = 'Ajax';
-    var $uses = array('JsonResponse', 'Complaint', 'Paper');
+    var $uses = array('JsonResponse', 'Complaint', 'Paper', 'UrlContentExtract');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -100,6 +100,20 @@ class AjaxController extends AppController {
             $messages = $this->Paper->invalidFields();
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['url'])));
          }
+    }
+
+
+    /**
+     *
+     *
+     * @return json-string
+     */
+    function getVideoPreview(){
+
+        $url = "http://www.youtube.com/watch?v=X5halJlIRQ0&feature=feedrec";
+
+        print_r($this->UrlContentExtract->getVideoPreview($url));
+
     }
 
 }

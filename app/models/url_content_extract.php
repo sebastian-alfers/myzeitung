@@ -2,16 +2,36 @@
 
 class UrlContentExtract extends AppModel {
 
+    var $_htmlData = '';
+
 	var $useTable = false;
 
 	var $url = '';
+
+    /**
+     * get images as a previe of a url for a video (e.g. youtube, vimeo ect.)
+     *
+     * @return array
+     */
+    function getVideoPreview($url){
+
+        $html = new DOMDocument();
+        $html->loadHtmlFile( 'http://www.youtube.com/watch?v=X5halJlIRQ0&feature=feedrec' );
+
+		$meta_regex = '/<meta[^>]*'.'/Ui';
+		preg_match_all($meta_regex, $this->_htmlData, $meta, PREG_PATTERN_ORDER);
+		print_r($meta);
+
+
+    }
 	
 	/**
 	 * gets a valid url and returns content
 	 *
 	 * @param unknown_type $url
-	 */
-	function getContent($url){
+
+
+    function getContent($url){
 		$this->url = $this->_checkValues($url);
 
 		$html_site = $this->_fetchRecord($url);
@@ -29,6 +49,7 @@ class UrlContentExtract extends AppModel {
 
 		return $images_content;
 	}
+     * */
 
 	/**
 	 * gets an array with relativ image urls
@@ -116,7 +137,7 @@ class UrlContentExtract extends AppModel {
 		{
 			$data .= fgets($file, 1024);
 		}
-		return $data;
+		$this->_htmlData = $data;
 	}
 
 }

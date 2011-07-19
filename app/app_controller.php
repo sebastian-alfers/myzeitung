@@ -130,6 +130,7 @@ class AppController extends Controller {
             'uploadPicture' => $this->user,
             'validateEmail' => $this->user,
             'validateUrl' => $this->user,
+            'getVideoPreview' => $this->user,
         ),
 		'users' => array(
 			'index' => $this->user,
@@ -312,11 +313,17 @@ class AppController extends Controller {
         // $this->Email->bcc = array('secret@example.com'); // copies
         $this->Email->subject = $subject;
         $this->Email->replyTo = 'noreply@myzeitung.de';
-        $this->Email->from = 'myZeitung.de <noreply@myzeitung.de>';
         $this->Email->template = $template;
         $this->Email->sendAs = 'both'; //Send as 'html', 'text' or 'both' (default is 'text')
         $this->Email->delivery = 'mail';
+
+        //do be changed on live
+        $this->Email->additionalParams = '-fsebastian.alfers@gmail.com';
+        $this->Email->from = 'Sebastian Alfers <sebastian.alfers@gmail.com>';
+
         $this->Email->send();
+
+
     }
 
 

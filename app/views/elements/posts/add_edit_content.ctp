@@ -50,8 +50,9 @@
 <?php if(isset($images)): ?>
 <?php foreach($images as $img): ?>
 	<li id="<?php echo $img['name']; ?>"
-		class="ui-state-default teaser-sort"><?php echo $this->Html->image($img['path'], array('style' => 'width:100px')); ?>
+		class="ui-state-default teaser-sort">
 		<a class="remove_li_item" name="img/<?php echo $img['path']; ?>" id="<?php echo $this->data['Post']['id']; ?>" style="cursor: pointer; vertical-align: top;"><?php __('remove'); ?></a>
+        <?php echo $this->Html->image($img['path'], array('style' => 'width:100px')); ?>
 		</li>
 		<?php endforeach; ?>
 		<?php endif;?>

@@ -152,21 +152,30 @@ class ImageHelper extends Helper {
 
 			$image = call_user_func('imagecreatefrom'.$types[$size[2]], $orig_img_path);
 
-            if($types[$size[2]] == 'png'){
-                imagealphablending($image, false);
-                imagesavealpha($image, true); // save alphablending setting (important)
-            }
 
 			if (function_exists("imagecreatetruecolor") && ($temp = imagecreatetruecolor ($width, $height))) {
+                imagealphablending($temp, false);
+                imagesavealpha($temp, true); // save alphablending setting (important)
+
 				imagecopyresampled ($temp, $image, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+
 			} else {
 				$temp = imagecreate ($width, $height);
+                imagealphablending($temp, false);
+                imagesavealpha($temp, true); // save alphablending setting (important)
+
 				imagecopyresized ($temp, $image, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+
 			}
 
 			$cachefile = $cacheFoler.$fullpath['file'];
 
+
+
 			call_user_func("image".$types[$size[2]], $temp, $cachefile);
+
+
+
 			imagedestroy ($image);
 			imagedestroy ($temp);
 		}

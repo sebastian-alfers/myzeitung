@@ -31,7 +31,21 @@
 	
 </head>
 	<body>
+    <?php /*
+        <div id="help-menu">
+                <a id="showit">show</a>
+            <script type="text/javascript">
 
+                $('#showit').click(function(){
+                    var x = $(".subscribe-user").offset().left;
+                    var y = $(".subscribe-user").offset().top;
+                    alert('x:' + x + ' - y:' + y);
+                });
+
+            </script>
+        </div>
+            */
+            ?>
 		<div id="main-wrapper">
 
 			<?php echo $this->element('header'); ?>

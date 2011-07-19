@@ -378,6 +378,12 @@ class PostsController extends AppController {
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
+
+                if(empty($this->data['Post']['topic_id'])){
+                    //needs to be done to select "no topic" on error
+                    $this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
+                }
+
                 $errors = $this->Post->invalidFields();
                 $flashMessage = __('The post could not be saved. Please, try again.', true);
                 if(is_array($errors)){

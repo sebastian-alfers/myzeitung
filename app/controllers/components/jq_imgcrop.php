@@ -79,6 +79,9 @@ class JqImgcropComponent extends Object {
 		}elseif($ext == "gif"){
 			$source = imagecreatefromgif($image);
 		}
+        imagealphablending($newImage, false);
+        imagesavealpha($newImage, true); // save alphablending setting (important)
+
 		imagecopyresampled($newImage,$source,0,0,0,0,$newImageWidth,$newImageHeight,$width,$height);
 		if($ext == "png" || $ext == "PNG"){
 			imagepng($newImage,$image,0);

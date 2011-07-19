@@ -98,6 +98,7 @@ $(function() {
             <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
         <?php endif; ?>
         <?php if($this->params['controller'] == 'posts'): ?>
+            <a href="#" class="btn print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
             <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
         <?php endif; ?>
 		 </div><!-- /.leftcolcontent -->	

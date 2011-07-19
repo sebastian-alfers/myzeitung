@@ -16,7 +16,7 @@
 					
 					<div id="mainnav">
 					
-						<form id="search" action="" class="">
+						<form id="search" action="" class="jqtransform">
 							<input class="searchinput" type="text" onblur="if (this.value == '') {this.value = 'Suchen';}" onfocus="if (this.value == 'Suchen') {this.value = '';}" value="Suchen" />
 							<button class="submit" type="submit" value="">Suchen</button>
 						</form>
