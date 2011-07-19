@@ -77,6 +77,7 @@
             <li class="spacer"><a href="/papers/add"><?php __('New Paper'); ?></a></li>
             <li><a href="/users/view/<?php echo $session->read('Auth.User.id'); ?>"><?php __('my Posts'); ?></a></li>
             <li><a href="/users/viewSubscriptions/<?php echo $session->read('Auth.User.id'); ?>"><?php __('Subscriptions'); ?></a></li>
+            <li><a href="/conversations/"><?php __('Conversations'); ?></a></li>
             <?php /*<li><a href="/posts/add"><?php __('my Comments'); ?></a></li> */ ?>
         </ul>
     </div>
