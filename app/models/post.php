@@ -162,36 +162,49 @@ class Post extends AppModel {
 
             function removeUserFromReposters($user_id){
 
-                 if(isset($this->data['Post']['reposters']) && !is_null($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
-                    if(!is_array($this->data['Post']['reposters'])){
+                if(!is_null($this->data['Post']['reposters'])){
+                    //if not null: check if filled and not already an array
+                    if(!empty($this->data['Post']['reposters']) && !is_array($this->data['Post']['reposters'])){
                       $reposters = unserialize($this->data['Post']['reposters']);
                     }
+                }else{
+                    $reposters = array();
+                }
 
-                    //deleting user-id entry from reposters-array in post-model
+                //deleting user-id entry from reposters-array in post-model
 
-                    while(in_array($user_id,$reposters)){
-                        $pos = array_search($user_id,$reposters);
-                        unset($reposters[$pos]);
-                    }
-                    $this->data['Post']['reposters'] = serialize($reposters);
-                 }
+                while(in_array($user_id,$reposters)){
+                    $pos = array_search($user_id,$reposters);
+                    unset($reposters[$pos]);
+                }
+                $this->data['Post']['reposters'] = serialize($reposters);
+
                 $this->save($this->data['Post']);
             }
     
             function addUserToReposters($user_id){
 
-                 if(isset($this->data['Post']['reposters']) && !is_null($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
-                    if(!is_array($this->data['Post']['reposters'])){
-                      $reposters = unserialize($this->data['Post']['reposters']);
+                if(!is_null($this->data['Post']['reposters'])){
+                    //if not null: check if filled and not already an array
+                    if(!empty($this->data['Post']['reposters']) && !is_array($this->data['Post']['reposters'])){
+                      //  $this->log($this->data['Post']['reposters']);
+                      //  $this->log(unserialize($this->data['Post']['reposters']));
+                      //  $this->log(unserialize(unserialize($this->data['Post']['reposters'])));
+                      //  die();
+                        $reposters = unserialize($this->data['Post']['reposters']);
                     }
+                }else{
+                    $reposters = array();
+                }
 
-                    //adding user-id entry to reposters-array in post-model
-                    if(!in_array($user_id,$reposters)){
-								$reposters[] = $user_id;
-                                $this->data['Post']['reposters'] = serialize($reposters);
-                                $this->save($this->data['Post']);
-                    }
-                 }
+
+                //adding user-id entry to reposters-array in post-model
+                if(!in_array($user_id,$reposters)){
+                            $reposters[] = $user_id;
+                            $this->data['Post']['reposters'] = serialize($reposters);
+                            $this->save($this->data['Post']);
+                }
+
             }
 
 
@@ -265,9 +278,9 @@ class Post extends AppModel {
 			 */
 			function beforeSave() {
 
-				if(!empty($this->data['Post']['reposters']) && is_array($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
+				/*if(!empty($this->data['Post']['reposters']) && is_array($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
-				}
+				}*/
 				
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
