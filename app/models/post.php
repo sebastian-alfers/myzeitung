@@ -93,6 +93,7 @@ class Post extends AppModel {
 				$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
 				// if there are no reposts for this post/user combination yet
 				if($repostCount == 0){
+
 					if($this->data['Post']['user_id'] != $user_id){
 						//post is not from reposting user
 						$this->PostUser->create();
@@ -104,10 +105,7 @@ class Post extends AppModel {
 						if($this->PostUser->save($PostUserData)){
 							//repost was saved
 							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
-							if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
-								$this->data['Post']['reposters'][] = $user_id;
-								$this->save($this->data);
-							}
+							$this->addUserToReposters($user_id);
 							return true;
 						}
 					} else {
@@ -117,11 +115,7 @@ class Post extends AppModel {
 				}else{
 					// already reposted
 					// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
-					if((empty($this->reposters)) || (!in_array($user_id,$this->reposters))){
-						$this->data['Post']['reposters'][] = $user_id;
-
-						$this->save($this->data['Post']);
-					}
+                    $this->addUserToReposters($user_id);
 					$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
 				}
 				return false;
@@ -145,11 +139,13 @@ class Post extends AppModel {
 										'PostUser.repost' => true,
 										'PostUser.post_id' => $this->id,
 										'PostUser.user_id' => $user_id)));
+
 				$delete_counter = 0;
 				foreach($reposts as $repost){
 					//deleting the repost from the PostUser-table
 					$this->PostUser->delete($repost['PostUser']['id'], true);
 					$delete_counter += 1;
+
 				}
 				//writing log entry if there were more than one entries for this repost (shouldnt be possible)
 				if($delete_counter > 1){
@@ -158,19 +154,45 @@ class Post extends AppModel {
 
 				if($delete_counter >= 1){
 					//deleting user-id entry from reposters-array in post-model
-					while(in_array($user_id,$this->data['Post']['reposters'])){
-						$pos = array_search($user_id,$this->data['Post']['reposters']);
-						unset($this->data['Post']['reposters'][$pos]);
-					}
-					$this->save($this->data['Post']);
+                    $this->removeUserFromReposters($user_id);
 					return true;
 				}
 				return false;
-
-
-
-
 			}
+
+            function removeUserFromReposters($user_id){
+
+                 if(isset($this->data['Post']['reposters']) && !is_null($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
+                    if(!is_array($this->data['Post']['reposters'])){
+                      $reposters = unserialize($this->data['Post']['reposters']);
+                    }
+
+                    //deleting user-id entry from reposters-array in post-model
+
+                    while(in_array($user_id,$reposters)){
+                        $pos = array_search($user_id,$reposters);
+                        unset($reposters[$pos]);
+                    }
+                    $this->data['Post']['reposters'] = serialize($reposters);
+                 }
+                $this->save($this->data['Post']);
+            }
+    
+            function addUserToReposters($user_id){
+
+                 if(isset($this->data['Post']['reposters']) && !is_null($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
+                    if(!is_array($this->data['Post']['reposters'])){
+                      $reposters = unserialize($this->data['Post']['reposters']);
+                    }
+
+                    //adding user-id entry to reposters-array in post-model
+                    if(!in_array($user_id,$reposters)){
+								$reposters[] = $user_id;
+                                $this->data['Post']['reposters'] = serialize($reposters);
+                                $this->save($this->data['Post']);
+                    }
+                 }
+            }
 
 
 			/**
@@ -182,7 +204,7 @@ class Post extends AppModel {
 			 */
 			function afterFind($results) {
 				//	if(isset($results[0])){
-				foreach ($results as $key => $val) {
+		/*		foreach ($results as $key => $val) {
 					
 					
 					// $results[0]['Post']['reposters']
@@ -221,7 +243,7 @@ class Post extends AppModel {
 							$results[$key]['image'] = array();
 						}
 					}
-				}
+				}*/
 				/*	} else {
 				 //$results['reposters']
 				 if (!empty($results['reposters'])) {
@@ -243,7 +265,7 @@ class Post extends AppModel {
 			 */
 			function beforeSave() {
 
-				if(!empty($this->data['Post']['reposters'])){
+				if(!empty($this->data['Post']['reposters']) && is_array($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
 					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
 				}
 				
@@ -371,7 +393,7 @@ class Post extends AppModel {
 						}
 						if(!empty($this->solr_preview_image)){
 							$this->data['Post']['image'] = $this->solr_preview_image;
-                            debug($this->solr_preview_image);
+                   
 						}
 						$this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
 						$this->data['Post']['id'] = $this->id;

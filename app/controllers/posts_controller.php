@@ -9,7 +9,7 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array('JqImgcrop', 'Upload');
-	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image');
+	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image', 'Reposter');
 
 
 
@@ -214,7 +214,7 @@ class PostsController extends AppController {
 						// writing the path of the first picture to a class variable because the array will be serialized before reaching the updateSolr method
 
 						$this->Post->solr_preview_image = $this->images[0];
-                        debug($this->images);
+                       -// debug($this->images);
 						$this->Post->updateSolr = true;
 						if ($this->Post->save($this->data)) {
 

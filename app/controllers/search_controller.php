@@ -4,7 +4,7 @@ class SearchController extends AppController {
 
 	var $uses = array ('Solr', 'Subscription', 'User', 'Post');
 	
-	var $helpers = array('Time', 'Image');
+	var $helpers = array('Time', 'Image', 'Reposter');
 
 	public function beforeFilter(){
 		parent::beforeFilter();

@@ -14,11 +14,11 @@
         <ul class="filter-search">
             <?php if(in_array($this->Paginator->sortKey(), array('User.content_paper_count', 'User.content_paper_count ASC', 'User.content_paper_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
-             <?php echo $this->Paginator->sort('<span class="icon icon-subscription"></span>'. __('Number of Subscribers', true), 'content_paper_count', array('escape' => false)); ?></li>
+             <?php echo $this->Paginator->sort('<span class="icon icon-subscription"></span>'. __('Number of Subscribers', true), 'content_paper_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
 
             <?php if(in_array($this->Paginator->sortKey(), array('User.post_count', 'User.post_count ASC' , 'User.post_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
-             <?php echo $this->Paginator->sort('<span class="icon icon-article"></span>'. __('Number of Posts', true), 'post_count', array('escape' => false)); ?></li>
+             <?php echo $this->Paginator->sort('<span class="icon icon-article"></span>'. __('Number of Posts', true), 'post_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
 
             <?php if(in_array($this->Paginator->sortKey(), array('User.username' , 'User.username ASC' , 'User.username DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
@@ -26,7 +26,7 @@
 
              <?php if(in_array($this->Paginator->sortKey(), array('User.created' , 'User.created ASC' , 'User.created DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
-             <?php echo $this->Paginator->sort('<span class="icon icon-date"></span>'. __('Date of joining', true), 'created', array('escape' => false)); ?></li>
+             <?php echo $this->Paginator->sort('<span class="icon icon-date"></span>'. __('Date of joining', true), 'created', array('escape' => false ,  'direction' => 'DESC')); ?></li>
         </ul>
 
 <?php /*

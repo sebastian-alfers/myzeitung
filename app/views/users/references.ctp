@@ -3,7 +3,7 @@
 		<div style="float: left; margin: 0 5px 5px 0;"><?php
 		$link_data = array();
 		$link_data['url'] = array('controller' => 'users', 'action' => 'view', $paper['Paper']['id']);
-		$link_data['additional'] = array('class' => 'user-image');
+		$link_data['custom'] = array('class' => 'user-image');
 		$name = 'nameeee';
 		
 		//build the mouseover-text

@@ -55,7 +55,7 @@ $(function() {
 				<?php
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
-				$link_data['additional'] = array('class' => 'user-image');
+				$link_data['custom'] = array('class' => 'user-image');
 				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 			</div>
 
@@ -66,7 +66,8 @@ $(function() {
 				<?php echo $this->element('users/sidebar/info'); ?>
 				<?php echo $this->element('users/sidebar/topics'); ?>
 				<?php echo $this->element('users/sidebar/activity'); ?>
-				<?php echo $this->element('users/sidebar/papers'); ?>
+                  <strong><?php  echo __('Papers', true);?>:</strong>
+				<?php echo $this->element('users/sidebar/subscriptions'); ?>
 			<?php endif;?>
 			<?php //elements shown when being on actions users-viewSubscriptions ?>
 			<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>

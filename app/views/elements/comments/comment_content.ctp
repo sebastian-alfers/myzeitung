@@ -7,7 +7,7 @@
 
         $link_data = array();
         $link_data['url'] = array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']);
-        $link_data['additional'] = array('class' => 'user-image');
+        $link_data['custom'] = array('class' => 'user-image');
         echo $image->render($current_comment['User'], 65, 65, array("alt" => $current_comment['User']['username']), $link_data); ?>
 
 		<?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']));?>

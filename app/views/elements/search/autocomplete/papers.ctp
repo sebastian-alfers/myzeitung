@@ -20,7 +20,7 @@
 					}					
 					$link_data = array();
 					$link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper->id);
-					$link_data['additional'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');				
+					$link_data['custom'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');
 					echo $image->render(array('image' => $img), 50, 50,null, $link_data, 'paper');
 					?>
 					<h6><a href="/papers/view/<?php echo $paper->id; ?>"><?php echo $paper->paper_title; ?></a></h6>
