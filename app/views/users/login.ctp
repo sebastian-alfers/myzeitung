@@ -21,7 +21,7 @@ $(document).ready(function() {
             <?php echo $this->Html->link(__('I forgot my password',true),array('controller' => 'users', 'action' => 'forgotPassword'));?></p>
 
             <div class="accept">
-                <p><?php  echo $this->Form->input('auto_login', array('type' => 'checkbox', 'class' => 'checkbox' , 'div' => false, 'label' => false)); ?><strong><?php echo __('Remember Me', true);?></strong></p>
+                <p><?php  echo $this->Form->input('auto_login', array('type' => 'checkbox', 'class' => 'checkbox' , 'div' => false, 'label' => false, 'checked' => true)); ?><strong><?php echo __('Remember Me', true);?></strong></p>
                 <a class="btn big" id="link_login"><span>+</span><?php echo __('Login', true);?></a>
             </div>
 

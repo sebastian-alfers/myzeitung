@@ -48,6 +48,7 @@ $(document).ready(function() {
                         $('.messages').append(reply.data.html);
                         var options = {};
                         $('#'+reply.data.id+'').toggle( 'blind', options, 500 );
+                        $('#reply_value').val('');
                     }
                     else{
                         alert('Error while placing the reply');

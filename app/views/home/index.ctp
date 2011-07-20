@@ -8,7 +8,7 @@
 			<?php  echo $this->Form->input('password', array('class' => 'textinput-login', 'div' => false, 'label' => false)); ?>
 			<?php  echo $this->Form->button('Login', array('type' => 'submit' ,'class' => 'submit btn', 'div' => false, 'label' => false)); ?>
 					<div class="remember">
-			<?php  echo $this->Form->input('auto_login', array('type' => 'checkbox', 'class' => 'checkbox' , 'div' => false, 'label' => false)); ?>
+			<?php  echo $this->Form->input('auto_login', array('type' => 'checkbox', 'class' => 'checkbox' , 'div' => false, 'label' => false, 'checked' => true)); ?>
 					<span class="stay"><?php echo __('Remember Me', true);?>	</span>
 					</div>
 					<?php 	echo $this->Form->end(); ?>
@@ -16,9 +16,11 @@
 					
 					<div id="mainnav">
 					
-						<form id="search" action="" class="jqtransform">
-							<input class="searchinput" type="text" onblur="if (this.value == '') {this.value = 'Suchen';}" onfocus="if (this.value == 'Suchen') {this.value = '';}" value="Suchen" />
+						<form id="search" action="/search/" class="jqtransform">
+                            <input name="q" id="inputString" autocomplete="off" class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php  __('Find'); ?>" />
 							<button class="submit" type="submit" value="">Suchen</button>
+                            <ul id="search-suggest" style="display:none">
+                            </ul><!-- end auto suggest -->
 						</form>
 					</div>
 
@@ -50,8 +52,12 @@
 				
 							<?php endforeach;?>
 							</ul>
-						<hr />			
-						<h3>Top Autoren</h3>
+
+                        <div class="more">
+                            <a href="/papers/"><?php __('more papers'); ?></a></div>
+						<hr />
+
+						<h3><?php __('Top Authors'); ?></h3>
 							<ul>
 							
 							<?php foreach($users as $user):?>
@@ -72,6 +78,9 @@
 							    </li>
 							<?php endforeach;?>
 						</ul>
+                        <div class="more">
+                            <a href="/users/"><?php __('more authors'); ?></a>
+                        </div>
 								
 					</div><!-- /.col1 -->
 					
@@ -98,7 +107,9 @@
                                 
 								</div>
 							<?php endforeach;?>
-
+                        <div class="more">
+                            <a href="/posts/"><?php __('more posts'); ?></a>
+                        </div>
 					</div><!-- /.col2 -->
 					
 					
@@ -122,3 +133,5 @@
 					</div><!-- / #maincol -->
 				
 				</div><!-- / #maincolwrapper -->
+
+<?php echo $this->element('search/autocomplete/script'); ?>
