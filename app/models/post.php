@@ -84,6 +84,7 @@ class Post extends AppModel {
 			 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts
 			 */
 			function repost($user_id, $topic_id = null){
+
 				App::import('model','PostUser');
 				$this->PostUser = new PostUser();
 				$PostUserData = array('repost' => true,

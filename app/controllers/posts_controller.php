@@ -57,7 +57,16 @@ class PostsController extends AppController {
 	 * 29.03.11 /tim - moved most of the logic to the model
 
 	 */
-	function repost($post_id, $topic_id = null){
+	function repost($post_id = null, $topic_id = null){
+
+        if(isset($this->data['Posts']['post_id'])){
+            $post_id = $this->data['Posts']['post_id'];
+         }
+         if(isset($this->data['Posts']['topic_id']) && $this->data['Posts']['topic_id'] != 'null'){
+             echo "jo";
+            $topic_id = $this->data['Posts']['topic_id'];
+         }
+
 		if(isset($post_id)){
 
 			$this->Post->contain();
@@ -148,7 +157,7 @@ class PostsController extends AppController {
 		//'threaded' gets also the replies (children) and children's children etc. (for tree behavior. not sure if for not-tree also)
 		$comments = $this->Comment->find('threaded',array(
 										'conditions' => array('post_id' => $id),
-										'order'=>array('created DESC'), 
+										'order'=>array('created DESC'),
 										'fields' => array('id','user_id','post_id','parent_id','text','created')));
 
 
@@ -170,7 +179,7 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-				
+
 			//debug($this->data);die();
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
@@ -199,7 +208,7 @@ class PostsController extends AppController {
                 $this->data['Post']['allow_comments'] = self::ALLOW_COMMENTS_DEFAULT;
              }
 			if ($this->Post->save($this->data)) {
-					
+
 				//copy images after post has been saved to add new post-id to img path
 				if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
 					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $this->data['Post']['images'], 'post');
@@ -249,8 +258,10 @@ class PostsController extends AppController {
 		}
 
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
-		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
+		$topics = array();
+        $topics[self::NO_TOPIC_ID] = __('No Topic', true);
+        $topics = array_merge($topics, $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
+
 		$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
 
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);

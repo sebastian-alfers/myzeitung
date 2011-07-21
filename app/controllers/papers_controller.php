@@ -49,7 +49,7 @@ class PapersController extends AppController {
 				if($this->Auth->user('id')){
 					//check for subscriptions - if yes -> subscribed = true
 					$this->Subscription->contain();
-					if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
+					if(($this->Subscription->find('all', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $papers[$i]['Paper']['id'])))) > 0){
 						$papers[$i]['Paper']['subscribed'] = true;
 					}
 				}

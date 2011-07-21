@@ -1,3 +1,14 @@
+<?php
+$has_topics = false;
+if($session->read('Auth.User.topic_count') > 0){
+    $has_topics = true;
+}
+
+if($has_topics){
+    echo $this->element('posts/repost_modal_choose_topic');
+}
+?>
+
 <div id="maincolwrapper" class="post-view">
     <div id="maincol">
         <?php if($this->params['controller'] == 'posts' &&$this->params['action'] == 'index'):?>
@@ -145,13 +156,15 @@
                                     <?php
                                     //if the user has one or more topics, no href. in this case, the link will be observed and a popup comes
                                     $link = '/posts/repost/'. $post['Post']['id'];
-                                    if($session->read('Auth.User.topic_count') > 0){
+                                    $class = '';
+                                    if($has_topics){
                                         $link = '#';
+                                        $class = 'class="repost"';
                                     }
 
                                     ?>
 
-                                    <a href="<?php echo $link; ?>"><?php __('Repost'); ?></a>
+                                    <a href="<?php echo $link; ?>" <?php echo $class; ?> id="<?php echo $post['Post']['id']; ?>"><?php __('Repost'); ?></a>
 								<?php endif;?>
 								
 								</li>

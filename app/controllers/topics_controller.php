@@ -3,6 +3,10 @@ class TopicsController extends AppController {
 
 	var $name = 'Topics';
 	var $components = array('Auth');
+
+    var $helpers = array('Form');
+
+    var $uses = array('Topics', 'JsonResponse');
 	
 	var $autoRender=false;
 	
@@ -29,7 +33,39 @@ class TopicsController extends AppController {
 			}
 		}
 		$this->render('ajax_add', 'ajax');//custom ctp, ajax for blank layout		 
-	}		
+	}
+
+    /**
+     * json controller
+     * return topics of logged in user
+     *
+     * @return void
+     */
+    function getTopics(){
+
+
+
+        $user_id = $this->Session->read('Auth.User.id');
+
+        $topics = array();
+        App::import('controller', 'PostsController');
+        $topics['null'] = __('No Topic', true);
+        $topics = array_merge($topics, $this->Topics->find('list', array('conditions' => array('Topics.user_id' => $user_id))));
+
+        if(count($topics) > 0){
+            if(isset($this->params['form']['post_id']) && !empty($this->params['form']['post_id'])){
+
+                $this->set('post_id', $this->params['form']['post_id']);
+            }
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($topics));
+        }
+        else{
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+        }
+
+        $this->render('view');
+
+    }
 	
 
 //
