@@ -31,7 +31,10 @@ var mygallery=new simpleGallery({
 	dimensions: [250, 180], //width/height of gallery in pixels. Should reflect dimensions of the images exactly
 	imagearray: [
         <?php
-          foreach($post['Post']['image'] as $post_image){
+            if(!empty($post['Post']['image'])){
+            $images = unserialize($post['Post']['image']);
+        }
+          foreach($images as $post_image){
             $img_details = $image->resize($post_image['path'],250, 250, null, true);
             echo '["/img/'.$img_details['path'].'", "", "", ""],';
           }
