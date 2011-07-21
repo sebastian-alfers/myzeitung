@@ -25,7 +25,9 @@
 				<h6><a href="/users/view/<?php echo $user->id; ?>"><?php echo $user->user_username; ?></a></h6>
 				<?php if(isset($user->user_name) && !empty($user->user_name)): ?>
 					<p><a href="/users/view/<?php echo $user->id; ?>"><?php echo $user->user_name; ?></a></p>
-				<?php endif; ?>				
+                <?php else: ?>
+                    <div style="height:20px"></div>
+				<?php endif; ?>
 			</li>						
 		<?php endif; ?>			
 	<?php endforeach; ?>
