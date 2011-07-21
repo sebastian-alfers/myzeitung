@@ -152,7 +152,8 @@ class AppController extends Controller {
             'admin_view' => $this->admin,
 			),
 		'topics' => array(
-			'ajax_add' => $this->user
+			'ajax_add' => $this->user,
+            'getTopics' => $this->user
 			),
 		'posts' => array(
 			'index' => $this->user,
