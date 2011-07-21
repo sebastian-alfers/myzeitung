@@ -5,8 +5,8 @@
 				<li>
                 <?php
                 $container_data['tag'] = 'div';
-                $container_data['additional']['float'] = 'left';
-                $container_data['additional']['margin-right'] = '15px';
+                $container_data['custom']['float'] = 'left';
+                $container_data['custom']['margin-right'] = '15px';
 
                 $img = $image->render($paper, 35, 35, array("alt" => $paper['title']), $container_data, ImageHelper::PAPER);
                 echo $this->Html->link($img.' '.$paper['title'],

@@ -44,7 +44,7 @@
 									<?php
                                     $link_data = array();
                                     $link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
-                                    $link_data['additional'] = array('class' => 'tt-title', 'title' => $paper['Paper']['title']);
+                                    $link_data['custom'] = array('class' => 'tt-title', 'title' => $paper['Paper']['title']);
                                     $img['image'] = $paper['Paper']['image'];
                                     echo $image->render($img, 58, 58, array("alt" => $paper['Paper']['title']), $link_data, ImageHelper::PAPER);
                                     ?>
@@ -71,7 +71,7 @@
 									
                                     $link_data = array();
                                     $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
-                                    $link_data['additional'] = array('class' => 'user-image tt-title', 'title' => $tipsy_name);
+                                    $link_data['custom'] = array('class' => 'user-image tt-title', 'title' => $tipsy_name);
                                     echo $image->render($user['User'], 58, 58, array("alt" => $user['User']['username']), $link_data);
                                     ?>
 									<?php /*<span><?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></span>*/?>
@@ -99,7 +99,7 @@
 									<?php // user container?>
 									
                                      <?php echo $this->Html->link(
-                                            $image->render($post['User'], 26, 26, array( "alt" => $post['User']['username'], "class" => 'user-image'), array(), ImageHelper::USER)
+                                            $image->render($post['User'], 26, 26, array( "alt" => $post['User']['username'], "class" => 'user-image'), array("tag" => "div"), ImageHelper::USER)
                                             .'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>',
                                                 array('controller' => 'users', 'action' => 'view', $post['User']['id']),
                                                 array('class' => "user",'escape' => false));?>

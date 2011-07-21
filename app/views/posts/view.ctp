@@ -64,9 +64,9 @@ var mygallery=new simpleGallery({
 <?php
     $article_reposted_by_user = false;
     $article_belongs_to_user = false;
-    if(is_array($post['Post']['reposters']) && in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
-        $article_reposted_by_user = true;
-    }
+      if($this->Reposter->UserHasAlreadyRepostedPost($post['Post']['reposters'], $session->read('Auth.User.id'))){
+					$article_reposted_by_user = true;
+				}
     if($session->read('Auth.User.id') == $post['Post']['user_id']){
         $article_belongs_to_user = true;
         //just if a user could somehow repost his own post
@@ -119,7 +119,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 				<?php
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
-				$link_data['additional'] = array('class' => 'user-image');
+				$link_data['custom'] = array('class' => 'user-image');
 
                 //$img_details['image'] = $post['Post']['image'][0];
 
@@ -136,6 +136,17 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 
 
 			<?php echo $content_after_first_paragraph;?>
+            <?php if(isset($post['Post']['links']) && !empty($post['Post']['links'])):?>
+                <?php $links = unserialize($post['Post']['links'])?>
+                    <h6><?php echo __n('Reference', 'References', count($links, true)); ?></h6>
+                    <ul>
+                        <?php foreach($links as $link):?>
+                          <li><?php echo $this->Html->link($link, $link, array('target'  =>'blank','rel' => 'nofollow'));?></li>
+                        <?php endforeach;?>
+
+                    </ul>
+            <?php endif;?>
+
 			</div><!-- /. articleview -->
 			
 			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['User']['allow_comments'] == true)):?>

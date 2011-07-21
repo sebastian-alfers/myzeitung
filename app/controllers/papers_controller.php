@@ -4,7 +4,7 @@ class PapersController extends AppController {
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session', 'Papercomp', 'Upload');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax');
+	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
 
 	var $allowedSettingsActions = array('image');
 
@@ -385,24 +385,24 @@ class PapersController extends AppController {
 			$this->data['Paper']['owner_id'] = $this->Auth->User("id");
 			$this->Paper->doAfterSave = true;
 			if ($this->Paper->save($this->data)) {
-				$routeData = array('Route' => array(
+		/*		$routeData = array('Route' => array(
 									'source' => $this->data['Paper']['title'],
 									'ref_id' => $this->Paper->id,
 									'target_controller' => 'papers',
 									'target_action' => 'view',
 									'target_param' => $this->Paper->id
 				));
-
-				$route = $this->Route->save($routeData);
+            */
+			//	$route = $this->Route->save($routeData);
 
 					
-				if(!empty($route)){
+			//	if(!empty($route)){
 					$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-					$this->redirect(array('controller' => 'users', 'action' => 'viewSubscriptions', $this->Auth->User("id")));
-				}
-				else{
+					$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->Paper->id));
+			//	}
+			//	else{
 					$this->Session->setFlash(__('Paper saved, error wile saving the paper route', true));
-				}
+			//	}
 			} else {
 				$this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
 			}

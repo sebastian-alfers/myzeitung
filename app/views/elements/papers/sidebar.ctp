@@ -26,7 +26,7 @@ if($paper_belongs_to_user){
                 <?php
                 $link_data = array();
                 $link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
-                $link_data['additional'] = array('class' => 'paper-image');
+                $link_data['custom'] = array('class' => 'paper-image');
                 echo $image->render($paper['Paper'], 185, 185, array("alt" => $paper['Paper']['title']), $link_data, ImageHelper::PAPER);
 
                 //echo $this->Html->image($image->resize(['image'], 185, 185, null), array("class" => "userimage", "alt" => $paper['Paper']['title']."-image",));?>

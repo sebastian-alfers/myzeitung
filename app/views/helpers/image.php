@@ -341,45 +341,57 @@ class ImageHelper extends Helper {
 		isset($container_data['url'])){
 
 			//also make link out of it
-			$additional_img_data = array();
-			if(isset($container_data['additional'])){
-				$additional_img_data = $container_data['additional'];
+			$custom_img_data = array();
+
+			if(isset($container_data['custom'])){
+				$custom_img_data = $container_data['custom'];
 			}
-			if(!isset($additional_img_data['style'])){
-				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
+            if(isset($container_data['additional'])){
+				$additional_img_data = $container_data['custom'];
 			}
-			if(!isset($additional_img_data['escape'])){
-				$additional_img_data['escape'] = false;
+			if(!isset($custom_img_data['style'])){
+				$custom_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
 			}
-				
-			return $this->Html->link($img, $container_data['url'], $additional_img_data);
-		}
+			if(!isset($custom_img_data['escape'])){
+				$custom_img_data['escape'] = false;
+			}
+            //if you need the standard styles + some additional
+            if(isset($container_data['additional'])){
+                $custom_img_data['style']  .= $container_data['additional'];
+            }
+
+            return $this->Html->link($img, $container_data['url'], $custom_img_data);
+        }
         elseif(isset($container_data['tag'])){
-			//also make link out of it
-			$additional_img_data = array();
-			if(isset($container_data['additional'])){
-				$additional_img_data = $container_data['additional'];
-			}
-			if(!isset($additional_img_data['style'])){
-				$additional_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
-			}
-            if(isset($additional_img_data['float'])){
-                $additional_img_data['style'] .= 'float:'.$additional_img_data['float'];
+            //also make link out of it
+            $custom_img_data = array();
+            if(isset($container_data['custom'])){
+                $custom_img_data = $container_data['custom'];
             }
-            if(isset($additional_img_data['margin-right'])){
-                $additional_img_data['style'] .= ';margin-right:'.$additional_img_data['margin-right'];
+            if(!isset($custom_img_data['style'])){
+                $custom_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
             }
-			if(!isset($additional_img_data['escape'])){
-				$additional_img_data['escape'] = false;
-			}
+            if(isset($custom_img_data['float'])){
+                $custom_img_data['style'] .= 'float:'.$custom_img_data['float'];
+            }
+            if(isset($custom_img_data['margin-right'])){
+                $custom_img_data['style'] .= ';margin-right:'.$custom_img_data['margin-right'];
+            }
+            if(!isset($custom_img_data['escape'])){
+                $custom_img_data['escape'] = false;
+            }
+            //if you need the standard styles + some additional
+            if(isset($container_data['additional'])){
+                $custom_img_data['style'] .= $container_data['additional'];
+            }
 
             //sourround img with container
             $t = $container_data['tag'];
-            return '<'.$t.' style="'.$additional_img_data['style'].'">'.$img.'</'.$t.'>';
+            return '<'.$t.' style="'.$custom_img_data['style'].'">'.$img.'</'.$t.'>';
         }
-		else{
+        else{
 			return $img;
-		}
+            		}
 
 	}
 

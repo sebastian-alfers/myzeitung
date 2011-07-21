@@ -24,7 +24,7 @@ if(isset($class)){
 		<?php
 		$user = $session->read('Auth.User');
         $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
-        $link_data['additional'] = array('class' => 'user-image');
+        $link_data['custom'] = array('class' => 'user-image');
         echo $image->render($user, 65, 65, array("alt" => $user['username']), $link_data);
 		?>
 	</p>

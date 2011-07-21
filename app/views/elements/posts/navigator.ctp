@@ -15,7 +15,7 @@
 		
 				$article_reposted_by_user = false;
 				$article_belongs_to_user = false;
-				if(is_array($post['Post']['reposters']) && in_array($session->read('Auth.User.id'),$post['Post']['reposters'])){
+                if($this->Reposter->UserHasAlreadyRepostedPost($post['Post']['reposters'], $session->read('Auth.User.id'))){
 					$article_reposted_by_user = true;
 				}
 				if($session->read('Auth.User.id') == $post['Post']['user_id']){
@@ -45,24 +45,28 @@
                             }
                             ?>
 							<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
-							<?php if(isset($post['Post']['image'][0]) && !empty($post['Post']['image'][0])): ?>
-							<?php 
-							$info = $image->resize($post['Post']['image'][0]['path'], 200, 117, null, true);//return array bacuse of last param -> true							
-							?>
-							
+							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
+
+                                 <?php echo $image->render($post['Post'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
+
+                             <?php /*
+                               if(isset($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):
+							$info = $image->resize($post['Post']['image'][0]['path'], 200, 117, null, true);//return array bacuse of last param -> true
+							    ?>
+
 								<p style="height:117px;overflow:hidden;margin-bottom:25px;">
 									
 									<?php //echo 'h: ' .$img_info['height'] . '    -   w: ' . $img_info['width']; ?>
 									<?php  echo $this->Html->image($info['path'], array('style' => $info['inline'])); ?>
 									
 								</p>
-							<?php //end image rendering ?>
+							<?php //end image rendering  */?>
 							<?php else:?>
 							<?php //not image -> show text preview?>
 								<p>
 								<?php echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
 								</p>
-							<?php endif; ?>
+							<?php endif;  ?>
 							<ul class="footer">
 
 								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Week'));?></li>
@@ -118,7 +122,7 @@
 								<?php 
 								$link_data = array();
 								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
-								$link_data['additional'] = array('class' => 'user-image');
+								$link_data['custom'] = array('class' => 'user-image');
 								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
 
 //								}
