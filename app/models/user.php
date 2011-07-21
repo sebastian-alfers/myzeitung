@@ -97,12 +97,6 @@ class User extends AppModel {
 
 		);
 
-
-
-		var $belongsTo = array(
-		'Group'
-		);
-
 		var $hasOne = array(
 			'Route' => array(
 				'className' => 'Route',

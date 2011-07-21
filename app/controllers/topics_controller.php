@@ -19,6 +19,9 @@ class TopicsController extends AppController {
 			$this->Topic->create();
 			error_log(json_encode($this->data));
 			if ($this->Topic->save($this->data)) {
+                //update topic_count cache in session
+                $this->Session->write("Auth.User.topic_count", $this->Session->read("Auth.User.topic_count") + 1);
+
 				
 				echo $this->Topic->id;
 			} else {

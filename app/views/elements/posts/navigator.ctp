@@ -137,7 +137,17 @@
 									<?php echo $this->Html->link(__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']));?>
 								<?php else:?>
 									<?php // post does not belong to user - not reposted yet - show repost button?>
-									<?php echo $this->Html->link(__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']));?>
+									<?php //echo $this->Html->link(__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']));?>
+                                    <?php
+                                    //if the user has one or more topics, no href. in this case, the link will be observed and a popup comes
+                                    $link = '/posts/repost/'. $post['Post']['id'];
+                                    if($session->read('Auth.User.topic_count') > 0){
+                                        $link = '#';
+                                    }
+
+                                    ?>
+
+                                    <a href="<?php echo $link; ?>"><?php __('Repost'); ?></a>
 								<?php endif;?>
 								
 								</li>
