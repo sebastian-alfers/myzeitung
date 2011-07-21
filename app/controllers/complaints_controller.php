@@ -16,6 +16,7 @@ class ComplaintsController extends AppController {
 	}
 
 	function add() {
+
         $ajx = true;
 
 		if (!empty($this->data)) {

@@ -228,6 +228,13 @@ class UsersController extends AppController {
 
 
 	function add() {
+        //check, if the user is already logged in
+        if($this->Session->read('Auth.User.id')){
+            //redirct to his profile
+            $this->redirect(array('controller' => 'users', 'action' => 'view'));
+        }
+
+
 		if (!empty($this->data)) {
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
