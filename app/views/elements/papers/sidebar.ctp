@@ -32,37 +32,37 @@ if($paper_belongs_to_user){
                 //echo $this->Html->image($image->resize(['image'], 185, 185, null), array("class" => "userimage", "alt" => $paper['Paper']['title']."-image",));?>
 
 			</div>
-                <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
-                <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
-                    <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
-                        <?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
-                    <?php endif;?>
-                    <?php //unsubscribe-button: if user is logged in  and  paper does not belong to user AND paper is subscribed ?>
-                    <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>
-                        <?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?>
-                    <?php endif;?>
-                <?php endif;?>
-            
-            <?php /*<h4><?php echo $paper['Paper']['title'];?></h4> */?>
-            <?php if(!empty($paper['Paper']['description'])): ?>
-            <p><?php echo strip_tags($paper['Paper']['description']);?></p>
-            <?php endif;?>
-           
 
-            <?php if(!empty($paper['Paper']['url'])): ?>
-            <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow', 'target' => '_blank'));?></p>
-            <?php endif;?>
-            
- 			<p><?php echo __('created').' '; ?><?php echo $this->Time->timeAgoInWords($paper['Paper']['created'], array('end' => '+1 Year'));?></p>
-			<hr />
-         	<?php ?>
+        <?php /*<h4><?php echo $paper['Paper']['title'];?></h4> */?>
+        <?php if(!empty($paper['Paper']['description'])): ?>
+        <p><?php echo strip_tags($paper['Paper']['description']);?></p>
+        <?php endif;?>
+
+
+        <?php if(!empty($paper['Paper']['url'])): ?>
+        <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow', 'target' => '_blank'));?></p>
+        <?php endif;?>
+
+
+        <hr />
+        <?php ?>
+        <ul>
             <?php if($paper_belongs_to_user):?>
-                <ul>
-                    <li><?php echo $this->Html->link('<span>+</span>'.__('New Category', true), array('controller' => 'categories', 'action' => 'add', Category::PARAM_PAPER, $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
-                    <li><a class="btn" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
-                </ul>
-                <hr />
+            <li><?php echo $this->Html->link('<span>+</span>'.__('New Category', true), array('controller' => 'categories', 'action' => 'add', Category::PARAM_PAPER, $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
+            <li><a class="btn" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
             <?php endif;?>
+            <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
+            <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
+               <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
+                   <li><?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
+                <?php endif;?>
+                <?php //unsubscribe-button: if user is logged in  and  paper does not belong to user AND paper is subscribed ?>
+                <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>
+                    <li><?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
+                <?php endif;?>
+            <?php endif;?>
+        </ul>
+            <hr />
             <?php ?>
             
 

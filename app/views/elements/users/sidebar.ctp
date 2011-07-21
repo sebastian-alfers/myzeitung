@@ -59,18 +59,21 @@ $(function() {
 				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 			</div>
 
-			<?php echo $this->element('users/sidebar/buttons'); ?>
 			<h4><?php echo $user['User']['username'];?></h4>
-			<?php //elements shown when being on actions users-view, posts-view ?>
-			<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
-				<?php echo $this->element('users/sidebar/info'); ?>
-				<?php echo $this->element('users/sidebar/topics'); ?>
-				<?php echo $this->element('users/sidebar/activity'); ?>
-                  <strong><?php  echo __('Papers', true);?>:</strong>
+        <?php //elements shown when being on actions users-view, posts-view ?>
+        <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
+        <?php echo $this->element('users/sidebar/info'); ?>
+        <?php echo $this->element('users/sidebar/buttons'); ?>
+        <?php echo $this->element('users/sidebar/topics'); ?>
+        <?php echo $this->element('users/sidebar/activity'); ?>
+        <strong><?php  echo __('Papers', true);?>:</strong>
 				<?php echo $this->element('users/sidebar/subscriptions'); ?>
-			<?php endif;?>
-			<?php //elements shown when being on actions users-viewSubscriptions ?>
-			<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>
+        <?php else:?>
+            <hr />
+            <?php echo $this->element('users/sidebar/buttons'); ?>
+        <?php endif;?>
+        <?php //elements shown when being on actions users-viewSubscriptions ?>
+        <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>
 				<?php echo $this->element('users/sidebar/subscriptions'); ?>
 			<?php endif;?>
 			<?php //elements shown when being on actions in users-account settings ?>
