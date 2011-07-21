@@ -224,7 +224,7 @@ msgstr "Der Artikel konnte nicht gespeichert werden. Bitte versuche es später n
 
 #: /controllers/posts_controller.php:239;368
 msgid "No Topic"
-msgstr "Kein Thema vorhanden"
+msgstr "Kein Thema"
 
 #: /controllers/posts_controller.php:242;370
 msgid "default value"
@@ -1376,4 +1376,56 @@ msgstr "Nach Themen sortieren"
 #: /webroot/test.php:88
 msgid "Debug setting does not allow access to this url."
 msgstr ""
+
+#: from DB
+msgid "The profile of the user image is inappropriate"
+msgstr "Das Profilbild des Nutzers ist unangebracht"
+
+msgid "I am bothered by this user"
+msgstr "Ich werde durch diese(n) Nutzer(in) belästigt"
+
+msgid "Posts / Comments by this user not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
+msgstr "Artikel/Kommentare dieses Nutzers sind nicht AGB konform (Extremismus/Gewaltverherrlichung/Pornografie/...)"
+
+msgid "The papers Authors / Post not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
+msgstr "Die Zeitung enthält nicht AGB konforme (Extremismus/Gewaltverherrlichung/Pornografie) Autoren / Artikel"
+
+msgid "The profile image of the paper is inappropriate"
+msgstr "Das Profilbild der Zeitung ist unangebracht"
+
+msgid "The description of the paper is inappropriate"
+msgstr "Die Beschreibung der Zeitung ist unangebracht"
+
+msgid "Contents of this article not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
+msgstr "Inhalte dieses Artikels sind nicht AGB konform (Extremismus/Gewaltverherrlichung/Pornografie/...)"
+
+msgid "Comments of this article not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
+msgstr "Kommentare zu diesem Artikel sind nicht AGB konform (Extremismus/Gewaltverherrlichung/Pornografie/...)"
+
+msgid "I am bothered by this user"
+msgstr "Ich werde von diesem Nutzer belästigt/bedroht"
+
+msgid "It is a hacked Author Profile"
+msgstr "Es handelt sich um ein gehacktes Profil"
+
+msgid "It is a picture of my person"
+msgstr "Es handelt sich um eine Abbildung meiner Person"
+
+msgid "The user sends spam"
+msgstr "Der Nutzer verschickt Spam"
+
+msgid "Other Reason"
+msgstr "Sonstiger Grund (siehe Kommentar)"
+
+msgid "New"
+msgstr "Neu"
+
+msgid "In Progress"
+msgstr "In Bearbeitung"
+
+msgid "Waiting for Input"
+msgstr "Warten auf externens Feedback"
+
+msgid "Closed"
+msgstr "Geschlossen"
 

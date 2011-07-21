@@ -259,7 +259,7 @@ function __construct(){
 
 
 					$paperReferences = array();
-					$contentPaper->contain(/*'Topic.id' ,'Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id'*/);
+					$contentPaper->contain('Topic.id' ,'Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id');
 					//$contentPaper->recursive = $recursive;// to get user from topic
 					$paperReferences = $contentPaper->find('all', $conditions);
 

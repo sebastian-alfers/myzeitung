@@ -291,6 +291,11 @@ class PostsController extends AppController {
 		}
 		$this->set(compact('topics'));
 
+        if(isset($this->data['Post']['links']) && !empty($this->data['Post']['links'])){
+            $this->set('links', unserialize($this->data['Post']['links']));
+        }
+
+
 		$this->set('allow_comments', $allow_comments);
 
 		$this->set('user_id',$user_id);

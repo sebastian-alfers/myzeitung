@@ -1,6 +1,11 @@
-<?php if(count($references) > 0):
+<?php
+
+        if(count($references) > 0):
 	for($i = 0; $i < count($references); $i++): ?>
-        <?php $reference = $references[$i]; ?>
+
+        <?php $reference = $references[$i];  ?>
+
+
 
 		<div style="float:left;margin:0 5px 5px 0;"><div id="link-del<?php echo $reference['ContentPaper']['id']; ?>" class="tt-title link-delete">x</div><?php
 		$link_data = array();

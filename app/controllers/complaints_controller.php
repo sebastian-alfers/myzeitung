@@ -66,8 +66,27 @@ class ComplaintsController extends AppController {
 
             $this->set(compact('user_name', 'user_email'));
         }
+        $type = "";
+        switch($this->params['form']['type']){
+            case 'post':
+                    $type = Complaint::TYPE_POST;
+                    break;
 
-		$reasons = $this->Complaint->Reason->find('list');
+            case 'user':
+                    $type = Complaint::TYPE_USER;
+                    break;
+
+            case 'paper':
+                    $type = Complaint::TYPE_PAPER;
+                    break;
+
+        }
+        $conditions = array('conditions' => array('or' => array(array('Reason.type' => Complaint::TYPE_ALL), array( 'Reason.type' => $type))), 'order' => 'Reason.type DESC');
+		$reasons = $this->Complaint->Reason->find('list', $conditions);
+
+        //translate all values
+        array_walk($reasons, array($this, 'translate_array_value'));
+
 		$this->set(compact('reasons', 'user_id'));
 
         if(isset($this->params['form']['type'])){
@@ -81,6 +100,15 @@ class ComplaintsController extends AppController {
         if($ajx)
             $this->render('add', 'ajax');
 	}
+
+    /**
+     * used via array_walk() and put each value to __()
+     *
+     * @return void
+     */
+    function translate_array_value(&$value, $key){
+        $value = __($value, true);
+    }
 
 	function admin_index() {
 		$this->Complaint->recursive = 0;
@@ -130,8 +158,14 @@ class ComplaintsController extends AppController {
 		$comments = $this->Complaint->Comment->find('list');
 		$users = $this->Complaint->User->find('list');
 		$reasons = $this->Complaint->Reason->find('list');
+        //translate reasons
+        array_walk($reasons, array($this, 'translate_array_value'));
+
 		$reporters = $this->Complaint->Reporter->find('list');
 		$complaintstatuses = $this->Complaint->Complaintstatus->find('list');
+        //translate statuses
+        array_walk($complaintstatuses, array($this, 'translate_array_value'));
+
 		$this->set(compact('papers', 'posts', 'comments', 'users', 'reasons', 'reporters', 'complaintstatuses'));
 	}
 

@@ -18,7 +18,7 @@ $(document).ready(function() {
 								<h2><?php echo __('Create a new account', true);?></h2>
 								<p><?php echo __('You already have an account?', true);?>&nbsp;<?php echo $this->Html->link('Click here', array('controller' => 'users', 'action' => 'login'));?></p>
 							</div>
-							<?php echo $this->Form->create('User', array('id' => 'register-form', 'controller' => 'users', 'action' => 'add',
+							<?php echo $this->Form->create('User', array('id' => 'register-form', 'class' => 'jqtransform', 'controller' => 'users', 'action' => 'add',
 																		'inputDefaults' => array('error' => false, 'div' => false)));?>
 							<div><?php  echo $this->Form->input('username', array('type' => 'text', 'class' => 'textinput', 'label' => __('Username', true))); ?>
 							<?php if(!is_null($this->Form->error('User.username'))): ?>

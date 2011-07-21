@@ -6,29 +6,40 @@
 			<?php echo $complaint['Complaint']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Paper'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($complaint['Paper']['title'], array('controller' => 'papers', 'action' => 'view', $complaint['Paper']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Post'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($complaint['Post']['title'], array('controller' => 'posts', 'action' => 'view', $complaint['Post']['id'])); ?>
-			&nbsp;
-		</dd>
+        <?php if(!empty($complaint['Paper']['id'])): ?>
+            <dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Paper'); ?></dt>
+            <dd<?php if ($i++ % 2 == 0) echo $class;?>>
+                <a href="/papers/view/<?php echo $complaint['Paper']['id']; ?>" target="blank"><?php echo $complaint['Paper']['title']; ?></a>
+                &nbsp;
+            </dd>
+        <?php endif; ?>
+        <?php if(!empty($complaint['Post']['id'])): ?>
+            <dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Post'); ?></dt>
+            <dd<?php if ($i++ % 2 == 0) echo $class;?>>
+                <a href="/posts/view/<?php echo $complaint['Post']['id']; ?>" target="blank"><?php echo $complaint['Post']['title']; ?></a>
+                &nbsp;
+            </dd>
+        <?php endif; ?>
+
+        <?php if(!empty($complaint['Comment']['id'])): ?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Comment'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($complaint['Comment']['id'], array('controller' => 'comments', 'action' => 'view', $complaint['Comment']['id'])); ?>
+            <a href="/posts/view/<?php echo $complaint['Comment']['post_id']; ?>" target="blank"><?php echo $complaint['Comment']['text']; ?></a>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('User'); ?></dt>
+		<?php endif; ?>
+
+        <?php if(!empty($complaint['User']['id'])): ?>
+        <dt<?php if ($i % 2 == 0) echo $class;?>><?php __('User'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $this->Html->link($complaint['User']['name'], array('controller' => 'users', 'action' => 'view', $complaint['User']['id'])); ?>
 			&nbsp;
 		</dd>
+        <?php endif; ?>
+
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Reason'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($complaint['Reason']['id'], array('controller' => 'reasons', 'action' => 'view', $complaint['Reason']['id'])); ?>
+			<?php __($complaint['Reason']['value']); ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Comments'); ?></dt>

@@ -1,5 +1,11 @@
 <?php
 class Complaint extends AppModel {
+
+    const TYPE_ALL = 0;
+    const TYPE_USER = 1;
+    const TYPE_POST = 2;
+    const TYPE_PAPER = 3;
+
 	var $name = 'Complaint';
 	/*var $validate = array(
 		'comments' => array(
