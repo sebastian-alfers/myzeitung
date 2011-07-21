@@ -297,6 +297,7 @@ class Post extends AppModel {
 					$content[$i] = trim($content[$i]);
 					$content[$i] = preg_replace('/\s\s+/', ' ', $content[$i]);
 				}
+                
 				$prev = '';
                 $max_chars = 175;
                 $chars = 0;
@@ -305,7 +306,9 @@ class Post extends AppModel {
 					if(($chars+strlen($word)) < $max_chars){
 						$chars += strlen($word);
 						$prev .= ' ' . $word;
-					}
+					}else{
+                        break;
+                    }
 
 				}
 				$this->data['Post']['content_preview'] = $prev;
