@@ -61,7 +61,7 @@ class TopicsController extends AppController {
         $topics = array();
         App::import('controller', 'PostsController');
         $topics['null'] = __('No Topic', true);
-        $topics = array_merge($topics, $this->Topics->find('list', array('conditions' => array('Topics.user_id' => $user_id))));
+        $topics = array_merge($topics, $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
 
         if(count($topics) > 0){
             if(isset($this->params['form']['post_id']) && !empty($this->params['form']['post_id'])){
