@@ -49,11 +49,13 @@ if($has_topics){
                                 <li class="comments tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['comment_count'];?><span>.</span></li>
 							</ul>
 
-                            <?php // post headline
-                                $headline = substr($post['Post']['title'],0,50);
+                                <?php $headline = $this->Text->truncate($post['Post']['title'], 50,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
+                                <?php // post headline
+                               /* $headline = substr($post['Post']['title'],0,50);
                                 if(strlen($post['Post']['title']) > 50){
                                     $headline .='...';
-                            }
+                                    
+                            }*/
                             ?>
 							<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
@@ -74,9 +76,10 @@ if($has_topics){
 							<?php //end image rendering  */?>
 							<?php else:?>
 							<?php //not image -> show text preview?>
-								<p>
-								<?php echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
-								</p>
+                                <p>
+								<?php //echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
+								<?php echo $this->Text->truncate(strip_tags($post['Post']['content']), 175,array('ending' => '...'.' '.$this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])), 'exact' => false, 'html' => true)); ?>
+                                </p>
 							<?php endif;  ?>
 							<ul class="footer">
 
@@ -131,10 +134,10 @@ if($has_topics){
 								<li>
 								<?php //echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?>
 								<?php 
-								$link_data = array();
-								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
-								$link_data['custom'] = array('class' => 'user-image');
-								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
+								$image_options = array();
+								$image_options['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
+								$image_options['custom'] = array('class' => 'user-image');
+								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);
 
 //								}
 								?>

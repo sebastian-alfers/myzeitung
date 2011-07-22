@@ -9,7 +9,7 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array('JqImgcrop', 'Upload');
-	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image', 'Reposter');
+	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image', 'Reposter', 'Text');
 
 
 
@@ -125,7 +125,7 @@ class PostsController extends AppController {
 	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
 		// incrementing post's view_counter
 
@@ -324,7 +324,7 @@ class PostsController extends AppController {
 
 		if($user_id == null || empty($user_id)){
 			$this->Session->setFlash(__('No permission', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
 		//check, if the user owns the post
 		$this->Post->contain();
@@ -336,7 +336,7 @@ class PostsController extends AppController {
 
 		if($owner_id != $user_id){
 			$this->Session->setFlash(__('No permission', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
 
 		//jepp, he is the owner!
@@ -350,7 +350,7 @@ class PostsController extends AppController {
 		$user_id = $this->Auth->User('id');
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid post', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
 		if (!empty($this->data)) {
 			//save new sorted images
@@ -415,6 +415,10 @@ class PostsController extends AppController {
 		if (empty($this->data)) {
 			$this->Post->contain();
 			$this->data = $this->Post->read(null, $id);
+            if(!empty($this->data['Post']['image'])){
+                $this->data['Post']['image'] = unserialize($this->data['Post']['image']);
+            }
+
 			if(empty($this->data['Post']['topic_id']))$this->data['Post']['topic_id'] = 'null';
 		}
 
@@ -470,15 +474,15 @@ class PostsController extends AppController {
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for post', true));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect($this->referer());
 		}
 		// second param = cascade -> delete associated records from hasmany , hasone relations
 		if ($this->Post->delete($id, true)) {
 			$this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
 		}
 		$this->Session->setFlash(__('Post was not deleted', true));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect($this->referer());
 	}
 
 	/**

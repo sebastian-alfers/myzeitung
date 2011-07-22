@@ -4,7 +4,7 @@ class PapersController extends AppController {
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session', 'Papercomp', 'Upload');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
+	var $helpers = array('Text' ,'Time', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
 
 	var $allowedSettingsActions = array('image');
 
