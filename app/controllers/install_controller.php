@@ -141,7 +141,6 @@ class InstallController extends AppController {
 
 
 		}
-
 		$this->_updateLatestVersionsInDB();
 		//_installed == false -> nothing has been installed -> upToDate == true
 		return !$this->_installed;
@@ -162,9 +161,28 @@ class InstallController extends AppController {
 
         //now, we only have versions (0.1.0, 0.1.12, 2.0.0, ...)
         $installed_version = explode('.', $installed_int_value);
-        foreach(explode('.', $compare_int_value) as $key => $compare_version){
-            if($compare_version > $installed_version[$key]) return true;
+        $compare_version = explode('.', $compare_int_value);
+
+        if(isset($compare_version[0]) && isset($installed_version[0])){
+            if($compare_version[0] > $installed_version[0]){
+              return true;
+            }
+            else{
+                if(isset($compare_version[1]) && isset($installed_version[1])){
+                    if(($compare_version[0] == $installed_version[0]) && $compare_version[1] > $installed_version[1]){
+                        return true;
+                    }
+                    else{
+                        if(isset($compare_version[2]) && isset($installed_version[2])){
+                            if(($compare_version[0] == $installed_version[0]) && ($compare_version[1] == $installed_version[1]) && $compare_version[2] > $installed_version[2]) return true;
+                        }
+                    }
+                }
+
+
+            }
         }
+
 
         return false;
 
