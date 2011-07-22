@@ -63,6 +63,14 @@ tinyMCE.init({
         theme_advanced_toolbar_align : "left",
         theme_advanced_statusbar_location : "bottom",
         theme_advanced_resizing : true,
+        oninit : "setPlainText",
+        paste_use_dialog : false,
+        paste_auto_cleanup_on_paste : true,
+        paste_convert_headers_to_strong : false,
+        paste_strip_class_attributes : "all",
+        paste_remove_spans : true,
+        paste_remove_styles : true,
+
 
         // Skin options
         skin : "mz_skin",
@@ -83,4 +91,22 @@ tinyMCE.init({
                 staffid : "991234"
         }
 });
+
+function setPlainText() {
+        var ed = tinyMCE.activeEditor;
+
+        ed.pasteAsPlainText = true;
+
+        //adding handlers crossbrowser
+        if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
+            ed.onKeyDown.add(function (ed, e) {
+                if (((tinymce.isMac ? e.metaKey : e.ctrlKey) && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45))
+                    ed.pasteAsPlainText = true;
+            });
+        } else {
+            ed.onPaste.addToTop(function (ed, e) {
+                ed.pasteAsPlainText = true;
+            });
+        }
+    }
 </script>

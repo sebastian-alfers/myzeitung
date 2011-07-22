@@ -6,11 +6,15 @@
         <?php $reference = $references[$i];  ?>
 
 
+        <?php if($owner): ?>
+	    	<div style="float:left;margin:0 5px 5px 0;"><div id="link-del<?php echo $reference['ContentPaper']['id']; ?>" class="tt-title link-delete">x</div>
+        <?php endif; ?>
 
-		<div style="float:left;margin:0 5px 5px 0;"><div id="link-del<?php echo $reference['ContentPaper']['id']; ?>" class="tt-title link-delete">x</div><?php
+        <?php
 		$link_data = array();
 		$link_data['url'] = array('controller' => 'users', 'action' => 'view', $reference['User']['id']);
 		$link_data['custom'] = array('class' => 'user-image');
+        $link_data['additional'] = "display:block;";
 		$name = $reference['User']['username'];
 		if(isset($reference['User']['name']) && !empty($reference['User']['name'])) $name.= " (".$reference['User']['name'].")";
 		echo $image->render($reference['User'], 50, 50, array("alt" => $reference['User']['username'], 'title' => $name, 'class' => 'img-paper-user tt-title', 'id' => 'del'. $reference['ContentPaper']['id']), $link_data); ?></div>

@@ -96,17 +96,47 @@ class InstallController extends AppController {
 		$this->_installed = false;
 
 		foreach($this->_getGlobalSystemStatus() as $namespaceName => $data){
+            //debug($namespaceName);
+            //debug($data);
 			if(count($data) > 0){
-				$currentDbVersion = key($data[self::DB_INSTALLED_VERSION]);
+				$currentDbVersion = $data[self::DB_INSTALLED_VERSION][key($data[self::DB_INSTALLED_VERSION])];
+                //debug($currentDbVersion);
+
+                //debug($data);
+
+                foreach($data[self::FILE_VERSIONS] as $fist_level => $second_level){
+
+                    foreach($second_level as $third_level){
+
+                        foreach($third_level as $file_name){
+                            //echo $file_name . ' and ' . $currentDbVersion . '<br />';
+                            if($this->_isFileBiggerThenInstalledFile($namespaceName, $file_name, $currentDbVersion)){
+                                $this->_installNamespace($namespaceName, array($file_name));//can be uses for multiple files as well
+                            }
+                        }
+
+                    }
+
+                }
+
+
 
 				//check, if a version from file is larger then the installed version from DB
-				foreach($data[self::FILE_VERSIONS] as $intFileVersion => $fileName){
+				/*
+                foreach($data[self::FILE_VERSIONS] as $fist_level => $second_level){
+
+                        echo $file_name . '<br />';
+                    }
+                     /*
 					if($intFileVersion > $currentDbVersion){
 						//since the list of files is sorted by version, install order is corrent
 						//$this->_installFile($namespaceName, $fileName);
 						$this->_installNamespace($namespaceName, array($fileName));//can be uses for multiple files as well
 					}
+
 				}
+				*/
+
 			}
 
 
@@ -115,6 +145,63 @@ class InstallController extends AppController {
 		//_installed == false -> nothing has been installed -> upToDate == true
 		return !$this->_installed;
 	}
+
+    /**
+     * compares files by name (e.g. 0.2.4 is bigger then 0.1.11)
+     *
+     * @param  $compare
+     * @param  $installed_file
+     * @return boolean
+     */
+    private function _isFileBiggerThenInstalledFile($namespaceName, $compare, $installed_file){
+
+        //remove namespeace prefix and "_"
+        $compare_int_value = $this->_getIntVersionFromFileName($namespaceName, $compare, false);
+        $installed_int_value = $this->_getIntVersionFromFileName($namespaceName, $installed_file, false);
+
+        //now, we only have versions (0.1.0, 0.1.12, 2.0.0, ...)
+        $installed_version = explode('.', $installed_int_value);
+        $compare_version = explode('.', $compare_int_value);
+
+        if(isset($compare_version[0]) && isset($installed_version[0])){
+            if($compare_version[0] > $installed_version[0]){
+              return true;
+            }
+            else{
+                if(isset($compare_version[1]) && isset($installed_version[1])){
+                    if(($compare_version[0] == $installed_version[0]) && $compare_version[1] > $installed_version[1]){
+                        return true;
+                    }
+                    else{
+                        if(isset($compare_version[2]) && isset($installed_version[2])){
+                            if(($compare_version[0] == $installed_version[0]) && ($compare_version[1] == $installed_version[1]) && $compare_version[2] > $installed_version[2]) return true;
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+
+        return false;
+
+    }
+
+    /**
+     * compare two versions
+     *
+     * @param  $a - version e.g. 0.2.1
+     * @param  $b - version e.g. 0.1.11
+     * @return boolean
+     */
+    private function _isABiggerThenB($a, $b){
+        $version_levels = explode('.', $int_value);
+        if(isset($version_levels[0]) && !isset($sorted[$version_levels[0]])) $sorted[$version_levels[0]] = array();
+        if(isset($version_levels[1]) && !isset($sorted[$version_levels[0]][$version_levels[1]])) $sorted[$version_levels[0]][$version_levels[1]] = array();
+        if(isset($version_levels[2])) $sorted[$version_levels[0]][$version_levels[1]][$version_levels[2]] = $value;
+    }
+
 
 	/**
 	 * provides an overview of the system
@@ -355,8 +442,11 @@ class InstallController extends AppController {
 		$namespaceFilesVersions = array();
 		foreach($namespaceFiles as $file){
 			if($this->isInstallFileValid($namespaceName, $file)){
+
 				$intVersion = $this->_getIntVersionFromFileName($namespaceName, $file);
+
 				$namespaceFilesVersions[$intVersion] = $file;
+
 			}
 			else{
 				$this->_log('can not install file ' . $file . ' in namespace ' . $namespaceName);
@@ -364,18 +454,65 @@ class InstallController extends AppController {
 
 		}
 		//sort by version (key of array)
-		ksort($namespaceFilesVersions);
+		$namespaceFilesVersions = $this->_sortFilesByVersions($namespaceName, $namespaceFilesVersions);
+
+        $real_sorted_files = array();
+        foreach($namespaceFilesVersions as $first_level){
+            foreach($first_level as $second_level){
+                foreach($second_level as $key => $value){
+                    $int_version = $this->_getIntVersionFromFileName($namespaceName, $value);
+                    $real_sorted_files[$int_version] = $value;
+                }
+            }
+        }
+
 		return $namespaceFilesVersions;
 	}
 
-	private function _getIntVersionFromFileName($namespaceName, $file){
+    private function _sortFilesByVersions($namespaceName, $files){
+        $sorted = array();
+
+        foreach($files as $key => $value){
+            //remove namespeace prefix and "_"
+            $intVersion = substr($value, strlen($namespaceName) + 1);//also remove "_" in file name
+
+            //remove file extentsion (.php)
+            $int_value = substr($intVersion, 0, -4);
+
+            //now, we only have versions (0.1.0, 0.1.12, 2.0.0, ...)
+
+            $version_levels = explode('.', $int_value);
+            if(isset($version_levels[0]) && !isset($sorted[$version_levels[0]])) $sorted[$version_levels[0]] = array();
+            if(isset($version_levels[1]) && !isset($sorted[$version_levels[0]][$version_levels[1]])) $sorted[$version_levels[0]][$version_levels[1]] = array();
+            if(isset($version_levels[2])) $sorted[$version_levels[0]][$version_levels[1]][$version_levels[2]] = $value;
+
+        }
+
+        //now sort by key
+        ksort($sorted);
+        foreach($sorted as &$first_level){
+            ksort($first_level);
+
+            foreach($first_level as &$second_level){
+                ksort($second_level);
+            }
+        }
+
+        return $sorted;
+    }
+
+	private function _getIntVersionFromFileName($namespaceName, $file, $remove_dots = true){
 		//remove namespeace prefix and "_"
 		$intVersion = substr($file, strlen($namespaceName) + 1);//also remove "_" in file name
 
 		//remove file extentsion (.php)
 		$intVersion = substr($intVersion, 0, -4);
 
+
 		//make an integer out of dot-separated string
+        if(!$remove_dots)
+            return $intVersion;
+
 		$intVersion = str_replace('.', '', $intVersion);
 
 		if(is_int((int)$intVersion)){

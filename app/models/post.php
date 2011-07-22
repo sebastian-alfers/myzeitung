@@ -93,7 +93,8 @@ class Post extends AppModel {
 				$this->PostUser->contain();
 				$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
 				// if there are no reposts for this post/user combination yet
-				if($repostCount == 0){
+				if($repostCount == 0)
+                {
 
 					if($this->data['Post']['user_id'] != $user_id){
 						//post is not from reposting user

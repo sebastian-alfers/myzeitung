@@ -40,8 +40,8 @@ class AjaxController extends AppController {
 
             $this->log($this->JsonResponse->success($return));
 
-            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($return));
 
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($return));
         }
         else{
             $this->log('hash / files missing for ajx upload picture');

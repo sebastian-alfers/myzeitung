@@ -9,12 +9,18 @@ class UsersController extends AppController {
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions');
+		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references');
 
 	}
 
 
 	public function login(){
+        //check, if the user is already logged in
+        if($this->Session->read('Auth.User.id')){
+            //redirct to his profile
+            $this->redirect(array('controller' => 'users', 'action' => 'view'));
+        }
+
 		// login with username or email
 		// the following code is just for the case that the combination of user.username(!) and user.password did not work:
 		//	trying the combination of user.email and user.password
@@ -718,6 +724,12 @@ class UsersController extends AppController {
 	 }
 	 */
     function forgotPassword() {
+        //check, if the user is already logged in
+        if($this->Session->read('Auth.User.id')){
+            //redirct to his profile
+            $this->redirect(array('controller' => 'users', 'action' => 'view'));
+        }
+
       if(!empty($this->data)) {
         $this->User->contain();
         $user = $this->User->findByEmail($this->data['User']['email']);

@@ -8,13 +8,10 @@ class PapersController extends AppController {
 
 	var $allowedSettingsActions = array('image');
 
-	//var $test = 'adsf';
-
-
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index','view');
+		$this->Auth->allow('index','view', 'references');
 
 		//add security
 		//$this->Security->requireAuth('add', 'edit', 'saveImage');
@@ -268,13 +265,17 @@ class PapersController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		else{
+            $paper_owner = false;
+            if(parent::canEdit('Paper', $id, 'owner_id')){
+                $paper_owner = true;
+            }
 
             //check, if a user is requested to be deleted from references
             if($this->_getContentPaperDeleteId()){
                 $content_paper_id = $this->_getContentPaperDeleteId();
 
                 //check, if the logged in user owns the paper
-                if(parent::canEdit('Paper', $id, 'owner_id')){
+                if($paper_owner){
                     //delete the subscription
                     $this->log($content_paper_id);
 
@@ -293,6 +294,8 @@ class PapersController extends AppController {
 
 			$references = array();
 			$references = $this->Paper->getContentReferences($category_id);
+
+            $this->set('owner', $paper_owner);
 
 			$this->set('references', $references);
 
