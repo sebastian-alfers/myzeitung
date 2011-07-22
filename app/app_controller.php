@@ -238,7 +238,7 @@ class AppController extends Controller {
         $logged_in_user_id = $this->Session->read('Auth.User.id');
 
         if(!$logged_in_user_id){
-            $this->log('User not logged in - can not load ' . $model . ' to check permissions');
+            $this->log('User not logged in - can not load ' . $model_name . ' to check permissions');
             return false;
         }
 
