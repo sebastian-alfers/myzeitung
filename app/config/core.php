@@ -51,6 +51,22 @@ Configure::write('debug', 2);
 Configure::write('log', true);
 
 
+/**
+ * Turn off all caching application-wide.
+ *
+ */
+Configure::write('Cache.disable', true);
+
+/**
+ * Enable cache checking.
+ *
+ * If set to true, for view caching you must still use the controller
+ * var $cacheAction inside your controllers to define caching settings.
+ * You can either set it controller-wide by setting var $cacheAction = true,
+ * or in each action using $this->cacheAction = true.
+ *
+ */
+Configure::write('Cache.check', false);
 
 
 
@@ -78,9 +94,6 @@ else{
 switch($_SERVER['APPLICATION_ENV']){
 	case 'local':
 
-        //Configure::write('debug', 0);
-        //Configure::write('log', false);
-
 		Configure::write('Hosting.environment.local', true);
 		//Configure::write('Hosting.environment.dev', true);
 		define('USE_SOLR', true);
@@ -90,11 +103,15 @@ switch($_SERVER['APPLICATION_ENV']){
 	#	define('USE_SOLR', false);
 	#	break;
 	case 'live':
+        Configure::write('Cache.disable', false);
+        Configure::write('Cache.check', true);
+
         Configure::write('debug', 0);
         Configure::write('log', false);
 		Configure::write('Hosting.environment.live', true);
 		define('USE_SOLR', true);
 		define('SOLR_PORT', 8080);
+
 		break;
 }
 
@@ -136,22 +153,6 @@ Configure::write('App.encoding', 'UTF-8');
  */
 Configure::write('Routing.prefixes', array('admin'));
 
-/**
- * Turn off all caching application-wide.
- *
- */
-//Configure::write('Cache.disable', true);
-
-/**
- * Enable cache checking.
- *
- * If set to true, for view caching you must still use the controller
- * var $cacheAction inside your controllers to define caching settings.
- * You can either set it controller-wide by setting var $cacheAction = true,
- * or in each action using $this->cacheAction = true.
- *
- */
-//Configure::write('Cache.check', true);
 
 /**
  * Defines the default error type when using the log() function. Used for
