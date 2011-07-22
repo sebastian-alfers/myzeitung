@@ -1,7 +1,11 @@
-<?php 
-echo $this->element('users/modal_subscribe');
+<?php
+
+if($session->read('Auth.user.id')){
+    echo $this->element('users/modal_subscribe');
+}
 ?>
 
+<?php if($session->read('Auth.user.id')): ?>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -44,6 +48,8 @@ $(function() {
 });
 //
 </script>
+
+<?php endif; ?>
 
 
 <?php echo $this->element('users/modal_activity'); ?>

@@ -20,45 +20,6 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-/* set environment */
-Configure::write('Hosting.environment.local', false);
-Configure::write('Hosting.environment.staging', false);
-Configure::write('Hosting.environment.live', false);
-
-$envs = array('local', 'staging', 'live');
-
-//check to see if server name is set
-if(!isset($_SERVER['APPLICATION_ENV']) || empty($_SERVER['APPLICATION_ENV']) || !in_array($_SERVER['APPLICATION_ENV'], $envs)){
-	$_SERVER['APPLICATION_ENV'] = 'local';
-}
-
-
-
-if(!isset($_SERVER['USE_CDN']) || empty($_SERVER['USE_CDN'])){
-	define('USE_CDN', false);
-}
-else{
-    define('USE_CDN', true);
-}
-
-switch($_SERVER['APPLICATION_ENV']){
-	case 'local':
-		Configure::write('Hosting.environment.local', true);
-		//Configure::write('Hosting.environment.dev', true);
-		define('USE_SOLR', true);
-		break;
-	#case 'staging':
-	#	Configure::write('Hosting.environment.dev', true);
-	#	define('USE_SOLR', false);
-	#	break;
-	case 'live':
-		Configure::write('Hosting.environment.live', true);
-		define('USE_SOLR', true);
-		define('SOLR_PORT', 8080);
-		break;
-}
-
-
 /**
  * CakePHP Debug Level:
  *
@@ -88,6 +49,55 @@ Configure::write('debug', 2);
  *    Configure::write('log', E_ALL ^ E_NOTICE);
  */
 Configure::write('log', true);
+
+
+
+
+
+/* set environment */
+Configure::write('Hosting.environment.local', false);
+Configure::write('Hosting.environment.staging', false);
+Configure::write('Hosting.environment.live', false);
+
+$envs = array('local', 'staging', 'live');
+
+//check to see if server name is set
+if(!isset($_SERVER['APPLICATION_ENV']) || empty($_SERVER['APPLICATION_ENV']) || !in_array($_SERVER['APPLICATION_ENV'], $envs)){
+	$_SERVER['APPLICATION_ENV'] = 'local';
+}
+
+
+
+if(!isset($_SERVER['USE_CDN']) || empty($_SERVER['USE_CDN'])){
+	define('USE_CDN', false);
+}
+else{
+    define('USE_CDN', true);
+}
+
+switch($_SERVER['APPLICATION_ENV']){
+	case 'local':
+
+        //Configure::write('debug', 0);
+        //Configure::write('log', false);
+
+		Configure::write('Hosting.environment.local', true);
+		//Configure::write('Hosting.environment.dev', true);
+		define('USE_SOLR', true);
+		break;
+	#case 'staging':
+	#	Configure::write('Hosting.environment.dev', true);
+	#	define('USE_SOLR', false);
+	#	break;
+	case 'live':
+        Configure::write('debug', 0);
+        Configure::write('log', false);
+		Configure::write('Hosting.environment.live', true);
+		define('USE_SOLR', true);
+		define('SOLR_PORT', 8080);
+		break;
+}
+
 
 /**
  * Application wide charset encoding
