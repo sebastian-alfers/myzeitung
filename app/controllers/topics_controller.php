@@ -6,33 +6,44 @@ class TopicsController extends AppController {
 
     var $helpers = array('Form');
 
-    var $uses = array('Topics', 'JsonResponse');
+    var $uses = array('Topic', 'JsonResponse');
 	
 	var $autoRender=false;
 	
 	/**
+     * json method
+     *
 	 * gets a new name for topcip and returns id
 	 * 
 	 * @param String $topic name
 	 */
-	function ajax_add($topic_name){
-		
-		if (!empty($topic_name)) {
-			$this->data['Topic']['name'] = $topic_name;
+	function ajax_add(){
+		if (!empty($this->params['form']['topic_name'])) {
+			$this->data['Topic']['name'] = $this->params['form']['topic_name'];
+
 			$this->data['Topic']['user_id'] = $this->Session->read('Auth.User.id');
 			$this->Topic->create();
-			error_log(json_encode($this->data));
+
 			if ($this->Topic->save($this->data)) {
                 //update topic_count cache in session
                 $this->Session->write("Auth.User.topic_count", $this->Session->read("Auth.User.topic_count") + 1);
 
-				
-				echo $this->Topic->id;
+				//response for ajax request ->
+
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($this->Topic->id));
 			} else {
-				
+
+                $this->log('error while saving topic ');
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
 			}
 		}
-		$this->render('ajax_add', 'ajax');//custom ctp, ajax for blank layout		 
+        else{
+            $this->log('topics / ajax_add : wrong params');
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+        }
+
+
+		$this->render('add');//custom ctp, ajax for blank layout
 	}
 
     /**
