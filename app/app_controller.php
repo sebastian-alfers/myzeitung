@@ -138,7 +138,6 @@ class AppController extends Controller {
 			'edit' => $this->user,
 			'view' => $this->user,
 			'delete' => $this->user,
-			'references' => $this->user,
 			'subscribe' => $this->user,
 			'accImage' => $this->user,
 			'ajxProfileImageProcess' => $this->user,		
