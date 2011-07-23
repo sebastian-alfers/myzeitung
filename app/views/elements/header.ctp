@@ -54,9 +54,9 @@
 			<?php if($session->read('Auth.User.id')):?>
 			<div id="user-nav">
 				<ul>
-				<li><?php echo $this->Html->link(__('My Blog', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
-				<li><?php echo $this->Html->link(__('Subscriptions', true), array('controller' => 'users', 'action' => 'viewSubscriptions', $session->read('Auth.User.id')));?></li>
-				<li><?php echo $this->Html->link(__('Conversations', true), array('controller' => 'conversations', 'action' => 'index', $session->read('Auth.User.id')));?>
+				<li><?php echo $this->Html->link(__('My Posts', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
+				<li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', $session->read('Auth.User.id')));?></li>
+				<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index', $session->read('Auth.User.id')));?>
 					<?php if($this->Session->read('Auth.User.allow_messages') && isset($conversation_count) && $conversation_count > 0):?>
 					<span class="round-icon"><?php echo $conversation_count;?></span>
 					<?php endif;?>
