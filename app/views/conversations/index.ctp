@@ -41,7 +41,7 @@
                                                     <?php else:?>
                                                         <div class="multible-message-users">
                                                     <?php endif;?>
-                                                     <?php echo  $image->render($ConversationUser['User'], 37, 37, array( "alt" => $ConversationUser['User']['username']), array(), ImageHelper::USER);?>
+                                                     <?php echo  $image->render($ConversationUser['User'], 37, 37, array( "alt" => $ConversationUser['User']['username']), array('tag' => 'div'), ImageHelper::USER);?>
                                                      </div>
                                                         <?php
                                                 }
@@ -55,7 +55,7 @@
                                             if($conversation['Conversation']['ConversationUser'][1]['User']['id'] != $session->read('Auth.User.id')){
                                                 $picture_index = 1;
                                             }
-                                            echo  $image->render($conversation['Conversation']['ConversationUser'][$picture_index]['User'], 37, 37, array( "alt" => $conversation['Conversation']['ConversationUser'][$picture_index]['User']['username']), array(), ImageHelper::USER);
+                                            echo  $image->render($conversation['Conversation']['ConversationUser'][$picture_index]['User'], 37, 37, array( "alt" => $conversation['Conversation']['ConversationUser'][$picture_index]['User']['username']), array('tag' => 'div'), ImageHelper::USER);
                                         endif;?>
 
 
