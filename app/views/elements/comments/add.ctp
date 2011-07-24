@@ -9,7 +9,7 @@ function ajxSubmitComment(){
 	
 	if(reply){
 		//get reply value to validate
-		validation_error = '<?php __('Please add reply text or press cancel'); ?>';
+		validation_error = '<?php __('Please enter your reply or press cancel'); ?>';
 		$('.reply_text').each(function(index) {
 			if($(this).val() != ''){
 				text = $(this).val();
@@ -21,7 +21,7 @@ function ajxSubmitComment(){
 	else{
 		//get post comment to validate
 		text = $('#comment_text').val();
-		validation_error = '<?php __('Please add comment text'); ?>';	
+		validation_error = '<?php __('Please enter your comment'); ?>';
 	}
 	
 	if(text == ''){

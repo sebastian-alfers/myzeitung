@@ -45,7 +45,7 @@
 
 <div id="files"></div>
     <label><?php __('Media (images and videos): '); ?></label>
-<span id="main-teaser"><?php __('Main Teaser'); ?></span>
+<span id="main-teaser"><?php __('Preview Picture'); ?></span>
 <ul id="sortable" class="add-article-images">
 <?php if(isset($images)): ?>
 <?php foreach($images as $img): ?>

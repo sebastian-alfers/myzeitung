@@ -163,11 +163,11 @@ var $belongsTo = array(
 								
 							$categoryPaperPostData = array('created' => $this->data['PostUser']['created'], 'post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 							
-							$affectedPapers[$wholeUserReference['Paper']['id']] = '';
+							$affectedPapers[$topicReference['Paper']['id']] = '';
 							
 							if($topicReference['Category']['id']){
 								$categoryPaperPostData['category_id'] = $topicReference['Category']['id'];
-								$affectedCategories[$wholeUserReference['Category']['id']] = '';
+								$affectedCategories[$topicReference['Category']['id']] = '';
 							}
 								
 								

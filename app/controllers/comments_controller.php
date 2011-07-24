@@ -112,7 +112,7 @@ class CommentsController extends AppController {
 
 	function delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for comment', true));
+			$this->Session->setFlash(__('Invalid comment id', true));
 			$this->redirect($this->referer());
 		}
 		//check, if user is allwed to delte this comment
@@ -130,7 +130,7 @@ class CommentsController extends AppController {
 			$this->Session->setFlash(__('Comment deleted', true), 'default', array('class' => 'success'));
 			$this->redirect($this->referer());
 		}
-		$this->Session->setFlash(__('Comment was not deleted', true));
+		$this->Session->setFlash(__('Comment has not been deleted', true));
 		$this->redirect($this->referer());
 	}
 

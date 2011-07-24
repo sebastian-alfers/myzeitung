@@ -4,430 +4,539 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-07-11 14:40+0200\n"
-"PO-Revision-Date: 2011-07-14 14:01+0100\n"
+"POT-Creation-Date: 2011-07-23 17:46+0200\n"
+"PO-Revision-Date: 2011-07-24 13:45+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
-"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plurals=n != 1;\n"
+
+#: /app_controller.php:225
+msgid "No Permission"
+msgstr "Keine Berechtigung"
 
 #: /controllers/categories_controller.php:17;88
 msgid "Invalid category"
-msgstr "Falsche Kategorie"
+msgstr "Ungültige Kategorie"
 
 #: /controllers/categories_controller.php:39
 msgid "Invalid parameters"
-msgstr "Falscher Parameter"
+msgstr "Ungültige Parameter"
 
 #: /controllers/categories_controller.php:61
-msgid "Error! Unable to read parent category!"
-msgstr ""
+msgid "Unable to read parent category."
+msgstr "Mutterkategorie konnte nicht gelesen werden."
 
 #: /controllers/categories_controller.php:72
-msgid "Paper does not belong to you!"
-msgstr "Die Zeitung gehört nicht zu Dir!"
+msgid "This paper does not belong to you. You cannot add a category."
+msgstr "Die Zeitung gehört nicht Dir. Du kannst keine Kategorie hinzufügen."
 
 #: /controllers/categories_controller.php:78;93
 msgid "The category has been saved"
-msgstr "Die Kategorie wurde gespeichert!"
+msgstr "Die Kategorie wurde gespeichert."
 
 #: /controllers/categories_controller.php:81;96
 msgid "The category could not be saved. Please, try again."
-msgstr "Die Kategorie konnte nicht gespeichert werden. Versuche es bitte noch einmal."
+msgstr "Die Kategorie konnte nicht gespeichert werden. Versuch es bitte noch einmal."
 
 #: /controllers/categories_controller.php:109
 msgid "Invalid id for category"
-msgstr "Unbekannte Kategorie-ID"
+msgstr "Ungültige Kategorie-ID."
 
 #: /controllers/categories_controller.php:113
 msgid "Category deleted"
-msgstr "Die Kategorie wurde gelöscht."
+msgstr "Kategorie gelöscht"
 
 #: /controllers/categories_controller.php:116
 msgid "Category was not deleted"
-msgstr "Die Kategorie wurde nicht gelöscht."
+msgstr "Kategorie konnte nicht gelöscht werden"
 
-#: /controllers/comments_controller.php:32
+#: /controllers/comments_controller.php:33
 msgid "The comment has been saved"
-msgstr "Dein Kommentar wurde gelöscht."
+msgstr "Der Kommentar wurde gespeichert"
 
-#: /controllers/comments_controller.php:35
+#: /controllers/comments_controller.php:36
 msgid "The comment could not be saved. Please, try again."
-msgstr "Dein Kommentar konnte nicht gespeichert werden. Versuche es bitte noch einmal."
+msgstr "Der Kommentar konnte nicht gespeichert werden. Versuch es bitte noch einmal."
 
-#: /controllers/comments_controller.php:112
-msgid "Invalid id for comment"
-msgstr ""
+#: /controllers/comments_controller.php:115
+msgid "Invalid comment id"
+msgstr "Ungültige Kommentar-ID"
 
-#: /controllers/comments_controller.php:121
+#: /controllers/comments_controller.php:124
 msgid "You are not allowed to delete this comment"
-msgstr "Dieser Kommentar kann von Dir nicht gelöscht werden."
-
-#: /controllers/comments_controller.php:127
-msgid "Comment deleted"
-msgstr "Dein Kommentar wurde gelöscht"
+msgstr "Du hast nicht die Berechtigung diesen Kommentar zu löschen."
 
 #: /controllers/comments_controller.php:130
-msgid "Comment was not deleted"
-msgstr "Dein Kommentar wurde nicht gelöscht"
+msgid "Comment deleted"
+msgstr "Der Kommentar wurde gelöscht"
 
-#: /controllers/conversations_controller.php:11
-msgid "Invalid recipent"
-msgstr "Falscher Empfänger"
+#: /controllers/comments_controller.php:133
+msgid "Comment has not been deleted"
+msgstr "Der Kommentar konnte nicht gelöscht werden"
 
-#: /controllers/conversations_controller.php:23
-msgid "This recipent does not acceppt messages."
-msgstr "Dieser Nutzer möchte keine Nachrichten empfangen"
+#: /controllers/comments_controller.php:156
+msgid "New comment on your post:"
+msgstr "Neuer Kommentar zu deinem Artikel:"
 
-#: /controllers/conversations_controller.php:59;90
+#: /controllers/complaints_controller.php:51
+msgid "Thank you for you help! Your complaint will be processed."
+msgstr "Danke für Deine Hilfe! Deine Beschwerde wird geprüft."
+
+#: /controllers/complaints_controller.php:124;132
+msgid "Invalid complaint"
+msgstr "Ungültige Beschwerde"
+
+#: /controllers/complaints_controller.php:148
+msgid "The complaint has been saved"
+msgstr "Die Beschwerde wurde gespeichert."
+
+#: /controllers/complaints_controller.php:151
+msgid "The complaint could not be saved. Please, try again."
+msgstr "Die Beschwerde konnte nicht gespeichert werden. Bitte versuch es noch einmal."
+
+#: /controllers/complaints_controller.php:175
+msgid "Invalid id for complaint"
+msgstr "Ungültige Beschwerde-ID"
+
+#: /controllers/complaints_controller.php:179
+msgid "Complaint deleted"
+msgstr "Die Beschwerde wurde gelöscht."
+
+#: /controllers/complaints_controller.php:182
+msgid "Complaint was not deleted"
+msgstr "Die Beschwerde konnte nicht gelöscht werden."
+
+#: /controllers/conversations_controller.php:13
+msgid "Invalid recipient"
+msgstr "Ungültiger Empfänger"
+
+#: /controllers/conversations_controller.php:25
+msgid "This user does not acceppt messages."
+msgstr "Dieser Benutzer möchte keine Nachrichten empfangen."
+
+#: /controllers/conversations_controller.php:63
 msgid "The Message has been sent"
-msgstr "Deine Nachricht wurde verschickt"
+msgstr "Die Nachricht wurde gesendet."
 
-#: /controllers/conversations_controller.php:64
+#: /controllers/conversations_controller.php:68
 msgid "The Message could not be sent. Please, try again."
-msgstr "Deine Nachricht konnte nicht verschickt werden. Bitte versuche es noch einmal."
+msgstr "Die Nachricht konnte nicht gesendet werden. Bitte versuch es noch einmal."
 
-#: /controllers/conversations_controller.php:111
-msgid "The Message could not be sent, please try again"
-msgstr "Deine Nachricht konnte nicht verschickt werden. Bitte versuche es noch einmal."
-
-#: /controllers/conversations_controller.php:115
-msgid "You do not participate in this particular conversation. You are not allowed to answer"
-msgstr "Du bist an diesem Gespräch nicht beteiligt. Deshalb kannst du nicht antworten."
-
-#: /controllers/conversations_controller.php:141;187
+#: /controllers/conversations_controller.php:182;242
 msgid "You do not participate in this particular conversation."
-msgstr "Du bist an diesem Gespräch nicht beteiligt."
+msgstr "Du nimmst an dieser Konversation nicht teil."
 
-#: /controllers/papers_controller.php:64;417;462
+#: /controllers/conversations_controller.php:287
+msgid "New Message from"
+msgstr "Neue Nachricht von"
+
+#: /controllers/papers_controller.php:67;427;472
 msgid "Invalid paper"
-msgstr "Falsche Zeitung"
+msgstr "Ungültige Zeitung"
 
-#: /controllers/papers_controller.php:142
-msgid "Error while uploading photo"
-msgstr "Fehler während des Foto- Uploads."
+#: /controllers/papers_controller.php:150
+msgid "Error during photo upload"
+msgstr "Während des Bild-Uploads ist ein Fehler aufgetreten."
 
-#: /controllers/papers_controller.php:165
+#: /controllers/papers_controller.php:173
 msgid "Image has been saved"
-msgstr "Das Bild wurde gespeichert"
+msgstr "Das Bild wurde gespeichert."
 
-#: /controllers/papers_controller.php:170;176
+#: /controllers/papers_controller.php:178;184
 msgid "Could not save paper picture, please try again."
-msgstr "Das Profilbild der Zeitung konnte nicht gespeichert werden. Bitte versuche es noch einmal."
+msgstr "Das Zeitungsbild konnte nicht gespeichert werden. Bitte versuch es noch einmal."
 
-#: /controllers/papers_controller.php:182
+#: /controllers/papers_controller.php:190
 msgid "You do not have permissions"
-msgstr "Dazu fehlt Dir die Autorisierung."
+msgstr "Du hast nicht die nötige Berechtigung für diesen Vorgang."
 
-#: /controllers/papers_controller.php:205
-msgid "Subscribed successfully."
-msgstr "Erfolgreich abonniert."
+#: /controllers/papers_controller.php:213
+msgid "You successfully subscribed to the paper: %s"
+msgstr "Du hast erfolgreich folgende Zeitung abonniert: %s"
 
-#: /controllers/papers_controller.php:207
-msgid "Could not subscribe"
-msgstr ""
+#: /controllers/papers_controller.php:215
+msgid "Could not subscribe this paper."
+msgstr "Das Abonnieren dieser Zeitung ist fehlgeschlagen."
 
-#: /controllers/papers_controller.php:210;237
-msgid "Invalid paper id"
-msgstr ""
+#: /controllers/papers_controller.php:218;223
+msgid "Invalid paper id."
+msgstr "Ungültige Zeitungs-ID."
 
-#: /controllers/papers_controller.php:215;242
-#: /controllers/posts_controller.php:77;106
-msgid "No paper id"
-msgstr ""
+#: /controllers/papers_controller.php:239
+msgid "You successfully unsubscribed the paper: %s"
+msgstr "Du hast erfolgreich das Abonnement für folgende Zeitung beendet: %s"
 
-#: /controllers/papers_controller.php:232
-msgid "Unsubscribed successfully."
-msgstr "Das Abonnement wurde erfolgreich beendet."
-
-#: /controllers/papers_controller.php:234
+#: /controllers/papers_controller.php:241
 msgid "Could not unsubscribe"
-msgstr "Das Abonnement konnte nicht beendet werden."
+msgstr "Das Abonnement konnte nicht beendet werden. Bitte versuch es noch einmal."
 
-#: /controllers/papers_controller.php:256
+#: /controllers/papers_controller.php:244
+msgid "Invalid paper id"
+msgstr "Ungültige Zeitungs-ID"
+
+#: /controllers/papers_controller.php:249
+msgid "No paper id"
+msgstr "Keine Zeitungs-ID übergeben"
+
+#: /controllers/papers_controller.php:263
 msgid "invalid data for content view "
 msgstr ""
 
-#: /controllers/papers_controller.php:352
-msgid "No param for paper"
-msgstr ""
+#: /controllers/papers_controller.php:362
+msgid "No paper parameter passed."
+msgstr "Keine Zeitungs-ID übergeben"
 
-#: /controllers/papers_controller.php:356
-msgid "Wrong type do add for"
-msgstr ""
+#: /controllers/papers_controller.php:366
+msgid "Invalid parameter for the target passed."
+msgstr "Ungültiger Parameter für das Abonnementziel übergeben."
 
-#: /controllers/papers_controller.php:392;423
+#: /controllers/papers_controller.php:402;433
 msgid "The paper has been saved"
-msgstr "Die Zeitung wurde gespeichert"
+msgstr "Die Zeitung wurde gespeichert."
 
-#: /controllers/papers_controller.php:396
-msgid "Paper saved, error wile saving the paper route"
-msgstr ""
+#: /controllers/papers_controller.php:406
+msgid "Paper saved, error while saving the paper route"
+msgstr "Zeitung gespeichert, jedoch ist ein Fehler beim Speichervorgang der Zeitungs-Route aufgetreten."
 
-#: /controllers/papers_controller.php:399;426
+#: /controllers/papers_controller.php:409;436
 msgid "The paper could not be saved. Please, try again."
-msgstr "Die Zeitung konnte nicht gespeichert werden. Bitte versuche se später noch einmal."
+msgstr "Die Zeitung konnte nicht gespeichert werden, bitte versuch es noch einmal."
 
-#: /controllers/papers_controller.php:443
+#: /controllers/papers_controller.php:453
 msgid "Invalid id for paper"
-msgstr ""
+msgstr "Ungültige Zeitungs-ID"
 
-#: /controllers/papers_controller.php:447
+#: /controllers/papers_controller.php:457
 msgid "Paper deleted"
 msgstr "Die Zeitung wurde gelöscht."
 
-#: /controllers/papers_controller.php:450
+#: /controllers/papers_controller.php:460
 msgid "Paper was not deleted"
-msgstr "Die Zeitung konnte nicht gelöscht werden."
+msgstr "Die Zeitung konnte nicht gelöscht werden. Bitte versuch es noch einmal."
 
-#: /controllers/papers_controller.php:467
-msgid "Wrong permissions"
-msgstr ""
+#: /controllers/papers_controller.php:477
+msgid "No permissions"
+msgstr "Keine Berechtigung für diesen Vorgang."
 
-#: /controllers/posts_controller.php:67
+#: /controllers/posts_controller.php:75
 msgid "Post successfully reposted."
 msgstr "Der Artikel wurde erfolgreich weitergeleitet."
 
-#: /controllers/posts_controller.php:69
+#: /controllers/posts_controller.php:77
 msgid "Post could not be reposted"
-msgstr "Der Artikel konnte nicht erfolgreich weitergeleitet werden."
+msgstr "Der Artikel konnte nicht weitergeleitet werden. Bitte versuch es noch einmal."
 
-#: /controllers/posts_controller.php:72;101
+#: /controllers/posts_controller.php:80;109
 msgid "Invalid post id"
-msgstr ""
+msgstr "Ungültige Artikel-ID"
 
-#: /controllers/posts_controller.php:96
+#: /controllers/posts_controller.php:85;114
+msgid "No post id"
+msgstr "Keine Artikel-ID übergeben"
+
+#: /controllers/posts_controller.php:104
 msgid "Repost deleted successfully."
-msgstr "Der weitergeleitete Artikel wurde erfolgreich gelöscht."
+msgstr "Die Weiterleitung wurde erfolgreich gelöscht."
 
-#: /controllers/posts_controller.php:98
+#: /controllers/posts_controller.php:106
 msgid "Repost could not be deleted"
-msgstr "Der weitergeleitete Artikel konnte nicht weitergeleitet werden."
+msgstr "Die Weiterleitung konnte nicht gelöscht werden. Bitte versuch es noch einmal."
 
-#: /controllers/posts_controller.php:119;321
+#: /controllers/posts_controller.php:127;352
 msgid "Invalid post"
-msgstr ""
+msgstr "Ungültiger Artikel"
 
-#: /controllers/posts_controller.php:221;225
+#: /controllers/posts_controller.php:235;239
 msgid "Not able to copy images for post"
-msgstr ""
+msgstr "Beim Kopieren der Artikel-Bilder traten Probleme auf."
 
-#: /controllers/posts_controller.php:229;355
+#: /controllers/posts_controller.php:243;394
 msgid "The post has been saved"
 msgstr "Der Artikel wurde gespeichert."
 
-#: /controllers/posts_controller.php:232;358
+#: /controllers/posts_controller.php:252;404
 msgid "The post could not be saved. Please, try again."
-msgstr "Der Artikel konnte nicht gespeichert werden. Bitte versuche es später noch einmal."
+msgstr "Der Artikel konnte nicht gespeichert werden. Bitte versuch es noch einmal."
 
-#: /controllers/posts_controller.php:239;368
+#: /controllers/posts_controller.php:262;426
+#: /controllers/topics_controller.php:63
 msgid "No Topic"
 msgstr "Kein Thema"
 
-#: /controllers/posts_controller.php:242;370
+#: /controllers/posts_controller.php:267
 msgid "default value"
-msgstr ""
+msgstr "Standardwert"
 
-#: /controllers/posts_controller.php:243;371
+#: /controllers/posts_controller.php:268;429
 msgid "Yes"
 msgstr "Ja"
 
-#: /controllers/posts_controller.php:244;372
+#: /controllers/posts_controller.php:269;430
 msgid "No"
 msgstr "Nein"
 
-#: /controllers/posts_controller.php:295;307
+#: /controllers/posts_controller.php:326;338
 msgid "No permission"
-msgstr "Es liegt keine Autorisierung vor."
+msgstr "Du hast keine Berechtigung für diesen Vorgang."
 
-#: /controllers/posts_controller.php:418
+#: /controllers/posts_controller.php:428
+msgid "use privacy settings"
+msgstr "Einstellung aus Privatsphäre"
+
+#: /controllers/posts_controller.php:476
 msgid "Invalid id for post"
-msgstr ""
+msgstr "Ungültige Artikel-ID"
 
-#: /controllers/posts_controller.php:423
+#: /controllers/posts_controller.php:481
 msgid "Post deleted"
 msgstr "Der Artikel wurde erfolgreich gelöscht."
 
-#: /controllers/posts_controller.php:426
+#: /controllers/posts_controller.php:484
 msgid "Post was not deleted"
-msgstr "Der Artikel konnte nicht gelöscht werden."
+msgstr "Der Artikel konnte nicht gelöscht werden. Bitte versuch es noch einmal."
 
-#: /controllers/users_controller.php:86;95;161;281;658;710;742;773
+#: /controllers/users_controller.php:94;103;169;302;755;807;839;870;1064;1086
 msgid "Invalid user"
-msgstr "Falscher Nutzer"
-
-#: /controllers/users_controller.php:265
-msgid "Thank you for registration."
-msgstr "Danke, dass Du Dich registriert hast."
-
-#: /controllers/users_controller.php:272;289
-msgid "The user could not be saved. Please, try again."
-msgstr "Dein Nutzerkonto konnte nicht gespeichert werden. Bitte versuche es noch einmal."
+msgstr "Ungültiger Benutzer"
 
 #: /controllers/users_controller.php:286
+msgid "Thank you for registration."
+msgstr "Danke für deine Registrierung."
+
+#: /controllers/users_controller.php:293;310;1077;1094
+msgid "The user could not be saved. Please, try again."
+msgstr "Der Benutzer konnte nicht gespeichert werden. Bitte versuch es noch einmal."
+
+#: /controllers/users_controller.php:307;1074;1091
 msgid "The user has been saved"
-msgstr "Dein Nutzerkonto wurde erfolgreich gespeichert."
+msgstr "Der Benutzer wurde gespeichert."
 
-#: /controllers/users_controller.php:324;437
+#: /controllers/users_controller.php:345
+msgid "No user id passed."
+msgstr "Es wurde keine Benutzer-ID übergeben."
+
+#: /controllers/users_controller.php:416
+msgid "Not able to subscribe user/topic to paper - invalid target type"
+msgstr ""
+
+#: /controllers/users_controller.php:482
 msgid "No user param"
-msgstr ""
+msgstr "Es wurde kein Benutzer übergeben."
 
-#: /controllers/users_controller.php:382
-msgid "Not able to associate content to paper - invalid target type"
-msgstr ""
+#: /controllers/users_controller.php:504
+#: /views/layouts/default.ctp:26
+#: /views/layouts/home.ctp:26
+msgid "myZeitung"
+msgstr "myZeitung"
 
-#: /controllers/users_controller.php:418;554
-msgid "Content has been associated to paper"
-msgstr ""
-
-#: /controllers/users_controller.php:425;560
-msgid "Not able to associate content to paper"
-msgstr ""
-
-#: /controllers/users_controller.php:445
-msgid "Can not subscribe yourself"
-msgstr ""
-
-#: /controllers/users_controller.php:456
-msgid "User has no paper"
-msgstr "Der Nutzer hat keine Zeitung."
-
-#: /controllers/users_controller.php:490
+#: /controllers/users_controller.php:554
 msgid "Can not load user"
-msgstr "Der Nutzer konnte nicht geladen werden."
+msgstr "Benutzer konnte nicht gelesen werden."
 
-#: /controllers/users_controller.php:567
-msgid "Error while reading paper"
-msgstr ""
-
-#: /controllers/users_controller.php:670;683;717;748
+#: /controllers/users_controller.php:767;780;814;845
 msgid "The changes have been saved"
 msgstr "Die Änderungen wurden gespeichert."
 
-#: /controllers/users_controller.php:678;688;722;753
+#: /controllers/users_controller.php:775;785;819;850
 msgid "The changes could not be saved. Please, try again."
-msgstr "Die Änderungen konnten nicht gespeichert werden. Bitte versuche es noch einmal."
+msgstr "Die Änderungen konnten nicht gespeichert werden. Bitte versuch es noch einmal."
 
-#: /controllers/users_controller.php:782
+#: /controllers/users_controller.php:879
 msgid "Your account has been deleted."
-msgstr "Dein Nutzerkonto wurde erfolgreich gelöscht."
+msgstr "Dein Benutzerkonto wurde gelöscht."
 
-#: /controllers/users_controller.php:785
+#: /controllers/users_controller.php:882
 msgid "Your account could not be deleted."
-msgstr "Dein Nutzerkonto konnte nicht gelöscht werden."
+msgstr "Dein Benutzerkonto konnte nicht gelöscht werden. Bitte versuch es noch einmal."
 
-#: /controllers/users_controller.php:808
+#: /controllers/users_controller.php:905
 msgid "Error while loading user"
-msgstr "Fehler beim Laden des Nutzers"
+msgstr "Während dem Laden des Benutzers ist ein Fehler aufgetreten."
 
-#: /controllers/users_controller.php:826
+#: /controllers/users_controller.php:923
 msgid "Your new profile picture has been saved."
-msgstr "Dein neues Profilbild wurde erfolgreich gespeichert."
+msgstr "Dein neues Profilbild wurde gespeichert."
 
-#: /controllers/users_controller.php:832;839
+#: /controllers/users_controller.php:929;936
 msgid "Could not save profile picture, please try again."
-msgstr "Das Profilbild konnte nicht gespeichert werden."
+msgstr "Dein Profilbild konnte nicht gespeichert werden. Bitte versuch es noch einmal."
 
-#: /models/paper.php:94
-msgid "Please enter a title for your paper"
-msgstr "Gib Deiner Zeitung bitte einen Titel."
+#: /controllers/users_controller.php:1010
+msgid "Welcome to myZeitung"
+msgstr "Willkommen zu myZeitung"
 
-#: /models/paper.php:99
-msgid "Paper titles can only be 15 characters long."
-msgstr "Der Zeitungstitel darf aus maximal 15 Zeichen bestehen."
+#: /controllers/users_controller.php:1018
+msgid "Password change request"
+msgstr "Deine Anfrage zur Passwortänderung"
 
-#: /models/paper.php:106
-msgid "Descriptions can only be 200 characters long."
-msgstr "Die Beschreibung der Zeitung darf aus maximal 200 Zeichen bestehen."
+#: /controllers/users_controller.php:1052
+msgid "Subscription info"
+msgstr "Abonnement-Benachrichtigung"
 
-#: /models/paper.php:113
-msgid "Please provide a valid URL. http://your.link"
-msgstr "Gib bitte eine gültige URL ein, bspw. http://your.link"
+#: /controllers/users_controller.php:1101
+#: /views/elements/search/results/user.ctp:25
+msgid "Author"
+msgstr "Autor"
 
-#: /models/post.php:423
-msgid "Please enter a title."
-msgstr "Gib deinem Artikel bitte einen Titel."
+#: /controllers/users_controller.php:1102
+#: /views/elements/header.ctp:89
+msgid "Admin"
+msgstr "Admin"
 
-#: /models/post.php:428
-msgid "Titles can only be 100 characters long."
-msgstr "Der Zeitungstitel darf aus maximal 100 Zeichen bestehen."
+#: /controllers/users_controller.php:1103
+msgid "Superadmin"
+msgstr "Superadmin"
 
-#: /models/post.php:435
-msgid "Please enter your message."
-msgstr "Gib bitte Deine Nachricht ein."
+#: /controllers/users_controller.php:1110
+msgid "Invalid id for user"
+msgstr "Ungültige User-ID"
 
-#: /models/user.php:121
-msgid "Names can only be 30 characters long."
-msgstr "Namen können aus maximal 30 Zeichen bestehen."
+#: /controllers/users_controller.php:1114
+msgid "User deleted"
+msgstr "Der Benutzer wurde gelöscht."
 
-#: /models/user.php:128
-msgid "Your description can only be 200 characters long."
-msgstr "Deine Beschreibung darf maximal 200 Zeichen enthalten"
+#: /controllers/users_controller.php:1117
+msgid "User was not deleted"
+msgstr "Der Benutzer konnte nicht gelöscht werden."
 
+#: /models/complaint.php:111
+#: /models/user.php:131
+msgid "Please enter your email address."
+msgstr "Bitte trage deine Email-Adresse ein."
+
+#: /models/complaint.php:116
 #: /models/user.php:136
-msgid "Please enter your email adress."
-msgstr "Gib bitte Deine Emailadresse ein."
+msgid "Please enter a valid email address."
+msgstr "Bitte trage eine gültige Email-Adresse ein."
+
+#: /models/paper.php:120
+msgid "Please enter a title for your paper"
+msgstr "Bitte trage einen Titel für deine Zeitung ein."
+
+#: /models/paper.php:125
+msgid "Paper titles can only be 40 characters long."
+msgstr "Zeitungstitel können maximal 40 Zeichen lang sein."
+
+#: /models/paper.php:132
+msgid "Descriptions can only be 200 characters long."
+msgstr "Beschreibungen können maximal 200 Zeichen lang sein."
+
+#: /models/paper.php:139
+msgid "Please provide a valid URL. http://your-link.domain"
+msgstr "Bitte trage eine gültige URL ein. Bsp.: http://dein-link.de"
+
+#: /models/paper.php:147
+msgid "User/Topic successfully subscribed to your Paper/Category"
+msgstr "Autor/Thema wurde erfolgreich in deine Zeitung/Kategorie abonniert"
+
+#: /models/paper.php:148
+msgid "Subscription successfully saved. There was at least one topic of this user subscribed to your Paper/Category which has been replaced to allow this new Subscription."
+msgstr "Das Abonnement wurde erfolgreicht gespeichert. Mindestens ein Thema des abonnierten Autors wurde in deiner Zeitung/Kategorie ersetzt, um dieses neue Abonnement zu ermöglichen."
+
+#: /models/paper.php:149
+msgid "This exact Subscription already exists"
+msgstr "Genau dieses Abonnement besteht bereits."
+
+#: /models/paper.php:150
+msgid "You already subscribed this User (with all topics) to this Paper/Category"
+msgstr "Du hast bereits diesen Autor (mit all seinen Themen) in diese Zeitung/Kategorie abonniert."
+
+#: /models/paper.php:151
+msgid "Invalid Topic chosen"
+msgstr "Ungültiges Thema ausgewählt"
+
+#: /models/paper.php:152
+msgid "The Subscription could not be saved, please try again"
+msgstr "Das Abonnenment konnte nicht gespeichert werden. Bitte versuch es erneut."
+
+#: /models/paper.php:153
+msgid "The Paper of the your chosen Category could not be found."
+msgstr "Die Zeitung zur ausgewählten Kategorie konnte nicht gefunden werden."
+
+#: /models/paper.php:154
+msgid "No valid User/Topic or Paper/Category chosen"
+msgstr "Ungültiger Autor(/Thema) oder Zeitung(/Kategorie) ausgewählt"
+
+#: /models/post.php:468
+msgid "Please enter a Title."
+msgstr "Bitte trage einen Titel ein."
+
+#: /models/post.php:473
+msgid "Titles can only be 100 characters long."
+msgstr "Titel können maximal 100 Zeichen lang sein."
+
+#: /models/post.php:480
+msgid "Please provide additional content: a picture, a video, a message or a link."
+msgstr "Bitte füge zusätzlichen Inhalt ein: einen Text, ein Bild, ein Video oder einen Link(Quelle)"
+
+#: /models/user.php:116
+msgid "Names can only be 40 characters long."
+msgstr "Namen können maximal 40 Zeichen lang sein."
+
+#: /models/user.php:123
+msgid "Your description can only be 200 characters long."
+msgstr "Deine Beschreibung kann maximal 200 Zeichen lang sein."
 
 #: /models/user.php:141
-msgid "Please enter a valid email address."
-msgstr "Gib bitte eine gültige Emailadresse ein."
-
-#: /models/user.php:146
 msgid "This email address has already been registered."
-msgstr "Diese Emailadresse wurde bereits registriert."
+msgstr "Diese Email-Adresse wurde bereits registriert."
+
+#: /models/user.php:149
+msgid "Please enter your desired username."
+msgstr "Bitte gib deinen gewünschten Benutzernamen ein."
 
 #: /models/user.php:154
-msgid "Please enter your desired username."
-msgstr "Gib bitte Deinen gewünschten Nutzernamen ein."
+msgid "Usernames must be between 3 and 15 characters long."
+msgstr "Benutzernamen müssen zwischen 3 und 15 Zeichen lang sein."
 
 #: /models/user.php:159
-msgid "Usernames must be between 3 and 15 characters long."
-msgstr "Nutzernamen müssen aus 3 bis 15 Zeichen bestehen."
+msgid "Usernames must only contain letters and numbers."
+msgstr "Benutzernamen dürfen nur Buchstaben und Zahlen enthalten."
 
 #: /models/user.php:164
-msgid "Usernames must only contain letters and numbers."
-msgstr "Nutzernamen dürfen nur aus Buchstaben und Zahlen bestehen"
-
-#: /models/user.php:169
 msgid "This username has already been taken."
-msgstr "Dieser Nutzername ist bereits registriert."
+msgstr "Dieser Benutzername wird bereits verwendet."
 
-#: /models/user.php:178
+#: /models/user.php:173
 msgid "Passwords must be between 5 and 20 characters long."
-msgstr "Das Passwort muss aus 5 bis 20 Zeichen bestehen."
+msgstr "Passwörter müssen zwischen 5 und 20 Zeichen lang sein."
 
-#: /models/user.php:185
+#: /models/user.php:180
 msgid "Passwords do not match"
-msgstr "Die Passwörter stimmen nicht überein."
+msgstr "Passwörter stimmen nicht überein."
 
-#: /models/user.php:192
+#: /models/user.php:187
 msgid "Your old password does not match."
-msgstr "Dein altes Passwort stimmt nicht mit dem neuen überein."
+msgstr "Dein altes Passwort stimmt nicht."
 
-#: /models/user.php:199
+#: /models/user.php:194
 msgid "Please accept the terms of service and privacy policy."
-msgstr "Bitte stimmen Sie den AGB und DSR zu."
+msgstr "Bitte akzeptiere die AGB und DSR."
 
 #: /views/categories/add.ctp:4
 #: /views/papers/index_backup_alf.ctp:57
 msgid "Add Category"
-msgstr "Füge eine Kategorie hinzu."
+msgstr "Kategorie hinzufügen"
 
 #: /views/categories/add.ctp:15
 #: /views/categories/edit.ctp:13
 #: /views/comments/add.ctp:13
+#: /views/complaints/admin_edit.ctp:34
 #: /views/conversations/add.ctp:15
 #: /views/conversations/reply.ctp:12
+#: /views/elements/topics/view.ctp:7
 #: /views/papers/addcontent.ctp:15
 #: /views/papers/edit.ctp:15
 #: /views/posts/edit.ctp:13
 #: /views/topics/add.ctp:10
 #: /views/topics/edit.ctp:10
-#: /views/users/subscribe.ctp:26
+#: /views/users/admin_add.ctp:25
+#: /views/users/admin_edit.ctp:18
 msgid "Submit"
-msgstr "Speichern"
+msgstr "Senden"
 
 #: /views/categories/edit.ctp:4
 #: /views/categories/view.ctp:34
@@ -438,38 +547,35 @@ msgstr "Kategorie editieren"
 #: /views/categories/index.ctp:10;61
 #: /views/categories/view.ctp:32;56
 #: /views/comments/show.ctp:86
-#: /views/elements/papers/navigator.ctp:11
 #: /views/papers/edit.ctp:18
 #: /views/papers/index_backup_alf.ctp:19;80
 #: /views/topics/add.ctp:13
 #: /views/topics/edit.ctp:13
-#: /views/topics/index.ctp:11;53
-#: /views/topics/view.ctp:37;56
+#: /views/users/admin_add.ctp:28
+#: /views/users/admin_index.ctp:12
 msgid "Actions"
 msgstr ""
 
 #: /views/categories/edit.ctp:19
 #: /views/categories/index.ctp:41
 #: /views/categories/view.ctp:75
-#: /views/elements/papers/navigator.ctp:38
+#: /views/complaints/admin_index.ctp:71
 #: /views/papers/edit.ctp:21
 #: /views/papers/index_backup_alf.ctp:60
-#: /views/topics/index.ctp:33
-#: /views/topics/view.ctp:81
+#: /views/posts/view.ctp:109
+#: /views/users/admin_index.ctp:36
 msgid "Delete"
 msgstr "Löschen"
 
 #: /views/categories/edit.ctp:19
 #: /views/categories/index.ctp:41
 #: /views/categories/view.ctp:35;75
-#: /views/elements/papers/navigator.ctp:38
-#: /views/elements/posts/navigator.ctp:111
+#: /views/complaints/admin_index.ctp:71
 #: /views/papers/edit.ctp:21
 #: /views/papers/index_backup_alf.ctp:60
-#: /views/topics/index.ctp:33
-#: /views/topics/view.ctp:81
+#: /views/users/admin_index.ctp:36
 msgid "Are you sure you want to delete # %s?"
-msgstr "Bist Du sicher, dass Du #%s löschen willst?"
+msgstr "Bist Du sicher, dass du # %s löschen willst?"
 
 #: /views/categories/edit.ctp:20;25
 #: /views/categories/index.ctp:68
@@ -483,15 +589,18 @@ msgstr "Kategorien auflisten"
 #: /views/categories/index.ctp:64
 #: /views/categories/view.ctp:38
 #: /views/papers/edit.ctp:22
+#: /views/users/admin_add.ctp:44
 msgid "List Papers"
 msgstr "Zeitungen auflisten"
 
 #: /views/categories/edit.ctp:22
 #: /views/categories/index.ctp:65
 #: /views/categories/view.ctp:39
-#: /views/elements/users/sidebar/buttons.ctp:8
+#: /views/elements/header.ctp:77
+#: /views/elements/users/sidebar/buttons.ctp:15
 #: /views/papers/add_edit.ctp:15
 #: /views/papers/index_backup_alf.ctp:82
+#: /views/users/admin_add.ctp:45
 msgid "New Paper"
 msgstr "Neue Zeitung"
 
@@ -500,22 +609,24 @@ msgstr "Neue Zeitung"
 #: /views/categories/view.ctp:40
 #: /views/papers/edit.ctp:23
 #: /views/papers/index_backup_alf.ctp:83
+#: /views/users/admin_add.ctp:34
 msgid "List Routes"
-msgstr ""
+msgstr "Routen auflisten"
 
 #: /views/categories/edit.ctp:24
 #: /views/categories/index.ctp:67
 #: /views/categories/view.ctp:41
 #: /views/papers/edit.ctp:24
 #: /views/papers/index_backup_alf.ctp:84
+#: /views/users/admin_add.ctp:35
 msgid "New Route"
-msgstr ""
+msgstr "Neue Route"
 
 #: /views/categories/edit.ctp:26
 #: /views/categories/index.ctp:69
 #: /views/categories/view.ctp:43;84
 msgid "New Child Category"
-msgstr ""
+msgstr "Neue Unterkategorie"
 
 #: /views/categories/index.ctp:2
 #: /views/papers/index_backup_alf.ctp:18
@@ -524,53 +635,49 @@ msgstr "Kategorien"
 
 #: /views/categories/index.ctp:38
 msgid "Add Subcategory"
-msgstr "Füge eine Unterkategorie hinzu."
+msgstr "Unterkategorie hinzufügen"
 
 #: /views/categories/index.ctp:39
 #: /views/categories/view.ctp:73
+#: /views/complaints/admin_index.ctp:68
 #: /views/papers/index_backup_alf.ctp:58
-#: /views/topics/index.ctp:31
-#: /views/topics/view.ctp:79
+#: /views/users/admin_index.ctp:33
 msgid "View"
-msgstr "Ansehen"
+msgstr "Ansicht"
 
 #: /views/categories/index.ctp:40
 #: /views/categories/view.ctp:74
-#: /views/elements/papers/navigator.ctp:33
+#: /views/complaints/admin_index.ctp:70
 #: /views/papers/index_backup_alf.ctp:59
-#: /views/posts/view.ctp:21
-#: /views/topics/index.ctp:32
-#: /views/topics/view.ctp:80
+#: /views/posts/view.ctp:110
+#: /views/users/admin_index.ctp:35
 msgid "Edit"
 msgstr "Editieren"
 
 #: /views/categories/index.ctp:49
-#: /views/elements/papers/navigator.ctp:60
+#: /views/complaints/admin_index.ctp:80
 #: /views/papers/index_backup_alf.ctp:68
-#: /views/topics/index.ctp:41
-#: /views/users/index.ctp:34
+#: /views/users/admin_index.ctp:45
 msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
-msgstr ""
+msgstr "Seite %page% von %pages%, zeige %current% Einträge von %count% insg., angefangen bei %start%, endend bei %end%"
 
 #: /views/categories/index.ctp:54
-#: /views/elements/papers/navigator.ctp:64
+#: /views/complaints/admin_index.ctp:85
 #: /views/papers/index_backup_alf.ctp:73
-#: /views/topics/index.ctp:46
-#: /views/users/index.ctp:39
+#: /views/users/admin_index.ctp:50
 msgid "previous"
-msgstr "vorherige"
+msgstr "zurück"
 
 #: /views/categories/index.ctp:57
-#: /views/elements/papers/navigator.ctp:67
+#: /views/complaints/admin_index.ctp:88
 #: /views/papers/index_backup_alf.ctp:76
-#: /views/topics/index.ctp:49
-#: /views/users/index.ctp:42
+#: /views/users/admin_index.ctp:53
 msgid "next"
-msgstr "nächste"
+msgstr "weiter"
 
 #: /views/categories/index.ctp:63
 #: /views/categories/view.ctp:37
-#: /views/elements/papers/sidebar.ctp:59
+#: /views/elements/papers/sidebar.ctp:51
 #: /views/papers/edit.ctp:26
 #: /views/papers/index_backup_alf.ctp:86
 msgid "New Category"
@@ -581,16 +688,18 @@ msgid "Category"
 msgstr "Kategorie"
 
 #: /views/categories/view.ctp:4;51
-#: /views/topics/view.ctp:4;45
+#: /views/complaints/admin_view.ctp:4
+#: /views/users/admin_view.ctp:4
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: /views/categories/view.ctp:9;52
 msgid "Parent Id"
 msgstr ""
 
 #: /views/categories/view.ctp:14
-#: /views/elements/search/results/paper.ctp:17
+#: /views/complaints/admin_view.ctp:10
+#: /views/elements/search/results/paper.ctp:19
 msgid "Paper"
 msgstr "Zeitung"
 
@@ -599,9 +708,9 @@ msgid "Route"
 msgstr ""
 
 #: /views/categories/view.ctp:24;55
-#: /views/topics/view.ctp:9
 #: /views/users/acc_about_me.ctp:22
 #: /views/users/add.ctp:29
+#: /views/users/admin_view.ctp:14
 msgid "Name"
 msgstr "Name"
 
@@ -615,7 +724,7 @@ msgstr ""
 
 #: /views/categories/view.ctp:53
 msgid "Paper Id"
-msgstr ""
+msgstr "Zeitungs-ID"
 
 #: /views/categories/view.ctp:54
 msgid "Route Id"
@@ -626,7 +735,9 @@ msgid "Add Comment"
 msgstr "Kommentar hinzufügen"
 
 #: /views/comments/show.ctp:2
-#: /views/elements/users/sidebar/activity.ctp:5
+#: /views/complaints/admin_index.ctp:7
+#: /views/complaints/admin_view.ctp:45
+#: /views/elements/posts/add_edit_sidebar.ctp:46
 msgid "Comments"
 msgstr "Kommentare"
 
@@ -643,128 +754,295 @@ msgstr "Neuer Kommentar"
 msgid "Back to Post"
 msgstr "Zurück zum Artikel"
 
+#: /views/complaints/add.ctp:5
+msgid "Your Name: "
+msgstr "Dein Name:"
+
+#: /views/complaints/add.ctp:6
+msgid "Your Email: "
+msgstr "Deine Email-Adresse:"
+
+#: /views/complaints/add.ctp:11
+msgid "Firstname"
+msgstr "Vorname"
+
+#: /views/complaints/add.ctp:12
+msgid "Lastname"
+msgstr "Nachname"
+
+#: /views/complaints/add.ctp:13
+#: /views/users/acc_general.ctp:21
+#: /views/users/admin_view.ctp:24
+msgid "Email"
+msgstr "Email-Adresse"
+
+#: /views/complaints/add.ctp:20
+msgid "What is wrong with this User? Please describe the issue below."
+msgstr "Bitte beschreib uns, warum Du Dich über diesen Benutzer/Autor beschwerst."
+
+#: /views/complaints/add.ctp:23
+msgid "What is wrong with this Post? Please describe the issue below."
+msgstr "Bitte beschreib uns, warum Du Dich über diesen Artikel beschwerst."
+
+#: /views/complaints/add.ctp:26
+msgid "What is wrong with this Paper? Please describe the issue below."
+msgstr "Bitte beschreib uns, warum Du Dich über diese Zeitung beschwerst."
+
+#: /views/complaints/add.ctp:29
+msgid "What is wrong with this Comment? Please describe the issue below."
+msgstr "Bitte beschreib uns, warum Du Dich über diesen Kommentar beschwerst."
+
+#: /views/complaints/admin_edit.ctp:4
+msgid "Admin Edit Complaint"
+msgstr ""
+
+#: /views/complaints/admin_edit.ctp:38
+msgid "Comment History"
+msgstr "Kommentar-History"
+
+#: /views/complaints/admin_index.ctp:2
+#: /views/elements/admin_header.ctp:38
+msgid "Complaints"
+msgstr "Beschwerden"
+
+#: /views/complaints/admin_index.ctp:6
+msgid "Complain Type"
+msgstr "Beschwerdetyp"
+
+#: /views/complaints/admin_index.ctp:8
+#: /views/complaints/admin_view.ctp:54
+msgid "Reporter"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:23
+msgid "Paper:"
+msgstr "Zeitung:"
+
+#: /views/complaints/admin_index.ctp:28
+msgid "Post:"
+msgstr "Artikel:"
+
+#: /views/complaints/admin_index.ctp:33
+msgid "Comment:"
+msgstr "Kommentar:"
+
+#: /views/complaints/admin_index.ctp:45
+msgid "User:"
+msgstr "Benutzer:"
+
+#: /views/complaints/admin_index.ctp:51
+msgid "comments"
+msgstr "Kommentare"
+
+#: /views/complaints/admin_index.ctp:54
+msgid "comment"
+msgstr "Kommentar"
+
+#: /views/complaints/admin_view.ctp:2
+msgid "Complaint"
+msgstr "Beschwerde"
+
+#: /views/complaints/admin_view.ctp:17
+#: /views/elements/search/results/post.ctp:44
+msgid "Post"
+msgstr "Artikel"
+
+#: /views/complaints/admin_view.ctp:25
+msgid "Comment"
+msgstr "Kommentar"
+
+#: /views/complaints/admin_view.ctp:33
+#: /views/users/admin_view.ctp:2
+msgid "User"
+msgstr "Benutzer"
+
+#: /views/complaints/admin_view.ctp:40
+msgid "Reason"
+msgstr "Grund"
+
+#: /views/complaints/admin_view.ctp:61
+msgid "Reporter Email"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:66
+msgid "Complaintstatus"
+msgstr "Beschwerdestatus"
+
+#: /views/complaints/admin_view.ctp:71
+#: /views/users/admin_view.ctp:44
+msgid "Created"
+msgstr "erstellt"
+
+#: /views/complaints/admin_view.ctp:75
+#: /views/users/admin_view.ctp:49
+msgid "Modified"
+msgstr "verändert"
+
 #: /views/conversations/add.ctp:4
-#: /views/elements/header/breadcrumbs.ctp:53
+#: /views/elements/header/breadcrumbs.ctp:70
 msgid "New Message"
 msgstr "Neue Nachricht"
 
-#: /views/conversations/index.ctp:2
-#: /views/elements/header.ctp:62
-#: /views/elements/header/breadcrumbs.ctp:50;52;55
-msgid "Nachrichten"
-msgstr ""
+#: /views/conversations/index.ctp:4
+#: /views/elements/header.ctp:80
+msgid "Conversations"
+msgstr "Nachrichten"
 
-#: /views/conversations/view.ctp:2
+#: /views/conversations/index.ctp:72
+msgid "between you and"
+msgstr "zwischen Dir und"
+
+#: /views/conversations/view.ctp:6
 msgid "Conversation between you"
-msgstr ""
+msgstr "Konversations zwischen Dir"
 
-#: /views/conversations/view.ctp:9
-msgid "Topic: "
-msgstr "Thema: "
-
-#: /views/elements/header.ctp:6
+#: /views/elements/admin_header.ctp:6
+#: /views/elements/header.ctp:5
 msgid "logged in as"
-msgstr "ingeloggt als"
+msgstr "angemeldet als"
 
-#: /views/elements/header.ctp:22
+#: /views/elements/admin_header.ctp:6
+msgid "logout"
+msgstr "ausloggen"
+
+#: /views/elements/admin_header.ctp:12
+#: /views/elements/header.ctp:21
 #: /views/users/add.ctp:19
 msgid "You already have an account?"
-msgstr "Hast Du bereits ein Nutzerkonto?"
+msgstr "Du hast bereits ein Benutzerkonto?"
 
-#: /views/elements/header.ctp:23
-#: /views/users/login.ctp:15;24
+#: /views/elements/admin_header.ctp:13
+#: /views/elements/header.ctp:22
+#: /views/elements/header/breadcrumbs.ctp:33
+#: /views/users/login.ctp:15;25
 msgid "Login"
 msgstr "Einloggen"
 
-#: /views/elements/header.ctp:25
+#: /views/elements/admin_header.ctp:15
+#: /views/elements/header.ctp:24
 msgid "No?"
 msgstr "Nein?"
 
-#: /views/elements/header.ctp:26
-#: /views/elements/header/breadcrumbs.ctp:25
-#: /views/home/index.ctp:104
+#: /views/elements/admin_header.ctp:16
+#: /views/elements/header.ctp:25
+#: /views/elements/header/breadcrumbs.ctp:31
+#: /views/home/index.ctp:120
 msgid "Register"
 msgstr "Registrieren"
 
-#: /views/elements/header.ctp:35
-#: /views/elements/header/breadcrumbs.ctp:11
-#: /views/elements/papers/sidebar.ctp:91
+#: /views/elements/admin_header.ctp:34
+msgid "User Management"
+msgstr ""
+
+#: /views/elements/header.ctp:34
 #: /views/elements/search/results/sidebar.ctp:16
-#: /views/elements/users/sidebar/activity.ctp:3
 msgid "Posts"
 msgstr "Artikel"
 
-#: /views/elements/header.ctp:37
+#: /views/elements/header.ctp:36
 msgid "Authors"
 msgstr "Autoren"
 
-#: /views/elements/header.ctp:39
-#: /views/elements/header/breadcrumbs.ctp:39;41
-#: /views/elements/papers/navigator.ctp:3
+#: /views/elements/header.ctp:38
+#: /views/elements/header/breadcrumbs.ctp:49
 #: /views/elements/search/results/sidebar.ctp:13
-#: /views/elements/users/sidebar/subscriptions.ctp:15;17
+#: /views/elements/users/sidebar.ctp:75
+#: /views/elements/users/sidebar/subscriptions.ctp:52;54
 #: /views/papers/index_backup_alf.ctp:12
 msgid "Papers"
 msgstr "Zeitungen"
 
-#: /views/elements/header.ctp:42;42;42;43;98
+#: /views/elements/header.ctp:41;41;41;42
+#: /views/elements/search/autocomplete/script.ctp:24
+#: /views/home/index.ctp:20;20;20
 msgid "Find"
-msgstr "Suchen"
+msgstr "Finden"
 
-#: /views/elements/header.ctp:60
-msgid "My Blog"
-msgstr "Mein Blog"
-
-#: /views/elements/header.ctp:61
-#: /views/elements/header/breadcrumbs.ctp:34
-#: /views/elements/users/sidebar/subscriptions.ctp:22;24
-#: /views/users/view_backup.ctp:17
-msgid "Subscriptions"
-msgstr "Abonnements"
-
-#: /views/elements/header.ctp:67
-#: /views/elements/header/breadcrumbs.ctp:9
-#: /views/elements/posts/add_edit_content.ctp:8
-#: /views/topics/view.ctp:90
-#: /views/users/view_backup.ctp:12
-msgid "New Post"
-msgstr "Neuer Artikel"
-
-#: /views/elements/header.ctp:134
-msgid "My Papers"
-msgstr "Meine Zeitungen"
-
-#: /views/elements/header.ctp:137
+#: /views/elements/header.ctp:57
 msgid "My Posts"
 msgstr "Meine Artikel"
 
-#: /views/elements/header.ctp:140
+#: /views/elements/header.ctp:58
+msgid "My Papers"
+msgstr "Meine Zeitungen"
+
+#: /views/elements/header.ctp:59
+#: /views/elements/header/breadcrumbs.ctp:67;69;72
+msgid "Messages"
+msgstr "Nachrichten"
+
+#: /views/elements/header.ctp:64;76
+#: /views/elements/header/breadcrumbs.ctp:10
+#: /views/elements/posts/add_edit_content.ctp:8
+#: /views/users/admin_add.ctp:37
+msgid "New Post"
+msgstr "Neuer Artikel"
+
+#: /views/elements/header.ctp:78
+msgid "my Posts"
+msgstr "Meine Artikel"
+
+#: /views/elements/header.ctp:79
+#: /views/elements/header/breadcrumbs.ctp:44
+#: /views/elements/users/sidebar/subscriptions.ctp:57;59
+msgid "Subscriptions"
+msgstr "Zeitungen"
+
+#: /views/elements/header.ctp:86
+msgid "Account / Settings"
+msgstr "Kontoeinstellungen"
+
+#: /views/elements/header.ctp:87
 msgid "Logout"
-msgstr "Ausloggen"
+msgstr "ausloggen"
 
 #: /views/elements/comments/add.ctp:12
-msgid "Please add reply text or press cancel"
-msgstr "Füge die Antwort auf den Kommentar hinzu oder drücke "Löschen""
+msgid "Please enter your reply or press cancel"
+msgstr "Bitte gib deine Antwort ein oder click auf Abbrechen"
 
 #: /views/elements/comments/add.ctp:24
-msgid "Please add comment text"
-msgstr "Füge bitte Dein Kommentar hinzu."
+msgid "Please enter your comment"
+msgstr "Bitte gib deinen Kommentar ein"
 
-#: /views/elements/comments/comment_content.ctp:25
+#: /views/elements/comments/comment_content.ctp:28
 msgid "Remove"
 msgstr "Löschen"
 
 #: /views/elements/comments/form.ctp:2
 msgid "Post comment"
-msgstr "Kommentar veröffentlichen"
+msgstr "Kommentar abgeben"
 
 #: /views/elements/comments/form.ctp:8
 msgid "Post reply"
-msgstr "Antwort veröffentlichen"
+msgstr "Antwort abgeben"
 
 #: /views/elements/comments/form.ctp:16
 msgid "Leave a comment to this Post"
-msgstr "Schreibe ein Kommentar zu diesem Artikel."
+msgstr "Kommentiere diesen Artikel"
+
+#: /views/elements/complaints/admin_comments.ctp:4
+msgid "Written by"
+msgstr "geschrieben von"
+
+#: /views/elements/complaints/link.ctp:2
+msgid "Complain"
+msgstr "Beschweren"
+
+#: /views/elements/conversations/message.ctp:26
+#: /views/elements/search/results/paper.ctp:19
+#: /views/elements/search/results/post.ctp:44
+msgid "from"
+msgstr "von"
+
+#: /views/elements/email/html/forgot_password.ctp:2
+#: /views/elements/email/text/forgot_password.ctp:2
+msgid "Your new password: "
+msgstr "Dein neues Passwort:"
+
+#: /views/elements/email/html/welcome.ctp:2
+#: /views/elements/email/text/welcome.ctp:2
+msgid "Welcome to myZeitung.de "
+msgstr "Willkommen bei myZeitung.de"
 
 #: /views/elements/global/modal_upload.ctp:2
 #: /views/papers/settings/image.ctp:6
@@ -775,288 +1053,432 @@ msgstr "Profilbild"
 msgid "Choose image"
 msgstr "Bild auswählen"
 
-#: /views/elements/global/modal_upload.ctp:23
-#: /views/papers/settings/image.ctp:32
-#: /views/users/acc_about_me.ctp:37
-#: /views/users/acc_general.ctp:43
-#: /views/users/acc_privacy.ctp:23
-msgid "Save Changes"
-msgstr "Änderungen speichern"
+#: /views/elements/global/modal_upload.ctp:25
+msgid "Save Picture"
+msgstr "Bild speichern"
 
-#: /views/elements/header/breadcrumbs.ctp:13
-#: /views/elements/posts/navigator.ctp:109
+#: /views/elements/global/paginate.ctp:3
+msgid "Previous"
+msgstr "zurück"
+
+#: /views/elements/global/paginate.ctp:7
+msgid "Next"
+msgstr "weiter"
+
+#: /views/elements/header/breadcrumbs.ctp:12
+#: /views/elements/posts/navigator.ctp:15
+msgid "Browse Posts"
+msgstr "Artikel durchstöbern"
+
+#: /views/elements/header/breadcrumbs.ctp:14
+#: /views/elements/posts/navigator.ctp:150
 #: /views/posts/edit.ctp:4
 msgid "Edit Post"
 msgstr "editieren"
 
-#: /views/elements/header/breadcrumbs.ctp:27
+#: /views/elements/header/breadcrumbs.ctp:35
+#: /views/users/forgot_password.ctp:18
+#: /views/users/login.ctp:21
+msgid "I forgot my password"
+msgstr "Ich habe mein Passwort vergessen"
+
+#: /views/elements/header/breadcrumbs.ctp:37
 #: /views/elements/search/results/sidebar.ctp:10
-#: /views/users/index.ctp:2
+#: /views/users/admin_index.ctp:2
 msgid "Users"
 msgstr "Autoren"
 
-#: /views/elements/header/breadcrumbs.ctp:29
+#: /views/elements/header/breadcrumbs.ctp:39
 msgid "Account Settings"
-msgstr "Nutzerkonto Einstellungen"
+msgstr "Kontoeinstellungen"
 
-#: /views/elements/header/breadcrumbs.ctp:46
+#: /views/elements/header/breadcrumbs.ctp:63
 msgid "Search Results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #: /views/elements/papers/modal_references.ctp:51
 msgid "References"
 msgstr "Referenzen"
 
-#: /views/elements/papers/navigator.ctp:43
-#: /views/elements/papers/sidebar.ctp:37
-#: /views/elements/search/results/paper.ctp:24
-#: /views/elements/users/sidebar/buttons.ctp:2
-msgid "Subscribe"
-msgstr "Abonnieren"
+#: /views/elements/papers/navigator.ctp:4
+msgid "Browse Papers"
+msgstr "Zeitungen durchstöbern"
 
-#: /views/elements/papers/navigator.ctp:49
-#: /views/elements/papers/sidebar.ctp:41
-#: /views/elements/search/results/paper.ctp:30
-msgid "Unsubscribe"
-msgstr "Abonnement beenden"
+#: /views/elements/papers/navigator.ctp:36
+msgid "created by"
+msgstr "erstellt von"
 
-#: /views/elements/papers/sidebar.ctp:54
-msgid "created"
-msgstr "erstellt"
+#: /views/elements/papers/navigator.ctp:20
+#: /views/elements/users/navigator.ctp:17
+#: /views/elements/users/sidebar/activity.ctp:4
+msgid "%d post"
+msgid_plural "%d posts"
+msgstr[0] "%d Artikel"
+msgstr[1] "%d Artikel"
 
-#: /views/elements/papers/sidebar.ctp:60
+#: /views/elements/papers/navigator.ctp:22
+msgid "%d subscription"
+msgid_plural "%d subscriptions"
+msgstr[0] "%d Abonnement"
+msgstr[1] "%d Abonnements"
+
+#: /views/elements/papers/navigator.ctp:24
+msgid "%d author"
+msgid_plural "%d authors"
+msgstr[0] "%d Autor"
+msgstr[1] "%d Autoren"
+
+#: /views/elements/papers/sidebar.ctp:52
 msgid "Upload Image"
 msgstr "Bild hochladen"
 
-#: /views/elements/papers/sidebar.ctp:67
-msgid "Filter by Category"
-msgstr "Nach Kategorien filtern"
+#: /views/elements/papers/sidebar.ctp:57
+#: /views/elements/search/results/paper.ctp:26
+#: /views/elements/users/sidebar/buttons.ctp:8
+msgid "Subscribe"
+msgstr "Abonnieren"
+
+#: /views/elements/papers/sidebar.ctp:61
+#: /views/elements/search/results/paper.ctp:32
+msgid "Unsubscribe"
+msgstr "Abonnement beenden"
 
 #: /views/elements/papers/sidebar.ctp:69
-msgid "%1$s person are writing for this paper"
-msgstr "%1$s Autoren schreiben in dieser Zeitung"
+msgid "Filter by Category"
+msgstr "Nach Kategorie filtern"
 
-#: /views/elements/papers/sidebar.ctp:72;74
-#: /views/elements/users/sidebar/topics.ctp:7;9
-#: /views/users/view_backup.ctp:21
-msgid "All Posts"
-msgstr "Alle Artikel"
+#: /views/elements/papers/sidebar.ctp:74;76
+msgid "front page"
+msgstr "Titelseite"
 
-#: /views/elements/papers/sidebar.ctp:77
-msgid "%1$s person are writing for this category"
-msgstr "%1$s Autoren schreiben in dieser Kategorie"
-
-#: /views/elements/papers/sidebar.ctp:89
+#: /views/elements/papers/sidebar.ctp:91
 #: /views/elements/users/modal_activity.ctp:34
 #: /views/elements/users/sidebar/activity.ctp:1
 msgid "Activity"
 msgstr "Aktivität"
 
-#: /views/elements/papers/sidebar.ctp:92
-msgid "Subcribed Users/Topics"
-msgstr "Abonnierte Autoren/Themen"
+#: /views/elements/papers/sidebar.ctp:71
+msgid "%1$s person is published in this paper"
+msgid_plural "%1$s persons are published in this paper"
+msgstr[0] "%1$s Autor wird in dieser Zeitung veröffentlicht"
+msgstr[1] "%1$s Autoren werden in dieser Zeitung veröffentlicht"
+
+#: /views/elements/papers/sidebar.ctp:79
+msgid "%1$s person is published this category"
+msgid_plural "%1$s persons are published this category"
+msgstr[0] "%1$s Autor wird in dieser Kategorie veröffentlicht"
+msgstr[1] "%1$s Autoren werden in dieser Kategorie veröffentlicht"
+
+#: /views/elements/papers/sidebar.ctp:93
+msgid "%d Post"
+msgid_plural "%d Posts"
+msgstr[0] "%d Artikel"
+msgstr[1] "%d Artikel"
+
+#: /views/elements/papers/sidebar.ctp:94
+msgid "%d Subscribed User/Topic"
+msgid_plural "%d Subscribed Users/Topics"
+msgstr[0] "%d abonnierter Benutzer(/Thema)"
+msgstr[1] "%d abonnierte Benutzer(/Themen)"
+
+#: /views/elements/papers/index/sidebar.ctp:12
+#: /views/elements/posts/index/sidebar.ctp:14
+#: /views/elements/users/index/sidebar.ctp:12
+#: /views/elements/users/sidebar/subscriptions.ctp:21
+msgid "order by"
+msgstr "Sortieren nach"
+
+#: /views/elements/papers/index/sidebar.ctp:19
+#: /views/elements/posts/add_edit_content.ctp:32
+#: /views/elements/posts/index/sidebar.ctp:36
+#: /views/elements/users/sidebar/subscriptions.ctp:27
+#: /views/papers/add_edit.ctp:21
+msgid "Title"
+msgstr "Title"
+
+#: /views/elements/papers/index/sidebar.ctp:23
+#: /views/elements/users/sidebar/subscriptions.ctp:31
+msgid "Number of Authors"
+msgstr "Anzahl Autoren"
+
+#: /views/elements/papers/index/sidebar.ctp:27
+#: /views/elements/users/index/sidebar.ctp:21
+#: /views/elements/users/sidebar/subscriptions.ctp:35
+msgid "Number of Posts"
+msgstr "Anzahl Artikel"
+
+#: /views/elements/papers/index/sidebar.ctp:31
+#: /views/elements/users/sidebar/subscriptions.ctp:39
+msgid "Number of Subscriptions"
+msgstr "Anzahl Abonnenten"
 
 #: /views/elements/posts/add_edit_content.ctp:15
 msgid "Save Post"
 msgstr "Artikel speichern"
 
-#: /views/elements/posts/add_edit_content.ctp:32
-#: /views/papers/add_edit.ctp:21
-#: /views/topics/view.ctp:48
-msgid "Title"
-msgstr "Titel"
-
 #: /views/elements/posts/add_edit_content.ctp:37
-#: /views/topics/view.ctp:49
 msgid "Content"
 msgstr "Inhalt"
 
 #: /views/elements/posts/add_edit_content.ctp:47
 msgid "Media (images and videos): "
-msgstr "Medien (Bilder und Videos): "
+msgstr "Medien (Bilder und Videos):"
 
 #: /views/elements/posts/add_edit_content.ctp:48
-msgid "Main Teaser"
-msgstr ""
+msgid "Preview Picture"
+msgstr "Vorschaubild"
 
 #: /views/elements/posts/add_edit_content.ctp:54
-#: /views/elements/posts/add_edit_sidebar.ctp:38
+#: /views/elements/posts/add_edit_sidebar.ctp:39
 msgid "remove"
-msgstr "löschen"
+msgstr "entfernen"
 
-#: /views/elements/posts/add_edit_sidebar.ctp:17
+#: /views/elements/posts/add_edit_sidebar.ctp:18
 msgid "Add Images"
 msgstr "Bilder hinzufügen"
 
-#: /views/elements/posts/add_edit_sidebar.ctp:21
+#: /views/elements/posts/add_edit_sidebar.ctp:22
 msgid "Add Video"
 msgstr "Video hinzufügen"
 
-#: /views/elements/posts/add_edit_sidebar.ctp:25
-msgid "Theme:"
-msgstr "Thema:"
+#: /views/elements/posts/add_edit_sidebar.ctp:26
+msgid "Topic"
+msgstr "Thema"
 
-#: /views/elements/posts/add_edit_sidebar.ctp:30
-msgid "Add Theme"
+#: /views/elements/posts/add_edit_sidebar.ctp:31
+#: /views/topics/add.ctp:4
+msgid "Add Topic"
 msgstr "Thema hinzufügen"
 
-#: /views/elements/posts/add_edit_sidebar.ctp:33
+#: /views/elements/posts/add_edit_sidebar.ctp:34
 msgid "Links"
-msgstr "Links"
+msgstr "Quellen/Links"
 
 #: /views/elements/posts/modal_add_url.ctp:1
-#: /views/elements/users/modal_subscribe.ctp:1
 msgid "add URL"
-msgstr "URL hinzufügen"
+msgstr "Link hinzufügen"
 
 #: /views/elements/posts/modal_add_video_url.ctp:1
 msgid "add Video"
 msgstr "Video hinzufügen"
 
-#: /views/elements/posts/navigator.ctp:6;131
-msgid "Previous"
-msgstr "Vorheriger"
-
-#: /views/elements/posts/navigator.ctp:8;133
-msgid "Next"
-msgstr "Nächster"
-
-#: /views/elements/posts/navigator.ctp:31
-msgid "reposts"
-msgstr "Weiterleitungen"
-
-#: /views/elements/posts/navigator.ctp:32
-msgid "times viewed"
-msgstr "gesehen"
-
-#: /views/elements/posts/navigator.ctp:33
-msgid "comments"
-msgstr "Kommentare"
-
-#: /views/elements/posts/navigator.ctp:53
+#: /views/elements/posts/navigator.ctp:81
 msgid "read more"
 msgstr "weiterlesen"
 
-#: /views/elements/posts/navigator.ctp:59
+#: /views/elements/posts/navigator.ctp:107
 #: /views/elements/search/autocomplete/papers.ctp:27
-#: /views/elements/search/autocomplete/posts.ctp:28
+#: /views/elements/search/autocomplete/posts.ctp:34
 msgid "by"
 msgstr "von"
 
-#: /views/elements/posts/navigator.ctp:111
+#: /views/elements/posts/navigator.ctp:152
 msgid "Delete Post"
 msgstr "löschen"
 
-#: /views/elements/posts/navigator.ctp:114
+#: /views/elements/posts/navigator.ctp:152
+#: /views/posts/view.ctp:109
+msgid "Are you sure you want to delete your post: %s?"
+msgstr "Bist Du sicher, dass du den folgenden Beitrag löschen willst?: %s"
+
+#: /views/elements/posts/navigator.ctp:155
 msgid "Undo Repost"
 msgstr "Weiterleitung beenden"
 
-#: /views/elements/posts/navigator.ctp:117
-#: /views/elements/search/results/post.ctp:46
-#: /views/posts/view.ctp:19
+#: /views/elements/posts/navigator.ctp:170
+#: /views/elements/search/results/post.ctp:63
+#: /views/posts/view.ctp:105
 msgid "Repost"
 msgstr "Weiterleiten"
 
-#: /views/elements/search/results/paper.ctp:17
-#: /views/elements/search/results/post.ctp:32
-msgid "from"
-msgstr "von"
+#: /views/elements/posts/navigator.ctp:44
+#: /views/elements/search/results/post.ctp:50
+#: /views/posts/view.ctp:92
+msgid "%d repost"
+msgid_plural "%d reposts"
+msgstr[0] "%d Weiterleitung"
+msgstr[1] "%d Weiterleitungen"
 
-#: /views/elements/search/results/post.ctp:32
-msgid "Post"
-msgstr "Artikel"
+#: /views/elements/posts/navigator.ctp:46
+#: /views/elements/search/results/post.ctp:52
+#: /views/posts/view.ctp:94
+msgid "%d time viewed"
+msgid_plural "%d times viewed"
+msgstr[0] "%d mal gesehen"
+msgstr[1] "%d mal gesehen"
 
-#: /views/elements/search/results/post.ctp:44
+#: /views/elements/posts/navigator.ctp:48
+#: /views/elements/search/results/post.ctp:54
+#: /views/elements/users/sidebar/activity.ctp:6
+#: /views/posts/view.ctp:96
+msgid "%d comment"
+msgid_plural "%d comments"
+msgstr[0] "%d Kommentar"
+msgstr[1] "%d Kommentare"
+
+#: /views/elements/posts/repost_modal_choose_topic.ctp:1
+msgid "Choose you topic"
+msgstr "Wähle das Artikelthema"
+
+#: /views/elements/posts/index/sidebar.ctp:20
+msgid "Date"
+msgstr ""
+
+#: /views/elements/posts/index/sidebar.ctp:24
+msgid "Number of views"
+msgstr "Wie oft gelesen"
+
+#: /views/elements/posts/index/sidebar.ctp:28
+msgid "Number of comments"
+msgstr "Anzahl der Kommentare"
+
+#: /views/elements/posts/index/sidebar.ctp:32
+msgid "Number of reposts"
+msgstr "Anzahl der Weiterleitungen"
+
+#: /views/elements/search/results/post.ctp:61
 msgid "undo Repost"
 msgstr "Weiterleitung beenden"
 
 #: /views/elements/search/results/sidebar.ctp:7
 msgid "All Results"
-msgstr "Alle Ergebnisse"
+msgstr "All Ergebnisse"
 
-#: /views/elements/search/results/user.ctp:20
-#: /views/elements/users/sidebar/buttons.ctp:4
+#: /views/elements/search/results/user.ctp:22
+#: /views/elements/users/sidebar/buttons.ctp:11
 msgid "Send Message"
 msgstr "Nachricht senden"
 
-#: /views/elements/search/results/user.ctp:23
-msgid "Author"
-msgstr "Autor"
-
 #: /views/elements/topics/modal_add_topic.ctp:1
 msgid "add Topic"
-msgstr "Thema hinzufügen"
+msgstr "Theme hinzufügen"
+
+#: /views/elements/users/modal_subscribe.ctp:1
+msgid "Subscribe User"
+msgstr "Autor abonnieren"
+
+#: /views/elements/users/navigator.ctp:5
+msgid "Browse Users"
+msgstr "Autoren durchstöbern"
+
+#: /views/elements/users/navigator.ctp:19
+msgid "published in %d paper"
+msgid_plural "published in %d papers"
+msgstr[0] "veröffentlicht in %d Zeitung"
+msgstr[1] "veröffentlicht in %d Zeitungen"
+
+#: /views/elements/users/sidebar.ctp:111
+msgid "Print"
+msgstr ""
+
+#: /views/elements/users/index/sidebar.ctp:17
+msgid "Number of Subscribers"
+msgstr ""
+
+#: /views/elements/users/index/sidebar.ctp:25
+#: /views/users/add.ctp:23
+#: /views/users/admin_view.ctp:29
+msgid "Username"
+msgstr ""
+
+#: /views/elements/users/index/sidebar.ctp:29
+msgid "Date of joining"
+msgstr ""
 
 #: /views/elements/users/sidebar/account_menue.ctp:18
 #: /views/users/acc_about_me.ctp:14;29
 msgid "About Me"
-msgstr "Über mich"
+msgstr ""
 
 #: /views/elements/users/sidebar/account_menue.ctp:21
 msgid "Profile Picture"
-msgstr "Profilbild"
+msgstr ""
 
 #: /views/elements/users/sidebar/account_menue.ctp:25
 #: /views/users/acc_general.ctp:15
 msgid "General Settings"
-msgstr "Einstellungen"
+msgstr ""
 
 #: /views/elements/users/sidebar/account_menue.ctp:28
 msgid "Privacy"
-msgstr "Privatsphäre"
+msgstr ""
 
-#: /views/elements/users/sidebar/activity.ctp:4
-msgid "Reposts"
-msgstr "Weiterleitungen"
-
-#: /views/elements/users/sidebar/activity.ctp:6
-msgid "Subscribers"
-msgstr "Abonnenten"
+#: /views/elements/users/sidebar/activity.ctp:5
+msgid "%d pepost"
+msgid_plural "%d reposts"
+msgstr[0] ""
+msgstr[1] ""
 
 #: /views/elements/users/sidebar/activity.ctp:7
-msgid "Paper subscriptions"
-msgstr "Zeitungsabos"
+msgid "%d subscriber"
+msgid_plural "%d subscribers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: /views/elements/users/sidebar/activity.ctp:8
-msgid "created Papers"
-msgstr "Erstellte Zeitungen"
+msgid "%d paper subscription"
+msgid_plural "%d paper subscriptions"
+msgstr[0] ""
+msgstr[1] ""
 
-#: /views/elements/users/sidebar/info.ctp:4
-msgid "joined"
-msgstr "beigetreten vor"
+#: /views/elements/users/sidebar/activity.ctp:9
+msgid "%d paper"
+msgid_plural "%d papers"
+msgstr[0] ""
+msgstr[1] ""
 
 #: /views/elements/users/sidebar/papers.ctp:2
 msgid "Top Papers by"
-msgstr "Top Zeitungen von"
+msgstr ""
 
 #: /views/elements/users/sidebar/papers.ctp:20
 msgid "Show all papers by"
-msgstr "Zeige alle Zeitungen von"
+msgstr ""
 
-#: /views/elements/users/sidebar/subscriptions.ctp:3
-msgid "Filter Papers"
-msgstr "Zeitungen auflisten"
-
-#: /views/elements/users/sidebar/subscriptions.ctp:8;10
+#: /views/elements/users/sidebar/subscriptions.ctp:47;49
 msgid "All Papers"
-msgstr "Alle Zeitungen"
+msgstr ""
 
 #: /views/elements/users/sidebar/topics.ctp:2
 msgid "Show Posts by Topic"
-msgstr "Themen der Artikel"
+msgstr ""
+
+#: /views/elements/users/sidebar/topics.ctp:7;9
+msgid "All Posts"
+msgstr ""
 
 #: /views/home/index.ctp:12
-#: /views/users/login.ctp:23
+#: /views/users/login.ctp:24
 msgid "Remember Me"
-msgstr "Angemeldet bleiben"
+msgstr ""
 
-#: /views/home/index.ctp:37
+#: /views/home/index.ctp:39
 msgid "Top Papers"
-msgstr "Top Zeitungen"
+msgstr ""
 
-#: /views/home/index.ctp:79
+#: /views/home/index.ctp:57
+msgid "more papers"
+msgstr ""
+
+#: /views/home/index.ctp:60
+msgid "Top Authors"
+msgstr ""
+
+#: /views/home/index.ctp:82
+msgid "more authors"
+msgstr ""
+
+#: /views/home/index.ctp:88
 msgid "Newest Articles"
-msgstr "Neueste Artikel"
+msgstr ""
+
+#: /views/home/index.ctp:111
+msgid "more posts"
+msgstr ""
+
+#: /views/layouts/admin.ctp:26
+msgid "myZeitung - admin"
+msgstr ""
 
 #: /views/layouts/default-backup.ctp:25
 msgid "CakePHP: the rapid development php framework:"
@@ -1065,11 +1487,6 @@ msgstr ""
 #: /views/layouts/default-backup.ctp:50
 msgid "CakePHP: the rapid development php framework"
 msgstr ""
-
-#: /views/layouts/default.ctp:26
-#: /views/layouts/home.ctp:26
-msgid "myZeitung"
-msgstr "myZeitung"
 
 #: /views/pages/home.ctp:12
 msgid "Your tmp directory is writable."
@@ -1119,215 +1536,176 @@ msgid ""
 msgstr ""
 
 #: /views/papers/add_edit.ctp:27
+#: /views/users/admin_view.ctp:19
 msgid "Description"
-msgstr "Beschreibung"
+msgstr ""
 
-#: /views/papers/add_edit.ctp:28;35
+#: /views/papers/add_edit.ctp:28;41
 #: /views/users/acc_about_me.ctp:23;30
 #: /views/users/add.ctp:30
 msgid "(optional)"
-msgstr "(optional)"
+msgstr ""
 
 #: /views/papers/add_edit.ctp:28
 msgid "If you want to describe the contents of this paper."
-msgstr "Falls Du die Inhalte dieser Zeitung beschreiben möchtest"
+msgstr ""
 
-#: /views/papers/add_edit.ctp:34
+#: /views/papers/add_edit.ctp:40
 msgid "URL / Link"
-msgstr "URL / Link"
+msgstr ""
 
-#: /views/papers/add_edit.ctp:35
+#: /views/papers/add_edit.ctp:41
 msgid "If you want to specify a link of which this paper is about."
-msgstr "Falls Du einen Link zu dieser Zeitung hinzufügen willst."
+msgstr ""
 
-#: /views/papers/add_edit.ctp:43
+#: /views/papers/add_edit.ctp:49
 msgid "Save paper"
-msgstr "Zeitung speichern"
+msgstr ""
 
 #: /views/papers/addcontent.ctp:7
-msgid "Add Content for Paper"
-msgstr "Füge Inhalte dieser Zeitung hinzu"
+msgid "Add Content to your Paper"
+msgstr ""
 
 #: /views/papers/edit.ctp:4
 msgid "Edit Paper"
-msgstr "Zeitung editieren"
+msgstr ""
 
 #: /views/papers/edit.ctp:27
 #: /views/papers/index_backup_alf.ctp:87
+#: /views/users/admin_add.ctp:46
 msgid "List Subscriptions"
-msgstr "Abonnements auflisten"
+msgstr ""
 
 #: /views/papers/edit.ctp:28
 #: /views/papers/index_backup_alf.ctp:88
+#: /views/users/admin_add.ctp:47
 msgid "New Subscription"
-msgstr "Neue Abonnements"
+msgstr ""
 
 #: /views/papers/index_backup_alf.ctp:39;43;55
 msgid "Add Content"
-msgstr "Inhalte hinzufügen"
+msgstr ""
 
 #: /views/papers/index_backup_alf.ctp:56
 msgid "Show Content"
-msgstr "Inhalte anzeigen"
-
-#: /views/papers/references.ctp:5
-msgid "Delete this user"
-msgstr "Dieses Nutzerkonto löschen"
+msgstr ""
 
 #: /views/papers/settings/image.ctp:12
 msgid "Add Profile Image"
-msgstr "Profilbild hinzufügen"
+msgstr ""
+
+#: /views/papers/settings/image.ctp:32
+#: /views/users/acc_about_me.ctp:37
+#: /views/users/acc_general.ctp:43
+#: /views/users/acc_privacy.ctp:23
+msgid "Save Changes"
+msgstr ""
 
 #: /views/posts/edit.ctp:17
-#: /views/users/view_backup.ctp:8
 msgid "Options"
-msgstr "Optionen"
+msgstr ""
 
 #: /views/posts/edit.ctp:19
 msgid "Back"
-msgstr "Zurück"
+msgstr ""
 
-#: /views/posts/view.ctp:29
+#: /views/posts/view.ctp:103
+msgid "Undo repost"
+msgstr ""
+
+#: /views/posts/view.ctp:118
 msgid "posted"
-msgstr "veröffentlicht"
+msgstr ""
+
+#: /views/posts/view.ctp:134
+msgid "Reference"
+msgid_plural "References"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/search/auto_complete.ctp:22
+msgid "Show all results"
+msgstr ""
 
 #: /views/search/index.ctp:5
 msgid "Searchresults for"
-msgstr "Nach Ergebnissen suchen"
+msgstr ""
 
-#: /views/search/index.ctp:9
+#: /views/search/index.ctp:12
 msgid "more results"
-msgstr "mehr Ergebnisse"
-
-#: /views/topics/add.ctp:4
-msgid "Add Topic"
-msgstr "Thema hinzufügen"
+msgstr ""
 
 #: /views/topics/edit.ctp:4
 msgid "Edit Topic"
-msgstr "Thema editieren"
-
-#: /views/topics/index.ctp:2
-msgid "Topics"
-msgstr "Themen"
-
-#: /views/topics/view.ctp:2
-msgid "Topic"
-msgstr "Thema"
-
-#: /views/topics/view.ctp:14
-msgid "User"
-msgstr "Nutzer"
-
-#: /views/topics/view.ctp:19;51
-msgid "Created"
-msgstr "Erstellt"
-
-#: /views/topics/view.ctp:24;50
-msgid "Modified"
-msgstr "Abgeändert"
-
-#: /views/topics/view.ctp:29;52
-msgid "Enabled"
-msgstr "Aktiviert"
-
-#: /views/topics/view.ctp:41
-msgid "Related Posts"
 msgstr ""
-
-#: /views/topics/view.ctp:46
-msgid "User Id"
-msgstr ""
-
-#: /views/topics/view.ctp:47
-msgid "Topic Id"
-msgstr ""
-
-#: /views/topics/view.ctp:53
-msgid "Count Views"
-msgstr "Aufrufe zählen"
-
-#: /views/topics/view.ctp:54
-msgid "Count Reposts"
-msgstr "Weiterleitungen zählen"
-
-#: /views/topics/view.ctp:55
-msgid "Count Comments"
-msgstr "Kommentare zählen"
 
 #: /views/users/acc_about_me.ctp:23
 #: /views/users/add.ctp:30
 msgid "If you want to be found by your name"
-msgstr "Falls Du mit Deinem Namen gefunden werden willst"
+msgstr ""
 
 #: /views/users/acc_about_me.ctp:30
 msgid "Tell people something about yourself."
-msgstr "Schreibe etwas über Dich."
+msgstr ""
 
 #: /views/users/acc_delete.ctp:14;23
 msgid "Delete Account"
-msgstr "Nutzerkonto löschen"
+msgstr ""
 
 #: /views/users/acc_delete.ctp:21
 msgid "I want to delete my account. All my information, posts, papers and images will be deleted."
-msgstr "Ich möchte mein Nutzerkonto löschen. Alle meine Informationen, Artikel, Zeitungen und Bilder werden unwiderruflich gelöscht."
-
-#: /views/users/acc_general.ctp:21
-msgid "Email"
-msgstr "E-Mail"
+msgstr ""
 
 #: /views/users/acc_general.ctp:27
 msgid "Old Password"
-msgstr "Altes Passwort"
+msgstr ""
 
 #: /views/users/acc_general.ctp:32
 msgid "New Password"
-msgstr "Neues Passwort"
+msgstr ""
 
 #: /views/users/acc_general.ctp:37
 msgid "Confirm Password"
-msgstr "Passwort bestätigen"
+msgstr ""
 
 #: /views/users/acc_general.ctp:46
 msgid "I want to delete my Account"
-msgstr "Ich möchte mein Nutzerkonto löschen."
+msgstr ""
 
 #: /views/users/acc_privacy.ctp:14
 msgid "Privacy Settings"
-msgstr "Privatsphäre"
+msgstr ""
 
 #: /views/users/acc_privacy.ctp:21
-msgid "Allow comments on your Articles?"
-msgstr "Dürfen andere Nutzer meine Artikel kommentieren?"
+msgid "Allow comments on my Articles"
+msgstr ""
 
 #: /views/users/acc_privacy.ctp:22
-msgid "Allow people to send you messages?"
-msgstr "Dürfen andere Nutzer mir Nachrichten schicken?"
+msgid "Allow people to send me messages"
+msgstr ""
 
 #: /views/users/add.ctp:18
 msgid "Create a new account"
-msgstr "Neues Nutzerkonto erstellen."
-
-#: /views/users/add.ctp:23
-msgid "Username"
-msgstr "Nutzername"
+msgstr ""
 
 #: /views/users/add.ctp:36
+#: /views/users/admin_view.ctp:34
 #: /views/users/login.ctp:20
 msgid "Password"
 msgstr "Passwort"
 
 #: /views/users/add.ctp:42
+#: /views/users/forgot_password.ctp:23
 msgid "E-Mail"
-msgstr "E-Mail"
+msgstr "Email"
 
 #: /views/users/add.ctp:49;60
 msgid "TOS"
-msgstr "Nutzungsbedingungen"
+msgstr "AGB"
 
 #: /views/users/add.ctp:60
 msgid "I accept the"
-msgstr "Ich akzeptiere die"
+msgstr "ich akzeptiere die"
 
 #: /views/users/add.ctp:60
 msgid "and"
@@ -1339,93 +1717,402 @@ msgstr "Datenschutzrichtlinien"
 
 #: /views/users/add.ctp:65
 msgid "Create Account"
-msgstr "Nutzerkonto erstellen"
+msgstr "Benutzerkonto erstellen"
+
+#: /views/users/admin_add.ctp:4
+msgid "Admin Add User"
+msgstr ""
+
+#: /views/users/admin_add.ctp:31
+msgid "List Users"
+msgstr ""
+
+#: /views/users/admin_add.ctp:32
+msgid "List Groups"
+msgstr ""
+
+#: /views/users/admin_add.ctp:33
+msgid "New Group"
+msgstr ""
+
+#: /views/users/admin_add.ctp:36
+msgid "List Posts"
+msgstr ""
+
+#: /views/users/admin_add.ctp:38
+msgid "List Post Users"
+msgstr ""
+
+#: /views/users/admin_add.ctp:39
+msgid "New Post User"
+msgstr ""
+
+#: /views/users/admin_add.ctp:40
+msgid "List Topics"
+msgstr ""
+
+#: /views/users/admin_add.ctp:41
+msgid "New Topic"
+msgstr ""
+
+#: /views/users/admin_add.ctp:42
+msgid "List Content Papers"
+msgstr ""
+
+#: /views/users/admin_add.ctp:43
+msgid "New Content Paper"
+msgstr ""
+
+#: /views/users/admin_edit.ctp:4
+msgid "Admin Edit User"
+msgstr ""
+
+#: /views/users/admin_view.ctp:9
+msgid "Group"
+msgstr ""
+
+#: /views/users/admin_view.ctp:39
+msgid "Image"
+msgstr ""
+
+#: /views/users/admin_view.ctp:54
+msgid "Lastlogin"
+msgstr ""
+
+#: /views/users/admin_view.ctp:59
+msgid "Enabled"
+msgstr ""
+
+#: /views/users/admin_view.ctp:64
+msgid "Allow Messages"
+msgstr ""
+
+#: /views/users/admin_view.ctp:69
+msgid "Allow Comments"
+msgstr ""
+
+#: /views/users/admin_view.ctp:74
+msgid "Subscription Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:79
+msgid "Content Paper Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:84
+msgid "Post Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:89
+msgid "Posts User Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:94
+msgid "Comment Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:99
+msgid "Paper Count"
+msgstr ""
+
+#: /views/users/forgot_password.ctp:30
+msgid "Send new password"
+msgstr ""
 
 #: /views/users/login.ctp:19
 msgid "Username or Email"
-msgstr "Nutzername oder E-Mail"
+msgstr ""
 
 #: /views/users/references.ctp:12
 msgid "Name: %1$s"
-msgstr "Name: %1$s"
+msgstr ""
 
 #: /views/users/references.ctp:15
-msgid "You write all your articles for this paper."
-msgstr "Du schreibst alle Artikel für diese Zeitung"
+msgid "All your posts appear in this paper."
+msgstr ""
 
 #: /views/users/references.ctp:22
-msgid "Your posts of you toppic %1$s appear in this paper"
-msgstr "Deine Artikel des Themas %1$s erscheinen in dieser Zeitung"
+msgid "Posts of your topic %1$s appear in this paper"
+msgstr ""
 
 #: /views/users/references.ctp:31
-msgid "Your topic %1$s writes for the category %2$s"
-msgstr "Dein Thema %1$s ist in der Kategorie %2$s abonniert."
+msgid "Posts of your topic %1$s appear for the category %2$s"
+msgstr ""
 
 #: /views/users/references.ctp:39
-msgid "Your posts appear in the category %1$s"
-msgstr "Deine Artikel erscheinen in der Kategorie %1$s"
+msgid "All your posts appear in the category %1$s"
+msgstr ""
 
-#: /views/users/subscribe.ctp:23
+#: /views/users/subscribe.ctp:19
+msgid "Choose your paper:"
+msgstr ""
+
+#: /views/users/subscribe.ctp:24
 msgid "Into: "
-msgstr "In:"
+msgstr ""
 
-#: /views/users/view_backup.ctp:19
-msgid "Filter by Topic"
-msgstr "Nach Themen sortieren"
+#: /views/users/subscribe.ctp:31
+msgid "Save"
+msgstr ""
 
 #: /webroot/test.php:88
 msgid "Debug setting does not allow access to this url."
 msgstr ""
 
-#: from DB
-msgid "The profile of the user image is inappropriate"
-msgstr "Das Profilbild des Nutzers ist unangebracht"
+#: /plugins/debug_kit/controllers/components/toolbar.php:99
+msgid "Component initialization"
+msgstr ""
 
-msgid "I am bothered by this user"
-msgstr "Ich werde durch diese(n) Nutzer(in) belästigt"
+#: /plugins/debug_kit/controllers/components/toolbar.php:100
+msgid "Component initialization and startup"
+msgstr ""
 
-msgid "Posts / Comments by this user not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
-msgstr "Artikel/Kommentare dieses Nutzers sind nicht AGB konform (Extremismus/Gewaltverherrlichung/Pornografie/...)"
+#: /plugins/debug_kit/controllers/components/toolbar.php:170
+msgid "Controller action"
+msgstr ""
 
-msgid "The papers Authors / Post not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
-msgstr "Die Zeitung enthält nicht AGB konforme (Extremismus/Gewaltverherrlichung/Pornografie) Autoren / Artikel"
+#: /plugins/debug_kit/controllers/components/toolbar.php:171
+msgid "Controller action start"
+msgstr ""
 
-msgid "The profile image of the paper is inappropriate"
-msgstr "Das Profilbild der Zeitung ist unangebracht"
+#: /plugins/debug_kit/controllers/components/toolbar.php:199
+msgid "Render Controller Action"
+msgstr ""
 
-msgid "The description of the paper is inappropriate"
-msgstr "Die Beschreibung der Zeitung ist unangebracht"
+#: /plugins/debug_kit/controllers/components/toolbar.php:200
+msgid "Controller render start"
+msgstr ""
 
-msgid "Contents of this article not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
-msgstr "Inhalte dieses Artikels sind nicht AGB konform (Extremismus/Gewaltverherrlichung/Pornografie/...)"
+#: /plugins/debug_kit/controllers/components/toolbar.php:266
+msgid "Could not load DebugToolbar panel %s"
+msgstr ""
 
-msgid "Comments of this article not match with the Terms and Conditions (Extremism/Glorification of violence/Pornografie)"
-msgstr "Kommentare zu diesem Artikel sind nicht AGB konform (Extremismus/Gewaltverherrlichung/Pornografie/...)"
+#: /plugins/debug_kit/vendors/debug_kit_debugger.php:185
+msgid "Core Processing (Derived)"
+msgstr ""
 
-msgid "I am bothered by this user"
-msgstr "Ich werde von diesem Nutzer belästigt/bedroht"
+#: /plugins/debug_kit/vendors/fire_cake.php:297
+msgid "Headers already sent in %s on line %s. Cannot send log data to FirePHP."
+msgstr ""
 
-msgid "It is a hacked Author Profile"
-msgstr "Es handelt sich um ein gehacktes Profil"
+#: /plugins/debug_kit/vendors/fire_cake.php:318
+msgid "Incorrect parameter count for FireCake::fb()"
+msgstr ""
 
-msgid "It is a picture of my person"
-msgstr "Es handelt sich um eine Abbildung meiner Person"
+#: /plugins/debug_kit/vendors/fire_cake.php:397
+msgid "Maximum number (99,999) of messages reached!"
+msgstr ""
 
-msgid "The user sends spam"
-msgstr "Der Nutzer verschickt Spam"
+#: /plugins/debug_kit/vendors/shells/benchmark.php:50
+msgid "-> Testing :url"
+msgstr ""
 
-msgid "Other Reason"
-msgstr "Sonstiger Grund (siehe Kommentar)"
+#: /plugins/debug_kit/vendors/shells/benchmark.php:76
+msgid "Total Requests made: :requests"
+msgstr ""
 
-msgid "New"
-msgstr "Neu"
+#: /plugins/debug_kit/vendors/shells/benchmark.php:77
+msgid "Total Time elapsed: :duration (seconds)"
+msgstr ""
 
-msgid "In Progress"
-msgstr "In Bearbeitung"
+#: /plugins/debug_kit/vendors/shells/benchmark.php:81
+msgid "Requests/Second: :rps req/sec"
+msgstr ""
 
-msgid "Waiting for Input"
-msgstr "Warten auf externens Feedback"
+#: /plugins/debug_kit/vendors/shells/benchmark.php:85
+msgid "Average request time: :average-time seconds"
+msgstr ""
 
-msgid "Closed"
-msgstr "Geschlossen"
+#: /plugins/debug_kit/vendors/shells/benchmark.php:89
+msgid "Standard deviation of average request time: :std-dev"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:93
+msgid "Longest/shortest request: :longest sec/:shortest sec"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:145
+msgid "DebugKit Benchmark Shell"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:147
+msgid ""
+"\tAllows you to obtain some rough benchmarking statistics \n"
+"\tabout a fully qualified URL."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:149
+msgid "\tUse:"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:150
+msgid "\t\tcake benchmark [-n iterations] [-t timeout] url"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:152
+msgid "\tParams:"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:153
+msgid ""
+"\t\t-n Number of iterations to perform. Defaults to 10. \n"
+"\t\t   Must be an integer."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:154
+msgid ""
+"\t\t-t Maximum total time for all iterations, in seconds. \n"
+"\t\t   Defaults to 100. Must be an integer."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:156
+msgid ""
+"\tIf a single iteration takes more than the \n"
+"\ttimeout specified, only one request will be made."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:158
+msgid "\tExample Use:"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:159
+msgid "\t\tcake benchmark -n 10 -t 100 http://localhost/testsite"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:161
+msgid "\tNote that this benchmark does not include browser render time"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:41
+msgid "Rendering %s"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:63
+msgid "Starting to render"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:67
+msgid "Finished"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:83
+msgid "Rendering View"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:89
+msgid "View render complete"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/debug_toolbar.ctp:25
+msgid "There are no active panels. You must enable a panel to see its output."
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:21
+msgid "Request History"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:23
+msgid "No previous requests logged."
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:25
+msgid "previous requests available"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:27
+msgid "Restore to current request"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:21
+msgid "Logs"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:28
+msgid "Time"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:28
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:40;64
+msgid "Message"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:37
+msgid "There were no log entries made this request"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/request_panel.ctp:21
+msgid "Request"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/request_panel.ctp:35
+msgid "Current Route"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/session_panel.ctp:21
+msgid "Session"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:25
+msgid "Sql Logs"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:40
+msgid "Query Explain:"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:43
+msgid "Click an \"Explain\" link above, to see the query explanation."
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:48
+msgid "No active database connections"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:33
+msgid "Memory"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:36
+msgid "Peak Memory Use"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:40
+msgid "Memory use"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:53
+msgid "Timers"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:55
+msgid "%s (ms)"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:56
+msgid "Total Request Time:"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:65
+msgid "Time in ms"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:66
+msgid "Graph"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/variables_panel.ctp:21
+msgid "View Variables"
+msgstr ""
+
+#: /plugins/debug_kit/views/helpers/html_toolbar.php:184
+msgid "Explain"
+msgstr ""
+
+#: /plugins/debug_kit/views/helpers/simple_graph.php:77
+msgid "Starting %sms into the request, taking %sms"
+msgstr ""
+
+#: /plugins/debug_kit/views/helpers/toolbar.php:158
+msgid "maybe slow"
+msgstr ""
 

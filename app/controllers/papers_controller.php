@@ -147,7 +147,7 @@ class PapersController extends AppController {
 
 
 		if (empty($this->data)) {
-			$this->Session->setFlash(__('Error while uploading photo', true));
+			$this->Session->setFlash(__('Error during photo upload', true));
 			$this->redirect($this->referer());
 		}
 
@@ -210,17 +210,17 @@ class PapersController extends AppController {
 			if($this->Paper->read(null, $paper_id)){
 
 				if($this->Paper->subscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(__('Subscribed successfully.', true), 'default', array('class' => 'success'));
+					$this->Session->setFlash(sprintf(__('You successfully subscribed to the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
 				} else {
-					$this->Session->setFlash(__('Could not subscribe', true));
+					$this->Session->setFlash(__('Could not subscribe this paper.', true));
 				}
 			} else {
-				$this->Session->setFlash(__('Invalid paper id', true));
+				$this->Session->setFlash(__('Invalid paper id.', true));
 			}
 		}
 		else {
 			// no paper $id
-			$this->Session->setFlash(__('No paper id', true));
+			$this->Session->setFlash(__('Invalid paper id.', true));
 		}
 		$this->redirect($this->referer());
 	}
@@ -235,9 +235,8 @@ class PapersController extends AppController {
 
 			$this->Paper->contain();
 			if($this->Paper->read(null, $paper_id)){
-
 				if($this->Paper->unsubscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(__('Unsubscribed successfully.', true), 'default', array('class' => 'success'));
+					$this->Session->setFlash(sprintf(__('You successfully unsubscribed the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
 				} else {
 					$this->Session->setFlash(__('Could not unsubscribe', true));
 				}
@@ -360,11 +359,11 @@ class PapersController extends AppController {
 			//check if paper id is as param
 			if(empty($this->params['pass'][1]) || !isset($this->params['pass'][1])){
 				//no param for category
-				$this->Session->setFlash(__('No param for paper', true));
+				$this->Session->setFlash(__('No paper parameter passed.', true));
 				$this->redirect(array('action' => 'index'));
 			}
 			if(!$this->Paper->isValidTargetType($this->params['pass'][0]) || !isset($this->params['pass'][1])){
-				$this->Session->setFlash(__('Wrong type do add for', true));
+				$this->Session->setFlash(__('Invalid parameter for the target passed.', true));
 				$this->redirect(array('action' => 'index'));
 			}
 			//type for content for hidden field
@@ -404,7 +403,7 @@ class PapersController extends AppController {
 					$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->Paper->id));
 			//	}
 			//	else{
-					$this->Session->setFlash(__('Paper saved, error wile saving the paper route', true));
+					$this->Session->setFlash(__('Paper saved, error while saving the paper route', true));
 			//	}
 			} else {
 				$this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
@@ -475,7 +474,7 @@ class PapersController extends AppController {
 		}
 		//check if paper belongs to logged in user
 		if(!parent::canEdit('Paper', $paper_id, 'owner_id')){
-			$this->Session->setFlash(__('Wrong permissions', true));
+			$this->Session->setFlash(__('No permissions', true));
 			$this->redirect($this->referer());
 		}
 		switch ($path){

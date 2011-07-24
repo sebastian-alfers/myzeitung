@@ -1,95 +1,1491 @@
 # LANGUAGE translation of CakePHP Application
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-02-05 13:25+0100\n"
-"PO-Revision-Date: 2011-02-05 13:27+0100\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2011-07-23 17:46+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /controllers/posts_controller.php:13;37
-msgid "Invalid post"
-msgstr "Falscher Post"
+#: /app_controller.php:225
+msgid "No Permission"
+msgstr ""
 
-#: /controllers/posts_controller.php:23;42
+#: /controllers/categories_controller.php:17;88
+msgid "Invalid category"
+msgstr ""
+
+#: /controllers/categories_controller.php:39
+msgid "Invalid parameters"
+msgstr ""
+
+#: /controllers/categories_controller.php:61
+msgid "Unable to read parent category."
+msgstr ""
+
+#: /controllers/categories_controller.php:72
+msgid "This paper does not belong to you. You cannot add a category."
+msgstr ""
+
+#: /controllers/categories_controller.php:78;93
+msgid "The category has been saved"
+msgstr ""
+
+#: /controllers/categories_controller.php:81;96
+msgid "The category could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/categories_controller.php:109
+msgid "Invalid id for category"
+msgstr ""
+
+#: /controllers/categories_controller.php:113
+msgid "Category deleted"
+msgstr ""
+
+#: /controllers/categories_controller.php:116
+msgid "Category was not deleted"
+msgstr ""
+
+#: /controllers/comments_controller.php:33
+msgid "The comment has been saved"
+msgstr ""
+
+#: /controllers/comments_controller.php:36
+msgid "The comment could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/comments_controller.php:115
+msgid "Invalid comment id"
+msgstr ""
+
+#: /controllers/comments_controller.php:124
+msgid "You are not allowed to delete this comment"
+msgstr ""
+
+#: /controllers/comments_controller.php:130
+msgid "Comment deleted"
+msgstr ""
+
+#: /controllers/comments_controller.php:133
+msgid "Comment has not been deleted"
+msgstr ""
+
+#: /controllers/comments_controller.php:156
+msgid "New comment on your post:"
+msgstr ""
+
+#: /controllers/complaints_controller.php:51
+msgid "Thank you for you help! Your complaint will be processed."
+msgstr ""
+
+#: /controllers/complaints_controller.php:124;132
+msgid "Invalid complaint"
+msgstr ""
+
+#: /controllers/complaints_controller.php:148
+msgid "The complaint has been saved"
+msgstr ""
+
+#: /controllers/complaints_controller.php:151
+msgid "The complaint could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/complaints_controller.php:175
+msgid "Invalid id for complaint"
+msgstr ""
+
+#: /controllers/complaints_controller.php:179
+msgid "Complaint deleted"
+msgstr ""
+
+#: /controllers/complaints_controller.php:182
+msgid "Complaint was not deleted"
+msgstr ""
+
+#: /controllers/conversations_controller.php:13
+msgid "Invalid recipient"
+msgstr ""
+
+#: /controllers/conversations_controller.php:25
+msgid "This user does not acceppt messages."
+msgstr ""
+
+#: /controllers/conversations_controller.php:63
+msgid "The Message has been sent"
+msgstr ""
+
+#: /controllers/conversations_controller.php:68
+msgid "The Message could not be sent. Please, try again."
+msgstr ""
+
+#: /controllers/conversations_controller.php:182;242
+msgid "You do not participate in this particular conversation."
+msgstr ""
+
+#: /controllers/conversations_controller.php:287
+msgid "New Message from"
+msgstr ""
+
+#: /controllers/papers_controller.php:67;427;472
+msgid "Invalid paper"
+msgstr ""
+
+#: /controllers/papers_controller.php:150
+msgid "Error during photo upload"
+msgstr ""
+
+#: /controllers/papers_controller.php:173
+msgid "Image has been saved"
+msgstr ""
+
+#: /controllers/papers_controller.php:178;184
+msgid "Could not save paper picture, please try again."
+msgstr ""
+
+#: /controllers/papers_controller.php:190
+msgid "You do not have permissions"
+msgstr ""
+
+#: /controllers/papers_controller.php:213
+msgid "You successfully subscribed to the paper: %s"
+msgstr ""
+
+#: /controllers/papers_controller.php:215
+msgid "Could not subscribe this paper."
+msgstr ""
+
+#: /controllers/papers_controller.php:218;223
+msgid "Invalid paper id."
+msgstr ""
+
+#: /controllers/papers_controller.php:239
+msgid "You successfully unsubscribed the paper: %s"
+msgstr ""
+
+#: /controllers/papers_controller.php:241
+msgid "Could not unsubscribe"
+msgstr ""
+
+#: /controllers/papers_controller.php:244
+msgid "Invalid paper id"
+msgstr ""
+
+#: /controllers/papers_controller.php:249
+msgid "No paper id"
+msgstr ""
+
+#: /controllers/papers_controller.php:263
+msgid "invalid data for content view "
+msgstr ""
+
+#: /controllers/papers_controller.php:362
+msgid "No paper parameter passed."
+msgstr ""
+
+#: /controllers/papers_controller.php:366
+msgid "Invalid parameter for the target passed."
+msgstr ""
+
+#: /controllers/papers_controller.php:402;433
+msgid "The paper has been saved"
+msgstr ""
+
+#: /controllers/papers_controller.php:406
+msgid "Paper saved, error while saving the paper route"
+msgstr ""
+
+#: /controllers/papers_controller.php:409;436
+msgid "The paper could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/papers_controller.php:453
+msgid "Invalid id for paper"
+msgstr ""
+
+#: /controllers/papers_controller.php:457
+msgid "Paper deleted"
+msgstr ""
+
+#: /controllers/papers_controller.php:460
+msgid "Paper was not deleted"
+msgstr ""
+
+#: /controllers/papers_controller.php:477
+msgid "No permissions"
+msgstr ""
+
+#: /controllers/posts_controller.php:75
+msgid "Post successfully reposted."
+msgstr ""
+
+#: /controllers/posts_controller.php:77
+msgid "Post could not be reposted"
+msgstr ""
+
+#: /controllers/posts_controller.php:80;109
+msgid "Invalid post id"
+msgstr ""
+
+#: /controllers/posts_controller.php:85;114
+msgid "No post id"
+msgstr ""
+
+#: /controllers/posts_controller.php:104
+msgid "Repost deleted successfully."
+msgstr ""
+
+#: /controllers/posts_controller.php:106
+msgid "Repost could not be deleted"
+msgstr ""
+
+#: /controllers/posts_controller.php:127;352
+msgid "Invalid post"
+msgstr ""
+
+#: /controllers/posts_controller.php:235;239
+msgid "Not able to copy images for post"
+msgstr ""
+
+#: /controllers/posts_controller.php:243;394
 msgid "The post has been saved"
 msgstr ""
 
-#: /controllers/posts_controller.php:26;45
+#: /controllers/posts_controller.php:252;404
 msgid "The post could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/posts_controller.php:59
+#: /controllers/posts_controller.php:262;426
+#: /controllers/topics_controller.php:63
+msgid "No Topic"
+msgstr ""
+
+#: /controllers/posts_controller.php:267
+msgid "default value"
+msgstr ""
+
+#: /controllers/posts_controller.php:268;429
+msgid "Yes"
+msgstr ""
+
+#: /controllers/posts_controller.php:269;430
+msgid "No"
+msgstr ""
+
+#: /controllers/posts_controller.php:326;338
+msgid "No permission"
+msgstr ""
+
+#: /controllers/posts_controller.php:428
+msgid "use privacy settings"
+msgstr ""
+
+#: /controllers/posts_controller.php:476
 msgid "Invalid id for post"
 msgstr ""
 
-#: /controllers/posts_controller.php:63
+#: /controllers/posts_controller.php:481
 msgid "Post deleted"
 msgstr ""
 
-#: /controllers/posts_controller.php:66
+#: /controllers/posts_controller.php:484
 msgid "Post was not deleted"
 msgstr ""
 
-#: /controllers/topics_controller.php:13;35
-msgid "Invalid topic"
-msgstr ""
-
-#: /controllers/topics_controller.php:23;40
-msgid "The topic has been saved"
-msgstr ""
-
-#: /controllers/topics_controller.php:26;43
-msgid "The topic could not be saved. Please, try again."
-msgstr ""
-
-#: /controllers/topics_controller.php:55
-msgid "Invalid id for topic"
-msgstr ""
-
-#: /controllers/topics_controller.php:59
-msgid "Topic deleted"
-msgstr ""
-
-#: /controllers/topics_controller.php:62
-msgid "Topic was not deleted"
-msgstr ""
-
-#: /controllers/users_controller.php:13;35
+#: /controllers/users_controller.php:94;103;169;302;755;807;839;870;1064;1086
 msgid "Invalid user"
 msgstr ""
 
-#: /controllers/users_controller.php:23;40
-msgid "The user has been saved"
+#: /controllers/users_controller.php:286
+msgid "Thank you for registration."
 msgstr ""
 
-#: /controllers/users_controller.php:26;43
+#: /controllers/users_controller.php:293;310;1077;1094
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/users_controller.php:55
+#: /controllers/users_controller.php:307;1074;1091
+msgid "The user has been saved"
+msgstr ""
+
+#: /controllers/users_controller.php:345
+msgid "No user id passed."
+msgstr ""
+
+#: /controllers/users_controller.php:416
+msgid "Not able to subscribe user/topic to paper - invalid target type"
+msgstr ""
+
+#: /controllers/users_controller.php:482
+msgid "No user param"
+msgstr ""
+
+#: /controllers/users_controller.php:504
+#: /views/layouts/default.ctp:26
+#: /views/layouts/home.ctp:26
+msgid "myZeitung"
+msgstr ""
+
+#: /controllers/users_controller.php:554
+msgid "Can not load user"
+msgstr ""
+
+#: /controllers/users_controller.php:767;780;814;845
+msgid "The changes have been saved"
+msgstr ""
+
+#: /controllers/users_controller.php:775;785;819;850
+msgid "The changes could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/users_controller.php:879
+msgid "Your account has been deleted."
+msgstr ""
+
+#: /controllers/users_controller.php:882
+msgid "Your account could not be deleted."
+msgstr ""
+
+#: /controllers/users_controller.php:905
+msgid "Error while loading user"
+msgstr ""
+
+#: /controllers/users_controller.php:923
+msgid "Your new profile picture has been saved."
+msgstr ""
+
+#: /controllers/users_controller.php:929;936
+msgid "Could not save profile picture, please try again."
+msgstr ""
+
+#: /controllers/users_controller.php:1010
+msgid "Welcome to myZeitung"
+msgstr ""
+
+#: /controllers/users_controller.php:1018
+msgid "Password change request"
+msgstr ""
+
+#: /controllers/users_controller.php:1052
+msgid "Subscription info"
+msgstr ""
+
+#: /controllers/users_controller.php:1101
+#: /views/elements/search/results/user.ctp:25
+msgid "Author"
+msgstr ""
+
+#: /controllers/users_controller.php:1102
+#: /views/elements/header.ctp:89
+msgid "Admin"
+msgstr ""
+
+#: /controllers/users_controller.php:1103
+msgid "Superadmin"
+msgstr ""
+
+#: /controllers/users_controller.php:1110
 msgid "Invalid id for user"
 msgstr ""
 
-#: /controllers/users_controller.php:59
+#: /controllers/users_controller.php:1114
 msgid "User deleted"
 msgstr ""
 
-#: /controllers/users_controller.php:62
+#: /controllers/users_controller.php:1117
 msgid "User was not deleted"
 msgstr ""
 
-#: /views/layouts/default.ctp:25
+#: /models/complaint.php:111
+#: /models/user.php:131
+msgid "Please enter your email address."
+msgstr ""
+
+#: /models/complaint.php:116
+#: /models/user.php:136
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: /models/paper.php:120
+msgid "Please enter a title for your paper"
+msgstr ""
+
+#: /models/paper.php:125
+msgid "Paper titles can only be 40 characters long."
+msgstr ""
+
+#: /models/paper.php:132
+msgid "Descriptions can only be 200 characters long."
+msgstr ""
+
+#: /models/paper.php:139
+msgid "Please provide a valid URL. http://your-link.domain"
+msgstr ""
+
+#: /models/paper.php:147
+msgid "User/Topic successfully subscribed to your Paper/Category"
+msgstr ""
+
+#: /models/paper.php:148
+msgid "Subscription successfully saved. There was at least one topic of this user subscribed to your Paper/Category which has been replaced to allow this new Subscription."
+msgstr ""
+
+#: /models/paper.php:149
+msgid "This exact Subscription already exists"
+msgstr ""
+
+#: /models/paper.php:150
+msgid "You already subscribed this User (with all topics) to this Paper/Category"
+msgstr ""
+
+#: /models/paper.php:151
+msgid "Invalid Topic chosen"
+msgstr ""
+
+#: /models/paper.php:152
+msgid "The Subscription could not be saved, please try again"
+msgstr ""
+
+#: /models/paper.php:153
+msgid "The Paper of the your chosen Category could not be found."
+msgstr ""
+
+#: /models/paper.php:154
+msgid "No valid User/Topic or Paper/Category chosen"
+msgstr ""
+
+#: /models/post.php:468
+msgid "Please enter a Title."
+msgstr ""
+
+#: /models/post.php:473
+msgid "Titles can only be 100 characters long."
+msgstr ""
+
+#: /models/post.php:480
+msgid "Please provide additional content: a picture, a video, a message or a link."
+msgstr ""
+
+#: /models/user.php:116
+msgid "Names can only be 40 characters long."
+msgstr ""
+
+#: /models/user.php:123
+msgid "Your description can only be 200 characters long."
+msgstr ""
+
+#: /models/user.php:141
+msgid "This email address has already been registered."
+msgstr ""
+
+#: /models/user.php:149
+msgid "Please enter your desired username."
+msgstr ""
+
+#: /models/user.php:154
+msgid "Usernames must be between 3 and 15 characters long."
+msgstr ""
+
+#: /models/user.php:159
+msgid "Usernames must only contain letters and numbers."
+msgstr ""
+
+#: /models/user.php:164
+msgid "This username has already been taken."
+msgstr ""
+
+#: /models/user.php:173
+msgid "Passwords must be between 5 and 20 characters long."
+msgstr ""
+
+#: /models/user.php:180
+msgid "Passwords do not match"
+msgstr ""
+
+#: /models/user.php:187
+msgid "Your old password does not match."
+msgstr ""
+
+#: /models/user.php:194
+msgid "Please accept the terms of service and privacy policy."
+msgstr ""
+
+#: /views/categories/add.ctp:4
+#: /views/papers/index_backup_alf.ctp:57
+msgid "Add Category"
+msgstr ""
+
+#: /views/categories/add.ctp:15
+#: /views/categories/edit.ctp:13
+#: /views/comments/add.ctp:13
+#: /views/complaints/admin_edit.ctp:34
+#: /views/conversations/add.ctp:15
+#: /views/conversations/reply.ctp:12
+#: /views/elements/topics/view.ctp:7
+#: /views/papers/addcontent.ctp:15
+#: /views/papers/edit.ctp:15
+#: /views/posts/edit.ctp:13
+#: /views/topics/add.ctp:10
+#: /views/topics/edit.ctp:10
+#: /views/users/admin_add.ctp:25
+#: /views/users/admin_edit.ctp:18
+msgid "Submit"
+msgstr ""
+
+#: /views/categories/edit.ctp:4
+#: /views/categories/view.ctp:34
+msgid "Edit Category"
+msgstr ""
+
+#: /views/categories/edit.ctp:16
+#: /views/categories/index.ctp:10;61
+#: /views/categories/view.ctp:32;56
+#: /views/comments/show.ctp:86
+#: /views/papers/edit.ctp:18
+#: /views/papers/index_backup_alf.ctp:19;80
+#: /views/topics/add.ctp:13
+#: /views/topics/edit.ctp:13
+#: /views/users/admin_add.ctp:28
+#: /views/users/admin_index.ctp:12
+msgid "Actions"
+msgstr ""
+
+#: /views/categories/edit.ctp:19
+#: /views/categories/index.ctp:41
+#: /views/categories/view.ctp:75
+#: /views/complaints/admin_index.ctp:71
+#: /views/papers/edit.ctp:21
+#: /views/papers/index_backup_alf.ctp:60
+#: /views/posts/view.ctp:109
+#: /views/users/admin_index.ctp:36
+msgid "Delete"
+msgstr ""
+
+#: /views/categories/edit.ctp:19
+#: /views/categories/index.ctp:41
+#: /views/categories/view.ctp:35;75
+#: /views/complaints/admin_index.ctp:71
+#: /views/papers/edit.ctp:21
+#: /views/papers/index_backup_alf.ctp:60
+#: /views/users/admin_index.ctp:36
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: /views/categories/edit.ctp:20;25
+#: /views/categories/index.ctp:68
+#: /views/categories/view.ctp:36;42
+#: /views/papers/edit.ctp:25
+#: /views/papers/index_backup_alf.ctp:85
+msgid "List Categories"
+msgstr ""
+
+#: /views/categories/edit.ctp:21
+#: /views/categories/index.ctp:64
+#: /views/categories/view.ctp:38
+#: /views/papers/edit.ctp:22
+#: /views/users/admin_add.ctp:44
+msgid "List Papers"
+msgstr ""
+
+#: /views/categories/edit.ctp:22
+#: /views/categories/index.ctp:65
+#: /views/categories/view.ctp:39
+#: /views/elements/header.ctp:77
+#: /views/elements/users/sidebar/buttons.ctp:15
+#: /views/papers/add_edit.ctp:15
+#: /views/papers/index_backup_alf.ctp:82
+#: /views/users/admin_add.ctp:45
+msgid "New Paper"
+msgstr ""
+
+#: /views/categories/edit.ctp:23
+#: /views/categories/index.ctp:66
+#: /views/categories/view.ctp:40
+#: /views/papers/edit.ctp:23
+#: /views/papers/index_backup_alf.ctp:83
+#: /views/users/admin_add.ctp:34
+msgid "List Routes"
+msgstr ""
+
+#: /views/categories/edit.ctp:24
+#: /views/categories/index.ctp:67
+#: /views/categories/view.ctp:41
+#: /views/papers/edit.ctp:24
+#: /views/papers/index_backup_alf.ctp:84
+#: /views/users/admin_add.ctp:35
+msgid "New Route"
+msgstr ""
+
+#: /views/categories/edit.ctp:26
+#: /views/categories/index.ctp:69
+#: /views/categories/view.ctp:43;84
+msgid "New Child Category"
+msgstr ""
+
+#: /views/categories/index.ctp:2
+#: /views/papers/index_backup_alf.ctp:18
+msgid "Categories"
+msgstr ""
+
+#: /views/categories/index.ctp:38
+msgid "Add Subcategory"
+msgstr ""
+
+#: /views/categories/index.ctp:39
+#: /views/categories/view.ctp:73
+#: /views/complaints/admin_index.ctp:68
+#: /views/papers/index_backup_alf.ctp:58
+#: /views/users/admin_index.ctp:33
+msgid "View"
+msgstr ""
+
+#: /views/categories/index.ctp:40
+#: /views/categories/view.ctp:74
+#: /views/complaints/admin_index.ctp:70
+#: /views/papers/index_backup_alf.ctp:59
+#: /views/posts/view.ctp:110
+#: /views/users/admin_index.ctp:35
+msgid "Edit"
+msgstr ""
+
+#: /views/categories/index.ctp:49
+#: /views/complaints/admin_index.ctp:80
+#: /views/papers/index_backup_alf.ctp:68
+#: /views/users/admin_index.ctp:45
+msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
+msgstr ""
+
+#: /views/categories/index.ctp:54
+#: /views/complaints/admin_index.ctp:85
+#: /views/papers/index_backup_alf.ctp:73
+#: /views/users/admin_index.ctp:50
+msgid "previous"
+msgstr ""
+
+#: /views/categories/index.ctp:57
+#: /views/complaints/admin_index.ctp:88
+#: /views/papers/index_backup_alf.ctp:76
+#: /views/users/admin_index.ctp:53
+msgid "next"
+msgstr ""
+
+#: /views/categories/index.ctp:63
+#: /views/categories/view.ctp:37
+#: /views/elements/papers/sidebar.ctp:51
+#: /views/papers/edit.ctp:26
+#: /views/papers/index_backup_alf.ctp:86
+msgid "New Category"
+msgstr ""
+
+#: /views/categories/view.ctp:2
+msgid "Category"
+msgstr ""
+
+#: /views/categories/view.ctp:4;51
+#: /views/complaints/admin_view.ctp:4
+#: /views/users/admin_view.ctp:4
+msgid "Id"
+msgstr ""
+
+#: /views/categories/view.ctp:9;52
+msgid "Parent Id"
+msgstr ""
+
+#: /views/categories/view.ctp:14
+#: /views/complaints/admin_view.ctp:10
+#: /views/elements/search/results/paper.ctp:19
+msgid "Paper"
+msgstr ""
+
+#: /views/categories/view.ctp:19
+msgid "Route"
+msgstr ""
+
+#: /views/categories/view.ctp:24;55
+#: /views/users/acc_about_me.ctp:22
+#: /views/users/add.ctp:29
+#: /views/users/admin_view.ctp:14
+msgid "Name"
+msgstr ""
+
+#: /views/categories/view.ctp:35
+msgid "Delete Category"
+msgstr ""
+
+#: /views/categories/view.ctp:47
+msgid "Related Categories"
+msgstr ""
+
+#: /views/categories/view.ctp:53
+msgid "Paper Id"
+msgstr ""
+
+#: /views/categories/view.ctp:54
+msgid "Route Id"
+msgstr ""
+
+#: /views/comments/add.ctp:4
+msgid "Add Comment"
+msgstr ""
+
+#: /views/comments/show.ctp:2
+#: /views/complaints/admin_index.ctp:7
+#: /views/complaints/admin_view.ctp:45
+#: /views/elements/posts/add_edit_sidebar.ctp:46
+msgid "Comments"
+msgstr ""
+
+#: /views/comments/show.ctp:27;48;69
+#: /views/conversations/reply.ctp:4
+msgid "Reply"
+msgstr ""
+
+#: /views/comments/show.ctp:88
+msgid "New Comment"
+msgstr ""
+
+#: /views/comments/show.ctp:89
+msgid "Back to Post"
+msgstr ""
+
+#: /views/complaints/add.ctp:5
+msgid "Your Name: "
+msgstr ""
+
+#: /views/complaints/add.ctp:6
+msgid "Your Email: "
+msgstr ""
+
+#: /views/complaints/add.ctp:11
+msgid "Firstname"
+msgstr ""
+
+#: /views/complaints/add.ctp:12
+msgid "Lastname"
+msgstr ""
+
+#: /views/complaints/add.ctp:13
+#: /views/users/acc_general.ctp:21
+#: /views/users/admin_view.ctp:24
+msgid "Email"
+msgstr ""
+
+#: /views/complaints/add.ctp:20
+msgid "What is wrong with this User? Please describe the issue below."
+msgstr ""
+
+#: /views/complaints/add.ctp:23
+msgid "What is wrong with this Post? Please describe the issue below."
+msgstr ""
+
+#: /views/complaints/add.ctp:26
+msgid "What is wrong with this Paper? Please describe the issue below."
+msgstr ""
+
+#: /views/complaints/add.ctp:29
+msgid "What is wrong with this Comment? Please describe the issue below."
+msgstr ""
+
+#: /views/complaints/admin_edit.ctp:4
+msgid "Admin Edit Complaint"
+msgstr ""
+
+#: /views/complaints/admin_edit.ctp:38
+msgid "Comment History"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:2
+#: /views/elements/admin_header.ctp:38
+msgid "Complaints"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:6
+msgid "Complain Type"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:8
+#: /views/complaints/admin_view.ctp:54
+msgid "Reporter"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:23
+msgid "Paper:"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:28
+msgid "Post:"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:33
+msgid "Comment:"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:45
+msgid "User:"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:51
+msgid "comments"
+msgstr ""
+
+#: /views/complaints/admin_index.ctp:54
+msgid "comment"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:2
+msgid "Complaint"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:17
+#: /views/elements/search/results/post.ctp:44
+msgid "Post"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:25
+msgid "Comment"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:33
+#: /views/users/admin_view.ctp:2
+msgid "User"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:40
+msgid "Reason"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:61
+msgid "Reporter Email"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:66
+msgid "Complaintstatus"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:71
+#: /views/users/admin_view.ctp:44
+msgid "Created"
+msgstr ""
+
+#: /views/complaints/admin_view.ctp:75
+#: /views/users/admin_view.ctp:49
+msgid "Modified"
+msgstr ""
+
+#: /views/conversations/add.ctp:4
+#: /views/elements/header/breadcrumbs.ctp:70
+msgid "New Message"
+msgstr ""
+
+#: /views/conversations/index.ctp:4
+#: /views/elements/header.ctp:80
+msgid "Conversations"
+msgstr ""
+
+#: /views/conversations/index.ctp:72
+msgid "between you and"
+msgstr ""
+
+#: /views/conversations/view.ctp:6
+msgid "Conversation between you"
+msgstr ""
+
+#: /views/elements/admin_header.ctp:6
+#: /views/elements/header.ctp:5
+msgid "logged in as"
+msgstr ""
+
+#: /views/elements/admin_header.ctp:6
+msgid "logout"
+msgstr ""
+
+#: /views/elements/admin_header.ctp:12
+#: /views/elements/header.ctp:21
+#: /views/users/add.ctp:19
+msgid "You already have an account?"
+msgstr ""
+
+#: /views/elements/admin_header.ctp:13
+#: /views/elements/header.ctp:22
+#: /views/elements/header/breadcrumbs.ctp:33
+#: /views/users/login.ctp:15;25
+msgid "Login"
+msgstr ""
+
+#: /views/elements/admin_header.ctp:15
+#: /views/elements/header.ctp:24
+msgid "No?"
+msgstr ""
+
+#: /views/elements/admin_header.ctp:16
+#: /views/elements/header.ctp:25
+#: /views/elements/header/breadcrumbs.ctp:31
+#: /views/home/index.ctp:120
+msgid "Register"
+msgstr ""
+
+#: /views/elements/admin_header.ctp:34
+msgid "User Management"
+msgstr ""
+
+#: /views/elements/header.ctp:34
+#: /views/elements/search/results/sidebar.ctp:16
+msgid "Posts"
+msgstr ""
+
+#: /views/elements/header.ctp:36
+msgid "Authors"
+msgstr ""
+
+#: /views/elements/header.ctp:38
+#: /views/elements/header/breadcrumbs.ctp:49
+#: /views/elements/search/results/sidebar.ctp:13
+#: /views/elements/users/sidebar.ctp:75
+#: /views/elements/users/sidebar/subscriptions.ctp:52;54
+#: /views/papers/index_backup_alf.ctp:12
+msgid "Papers"
+msgstr ""
+
+#: /views/elements/header.ctp:41;41;41;42
+#: /views/elements/search/autocomplete/script.ctp:24
+#: /views/home/index.ctp:20;20;20
+msgid "Find"
+msgstr ""
+
+#: /views/elements/header.ctp:57
+msgid "My Posts"
+msgstr ""
+
+#: /views/elements/header.ctp:58
+msgid "My Papers"
+msgstr ""
+
+#: /views/elements/header.ctp:59
+#: /views/elements/header/breadcrumbs.ctp:67;69;72
+msgid "Messages"
+msgstr ""
+
+#: /views/elements/header.ctp:64;76
+#: /views/elements/header/breadcrumbs.ctp:10
+#: /views/elements/posts/add_edit_content.ctp:8
+#: /views/users/admin_add.ctp:37
+msgid "New Post"
+msgstr ""
+
+#: /views/elements/header.ctp:78
+msgid "my Posts"
+msgstr ""
+
+#: /views/elements/header.ctp:79
+#: /views/elements/header/breadcrumbs.ctp:44
+#: /views/elements/users/sidebar/subscriptions.ctp:57;59
+msgid "Subscriptions"
+msgstr ""
+
+#: /views/elements/header.ctp:86
+msgid "Account / Settings"
+msgstr ""
+
+#: /views/elements/header.ctp:87
+msgid "Logout"
+msgstr ""
+
+#: /views/elements/comments/add.ctp:12
+msgid "Please enter your reply or press cancel"
+msgstr ""
+
+#: /views/elements/comments/add.ctp:24
+msgid "Please enter your comment"
+msgstr ""
+
+#: /views/elements/comments/comment_content.ctp:28
+msgid "Remove"
+msgstr ""
+
+#: /views/elements/comments/form.ctp:2
+msgid "Post comment"
+msgstr ""
+
+#: /views/elements/comments/form.ctp:8
+msgid "Post reply"
+msgstr ""
+
+#: /views/elements/comments/form.ctp:16
+msgid "Leave a comment to this Post"
+msgstr ""
+
+#: /views/elements/complaints/admin_comments.ctp:4
+msgid "Written by"
+msgstr ""
+
+#: /views/elements/complaints/link.ctp:2
+msgid "Complain"
+msgstr ""
+
+#: /views/elements/conversations/message.ctp:26
+#: /views/elements/search/results/paper.ctp:19
+#: /views/elements/search/results/post.ctp:44
+msgid "from"
+msgstr ""
+
+#: /views/elements/email/html/forgot_password.ctp:2
+#: /views/elements/email/text/forgot_password.ctp:2
+msgid "Your new password: "
+msgstr ""
+
+#: /views/elements/email/html/welcome.ctp:2
+#: /views/elements/email/text/welcome.ctp:2
+msgid "Welcome to myZeitung.de "
+msgstr ""
+
+#: /views/elements/global/modal_upload.ctp:2
+#: /views/papers/settings/image.ctp:6
+msgid "Profile picture"
+msgstr ""
+
+#: /views/elements/global/modal_upload.ctp:8
+msgid "Choose image"
+msgstr ""
+
+#: /views/elements/global/modal_upload.ctp:25
+msgid "Save Picture"
+msgstr ""
+
+#: /views/elements/global/paginate.ctp:3
+msgid "Previous"
+msgstr ""
+
+#: /views/elements/global/paginate.ctp:7
+msgid "Next"
+msgstr ""
+
+#: /views/elements/header/breadcrumbs.ctp:12
+#: /views/elements/posts/navigator.ctp:15
+msgid "Browse Posts"
+msgstr ""
+
+#: /views/elements/header/breadcrumbs.ctp:14
+#: /views/elements/posts/navigator.ctp:150
+#: /views/posts/edit.ctp:4
+msgid "Edit Post"
+msgstr ""
+
+#: /views/elements/header/breadcrumbs.ctp:35
+#: /views/users/forgot_password.ctp:18
+#: /views/users/login.ctp:21
+msgid "I forgot my password"
+msgstr ""
+
+#: /views/elements/header/breadcrumbs.ctp:37
+#: /views/elements/search/results/sidebar.ctp:10
+#: /views/users/admin_index.ctp:2
+msgid "Users"
+msgstr ""
+
+#: /views/elements/header/breadcrumbs.ctp:39
+msgid "Account Settings"
+msgstr ""
+
+#: /views/elements/header/breadcrumbs.ctp:63
+msgid "Search Results"
+msgstr ""
+
+#: /views/elements/papers/modal_references.ctp:51
+msgid "References"
+msgstr ""
+
+#: /views/elements/papers/navigator.ctp:4
+msgid "Browse Papers"
+msgstr ""
+
+#: /views/elements/papers/navigator.ctp:36
+msgid "created by"
+msgstr ""
+
+#: /views/elements/papers/navigator.ctp:20
+#: /views/elements/users/navigator.ctp:17
+#: /views/elements/users/sidebar/activity.ctp:4
+msgid "%d post"
+msgid_plural "%d posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/papers/navigator.ctp:22
+msgid "%d subscription"
+msgid_plural "%d subscriptions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/papers/navigator.ctp:24
+msgid "%d author"
+msgid_plural "%d authors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/papers/sidebar.ctp:52
+msgid "Upload Image"
+msgstr ""
+
+#: /views/elements/papers/sidebar.ctp:57
+#: /views/elements/search/results/paper.ctp:26
+#: /views/elements/users/sidebar/buttons.ctp:8
+msgid "Subscribe"
+msgstr ""
+
+#: /views/elements/papers/sidebar.ctp:61
+#: /views/elements/search/results/paper.ctp:32
+msgid "Unsubscribe"
+msgstr ""
+
+#: /views/elements/papers/sidebar.ctp:69
+msgid "Filter by Category"
+msgstr ""
+
+#: /views/elements/papers/sidebar.ctp:74;76
+msgid "front page"
+msgstr ""
+
+#: /views/elements/papers/sidebar.ctp:91
+#: /views/elements/users/modal_activity.ctp:34
+#: /views/elements/users/sidebar/activity.ctp:1
+msgid "Activity"
+msgstr ""
+
+#: /views/elements/papers/sidebar.ctp:71
+msgid "%1$s person is published in this paper"
+msgid_plural "%1$s persons are published in this paper"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/papers/sidebar.ctp:79
+msgid "%1$s person is published this category"
+msgid_plural "%1$s persons are published this category"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/papers/sidebar.ctp:93
+msgid "%d Post"
+msgid_plural "%d Posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/papers/sidebar.ctp:94
+msgid "%d Subscribed User/Topic"
+msgid_plural "%d Subscribed Users/Topics"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/papers/index/sidebar.ctp:12
+#: /views/elements/posts/index/sidebar.ctp:14
+#: /views/elements/users/index/sidebar.ctp:12
+#: /views/elements/users/sidebar/subscriptions.ctp:21
+msgid "order by"
+msgstr ""
+
+#: /views/elements/papers/index/sidebar.ctp:19
+#: /views/elements/posts/add_edit_content.ctp:32
+#: /views/elements/posts/index/sidebar.ctp:36
+#: /views/elements/users/sidebar/subscriptions.ctp:27
+#: /views/papers/add_edit.ctp:21
+msgid "Title"
+msgstr ""
+
+#: /views/elements/papers/index/sidebar.ctp:23
+#: /views/elements/users/sidebar/subscriptions.ctp:31
+msgid "Number of Authors"
+msgstr ""
+
+#: /views/elements/papers/index/sidebar.ctp:27
+#: /views/elements/users/index/sidebar.ctp:21
+#: /views/elements/users/sidebar/subscriptions.ctp:35
+msgid "Number of Posts"
+msgstr ""
+
+#: /views/elements/papers/index/sidebar.ctp:31
+#: /views/elements/users/sidebar/subscriptions.ctp:39
+msgid "Number of Subscriptions"
+msgstr ""
+
+#: /views/elements/posts/add_edit_content.ctp:15
+msgid "Save Post"
+msgstr ""
+
+#: /views/elements/posts/add_edit_content.ctp:37
+msgid "Content"
+msgstr ""
+
+#: /views/elements/posts/add_edit_content.ctp:47
+msgid "Media (images and videos): "
+msgstr ""
+
+#: /views/elements/posts/add_edit_content.ctp:48
+msgid "Preview Picture"
+msgstr ""
+
+#: /views/elements/posts/add_edit_content.ctp:54
+#: /views/elements/posts/add_edit_sidebar.ctp:39
+msgid "remove"
+msgstr ""
+
+#: /views/elements/posts/add_edit_sidebar.ctp:18
+msgid "Add Images"
+msgstr ""
+
+#: /views/elements/posts/add_edit_sidebar.ctp:22
+msgid "Add Video"
+msgstr ""
+
+#: /views/elements/posts/add_edit_sidebar.ctp:26
+msgid "Topic"
+msgstr ""
+
+#: /views/elements/posts/add_edit_sidebar.ctp:31
+#: /views/topics/add.ctp:4
+msgid "Add Topic"
+msgstr ""
+
+#: /views/elements/posts/add_edit_sidebar.ctp:34
+msgid "Links"
+msgstr ""
+
+#: /views/elements/posts/modal_add_url.ctp:1
+msgid "add URL"
+msgstr ""
+
+#: /views/elements/posts/modal_add_video_url.ctp:1
+msgid "add Video"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:81
+msgid "read more"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:107
+#: /views/elements/search/autocomplete/papers.ctp:27
+#: /views/elements/search/autocomplete/posts.ctp:34
+msgid "by"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:152
+msgid "Delete Post"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:152
+#: /views/posts/view.ctp:109
+msgid "Are you sure you want to delete your post: %s?"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:155
+msgid "Undo Repost"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:170
+#: /views/elements/search/results/post.ctp:63
+#: /views/posts/view.ctp:105
+msgid "Repost"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:44
+#: /views/elements/search/results/post.ctp:50
+#: /views/posts/view.ctp:92
+msgid "%d repost"
+msgid_plural "%d reposts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/posts/navigator.ctp:46
+#: /views/elements/search/results/post.ctp:52
+#: /views/posts/view.ctp:94
+msgid "%d time viewed"
+msgid_plural "%d times viewed"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/posts/navigator.ctp:48
+#: /views/elements/search/results/post.ctp:54
+#: /views/elements/users/sidebar/activity.ctp:6
+#: /views/posts/view.ctp:96
+msgid "%d comment"
+msgid_plural "%d comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/posts/repost_modal_choose_topic.ctp:1
+msgid "Choose you topic"
+msgstr ""
+
+#: /views/elements/posts/index/sidebar.ctp:20
+msgid "Date"
+msgstr ""
+
+#: /views/elements/posts/index/sidebar.ctp:24
+msgid "Number of views"
+msgstr ""
+
+#: /views/elements/posts/index/sidebar.ctp:28
+msgid "Number of comments"
+msgstr ""
+
+#: /views/elements/posts/index/sidebar.ctp:32
+msgid "Number of reposts"
+msgstr ""
+
+#: /views/elements/search/results/post.ctp:61
+msgid "undo Repost"
+msgstr ""
+
+#: /views/elements/search/results/sidebar.ctp:7
+msgid "All Results"
+msgstr ""
+
+#: /views/elements/search/results/user.ctp:22
+#: /views/elements/users/sidebar/buttons.ctp:11
+msgid "Send Message"
+msgstr ""
+
+#: /views/elements/topics/modal_add_topic.ctp:1
+msgid "add Topic"
+msgstr ""
+
+#: /views/elements/users/modal_subscribe.ctp:1
+msgid "Subscribe User"
+msgstr ""
+
+#: /views/elements/users/navigator.ctp:5
+msgid "Browse Users"
+msgstr ""
+
+#: /views/elements/users/navigator.ctp:19
+msgid "published in %d paper"
+msgid_plural "published in %d papers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/users/sidebar.ctp:111
+msgid "Print"
+msgstr ""
+
+#: /views/elements/users/index/sidebar.ctp:17
+msgid "Number of Subscribers"
+msgstr ""
+
+#: /views/elements/users/index/sidebar.ctp:25
+#: /views/users/add.ctp:23
+#: /views/users/admin_view.ctp:29
+msgid "Username"
+msgstr ""
+
+#: /views/elements/users/index/sidebar.ctp:29
+msgid "Date of joining"
+msgstr ""
+
+#: /views/elements/users/sidebar/account_menue.ctp:18
+#: /views/users/acc_about_me.ctp:14;29
+msgid "About Me"
+msgstr ""
+
+#: /views/elements/users/sidebar/account_menue.ctp:21
+msgid "Profile Picture"
+msgstr ""
+
+#: /views/elements/users/sidebar/account_menue.ctp:25
+#: /views/users/acc_general.ctp:15
+msgid "General Settings"
+msgstr ""
+
+#: /views/elements/users/sidebar/account_menue.ctp:28
+msgid "Privacy"
+msgstr ""
+
+#: /views/elements/users/sidebar/activity.ctp:5
+msgid "%d pepost"
+msgid_plural "%d reposts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/users/sidebar/activity.ctp:7
+msgid "%d subscriber"
+msgid_plural "%d subscribers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/users/sidebar/activity.ctp:8
+msgid "%d paper subscription"
+msgid_plural "%d paper subscriptions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/users/sidebar/activity.ctp:9
+msgid "%d paper"
+msgid_plural "%d papers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/elements/users/sidebar/papers.ctp:2
+msgid "Top Papers by"
+msgstr ""
+
+#: /views/elements/users/sidebar/papers.ctp:20
+msgid "Show all papers by"
+msgstr ""
+
+#: /views/elements/users/sidebar/subscriptions.ctp:47;49
+msgid "All Papers"
+msgstr ""
+
+#: /views/elements/users/sidebar/topics.ctp:2
+msgid "Show Posts by Topic"
+msgstr ""
+
+#: /views/elements/users/sidebar/topics.ctp:7;9
+msgid "All Posts"
+msgstr ""
+
+#: /views/home/index.ctp:12
+#: /views/users/login.ctp:24
+msgid "Remember Me"
+msgstr ""
+
+#: /views/home/index.ctp:39
+msgid "Top Papers"
+msgstr ""
+
+#: /views/home/index.ctp:57
+msgid "more papers"
+msgstr ""
+
+#: /views/home/index.ctp:60
+msgid "Top Authors"
+msgstr ""
+
+#: /views/home/index.ctp:82
+msgid "more authors"
+msgstr ""
+
+#: /views/home/index.ctp:88
+msgid "Newest Articles"
+msgstr ""
+
+#: /views/home/index.ctp:111
+msgid "more posts"
+msgstr ""
+
+#: /views/layouts/admin.ctp:26
+msgid "myZeitung - admin"
+msgstr ""
+
+#: /views/layouts/default-backup.ctp:25
 msgid "CakePHP: the rapid development php framework:"
 msgstr ""
 
-#: /views/layouts/default.ctp:39;50
+#: /views/layouts/default-backup.ctp:50
 msgid "CakePHP: the rapid development php framework"
 msgstr ""
 
@@ -134,352 +1530,579 @@ msgid "Editing this Page"
 msgstr ""
 
 #: /views/pages/home.ctp:77
-msgid ""
-"To change the content of this page, edit: %s\n"
-"\t\tTo change its layout, edit: %s\n"
-"\t\tYou can also add some CSS styles for your pages at: %s"
+msgid "To change the content of this page, edit: %s\n\t\tTo change its layout, edit: %s\n\t\tYou can also add some CSS styles for your pages at: %s"
 msgstr ""
 
-#: /views/posts/add.ctp:4
-msgid "Add Post"
+#: /views/papers/add_edit.ctp:27
+#: /views/users/admin_view.ctp:19
+msgid "Description"
 msgstr ""
 
-#: /views/posts/add.ctp:13
-#: /views/posts/edit.ctp:13
-#: /views/topics/add.ctp:11
-#: /views/topics/edit.ctp:12
-#: /views/users/add.ctp:14
-#: /views/users/edit.ctp:15
-msgid "Submit"
+#: /views/papers/add_edit.ctp:28;41
+#: /views/users/acc_about_me.ctp:23;30
+#: /views/users/add.ctp:30
+msgid "(optional)"
 msgstr ""
 
-#: /views/posts/add.ctp:16
-#: /views/posts/edit.ctp:16
-#: /views/posts/index.ctp:16;65
-#: /views/posts/view.ctp:62;89
-#: /views/topics/add.ctp:14
-#: /views/topics/edit.ctp:15
-#: /views/topics/index.ctp:11;53
-#: /views/topics/view.ctp:37;65
-#: /views/users/add.ctp:17
-#: /views/users/edit.ctp:18
-#: /views/users/index.ctp:15;59
-#: /views/users/view.ctp:57;85;134
-msgid "Actions"
+#: /views/papers/add_edit.ctp:28
+msgid "If you want to describe the contents of this paper."
 msgstr ""
 
-#: /views/posts/add.ctp:19
-#: /views/posts/edit.ctp:20
-#: /views/posts/view.ctp:66
-#: /views/topics/add.ctp:20
-#: /views/topics/edit.ctp:22
-#: /views/topics/index.ctp:58
-#: /views/topics/view.ctp:45
-#: /views/users/add.ctp:21
-#: /views/users/edit.ctp:23
-#: /views/users/index.ctp:62
-#: /views/users/view.ctp:63
-msgid "List Posts"
+#: /views/papers/add_edit.ctp:40
+msgid "URL / Link"
 msgstr ""
 
-#: /views/posts/add.ctp:20
-#: /views/posts/edit.ctp:21
-#: /views/posts/index.ctp:68
-#: /views/posts/view.ctp:68
-#: /views/topics/add.ctp:18
-#: /views/topics/edit.ctp:20
-#: /views/topics/index.ctp:56
-#: /views/topics/view.ctp:43
-#: /views/users/add.ctp:20
-#: /views/users/edit.ctp:22
-#: /views/users/view.ctp:61
-msgid "List Users"
+#: /views/papers/add_edit.ctp:41
+msgid "If you want to specify a link of which this paper is about."
 msgstr ""
 
-#: /views/posts/add.ctp:21
-#: /views/posts/edit.ctp:22
-#: /views/posts/index.ctp:69
-#: /views/posts/view.ctp:69;122
-#: /views/topics/add.ctp:19
-#: /views/topics/edit.ctp:21
-#: /views/topics/index.ctp:57
-#: /views/topics/view.ctp:44
-#: /views/users/index.ctp:61
-#: /views/users/view.ctp:62
-msgid "New User"
+#: /views/papers/add_edit.ctp:49
+msgid "Save paper"
 msgstr ""
 
-#: /views/posts/add.ctp:22
-#: /views/posts/edit.ctp:23
-#: /views/posts/index.ctp:70
-#: /views/posts/view.ctp:70
-#: /views/topics/add.ctp:17
-#: /views/topics/edit.ctp:19
-#: /views/topics/view.ctp:41
-#: /views/users/add.ctp:23
-#: /views/users/edit.ctp:25
-#: /views/users/index.ctp:64
-#: /views/users/view.ctp:65
-msgid "List Topics"
+#: /views/papers/addcontent.ctp:7
+msgid "Add Content to your Paper"
 msgstr ""
 
-#: /views/posts/add.ctp:23
-#: /views/posts/edit.ctp:24
-#: /views/posts/index.ctp:71
-#: /views/posts/view.ctp:71
-#: /views/topics/index.ctp:55
-#: /views/topics/view.ctp:42
-#: /views/users/add.ctp:24
-#: /views/users/edit.ctp:26
-#: /views/users/index.ctp:65
-#: /views/users/view.ctp:66;163
-msgid "New Topic"
+#: /views/papers/edit.ctp:4
+msgid "Edit Paper"
 msgstr ""
 
-#: /views/posts/edit.ctp:4
-#: /views/posts/view.ctp:64
-msgid "Edit Post"
+#: /views/papers/edit.ctp:27
+#: /views/papers/index_backup_alf.ctp:87
+#: /views/users/admin_add.ctp:46
+msgid "List Subscriptions"
+msgstr ""
+
+#: /views/papers/edit.ctp:28
+#: /views/papers/index_backup_alf.ctp:88
+#: /views/users/admin_add.ctp:47
+msgid "New Subscription"
+msgstr ""
+
+#: /views/papers/index_backup_alf.ctp:39;43;55
+msgid "Add Content"
+msgstr ""
+
+#: /views/papers/index_backup_alf.ctp:56
+msgid "Show Content"
+msgstr ""
+
+#: /views/papers/settings/image.ctp:12
+msgid "Add Profile Image"
+msgstr ""
+
+#: /views/papers/settings/image.ctp:32
+#: /views/users/acc_about_me.ctp:37
+#: /views/users/acc_general.ctp:43
+#: /views/users/acc_privacy.ctp:23
+msgid "Save Changes"
+msgstr ""
+
+#: /views/posts/edit.ctp:17
+msgid "Options"
 msgstr ""
 
 #: /views/posts/edit.ctp:19
-#: /views/posts/index.ctp:45
-#: /views/posts/view.ctp:113
-#: /views/topics/edit.ctp:18
-#: /views/topics/index.ctp:33
-#: /views/topics/view.ctp:90
-#: /views/users/edit.ctp:21
-#: /views/users/index.ctp:39
-#: /views/users/view.ctp:110;154
-msgid "Delete"
+msgid "Back"
 msgstr ""
 
-#: /views/posts/edit.ctp:19
-#: /views/posts/index.ctp:45
-#: /views/posts/view.ctp:65;113
-#: /views/topics/edit.ctp:18
-#: /views/topics/index.ctp:33
-#: /views/topics/view.ctp:40;90
-#: /views/users/edit.ctp:21
-#: /views/users/index.ctp:39
-#: /views/users/view.ctp:60;110;154
-msgid "Are you sure you want to delete # %s?"
+#: /views/posts/view.ctp:103
+msgid "Undo repost"
 msgstr ""
 
-#: /views/posts/index.ctp:2
-msgid "Posts"
+#: /views/posts/view.ctp:118
+msgid "posted"
 msgstr ""
 
-#: /views/posts/index.ctp:43
-#: /views/posts/view.ctp:111
-#: /views/topics/index.ctp:31
-#: /views/topics/view.ctp:88
-#: /views/users/index.ctp:37
-#: /views/users/view.ctp:108;152
-msgid "View"
+#: /views/posts/view.ctp:134
+msgid "Reference"
+msgid_plural "References"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/search/auto_complete.ctp:22
+msgid "Show all results"
 msgstr ""
 
-#: /views/posts/index.ctp:44
-#: /views/posts/view.ctp:112
-#: /views/topics/index.ctp:32
-#: /views/topics/view.ctp:89
-#: /views/users/index.ctp:38
-#: /views/users/view.ctp:109;153
-msgid "Edit"
+#: /views/search/index.ctp:5
+msgid "Searchresults for"
 msgstr ""
 
-#: /views/posts/index.ctp:53
-#: /views/topics/index.ctp:41
-#: /views/users/index.ctp:47
-msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
-msgstr ""
-
-#: /views/posts/index.ctp:58
-#: /views/topics/index.ctp:46
-#: /views/users/index.ctp:52
-msgid "previous"
-msgstr ""
-
-#: /views/posts/index.ctp:61
-#: /views/topics/index.ctp:49
-#: /views/users/index.ctp:55
-msgid "next"
-msgstr ""
-
-#: /views/posts/index.ctp:67
-#: /views/posts/view.ctp:67
-#: /views/topics/add.ctp:21
-#: /views/topics/edit.ctp:23
-#: /views/topics/index.ctp:59
-#: /views/topics/view.ctp:46;99
-#: /views/users/add.ctp:22
-#: /views/users/edit.ctp:24
-#: /views/users/index.ctp:63
-#: /views/users/view.ctp:64;119
-msgid "New Post"
-msgstr ""
-
-#: /views/posts/view.ctp:2
-msgid "Post"
-msgstr ""
-
-#: /views/posts/view.ctp:4;79
-#: /views/topics/view.ctp:4;54
-#: /views/users/view.ctp:4;74;128
-msgid "Id"
-msgstr ""
-
-#: /views/posts/view.ctp:9
-#: /views/topics/view.ctp:14
-#: /views/users/view.ctp:2
-msgid "User"
-msgstr ""
-
-#: /views/posts/view.ctp:14
-#: /views/topics/view.ctp:2
-msgid "Topic"
-msgstr ""
-
-#: /views/posts/view.ctp:19
-#: /views/topics/view.ctp:57
-#: /views/users/view.ctp:77
-msgid "Title"
-msgstr ""
-
-#: /views/posts/view.ctp:24
-#: /views/topics/view.ctp:58
-#: /views/users/view.ctp:78
-msgid "Content"
-msgstr ""
-
-#: /views/posts/view.ctp:29;86
-#: /views/topics/view.ctp:24;59
-#: /views/users/view.ctp:39;79;132
-msgid "Modified"
-msgstr ""
-
-#: /views/posts/view.ctp:34;85
-#: /views/topics/view.ctp:19;60
-#: /views/users/view.ctp:34;80;131
-msgid "Created"
-msgstr ""
-
-#: /views/posts/view.ctp:39;88
-#: /views/topics/view.ctp:29;61
-#: /views/users/view.ctp:49;81;133
-msgid "Enabled"
-msgstr ""
-
-#: /views/posts/view.ctp:44
-#: /views/topics/view.ctp:62
-#: /views/users/view.ctp:82
-msgid "Count Views"
-msgstr ""
-
-#: /views/posts/view.ctp:49
-#: /views/topics/view.ctp:63
-#: /views/users/view.ctp:83
-msgid "Count Reposts"
-msgstr ""
-
-#: /views/posts/view.ctp:54
-#: /views/topics/view.ctp:64
-#: /views/users/view.ctp:84
-msgid "Count Comments"
-msgstr ""
-
-#: /views/posts/view.ctp:65
-msgid "Delete Post"
-msgstr ""
-
-#: /views/posts/view.ctp:75
-msgid "Related Users"
-msgstr ""
-
-#: /views/posts/view.ctp:80
-#: /views/users/view.ctp:9
-msgid "Firstname"
-msgstr ""
-
-#: /views/posts/view.ctp:81
-#: /views/topics/view.ctp:9
-#: /views/users/view.ctp:14;129
-msgid "Name"
-msgstr ""
-
-#: /views/posts/view.ctp:82
-#: /views/users/view.ctp:19
-msgid "Email"
-msgstr ""
-
-#: /views/posts/view.ctp:83
-#: /views/users/view.ctp:24
-msgid "Username"
-msgstr ""
-
-#: /views/posts/view.ctp:84
-#: /views/users/view.ctp:29
-msgid "Password"
-msgstr ""
-
-#: /views/posts/view.ctp:87
-#: /views/users/view.ctp:44
-msgid "Lastlogin"
-msgstr ""
-
-#: /views/topics/add.ctp:4
-msgid "Add Topic"
+#: /views/search/index.ctp:12
+msgid "more results"
 msgstr ""
 
 #: /views/topics/edit.ctp:4
-#: /views/topics/view.ctp:39
 msgid "Edit Topic"
 msgstr ""
 
-#: /views/topics/index.ctp:2
-msgid "Topics"
+#: /views/users/acc_about_me.ctp:23
+#: /views/users/add.ctp:30
+msgid "If you want to be found by your name"
 msgstr ""
 
-#: /views/topics/view.ctp:40
-msgid "Delete Topic"
+#: /views/users/acc_about_me.ctp:30
+msgid "Tell people something about yourself."
 msgstr ""
 
-#: /views/topics/view.ctp:50
-#: /views/users/view.ctp:70
-msgid "Related Posts"
+#: /views/users/acc_delete.ctp:14;23
+msgid "Delete Account"
 msgstr ""
 
-#: /views/topics/view.ctp:55
-#: /views/users/view.ctp:75;130
-msgid "User Id"
+#: /views/users/acc_delete.ctp:21
+msgid "I want to delete my account. All my information, posts, papers and images will be deleted."
 msgstr ""
 
-#: /views/topics/view.ctp:56
-#: /views/users/view.ctp:76
-msgid "Topic Id"
+#: /views/users/acc_general.ctp:27
+msgid "Old Password"
 msgstr ""
 
-#: /views/users/add.ctp:4
-msgid "Add User"
+#: /views/users/acc_general.ctp:32
+msgid "New Password"
 msgstr ""
 
-#: /views/users/edit.ctp:4
-#: /views/users/view.ctp:59
-msgid "Edit User"
+#: /views/users/acc_general.ctp:37
+msgid "Confirm Password"
 msgstr ""
 
-#: /views/users/index.ctp:2
-msgid "Users"
+#: /views/users/acc_general.ctp:46
+msgid "I want to delete my Account"
 msgstr ""
 
-#: /views/users/view.ctp:60
-msgid "Delete User"
+#: /views/users/acc_privacy.ctp:14
+msgid "Privacy Settings"
 msgstr ""
 
-#: /views/users/view.ctp:124
-msgid "Related Topics"
+#: /views/users/acc_privacy.ctp:21
+msgid "Allow comments on my Articles"
+msgstr ""
+
+#: /views/users/acc_privacy.ctp:22
+msgid "Allow people to send me messages"
+msgstr ""
+
+#: /views/users/add.ctp:18
+msgid "Create a new account"
+msgstr ""
+
+#: /views/users/add.ctp:36
+#: /views/users/admin_view.ctp:34
+#: /views/users/login.ctp:20
+msgid "Password"
+msgstr ""
+
+#: /views/users/add.ctp:42
+#: /views/users/forgot_password.ctp:23
+msgid "E-Mail"
+msgstr ""
+
+#: /views/users/add.ctp:49;60
+msgid "TOS"
+msgstr ""
+
+#: /views/users/add.ctp:60
+msgid "I accept the"
+msgstr ""
+
+#: /views/users/add.ctp:60
+msgid "and"
+msgstr ""
+
+#: /views/users/add.ctp:60
+msgid "Privacy Policy"
+msgstr ""
+
+#: /views/users/add.ctp:65
+msgid "Create Account"
+msgstr ""
+
+#: /views/users/admin_add.ctp:4
+msgid "Admin Add User"
+msgstr ""
+
+#: /views/users/admin_add.ctp:31
+msgid "List Users"
+msgstr ""
+
+#: /views/users/admin_add.ctp:32
+msgid "List Groups"
+msgstr ""
+
+#: /views/users/admin_add.ctp:33
+msgid "New Group"
+msgstr ""
+
+#: /views/users/admin_add.ctp:36
+msgid "List Posts"
+msgstr ""
+
+#: /views/users/admin_add.ctp:38
+msgid "List Post Users"
+msgstr ""
+
+#: /views/users/admin_add.ctp:39
+msgid "New Post User"
+msgstr ""
+
+#: /views/users/admin_add.ctp:40
+msgid "List Topics"
+msgstr ""
+
+#: /views/users/admin_add.ctp:41
+msgid "New Topic"
+msgstr ""
+
+#: /views/users/admin_add.ctp:42
+msgid "List Content Papers"
+msgstr ""
+
+#: /views/users/admin_add.ctp:43
+msgid "New Content Paper"
+msgstr ""
+
+#: /views/users/admin_edit.ctp:4
+msgid "Admin Edit User"
+msgstr ""
+
+#: /views/users/admin_view.ctp:9
+msgid "Group"
+msgstr ""
+
+#: /views/users/admin_view.ctp:39
+msgid "Image"
+msgstr ""
+
+#: /views/users/admin_view.ctp:54
+msgid "Lastlogin"
+msgstr ""
+
+#: /views/users/admin_view.ctp:59
+msgid "Enabled"
+msgstr ""
+
+#: /views/users/admin_view.ctp:64
+msgid "Allow Messages"
+msgstr ""
+
+#: /views/users/admin_view.ctp:69
+msgid "Allow Comments"
+msgstr ""
+
+#: /views/users/admin_view.ctp:74
+msgid "Subscription Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:79
+msgid "Content Paper Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:84
+msgid "Post Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:89
+msgid "Posts User Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:94
+msgid "Comment Count"
+msgstr ""
+
+#: /views/users/admin_view.ctp:99
+msgid "Paper Count"
+msgstr ""
+
+#: /views/users/forgot_password.ctp:30
+msgid "Send new password"
+msgstr ""
+
+#: /views/users/login.ctp:19
+msgid "Username or Email"
+msgstr ""
+
+#: /views/users/references.ctp:12
+msgid "Name: %1$s"
+msgstr ""
+
+#: /views/users/references.ctp:15
+msgid "All your posts appear in this paper."
+msgstr ""
+
+#: /views/users/references.ctp:22
+msgid "Posts of your topic %1$s appear in this paper"
+msgstr ""
+
+#: /views/users/references.ctp:31
+msgid "Posts of your topic %1$s appear for the category %2$s"
+msgstr ""
+
+#: /views/users/references.ctp:39
+msgid "All your posts appear in the category %1$s"
+msgstr ""
+
+#: /views/users/subscribe.ctp:19
+msgid "Choose your paper:"
+msgstr ""
+
+#: /views/users/subscribe.ctp:24
+msgid "Into: "
+msgstr ""
+
+#: /views/users/subscribe.ctp:31
+msgid "Save"
 msgstr ""
 
 #: /webroot/test.php:88
 msgid "Debug setting does not allow access to this url."
+msgstr ""
+
+#: /plugins/debug_kit/controllers/components/toolbar.php:99
+msgid "Component initialization"
+msgstr ""
+
+#: /plugins/debug_kit/controllers/components/toolbar.php:100
+msgid "Component initialization and startup"
+msgstr ""
+
+#: /plugins/debug_kit/controllers/components/toolbar.php:170
+msgid "Controller action"
+msgstr ""
+
+#: /plugins/debug_kit/controllers/components/toolbar.php:171
+msgid "Controller action start"
+msgstr ""
+
+#: /plugins/debug_kit/controllers/components/toolbar.php:199
+msgid "Render Controller Action"
+msgstr ""
+
+#: /plugins/debug_kit/controllers/components/toolbar.php:200
+msgid "Controller render start"
+msgstr ""
+
+#: /plugins/debug_kit/controllers/components/toolbar.php:266
+msgid "Could not load DebugToolbar panel %s"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/debug_kit_debugger.php:185
+msgid "Core Processing (Derived)"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/fire_cake.php:297
+msgid "Headers already sent in %s on line %s. Cannot send log data to FirePHP."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/fire_cake.php:318
+msgid "Incorrect parameter count for FireCake::fb()"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/fire_cake.php:397
+msgid "Maximum number (99,999) of messages reached!"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:50
+msgid "-> Testing :url"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:76
+msgid "Total Requests made: :requests"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:77
+msgid "Total Time elapsed: :duration (seconds)"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:81
+msgid "Requests/Second: :rps req/sec"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:85
+msgid "Average request time: :average-time seconds"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:89
+msgid "Standard deviation of average request time: :std-dev"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:93
+msgid "Longest/shortest request: :longest sec/:shortest sec"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:145
+msgid "DebugKit Benchmark Shell"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:147
+msgid "\tAllows you to obtain some rough benchmarking statistics \n\tabout a fully qualified URL."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:149
+msgid "\tUse:"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:150
+msgid "\t\tcake benchmark [-n iterations] [-t timeout] url"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:152
+msgid "\tParams:"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:153
+msgid "\t\t-n Number of iterations to perform. Defaults to 10. \n\t\t   Must be an integer."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:154
+msgid "\t\t-t Maximum total time for all iterations, in seconds. \n\t\t   Defaults to 100. Must be an integer."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:156
+msgid "\tIf a single iteration takes more than the \n\ttimeout specified, only one request will be made."
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:158
+msgid "\tExample Use:"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:159
+msgid "\t\tcake benchmark -n 10 -t 100 http://localhost/testsite"
+msgstr ""
+
+#: /plugins/debug_kit/vendors/shells/benchmark.php:161
+msgid "\tNote that this benchmark does not include browser render time"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:41
+msgid "Rendering %s"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:63
+msgid "Starting to render"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:67
+msgid "Finished"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:83
+msgid "Rendering View"
+msgstr ""
+
+#: /plugins/debug_kit/views/debug.php:89
+msgid "View render complete"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/debug_toolbar.ctp:25
+msgid "There are no active panels. You must enable a panel to see its output."
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:21
+msgid "Request History"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:23
+msgid "No previous requests logged."
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:25
+msgid "previous requests available"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/history_panel.ctp:27
+msgid "Restore to current request"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:21
+msgid "Logs"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:28
+msgid "Time"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:28
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:40;64
+msgid "Message"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/log_panel.ctp:37
+msgid "There were no log entries made this request"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/request_panel.ctp:21
+msgid "Request"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/request_panel.ctp:35
+msgid "Current Route"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/session_panel.ctp:21
+msgid "Session"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:25
+msgid "Sql Logs"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:40
+msgid "Query Explain:"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:43
+msgid "Click an \"Explain\" link above, to see the query explanation."
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:48
+msgid "No active database connections"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:33
+msgid "Memory"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:36
+msgid "Peak Memory Use"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:40
+msgid "Memory use"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:53
+msgid "Timers"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:55
+msgid "%s (ms)"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:56
+msgid "Total Request Time:"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:65
+msgid "Time in ms"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/timer_panel.ctp:66
+msgid "Graph"
+msgstr ""
+
+#: /plugins/debug_kit/views/elements/variables_panel.ctp:21
+msgid "View Variables"
+msgstr ""
+
+#: /plugins/debug_kit/views/helpers/html_toolbar.php:184
+msgid "Explain"
+msgstr ""
+
+#: /plugins/debug_kit/views/helpers/simple_graph.php:77
+msgid "Starting %sms into the request, taking %sms"
+msgstr ""
+
+#: /plugins/debug_kit/views/helpers/toolbar.php:158
+msgid "maybe slow"
 msgstr ""
 

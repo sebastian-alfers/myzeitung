@@ -179,7 +179,8 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-
+          //  $this->log('ganz vorne');
+          //  $this->log($this->data);
 			//debug($this->data);die();
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
@@ -207,6 +208,8 @@ class PostsController extends AppController {
             if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){
                 $this->data['Post']['allow_comments'] = self::ALLOW_COMMENTS_DEFAULT;
              }
+          //  $this->log('direkt vor dem saven');
+          //  $this->log($this->data);
 			if ($this->Post->save($this->data)) {
 
 				//copy images after post has been saved to add new post-id to img path
@@ -259,9 +262,13 @@ class PostsController extends AppController {
 
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = array();
+        $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
         $topics[self::NO_TOPIC_ID] = __('No Topic', true);
-        $topics = array_merge($topics, $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
-
+        //array merge results in an arra beginning with index 0,1,2 and not the topic ids!
+        //$topics = array_merge($topics, $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
+        //$this->log('TOPICS');
+        //$this->log($topics);
+        //$this->log($this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
 		$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
 
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
@@ -425,7 +432,7 @@ class PostsController extends AppController {
 		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
 		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
 
-		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
+		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('use privacy settings',true);
 		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
 		$allow_comments[self::ALLOW_COMMENTS_FALSE] = __('No',true);
 
@@ -589,15 +596,15 @@ class PostsController extends AppController {
 				//$msg .= __('image has been removed', true);
 			}
 			else{
-				$this->log('can not remove file: '. $full_path);
+				$this->log('Can not remove file: '. $full_path);
 			}
 		}
 		else{
-			$this->log('file does not exist: '. $full_path);
+			$this->log('File does not exist: '. $full_path);
 		}
 
 		if($post_id && !empty($post_id)){
-			echo "delte post " . $post_id;
+			echo "delete post " . $post_id;
 			//			//update post if id is passed
 			//			$this->Post->contain();
 			//			$post = $this->Post->read(null, $post_id);

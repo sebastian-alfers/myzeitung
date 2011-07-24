@@ -22,7 +22,7 @@ class ConversationsController extends AppController {
 			$this->User->contain();
 			$recipient = $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipient_id);
 			if($recipient['User']['allow_messages'] == false){
-				$this->Session->setFlash(__('This recipient does not acceppt messages.', true));
+				$this->Session->setFlash(__('This user does not acceppt messages.', true));
 				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
 			}
 		}

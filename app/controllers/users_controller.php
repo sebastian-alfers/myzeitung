@@ -342,7 +342,7 @@ class UsersController extends AppController {
 
 		//check for param in get url
 		if(empty($user_id) || !isset($user_id)){
-			$this->Session->setFlash(__('No user param', true));
+			$this->Session->setFlash(__('No user id passed.', true));
 			$this->redirect(array('action' => 2));
 		}
 		$user_id = $this->params['pass'][0];
@@ -413,7 +413,7 @@ class UsersController extends AppController {
 
 				//check, if submitted target type is valid
 				if(!$this->_validateTargetType($target_type)){
-					$this->Session->setFlash(__('Not able to associate content to paper - invalid target type', true));
+					$this->Session->setFlash(__('Not able to subscribe user/topic to paper - invalid target type', true));
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
 				}
 

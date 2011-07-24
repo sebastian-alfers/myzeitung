@@ -18,8 +18,8 @@ $(document).ready(function() {
 				<?php echo $this->Form->hidden('username' , array('value' => $user['User']['username']));?>
 				<?php echo $this->Form->hidden('image' , array('value' => $user['User']['image']));?>
 				<div class="accept">	
-					<p><?php  echo $this->Form->input('allow_comments', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong><?php echo __('Allow comments on your Articles?', true);?></strong></p>
-					<p><?php  echo $this->Form->input('allow_messages', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong><?php echo __('Allow people to send you messages?', true);?></strong></p>
+					<p><?php  echo $this->Form->input('allow_comments', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong><?php echo __('Allow comments on my Articles', true);?></strong></p>
+					<p><?php  echo $this->Form->input('allow_messages', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong><?php echo __('Allow people to send me messages', true);?></strong></p>
 					<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save Changes', true);?></a>
 				</div>
 								

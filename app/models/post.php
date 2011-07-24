@@ -365,11 +365,15 @@ class Post extends AppModel {
 
 				if($created){
 					//write PostUser-Entry
+                    $this->log('model ganz vorne');
+                     $this->log($this->data);
 					if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
 						$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
 					}
 
 					$this->PostUser->create();
+                                $this->log('model postuser');
+            $this->log($PostUserData);
 					$this->PostUser->save($PostUserData);
 			
 				} else {
