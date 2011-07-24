@@ -273,7 +273,7 @@ class XmlHelperTest extends CakeTestCase {
 		$attrib = array(
 			'encoding' => 'UTF-8',
 			'version' => '1.2',
-			'additional' => 'attribute'
+			'custom' => 'attribute'
 		);
 		$result = $this->Xml->header($attrib);
 		$expected = '<?xml version="1.2" encoding="UTF-8" additional="attribute" ?>';
