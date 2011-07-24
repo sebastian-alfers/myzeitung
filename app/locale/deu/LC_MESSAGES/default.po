@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-07-23 17:46+0200\n"
-"PO-Revision-Date: 2011-07-24 13:45+0100\n"
+"PO-Revision-Date: 2011-07-24 14:27+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1080,7 +1080,7 @@ msgstr "editieren"
 #: /views/users/forgot_password.ctp:18
 #: /views/users/login.ctp:21
 msgid "I forgot my password"
-msgstr "Ich habe mein Passwort vergessen"
+msgstr "Passwort vergessen?"
 
 #: /views/elements/header/breadcrumbs.ctp:37
 #: /views/elements/search/results/sidebar.ctp:10
@@ -1194,7 +1194,7 @@ msgstr "Sortieren nach"
 #: /views/elements/users/sidebar/subscriptions.ctp:27
 #: /views/papers/add_edit.ctp:21
 msgid "Title"
-msgstr "Title"
+msgstr "Titel"
 
 #: /views/elements/papers/index/sidebar.ctp:23
 #: /views/elements/users/sidebar/subscriptions.ctp:31
@@ -1322,11 +1322,11 @@ msgstr "Wähle das Artikelthema"
 
 #: /views/elements/posts/index/sidebar.ctp:20
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: /views/elements/posts/index/sidebar.ctp:24
 msgid "Number of views"
-msgstr "Wie oft gelesen"
+msgstr "Anzahl der Aufrufe"
 
 #: /views/elements/posts/index/sidebar.ctp:28
 msgid "Number of comments"
@@ -1373,108 +1373,108 @@ msgstr ""
 
 #: /views/elements/users/index/sidebar.ctp:17
 msgid "Number of Subscribers"
-msgstr ""
+msgstr "Anzahl der Abonnenten"
 
 #: /views/elements/users/index/sidebar.ctp:25
 #: /views/users/add.ctp:23
 #: /views/users/admin_view.ctp:29
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 #: /views/elements/users/index/sidebar.ctp:29
 msgid "Date of joining"
-msgstr ""
+msgstr "Eintrittsdatum"
 
 #: /views/elements/users/sidebar/account_menue.ctp:18
 #: /views/users/acc_about_me.ctp:14;29
 msgid "About Me"
-msgstr ""
+msgstr "Über mich"
 
 #: /views/elements/users/sidebar/account_menue.ctp:21
 msgid "Profile Picture"
-msgstr ""
+msgstr "Profilbild"
 
 #: /views/elements/users/sidebar/account_menue.ctp:25
 #: /views/users/acc_general.ctp:15
 msgid "General Settings"
-msgstr ""
+msgstr "Allgemeine Einstellungen"
 
 #: /views/elements/users/sidebar/account_menue.ctp:28
 msgid "Privacy"
-msgstr ""
+msgstr "Privatspähre"
 
 #: /views/elements/users/sidebar/activity.ctp:5
 msgid "%d pepost"
 msgid_plural "%d reposts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Weiterleitung"
+msgstr[1] "%d Weiterleitungen"
 
 #: /views/elements/users/sidebar/activity.ctp:7
 msgid "%d subscriber"
 msgid_plural "%d subscribers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Abonnenten"
+msgstr[1] "%d Abonnent"
 
 #: /views/elements/users/sidebar/activity.ctp:8
 msgid "%d paper subscription"
 msgid_plural "%d paper subscriptions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Zeitungsabonnement"
+msgstr[1] "%d Zeitungsabonnements"
 
 #: /views/elements/users/sidebar/activity.ctp:9
 msgid "%d paper"
 msgid_plural "%d papers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Zeitung"
+msgstr[1] "%d Zeitungen"
 
 #: /views/elements/users/sidebar/papers.ctp:2
 msgid "Top Papers by"
-msgstr ""
+msgstr "Top Zeitungen von"
 
 #: /views/elements/users/sidebar/papers.ctp:20
 msgid "Show all papers by"
-msgstr ""
+msgstr "Zeige alle Zeitungen von"
 
 #: /views/elements/users/sidebar/subscriptions.ctp:47;49
 msgid "All Papers"
-msgstr ""
+msgstr "Alle Zeitungen"
 
 #: /views/elements/users/sidebar/topics.ctp:2
 msgid "Show Posts by Topic"
-msgstr ""
+msgstr "Filter Artikel nach Themen"
 
 #: /views/elements/users/sidebar/topics.ctp:7;9
 msgid "All Posts"
-msgstr ""
+msgstr "Alle Artikel"
 
 #: /views/home/index.ctp:12
 #: /views/users/login.ctp:24
 msgid "Remember Me"
-msgstr ""
+msgstr "angemeldet bleiben"
 
 #: /views/home/index.ctp:39
 msgid "Top Papers"
-msgstr ""
+msgstr "Top Zeitungen"
 
 #: /views/home/index.ctp:57
 msgid "more papers"
-msgstr ""
+msgstr "mehr Zeitungen"
 
 #: /views/home/index.ctp:60
 msgid "Top Authors"
-msgstr ""
+msgstr "Top Autoren"
 
 #: /views/home/index.ctp:82
 msgid "more authors"
-msgstr ""
+msgstr "mehr Autoren"
 
 #: /views/home/index.ctp:88
 msgid "Newest Articles"
-msgstr ""
+msgstr "Neueste Artikel"
 
 #: /views/home/index.ctp:111
 msgid "more posts"
-msgstr ""
+msgstr "mehr Artikel"
 
 #: /views/layouts/admin.ctp:26
 msgid "myZeitung - admin"
@@ -1538,7 +1538,7 @@ msgstr ""
 #: /views/papers/add_edit.ctp:27
 #: /views/users/admin_view.ctp:19
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #: /views/papers/add_edit.ctp:28;41
 #: /views/users/acc_about_me.ctp:23;30
@@ -1548,7 +1548,7 @@ msgstr ""
 
 #: /views/papers/add_edit.ctp:28
 msgid "If you want to describe the contents of this paper."
-msgstr ""
+msgstr "Falls du die Inhalte dieser Zeitung beschreiben möchtest"
 
 #: /views/papers/add_edit.ctp:40
 msgid "URL / Link"
@@ -1556,19 +1556,19 @@ msgstr ""
 
 #: /views/papers/add_edit.ctp:41
 msgid "If you want to specify a link of which this paper is about."
-msgstr ""
+msgstr "Falls du einen externen Link angeben willst, der zu dieser Zeitung passt."
 
 #: /views/papers/add_edit.ctp:49
 msgid "Save paper"
-msgstr ""
+msgstr "Zeitung speichern"
 
 #: /views/papers/addcontent.ctp:7
 msgid "Add Content to your Paper"
-msgstr ""
+msgstr "Füge deiner Zeitung Inhalt hinzu"
 
 #: /views/papers/edit.ctp:4
 msgid "Edit Paper"
-msgstr ""
+msgstr "Zeitung editieren"
 
 #: /views/papers/edit.ctp:27
 #: /views/papers/index_backup_alf.ctp:87
@@ -1584,7 +1584,7 @@ msgstr ""
 
 #: /views/papers/index_backup_alf.ctp:39;43;55
 msgid "Add Content"
-msgstr ""
+msgstr "Inhalt hinzufügen"
 
 #: /views/papers/index_backup_alf.ctp:56
 msgid "Show Content"
@@ -1592,101 +1592,101 @@ msgstr ""
 
 #: /views/papers/settings/image.ctp:12
 msgid "Add Profile Image"
-msgstr ""
+msgstr "Profilbild hinzufügen"
 
 #: /views/papers/settings/image.ctp:32
 #: /views/users/acc_about_me.ctp:37
 #: /views/users/acc_general.ctp:43
 #: /views/users/acc_privacy.ctp:23
 msgid "Save Changes"
-msgstr ""
+msgstr "Änderungen speichern"
 
 #: /views/posts/edit.ctp:17
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 #: /views/posts/edit.ctp:19
 msgid "Back"
-msgstr ""
+msgstr "Zurück"
 
 #: /views/posts/view.ctp:103
 msgid "Undo repost"
-msgstr ""
+msgstr "Weiterleitung beenden"
 
 #: /views/posts/view.ctp:118
 msgid "posted"
-msgstr ""
+msgstr "veröffentlicht"
 
 #: /views/posts/view.ctp:134
 msgid "Reference"
 msgid_plural "References"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Reference"
+msgstr[1] "Referenzen"
 
 #: /views/search/auto_complete.ctp:22
 msgid "Show all results"
-msgstr ""
+msgstr "Zeige alle Ergebnisse"
 
 #: /views/search/index.ctp:5
 msgid "Searchresults for"
-msgstr ""
+msgstr "Sucherbnisse für"
 
 #: /views/search/index.ctp:12
 msgid "more results"
-msgstr ""
+msgstr "mehr Ergebnisse"
 
 #: /views/topics/edit.ctp:4
 msgid "Edit Topic"
-msgstr ""
+msgstr "Thema editieren"
 
 #: /views/users/acc_about_me.ctp:23
 #: /views/users/add.ctp:30
 msgid "If you want to be found by your name"
-msgstr ""
+msgstr "Falls Du durch Deinen Namen gefunden werden möchtest"
 
 #: /views/users/acc_about_me.ctp:30
 msgid "Tell people something about yourself."
-msgstr ""
+msgstr "Erzähle etwas über Dich"
 
 #: /views/users/acc_delete.ctp:14;23
 msgid "Delete Account"
-msgstr ""
+msgstr "Benutzerkonto löschen"
 
 #: /views/users/acc_delete.ctp:21
 msgid "I want to delete my account. All my information, posts, papers and images will be deleted."
-msgstr ""
+msgstr "Ich möchte mein Benutzerkonto löschen. All meine Informationen, Artikel, Zeitungen und Bilder werden gelöscht."
 
 #: /views/users/acc_general.ctp:27
 msgid "Old Password"
-msgstr ""
+msgstr "altes Password"
 
 #: /views/users/acc_general.ctp:32
 msgid "New Password"
-msgstr ""
+msgstr "neues Passwort"
 
 #: /views/users/acc_general.ctp:37
 msgid "Confirm Password"
-msgstr ""
+msgstr "PW bestätigen"
 
 #: /views/users/acc_general.ctp:46
 msgid "I want to delete my Account"
-msgstr ""
+msgstr "Ich möchte mein Benutzerkonto löschen"
 
 #: /views/users/acc_privacy.ctp:14
 msgid "Privacy Settings"
-msgstr ""
+msgstr "Privatspähre"
 
 #: /views/users/acc_privacy.ctp:21
 msgid "Allow comments on my Articles"
-msgstr ""
+msgstr "Ich erlaube Kommentare zu meinen Artikeln"
 
 #: /views/users/acc_privacy.ctp:22
 msgid "Allow people to send me messages"
-msgstr ""
+msgstr "Ich erlaube Benutzern mir Nachrichten zu senden"
 
 #: /views/users/add.ctp:18
 msgid "Create a new account"
-msgstr ""
+msgstr "Neues Benutzerkonto erstellen"
 
 #: /views/users/add.ctp:36
 #: /views/users/admin_view.ctp:34
@@ -1821,7 +1821,7 @@ msgstr ""
 
 #: /views/users/login.ctp:19
 msgid "Username or Email"
-msgstr ""
+msgstr "Benutzername oder Email"
 
 #: /views/users/references.ctp:12
 msgid "Name: %1$s"
@@ -1829,35 +1829,35 @@ msgstr ""
 
 #: /views/users/references.ctp:15
 msgid "All your posts appear in this paper."
-msgstr ""
+msgstr "All deine Artikel erscheinen in dieser Zeitung."
 
 #: /views/users/references.ctp:22
 msgid "Posts of your topic %1$s appear in this paper"
-msgstr ""
+msgstr "Artikel deines Themas %1$s erscheinen in dieser Zeitung"
 
 #: /views/users/references.ctp:31
 msgid "Posts of your topic %1$s appear for the category %2$s"
-msgstr ""
+msgstr "Artikel deines Themas %1$s erscheinen in der Kategorie %2$s"
 
 #: /views/users/references.ctp:39
 msgid "All your posts appear in the category %1$s"
-msgstr ""
+msgstr "All deine Artikel erscheinen in der Kategorie %1$s"
 
 #: /views/users/subscribe.ctp:19
 msgid "Choose your paper:"
-msgstr ""
+msgstr "Wähle deine Zeitung:"
 
 #: /views/users/subscribe.ctp:24
 msgid "Into: "
-msgstr ""
+msgstr "in:"
 
 #: /views/users/subscribe.ctp:31
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: /webroot/test.php:88
 msgid "Debug setting does not allow access to this url."
-msgstr ""
+msgstr "Die Debugeinstellung erlaubt keinen Zugriff auf diese URL."
 
 #: /plugins/debug_kit/controllers/components/toolbar.php:99
 msgid "Component initialization"
@@ -2115,4 +2115,74 @@ msgstr ""
 #: /plugins/debug_kit/views/helpers/toolbar.php:158
 msgid "maybe slow"
 msgstr ""
+
+msgid "year"
+msgid_plural "years"
+msgstr[0] "Jahr"
+msgstr[1] "Jahre"
+
+msgid "%1 year"
+msgid_plural "%1 years"
+msgstr[0] "%1 Jahr"
+msgstr[1] "%1 Jahre"
+
+msgid "month"
+msgid_plural "months"
+msgstr[0] "Monat"
+msgstr[1] "Monate"
+
+msgid "%1 month"
+msgid_plural "%1 months"
+msgstr[0] "%1 Monat"
+msgstr[1] "%1 Monate"
+
+msgid "week"
+msgid_plural "weeks"
+msgstr[0] "Woche"
+msgstr[1] "Wochen"
+
+msgid "%1 week"
+msgid_plural "%1 weeks"
+msgstr[0] "%1 Woche"
+msgstr[1] "%1 Wochen"
+
+msgid "day"
+msgid_plural "days"
+msgstr[0] "Tag"
+msgstr[1] "Tage"
+
+msgid "%1 day"
+msgid_plural "%1 days"
+msgstr[0] "%1 Tag"
+msgstr[1] "%1 Tage"
+
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] "Stunde"
+msgstr[1] "Stunden"
+
+msgid "%1 hour"
+msgid_plural "%1 hours"
+msgstr[0] "%1 Stunde"
+msgstr[1] "%1 Stunden"
+
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "Minute"
+msgstr[1] "Minuten"
+
+msgid "%1 minute"
+msgid_plural "%1 minutes"
+msgstr[0] "%1 Minute"
+msgstr[1] "%1 Minuten"
+
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] "Sekunde"
+msgstr[1] "Sekunden"
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 Sekunde"
+msgstr[1] "%1 Sekunden"
 
