@@ -28,7 +28,7 @@ if(isset($id) && !empty($id)){
             <p class="message-content"><?php echo $message['ConversationMessage']['message'];?></p>
         </li>
         <li class="actions">
-            <p><?php echo $this->Time->timeAgoInWords($message['ConversationMessage']['created'], array('end' => '+1 Week'));?></p>
+            <p><?php echo $this->MzTime->timeAgoInWords($message['ConversationMessage']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></p>
         </li>
     </ul>
 

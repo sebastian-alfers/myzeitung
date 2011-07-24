@@ -5,7 +5,7 @@ class CategoriesController extends AppController {
 	var $name = 'Categories';
 	
 	var $uses = array('Paper', 'Category');
-	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax');
+	var $helpers = array('MzTime', 'Image', 'Html', 'Javascript', 'Ajax');
 	
 	function index() {
 		$this->Category->recursive = 0;

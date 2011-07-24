@@ -31,7 +31,7 @@
 
 				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $headline;?></a></h6>
 				<br />
-				<span class="from"><?php __('by');?> <a href="/users/view/<?php echo $post->user_id; ?>"><strong><?php echo $post->user_name; ?></strong></a>, <?php echo $this->Time->timeAgoInWords($post->timestamp); ?></span>
+				<span class="from"><?php __('by');?> <a href="/users/view/<?php echo $post->user_id; ?>"><strong><?php echo $post->user_name; ?></strong></a>, <?php echo $this->MzTime->timeAgoInWords($post->timestamp); ?></span>
 				<?php /*
 				<ul class="iconbar">
 					<li class="reposts tt-title" title="1 repost">1</li>

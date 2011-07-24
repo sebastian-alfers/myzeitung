@@ -11,7 +11,7 @@
         echo $image->render($current_comment['User'], 65, 65, array("alt" => $current_comment['User']['username']), $link_data); ?>
 
 		<?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']));?>
-		<?php echo $this->Time->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
+		<?php echo $this->MzTime->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
 </p>
 	<p class="content">
 	    <span class="info">kommentar</span>

@@ -115,7 +115,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 
 		<div class="articleview-wrapper">
 			<div class="articleview">
-			<p><strong><?php echo __('posted', true).' '.$this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></strong></p>
+			<p><strong><?php echo __('posted', true).' '.$this->MzTime->timeAgoInWords($post['Post']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></strong></p>
 			<h1><?php echo $post['Post']['title'];?></h1>
 			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>
 

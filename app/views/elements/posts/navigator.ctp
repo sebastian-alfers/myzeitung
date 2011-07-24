@@ -83,7 +83,7 @@ if($has_topics){
 							<?php endif;  ?>
 							<ul class="footer">
 
-								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Week'));?></li>
+								<li><?php echo $this->MzTime->timeAgoInWords($post['Post']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></li>
                                 <?php // shorten the username depending of: post is shown as repost? -> short names? post regular -> longer names?>
                                   <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true) ||
                                            ($this->params['controller'] == 'papers' && $this->params['action'] == 'view' && !empty($post['lastReposter']['id']))){

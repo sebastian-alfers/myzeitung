@@ -89,7 +89,7 @@
                                         <?php echo $this->Html->link('' ,array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']), array('class' => 'icon icon-answer', 'escape' => false));?>
 									    <?php echo $this->Html->link('',array('controller' => 'conversations', 'action' => 'remove', $conversation['Conversation']['id']), array('class' => 'icon icon-delete', 'escape' => false));?>
 										
-										<p><?php echo $this->Time->timeAgoInWords($conversation['Conversation']['LastMessage']['created'], array('end' => '+1 Week'));?></p>
+										<p><?php echo $this->MzTime->timeAgoInWords($conversation['Conversation']['LastMessage']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></p>
 									</li>
 
 								</ul>

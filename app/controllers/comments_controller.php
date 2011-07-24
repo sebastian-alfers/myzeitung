@@ -3,7 +3,7 @@ class CommentsController extends AppController {
 
 	var $name = 'Comments';
     var $uses = array('Comment', 'Post', 'User');
-	var $helpers = array('Time', 'Image');
+	var $helpers = array('MzTime', 'Image');
     var $components = array('Email');
 	
 	public function beforeFilter(){

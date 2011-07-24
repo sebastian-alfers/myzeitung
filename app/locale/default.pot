@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-07-23 17:46+0200\n"
+"POT-Creation-Date: 2011-07-24 17:16+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -246,56 +246,56 @@ msgstr ""
 msgid "Repost could not be deleted"
 msgstr ""
 
-#: /controllers/posts_controller.php:127;352
+#: /controllers/posts_controller.php:127;359
 msgid "Invalid post"
 msgstr ""
 
-#: /controllers/posts_controller.php:235;239
+#: /controllers/posts_controller.php:238;242
 msgid "Not able to copy images for post"
 msgstr ""
 
-#: /controllers/posts_controller.php:243;394
+#: /controllers/posts_controller.php:246;401
 msgid "The post has been saved"
 msgstr ""
 
-#: /controllers/posts_controller.php:252;404
+#: /controllers/posts_controller.php:255;411
 msgid "The post could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/posts_controller.php:262;426
+#: /controllers/posts_controller.php:266;433
 #: /controllers/topics_controller.php:63
 msgid "No Topic"
 msgstr ""
 
-#: /controllers/posts_controller.php:267
+#: /controllers/posts_controller.php:274
 msgid "default value"
 msgstr ""
 
-#: /controllers/posts_controller.php:268;429
+#: /controllers/posts_controller.php:275;436
 msgid "Yes"
 msgstr ""
 
-#: /controllers/posts_controller.php:269;430
+#: /controllers/posts_controller.php:276;437
 msgid "No"
 msgstr ""
 
-#: /controllers/posts_controller.php:326;338
+#: /controllers/posts_controller.php:333;345
 msgid "No permission"
 msgstr ""
 
-#: /controllers/posts_controller.php:428
+#: /controllers/posts_controller.php:435
 msgid "use privacy settings"
 msgstr ""
 
-#: /controllers/posts_controller.php:476
+#: /controllers/posts_controller.php:483
 msgid "Invalid id for post"
 msgstr ""
 
-#: /controllers/posts_controller.php:481
+#: /controllers/posts_controller.php:488
 msgid "Post deleted"
 msgstr ""
 
-#: /controllers/posts_controller.php:484
+#: /controllers/posts_controller.php:491
 msgid "Post was not deleted"
 msgstr ""
 
@@ -461,15 +461,15 @@ msgstr ""
 msgid "No valid User/Topic or Paper/Category chosen"
 msgstr ""
 
-#: /models/post.php:468
+#: /models/post.php:472
 msgid "Please enter a Title."
 msgstr ""
 
-#: /models/post.php:473
+#: /models/post.php:477
 msgid "Titles can only be 100 characters long."
 msgstr ""
 
-#: /models/post.php:480
+#: /models/post.php:484
 msgid "Please provide additional content: a picture, a video, a message or a link."
 msgstr ""
 
@@ -1447,6 +1447,56 @@ msgstr ""
 #: /views/elements/users/sidebar/topics.ctp:7;9
 msgid "All Posts"
 msgstr ""
+
+#: /views/helpers/mz_time.php:149
+msgid "on %s"
+msgstr ""
+
+#: /views/helpers/mz_time.php:183
+msgid "%s ago"
+msgstr ""
+
+#: /views/helpers/mz_time.php:153
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/mz_time.php:154;159
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/mz_time.php:160;164
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/mz_time.php:168
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/mz_time.php:172
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/mz_time.php:176
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/mz_time.php:179
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] ""
+msgstr[1] ""
 
 #: /views/home/index.ctp:12
 #: /views/users/login.ctp:24

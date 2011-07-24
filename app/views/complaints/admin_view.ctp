@@ -70,11 +70,11 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Time->timeAgoInWords($complaint['Complaint']['created'], array('end' => '+1 Week')); ?>
+			<?php echo $this->MzTime->timeAgoInWords($complaint['Complaint']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month')); ?>
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-            <?php echo $this->Time->timeAgoInWords($complaint['Complaint']['modified'], array('end' => '+1 Week')); ?>
+            <?php echo $this->MzTime->timeAgoInWords($complaint['Complaint']['modified'], array('format' => 'd.m.y  h:m','end' => '+1 Month')); ?>
 		</dd>
 	</dl>
 </div>
