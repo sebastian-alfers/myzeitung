@@ -9,7 +9,7 @@ class AdminController extends AppController {
 	}
 
     function admin_index(){
-
+        $this->log(phpversion());
     }
 }
 
