@@ -96,7 +96,7 @@ class ContentPaper extends AppModel {
             $conditions = array('PostUser.topic_id' => $data['topic_id']);
         }
 
-        $posts = $this->PostUser->find('all', array('fields' => 'id, post_id' , 'conditions' => $conditions));
+        $posts = $this->PostUser->find('all', array('fields' => 'id, post_id, created' , 'conditions' => $conditions));
 
 
         App::import('model','PostUser');
@@ -108,6 +108,7 @@ class ContentPaper extends AppModel {
             $new_posts['CategoryPaperPost']['post_id'] = $post['PostUser']['post_id'];
             $new_posts['CategoryPaperPost']['paper_id'] = $data['paper_id'];
             $new_posts['CategoryPaperPost']['post_user_id'] = $post['PostUser']['id'];
+            $new_posts['CategoryPaperPost']['created'] = $post['PostUser']['created'];
             $new_posts['CategoryPaperPost']['content_paper_id'] = $this->id;
 
             if(isset($data['category_id']) && !empty($data['category_id'])){

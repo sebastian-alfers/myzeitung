@@ -143,6 +143,7 @@ var $belongsTo = array(
 						}
 							
 						$this->CategoryPaperPost->create();
+                        $this->log($categoryPaperPostData);
 						$this->CategoryPaperPost->save($categoryPaperPostData);
 					}
 
@@ -173,6 +174,7 @@ var $belongsTo = array(
 								
 								
 							$this->CategoryPaperPost->create();
+                            $this->log($categoryPaperPostData);
 							$this->CategoryPaperPost->save($categoryPaperPostData);
 						}
 					}
