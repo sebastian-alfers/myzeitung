@@ -87,18 +87,13 @@ if($has_topics){
                                 <?php // shorten the username depending of: post is shown as repost? -> short names? post regular -> longer names?>
                                   <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true) ||
                                            ($this->params['controller'] == 'papers' && $this->params['action'] == 'view' && !empty($post['lastReposter']['id']))){
-                                           if(strlen($post['User']['username']) > 5){
-                                               $linktext = substr($post['User']['username'],0,4).'...';
-                                           }else{
-                                                $linktext = $post['User']['username'];
-                                           }
+
+                                           $linktext = $this->Text->truncate($post['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false));
+
                                         //not paper-view or user-view OR not a repost
                                         }else{
-                                             if(strlen($post['User']['username']) > 10){
-                                               $linktext = substr($post['User']['username'],0,10).'...';
-                                           }else{
-                                                $linktext = $post['User']['username'];
-                                           }
+                                           $linktext = $this->Text->truncate($post['User']['username'], 12,array('ending' => '...', 'exact' => true, 'html' => false));
+
                                         }?>
                                 <?php $tipsy_name= $post['User']['username'];
                                         if($post['User']['name']){
@@ -114,7 +109,7 @@ if($has_topics){
                                                 if($user['User']['name']){
                                                     $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
                                                 }?>
-                                                <?php if(strlen($user['User']['username']) > 5){ $linktext = substr($user['User']['username'],0,4).'...';}else{$linktext = $user['User']['username'];}?>
+                                                <?php $linktext = $this->Text->truncate($user['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $user['User']['id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 											<?php endif;?> 
 										<?php elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?> 
@@ -125,7 +120,7 @@ if($has_topics){
                                                 if($post['lastReposter']['name']){
                                                     $tipsy_name = $post['lastReposter']['username'].' - '.$post['lastReposter']['name'];
                                                 }?>
-                                                 <?php if(strlen($post['lastReposter']['username']) > 5){ $linktext = substr($post['lastReposter']['username'],0,4).'...';}else{$linktext = $post['lastReposter']['username'];}?>
+                                                <?php $linktext = $this->Text->truncate($post['lastReposter']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $post['lastReposter']['id']),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 											<?php endif;?>
 										<?php endif;?>

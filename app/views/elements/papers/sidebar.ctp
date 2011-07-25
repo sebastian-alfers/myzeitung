@@ -35,14 +35,24 @@ if($paper_belongs_to_user){
 
         <?php /*<h4><?php echo $paper['Paper']['title'];?></h4> */?>
         <?php if(!empty($paper['Paper']['description'])): ?>
-        <p><?php echo strip_tags($paper['Paper']['description']);?></p>
+            <p><?php echo strip_tags($paper['Paper']['description']);?></p>
         <?php endif;?>
 
 
         <?php if(!empty($paper['Paper']['url'])): ?>
-        <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow', 'target' => '_blank'));?></p>
+            <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow', 'target' => '_blank'));?></p>
         <?php endif;?>
 
+        <?php if(!empty($paper['User']['username'])): ?>
+               <?php $tipsy_name= $paper['User']['username'];
+                if($paper['User']['name']){
+                    $tipsy_name = $paper['User']['username'].' - '.$paper['User']['name'];
+                }
+                 $linktext = $this->Text->truncate($tipsy_name, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
+                
+
+                <p class="user-url"><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $paper['User']['id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
+        <?php endif;?>
 
         <hr />
         <?php ?>

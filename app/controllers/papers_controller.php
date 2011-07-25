@@ -125,7 +125,7 @@ class PapersController extends AppController {
 		}
 		// END - last relevant reposter
 		 
-		$this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.content_paper_count', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
+		$this->Paper->contain('User.id', 'User.name', 'User.username', 'User.image', 'Category.content_paper_count', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
 		$paper = $this->Paper->read(null, $paper_id);
 		//add information if the user (if logged in) has already subscribed the paper
 		$this->Subscription->contain();
