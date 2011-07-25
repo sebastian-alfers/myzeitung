@@ -48,7 +48,7 @@ if($paper_belongs_to_user){
                 if($paper['User']['name']){
                     $tipsy_name = $paper['User']['username'].' - '.$paper['User']['name'];
                 }
-                 $linktext = $this->Text->truncate($tipsy_name, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
+                 $linktext = $paper['User']['username']; ?>
                 
 
                 <p class="user-url"><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $paper['User']['id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
