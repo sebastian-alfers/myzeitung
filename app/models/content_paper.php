@@ -81,39 +81,44 @@ class ContentPaper extends AppModel {
      * @param array $data
      */
     public function updateIndex($data){
-
-        $data = $data['ContentPaper'];
-
         App::import('model','PostUser');
         $this->PostUser = new PostUser();
-        $this->PostUser->contain();//no fields
 
-        if(isset($data['user_id']) && !empty($data['user_id'])){
-            $conditions = array('PostUser.user_id' => $data['user_id']);
+        $conditions = array();
+        if(isset($data['ContentPaper']['user_id']) && !empty($data['ContentPaper']['user_id'])){
+            $conditions['PostUser.user_id']= $data['ContentPaper']['user_id'];
         }
 
-        if(isset($data['topic_id']) && !empty($data['topic_id'])){
-            $conditions = array('PostUser.topic_id' => $data['topic_id']);
+        if(isset($data['ContentPaper']['topic_id']) && !empty($data['ContentPaper']['topic_id'])){
+            $conditions['PostUser.topic_id'] = $data['ContentPaper']['topic_id'];
         }
 
-        $posts = $this->PostUser->find('all', array('fields' => 'id, post_id, created' , 'conditions' => $conditions));
 
+        $this->PostUser->contain();
+        $posts = $this->PostUser->find('all', array('conditions' => $conditions));
 
-        App::import('model','PostUser');
+       debug($posts);
         App::import('model','CategoryPaperPost');
 
         foreach($posts as $post){
             $this->CategoryPaperPost = new CategoryPaperPost();
             $new_posts = array();
             $new_posts['CategoryPaperPost']['post_id'] = $post['PostUser']['post_id'];
-            $new_posts['CategoryPaperPost']['paper_id'] = $data['paper_id'];
+            $new_posts['CategoryPaperPost']['paper_id'] = $data['ContentPaper']['paper_id'];
             $new_posts['CategoryPaperPost']['post_user_id'] = $post['PostUser']['id'];
             $new_posts['CategoryPaperPost']['created'] = $post['PostUser']['created'];
             $new_posts['CategoryPaperPost']['content_paper_id'] = $this->id;
-
-            if(isset($data['category_id']) && !empty($data['category_id'])){
-                $new_posts['CategoryPaperPost']['category_id'] = $data['category_id'];
+            if(isset($post['PostUser']['repost']) && $post['PostUser']['repost'] == true){
+                debug('repost');
+                //set the id and username of the reposter, if PostUser-Entry is just a repost
+                $user = $this->User->read('username', $post['PostUser']['user_id']);
+                $new_posts['CategoryPaperPost']['reposter_id'] = $post['PostUser']['user_id'];
+                $new_posts['CategoryPaperPost']['reposter_username'] = $user['User']['username'];
             }
+            //if(isset($data['ContentPaper']['category_id']) && !empty($data['ContentPaper']['category_id'])){
+            $new_posts['CategoryPaperPost']['category_id'] = $data['ContentPaper']['category_id'];
+            //}
+            debug($new_posts);
             $this->CategoryPaperPost->save($new_posts);
         }
 

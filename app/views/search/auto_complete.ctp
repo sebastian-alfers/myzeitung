@@ -3,17 +3,17 @@
  	
  	<?php if($type == 'post'):?>
 		<li class="type-article">
-			<h6>Artikel</h6>
+			<h6><?php echo __('Posts', true);?></h6>
 			<?php echo $this->element('search/autocomplete/posts', array('post_documents' => $docs)); ?>
 		</li><!-- /type-article -->
  	<?php elseif($type == 'paper'): ?>
  		<li class="type-newspaper">
-			<h6>Zeitungen</h6>
+			<h6><?php echo __('Papers', true);?></h6>
  			<?php echo $this->element('search/autocomplete/papers', array('paper_documents' => $docs)); ?>
  		</li>
  	<?php elseif($type == 'user'): ?>
 		<li class="type-user">
-			<h6>Autoren</h6>
+			<h6><?php echo __('Authors', true);?></h6>
  			<?php echo $this->element('search/autocomplete/users', array('user_documents' => $docs)); ?>
 		</li> 	
  	<?php endif; ?>

@@ -18,8 +18,8 @@
 				}
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user->id);
-				$link_data['custom'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');
-				echo $image->render(array('image' => $img), 50, 50,null, $link_data);
+				$link_data['additional'] = 'display:inline;';
+				echo $image->render(array('image' => $img), 45, 45,null, $link_data, ImageHelper::USER);
 				 				
 				?>									
 				<h6><a href="/users/view/<?php echo $user->id; ?>"><?php echo $user->user_username; ?></a></h6>

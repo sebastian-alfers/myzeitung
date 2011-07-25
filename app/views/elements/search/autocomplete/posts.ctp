@@ -20,8 +20,8 @@
 
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
-				$link_data['custom'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');
-				echo $image->render(array('image' => $img), 50, 50,null, $link_data, 'post');				
+				$link_data['additional'] = 'display:inline;';
+				echo $image->render(array('image' => $img), 45, 45,null, $link_data, 'post');
                 // post headline
                 $headline = substr($post->post_title,0,27);
                 if(strlen($post->post_title) > 27){

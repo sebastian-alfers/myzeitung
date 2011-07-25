@@ -382,8 +382,11 @@ class PostsController extends AppController {
 			//process links
 			$this->processLinks();
 
+            $this->log('var 1= '.$post['Post']['topic_id']);
+            $this->log('var 2= '.$this->data['Post']['topic_id']);
 			if($post['Post']['topic_id'] != $this->data['Post']['topic_id']){
 				$this->Post->topicChanged = true;
+                $this->log('topicchanged true controller');
 			}
             // temp. necessary until there is a dropdown for allow comments in post add edit view
             if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){

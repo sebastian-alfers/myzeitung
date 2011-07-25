@@ -361,8 +361,7 @@ class Post extends AppModel {
 				$this->PostUser = new PostUser();
 
 				$PostUserData = array('user_id' => $this->data['Post']['user_id'],
-								   'post_id' => $this->id,
-                                    'created' => $this->data['Post']['created']);
+								   'post_id' => $this->id);
 
 				if($created){
 					//write PostUser-Entry
@@ -375,7 +374,6 @@ class Post extends AppModel {
 					$this->PostUser->save($PostUserData);
 			
 				} else {
-
 					//update PostUser-Entry - but ONLY IF the topic_id has changed
 					if($this->topicChanged){
 
@@ -385,10 +383,12 @@ class Post extends AppModel {
 						
 						//creating new postuser entry for new associations for new topic
 						$this->PostUser->create();
-
+                        //keep the old created date - to prevent the post to be more up to date
+                        $PostUserData['created'] = $this->data['Post']['created'];
 						if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
 							$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
 						}
+
 						$this->PostUser->save($PostUserData);
 					}
 

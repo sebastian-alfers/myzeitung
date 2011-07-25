@@ -684,7 +684,7 @@ function __construct(){
 
 				$paper_id = $data['Paper']['target_id'];
                 return  $this->newContentForPaper($paper_id, null, $user_id, $topic_id);
-
+                
 			}
 
 

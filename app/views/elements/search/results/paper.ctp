@@ -9,7 +9,7 @@
 	}
 	$link_data = array();
 	$link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper->id);				
-	echo $image->render(array('image' => $img), 58, 58,null, $link_data, 'paper');
+	echo $image->render(array('image' => $img), 58, 58,array(), $link_data, 'paper');
 				 				
 ?>		
 </div>

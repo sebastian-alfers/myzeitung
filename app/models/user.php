@@ -476,10 +476,12 @@ class User extends AppModel {
 
 			$this->Topic->contain();
 			$topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+            $this->log($conditions);
 
 			foreach($topics as $topid_id => $topic_name){
 				$conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
 				//$this->ContentPaper->recursive = 0;
+                $this->log($conditions);
 				$this->ContentPaper->contain('Paper', 'Category', 'Topic');
 				$topicRef = $this->ContentPaper->find('all', $conditions);
 				if(isset($topicRef[0]['ContentPaper']['id']) && !empty($topicRef[0]['ContentPaper']['id'])){
@@ -487,6 +489,7 @@ class User extends AppModel {
 				}
 
 			}
+
 			return $topicReferences;
 		}
 
