@@ -106,6 +106,7 @@ class ContentPaper extends AppModel {
             $new_posts['CategoryPaperPost']['post_id'] = $post['PostUser']['post_id'];
             $new_posts['CategoryPaperPost']['paper_id'] = $data['ContentPaper']['paper_id'];
             $new_posts['CategoryPaperPost']['post_user_id'] = $post['PostUser']['id'];
+            //very important to keep the postuser created date!!!
             $new_posts['CategoryPaperPost']['created'] = $post['PostUser']['created'];
             $new_posts['CategoryPaperPost']['content_paper_id'] = $this->id;
             if(isset($post['PostUser']['repost']) && $post['PostUser']['repost'] == true){

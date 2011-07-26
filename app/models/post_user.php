@@ -132,6 +132,8 @@ var $belongsTo = array(
                     $CategoryPaperPostData['content_paper_id'] = $subscription['ContentPaper']['id'];
                     $CategoryPaperPostData['paper_id'] = $subscription['ContentPaper']['paper_id'];
                     $CategoryPaperPostData['category_id'] = $subscription['ContentPaper']['category_id'];
+                    //very important! : keep the posts_user created date
+                    $CategoryPaperPostData['created'] = $this->data['PostUser']['created'];
                     if(isset($this->data['PostUser']['repost']) && $this->data['PostUser']['repost'] == true){
                         //set the id and username of the reposter, if PostUser-Entry is just a repost
                         $user = $this->User->read('username', $this->data['PostUser']['user_id']);
