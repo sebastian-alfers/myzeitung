@@ -1,7 +1,7 @@
 <?php
 class PostsController extends AppController {
 
-	
+	const NO_TOPIC_ID = 'null';
 	const ALLOW_COMMENTS_DEFAULT = 'default';
 	const ALLOW_COMMENTS_TRUE = 'true';
 	const ALLOW_COMMENTS_FALSE = 'false';
@@ -181,7 +181,7 @@ class PostsController extends AppController {
           //  $this->log('ganz vorne');
           //  $this->log($this->data);
 			//debug($this->data);die();
-			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == Post::NO_TOPIC_ID){
+			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}
 
@@ -262,7 +262,7 @@ class PostsController extends AppController {
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = array();
         $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-        $topics2[Post::NO_TOPIC_ID] = __('No Topic', true);
+        $topics2[self::NO_TOPIC_ID] = __('No Topic', true);
         $topics = $topics2 + $topics;
         //BUG: array merge results in an array beginning with index 0,1,2 and not the topic ids!
         // see: http://php.net/manual/de/function.array-merge.php
@@ -271,7 +271,7 @@ class PostsController extends AppController {
         //$this->log('TOPICS');
         //$this->log($topics);
         //$this->log($this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
-		$this->data['Post']['topic_id'] = Post::NO_TOPIC_ID;
+		$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
 
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
 		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
@@ -351,7 +351,7 @@ class PostsController extends AppController {
 		//jepp, he is the owner!
 
 
-		if($this->data['Post']['topic_id'] == Post::NO_TOPIC_ID){
+		if($this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 			//if no topic -> remote value to make NULL in db
 			$this->data['Post']['topic_id'] = NULL;
 		}
@@ -409,7 +409,7 @@ class PostsController extends AppController {
 
                 if(empty($this->data['Post']['topic_id'])){
                     //needs to be done to select "no topic" on error
-                    $this->data['Post']['topic_id'] = Post::NO_TOPIC_ID;
+                    $this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
                 }
 
                 $errors = $this->Post->invalidFields();
@@ -436,7 +436,7 @@ class PostsController extends AppController {
         
 		$topics = array();
         $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-        $topics2[Post::NO_TOPIC_ID] = __('No Topic', true);
+        $topics2[self::NO_TOPIC_ID] = __('No Topic', true);
         $topics = $topics2 + $topics;
 
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('use privacy settings',true);

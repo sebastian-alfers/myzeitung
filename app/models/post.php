@@ -1,6 +1,6 @@
 <?php
 class Post extends AppModel {
-    const NO_TOPIC_ID = 'null';
+
     
     var $name = 'Post';
     var $displayField = 'title';
