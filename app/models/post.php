@@ -1,16 +1,19 @@
 <?php
 class Post extends AppModel {
-	var $name = 'Post';
-	var $displayField = 'title';
-	var $useCustom = false;
-	var $topicChanged = false;
+    const NO_TOPIC_ID = 'null';
+    
+    var $name = 'Post';
+    var $displayField = 'title';
+    var $useCustom = false;
+    var $topicChanged = false;
 
-	var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
+    var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
 
-	var $updateSolr = false;
-	var $solr_preview_image = '';
+    var $updateSolr = false;
+    var $solr_preview_image = '';
 
-	var $CategoryPaperPost = null;
+    var $CategoryPaperPost = null;
+
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

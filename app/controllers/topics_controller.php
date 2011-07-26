@@ -58,10 +58,12 @@ class TopicsController extends AppController {
 
         $user_id = $this->Session->read('Auth.User.id');
 
+
+
         $topics = array();
-        App::import('controller', 'PostsController');
-        $topics['null'] = __('No Topic', true);
-        $topics = array_merge($topics, $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
+        $topics=$this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+        $topics2['null'] = __('No Topic', true);
+        $topics = $topics2 + $topics;
 
         if(count($topics) > 0){
             if(isset($this->params['form']['post_id']) && !empty($this->params['form']['post_id'])){
