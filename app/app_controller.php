@@ -50,7 +50,7 @@ class AppController extends Controller {
     const ROLE_ADMIN = 2; //normal, logged in user
     const ROLE_SUPERADMIN = 3; //
 
-	
+
 	public function beforeFilter(){
 
         //load locale
@@ -152,7 +152,8 @@ class AppController extends Controller {
 			),
 		'topics' => array(
 			'ajax_add' => $this->user,
-            'getTopics' => $this->user
+            'getTopics' => $this->user,
+            'delete' => $this->user,
 			),
 		'posts' => array(
 			'index' => $this->user,

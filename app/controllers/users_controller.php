@@ -451,12 +451,6 @@ class UsersController extends AppController {
 			if($this->Paper->read(null, $this->data['User']['paper_id'])){
 
 				//save association with prepared data
-              /*  debug($data);
-                debug($email_user_id);
-                debug($email_topic_id);
-                debug($email_paper_id);
-                debug($email_category_id);die();*/
-
                 $return_code = $this->Paper->associateContent($data);
 				if(in_array($return_code,$this->Paper->return_codes_success)){
 					$msg = $this->Paper->return_code_messages[$return_code];
@@ -483,16 +477,6 @@ class UsersController extends AppController {
 			$this->redirect(array('action' => 'view', $logged_in_user_id));
 		}
 
-		/**
-		 * can not associate user himself / subscribe youself
-		 */
-		/*
-        if($logged_in_user_id == $user_id){
-			$this->Session->setFlash(__('Can not subscribe yourself', true));
-			$this->redirect(array('action' => 'view', $logged_in_user_id));
-		}
-		*/
-
 		//get paper of logged in user
 		$this->Paper->contain('Category');//load only paper data
 		$papers = $this->Paper->find('all', array('conditions' => array('Paper.owner_id' => $logged_in_user_id)));
@@ -517,8 +501,6 @@ class UsersController extends AppController {
 
             }
 
-			//$this->Session->setFlash(__('User has no paper', true));
-			//$this->redirect(array('action' => 'view', $logged_in_user_id));
 		}
 
 		//determine to show the user a selection of papers / categories or not
@@ -571,7 +553,6 @@ class UsersController extends AppController {
 				$this->set('paper_id', $papers[0]['Paper']['id']);
 
 				if($has_categories){
-					debug('jas');
 					//only one paper given with one or more category the user gets as an option
 					$paper_category_drop_down = $this->_generatePaperSelectData($logged_in_user_id);
 					$this->set('paper_category_chooser', $paper_category_drop_down);

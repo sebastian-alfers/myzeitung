@@ -523,13 +523,6 @@ function __construct(){
 					$this->contain();
 					$paper = $this->read(null, $this->id);
 
-					if($categoryId && $topicId){
-						debug('topic in category');
-					}
-					
-					if($categoryId && $topicId){
-						debug('topic in category');
-					}					
 					
 					if($categoryId){
 						//whole user to a category
@@ -543,15 +536,15 @@ function __construct(){
 					//get all user topics associated to that paper  ( front page)
 					//check if already one of the users topics is associated to this paper itself (front page)
     				$paperTopics = $this->getTopicReferencesToOnlyThisPaper();
-
+                   // debug(count($paperTopics && !$categoryId));
 					//if paper has no topics referenced and there is no category referenced
-					if(count($paperTopics && !$categoryId) == 0) return self::RETURN_CODE_SUCCESS;
+					if(count($paperTopics) == 0  && !$categoryId) return self::RETURN_CODE_SUCCESS;
 
                     //"overwrite" all topic associations of the user with the "whole user association" by deleting all topics of this user
                     // in the specific category or paper-frontpage
 					if($categoryId == null){
                         //check if one of the user topics is in the paper topics (front page)
-                        $this->log('categoryid = null ');
+
                         foreach($userTopics as $userTopic){
 
                             foreach($paperTopics as $paperTopic){
@@ -562,8 +555,7 @@ function __construct(){
                             }
                         }
                     }else{
-                        $this->log('categoryid != null ');
-                          //check if one of the user topics is in the paper topics (front page)
+                       //check if one of the user topics is in the paper topics (front page)
                         foreach($userTopics as $userTopic){
                             foreach($categoryTopics as $categoryTopic){
                                 if($userTopic['id'] == $categoryTopic['ContentPaper']['topic_id']){

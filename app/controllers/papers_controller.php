@@ -125,8 +125,11 @@ class PapersController extends AppController {
 		}
 		// END - last relevant reposter
 		 
-		$this->Paper->contain('User.id', 'User.name', 'User.username', 'User.image', 'Category.content_paper_count', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
-		$paper = $this->Paper->read(null, $paper_id);
+		$this->Paper->contain(array('User.id', 'User.name', 'User.username', 'User.image',
+                              'Category' => array('fields' => array('content_paper_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
+        $paper = $this->Paper->read(null, $paper_id);
+        
+        
 		//add information if the user (if logged in) has already subscribed the paper
 		$this->Subscription->contain();
 		if($this->Auth->user('id') && ($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $paper['Paper']['id'])))) > 0){
@@ -453,12 +456,19 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid id for paper', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Paper->delete($id, true)) {
-			$this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Paper was not deleted', true));
-		$this->redirect(array('action' => 'index'));
+        $this->Paper->contain();
+        $paper =  $this->Paper->read(array('id','owner_id'), $id);
+        if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
+            if ($this->Paper->delete($id, true)) {
+                $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
+                $this->redirect(array('action'=>'index'));
+            }
+            $this->Session->setFlash(__('Paper was not deleted', true));
+            $this->redirect(array('action' => 'index'));
+        } else {
+            $this->Session->setFlash(__('The Paper does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
 	}
 
 	/**

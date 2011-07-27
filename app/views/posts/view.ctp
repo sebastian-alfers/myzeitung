@@ -28,14 +28,14 @@ padding: 2px 5px;
 
 var mygallery=new simpleGallery({
 	wrapperid: "simplegallery1", //ID of main gallery container,
-	dimensions: [250, 180], //width/height of gallery in pixels. Should reflect dimensions of the images exactly
+	dimensions: [280, 180], //width/height of gallery in pixels. Should reflect dimensions of the images exactly
 	imagearray: [
         <?php
             if(!empty($post['Post']['image'])){
             $images = unserialize($post['Post']['image']);
             }
             foreach($images as $post_image){
-                $img_details = $image->resize($post_image['path'],250, 250, null, true);
+                $img_details = $image->resize($post_image['path'],280, 180, null, true);
                 echo '["/img/'.$img_details['path'].'", "", "", ""],';
             }
         ?>
