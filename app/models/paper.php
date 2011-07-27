@@ -416,18 +416,22 @@ function __construct(){
 					$sourceType = $source[0];
 					$sourceId   = $source[1];
 					$targetType = $data['Paper']['target_type'];
-
+                    $this->log($data);
 					if($this->isValidTargetType($targetType) &&
 					$this->isValidSourceType($sourceType) &&
 					isset($data['Paper']['target_id']))
 					{
 						if(count($source) == 2){
-							//prepare variables to indicate whole user or only topic as source
-							$user_id = $data['Paper']['user_id'];
-							//$user_id = $sourceId;
-							
-							$topic_id = null;
-							//if($sourceType == ContentPaper::USER) $user_id = $sourceId;
+                            if($sourceType == ContentPaper::USER){
+                              $user_id = $sourceId;
+                            } else{
+
+                                $user_id = $data['Paper']['user_id'];
+                            }
+                            //prepare variables to indicate whole user or only topic as source
+                           // $user_id = $sourceId;
+
+                            $topic_id = null;
 							if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
 							switch ($targetType){
 								case ContentPaper::PAPER:									

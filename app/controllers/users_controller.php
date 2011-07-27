@@ -375,14 +375,14 @@ class UsersController extends AppController {
 	 */
 	function subscribe($user_id = ''){
 
+        $email_user_id = null;
+        $email_topic_id = null;
+        $email_paper_id = null;
+        $email_category_id = null;
 
-		$logged_in_user_id = $this->Session->read('Auth.User.id');
+        $logged_in_user_id = $this->Session->read('Auth.User.id');
 
-		if(isset($this->data) && !empty($this->data)){
-            $email_user_id = null;
-            $email_topic_id = null;
-            $email_paper_id = null;
-            $email_category_id = null;
+        if(isset($this->data) && !empty($this->data)){
 			//save subscription and redirect
 
 			//prepare data for association
@@ -454,7 +454,11 @@ class UsersController extends AppController {
                 $return_code = $this->Paper->associateContent($data);
 				if(in_array($return_code,$this->Paper->return_codes_success)){
 					$msg = $this->Paper->return_code_messages[$return_code];
-
+                   $this->log('oben');
+                    $this->log($email_paper_id);
+                    $this->log($email_user_id);
+                    $this->log($email_category_id);
+                    $this->log($email_topic_id);
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
@@ -601,6 +605,9 @@ class UsersController extends AppController {
                     debug($email_topic_id);
                     debug($email_paper_id);
                     debug($email_category_id);die();*/
+                     $email_paper_id = $paper_id;
+                     $email_user_id = $user_id;
+
 				    $return_code =$this->Paper->associateContent($data);
                     if(in_array($return_code,$this->Paper->return_codes_success)){
 					$msg = $this->Paper->return_code_messages[$return_code];
