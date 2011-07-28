@@ -88,7 +88,7 @@ if($paper_belongs_to_user){
                 <?php foreach($paper['Category'] as $category):?>
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
                 <?php  if((isset($this->params['pass'][1]) && $this->params['pass'][1] != $category['id']) || !isset($this->params['pass'][1])):?>
-                    <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name'].' ('.$category['category_paper_post_count'].')', array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'], $category['id'])); ?>
+                    <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$category['category_paper_post_count'].')'*/, array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'], $category['id'])); ?>
                 <?php else:?>
                     <i><?php  /* this topic is selected - show text*/ echo $category['name']. ' ('.$category['category_paper_post_count'].')'?></i>
                 <?php endif;?>
@@ -102,6 +102,7 @@ if($paper_belongs_to_user){
               <ul>
                  <li><?php echo sprintf(__n('%d Post', '%d Posts', $paper['Paper']['category_paper_post_count'],true), $paper['Paper']['category_paper_post_count']);?></li>
                  <li><?php echo sprintf(__n('%d Subscribed User/Topic', '%d Subscribed Users/Topics', $paper['Paper']['content_paper_count'],true), $paper['Paper']['content_paper_count']);?></li>
+                 <li><?php echo sprintf(__n('%d Subscriber', '%d Subscribers', $paper['Paper']['subscription_count'],true), $paper['Paper']['subscription_count']);?></li>
             </ul>
             <hr />
             <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
