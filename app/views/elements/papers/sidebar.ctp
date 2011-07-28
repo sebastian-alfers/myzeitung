@@ -81,16 +81,16 @@ if($paper_belongs_to_user){
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['content_paper_count'] , true), $paper['Paper']['content_paper_count']); ?>"></span>
                 <?php //show only links for not selected items?>
                 <?php if(isset($this->params['pass'][1])):?>
-                    <?php /* no topic selected */ echo $this->Html->link(__('front page', true) . '('.$paper['Paper']['category_paper_post_count'].')', array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'])); ?>
+                    <?php /* no topic selected */ echo $this->Html->link(__('front page', true)/* . '('.$paper['Paper']['category_paper_post_count'].')'*/, array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'])); ?>
                 <?php else:?>
-                    <i><?php /* topic selected - show link*/ echo __('front page', true) . ' ('.$paper['Paper']['category_paper_post_count'].')';?></i>
+                    <i><?php /* topic selected - show link*/ echo __('front page', true)/* . ' ('.$paper['Paper']['category_paper_post_count'].')'*/;?></i>
                 <?php endif;?> </li>
                 <?php foreach($paper['Category'] as $category):?>
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
                 <?php  if((isset($this->params['pass'][1]) && $this->params['pass'][1] != $category['id']) || !isset($this->params['pass'][1])):?>
                     <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$category['category_paper_post_count'].')'*/, array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'], $category['id'])); ?>
                 <?php else:?>
-                    <i><?php  /* this topic is selected - show text*/ echo $category['name']. ' ('.$category['category_paper_post_count'].')'?></i>
+                    <i><?php  /* this topic is selected - show text*/ echo $category['name']/*. ' ('.$category['category_paper_post_count'].')'*/?></i>
                 <?php endif;?>
                 </li>
                 <?php endforeach;?>
