@@ -15,8 +15,8 @@
 ?>									
     </div>
 <div class="left">
-	<h3><?php echo $user->user_username;?></h3>
-	<p><?php echo $user->user_name;?></p>								
+	<h3><?php echo  $this->Html->link($user->user_username, array('controller' => 'users', 'action' => 'view', $user->id));?></h3>
+	<p><?php echo $this->Html->link($user->user_name, array('controller' => 'users', 'action' => 'view', $user->id));?></p>
 	<div class="actions">
 	<?php if($user->id != $session->read('Auth.User.id') && $user->user_allow_messages == true):?>
 		<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user->id), array('escape' => false, 'class' => 'btn btn-send', ));?>

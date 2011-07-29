@@ -87,7 +87,7 @@ class PapersController extends AppController {
 	          			'group' => array('CategoryPaperPost.post_id'),
 		//limit of records per page
 			          	'limit' => 9,
-			
+		//the created field last_post_repost_date is important to just get the last entry with the last_Reposter
   						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
 

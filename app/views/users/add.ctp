@@ -20,7 +20,7 @@ $(document).ready(function() {
 							</div>
 							<?php echo $this->Form->create('User', array('id' => 'register-form', 'class' => 'jqtransform', 'controller' => 'users', 'action' => 'add',
 																		'inputDefaults' => array('error' => false, 'div' => false)));?>
-							<div><?php  echo $this->Form->input('username', array('type' => 'text', 'class' => 'textinput', 'label' => __('Username', true))); ?>
+							<div><?php  echo $this->Form->input('username', array('maxlength' => 15 ,'type' => 'text', 'class' => 'textinput', 'label' => __('Username', true))); ?>
 							<?php if(!is_null($this->Form->error('User.username'))): ?>
 								<div class="error-message"><b></b><?php echo $this->Form->error('User.username', array('wrap'=> false));?></div>
 							<?php endif; ?>
