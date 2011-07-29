@@ -210,16 +210,21 @@ class PapersController extends AppController {
 		if(isset($paper_id)){
 
 			$this->Paper->contain();
-			if($this->Paper->read(null, $paper_id)){
+            $this->data= $this->Paper->read(null, $paper_id);
+			if($this->data['Paper']['id']){
+                if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
+                    if($this->Paper->subscribe($this->Auth->user('id'))){
+                        $this->Session->setFlash(sprintf(__('You successfully subscribed to the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
+                    } else {
+                        $this->Session->setFlash(__('Could not subscribe this paper.', true));
+                    }
+                }else {
+                      $this->Session->setFlash(__('This is your own paper. Your own papers are always subscribed automatically.', true));
+                }
+            } else {
+                $this->Session->setFlash(__('Invalid paper id.', true));
+            }
 
-				if($this->Paper->subscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(sprintf(__('You successfully subscribed to the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
-				} else {
-					$this->Session->setFlash(__('Could not subscribe this paper.', true));
-				}
-			} else {
-				$this->Session->setFlash(__('Invalid paper id.', true));
-			}
 		}
 		else {
 			// no paper $id
@@ -237,12 +242,18 @@ class PapersController extends AppController {
 		if(isset($paper_id)){
 
 			$this->Paper->contain();
-			if($this->Paper->read(null, $paper_id)){
-				if($this->Paper->unsubscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(sprintf(__('You successfully unsubscribed the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
-				} else {
-					$this->Session->setFlash(__('Could not unsubscribe', true));
-				}
+
+            $this->data= $this->Paper->read(null, $paper_id);
+			if($this->data['Paper']['id']){
+                if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
+                    if($this->Paper->unsubscribe($this->Auth->user('id'))){
+                        $this->Session->setFlash(sprintf(__('You successfully unsubscribed the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
+                    } else {
+                        $this->Session->setFlash(__('Could not unsubscribe', true));
+                    }
+                }else {
+                      $this->Session->setFlash(__('This is your own paper. You cannot unsubscribe your own papers, but you could delete them instead of that.', true));
+                }
 			} else {
 				$this->Session->setFlash(__('Invalid paper id', true));
 			}
@@ -430,19 +441,27 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		if (!empty($this->data)) {
-			$this->Paper->doAfterSave = true;
-			if ($this->Paper->save($this->data)) {
-				$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Paper->read(null, $id);
-			$this->set('owner_id', $this->data['Paper']['owner_id']);
-		}
+        $this->Paper->contain();
+        $paper =  $this->Paper->read(array('id','owner_id'), $id);
+        if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
+            if (!empty($this->data)) {
+                $this->Paper->doAfterSave = true;
+                if ($this->Paper->save($this->data)) {
+                    $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
+                    $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
+                }
+            }
+            if (empty($this->data)) {
+                $this->data = $this->Paper->read(null, $id);
+                $this->set('owner_id', $this->data['Paper']['owner_id']);
+            }
+         } else {
+            $this->Session->setFlash(__('The Paper does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
+
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));

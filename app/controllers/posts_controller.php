@@ -344,7 +344,7 @@ class PostsController extends AppController {
 
 
 		if($owner_id != $user_id){
-			$this->Session->setFlash(__('No permission', true));
+			$this->Session->setFlash(__('The Post does not belong to you.', true));
 			$this->redirect($this->referer());
 		}
 
