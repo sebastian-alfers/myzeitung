@@ -32,6 +32,7 @@ class PapersController extends AppController {
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
 			             'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
+                          'conditions' => array('Paper.enabled' => true),
 		)
 		);
 
@@ -67,6 +68,14 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
+        $this->Paper->contain(array('User.id', 'User.name', 'User.username', 'User.image',
+                                      'Category' => array('fields' => array('content_paper_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
+        $paper = $this->Paper->read(null, $paper_id);
+        if($paper['Paper']['enabled'] == false){
+            $this->Session->setFlash(__('This paper has been blocked temporarily due to infringement.', true));
+			$this->redirect($this->referer());
+        }
+
 		/*writing all settings for the paginate function.
 		 important here is, that only the paper's posts are subject for pagination.*/
 		// PROBLEM: tried to only show every post once. if a post is reposted, the newest date counts,
@@ -78,7 +87,8 @@ class PapersController extends AppController {
 				                 		'table' => 'category_paper_posts',
 				                 		'alias' => 'CategoryPaperPost',
 				                		'type' => 'RIGHT',
-				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id'),
+				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id',
+                                                                'Post.enabled' =>true),
 		),
 		),
 			
@@ -90,6 +100,7 @@ class PapersController extends AppController {
 		//the created field last_post_repost_date is important to just get the last entry with the last_Reposter
   						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
+                                             
 
 		//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('User.id','User.username','User.name',  'User.image'),
@@ -125,10 +136,7 @@ class PapersController extends AppController {
 		}
 		// END - last relevant reposter
 		 
-		$this->Paper->contain(array('User.id', 'User.name', 'User.username', 'User.image',
-                              'Category' => array('fields' => array('content_paper_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
-        $paper = $this->Paper->read(null, $paper_id);
-        
+
         
 		//add information if the user (if logged in) has already subscribed the paper
 		$this->Subscription->contain();
@@ -171,7 +179,7 @@ class PapersController extends AppController {
 				if(is_array($image)){
 
 					$paper_data['Paper']['image'] = $image;
-					$this->Paper->doAfterSave = true;
+					$this->Paper->updateSolr = true;
 					if($this->Paper->save($paper_data, true, array('image'))){
 						$this->Session->setFlash(__('Image has been saved', true), 'default', array('class' => 'success'));
 						$this->User->updateSolr = true;
@@ -399,7 +407,7 @@ class PapersController extends AppController {
 
 			$this->Paper->create();
 			$this->data['Paper']['owner_id'] = $this->Auth->User("id");
-			$this->Paper->doAfterSave = true;
+			$this->Paper->updateSolr = true;
 			if ($this->Paper->save($this->data)) {
 		/*		$routeData = array('Route' => array(
 									'source' => $this->data['Paper']['title'],
@@ -445,7 +453,7 @@ class PapersController extends AppController {
         $paper =  $this->Paper->read(array('id','owner_id'), $id);
         if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
             if (!empty($this->data)) {
-                $this->Paper->doAfterSave = true;
+                $this->Paper->updateSolr = true;
                 if ($this->Paper->save($this->data)) {
                     $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
                     $this->redirect(array('action' => 'index'));
@@ -574,6 +582,74 @@ class PapersController extends AppController {
 
 		// @todo error log
 	}
+    function admin_index() {
+        $this->paginate = array('contain' => array('User.id', 'User.username'));
+		$this->set('papers', $this->paginate());
+	}
+    function admin_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for paper', true));
+			$this->redirect($this->referer());
+		}
+        $this->Paper->contain();
+        $paper =  $this->Paper->read(array('id'), $id);
+
+        // second param = cascade -> delete associated records from hasmany , hasone relations
+        if ($this->Paper->delete($id, true)) {
+            $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
+          //  $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+        $this->redirect($this->referer());
+        }
+        $this->Session->setFlash(__('Paper was not deleted', true));
+        $this->redirect($this->referer());
+
+    }
+    function admin_disable($paper_id){
+        $this->Paper->contain();
+        $paper = $this->Paper->read(null, $paper_id);
+        if(isset($paper['Paper']['id']) && !empty($paper['Paper']['id'])){
+            if($paper['Paper']['enabled'] == false){
+                $this->Session->setFlash('This paper is already disabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Paper->disable()){
+                    $this->Session->setFlash('Paper has been disabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This paper could not be disabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid paper');
+            $this->redirect($this->referer());
+
+        }
+    }
+    function admin_enable($paper_id){
+        $this->Paper->contain();
+        $paper = $this->Paper->read(null, $paper_id);
+        if(isset($paper['Paper']['id']) && !empty($paper['Paper']['id'])){
+            if($paper['Paper']['enabled'] == true){
+                $this->Session->setFlash('This paper is already enabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Paper->enable()){
+                    $this->Session->setFlash('Paper has been enabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This Paper could not be enabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid paper');
+            $this->redirect($this->referer());
+
+        }
+    }
 
 }
 ?>

@@ -291,6 +291,134 @@ class User extends AppModel {
 		 *	hook into save process
 		 * 
 		 */
+         function disable(){
+
+            if($this->data['User']['enabled'] == true){
+
+                $userData = $this->data;
+
+                //disable all posts of this user
+                App::import('model','Post');
+                $this->Post = new Post();
+                $this->Post->contain();
+                $posts = $this->Post->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($posts as $post){
+                    $this->Post->data = $post;
+                    $this->Post->disable();
+                }
+                //disable all papers of this user
+                App::import('model','Paper');
+                $this->Paper = new Paper();
+                $this->Paper->contain();
+                $papers = $this->Paper->find('all',array('conditions' => array('owner_id' => $this->id)));
+                foreach($papers as $paper){
+                    $this->Paper->data = $paper;
+                    $this->Paper->disable();
+                }
+                 //disable all content_paper entries of this user
+                App::import('model','ContentPaper');
+                $this->ContentPaper = new ContentPaper();
+                $this->ContentPaper->contain();
+                $associations = $this->ContentPaper->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($associations as $association){
+                    $this->ContentPaper->data = $association;
+                    $this->ContentPaper->disable();
+                }
+                 //disable all subscription entries of this user
+                App::import('model','Subscription');
+                $this->Subscription = new Subscription();
+                $this->Subscription->contain();
+                $subscriptions = $this->Subscription->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($subscriptions as $subscription){
+                    $this->Subscription->data = $subscription;
+                    $this->Subscription->disable();
+                }
+                 //disable all subscription entries of this user
+                App::import('model','Comment');
+                $this->Comment = new Comment();
+                $this->Comment->contain();
+                $comments = $this->Comment->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($comments as $comment){
+                    $this->Comment->data = $comment;
+                    $this->Comment->disable();
+                }
+
+
+                $this->data = $userData;
+                $this->data['User']['enabled'] = false;
+                $this->save($this->data);
+                //delete solr entry
+                $this->deleteFromSolr();
+
+                return true;
+            }
+            //already disabled
+            return false;
+        }
+        function enable(){
+
+            if($this->data['User']['enabled'] == false){
+                $userData = $this->data;
+               //enable all posts of this user
+                App::import('model','Post');
+                $this->Post = new Post();
+                $this->Post->contain();
+                $posts = $this->Post->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($posts as $post){
+                    $this->Post->data = $post;
+                    $this->Post->enable();
+                }
+                //enable all papers of this user
+                App::import('model','Paper');
+                $this->Paper = new Paper();
+                $this->Paper->contain();
+                $papers = $this->Paper->find('all',array('conditions' => array('owner_id' => $this->id)));
+                foreach($papers as $paper){
+                    $this->Paper->data = $paper;
+                    $this->Paper->enable();
+                }
+                 //enable all content_paper entries of this user
+                App::import('model','ContentPaper');
+                $this->ContentPaper = new ContentPaper();
+                $this->ContentPaper->contain();
+                $associations = $this->ContentPaper->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($associations as $association){
+                    $this->ContentPaper->data = $association;
+                    $this->ContentPaper->enable();
+                }
+                 //enable all subscription entries of this user
+                App::import('model','Subscription');
+                $this->Subscription = new Subscription();
+                $this->Subscription->contain();
+                $subscriptions = $this->Subscription->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($subscriptions as $subscription){
+                    $this->Subscription->data = $subscription;
+                    $this->Subscription->enable();
+                }
+                 //enable all subscription entries of this user
+                App::import('model','Comment');
+                $this->Comment = new Comment();
+                $this->Comment->contain();
+                $comments = $this->Comment->find('all',array('conditions' => array('user_id' => $this->id)));
+                foreach($comments as $comment){
+                    $this->Comment->data = $comment;
+                    $this->Comment->enable();
+                }
+
+                $this->data = $userData;
+
+                $this->addToOrUpdateSolr();
+
+                $this->data['User']['enabled'] = true;
+                $this->save($this->data);
+                //add solr entry
+
+
+                return true;
+            }
+            //already enabled
+            return false;
+        }
 		function beforeSave(){
 			if(!empty($this->data['User']['image']) && is_array($this->data['User']['image']) && !empty($this->data['User']['image'])){
 				$this->data['User']['image'] = serialize($this->data['User']['image']);
@@ -365,26 +493,8 @@ class User extends AppModel {
 		function afterSave(){
 
 			if($this->updateSolr){
-				//update solr index
-				App::import('model','Solr');
-	
-				$this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
-				$this->data['User']['type'] = Solr::TYPE_USER;
-	
-				if(!isset($this->data['User']['id'])){
-					if($this->id){
-						$this->data['User']['id'] = $this->id;
-					}
-						
-				}
-					
-				$this->data['User']['user_name'] = $this->data['User']['name'];
-				$this->data['User']['user_username'] = $this->data['User']['username'];
-				$this->data['User']['user_id'] = $this->data['User']['id'];
-				
-				$solr = new Solr();
-				$solr->add($this->addFieldsForIndex($this->data));
-	
+                //update solr index
+				$this->addToOrUpdateSolr();
 				/*
 				 App::import('model','Cachekey');
 				 $cachekey = new Cachekey();
@@ -396,6 +506,28 @@ class User extends AppModel {
 
 			}
 		}
+        private function addToOrUpdateSolr(){
+
+            App::import('model','Solr');
+
+            $this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
+            $this->data['User']['type'] = Solr::TYPE_USER;
+
+            if(!isset($this->data['User']['id'])){
+                if($this->id){
+                    $this->data['User']['id'] = $this->id;
+                }
+
+            }
+
+            $this->data['User']['user_name'] = $this->data['User']['name'];
+            $this->data['User']['user_username'] = $this->data['User']['username'];
+            $this->data['User']['user_id'] = $this->data['User']['id'];
+
+            $solr = new Solr();
+            $solr->add($this->addFieldsForIndex($this->data));
+
+        }
 		
 		/**
 		 * if a user writes for a paper / category is definded in content_papers
@@ -512,21 +644,21 @@ class User extends AppModel {
 
 
 
-		function delete($id){
-			$this->removeUserFromSolr($id);
-			return parent::delete($id);
-		}
+        function afterDelete(){
+            $this->deleteFromSolr();
+        }
 
 		/**
 		 * remove the user from solr index
-		 *
-		 * @param string $id
+	     *
 		 */
-		function removeUserFromSolr($id){
-			App::import('model','Solr');
-			$solr = new Solr();
-			$solr->delete(Solr::TYPE_USER . '_' . $id);
-		}
+
+        private function deleteFromSolr(){
+            App::import('model','Solr');
+            $solr = new Solr();
+            $solr->delete(Solr::TYPE_USER.'_'.$this->id);
+            return true;
+        }
 
 }
 ?>

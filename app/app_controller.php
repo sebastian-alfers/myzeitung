@@ -149,6 +149,8 @@ class AppController extends Controller {
             'admin_edit' => $this->superadmin,
             'admin_delete' => $this->superadmin,
             'admin_view' => $this->admin,
+            'admin_disable' => $this->admin,
+            'admin_enable' => $this->admin,
 			),
 		'topics' => array(
 			'ajax_add' => $this->user,
@@ -165,7 +167,11 @@ class AppController extends Controller {
 			'delete' => $this->user,
 			'ajxImageProcess' => $this->user,
 			'url_content_extract' => $this->user,
-			'ajxRemoveImage' => $this->user					
+			'ajxRemoveImage' => $this->user,
+            'admin_disable' => $this->admin,
+            'admin_enable' => $this->admin,
+            'admin_index' => $this->admin,
+            'admin_delete' => $this->superadmin,
 			),	
 		'papers' => array(
 			'index' => $this->user,
@@ -179,6 +185,10 @@ class AppController extends Controller {
 			'unsubscribe' => $this->user,
             'settings' => $this->user,
             'saveImage' => $this->user,
+            'admin_disable' => $this->admin,
+            'admin_enable' => $this->admin,
+            'admin_index' => $this->admin,
+            'admin_delete' => $this->superadmin,
 			),				
 		'categories' => array(
 			'index' => $this->user,

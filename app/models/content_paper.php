@@ -20,7 +20,8 @@ class ContentPaper extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
-			'counterCache' => true
+			'counterCache' => true,
+            'counterScope' => array('ContentPaper.enabled' => true),
 			),
 		'Category' => array(
 			'className' => 'Category',
@@ -29,6 +30,7 @@ class ContentPaper extends AppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => true,
+            'counterScope' => array('ContentPaper.enabled' => true),
 			),
 		'User' => array(
 			'className' => 'User',
@@ -37,6 +39,7 @@ class ContentPaper extends AppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => true,
+            'counterScope' => array('ContentPaper.enabled' => true),
 			
 			),
 		'Topic' => array(
@@ -46,6 +49,7 @@ class ContentPaper extends AppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => true,
+            'counterScope' => array('ContentPaper.enabled' => true),
 			)
 			);
 
@@ -121,6 +125,33 @@ class ContentPaper extends AppModel {
 
 
 
+    }
+
+    function disable(){
+
+        if($this->data['ContentPaper']['enabled'] == true){
+            //disable association
+            $this->data['ContentPaper']['enabled'] = false;
+            $this->save($this->data);
+
+            return true;
+        }
+        //already disabled
+        return false;
+    }
+    function enable(){
+
+        if($this->data['ContentPaper']['enabled'] == false){
+
+
+            //enable association
+            $this->data['ContentPaper']['enabled'] = true;
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
     }
 }
 ?>

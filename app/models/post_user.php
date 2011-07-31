@@ -18,7 +18,8 @@ var $belongsTo = array(
 		'order' => '',
 		//counting just reposts
 		'counterCache' => 'posts_user_count',
-		'counterScope' => array('repost' => true)	
+		'counterScope' => array('repost' => true,
+                                'PostUser.enabled' => true),
 		),
 	'User' => array(
 		'className' => 'User',
@@ -28,7 +29,8 @@ var $belongsTo = array(
 		'order' => '',
 		//counting just reposts
 		'counterCache' => 'posts_user_count',
-		'counterScope' => array('repost' => true)
+		'counterScope' => array('repost' => true,
+                             'PostUser.enabled' => true),
 		),
 
 
@@ -143,6 +145,14 @@ var $belongsTo = array(
                     $this->CategoryPaperPost->create();
                     $this->CategoryPaperPost->save($CategoryPaperPostData);
                 }
+            }
+            private function _unpublishFromPapersOrCategories(){
+                App::import('model','CategoryPaperPost');
+                $this->CategoryPaperPost = new CategoryPaperPost();
+
+                $this->CategoryPaperPost->contain();
+                $this->CategoryPaperPost->deleteAll(array('post_user_id' => $this->id),false, true);
+
             }
 
 				/*
@@ -275,8 +285,35 @@ var $belongsTo = array(
 				}
 			} */
 				
-			function __construct(){
-				parent::__construct();
-			}
+    function __construct(){
+        parent::__construct();
+    }
+    function disable(){
+
+        if($this->data['PostUser']['enabled'] == true){
+            //disable subscription
+            $this->data['PostUser']['enabled'] = false;
+            $this->_unpublishFromPapersOrCategories();
+            $this->save($this->data);
+            return true;
+        }
+        //already disabled
+        return false;
+    }
+    function enable(){
+
+        if($this->data['PostUser']['enabled'] == false){
+
+
+            //disable subscription
+            $this->data['PostUser']['enabled'] = true;
+            $this->_publishInPapersAndCategories();
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
+    }
 }
 ?>

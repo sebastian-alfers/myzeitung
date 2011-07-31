@@ -73,6 +73,7 @@ class UsersController extends AppController {
 		    						),
 		    						//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
+                'conditions' => array('enabled' => true),
             )
         );
 
@@ -95,6 +96,14 @@ class UsersController extends AppController {
 				$this->redirect(array('action' => 'index'));
 			}
 		}
+        //unbinding irrelevant relations for the query
+        $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+        $user = $this->getUserForSidebar($user_id);
+        if($user['User']['enabled'] == false){
+           $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
+           $this->redirect($this->referer());
+       }
+
 
 		//check, if user exists in db
 		$this->User->contain();
@@ -118,7 +127,8 @@ class UsersController extends AppController {
 	                    'type' => 'INNER',
 	                    'conditions' => array(
 	                        'PostUser.post_id = Post.id',
-	                		'PostUser.user_id' => $user_id
+	                		'PostUser.user_id' => $user_id,
+                            'Post.enabled' => true,
 		),
 		),
 		),
@@ -136,10 +146,8 @@ class UsersController extends AppController {
 			$this->paginate['Post']['joins'][0]['conditions']['PostUser.topic_id'] = $topic_id;
 		}
 
-		//unbinding irrelevant relations for the query
-		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 
-		$this->set('user', $this->getUserForSidebar($user_id));
+		$this->set('user', $user);
 
 		$this->set('posts', $this->paginate($this->User->Post));
 
@@ -162,20 +170,25 @@ class UsersController extends AppController {
 	 */
 	function viewSubscriptions($user_id = null, $own_paper = null) {
 
-		if (!$user_id) {
-			//no param from url -> get from Auth
-			$user_id = $this->Auth->User("id");
-			if(!$user_id){
-				$this->Session->setFlash(__('Invalid user', true));
-				$this->redirect(array('action' => 'index'));
-			}
-		}
-
-		/*writing all settings for the paginate function.
-		 important here is, that only the user's paper subscriptions are subject for pagination.*/
-		$this->paginate = array(
+        if (!$user_id) {
+            //no param from url -> get from Auth
+            $user_id = $this->Auth->User("id");
+            if(!$user_id){
+                $this->Session->setFlash(__('Invalid user', true));
+                $this->redirect(array('action' => 'index'));
+            }
+        }
+        $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+        $user = $this->User->read(array('id','enabled','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $user_id);
+        if($user['User']['enabled'] == false){
+            $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
+			$this->redirect($this->referer());
+        }
+        /*writing all settings for the paginate function.
+           important here is, that only the user's paper subscriptions are subject for pagination.*/
+        $this->paginate = array(
 	        'Paper' => array(
-		//setting up the join. this conditions describe which papers are gonna be shown
+        //setting up the join. this conditions describe which papers are gonna be shown
 	            'joins' => array(
 		array(
 	                    'table' => 'subscriptions',
@@ -183,34 +196,35 @@ class UsersController extends AppController {
 	                    'type' => 'INNER',
 	                    'conditions' => array(
 	                        'Subscription.paper_id = Paper.id',
-	                		'Subscription.user_id' => $user_id
-		),
-		),
-		),
-		//fields
+	                		'Subscription.user_id' => $user_id,
+                            'Paper.enabled' => true,
+        ),
+        ),
+        ),
+        //fields
 	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'content_paper_count', 'category_paper_post_count'),
-		//limit of records per page
+        //limit of records per page
 	            'limit' => 9,
-		//order
+        //order
 	            'order' => 'Paper.title ASC',
-		//contain array: limit the (related) data and models being loaded per post
+        //contain array: limit the (related) data and models being loaded per post
 	            'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
 
 
-		)
+        )
 		);
-		if($own_paper != null){
-			//adding the additional conditions  for the pagination - join
+        if($own_paper != null){
+            //adding the additional conditions  for the pagination - join
             if($own_paper == Paper::FILTER_OWN){
                 $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = true;
             } elseif ($own_paper == Paper::FILTER_SUBSCRIBED){
                 $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = false;
             }
-		}
+        }
 
-		//unbinding irrelevant relations for the query
-		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $user_id));
+        //unbinding irrelevant relations for the query
+
+        $this->set('user', $user);
 		$papers = $this->paginate($this->User->Paper);
 
 		//add temp variable to papers array: subscribed = true, if user is logged in and has already subscribed the paper
@@ -483,7 +497,7 @@ class UsersController extends AppController {
 
 		//get paper of logged in user
 		$this->Paper->contain('Category');//load only paper data
-		$papers = $this->Paper->find('all', array('conditions' => array('Paper.owner_id' => $logged_in_user_id)));
+		$papers = $this->Paper->find('all', array('conditions' => array('Paper.owner_id' => $logged_in_user_id, 'Paper.enabled' => true)));
 
 		if(count($papers) == 0){
 			//user has no paper
@@ -676,7 +690,7 @@ class UsersController extends AppController {
 
 		if($user_id){
 			$this->Paper->contain(array('Category'));
-			$paper_data = $this->Paper->find('all', array('conditions' => array('Paper.owner_id' => $user_id)));
+			$paper_data = $this->Paper->find('all', array('conditions' => array('Paper.enabled' => true,  'Paper.owner_id' => $user_id)));
 
 			foreach($paper_data as $paper){
 				$content_data['options'][ContentPaper::PAPER.ContentPaper::SEPERATOR.$paper['Paper']['id']] = $paper['Paper']['title'].' (' .('front page').')';
@@ -983,7 +997,7 @@ class UsersController extends AppController {
 			$user['User'] = $this->Session->read('Auth.User');
 		} else {
 		//reading user
-			$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+			$user = $this->User->read(array('id','enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
 		return $user;
 	}
@@ -1099,10 +1113,57 @@ class UsersController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->User->delete($id)) {
-			$this->Session->setFlash(__('User deleted', true));
+			$this->Session->setFlash(__('User deleted', true),'default', array('class' => 'success'));
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->Session->setFlash(__('User was not deleted', true));
 		$this->redirect(array('action' => 'index'));
 	}
+    function admin_disable($user_id){
+        $this->User->contain();
+        $this->User->data = $this->User->read(null, $user_id);
+        if(isset($this->User->data['User']['id']) && !empty($this->User->data['User']['id'])){
+            if($this->User->data['User']['enabled'] == false){
+                $this->Session->setFlash('This user is already disabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->User->disable()){
+                    $this->Session->setFlash('User has been disabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This user could not be disabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid user');
+            $this->redirect($this->referer());
+
+        }
+    }
+    function admin_enable($user_id){
+        $this->User->contain();
+        $this->User->data = $this->User->read(null, $user_id);
+
+        if(isset($this->User->data['User']['id']) && !empty($this->User->data['User']['id'])){
+            if($this->User->data['User']['enabled'] == true){
+                $this->Session->setFlash('This user is already enabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->User->enable()){
+                    $this->Session->setFlash('User has been enabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This user could not be enabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid user');
+            $this->redirect($this->referer());
+
+        }
+    }
 }

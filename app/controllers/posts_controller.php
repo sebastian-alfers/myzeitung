@@ -34,6 +34,7 @@ class PostsController extends AppController {
 	            'order' => 'Post.created DESC',
 		//fields - custom field sum...
 		    	'fields' => array(),
+                'conditions' => array('Post.enabled' => true),
 		//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array('User.username','User.id', 'User.name', 'User.image'),
 		)
@@ -126,6 +127,18 @@ class PostsController extends AppController {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect($this->referer());
 		}
+        $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
+		$post = $this->Post->read(null, $id);
+        if(!isset($post['Post']['id']) || empty($post['Post']['id'])){
+			$this->Session->setFlash(__('Invalid post', true));
+			$this->redirect($this->referer());
+        }
+        if($post['Post']['enabled'] == false){
+            $this->Session->setFlash(__('This post has been blocked temporarily due to infringement.', true));
+			$this->redirect($this->referer());
+        }
+
+
 		// incrementing post's view_counter
 
 		// check if the user already read this post during this session
@@ -155,7 +168,8 @@ class PostsController extends AppController {
 		$this->Comment->contain('User.username','User.id','User.image');
 		//'threaded' gets also the replies (children) and children's children etc. (for tree behavior. not sure if for not-tree also)
 		$comments = $this->Comment->find('threaded',array(
-										'conditions' => array('post_id' => $id),
+										'conditions' => array('Comment.post_id' => $id,
+                                                                'Comment.enabled' => true),
 										'order'=>array('created DESC'),
 										'fields' => array('id','user_id','post_id','parent_id','text','created')));
 
@@ -674,5 +688,75 @@ class PostsController extends AppController {
 			$this->data['Post']['links'] = serialize(array_filter(explode(',', $links)));
 		}
 	}
+
+
+    function admin_index() {
+        $this->paginate = array('contain' => array('User.id', 'User.username'));
+		$this->set('posts', $this->paginate());
+	}
+    function admin_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for post', true));
+			$this->redirect($this->referer());
+		}
+        $this->Post->contain();
+        $post =  $this->Post->read(array('id','user_id'), $id);
+
+        // second param = cascade -> delete associated records from hasmany , hasone relations
+        if ($this->Post->delete($id, true)) {
+            $this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
+          //  $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+        $this->redirect($this->referer());
+        }
+        $this->Session->setFlash(__('Post was not deleted', true));
+        $this->redirect($this->referer());
+
+    }
+    function admin_disable($post_id){
+        $this->Post->contain();
+        $post = $this->Post->read(null, $post_id);
+        if(isset($post['Post']['id']) && !empty($post['Post']['id'])){
+            if($post['Post']['enabled'] == false){
+                $this->Session->setFlash('This post is already disabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Post->disable()){
+                    $this->Session->setFlash('Post has been disabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This Post could not be disabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid post');
+            $this->redirect($this->referer());
+
+        }
+    }
+    function admin_enable($post_id){
+        $this->Post->contain();
+        $post = $this->Post->read(null, $post_id);
+        if(isset($post['Post']['id']) && !empty($post['Post']['id'])){
+            if($post['Post']['enabled'] == true){
+                $this->Session->setFlash('This post is already enabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Post->enable()){
+                    $this->Session->setFlash('Post has been enabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This Post could not be enabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid post');
+            $this->redirect($this->referer());
+
+        }
+    }
 }
 ?>

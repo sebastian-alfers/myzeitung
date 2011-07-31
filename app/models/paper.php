@@ -26,7 +26,7 @@ class Paper extends AppModel {
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
-	var $doAfterSave = true;
+	var $updateSolr = true;
 	
 	private  $_contentReferences = null;
 	
@@ -42,7 +42,8 @@ class Paper extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'owner_id',
-			'counterCache' => true
+			'counterCache' => true,
+            'counterScope' => array('Paper.enabled' => true),
 		),
 	);
 
@@ -348,50 +349,55 @@ function __construct(){
 			 */
 			function afterSave($created){
 				
-				if(!$this->doAfterSave)return;
-				App::import('model','Solr');
-				App::import('model','User');
-				App::import('model','Subscription');
-
+				if(!$this->updateSolr)return;
 
 				if($this->id){
-					//get User information
-					$user = new User();
 
-					$user->contain();
-					$userData = $user->read(null, $this->data['Paper']['owner_id']);
-					$data['Paper']['index_id'] = Solr::TYPE_PAPER.'_'.$this->id;
-					$data['Paper']['id'] = $this->id;
-					$data['Paper']['type'] = Solr::TYPE_PAPER;
-					$data['Paper']['paper_title'] = $this->data['Paper']['title'];
-					$data['Paper']['paper_description'] = $this->data['Paper']['description'];
-					$data['Paper']['user_id'] = $userData['User']['id'];
-					$data['Paper']['user_name'] = $userData['User']['name'];
-					$data['Paper']['user_username'] = $userData['User']['username'];
-					if(isset($this->data['Paper']['image'])){
-						$data['Paper']['paper_image'] = $this->data['Paper']['image'];
-					}
-					$solr = new Solr();
-					$solr->add($this->addFieldsForIndex($data));
+                     $this->addToOrUpdateSolr();
 
-					//create subscription for created paper 
-					if($created){
-						$subscriptionData = array('paper_id' => $this->id,
-				 							'user_id' => $userData['User']['id'],
-											'own_paper' => true,
-						);
-						$this->Subscription = new Subscription();
-						$this->Subscription->create();
-						$this->Subscription->save($subscriptionData);
-							
-					}
+                //create subscription for created paper
+                if($created){
+                    $subscriptionData = array('paper_id' => $this->id,
+                                        'user_id' => $this->data['Paper']['owner_id'],
+                                        'own_paper' => true,
+                    );
+                    $this->Subscription = new Subscription();
+                    $this->Subscription->create();
+                    $this->Subscription->save($subscriptionData);
 
+                }
 
 				}
 				else{
 					$this->log('Error while adding paper to solr! No paper id in afterSave()');
 				}
 			}
+
+            private function addToOrUpdateSolr(){
+            //get User information
+                App::import('model','Solr');
+				App::import('model','User');
+				App::import('model','Subscription');
+                $user = new User();
+
+                $user->contain();
+                $userData = $user->read(null, $this->data['Paper']['owner_id']);
+                $data['Paper']['index_id'] = Solr::TYPE_PAPER.'_'.$this->id;
+                $data['Paper']['id'] = $this->id;
+                $data['Paper']['type'] = Solr::TYPE_PAPER;
+                $data['Paper']['paper_title'] = $this->data['Paper']['title'];
+                $data['Paper']['paper_description'] = $this->data['Paper']['description'];
+                $data['Paper']['user_id'] = $userData['User']['id'];
+                $data['Paper']['user_name'] = $userData['User']['name'];
+                $data['Paper']['user_username'] = $userData['User']['username'];
+                if(isset($this->data['Paper']['image'])){
+                    $data['Paper']['paper_image'] = $this->data['Paper']['image'];
+                }
+                $solr = new Solr();
+                $solr->add($this->addFieldsForIndex($data));
+
+
+            }
 
 
 
@@ -731,36 +737,63 @@ function __construct(){
 				return $solrFields;
 			}
 
-			function delete($id){
-				$this->removeUserFromSolr($id);
-				return parent::delete($id);
-			}
 
-			/**
-			 * remove the user from solr index
-			 *
-			 * @param string $id
-			 */
-			function removeUserFromSolr($id){
-				App::import('model','Solr');
-				$solr = new Solr();
-				$solr->delete(Solr::TYPE_PAPER . '_' . $id);
-			}
-
-   		/**
-		 *	hook into save process
-		 *
-		 */
-		function beforeSave(){
-			if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
-				$this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
-			}
-            if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
-                $this->data['Paper']['url'] = '';
+            private function deleteFromSolr(){
+                App::import('model','Solr');
+                $solr = new Solr();
+                $solr->delete(Solr::TYPE_PAPER.'_'.$this->id);
+                return true;
             }
 
 
-			return true;
-		}
+    function beforeSave(){
+        if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
+            $this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
+        }
+        if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
+            $this->data['Paper']['url'] = '';
+        }
+
+
+        return true;
+    }
+    function afterDelete(){
+        $this->deleteFromSolr();
+        return true;
+     }
+
+    function disable(){
+
+        if($this->data['Paper']['enabled'] == true){
+            //disable Paper
+            $this->data['Paper']['enabled'] = false;
+            $this->save($this->data);
+            //delete solr entry
+            $this->deleteFromSolr();
+
+            return true;
+        }
+        //already disabled
+        return false;
+    }
+    function enable(){
+
+        if($this->data['Paper']['enabled'] == false){
+            //delete all posts_users entries with cascading and callbacks
+
+            //disable post
+            $this->data['Paper']['enabled'] = true;
+            $this->updateSolr = true;
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
+    }
+
+
+
+
 }
 ?>
