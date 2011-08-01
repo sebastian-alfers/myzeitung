@@ -1,6 +1,6 @@
 <?php
 $link = '/login';
-if($session->read('Auth.user.id')){
+if($session->read('Auth.User.id')){
     $link = '#';
 }
 ?>

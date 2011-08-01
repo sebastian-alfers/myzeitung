@@ -26,7 +26,7 @@ class Paper extends AppModel {
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
-	var $doAfterSave = true;
+	var $updateSolr = true;
 	
 	private  $_contentReferences = null;
 	
@@ -42,7 +42,8 @@ class Paper extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'owner_id',
-			'counterCache' => true
+			'counterCache' => true,
+            'counterScope' => array('Paper.enabled' => true),
 		),
 	);
 
@@ -348,50 +349,55 @@ function __construct(){
 			 */
 			function afterSave($created){
 				
-				if(!$this->doAfterSave)return;
-				App::import('model','Solr');
-				App::import('model','User');
-				App::import('model','Subscription');
-
+				if(!$this->updateSolr)return;
 
 				if($this->id){
-					//get User information
-					$user = new User();
 
-					$user->contain();
-					$userData = $user->read(null, $this->data['Paper']['owner_id']);
-					$data['Paper']['index_id'] = Solr::TYPE_PAPER.'_'.$this->id;
-					$data['Paper']['id'] = $this->id;
-					$data['Paper']['type'] = Solr::TYPE_PAPER;
-					$data['Paper']['paper_title'] = $this->data['Paper']['title'];
-					$data['Paper']['paper_description'] = $this->data['Paper']['description'];
-					$data['Paper']['user_id'] = $userData['User']['id'];
-					$data['Paper']['user_name'] = $userData['User']['name'];
-					$data['Paper']['user_username'] = $userData['User']['username'];
-					if(isset($this->data['Paper']['image'])){
-						$data['Paper']['paper_image'] = $this->data['Paper']['image'];
-					}
-					$solr = new Solr();
-					$solr->add($this->addFieldsForIndex($data));
+                     $this->addToOrUpdateSolr();
 
-					//create subscription for created paper 
-					if($created){
-						$subscriptionData = array('paper_id' => $this->id,
-				 							'user_id' => $userData['User']['id'],
-											'own_paper' => true,
-						);
-						$this->Subscription = new Subscription();
-						$this->Subscription->create();
-						$this->Subscription->save($subscriptionData);
-							
-					}
+                //create subscription for created paper
+                if($created){
+                    $subscriptionData = array('paper_id' => $this->id,
+                                        'user_id' => $this->data['Paper']['owner_id'],
+                                        'own_paper' => true,
+                    );
+                    $this->Subscription = new Subscription();
+                    $this->Subscription->create();
+                    $this->Subscription->save($subscriptionData);
 
+                }
 
 				}
 				else{
 					$this->log('Error while adding paper to solr! No paper id in afterSave()');
 				}
 			}
+
+            private function addToOrUpdateSolr(){
+            //get User information
+                App::import('model','Solr');
+				App::import('model','User');
+				App::import('model','Subscription');
+                $user = new User();
+
+                $user->contain();
+                $userData = $user->read(null, $this->data['Paper']['owner_id']);
+                $data['Paper']['index_id'] = Solr::TYPE_PAPER.'_'.$this->id;
+                $data['Paper']['id'] = $this->id;
+                $data['Paper']['type'] = Solr::TYPE_PAPER;
+                $data['Paper']['paper_title'] = $this->data['Paper']['title'];
+                $data['Paper']['paper_description'] = $this->data['Paper']['description'];
+                $data['Paper']['user_id'] = $userData['User']['id'];
+                $data['Paper']['user_name'] = $userData['User']['name'];
+                $data['Paper']['user_username'] = $userData['User']['username'];
+                if(isset($this->data['Paper']['image'])){
+                    $data['Paper']['paper_image'] = $this->data['Paper']['image'];
+                }
+                $solr = new Solr();
+                $solr->add($this->addFieldsForIndex($data));
+
+
+            }
 
 
 
@@ -416,18 +422,22 @@ function __construct(){
 					$sourceType = $source[0];
 					$sourceId   = $source[1];
 					$targetType = $data['Paper']['target_type'];
-
+                    $this->log($data);
 					if($this->isValidTargetType($targetType) &&
 					$this->isValidSourceType($sourceType) &&
 					isset($data['Paper']['target_id']))
 					{
 						if(count($source) == 2){
-							//prepare variables to indicate whole user or only topic as source
-							$user_id = $data['Paper']['user_id'];
-							//$user_id = $sourceId;
-							
-							$topic_id = null;
-							//if($sourceType == ContentPaper::USER) $user_id = $sourceId;
+                            if($sourceType == ContentPaper::USER){
+                              $user_id = $sourceId;
+                            } else{
+
+                                $user_id = $data['Paper']['user_id'];
+                            }
+                            //prepare variables to indicate whole user or only topic as source
+                           // $user_id = $sourceId;
+
+                            $topic_id = null;
 							if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
 							switch ($targetType){
 								case ContentPaper::PAPER:									
@@ -523,13 +533,6 @@ function __construct(){
 					$this->contain();
 					$paper = $this->read(null, $this->id);
 
-					if($categoryId && $topicId){
-						debug('topic in category');
-					}
-					
-					if($categoryId && $topicId){
-						debug('topic in category');
-					}					
 					
 					if($categoryId){
 						//whole user to a category
@@ -543,15 +546,15 @@ function __construct(){
 					//get all user topics associated to that paper  ( front page)
 					//check if already one of the users topics is associated to this paper itself (front page)
     				$paperTopics = $this->getTopicReferencesToOnlyThisPaper();
-
+                   // debug(count($paperTopics && !$categoryId));
 					//if paper has no topics referenced and there is no category referenced
-					if(count($paperTopics && !$categoryId) == 0) return self::RETURN_CODE_SUCCESS;
+					if(count($paperTopics) == 0  && !$categoryId) return self::RETURN_CODE_SUCCESS;
 
                     //"overwrite" all topic associations of the user with the "whole user association" by deleting all topics of this user
                     // in the specific category or paper-frontpage
 					if($categoryId == null){
                         //check if one of the user topics is in the paper topics (front page)
-                        $this->log('categoryid = null ');
+
                         foreach($userTopics as $userTopic){
 
                             foreach($paperTopics as $paperTopic){
@@ -562,8 +565,7 @@ function __construct(){
                             }
                         }
                     }else{
-                        $this->log('categoryid != null ');
-                          //check if one of the user topics is in the paper topics (front page)
+                       //check if one of the user topics is in the paper topics (front page)
                         foreach($userTopics as $userTopic){
                             foreach($categoryTopics as $categoryTopic){
                                 if($userTopic['id'] == $categoryTopic['ContentPaper']['topic_id']){
@@ -684,7 +686,7 @@ function __construct(){
 
 				$paper_id = $data['Paper']['target_id'];
                 return  $this->newContentForPaper($paper_id, null, $user_id, $topic_id);
-
+                
 			}
 
 
@@ -735,36 +737,63 @@ function __construct(){
 				return $solrFields;
 			}
 
-			function delete($id){
-				$this->removeUserFromSolr($id);
-				return parent::delete($id);
-			}
 
-			/**
-			 * remove the user from solr index
-			 *
-			 * @param string $id
-			 */
-			function removeUserFromSolr($id){
-				App::import('model','Solr');
-				$solr = new Solr();
-				$solr->delete(Solr::TYPE_PAPER . '_' . $id);
-			}
-
-   		/**
-		 *	hook into save process
-		 *
-		 */
-		function beforeSave(){
-			if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
-				$this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
-			}
-            if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
-                $this->data['Paper']['url'] = '';
+            private function deleteFromSolr(){
+                App::import('model','Solr');
+                $solr = new Solr();
+                $solr->delete(Solr::TYPE_PAPER.'_'.$this->id);
+                return true;
             }
 
 
-			return true;
-		}
+    function beforeSave(){
+        if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
+            $this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
+        }
+        if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
+            $this->data['Paper']['url'] = '';
+        }
+
+
+        return true;
+    }
+    function afterDelete(){
+        $this->deleteFromSolr();
+        return true;
+     }
+
+    function disable(){
+
+        if($this->data['Paper']['enabled'] == true){
+            //disable Paper
+            $this->data['Paper']['enabled'] = false;
+            $this->save($this->data);
+            //delete solr entry
+            $this->deleteFromSolr();
+
+            return true;
+        }
+        //already disabled
+        return false;
+    }
+    function enable(){
+
+        if($this->data['Paper']['enabled'] == false){
+            //delete all posts_users entries with cascading and callbacks
+
+            //disable post
+            $this->data['Paper']['enabled'] = true;
+            $this->updateSolr = true;
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
+    }
+
+
+
+
 }
 ?>

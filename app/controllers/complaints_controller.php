@@ -7,7 +7,7 @@ class ComplaintsController extends AppController {
 
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
-	var $helpers = array('Form', 'Time');
+	var $helpers = array('Form', 'MzTime');
 
 	public function beforeFilter(){
 		parent::beforeFilter();

@@ -4,7 +4,7 @@ class PapersController extends AppController {
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session', 'Papercomp', 'Upload');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
+	var $helpers = array('Text' ,'MzTime', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
 
 	var $allowedSettingsActions = array('image');
 
@@ -32,6 +32,7 @@ class PapersController extends AppController {
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
 			             'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
+                          'conditions' => array('Paper.enabled' => true),
 		)
 		);
 
@@ -67,6 +68,14 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
+        $this->Paper->contain(array('User.id', 'User.name', 'User.username', 'User.image',
+                                      'Category' => array('fields' => array('content_paper_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
+        $paper = $this->Paper->read(null, $paper_id);
+        if($paper['Paper']['enabled'] == false){
+            $this->Session->setFlash(__('This paper has been blocked temporarily due to infringement.', true));
+			$this->redirect($this->referer());
+        }
+
 		/*writing all settings for the paginate function.
 		 important here is, that only the paper's posts are subject for pagination.*/
 		// PROBLEM: tried to only show every post once. if a post is reposted, the newest date counts,
@@ -78,7 +87,8 @@ class PapersController extends AppController {
 				                 		'table' => 'category_paper_posts',
 				                 		'alias' => 'CategoryPaperPost',
 				                		'type' => 'RIGHT',
-				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id'),
+				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id',
+                                                                'Post.enabled' =>true),
 		),
 		),
 			
@@ -87,9 +97,10 @@ class PapersController extends AppController {
 	          			'group' => array('CategoryPaperPost.post_id'),
 		//limit of records per page
 			          	'limit' => 9,
-			
+		//the created field last_post_repost_date is important to just get the last entry with the last_Reposter
   						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
+                                             
 
 		//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('User.id','User.username','User.name',  'User.image'),
@@ -125,8 +136,8 @@ class PapersController extends AppController {
 		}
 		// END - last relevant reposter
 		 
-		$this->Paper->contain('User.id', 'User.username', 'User.image', 'Category.content_paper_count', 'Category.name', 'Category.id', 'Category.category_paper_post_count');
-		$paper = $this->Paper->read(null, $paper_id);
+
+        
 		//add information if the user (if logged in) has already subscribed the paper
 		$this->Subscription->contain();
 		if($this->Auth->user('id') && ($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $paper['Paper']['id'])))) > 0){
@@ -147,7 +158,7 @@ class PapersController extends AppController {
 
 
 		if (empty($this->data)) {
-			$this->Session->setFlash(__('Error while uploading photo', true));
+			$this->Session->setFlash(__('Error during photo upload', true));
 			$this->redirect($this->referer());
 		}
 
@@ -168,7 +179,7 @@ class PapersController extends AppController {
 				if(is_array($image)){
 
 					$paper_data['Paper']['image'] = $image;
-					$this->Paper->doAfterSave = true;
+					$this->Paper->updateSolr = true;
 					if($this->Paper->save($paper_data, true, array('image'))){
 						$this->Session->setFlash(__('Image has been saved', true), 'default', array('class' => 'success'));
 						$this->User->updateSolr = true;
@@ -207,20 +218,25 @@ class PapersController extends AppController {
 		if(isset($paper_id)){
 
 			$this->Paper->contain();
-			if($this->Paper->read(null, $paper_id)){
+            $this->data= $this->Paper->read(null, $paper_id);
+			if($this->data['Paper']['id']){
+                if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
+                    if($this->Paper->subscribe($this->Auth->user('id'))){
+                        $this->Session->setFlash(sprintf(__('You successfully subscribed to the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
+                    } else {
+                        $this->Session->setFlash(__('Could not subscribe this paper.', true));
+                    }
+                }else {
+                      $this->Session->setFlash(__('This is your own paper. Your own papers are always subscribed automatically.', true));
+                }
+            } else {
+                $this->Session->setFlash(__('Invalid paper id.', true));
+            }
 
-				if($this->Paper->subscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(__('Subscribed successfully.', true), 'default', array('class' => 'success'));
-				} else {
-					$this->Session->setFlash(__('Could not subscribe', true));
-				}
-			} else {
-				$this->Session->setFlash(__('Invalid paper id', true));
-			}
 		}
 		else {
 			// no paper $id
-			$this->Session->setFlash(__('No paper id', true));
+			$this->Session->setFlash(__('Invalid paper id.', true));
 		}
 		$this->redirect($this->referer());
 	}
@@ -234,13 +250,18 @@ class PapersController extends AppController {
 		if(isset($paper_id)){
 
 			$this->Paper->contain();
-			if($this->Paper->read(null, $paper_id)){
 
-				if($this->Paper->unsubscribe($this->Auth->user('id'))){
-					$this->Session->setFlash(__('Unsubscribed successfully.', true), 'default', array('class' => 'success'));
-				} else {
-					$this->Session->setFlash(__('Could not unsubscribe', true));
-				}
+            $this->data= $this->Paper->read(null, $paper_id);
+			if($this->data['Paper']['id']){
+                if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
+                    if($this->Paper->unsubscribe($this->Auth->user('id'))){
+                        $this->Session->setFlash(sprintf(__('You successfully unsubscribed the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
+                    } else {
+                        $this->Session->setFlash(__('Could not unsubscribe', true));
+                    }
+                }else {
+                      $this->Session->setFlash(__('This is your own paper. You cannot unsubscribe your own papers, but you could delete them instead of that.', true));
+                }
 			} else {
 				$this->Session->setFlash(__('Invalid paper id', true));
 			}
@@ -360,11 +381,11 @@ class PapersController extends AppController {
 			//check if paper id is as param
 			if(empty($this->params['pass'][1]) || !isset($this->params['pass'][1])){
 				//no param for category
-				$this->Session->setFlash(__('No param for paper', true));
+				$this->Session->setFlash(__('No paper parameter passed.', true));
 				$this->redirect(array('action' => 'index'));
 			}
 			if(!$this->Paper->isValidTargetType($this->params['pass'][0]) || !isset($this->params['pass'][1])){
-				$this->Session->setFlash(__('Wrong type do add for', true));
+				$this->Session->setFlash(__('Invalid parameter for the target passed.', true));
 				$this->redirect(array('action' => 'index'));
 			}
 			//type for content for hidden field
@@ -386,7 +407,7 @@ class PapersController extends AppController {
 
 			$this->Paper->create();
 			$this->data['Paper']['owner_id'] = $this->Auth->User("id");
-			$this->Paper->doAfterSave = true;
+			$this->Paper->updateSolr = true;
 			if ($this->Paper->save($this->data)) {
 		/*		$routeData = array('Route' => array(
 									'source' => $this->data['Paper']['title'],
@@ -404,7 +425,7 @@ class PapersController extends AppController {
 					$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->Paper->id));
 			//	}
 			//	else{
-					$this->Session->setFlash(__('Paper saved, error wile saving the paper route', true));
+					$this->Session->setFlash(__('Paper saved, error while saving the paper route', true));
 			//	}
 			} else {
 				$this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
@@ -428,19 +449,27 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		if (!empty($this->data)) {
-			$this->Paper->doAfterSave = true;
-			if ($this->Paper->save($this->data)) {
-				$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->data = $this->Paper->read(null, $id);
-			$this->set('owner_id', $this->data['Paper']['owner_id']);
-		}
+        $this->Paper->contain();
+        $paper =  $this->Paper->read(array('id','owner_id'), $id);
+        if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
+            if (!empty($this->data)) {
+                $this->Paper->updateSolr = true;
+                if ($this->Paper->save($this->data)) {
+                    $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
+                    $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
+                }
+            }
+            if (empty($this->data)) {
+                $this->data = $this->Paper->read(null, $id);
+                $this->set('owner_id', $this->data['Paper']['owner_id']);
+            }
+         } else {
+            $this->Session->setFlash(__('The Paper does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
+
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
@@ -454,12 +483,19 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid id for paper', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Paper->delete($id, true)) {
-			$this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Paper was not deleted', true));
-		$this->redirect(array('action' => 'index'));
+        $this->Paper->contain();
+        $paper =  $this->Paper->read(array('id','owner_id'), $id);
+        if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
+            if ($this->Paper->delete($id, true)) {
+                $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
+                $this->redirect(array('action'=>'index'));
+            }
+            $this->Session->setFlash(__('Paper was not deleted', true));
+            $this->redirect(array('action' => 'index'));
+        } else {
+            $this->Session->setFlash(__('The Paper does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
 	}
 
 	/**
@@ -475,7 +511,7 @@ class PapersController extends AppController {
 		}
 		//check if paper belongs to logged in user
 		if(!parent::canEdit('Paper', $paper_id, 'owner_id')){
-			$this->Session->setFlash(__('Wrong permissions', true));
+			$this->Session->setFlash(__('No permissions', true));
 			$this->redirect($this->referer());
 		}
 		switch ($path){
@@ -546,6 +582,74 @@ class PapersController extends AppController {
 
 		// @todo error log
 	}
+    function admin_index() {
+        $this->paginate = array('contain' => array('User.id', 'User.username'));
+		$this->set('papers', $this->paginate());
+	}
+    function admin_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for paper', true));
+			$this->redirect($this->referer());
+		}
+        $this->Paper->contain();
+        $paper =  $this->Paper->read(array('id'), $id);
+
+        // second param = cascade -> delete associated records from hasmany , hasone relations
+        if ($this->Paper->delete($id, true)) {
+            $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
+          //  $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+        $this->redirect($this->referer());
+        }
+        $this->Session->setFlash(__('Paper was not deleted', true));
+        $this->redirect($this->referer());
+
+    }
+    function admin_disable($paper_id){
+        $this->Paper->contain();
+        $paper = $this->Paper->read(null, $paper_id);
+        if(isset($paper['Paper']['id']) && !empty($paper['Paper']['id'])){
+            if($paper['Paper']['enabled'] == false){
+                $this->Session->setFlash('This paper is already disabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Paper->disable()){
+                    $this->Session->setFlash('Paper has been disabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This paper could not be disabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid paper');
+            $this->redirect($this->referer());
+
+        }
+    }
+    function admin_enable($paper_id){
+        $this->Paper->contain();
+        $paper = $this->Paper->read(null, $paper_id);
+        if(isset($paper['Paper']['id']) && !empty($paper['Paper']['id'])){
+            if($paper['Paper']['enabled'] == true){
+                $this->Session->setFlash('This paper is already enabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Paper->enable()){
+                    $this->Session->setFlash('Paper has been enabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This Paper could not be enabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid paper');
+            $this->redirect($this->referer());
+
+        }
+    }
 
 }
 ?>

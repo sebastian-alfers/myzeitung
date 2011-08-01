@@ -18,7 +18,8 @@ var $belongsTo = array(
 		'order' => '',
 		//counting just reposts
 		'counterCache' => 'posts_user_count',
-		'counterScope' => array('repost' => true)	
+		'counterScope' => array('repost' => true,
+                                'PostUser.enabled' => true),
 		),
 	'User' => array(
 		'className' => 'User',
@@ -28,7 +29,8 @@ var $belongsTo = array(
 		'order' => '',
 		//counting just reposts
 		'counterCache' => 'posts_user_count',
-		'counterScope' => array('repost' => true)
+		'counterScope' => array('repost' => true,
+                             'PostUser.enabled' => true),
 		),
 
 
@@ -87,18 +89,77 @@ var $belongsTo = array(
 				$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
 
 				if($created){
-					$this->_publishPostInPaperAndCategories($userData);	
+					//$this->_publishPostInPaperAndCategories($userData);
+                    $this->_publishInPapersAndCategories();
+
 				}
 				
 
 			}
+			/**
+             * function to publish a post in papers:
+             * if someones writes a post or reposts a posts, this function reads all user/topic subscriptions (content_papers) of the author of the post, or the reposter ( PostUser-user_id).
+             * after that it writes a new record in category_paper_posts for each subscription (content_papers).
+             */
 				
-				
+            private function _publishInPapersAndCategories(){
+                App::import('model','ContentPaper');
+                $this->ContentPaper = new ContentPaper();
+                //read all subscriptions for the PostUser entry
+                //post posted into a topic:
+                //post needs to be published everywhere, where the whole user (topic = null) or the specific topic is subscribed
+                if(isset($this->data['PostUser']['topic_id']) && !empty($this->data['PostUser']['topic_id'])){
+                    $conditions = array('OR' => array(
+                        //user_id and topic=Null
+                                                 array('user_id' => $this->data['PostUser']['user_id'],
+                                                       'topic_id' => null),
+                        // OR  user_id and topic
+                                                array('user_id' => $this->data['PostUser']['user_id'],
+                                                      'topic_id' =>$this->data['PostUser']['topic_id']),
+                    ));
+                }else{
+                    //post not posted into a topic:
+                    //post needs only to be  published everywhere, where the whole user (topic = null) subscribed
+                    $conditions = array('user_id' => $this->data['PostUser']['user_id'],
+                                        'topic_id' => null);
+                }
+                $this->ContentPaper->contain();
+                $subscriptions = $this->ContentPaper->find('all',array('conditions' => $conditions));
 
+                //publish post in each relevant paper or category
+                foreach($subscriptions as $subscription){
+                    //set CategoryPaperPost data
+                    $CategoryPaperPostData['post_id'] = $this->data['PostUser']['post_id'];
+                    $CategoryPaperPostData['post_user_id'] = $this->id;
+                    $CategoryPaperPostData['content_paper_id'] = $subscription['ContentPaper']['id'];
+                    $CategoryPaperPostData['paper_id'] = $subscription['ContentPaper']['paper_id'];
+                    $CategoryPaperPostData['category_id'] = $subscription['ContentPaper']['category_id'];
+                    //very important! : keep the posts_user created date
+                    $CategoryPaperPostData['created'] = $this->data['PostUser']['created'];
+                    if(isset($this->data['PostUser']['repost']) && $this->data['PostUser']['repost'] == true){
+                        //set the id and username of the reposter, if PostUser-Entry is just a repost
+                        $user = $this->User->read('username', $this->data['PostUser']['user_id']);
+                        $CategoryPaperPostData['reposter_id'] = $this->data['PostUser']['user_id'];
+						$CategoryPaperPostData['reposter_username'] = $user['User']['username'];
+                    }
+                    $this->CategoryPaperPost->create();
+                    $this->CategoryPaperPost->save($CategoryPaperPostData);
+                }
+            }
+            private function _unpublishFromPapersOrCategories(){
+                App::import('model','CategoryPaperPost');
+                $this->CategoryPaperPost = new CategoryPaperPost();
 
-				
+                $this->CategoryPaperPost->contain();
+                $this->CategoryPaperPost->deleteAll(array('post_user_id' => $this->id),false, true);
+
+            }
+
+				/*
 			private function _publishPostInPaperAndCategories($userData){
-				App::import('model','User');
+
+
+                App::import('model','User');
 				// arrays for Papers and Categories the new post / repost goes into. Needed to know which post-counters have to be updated afterwards.
 				$affectedPapers = array();
 				$affectedCategories = array();
@@ -130,7 +191,7 @@ var $belongsTo = array(
 					//now all references to whole user
 					$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
 
-					foreach($wholeUserReferences as $wholeUserReference){
+                    foreach($wholeUserReferences as $wholeUserReference){
 							
 						//place post in paper or category associated to the whole user
 						$categoryPaperPostData = array('created' => $this->data['PostUser']['created'], 'post_id' => $post_id, 'paper_id' => $wholeUserReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $wholeUserReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
@@ -143,41 +204,50 @@ var $belongsTo = array(
 						}
 							
 						$this->CategoryPaperPost->create();
+                        
 						$this->CategoryPaperPost->save($categoryPaperPostData);
 					}
 
 					//@ todo sebastian -> refactor -> alles referenzen zu dem topic laden (wenn vorhanden) und dann post in index schreiben
 					//now all references to all topics
 					$topicReferences = $this->User->getUserTopicReferences($user_id);
-
+                    $this->log('topicref');
+                    $this->log($topicReferences);
 					if(isset($this->data['PostUser']['topic_id'])){
 						foreach($topicReferences as $topicReference){
 								
+                            $this->log($topicReference['Topic']['id']);
 
+                            $this->log($this->data['PostUser']['topic_id']);
+                            
 							if($topicReference['Topic']['id'] != $this->data['PostUser']['topic_id']){
 								//check, if current topic-reference is equal to the topic, the post has been placed in
-								continue;
+                                continue;
 							}
 							//if($categoryPaperPostData[''])
 							//place post in paper or category associated to the posts topic
 								
 							$categoryPaperPostData = array('created' => $this->data['PostUser']['created'], 'post_id' => $post_id, 'paper_id' => $topicReference['Paper']['id'], 'post_user_id' => $this->id, 'content_paper_id' => $topicReference['ContentPaper']['id'], 'reposter_id' => $reposter_id, 'reposter_username' => $reposter_username);
 							
-							$affectedPapers[$wholeUserReference['Paper']['id']] = '';
+							$affectedPapers[$topicReference['Paper']['id']] = '';
 							
-							if($topicReference['Category']['id']){
+							if(isset($topicReference['Category']['id']) && !empty($topicReference['Category']['id'])){
+                                $this->log('AWESOME');
 								$categoryPaperPostData['category_id'] = $topicReference['Category']['id'];
-								$affectedCategories[$wholeUserReference['Category']['id']] = '';
+								$affectedCategories[$topicReference['Category']['id']] = '';
 							}
 								
 								
 								
 							$this->CategoryPaperPost->create();
+                           
+                            $this->log($categoryPaperPostData);
 							$this->CategoryPaperPost->save($categoryPaperPostData);
 						}
 					}
 
 					//update index to associate paper->content / category->content
+
 
 					
 					//updating category_paper_post_counters of all papers and categores the post was added too in category_paper_post table (a post counts only once per paper or category - a post and several reposts of the same post are counted as one. )
@@ -213,10 +283,37 @@ var $belongsTo = array(
 				else{
 					$this->debug('Error while reading user for Post!');
 				}
-			}
+			} */
 				
-			function __construct(){
-				parent::__construct();
-			}
+    function __construct(){
+        parent::__construct();
+    }
+    function disable(){
+
+        if($this->data['PostUser']['enabled'] == true){
+            //disable subscription
+            $this->data['PostUser']['enabled'] = false;
+            $this->_unpublishFromPapersOrCategories();
+            $this->save($this->data);
+            return true;
+        }
+        //already disabled
+        return false;
+    }
+    function enable(){
+
+        if($this->data['PostUser']['enabled'] == false){
+
+
+            //disable subscription
+            $this->data['PostUser']['enabled'] = true;
+            $this->_publishInPapersAndCategories();
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
+    }
 }
 ?>

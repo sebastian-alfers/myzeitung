@@ -20,18 +20,14 @@
 
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
-				$link_data['custom'] = array('style' => 'display:inline;overflow:hidden;height:50px;width:50px;');
-				echo $image->render(array('image' => $img), 50, 50,null, $link_data, 'post');				
+				$link_data['additional'] = 'display:inline;';
+				echo $image->render(array('image' => $img), 45, 45,null, $link_data, 'post');
                 // post headline
-                $headline = substr($post->post_title,0,27);
-                if(strlen($post->post_title) > 27){
-                    $headline .='...';
-                }
                                     ?>
 
-				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $headline;?></a></h6>
+				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $this->Text->truncate($post->post_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></h6>
 				<br />
-				<span class="from"><?php __('by');?> <a href="/users/view/<?php echo $post->user_id; ?>"><strong><?php echo $post->user_name; ?></strong></a>, <?php echo $this->Time->timeAgoInWords($post->timestamp); ?></span>
+				<span class="from"><?php __('by');?> <a href="/users/view/<?php echo $post->user_id; ?>"><strong><?php echo $post->user_username; ?></strong></a> <?php /*echo $this->MzTime->timeAgoInWords($post->timestamp);*/ ?></span>
 				<?php /*
 				<ul class="iconbar">
 					<li class="reposts tt-title" title="1 repost">1</li>

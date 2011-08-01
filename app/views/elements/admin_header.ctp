@@ -31,7 +31,9 @@
 			<div id="user-nav">
                 <?php if($is_superadmin): ?>
                     <ul>
-				        <li><a href="/admin/users/index"><?php __('User Management'); ?></a></li>
+                        <li><a href="/admin/papers/index"><?php __('Papers'); ?></a></li>
+                        <li><a href="/admin/posts/index"><?php __('Posts'); ?></a></li>
+				        <li><a href="/admin/users/index"><?php __('Users'); ?></a></li>
 				    </ul>
                 <?php endif; ?>
 				<ul>

@@ -1,11 +1,11 @@
 <?php
 
-if($session->read('Auth.user.id')){
+if($session->read('Auth.User.id')){
     echo $this->element('users/modal_subscribe');
 }
 ?>
 
-<?php if($session->read('Auth.user.id')): ?>
+<?php if($session->read('Auth.User.id')): ?>
 <script type="text/javascript">
 
 $(document).ready(function() {

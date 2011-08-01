@@ -6,7 +6,7 @@ class HomeController extends AppController {
 	var $name = 'Home';
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
 	var $uses = array('Paper', 'User', 'Post');
-	var $helpers = array('Time', 'Image', 'Js' => array('Jquery'));
+	var $helpers = array('MzTime', 'Image', 'Js' => array('Jquery'));
 
 
 	public function beforeFilter(){

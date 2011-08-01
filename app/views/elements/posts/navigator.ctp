@@ -49,11 +49,13 @@ if($has_topics){
                                 <li class="comments tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['comment_count'];?><span>.</span></li>
 							</ul>
 
-                            <?php // post headline
-                                $headline = substr($post['Post']['title'],0,50);
+                                <?php $headline = $this->Text->truncate($post['Post']['title'], 50,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
+                                <?php // post headline
+                               /* $headline = substr($post['Post']['title'],0,50);
                                 if(strlen($post['Post']['title']) > 50){
                                     $headline .='...';
-                            }
+                                    
+                            }*/
                             ?>
 							<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
@@ -74,28 +76,24 @@ if($has_topics){
 							<?php //end image rendering  */?>
 							<?php else:?>
 							<?php //not image -> show text preview?>
-								<p>
-								<?php echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
-								</p>
+                                <p>
+								<?php //echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
+								<?php echo $this->Text->truncate(strip_tags($post['Post']['content']), 175,array('ending' => '...'.' '.$this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])), 'exact' => false, 'html' => true)); ?>
+                                </p>
 							<?php endif;  ?>
 							<ul class="footer">
 
-								<li><?php echo $this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Week'));?></li>
+								<li><?php echo $this->MzTime->timeAgoInWords($post['Post']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></li>
                                 <?php // shorten the username depending of: post is shown as repost? -> short names? post regular -> longer names?>
                                   <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true) ||
                                            ($this->params['controller'] == 'papers' && $this->params['action'] == 'view' && !empty($post['lastReposter']['id']))){
-                                           if(strlen($post['User']['username']) > 5){
-                                               $linktext = substr($post['User']['username'],0,4).'...';
-                                           }else{
-                                                $linktext = $post['User']['username'];
-                                           }
+
+                                           $linktext = $this->Text->truncate($post['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false));
+
                                         //not paper-view or user-view OR not a repost
                                         }else{
-                                             if(strlen($post['User']['username']) > 10){
-                                               $linktext = substr($post['User']['username'],0,10).'...';
-                                           }else{
-                                                $linktext = $post['User']['username'];
-                                           }
+                                           $linktext = $this->Text->truncate($post['User']['username'], 12,array('ending' => '...', 'exact' => true, 'html' => false));
+
                                         }?>
                                 <?php $tipsy_name= $post['User']['username'];
                                         if($post['User']['name']){
@@ -111,7 +109,7 @@ if($has_topics){
                                                 if($user['User']['name']){
                                                     $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
                                                 }?>
-                                                <?php if(strlen($user['User']['username']) > 5){ $linktext = substr($user['User']['username'],0,4).'...';}else{$linktext = $user['User']['username'];}?>
+                                                <?php $linktext = $this->Text->truncate($user['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $user['User']['id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 											<?php endif;?> 
 										<?php elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?> 
@@ -122,7 +120,7 @@ if($has_topics){
                                                 if($post['lastReposter']['name']){
                                                     $tipsy_name = $post['lastReposter']['username'].' - '.$post['lastReposter']['name'];
                                                 }?>
-                                                 <?php if(strlen($post['lastReposter']['username']) > 5){ $linktext = substr($post['lastReposter']['username'],0,4).'...';}else{$linktext = $post['lastReposter']['username'];}?>
+                                                <?php $linktext = $this->Text->truncate($post['lastReposter']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $post['lastReposter']['id']),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 											<?php endif;?>
 										<?php endif;?>
@@ -131,10 +129,10 @@ if($has_topics){
 								<li>
 								<?php //echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?>
 								<?php 
-								$link_data = array();
-								$link_data['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
-								$link_data['custom'] = array('class' => 'user-image');
-								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $link_data);
+								$image_options = array();
+								$image_options['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
+								$image_options['custom'] = array('class' => 'user-image');
+								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);
 
 //								}
 								?>

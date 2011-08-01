@@ -66,18 +66,31 @@ class Topic extends AppModel {
 	function beforeDelete(){
 		App::import('model','Post');
 		$this->Post = new Post();
-		$this->Post->topicChanged = true;
 		$this->Post->Contain();
-		$posts = $this->Post->findAllByTopic_id($this->id);
+		//change all Post's topics that have the deleted topic. the posts_users entry will be update automatically for those
+        $posts = $this->Post->findAllByTopic_id($this->id);
 		foreach($posts as $post){
+
 			$post['Post']['topic_id'] = null;
+            $this->Post->topicChanged= true;
 			$this->Post->save($post);
 		}
-		
+        //change all reposts with the deleted topic id to topic = null;
+		App::import('model','PostUser');
+        $this->PostUser = new PostUser;
+
+        $this->PostUser->contain();
+        $reposts = $this->PostUser->find('all', array('conditions' => array('PostUser.topic_id' => $this->id, 'PostUser.repost' => true)));
+        foreach($reposts as $repost){
+           //delete old posts_users entry (true = dependent = delete all cascading stuff)
+           $this->PostUser->delete($repost['PostUser']['id'], true);             
+           //save new entry with no topic and old date (new subscriptions will be created)
+           $repost['PostUser']['topic_id'] = null;
+           unset($repost['PostUser']['id']);
+           $this->PostUser->create();
+           $this->PostUser->save($repost);
+        }
 		return true;
-		
-		
-		
 	}
 
 }

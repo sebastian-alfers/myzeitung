@@ -4,7 +4,7 @@
 		
 	
 	<fieldset>
- 		<legend><?php __('Add Content for Paper'); ?></legend>
+ 		<legend><?php __('Add Content to your Paper'); ?></legend>
 	<?php
 		echo $this->Form->input('content_data', $content_data);
 		echo $this->Form->hidden('target_type',array('value' => $target_type));

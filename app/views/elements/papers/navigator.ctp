@@ -24,13 +24,13 @@
                                 <?php $tipsy_title = sprintf(__n('%d author', '%d authors', $paper['Paper']['content_paper_count'],true), $paper['Paper']['content_paper_count']);?>
 								<li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['content_paper_count'];?></li>
 							</ul>
-							<h4><?php echo $paper['Paper']['title'];?></h4>
-                            <?php echo $this->Html->link(
-                                $image->render($paper['Paper'], 118, 100, array(), array(), ImageHelper::PAPER),
-                                    array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']),
-                                    array('escape' => false));?>
-
-						
+							<h4><?php echo $this->Text->truncate($paper['Paper']['title'], 20,array('ending' => '...', 'exact' => false, 'html' => false));?></h4>
+                                <?php
+                                    $image_options = array();
+                                    $image_options['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
+                                    $image_options['additional'] = 'margin-left:14px';
+                                    echo $image->render($paper['Paper'], 110, 110, array(), $image_options, ImageHelper::PAPER);
+                                ?>
 
 							<ul class="footer">
 								<li><?php echo __('created by', true).':';?></li>
@@ -39,9 +39,15 @@
                                <?php  //debug( $image->render($paper['User'], 30, 30, array("class" => 'user-image'), array())); die();?>
 
                                 <li>
+                                    <?php
+                                   // $image_options = array();
+                                   // $image_options['url'] = array('controller' => 'users', 'action' => 'view', $paper['User']['id']);
+                                   // $image_options['class'] ='user-image';
+                                    //echo $image->render($paper['User'], 30, 30, array(), $image_options, ImageHelper::USER);
+                                ?>
                                 <?php echo $this->Html->link(
-                                            $image->render($paper['User'], 30, 30, array("class" => 'user-image'), array(), ImageHelper::USER)
-                                            .'<strong>'.$paper['User']['username'].'</strong><br />'.$paper['User']['name'],
+                                            $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image'), ImageHelper::USER)
+                                            .'<strong>'.$paper['User']['username'].'</strong><br />'.$this->Text->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
                                                 array('controller' => 'users', 'action' => 'view', $paper['User']['id']),
                                                 array('escape' => false));?>
 								</li>

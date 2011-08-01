@@ -24,6 +24,7 @@ class Comment extends AppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => true,
+            'counterScope' => array('Comment.enabled' => true),
 
 		),
 		'Post' => array(
@@ -32,7 +33,8 @@ class Comment extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
-			'counterCache' => true
+			'counterCache' => true,
+            'counterScope' => array('Comment.enabled' => true),
 		),
 		'ParentComment' => array(
 			'className' => 'Comment',
@@ -59,7 +61,34 @@ class Comment extends AppModel {
 		)
 	);
 	
+    function disable(){
 
+        if($this->data['Comment']['enabled'] == true){
+            //disable Comment
+            $this->data['Comment']['enabled'] = false;
+            $this->save($this->data);
+
+
+            return true;
+        }
+        //already disabled
+        return false;
+    }
+    function enable(){
+
+        if($this->data['Comment']['enabled'] == false){
+            //delete all posts_users entries with cascading and callbacks
+
+            //disable Comment
+            $this->data['Comment']['enabled'] = true;
+
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
+    }
 
 
 }

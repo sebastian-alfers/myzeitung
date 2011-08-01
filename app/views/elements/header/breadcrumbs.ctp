@@ -64,12 +64,12 @@ if($this->params['controller'] == 'posts'){
 	}
 }elseif($this->params['controller'] == 'conversations'){
 	if($this->params['action'] == 'index'){
-		$this->Html->addCrumb(__('Conversations', true), null , array('escape' => false));
+		$this->Html->addCrumb(__('Messages', true), null , array('escape' => false));
 	}elseif($this->params['action'] == 'add'){
-		$this->Html->addCrumb(__('Conversations', true), array('controller' => 'conversations', 'action' => 'index') , array('escape' => false));
+		$this->Html->addCrumb(__('Messages', true), array('controller' => 'conversations', 'action' => 'index') , array('escape' => false));
 		$this->Html->addCrumb(__('New Message', true), null , array('escape' => false));
 	}elseif($this->params['action'] == 'view'){	
-		$this->Html->addCrumb(__('Conversations', true), array('controller' => 'conversations', 'action' => 'index') , array('escape' => false));
+		$this->Html->addCrumb(__('Messages', true), array('controller' => 'conversations', 'action' => 'index') , array('escape' => false));
 		$this->Html->addCrumb($conversation['Conversation']['title'], null , array('escape' => false));
 	}
 }

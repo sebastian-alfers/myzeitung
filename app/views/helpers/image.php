@@ -346,9 +346,6 @@ class ImageHelper extends Helper {
 			if(isset($container_data['custom'])){
 				$custom_img_data = $container_data['custom'];
 			}
-            if(isset($container_data['additional'])){
-				$additional_img_data = $container_data['custom'];
-			}
 			if(!isset($custom_img_data['style'])){
 				$custom_img_data['style'] = 'overflow:hidden;height:'.$height.'px;width:'.$width.'px;';
 			}
@@ -365,6 +362,7 @@ class ImageHelper extends Helper {
         elseif(isset($container_data['tag'])){
             //also make link out of it
             $custom_img_data = array();
+            $custom_img_data['tag-class'] = '';
             if(isset($container_data['custom'])){
                 $custom_img_data = $container_data['custom'];
             }
@@ -382,12 +380,15 @@ class ImageHelper extends Helper {
             }
             //if you need the standard styles + some additional
             if(isset($container_data['additional'])){
-                $custom_img_data['style'] .= $container_data['additional'];
+            $custom_img_data['style'] .= $container_data['additional'];
             }
-
+             //if you need the standard styles + some additional
+            if(isset($container_data['tag-class'])){
+            $custom_img_data['tag-class'] = 'class="'.$container_data['tag-class'].'"';
+            }
             //sourround img with container
             $t = $container_data['tag'];
-            return '<'.$t.' style="'.$custom_img_data['style'].'">'.$img.'</'.$t.'>';
+            return '<'.$t.' '.$custom_img_data['tag-class'].' style="'.$custom_img_data['style'].'">'.$img.'</'.$t.'>';
         }
         else{
 			return $img;

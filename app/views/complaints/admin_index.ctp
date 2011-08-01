@@ -42,17 +42,17 @@
         <?php endif; ?>
         <?php if(!empty($complaint['Complaint']['user_id'])): ?>
 		<td>
-			<?php __('User:'); ?> <a href="/users/view/<?php echo $complaint['User']['id']; ?>" target="blank"><?php echo $complaint['User']['name']; ?></a>
+			<?php __('User:'); ?> <a href="/users/view/<?php echo $complaint['User']['id']; ?>" target="blank"><?php echo $complaint['User']['username']; ?></a>
 		</td>
         <?php endif; ?>
 		<td><?php
-            $count = count(unserialize($complaint['Complaint']['comments']));
-            if($count > 1){
-                echo $count . " " . __('comments', true);
-            }
-            else{
-                echo $count . " " . __('comment', true);
-            }
+
+            if(isset($complaint['Complaint']['comments']) && !empty($complaint['Complaint']['comments'])){
+                $complaint['Complaint']['comments'] =  unserialize($complaint['Complaint']['comments']);
+                $count= count($complaint['Complaint']['comments']);
+                echo sprintf(__n('%d comment', '%d comments', $count, true), $count);
+
+             }
 
                 ?></td>
 		<td>

@@ -23,9 +23,35 @@ class Subscription extends AppModel {
 			'counterScope' => array('own_paper' => false),
 				)
 	);
+    function __construct(){
+        parent::__construct();
+    }
+    function disable(){
+
+        if($this->data['Subscription']['enabled'] == true){
+            //disable subscription
+            $this->data['Subscription']['enabled'] = false;
+            $this->save($this->data);
+
+            return true;
+        }
+        //already disabled
+        return false;
+    }
+    function enable(){
+
+        if($this->data['Subscription']['enabled'] == false){
+
+
+            //disable subscription
+            $this->data['Subscription']['enabled'] = true;
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
+    }
 }
 
-		function __construct(){
-			parent::__construct();
-		}
 ?>

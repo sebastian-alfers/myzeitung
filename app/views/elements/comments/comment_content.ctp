@@ -11,7 +11,7 @@
         echo $image->render($current_comment['User'], 65, 65, array("alt" => $current_comment['User']['username']), $link_data); ?>
 
 		<?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']));?>
-		<?php echo $this->Time->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
+		<?php echo $this->MzTime->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
 </p>
 	<p class="content">
 	    <span class="info">kommentar</span>
@@ -24,7 +24,7 @@
 		$comment_user_id = $current_comment['Comment']['user_id'];
 		$logged_in_user_id = $session->read('Auth.User.id');
 		
-		if($comment_user_id == $logged_in_user_id): ?>
+		if($comment_user_id == $logged_in_user_id || $logged_in_user_id == $post_owner): ?>
 			<?php echo $this->Html->link('<span class="reply-icon"></span>'. __('Remove', true), array('controller' => 'comments', 'action' => 'delete', $current_comment['Comment']['id']), array('escape' => false, 'class' => 'btn', ));?>
 		<?php endif; ?>
 

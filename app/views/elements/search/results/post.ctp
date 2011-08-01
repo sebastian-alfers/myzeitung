@@ -27,20 +27,14 @@
 	$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
 	echo $image->render(array('image' => $img), 58, 58,array("alt" => $post->post_title), $link_data, 'post');
     // post headline
-    $headline = substr($post->post_title,0,60);
-    if(strlen($post->post_title) > 60){
-    $headline .='...';
-    }
-    $content_preview= substr($post->post_content_preview,0,150);
-    if(strlen($post->post_content_preview) > 150){
-    $content_preview .='...';
-    }
-    //$content_preview =
+    $headline = $this->Text->truncate($post->post_title, 55,array('ending' => '...', 'exact' => true, 'html' => false));
+    $content_preview= $this->Text->truncate($post->post_content, 140,array('ending' => '...', 'exact' => true, 'html' => false));
+
 ?>
     </div>
 <div class="left">
-	<h3><?php echo $headline;?></h3>
-	<p><?php echo $content_preview;?></p>
+	<h3><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post->id));?></h3>
+	<p><?php echo $this->Html->link($content_preview,array('controller' => 'posts', 'action' => 'view', $post->id)) ;?></p>
 	<p class="from"><strong><?php echo __('Post', true);?></strong> <?php echo __('from', true);?> <a><strong><?php echo $post->user_username;?></strong></a> &#8212; <?php echo $post->user_name?></p>
 	
 

@@ -9,7 +9,7 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array('JqImgcrop', 'Upload');
-	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'Time', 'Image', 'Reposter');
+	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'Text');
 
 
 
@@ -34,6 +34,7 @@ class PostsController extends AppController {
 	            'order' => 'Post.created DESC',
 		//fields - custom field sum...
 		    	'fields' => array(),
+                'conditions' => array('Post.enabled' => true),
 		//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array('User.username','User.id', 'User.name', 'User.image'),
 		)
@@ -58,12 +59,11 @@ class PostsController extends AppController {
 
 	 */
 	function repost($post_id = null, $topic_id = null){
-
+        $this->log($this->data);
         if(isset($this->data['Posts']['post_id'])){
             $post_id = $this->data['Posts']['post_id'];
          }
          if(isset($this->data['Posts']['topic_id']) && $this->data['Posts']['topic_id'] != 'null'){
-             echo "jo";
             $topic_id = $this->data['Posts']['topic_id'];
          }
 
@@ -125,8 +125,20 @@ class PostsController extends AppController {
 	function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
+        $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
+		$post = $this->Post->read(null, $id);
+        if(!isset($post['Post']['id']) || empty($post['Post']['id'])){
+			$this->Session->setFlash(__('Invalid post', true));
+			$this->redirect($this->referer());
+        }
+        if($post['Post']['enabled'] == false){
+            $this->Session->setFlash(__('This post has been blocked temporarily due to infringement.', true));
+			$this->redirect($this->referer());
+        }
+
+
 		// incrementing post's view_counter
 
 		// check if the user already read this post during this session
@@ -156,7 +168,8 @@ class PostsController extends AppController {
 		$this->Comment->contain('User.username','User.id','User.image');
 		//'threaded' gets also the replies (children) and children's children etc. (for tree behavior. not sure if for not-tree also)
 		$comments = $this->Comment->find('threaded',array(
-										'conditions' => array('post_id' => $id),
+										'conditions' => array('Comment.post_id' => $id,
+                                                                'Comment.enabled' => true),
 										'order'=>array('created DESC'),
 										'fields' => array('id','user_id','post_id','parent_id','text','created')));
 
@@ -179,7 +192,8 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-
+          //  $this->log('ganz vorne');
+          //  $this->log($this->data);
 			//debug($this->data);die();
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
@@ -207,6 +221,8 @@ class PostsController extends AppController {
             if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){
                 $this->data['Post']['allow_comments'] = self::ALLOW_COMMENTS_DEFAULT;
              }
+          //  $this->log('direkt vor dem saven');
+          //  $this->log($this->data);
 			if ($this->Post->save($this->data)) {
 
 				//copy images after post has been saved to add new post-id to img path
@@ -259,9 +275,16 @@ class PostsController extends AppController {
 
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = array();
-        $topics[self::NO_TOPIC_ID] = __('No Topic', true);
-        $topics = array_merge($topics, $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
-
+        $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+        $topics2[self::NO_TOPIC_ID] = __('No Topic', true);
+        $topics = $topics2 + $topics;
+        //BUG: array merge results in an array beginning with index 0,1,2 and not the topic ids!
+        // see: http://php.net/manual/de/function.array-merge.php
+        
+        //$topics = array_merge($topics, $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
+        //$this->log('TOPICS');
+        //$this->log($topics);
+        //$this->log($this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
 		$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
 
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
@@ -324,7 +347,7 @@ class PostsController extends AppController {
 
 		if($user_id == null || empty($user_id)){
 			$this->Session->setFlash(__('No permission', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
 		//check, if the user owns the post
 		$this->Post->contain();
@@ -335,8 +358,8 @@ class PostsController extends AppController {
 
 
 		if($owner_id != $user_id){
-			$this->Session->setFlash(__('No permission', true));
-			$this->redirect(array('action' => 'index'));
+			$this->Session->setFlash(__('The Post does not belong to you.', true));
+			$this->redirect($this->referer());
 		}
 
 		//jepp, he is the owner!
@@ -350,7 +373,7 @@ class PostsController extends AppController {
 		$user_id = $this->Auth->User('id');
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid post', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
 		if (!empty($this->data)) {
 			//save new sorted images
@@ -375,8 +398,11 @@ class PostsController extends AppController {
 			//process links
 			$this->processLinks();
 
+            $this->log('var 1= '.$post['Post']['topic_id']);
+            $this->log('var 2= '.$this->data['Post']['topic_id']);
 			if($post['Post']['topic_id'] != $this->data['Post']['topic_id']){
 				$this->Post->topicChanged = true;
+                $this->log('topicchanged true controller');
 			}
             // temp. necessary until there is a dropdown for allow comments in post add edit view
             if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){
@@ -415,13 +441,19 @@ class PostsController extends AppController {
 		if (empty($this->data)) {
 			$this->Post->contain();
 			$this->data = $this->Post->read(null, $id);
+            if(!empty($this->data['Post']['image'])){
+                $this->data['Post']['image'] = unserialize($this->data['Post']['image']);
+            }
+
 			if(empty($this->data['Post']['topic_id']))$this->data['Post']['topic_id'] = 'null';
 		}
+        
+		$topics = array();
+        $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+        $topics2[self::NO_TOPIC_ID] = __('No Topic', true);
+        $topics = $topics2 + $topics;
 
-		$topics = $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-		$topics[self::NO_TOPIC_ID] = __('No Topic', true);
-
-		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
+		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('use privacy settings',true);
 		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
 		$allow_comments[self::ALLOW_COMMENTS_FALSE] = __('No',true);
 
@@ -470,16 +502,24 @@ class PostsController extends AppController {
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for post', true));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect($this->referer());
 		}
-		// second param = cascade -> delete associated records from hasmany , hasone relations
-		if ($this->Post->delete($id, true)) {
-			$this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
-			$this->redirect(array('action'=>'index'));
-		}
-		$this->Session->setFlash(__('Post was not deleted', true));
-		$this->redirect(array('action' => 'index'));
-	}
+        $this->Post->contain();
+        $post =  $this->Post->read(array('id','user_id'), $id);
+        if($post['Post']['user_id'] == $this->Session->read('Auth.User.id')){
+            // second param = cascade -> delete associated records from hasmany , hasone relations
+            if ($this->Post->delete($id, true)) {
+                $this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
+              //  $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+            $this->redirect($this->referer());
+            }
+            $this->Session->setFlash(__('Post was not deleted', true));
+            $this->redirect($this->referer());
+        } else {
+            $this->Session->setFlash(__('The Post does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
+    }
 
 	/**
 	 * action to be called from multiple file upload for add / edit
@@ -585,15 +625,15 @@ class PostsController extends AppController {
 				//$msg .= __('image has been removed', true);
 			}
 			else{
-				$this->log('can not remove file: '. $full_path);
+				$this->log('Can not remove file: '. $full_path);
 			}
 		}
 		else{
-			$this->log('file does not exist: '. $full_path);
+			$this->log('File does not exist: '. $full_path);
 		}
 
 		if($post_id && !empty($post_id)){
-			echo "delte post " . $post_id;
+			echo "delete post " . $post_id;
 			//			//update post if id is passed
 			//			$this->Post->contain();
 			//			$post = $this->Post->read(null, $post_id);
@@ -648,5 +688,75 @@ class PostsController extends AppController {
 			$this->data['Post']['links'] = serialize(array_filter(explode(',', $links)));
 		}
 	}
+
+
+    function admin_index() {
+        $this->paginate = array('contain' => array('User.id', 'User.username'));
+		$this->set('posts', $this->paginate());
+	}
+    function admin_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for post', true));
+			$this->redirect($this->referer());
+		}
+        $this->Post->contain();
+        $post =  $this->Post->read(array('id','user_id'), $id);
+
+        // second param = cascade -> delete associated records from hasmany , hasone relations
+        if ($this->Post->delete($id, true)) {
+            $this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
+          //  $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+        $this->redirect($this->referer());
+        }
+        $this->Session->setFlash(__('Post was not deleted', true));
+        $this->redirect($this->referer());
+
+    }
+    function admin_disable($post_id){
+        $this->Post->contain();
+        $post = $this->Post->read(null, $post_id);
+        if(isset($post['Post']['id']) && !empty($post['Post']['id'])){
+            if($post['Post']['enabled'] == false){
+                $this->Session->setFlash('This post is already disabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Post->disable()){
+                    $this->Session->setFlash('Post has been disabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This Post could not be disabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid post');
+            $this->redirect($this->referer());
+
+        }
+    }
+    function admin_enable($post_id){
+        $this->Post->contain();
+        $post = $this->Post->read(null, $post_id);
+        if(isset($post['Post']['id']) && !empty($post['Post']['id'])){
+            if($post['Post']['enabled'] == true){
+                $this->Session->setFlash('This post is already enabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Post->enable()){
+                    $this->Session->setFlash('Post has been enabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+            $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This Post could not be enabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid post');
+            $this->redirect($this->referer());
+
+        }
+    }
 }
 ?>

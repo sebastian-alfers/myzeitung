@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-07-28 13:57+0200\n"
+"POT-Creation-Date: 2011-07-23 17:46+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /app_controller.php:226
+#: /app_controller.php:225
 msgid "No Permission"
 msgstr ""
 
@@ -62,7 +62,7 @@ msgstr ""
 msgid "The comment could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/comments_controller.php:114
+#: /controllers/comments_controller.php:115
 msgid "Invalid comment id"
 msgstr ""
 
@@ -134,196 +134,172 @@ msgstr ""
 msgid "New Message from"
 msgstr ""
 
-#: /controllers/papers_controller.php:67;430;482
+#: /controllers/papers_controller.php:67;427;472
 msgid "Invalid paper"
 msgstr ""
 
-#: /controllers/papers_controller.php:153
+#: /controllers/papers_controller.php:150
 msgid "Error during photo upload"
 msgstr ""
 
-#: /controllers/papers_controller.php:176
+#: /controllers/papers_controller.php:173
 msgid "Image has been saved"
 msgstr ""
 
-#: /controllers/papers_controller.php:181;187
+#: /controllers/papers_controller.php:178;184
 msgid "Could not save paper picture, please try again."
 msgstr ""
 
-#: /controllers/papers_controller.php:193
+#: /controllers/papers_controller.php:190
 msgid "You do not have permissions"
 msgstr ""
 
-#: /controllers/papers_controller.php:216
+#: /controllers/papers_controller.php:213
 msgid "You successfully subscribed to the paper: %s"
 msgstr ""
 
-#: /controllers/papers_controller.php:218
+#: /controllers/papers_controller.php:215
 msgid "Could not subscribe this paper."
 msgstr ""
 
-#: /controllers/papers_controller.php:221;226
+#: /controllers/papers_controller.php:218;223
 msgid "Invalid paper id."
 msgstr ""
 
-#: /controllers/papers_controller.php:242
+#: /controllers/papers_controller.php:239
 msgid "You successfully unsubscribed the paper: %s"
 msgstr ""
 
-#: /controllers/papers_controller.php:244
+#: /controllers/papers_controller.php:241
 msgid "Could not unsubscribe"
 msgstr ""
 
-#: /controllers/papers_controller.php:247
+#: /controllers/papers_controller.php:244
 msgid "Invalid paper id"
 msgstr ""
 
-#: /controllers/papers_controller.php:252
+#: /controllers/papers_controller.php:249
 msgid "No paper id"
 msgstr ""
 
-#: /controllers/papers_controller.php:266
+#: /controllers/papers_controller.php:263
 msgid "invalid data for content view "
 msgstr ""
 
-#: /controllers/papers_controller.php:365
+#: /controllers/papers_controller.php:362
 msgid "No paper parameter passed."
 msgstr ""
 
-#: /controllers/papers_controller.php:369
+#: /controllers/papers_controller.php:366
 msgid "Invalid parameter for the target passed."
 msgstr ""
 
-#: /controllers/papers_controller.php:405;436
+#: /controllers/papers_controller.php:402;433
 msgid "The paper has been saved"
 msgstr ""
 
-#: /controllers/papers_controller.php:409
+#: /controllers/papers_controller.php:406
 msgid "Paper saved, error while saving the paper route"
 msgstr ""
 
-#: /controllers/papers_controller.php:412;439
+#: /controllers/papers_controller.php:409;436
 msgid "The paper could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/papers_controller.php:456
+#: /controllers/papers_controller.php:453
 msgid "Invalid id for paper"
 msgstr ""
 
-#: /controllers/papers_controller.php:463
+#: /controllers/papers_controller.php:457
 msgid "Paper deleted"
 msgstr ""
 
-#: /controllers/papers_controller.php:466
+#: /controllers/papers_controller.php:460
 msgid "Paper was not deleted"
 msgstr ""
 
-#: /controllers/papers_controller.php:469
-msgid "The Paper does not belong to you."
-msgstr ""
-
-#: /controllers/papers_controller.php:487
+#: /controllers/papers_controller.php:477
 msgid "No permissions"
 msgstr ""
 
-#: /controllers/posts_controller.php:74
+#: /controllers/posts_controller.php:75
 msgid "Post successfully reposted."
 msgstr ""
 
-#: /controllers/posts_controller.php:76
+#: /controllers/posts_controller.php:77
 msgid "Post could not be reposted"
 msgstr ""
 
-#: /controllers/posts_controller.php:79;108
+#: /controllers/posts_controller.php:80;109
 msgid "Invalid post id"
 msgstr ""
 
-#: /controllers/posts_controller.php:84;113
+#: /controllers/posts_controller.php:85;114
 msgid "No post id"
 msgstr ""
 
-#: /controllers/posts_controller.php:103
+#: /controllers/posts_controller.php:104
 msgid "Repost deleted successfully."
 msgstr ""
 
-#: /controllers/posts_controller.php:105
+#: /controllers/posts_controller.php:106
 msgid "Repost could not be deleted"
 msgstr ""
 
-#: /controllers/posts_controller.php:126;361
+#: /controllers/posts_controller.php:127;352
 msgid "Invalid post"
 msgstr ""
 
-#: /controllers/posts_controller.php:237;241
+#: /controllers/posts_controller.php:235;239
 msgid "Not able to copy images for post"
 msgstr ""
 
-#: /controllers/posts_controller.php:245;406
+#: /controllers/posts_controller.php:243;394
 msgid "The post has been saved"
 msgstr ""
 
-#: /controllers/posts_controller.php:254;416
+#: /controllers/posts_controller.php:252;404
 msgid "The post could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/posts_controller.php:265;439
-#: /controllers/topics_controller.php:65
+#: /controllers/posts_controller.php:262;426
+#: /controllers/topics_controller.php:63
 msgid "No Topic"
 msgstr ""
 
-#: /controllers/posts_controller.php:276
+#: /controllers/posts_controller.php:267
 msgid "default value"
 msgstr ""
 
-#: /controllers/posts_controller.php:277;443
+#: /controllers/posts_controller.php:268;429
 msgid "Yes"
 msgstr ""
 
-#: /controllers/posts_controller.php:278;444
+#: /controllers/posts_controller.php:269;430
 msgid "No"
 msgstr ""
 
-#: /controllers/posts_controller.php:335;347
+#: /controllers/posts_controller.php:326;338
 msgid "No permission"
 msgstr ""
 
-#: /controllers/posts_controller.php:442
+#: /controllers/posts_controller.php:428
 msgid "use privacy settings"
 msgstr ""
 
-#: /controllers/posts_controller.php:490
+#: /controllers/posts_controller.php:476
 msgid "Invalid id for post"
 msgstr ""
 
-#: /controllers/posts_controller.php:498
+#: /controllers/posts_controller.php:481
 msgid "Post deleted"
 msgstr ""
 
-#: /controllers/posts_controller.php:502
+#: /controllers/posts_controller.php:484
 msgid "Post was not deleted"
 msgstr ""
 
-#: /controllers/posts_controller.php:505
-msgid "The Post does not belong to you."
-msgstr ""
-
-#: /controllers/topics_controller.php:86
-msgid "Invalid Topic-id"
-msgstr ""
-
-#: /controllers/topics_controller.php:95
-msgid "Topic deleted"
-msgstr ""
-
-#: /controllers/topics_controller.php:98
-msgid "Topic was not deleted"
-msgstr ""
-
-#: /controllers/topics_controller.php:101
-msgid "The Topic does not belong to you."
-msgstr ""
-
-#: /controllers/users_controller.php:94;103;169;302;743;795;827;858;1052;1074
+#: /controllers/users_controller.php:94;103;169;302;755;807;839;870;1064;1086
 msgid "Invalid user"
 msgstr ""
 
@@ -331,11 +307,11 @@ msgstr ""
 msgid "Thank you for registration."
 msgstr ""
 
-#: /controllers/users_controller.php:293;310;1065;1082
+#: /controllers/users_controller.php:293;310;1077;1094
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/users_controller.php:307;1062;1079
+#: /controllers/users_controller.php:307;1074;1091
 msgid "The user has been saved"
 msgstr ""
 
@@ -347,83 +323,83 @@ msgstr ""
 msgid "Not able to subscribe user/topic to paper - invalid target type"
 msgstr ""
 
-#: /controllers/users_controller.php:480
+#: /controllers/users_controller.php:482
 msgid "No user param"
 msgstr ""
 
-#: /controllers/users_controller.php:492
+#: /controllers/users_controller.php:504
 #: /views/layouts/default.ctp:26
 #: /views/layouts/home.ctp:26
 msgid "myZeitung"
 msgstr ""
 
-#: /controllers/users_controller.php:540
+#: /controllers/users_controller.php:554
 msgid "Can not load user"
 msgstr ""
 
-#: /controllers/users_controller.php:755;768;802;833
+#: /controllers/users_controller.php:767;780;814;845
 msgid "The changes have been saved"
 msgstr ""
 
-#: /controllers/users_controller.php:763;773;807;838
+#: /controllers/users_controller.php:775;785;819;850
 msgid "The changes could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/users_controller.php:867
+#: /controllers/users_controller.php:879
 msgid "Your account has been deleted."
 msgstr ""
 
-#: /controllers/users_controller.php:870
+#: /controllers/users_controller.php:882
 msgid "Your account could not be deleted."
 msgstr ""
 
-#: /controllers/users_controller.php:893
+#: /controllers/users_controller.php:905
 msgid "Error while loading user"
 msgstr ""
 
-#: /controllers/users_controller.php:911
+#: /controllers/users_controller.php:923
 msgid "Your new profile picture has been saved."
 msgstr ""
 
-#: /controllers/users_controller.php:917;924
+#: /controllers/users_controller.php:929;936
 msgid "Could not save profile picture, please try again."
 msgstr ""
 
-#: /controllers/users_controller.php:998
+#: /controllers/users_controller.php:1010
 msgid "Welcome to myZeitung"
 msgstr ""
 
-#: /controllers/users_controller.php:1006
+#: /controllers/users_controller.php:1018
 msgid "Password change request"
 msgstr ""
 
-#: /controllers/users_controller.php:1040
+#: /controllers/users_controller.php:1052
 msgid "Subscription info"
 msgstr ""
 
-#: /controllers/users_controller.php:1089
+#: /controllers/users_controller.php:1101
 #: /views/elements/search/results/user.ctp:25
 msgid "Author"
 msgstr ""
 
-#: /controllers/users_controller.php:1090
+#: /controllers/users_controller.php:1102
 #: /views/elements/header.ctp:89
 msgid "Admin"
 msgstr ""
 
-#: /controllers/users_controller.php:1091
+#: /controllers/users_controller.php:1103
 msgid "Superadmin"
 msgstr ""
 
-#: /controllers/users_controller.php:1098
+#: /controllers/users_controller.php:1110
 msgid "Invalid id for user"
 msgstr ""
 
-#: /controllers/users_controller.php:1102
+#: /controllers/users_controller.php:1114
 msgid "User deleted"
 msgstr ""
 
-#: /controllers/users_controller.php:1105
+#: /controllers/users_controller.php:1117
 msgid "User was not deleted"
 msgstr ""
 
@@ -485,15 +461,15 @@ msgstr ""
 msgid "No valid User/Topic or Paper/Category chosen"
 msgstr ""
 
-#: /models/post.php:473
+#: /models/post.php:468
 msgid "Please enter a Title."
 msgstr ""
 
-#: /models/post.php:478
+#: /models/post.php:473
 msgid "Titles can only be 100 characters long."
 msgstr ""
 
-#: /models/post.php:485
+#: /models/post.php:480
 msgid "Please provide additional content: a picture, a video, a message or a link."
 msgstr ""
 
@@ -560,8 +536,6 @@ msgstr ""
 #: /views/topics/edit.ctp:10
 #: /views/users/admin_add.ctp:25
 #: /views/users/admin_edit.ctp:18
-#: /view/helpers/form.php:1311
-#: /view/scaffolds/edit.ctp:24
 msgid "Submit"
 msgstr ""
 
@@ -580,9 +554,6 @@ msgstr ""
 #: /views/topics/edit.ctp:13
 #: /views/users/admin_add.ctp:28
 #: /views/users/admin_index.ctp:12
-#: /view/scaffolds/edit.ctp:28
-#: /view/scaffolds/index.ctp:27;77
-#: /view/scaffolds/view.ctp:50
 msgid "Actions"
 msgstr ""
 
@@ -594,9 +565,6 @@ msgstr ""
 #: /views/papers/index_backup_alf.ctp:60
 #: /views/posts/view.ctp:109
 #: /views/users/admin_index.ctp:36
-#: /view/scaffolds/edit.ctp:31
-#: /view/scaffolds/index.ctp:57
-#: /view/scaffolds/view.ctp:146
 msgid "Delete"
 msgstr ""
 
@@ -675,8 +643,6 @@ msgstr ""
 #: /views/complaints/admin_index.ctp:68
 #: /views/papers/index_backup_alf.ctp:58
 #: /views/users/admin_index.ctp:33
-#: /view/scaffolds/index.ctp:55
-#: /view/scaffolds/view.ctp:144
 msgid "View"
 msgstr ""
 
@@ -686,8 +652,6 @@ msgstr ""
 #: /views/papers/index_backup_alf.ctp:59
 #: /views/posts/view.ctp:110
 #: /views/users/admin_index.ctp:35
-#: /view/scaffolds/index.ctp:56
-#: /view/scaffolds/view.ctp:145
 msgid "Edit"
 msgstr ""
 
@@ -695,7 +659,6 @@ msgstr ""
 #: /views/complaints/admin_index.ctp:80
 #: /views/papers/index_backup_alf.ctp:68
 #: /views/users/admin_index.ctp:45
-#: /view/scaffolds/index.ctp:67
 msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
 msgstr ""
 
@@ -703,7 +666,6 @@ msgstr ""
 #: /views/complaints/admin_index.ctp:85
 #: /views/papers/index_backup_alf.ctp:73
 #: /views/users/admin_index.ctp:50
-#: /view/scaffolds/index.ctp:71
 msgid "previous"
 msgstr ""
 
@@ -711,13 +673,12 @@ msgstr ""
 #: /views/complaints/admin_index.ctp:88
 #: /views/papers/index_backup_alf.ctp:76
 #: /views/users/admin_index.ctp:53
-#: /view/scaffolds/index.ctp:73
 msgid "next"
 msgstr ""
 
 #: /views/categories/index.ctp:63
 #: /views/categories/view.ctp:37
-#: /views/elements/papers/sidebar.ctp:61
+#: /views/elements/papers/sidebar.ctp:51
 #: /views/papers/edit.ctp:26
 #: /views/papers/index_backup_alf.ctp:86
 msgid "New Category"
@@ -976,12 +937,10 @@ msgstr ""
 
 #: /views/elements/header.ctp:34
 #: /views/elements/search/results/sidebar.ctp:16
-#: /views/search/auto_complete.ctp:6
 msgid "Posts"
 msgstr ""
 
 #: /views/elements/header.ctp:36
-#: /views/search/auto_complete.ctp:16
 msgid "Authors"
 msgstr ""
 
@@ -991,7 +950,6 @@ msgstr ""
 #: /views/elements/users/sidebar.ctp:75
 #: /views/elements/users/sidebar/subscriptions.ctp:52;54
 #: /views/papers/index_backup_alf.ctp:12
-#: /views/search/auto_complete.ctp:11
 msgid "Papers"
 msgstr ""
 
@@ -1114,7 +1072,7 @@ msgid "Browse Posts"
 msgstr ""
 
 #: /views/elements/header/breadcrumbs.ctp:14
-#: /views/elements/posts/navigator.ctp:145
+#: /views/elements/posts/navigator.ctp:150
 #: /views/posts/edit.ctp:4
 msgid "Edit Post"
 msgstr ""
@@ -1171,69 +1129,56 @@ msgid_plural "%d authors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/papers/sidebar.ctp:54
-#: /views/elements/posts/navigator.ctp:102
-#: /views/elements/search/autocomplete/papers.ctp:27
-#: /views/elements/search/autocomplete/posts.ctp:34
-msgid "by"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:62
+#: /views/elements/papers/sidebar.ctp:52
 msgid "Upload Image"
 msgstr ""
 
-#: /views/elements/papers/sidebar.ctp:67
+#: /views/elements/papers/sidebar.ctp:57
 #: /views/elements/search/results/paper.ctp:26
 #: /views/elements/users/sidebar/buttons.ctp:8
 msgid "Subscribe"
 msgstr ""
 
-#: /views/elements/papers/sidebar.ctp:71
+#: /views/elements/papers/sidebar.ctp:61
 #: /views/elements/search/results/paper.ctp:32
 msgid "Unsubscribe"
 msgstr ""
 
-#: /views/elements/papers/sidebar.ctp:79
+#: /views/elements/papers/sidebar.ctp:69
 msgid "Filter by Category"
 msgstr ""
 
-#: /views/elements/papers/sidebar.ctp:84;86
+#: /views/elements/papers/sidebar.ctp:74;76
 msgid "front page"
 msgstr ""
 
-#: /views/elements/papers/sidebar.ctp:101
+#: /views/elements/papers/sidebar.ctp:91
 #: /views/elements/users/modal_activity.ctp:34
 #: /views/elements/users/sidebar/activity.ctp:1
 msgid "Activity"
 msgstr ""
 
-#: /views/elements/papers/sidebar.ctp:81
+#: /views/elements/papers/sidebar.ctp:71
 msgid "%1$s person is published in this paper"
 msgid_plural "%1$s persons are published in this paper"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/papers/sidebar.ctp:89
+#: /views/elements/papers/sidebar.ctp:79
 msgid "%1$s person is published this category"
 msgid_plural "%1$s persons are published this category"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/papers/sidebar.ctp:103
+#: /views/elements/papers/sidebar.ctp:93
 msgid "%d Post"
 msgid_plural "%d Posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/papers/sidebar.ctp:104
+#: /views/elements/papers/sidebar.ctp:94
 msgid "%d Subscribed User/Topic"
 msgid_plural "%d Subscribed Users/Topics"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/sidebar.ctp:105
-msgid "%d Subscriber"
-msgid_plural "%d Subscribers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1322,20 +1267,26 @@ msgstr ""
 msgid "read more"
 msgstr ""
 
-#: /views/elements/posts/navigator.ctp:147
+#: /views/elements/posts/navigator.ctp:107
+#: /views/elements/search/autocomplete/papers.ctp:27
+#: /views/elements/search/autocomplete/posts.ctp:34
+msgid "by"
+msgstr ""
+
+#: /views/elements/posts/navigator.ctp:152
 msgid "Delete Post"
 msgstr ""
 
-#: /views/elements/posts/navigator.ctp:147
+#: /views/elements/posts/navigator.ctp:152
 #: /views/posts/view.ctp:109
 msgid "Are you sure you want to delete your post: %s?"
 msgstr ""
 
-#: /views/elements/posts/navigator.ctp:150
+#: /views/elements/posts/navigator.ctp:155
 msgid "Undo Repost"
 msgstr ""
 
-#: /views/elements/posts/navigator.ctp:165
+#: /views/elements/posts/navigator.ctp:170
 #: /views/elements/search/results/post.ctp:63
 #: /views/posts/view.ctp:105
 msgid "Repost"
@@ -1497,65 +1448,6 @@ msgstr ""
 msgid "All Posts"
 msgstr ""
 
-#: /views/helpers/mz_time.php:149
-#: /view/helpers/time.php:588
-msgid "on %s"
-msgstr ""
-
-#: /views/helpers/mz_time.php:183
-#: /view/helpers/time.php:622
-msgid "%s ago"
-msgstr ""
-
-#: /views/helpers/mz_time.php:153
-#: /view/helpers/time.php:592
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/helpers/mz_time.php:154;159
-#: /view/helpers/time.php:593;598
-msgid "%d month"
-msgid_plural "%d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/helpers/mz_time.php:160;164
-#: /view/helpers/time.php:594;599;603
-msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/helpers/mz_time.php:168
-#: /view/helpers/time.php:595;600;604;607
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/helpers/mz_time.php:172
-#: /view/helpers/time.php:608;611
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/helpers/mz_time.php:176
-#: /view/helpers/time.php:612;615
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/helpers/mz_time.php:179
-#: /view/helpers/time.php:618
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
-
 #: /views/home/index.ctp:12
 #: /views/users/login.ctp:24
 msgid "Remember Me"
@@ -1590,62 +1482,50 @@ msgid "myZeitung - admin"
 msgstr ""
 
 #: /views/layouts/default-backup.ctp:25
-#: /view/layouts/default.ctp:25
 msgid "CakePHP: the rapid development php framework:"
 msgstr ""
 
 #: /views/layouts/default-backup.ctp:50
-#: /view/layouts/default.ctp:39;50
 msgid "CakePHP: the rapid development php framework"
 msgstr ""
 
 #: /views/pages/home.ctp:12
-#: /view/pages/home.ctp:49
 msgid "Your tmp directory is writable."
 msgstr ""
 
 #: /views/pages/home.ctp:16
-#: /view/pages/home.ctp:53
 msgid "Your tmp directory is NOT writable."
 msgstr ""
 
 #: /views/pages/home.ctp:26
-#: /view/pages/home.ctp:63
 msgid "The %s is being used for caching. To change the config edit APP/config/core.php "
 msgstr ""
 
 #: /views/pages/home.ctp:30
-#: /view/pages/home.ctp:67
 msgid "Your cache is NOT working. Please check the settings in APP/config/core.php"
 msgstr ""
 
 #: /views/pages/home.ctp:40
-#: /view/pages/home.ctp:77
 msgid "Your database configuration file is present."
 msgstr ""
 
 #: /views/pages/home.ctp:45
-#: /view/pages/home.ctp:82
 msgid "Your database configuration file is NOT present."
 msgstr ""
 
 #: /views/pages/home.ctp:47
-#: /view/pages/home.ctp:84
 msgid "Rename config/database.php.default to config/database.php"
 msgstr ""
 
 #: /views/pages/home.ctp:64
-#: /view/pages/home.ctp:111
 msgid "Cake is able to connect to the database."
 msgstr ""
 
 #: /views/pages/home.ctp:68
-#: /view/pages/home.ctp:115
 msgid "Cake is NOT able to connect to the database."
 msgstr ""
 
 #: /views/pages/home.ctp:74
-#: /view/pages/home.ctp:121
 msgid "Editing this Page"
 msgstr ""
 
@@ -1975,1084 +1855,6 @@ msgstr ""
 
 #: /webroot/test.php:88
 msgid "Debug setting does not allow access to this url."
-msgstr ""
-
-#: /cache.php:622
-msgid "Method write() not implemented in %s"
-msgstr ""
-
-#: /cache.php:633
-msgid "Method read() not implemented in %s"
-msgstr ""
-
-#: /cache.php:645
-msgid "Method increment() not implemented in %s"
-msgstr ""
-
-#: /cache.php:656
-msgid "Method decrement() not implemented in %s"
-msgstr ""
-
-#: /cake_log.php:101
-msgid "Missing logger classname"
-msgstr ""
-
-#: /cake_log.php:133
-msgid "Could not load logger class %s"
-msgstr ""
-
-#: /cake_log.php:138
-msgid "logger class %s does not implement a write method."
-msgstr ""
-
-#: /cake_session.php:280
-msgid "Deleting session key {%s}"
-msgstr ""
-
-#: /cake_session.php:285
-msgid "%s doesn't exist"
-msgstr ""
-
-#: /cake_session.php:444
-msgid "Writing session key {%s}: %s"
-msgstr ""
-
-#: /cake_session.php:506
-msgid "You must set the all Configure::write('Session.*') in core.php to use database storage"
-msgstr ""
-
-#: /cake_socket.php:244
-msgid "Connection timed out"
-msgstr ""
-
-#: /class_registry.php:154
-msgid "(ClassRegistry::init() could not create instance of %1$s class %2$s "
-msgstr ""
-
-#: /class_registry.php:164
-msgid "(ClassRegistry::init() Attempted to create instance of a class with a numeric name"
-msgstr ""
-
-#: /configure.php:267
-msgid "Configure::load() - no variable $config found in %s.php"
-msgstr ""
-
-#: /configure.php:394
-msgid "Can't find application core file. Please create %score.php, and make sure it is readable by PHP."
-msgstr ""
-
-#: /configure.php:401
-msgid "Cache not configured properly. Please check Cache::config(); in APP/config/core.php"
-msgstr ""
-
-#: /configure.php:435
-msgid "Can't find application bootstrap file. Please create %sbootstrap.php, and make sure it is readable by PHP."
-msgstr ""
-
-#: /debugger.php:684
-msgid "Please change the value of 'Security.salt' in app/config/core.php to a salt value specific to your application"
-msgstr ""
-
-#: /debugger.php:688
-msgid "Please change the value of 'Security.cipherSeed' in app/config/core.php to a numeric (digits only) seed value specific to your application"
-msgstr ""
-
-#: /error.php:162
-msgid "Not Found"
-msgstr ""
-
-#: /error.php:185
-msgid "An Internal Error Has Occurred"
-msgstr ""
-
-#: /error.php:204
-#: /view/errors/missing_controller.ctp:20
-msgid "Missing Controller"
-msgstr ""
-
-#: /error.php:223
-msgid "Missing Method in Controller"
-msgstr ""
-
-#: /error.php:240
-msgid "Trying to access private method in class"
-msgstr ""
-
-#: /error.php:259
-#: /view/errors/missing_table.ctp:20
-msgid "Missing Database Table"
-msgstr ""
-
-#: /error.php:274
-msgid "Scaffold Missing Database Connection"
-msgstr ""
-
-#: /error.php:292
-#: /view/errors/missing_view.ctp:20
-msgid "Missing View"
-msgstr ""
-
-#: /error.php:309
-#: /view/errors/missing_layout.ctp:20
-msgid "Missing Layout"
-msgstr ""
-
-#: /error.php:327
-#: /view/errors/missing_connection.ctp:20
-#: /view/errors/missing_scaffolddb.ctp:20
-msgid "Missing Database Connection"
-msgstr ""
-
-#: /error.php:344
-#: /view/errors/missing_helper_file.ctp:20
-msgid "Missing Helper File"
-msgstr ""
-
-#: /error.php:361
-#: /view/errors/missing_helper_class.ctp:20
-msgid "Missing Helper Class"
-msgstr ""
-
-#: /error.php:378
-#: /view/errors/missing_behavior_file.ctp:20
-msgid "Missing Behavior File"
-msgstr ""
-
-#: /error.php:395
-#: /view/errors/missing_behavior_class.ctp:20
-msgid "Missing Behavior Class"
-msgstr ""
-
-#: /error.php:413
-#: /view/errors/missing_component_file.ctp:20
-msgid "Missing Component File"
-msgstr ""
-
-#: /error.php:431
-#: /view/errors/missing_component_class.ctp:20
-msgid "Missing Component Class"
-msgstr ""
-
-#: /error.php:447
-#: /view/errors/missing_model.ctp:20
-msgid "Missing Model"
-msgstr ""
-
-#: /folder.php:379;400
-msgid "%s changed to %s"
-msgstr ""
-
-#: /folder.php:383;402
-msgid "%s NOT changed to %s"
-msgstr ""
-
-#: /folder.php:489
-msgid "%s is a file"
-msgstr ""
-
-#: /folder.php:500;665
-msgid "%s created"
-msgstr ""
-
-#: /folder.php:504
-msgid "%s NOT created"
-msgstr ""
-
-#: /folder.php:579;593
-msgid "%s removed"
-msgstr ""
-
-#: /folder.php:581;590
-msgid "%s NOT removed"
-msgstr ""
-
-#: /folder.php:629
-msgid "%s not found"
-msgstr ""
-
-#: /folder.php:638
-msgid "%s not writable"
-msgstr ""
-
-#: /folder.php:652
-msgid "%s copied to %s"
-msgstr ""
-
-#: /folder.php:654
-msgid "%s NOT copied to %s"
-msgstr ""
-
-#: /folder.php:669
-msgid "%s not created"
-msgstr ""
-
-#: /http_socket.php:539
-msgid "HttpSocket::_decodeBody - Unknown encoding: %s. Activate quirks mode to surpress error."
-msgstr ""
-
-#: /http_socket.php:565
-msgid "HttpSocket::_decodeChunkedBody - Could not parse malformed chunk. Activate quirks mode to do this."
-msgstr ""
-
-#: /http_socket.php:827
-msgid "HttpSocket::_buildRequestLine - Passed an invalid request line string. Activate quirks mode to do this."
-msgstr ""
-
-#: /http_socket.php:842
-msgid "HttpSocket::_buildRequestLine - The \"*\" asterisk character is only allowed for the following methods: %s. Activate quirks mode to work outside of HTTP/1.1 specs."
-msgstr ""
-
-#: /overloadable_php4.php:73;133
-#: /overloadable_php5.php:48;80
-msgid "Magic method handler call__ not defined in %s"
-msgstr ""
-
-#: /router.php:288
-msgid "Route classes must extend CakeRoute"
-msgstr ""
-
-#: /security.php:173
-msgid "You cannot use an empty key for Security::cipher()"
-msgstr ""
-
-#: /validation.php:342
-msgid "You must define the $operator parameter for Validation::comparison()"
-msgstr ""
-
-#: /validation.php:366
-msgid "You must define a regular expression for Validation::custom()"
-msgstr ""
-
-#: /validation.php:927
-msgid "Could not find %s class, unable to complete validation."
-msgstr ""
-
-#: /validation.php:931
-msgid "Method %s does not exist on %s unable to complete validation."
-msgstr ""
-
-#: /xml.php:408
-msgid "Cannot append a node to itself."
-msgstr ""
-
-#: /xml.php:906
-msgid "XML cannot be read"
-msgstr ""
-
-#: /cache/file.php:267
-msgid "%s is not writable"
-msgstr ""
-
-#: /cache/memcache.php:161
-msgid "Method increment() not implemented for compressed cache in %s"
-msgstr ""
-
-#: /cache/memcache.php:177
-msgid "Method decrement() not implemented for compressed cache in %s"
-msgstr ""
-
-#: /controller/controller.php:366
-msgid "Controller::__construct() : Can not get or parse my own class name, exiting."
-msgstr ""
-
-#: /controller/controller.php:803
-msgid "%sController::isAuthorized() is not defined."
-msgstr ""
-
-#: /controller/controller.php:1099
-msgid "Controller::paginate() - can't find model %1$s in controller %2$sController"
-msgstr ""
-
-#: /controller/scaffold.php:180
-msgid "Scaffold :: "
-msgstr ""
-
-#: /controller/scaffold.php:226
-msgid "No id set for %s::view()"
-msgstr ""
-
-#: /controller/scaffold.php:293
-msgid "updated"
-msgstr ""
-
-#: /controller/scaffold.php:296
-msgid "saved"
-msgstr ""
-
-#: /controller/scaffold.php:306
-msgid "Invalid id for %s::edit()"
-msgstr ""
-
-#: /controller/scaffold.php:325
-msgid "The %1$s has been %2$s"
-msgstr ""
-
-#: /controller/scaffold.php:341
-msgid "Please correct errors below."
-msgstr ""
-
-#: /controller/scaffold.php:381
-msgid "No id set for %s::delete()"
-msgstr ""
-
-#: /controller/scaffold.php:396
-msgid "The %1$s with id: %2$d has been deleted."
-msgstr ""
-
-#: /controller/scaffold.php:408
-msgid "There was an error deleting the %1$s with id: %2$d"
-msgstr ""
-
-#: /controller/components/acl.php:55
-msgid "Could not find %s."
-msgstr ""
-
-#: /controller/components/acl.php:180
-msgid "[acl_base] The AclBase class constructor has been called, or the class was instantiated. This class must remain abstract. Please refer to the Cake docs for ACL configuration."
-msgstr ""
-
-#: /controller/components/acl.php:273
-msgid "DbAcl::check() - Failed ARO/ACO node lookup in permissions check.  Node references:\nAro: "
-msgstr ""
-
-#: /controller/components/acl.php:278
-msgid "DbAcl::check() - Failed ACO node lookup in permissions check.  Node references:\nAro: "
-msgstr ""
-
-#: /controller/components/acl.php:286
-msgid "ACO permissions key %s does not exist in DbAcl::check()"
-msgstr ""
-
-#: /controller/components/acl.php:361
-msgid "DbAcl::allow() - Invalid node"
-msgstr ""
-
-#: /controller/components/auth.php:422
-msgid "Could not find AclComponent. Please include Acl in Controller::$components."
-msgstr ""
-
-#: /controller/components/auth.php:465
-msgid "Could not find $userModel. Please set AuthComponent::$userModel in beforeFilter()."
-msgstr ""
-
-#: /controller/components/auth.php:477
-msgid "Login failed. Invalid username or password."
-msgstr ""
-
-#: /controller/components/auth.php:478
-msgid "You are not authorized to access that location."
-msgstr ""
-
-#: /controller/components/auth.php:533
-msgid "Auth::startup() - Attempted access of un-mapped action \"%1$s\" in controller \"%2$s\""
-msgstr ""
-
-#: /controller/components/auth.php:557
-msgid "Could not find %s. Set AuthComponent::$object in beforeFilter() or pass a valid object"
-msgstr ""
-
-#: /controller/components/auth.php:563
-msgid "%s::isAuthorized() is not defined."
-msgstr ""
-
-#: /controller/components/auth.php:571
-msgid "Auth::isAuthorized() - $authorize is set to an incorrect value.  Allowed settings are: \"actions\", \"crud\", \"model\" or null."
-msgstr ""
-
-#: /controller/components/auth.php:826
-msgid "Auth::getModel() - Model is not set or could not be found"
-msgstr ""
-
-#: /controller/components/email.php:723
-msgid "_lineLength cannot be accessed please use lineLength"
-msgstr ""
-
-#: /controller/components/security.php:337
-msgid "SecurityComponent::loginCredentials() - Server does not support digest authentication"
-msgstr ""
-
-#: /model/cake_schema.php:606
-msgid "Schema generation error: invalid column type %s does not exist in DBO"
-msgstr ""
-
-#: /model/connection_manager.php:102
-msgid "ConnectionManager::getDataSource - Non-existent data source %s"
-msgstr ""
-
-#: /model/connection_manager.php:110
-msgid "ConnectionManager::getDataSource - Could not load class %s"
-msgstr ""
-
-#: /model/connection_manager.php:185
-msgid "ConnectionManager::loadDataSource - Unable to import DataSource class %s"
-msgstr ""
-
-#: /model/db_acl.php:146
-msgid "Model class '%s' not found in AclNode::node() when trying to bind %s object"
-msgstr ""
-
-#: /model/db_acl.php:191
-msgid "AclNode::node() - Couldn't find %s node identified by \"%s\""
-msgstr ""
-
-#: /model/model.php:953
-msgid "(Model::getColumnTypes) Unable to build model field data. If you are using a model without a database table, try implementing schema()"
-msgstr ""
-
-#: /model/model.php:2565
-msgid "This field cannot be left blank"
-msgstr ""
-
-#: /model/model.php:2613
-msgid "Could not find validation handler %s for %s"
-msgstr ""
-
-#: /model/model.php:2923
-msgid "Invalid join model settings in %s"
-msgstr ""
-
-#: /model/model_behavior.php:448
-msgid "BehaviorCollection::dispatchMethod() - Method %s not found in any attached behavior"
-msgstr ""
-
-#: /model/behaviors/acl.php:64
-msgid "Callback parentNode() not defined in %s"
-msgstr ""
-
-#: /model/behaviors/containable.php:363
-msgid "Model \"%s\" is not associated with model \"%s\""
-msgstr ""
-
-#: /model/behaviors/translate.php:59
-msgid "Datasource %s for TranslateBehavior of model %s is not connected"
-msgstr ""
-
-#: /model/behaviors/translate.php:455
-msgid "Association %s is already binded to model %s"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:684
-msgid "SQL Error:"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:686
-msgid "Aff:%s Num:%s Took:%sms"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:688
-msgid "Query:"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:923
-#: /model/datasources/dbo/dbo_oracle.php:997
-msgid "SQL Error in model %s:"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2521
-msgid "FIXME: Can't parse field: "
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2632;2694
-#: /model/datasources/dbo/dbo_mysql.php:355
-#: /model/datasources/dbo/dbo_oracle.php:1147
-msgid "Invalid schema object"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2720
-#: /model/datasources/dbo/dbo_sqlite.php:493
-msgid "Column name or type not defined in schema"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2725
-#: /model/datasources/dbo/dbo_sqlite.php:498
-msgid "Column type %s does not exist"
-msgstr ""
-
-#: /model/datasources/dbo/dbo_mssql.php:121
-msgid "PHP SQL Server interface is not installed, cannot continue. For troubleshooting information, see http://php.net/mssql/"
-msgstr ""
-
-#: /model/datasources/dbo/dbo_oracle.php:586
-msgid "Must specify table to operate on constraints"
-msgstr ""
-
-#: /model/datasources/dbo/dbo_oracle.php:644
-msgid "DboOracle::constraint() accepts only enable, disable, or list"
-msgstr ""
-
-#: /view/helper.php:154
-msgid "Method %1$s::%2$s does not exist"
-msgstr ""
-
-#: /view/view.php:449
-msgid "Error in view %s, got: <blockquote>%s</blockquote>"
-msgstr ""
-
-#: /view/view.php:493
-msgid "Error in layout %s, got: <blockquote>%s</blockquote>"
-msgstr ""
-
-#: /view/errors/error404.ctp:22
-#: /view/errors/error500.ctp:22
-#: /view/errors/missing_action.ctp:22;26
-#: /view/errors/missing_behavior_class.ctp:22;26
-#: /view/errors/missing_behavior_file.ctp:22;26
-#: /view/errors/missing_component_class.ctp:22;26
-#: /view/errors/missing_component_file.ctp:22;26
-#: /view/errors/missing_connection.ctp:22;26
-#: /view/errors/missing_controller.ctp:22;26
-#: /view/errors/missing_helper_class.ctp:22;26
-#: /view/errors/missing_helper_file.ctp:22;26
-#: /view/errors/missing_layout.ctp:22;26
-#: /view/errors/missing_model.ctp:22;26
-#: /view/errors/missing_scaffolddb.ctp:22;26
-#: /view/errors/missing_table.ctp:22
-#: /view/errors/missing_view.ctp:22;26
-#: /view/errors/private_action.ctp:22
-#: /view/errors/scaffold_error.ctp:22
-msgid "Error"
-msgstr ""
-
-#: /view/errors/error404.ctp:23
-msgid "The requested address %s was not found on this server."
-msgstr ""
-
-#: /view/errors/error500.ctp:23
-msgid "An Internal Error Has Occurred."
-msgstr ""
-
-#: /view/errors/missing_action.ctp:20
-msgid "Missing Method in %s"
-msgstr ""
-
-#: /view/errors/missing_action.ctp:23
-msgid "The action %1$s is not defined in controller %2$s"
-msgstr ""
-
-#: /view/errors/missing_action.ctp:27
-msgid "Create %1$s%2$s in file: %3$s."
-msgstr ""
-
-#: /view/errors/missing_action.ctp:44
-#: /view/errors/missing_behavior_class.ctp:37
-#: /view/errors/missing_behavior_file.ctp:37
-#: /view/errors/missing_component_class.ctp:37
-#: /view/errors/missing_component_file.ctp:37
-#: /view/errors/missing_connection.ctp:30
-#: /view/errors/missing_controller.ctp:38
-#: /view/errors/missing_helper_class.ctp:37
-#: /view/errors/missing_helper_file.ctp:37
-#: /view/errors/missing_layout.ctp:30
-#: /view/errors/missing_model.ctp:39
-#: /view/errors/missing_scaffolddb.ctp:30
-#: /view/errors/missing_table.ctp:26
-#: /view/errors/missing_view.ctp:30
-#: /view/errors/private_action.ctp:26
-#: /view/errors/scaffold_error.ctp:26
-msgid "Notice"
-msgstr ""
-
-#: /view/errors/missing_action.ctp:45
-#: /view/errors/missing_behavior_class.ctp:38
-#: /view/errors/missing_behavior_file.ctp:38
-#: /view/errors/missing_component_class.ctp:38
-#: /view/errors/missing_component_file.ctp:38
-#: /view/errors/missing_controller.ctp:39
-#: /view/errors/missing_helper_class.ctp:38
-#: /view/errors/missing_helper_file.ctp:38
-#: /view/errors/missing_layout.ctp:31
-#: /view/errors/missing_model.ctp:40
-#: /view/errors/missing_scaffolddb.ctp:31
-#: /view/errors/missing_table.ctp:27
-#: /view/errors/missing_view.ctp:31
-#: /view/errors/private_action.ctp:27
-#: /view/errors/scaffold_error.ctp:27
-msgid "If you want to customize this error message, create %s"
-msgstr ""
-
-#: /view/errors/missing_behavior_class.ctp:23
-msgid "The behavior class <em>%s</em> can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_behavior_class.ctp:27
-#: /view/errors/missing_behavior_file.ctp:27
-#: /view/errors/missing_helper_class.ctp:27
-#: /view/errors/missing_helper_file.ctp:27
-msgid "Create the class below in file: %s"
-msgstr ""
-
-#: /view/errors/missing_behavior_file.ctp:23
-msgid "The Behavior file %s can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_component_class.ctp:23
-msgid "Component class %1$s in %2$s was not found."
-msgstr ""
-
-#: /view/errors/missing_component_class.ctp:27
-#: /view/errors/missing_component_file.ctp:27
-#: /view/errors/missing_model.ctp:27
-msgid "Create the class %s in file: %s"
-msgstr ""
-
-#: /view/errors/missing_component_file.ctp:23
-msgid "The component file was not found."
-msgstr ""
-
-#: /view/errors/missing_connection.ctp:23
-msgid "%s requires a database connection"
-msgstr ""
-
-#: /view/errors/missing_connection.ctp:27
-msgid "Confirm you have created the file : %s."
-msgstr ""
-
-#: /view/errors/missing_connection.ctp:31
-msgid "If you want to customize this error message, create %s."
-msgstr ""
-
-#: /view/errors/missing_controller.ctp:23
-msgid "%s could not be found."
-msgstr ""
-
-#: /view/errors/missing_controller.ctp:27
-msgid "Create the class %s below in file: %s"
-msgstr ""
-
-#: /view/errors/missing_helper_class.ctp:23
-msgid "The helper class <em>%s</em> can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_helper_file.ctp:23
-msgid "The helper file %s can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_layout.ctp:23
-msgid "The layout file %s can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_layout.ctp:27
-#: /view/errors/missing_scaffolddb.ctp:27
-#: /view/errors/missing_view.ctp:27
-msgid "Confirm you have created the file: %s"
-msgstr ""
-
-#: /view/errors/missing_model.ctp:23
-msgid "<em>%s</em> could not be found."
-msgstr ""
-
-#: /view/errors/missing_scaffolddb.ctp:23
-msgid "Scaffold requires a database connection"
-msgstr ""
-
-#: /view/errors/missing_table.ctp:23
-msgid "Database table %1$s for model %2$s was not found."
-msgstr ""
-
-#: /view/errors/missing_view.ctp:23
-msgid "The view for %1$s%2$s was not found."
-msgstr ""
-
-#: /view/errors/private_action.ctp:20
-msgid "Private Method in %s"
-msgstr ""
-
-#: /view/errors/private_action.ctp:23
-msgid "%s%s cannot be accessed directly."
-msgstr ""
-
-#: /view/errors/scaffold_error.ctp:20
-msgid "Scaffold Error"
-msgstr ""
-
-#: /view/errors/scaffold_error.ctp:23
-msgid "Method _scaffoldError in was not found in the controller"
-msgstr ""
-
-#: /view/helpers/form.php:510
-msgid "Error in field %s"
-msgstr ""
-
-#: /view/helpers/form.php:627
-#: /view/scaffolds/edit.ctp:40
-#: /view/scaffolds/index.ctp:79;86
-#: /view/scaffolds/view.ctp:56;63;155
-msgid "New %s"
-msgstr ""
-
-#: /view/helpers/form.php:633
-#: /view/scaffolds/view.ctp:53;94
-msgid "Edit %s"
-msgstr ""
-
-#: /view/helpers/form.php:2131
-msgid "January"
-msgstr ""
-
-#: /view/helpers/form.php:2132
-msgid "February"
-msgstr ""
-
-#: /view/helpers/form.php:2133
-msgid "March"
-msgstr ""
-
-#: /view/helpers/form.php:2134
-msgid "April"
-msgstr ""
-
-#: /view/helpers/form.php:2135
-msgid "May"
-msgstr ""
-
-#: /view/helpers/form.php:2136
-msgid "June"
-msgstr ""
-
-#: /view/helpers/form.php:2137
-msgid "July"
-msgstr ""
-
-#: /view/helpers/form.php:2138
-msgid "August"
-msgstr ""
-
-#: /view/helpers/form.php:2139
-msgid "September"
-msgstr ""
-
-#: /view/helpers/form.php:2140
-msgid "October"
-msgstr ""
-
-#: /view/helpers/form.php:2141
-msgid "November"
-msgstr ""
-
-#: /view/helpers/form.php:2142
-msgid "December"
-msgstr ""
-
-#: /view/helpers/js.php:154
-msgid "JsHelper:: Missing Method %s is undefined"
-msgstr ""
-
-#: /view/helpers/js.php:795
-msgid "%s does not have get() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:814
-msgid "%s does not have event() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:825
-msgid "%s does not have domReady() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:835
-msgid "%s does not have each() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:863
-msgid "%s does not have effect() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:893
-msgid "%s does not have request() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:917
-msgid "%s does not have drag() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:939
-msgid "%s does not have drop() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:965
-msgid "%s does not have sortable() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:990
-msgid "%s does not have slider() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:1010
-msgid "%s does not have serializeForm() implemented"
-msgstr ""
-
-#: /view/helpers/mootools_engine.php:310
-msgid "MootoolsEngine::drop() requires a \"drag\" option to properly function"
-msgstr ""
-
-#: /view/helpers/number.php:93
-msgid "%d KB"
-msgstr ""
-
-#: /view/helpers/number.php:95
-msgid "%.2f MB"
-msgstr ""
-
-#: /view/helpers/number.php:97
-msgid "%.2f GB"
-msgstr ""
-
-#: /view/helpers/number.php:99
-msgid "%.2f TB"
-msgstr ""
-
-#: /view/helpers/number.php:91
-msgid "%d Byte"
-msgid_plural "%d Bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /view/helpers/paginator.php:99
-msgid "%s does not implement a link() method, it is incompatible with PaginatorHelper"
-msgstr ""
-
-#: /view/helpers/paginator.php:534
-msgid " of "
-msgstr ""
-
-#: /view/helpers/session.php:184
-msgid "You can not write to a Session from the view"
-msgstr ""
-
-#: /view/helpers/time.php:239
-msgid "Today, %s"
-msgstr ""
-
-#: /view/helpers/time.php:241
-msgid "Yesterday, %s"
-msgstr ""
-
-#: /view/helpers/time.php:658
-msgid "days"
-msgstr ""
-
-#: /view/helpers/time.php:61
-msgid "abday"
-msgstr ""
-
-#: /view/helpers/time.php:67
-msgid "day"
-msgstr ""
-
-#: /view/helpers/time.php:73
-msgid "d_t_fmt"
-msgstr ""
-
-#: /view/helpers/time.php:95
-msgid "abmon"
-msgstr ""
-
-#: /view/helpers/time.php:101
-msgid "mon"
-msgstr ""
-
-#: /view/helpers/time.php:112
-msgid "am_pm"
-msgstr ""
-
-#: /view/helpers/time.php:119
-msgid "t_fmt_ampm"
-msgstr ""
-
-#: /view/helpers/time.php:133
-msgid "d_fmt"
-msgstr ""
-
-#: /view/helpers/time.php:139
-msgid "t_fmt"
-msgstr ""
-
-#: /view/pages/home.ctp:23
-msgid "Release Notes for CakePHP %s."
-msgstr ""
-
-#: /view/pages/home.ctp:24
-msgid "Read the changelog"
-msgstr ""
-
-#: /view/pages/home.ctp:31
-msgid "URL rewriting is not properly configured on your server. "
-msgstr ""
-
-#: /view/pages/home.ctp:35
-msgid "Help me configure it"
-msgstr ""
-
-#: /view/pages/home.ctp:40
-msgid "I don't / can't use URL rewriting"
-msgstr ""
-
-#: /view/pages/home.ctp:93
-msgid "PCRE has not been compiled with Unicode support."
-msgstr ""
-
-#: /view/pages/home.ctp:95
-msgid "Recompile PCRE with Unicode support by adding <code>--enable-unicode-properties</code> when configuring"
-msgstr ""
-
-#: /view/pages/home.ctp:124
-msgid "To change the content of this page, create: APP/views/pages/home.ctp.<br />\nTo change its layout, create: APP/views/layouts/default.ctp.<br />\nYou can also add some CSS styles for your pages at: APP/webroot/css."
-msgstr ""
-
-#: /view/pages/home.ctp:130
-msgid "Getting Started"
-msgstr ""
-
-#: /view/pages/home.ctp:134
-msgid "New"
-msgstr ""
-
-#: /view/pages/home.ctp:134
-msgid "CakePHP 1.3 Docs"
-msgstr ""
-
-#: /view/pages/home.ctp:143
-msgid "The 15 min Blog Tutorial"
-msgstr ""
-
-#: /view/pages/home.ctp:150
-msgid "More about Cake"
-msgstr ""
-
-#: /view/pages/home.ctp:152
-msgid "CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC."
-msgstr ""
-
-#: /view/pages/home.ctp:155
-msgid "Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility."
-msgstr ""
-
-#: /view/pages/home.ctp:159
-msgid "Cake Software Foundation"
-msgstr ""
-
-#: /view/pages/home.ctp:160
-msgid "Promoting development related to CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:161
-msgid "CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:162
-msgid "The Rapid Development Framework"
-msgstr ""
-
-#: /view/pages/home.ctp:163
-msgid "CakePHP Documentation"
-msgstr ""
-
-#: /view/pages/home.ctp:164
-msgid "Your Rapid Development Cookbook"
-msgstr ""
-
-#: /view/pages/home.ctp:165
-msgid "CakePHP API"
-msgstr ""
-
-#: /view/pages/home.ctp:166
-msgid "Quick Reference"
-msgstr ""
-
-#: /view/pages/home.ctp:167
-msgid "The Bakery"
-msgstr ""
-
-#: /view/pages/home.ctp:168
-msgid "Everything CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:169
-msgid "The Show"
-msgstr ""
-
-#: /view/pages/home.ctp:170
-msgid "The Show is a live and archived internet radio broadcast CakePHP-related topics and answer questions live via IRC, Skype, and telephone."
-msgstr ""
-
-#: /view/pages/home.ctp:171
-msgid "CakePHP Google Group"
-msgstr ""
-
-#: /view/pages/home.ctp:172
-msgid "Community mailing list"
-msgstr ""
-
-#: /view/pages/home.ctp:174
-msgid "Live chat about CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:175
-msgid "CakePHP Code"
-msgstr ""
-
-#: /view/pages/home.ctp:176
-msgid "For the Development of CakePHP Git repository, Downloads"
-msgstr ""
-
-#: /view/pages/home.ctp:177
-msgid "CakePHP Lighthouse"
-msgstr ""
-
-#: /view/pages/home.ctp:178
-msgid "CakePHP Tickets, Wiki pages, Roadmap"
-msgstr ""
-
-#: /view/pages/home.ctp:179
-msgid "CakeForge"
-msgstr ""
-
-#: /view/pages/home.ctp:180
-msgid "Open Development for CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:181
-msgid "Book Store"
-msgstr ""
-
-#: /view/pages/home.ctp:182
-msgid "Recommended Software Books"
-msgstr ""
-
-#: /view/pages/home.ctp:183
-msgid "CakePHP gear"
-msgstr ""
-
-#: /view/pages/home.ctp:184
-msgid "Get your own CakePHP gear - Doughnate to Cake"
-msgstr ""
-
-#: /view/scaffolds/edit.ctp:31
-#: /view/scaffolds/index.ctp:57
-#: /view/scaffolds/view.ctp:54;146
-msgid "Are you sure you want to delete"
-msgstr ""
-
-#: /view/scaffolds/edit.ctp:33
-msgid "List"
-msgstr ""
-
-#: /view/scaffolds/edit.ctp:39
-#: /view/scaffolds/index.ctp:85
-#: /view/scaffolds/view.ctp:55;62
-msgid "List %s"
-msgstr ""
-
-#: /view/scaffolds/view.ctp:21
-msgid "View %s"
-msgstr ""
-
-#: /view/scaffolds/view.ctp:54
-msgid "Delete %s"
-msgstr ""
-
-#: /view/scaffolds/view.ctp:75;114
-msgid "Related %s"
 msgstr ""
 
 #: /plugins/debug_kit/controllers/components/toolbar.php:99

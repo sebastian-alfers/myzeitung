@@ -1,12 +1,13 @@
 <div id="leftcolwapper">
 				<div class="leftcol">
 					<div class="leftcolcontent">
-					
+					<?php /*
 					<h5>Veröffentlichen: </h5>
 
 					<a class="btn btn-send"><span class="send-icon"></span>Veröffentlichen</a>
 					<a class="btn"><span class="icon-tick-mini"></span>Speichern</a>
                     <hr />
+                        */?>
                     <h5>Media</h5>
 
                     <form id="file_upload"

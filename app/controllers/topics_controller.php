@@ -58,10 +58,12 @@ class TopicsController extends AppController {
 
         $user_id = $this->Session->read('Auth.User.id');
 
+
+
         $topics = array();
-        App::import('controller', 'PostsController');
-        $topics['null'] = __('No Topic', true);
-        $topics = array_merge($topics, $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
+        $topics=$this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+        $topics2['null'] = __('No Topic', true);
+        $topics = $topics2 + $topics;
 
         if(count($topics) > 0){
             if(isset($this->params['form']['post_id']) && !empty($this->params['form']['post_id'])){
@@ -77,6 +79,29 @@ class TopicsController extends AppController {
         $this->render('view');
 
     }
+
+
+	function delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid Topic-id', true));
+			$this->redirect($this->referer());
+		}
+        $this->Topic->contain();
+        $topic =  $this->Topic->read(array('id','user_id'), $id);
+        $this->log($topic);
+        if($topic['Topic']['user_id'] == $this->Session->read('Auth.User.id')){
+            // second param = cascade -> delete associated records from hasmany , hasone relations
+            if ($this->Topic->delete($id, true)) {
+                $this->Session->setFlash(__('Topic deleted', true), 'default', array('class' => 'success'));
+                $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+            }
+            $this->Session->setFlash(__('Topic was not deleted', true));
+            $this->redirect($this->referer());
+        } else {
+            $this->Session->setFlash(__('The Topic does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
+	}
 	
 
 //

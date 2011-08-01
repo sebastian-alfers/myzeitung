@@ -28,16 +28,16 @@ padding: 2px 5px;
 
 var mygallery=new simpleGallery({
 	wrapperid: "simplegallery1", //ID of main gallery container,
-	dimensions: [250, 180], //width/height of gallery in pixels. Should reflect dimensions of the images exactly
+	dimensions: [280, 180], //width/height of gallery in pixels. Should reflect dimensions of the images exactly
 	imagearray: [
         <?php
             if(!empty($post['Post']['image'])){
             $images = unserialize($post['Post']['image']);
-        }
-          foreach($images as $post_image){
-            $img_details = $image->resize($post_image['path'],250, 250, null, true);
-            echo '["/img/'.$img_details['path'].'", "", "", ""],';
-          }
+            }
+            foreach($images as $post_image){
+                $img_details = $image->resize($post_image['path'],280, 180, null, true);
+                echo '["/img/'.$img_details['path'].'", "", "", ""],';
+            }
         ?>
 		/*["http://i26.tinypic.com/11l7ls0.jpg", "", "_new", ""],
 		["http://i29.tinypic.com/xp3hns.jpg", "", "", ""],
@@ -100,7 +100,7 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 				<ul class="social-links">
                 <?php if($article_belongs_to_user == false): ?>
                     <?php if($article_reposted_by_user == true):?>
-                         <li><?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']),array('class' => 'btn', 'escape' => false));?></li>
+                         <li><?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Undo repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']),array('class' => 'btn', 'escape' => false));?></li>
                     <?php else:?>
                         <li><?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']),array('class' => 'btn', 'escape' => false));?></li>
                     <?php endif;?>
@@ -115,21 +115,11 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 
 		<div class="articleview-wrapper">
 			<div class="articleview">
-			<p><strong><?php echo __('posted', true).' '.$this->Time->timeAgoInWords($post['Post']['created'], array('end' => '+1 Year'));?></strong></p>
+			<p><strong><?php echo __('posted', true).' '.$this->MzTime->timeAgoInWords($post['Post']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></strong></p>
 			<h1><?php echo $post['Post']['title'];?></h1>
 			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>
-            <?php if(isset ($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):?>
-				<?php
-				$link_data = array();
-				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
-				$link_data['custom'] = array('class' => 'user-image');
 
-                //$img_details['image'] = $post['Post']['image'][0];
-
-				//unset($post['Post']['image'][0]);
-				//$images = $post['Post']['image'];
-  
-				?>
+            <?php if(isset($images)):?>
 				<span class="main-article-imgs">
                     <div id="simplegallery1"></div>
 					<?php //echo $image->render($img_details, 300, 200, array("alt" => 'main image')); ?>

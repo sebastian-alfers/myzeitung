@@ -5,7 +5,7 @@ class CategoriesController extends AppController {
 	var $name = 'Categories';
 	
 	var $uses = array('Paper', 'Category');
-	var $helpers = array('Time', 'Image', 'Html', 'Javascript', 'Ajax');
+	var $helpers = array('MzTime', 'Image', 'Html', 'Javascript', 'Ajax');
 	
 	function index() {
 		$this->Category->recursive = 0;
@@ -58,7 +58,7 @@ class CategoriesController extends AppController {
 						$this->data['Category']['paper_id'] = $category['Paper']['id'];
 				}
 				else{
-					$this->Session->setFlash(__('Error! Unable to read parent category!', true));
+					$this->Session->setFlash(__('Unable to read parent category.', true));
 					$this->redirect(array('controller' => 'papers', 'action' => 'index'));
 				}				
 				
@@ -69,7 +69,7 @@ class CategoriesController extends AppController {
 				$owner_id = $paper['Paper']['owner_id'];
 			}
 			if($this->Auth->user('id') != $owner_id){
-					$this->Session->setFlash(__('Paper does not belong to you!', true));
+					$this->Session->setFlash(__('This paper does not belong to you. You cannot add a category.', true));
 					$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
 			}
 				

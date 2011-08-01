@@ -3,7 +3,7 @@ class CommentsController extends AppController {
 
 	var $name = 'Comments';
     var $uses = array('Comment', 'Post', 'User');
-	var $helpers = array('Time', 'Image');
+	var $helpers = array('MzTime', 'Image');
     var $components = array('Email');
 	
 	public function beforeFilter(){
@@ -60,7 +60,6 @@ class CommentsController extends AppController {
 			}
 
 			$this->data['Comment']['text'] = $_POST['text'];
-			$this->log($this->data);
 			$this->Comment->create();
 			if ($this->data = $this->Comment->save($this->data)) {
 				
@@ -112,14 +111,15 @@ class CommentsController extends AppController {
 
 	function delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for comment', true));
+			$this->Session->setFlash(__('Invalid comment id', true));
 			$this->redirect($this->referer());
 		}
 		//check, if user is allwed to delte this comment
 		$logged_in_user_id = $this->Session->read('Auth.User.id');
-		$comment_to_delete = $this->Comment->read('user_id', $id);
-		
-		if($logged_in_user_id != $comment_to_delete['Comment']['user_id']){
+        $this->Comment->contain('Post.user_id');
+		$comment_to_delete = $this->Comment->read(null, $id);
+		$this->log($comment_to_delete); 
+		if($logged_in_user_id != $comment_to_delete['Comment']['user_id'] && $logged_in_user_id != $comment_to_delete['Post']['user_id']){
 			//not allowed
 			$this->Session->setFlash(__('You are not allowed to delete this comment', true));
 			$this->redirect($this->referer());			
@@ -130,7 +130,7 @@ class CommentsController extends AppController {
 			$this->Session->setFlash(__('Comment deleted', true), 'default', array('class' => 'success'));
 			$this->redirect($this->referer());
 		}
-		$this->Session->setFlash(__('Comment was not deleted', true));
+		$this->Session->setFlash(__('Comment has not been deleted', true));
 		$this->redirect($this->referer());
 	}
 
