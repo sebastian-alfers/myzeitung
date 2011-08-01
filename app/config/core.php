@@ -70,6 +70,24 @@ Configure::write('Cache.check', false);
 
 
 
+if(!isset($_SERVER['USE_MEMCACHE']) || empty($_SERVER['USE_MEMCACHE'])){
+	define('USE_MEMCACHE', false);
+    Configure::write('Session.save', 'database');
+}
+else{
+    define('USE_MEMCACHE', true);
+    Configure::write('Session.save', 'php');
+}
+
+if(!isset($_SERVER['USE_CDN']) || empty($_SERVER['USE_CDN'])){
+	define('USE_CDN', false);
+}
+else{
+    define('USE_CDN', true);
+}
+
+
+
 /* set environment */
 Configure::write('Hosting.environment.local', false);
 Configure::write('Hosting.environment.staging', false);
@@ -83,13 +101,6 @@ if(!isset($_SERVER['APPLICATION_ENV']) || empty($_SERVER['APPLICATION_ENV']) || 
 }
 
 
-
-if(!isset($_SERVER['USE_CDN']) || empty($_SERVER['USE_CDN'])){
-	define('USE_CDN', false);
-}
-else{
-    define('USE_CDN', true);
-}
 
 switch($_SERVER['APPLICATION_ENV']){
 	case 'local':
@@ -174,7 +185,6 @@ define('LOG_ERROR', 2);
  * the cake shell command: cake schema create Sessions
  *
  */
-Configure::write('Session.save', 'database');
 
 /**
  * The model name to be used for the session model.
@@ -214,7 +224,7 @@ Configure::write('Session.database', 'default');
  * characters."
  * @link http://php.net/session_name
  */
-Configure::write('Session.cookie', 'CAKEPHP');
+Configure::write('Session.cookie', 'mz_');
 
 /**
  * Session time out time (in seconds).

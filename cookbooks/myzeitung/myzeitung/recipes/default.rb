@@ -70,3 +70,7 @@ require_recipe "solr-jetty"
 #  command "/"
 #  cwd "#{node[:landingpagetool][:docroot]}/../"
 #end
+
+
+require_recipe "memcached"
+require_recipe "php::module_memcache"
