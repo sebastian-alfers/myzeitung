@@ -736,13 +736,17 @@ class PostsController extends AppController {
         }
     }
     function admin_enable($post_id){
-        $this->Post->contain();
+        $this->Post->contain('User');
         $post = $this->Post->read(null, $post_id);
         if(isset($post['Post']['id']) && !empty($post['Post']['id'])){
             if($post['Post']['enabled'] == true){
                 $this->Session->setFlash('This post is already enabled');
                 $this->redirect($this->referer());
             }else{
+                 if($post['User']['enabled'] == false){
+                    $this->Session->setFlash('The User that created the post is disabled. You cannot enable this post.');
+                    $this->redirect($this->referer());
+                }
                 if($this->Post->enable()){
                     $this->Session->setFlash('Post has been enabled successfully','default', array('class' => 'success'));
                     $this->redirect($this->referer());

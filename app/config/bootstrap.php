@@ -50,4 +50,4 @@
  */
 
 
-define('DEFAULT_LANGUAGE', 'deu');
+define('DEFAULT_LANGUAGE', 'eng');
