@@ -340,7 +340,7 @@ Configure::write('Acl.database', 'default');
  *		'engine' => 'Xcache', //[required]
  *		'duration'=> 3600, //[optional]
  *		'probability'=> 100, //[optional]
- * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional] prefix every cache file with this string
+ * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optiona1l] prefix every cache file with this string
  *		'user' => 'user', //user from xcache.admin.user settings
  *      'password' => 'password', //plaintext password (xcache.admin.pass)
  *	));
@@ -363,6 +363,6 @@ Configure::write('Acl.database', 'default');
 Cache::config('default', array('engine' => 'File'));
 
 
-Configure::write('Config.language', 'deu');
+Configure::write('Config.language', 'eng');
 
 define('CAKE_ADMIN', 'admin');

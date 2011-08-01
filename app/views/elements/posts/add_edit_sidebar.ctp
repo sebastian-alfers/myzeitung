@@ -40,7 +40,7 @@
 						<?php endforeach; ?>
 					<?php endif;?>
 					</ul>
-                        <a class="btn" id="btn-add-link"><span>+</span>Quelle hinzufügen</a>
+                        <a class="btn" id="btn-add-link"><span>+</span><?php echo __('Add links', true);?></a>
 
                     <hr>
                     <h5><?php __('Comments'); ?></h5>

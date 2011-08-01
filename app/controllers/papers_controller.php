@@ -615,7 +615,6 @@ class PapersController extends AppController {
                 if($this->Paper->disable()){
                     $this->Session->setFlash('Paper has been disabled successfully','default', array('class' => 'success'));
                     $this->redirect($this->referer());
-            $this->redirect($this->referer());
                 }else{
                     $this->Session->setFlash('This paper could not be disabled. Please try again.');
                     $this->redirect($this->referer());
@@ -628,17 +627,21 @@ class PapersController extends AppController {
         }
     }
     function admin_enable($paper_id){
-        $this->Paper->contain();
+        $this->Paper->contain(User);
         $paper = $this->Paper->read(null, $paper_id);
         if(isset($paper['Paper']['id']) && !empty($paper['Paper']['id'])){
             if($paper['Paper']['enabled'] == true){
                 $this->Session->setFlash('This paper is already enabled');
                 $this->redirect($this->referer());
             }else{
+                if($paper['User']['enabled'] == false){
+                    $this->Session->setFlash('The User that created the paper is disabled. You cannot enable this paper.');
+                    $this->redirect($this->referer());
+                }
                 if($this->Paper->enable()){
                     $this->Session->setFlash('Paper has been enabled successfully','default', array('class' => 'success'));
                     $this->redirect($this->referer());
-            $this->redirect($this->referer());
+
                 }else{
                     $this->Session->setFlash('This Paper could not be enabled. Please try again.');
                     $this->redirect($this->referer());
