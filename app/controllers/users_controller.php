@@ -299,7 +299,7 @@ class UsersController extends AppController {
                 $userData = array('username' => $this->data['User']['username'], 'password' => $this->Auth->password($this->data['User']['passwd']));
                 $this->Session->setFlash(__('Thank you for registration.', true), 'default', array('class' => 'success'));
                 if($this->Auth->login($userData)){
-					$this->redirect(array('controller' => 'papers' , 'action' => 'index'));
+					$this->redirect(array('controller' => 'posts' , 'action' => 'index'));
 				}
 
 

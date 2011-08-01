@@ -20,7 +20,7 @@ class Solr extends AppModel {
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 	
 	const HOST = 'localhost';
-	const PORT = 8983; # -alf 8080  -tim 8983
+	const PORT = 8080; # -alf 8080  -tim 8983
 	const PATH = '/solr';
 
 
@@ -40,6 +40,7 @@ class Solr extends AppModel {
         $port = self::PORT;
 
         if(defined('SOLR_PORT')){
+
              $port = SOLR_PORT;
         }
 
