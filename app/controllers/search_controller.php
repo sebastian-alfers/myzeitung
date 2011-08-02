@@ -213,13 +213,13 @@ class SearchController extends AppController {
 						//reading post counters and reposters array
 						if($result->type == 'post'){
 							$result->post_comment_count = 0;
-							$result->post_posts_user_count = 0;
+							$result->post_repost_count = 0;
 							$result->post_view_count = 0;
 							$result->post_reposters = array();
 							$this->Post->contain();
-							$this->data = $this->Post->read(array('reposters', 'comment_count', 'posts_user_count', 'view_count'), $result->id);
+							$this->data = $this->Post->read(array('reposters', 'comment_count', 'repost_count', 'view_count'), $result->id);
 							$result->post_comment_count = $this->data['Post']['comment_count'];
-							$result->post_posts_user_count = $this->data['Post']['posts_user_count'];
+							$result->post_repost_count = $this->data['Post']['repost_count'];
 							$result->post_view_count = $this->data['Post']['view_count'];
 							$result->post_reposters = $this->data['Post']['reposters'];
 						}

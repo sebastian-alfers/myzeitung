@@ -17,7 +17,7 @@
 		echo $this->Form->input('subscription_count');
 		echo $this->Form->input('content_paper_count');
 		echo $this->Form->input('post_count');
-		echo $this->Form->input('posts_user_count');
+		echo $this->Form->input('repost_count');
 		echo $this->Form->input('comment_count');
 		echo $this->Form->input('paper_count');
 	?>

@@ -19,8 +19,9 @@
 	<p><?php echo $this->Html->link($user->user_name, array('controller' => 'users', 'action' => 'view', $user->id));?></p>
 	<div class="actions">
 	<?php if($user->id != $session->read('Auth.User.id') && $user->user_allow_messages == true):?>
-		<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user->id), array('escape' => false, 'class' => 'btn btn-send', ));?>
+		<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user->id), array('escape' => false, 'class' => 'btn user-button-1 btn-send', ));?>
 	<?php endif;?>
+    <?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'users', 'action' => 'subscribe', $user->id), array('escape' => false, 'class' => 'btn user-button-2', ));?>
 	</div>
 	<p class="from"><strong><?php echo __('Author', true);?></strong></p>
 

@@ -89,8 +89,8 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 		<div class="article-nav">
 				<ul class="iconbar">
 				    <?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
-                     <?php $tipsy_title = sprintf(__n('%d repost', '%d reposts', $post['Post']['posts_user_count'],true), $post['Post']['posts_user_count']);?>
-                    <li class="reposts tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['posts_user_count'];?></li>
+                     <?php $tipsy_title = sprintf(__n('%d repost', '%d reposts', $post['Post']['repost_count'],true), $post['Post']['repost_count']);?>
+                    <li class="reposts tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['repost_count'];?></li>
                      <?php $tipsy_title = sprintf(__n('%d time viewed', '%d times viewed', $post['Post']['view_count'],true), $post['Post']['view_count']);?>
                     <li class="views tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['view_count'];?></li>
                      <?php $tipsy_title = sprintf(__n('%d comment', '%d comments', $post['Post']['comment_count'],true), $post['Post']['comment_count']);?>

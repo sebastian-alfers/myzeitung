@@ -27,9 +27,9 @@
              <li class="active"><?php else:?><li><?php endif;?>
              <?php echo $this->Paginator->sort('<span class="icon icon-author"></span>'. __('Number of comments', true), 'comment_count', array('escape' => false ,  'direction' => 'DESC')); ?></li>
 
-             <?php if(in_array($this->Paginator->sortKey(), array('Post.posts_user_count', 'Post.posts_user_count ASC', 'Post.posts_user_count DESC'))):?>
+             <?php if(in_array($this->Paginator->sortKey(), array('Post.repost_count', 'Post.repost_count ASC', 'Post.repost_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
-             <?php echo $this->Paginator->sort('<span class="icon icon-repost"></span>'. __('Number of reposts', true), 'posts_user_count', array('escape' => false ,  'direction' => 'DESC')); ?></li>
+             <?php echo $this->Paginator->sort('<span class="icon icon-repost"></span>'. __('Number of reposts', true), 'repost_count', array('escape' => false ,  'direction' => 'DESC')); ?></li>
 
              <?php if(in_array($this->Paginator->sortKey(), array('Post.title', 'Post.title ASC', 'Post.title DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>

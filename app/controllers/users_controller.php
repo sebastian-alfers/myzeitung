@@ -66,7 +66,7 @@ class UsersController extends AppController {
 								  	'User.username',
 		    						'User.name',
 		    						'User.created',
-		    						'User.posts_user_count',
+		    						'User.repost_count',
 		    						'User.post_count',
 		    						'User.comment_count',
                                     'User.content_paper_count'
@@ -179,7 +179,7 @@ class UsersController extends AppController {
             }
         }
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-        $user = $this->User->read(array('id','enabled','name','username','created','image' ,'posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $user_id);
+        $user = $this->User->read(array('id','enabled','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $user_id);
         if($user['User']['enabled'] == false){
             $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
 			$this->redirect($this->referer());
@@ -997,7 +997,7 @@ class UsersController extends AppController {
 			$user['User'] = $this->Session->read('Auth.User');
 		} else {
 		//reading user
-			$user = $this->User->read(array('id','enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+			$user = $this->User->read(array('id','enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
 		return $user;
 	}

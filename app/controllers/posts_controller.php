@@ -179,7 +179,7 @@ class PostsController extends AppController {
 		$post = $this->Post->read(null, $id);
 
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','posts_user_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
+		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
 		$this->set('post', $post);
 		$this->set('user', $user);
 		$this->set('comments',$comments);

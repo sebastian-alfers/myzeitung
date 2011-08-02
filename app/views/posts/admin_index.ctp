@@ -7,7 +7,7 @@
         <th><?php echo $this->Paginator->sort('User-ID' ,'user_id');?></th>
         <th><?php echo $this->Paginator->sort('Username', 'User.username');?></th>
         <th><?php echo $this->Paginator->sort('title');?></th>
-        <th><?php echo $this->Paginator->sort('posts_user_count');?></th>
+        <th><?php echo $this->Paginator->sort('repost_count');?></th>
         <th><?php echo $this->Paginator->sort('view_count');?></th>
         <th><?php echo $this->Paginator->sort('comment_count');?></th>
         <th><?php echo $this->Paginator->sort('created');?></th>
@@ -28,7 +28,7 @@
         <td><?php echo $post['Post']['user_id']; ?>&nbsp;</td>
         <td><?php echo $post['User']['username']; ?>&nbsp;</td>
         <td><?php echo $this->Text->truncate($post['Post']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
-        <td><?php echo $post['Post']['posts_user_count']; ?></td>
+        <td><?php echo $post['Post']['repost_count']; ?></td>
         <td><?php echo $post['Post']['view_count']; ?></td>
         <td><?php echo $post['Post']['comment_count']; ?></td>
 		<td><?php echo $this->MzTime->format('d.m.y',$post['Post']['created']); ?>&nbsp;</td>
