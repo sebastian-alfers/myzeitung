@@ -47,7 +47,7 @@ $(document).ready(function() {
 });
 //-->
 </script>
-<div id="dialog-show-references" title="title" style="display:none;">
-    <h4><?php __('References');?></h4>
+<div id="dialog-show-references" title="<?php __('Authors of this paper'); ?>" style="display:none;">
+    <div id="content-refs-chooser"></div>
 	<div id="contente-show-references"></div>
 </div>

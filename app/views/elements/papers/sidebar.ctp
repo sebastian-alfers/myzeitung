@@ -78,7 +78,7 @@ if($paper_belongs_to_user){
 
             <h6><?php echo __('Filter by Category', true);?></h6>
             <ul>
-                <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['content_paper_count'] , true), $paper['Paper']['content_paper_count']); ?>"></span>
+                <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['frontpage_authors_count'] , true), $paper['Paper']['frontpage_authors_count']); ?>"></span>
                 <?php //show only links for not selected items?>
                 <?php if(isset($this->params['pass'][1])):?>
                     <?php /* no topic selected */ echo $this->Html->link(__('front page', true)/* . '('.$paper['Paper']['category_paper_post_count'].')'*/, array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'])); ?>

@@ -72,6 +72,7 @@ class Paper extends AppModel {
 			'foreignKey' => 'paper_id',
 			'dependent' => true,
 			'conditions' => array('parent_id' => 0),//IMPORTANT! to avoid show sub-category in root
+            'order' => 'Category.name',
 			//	'dependent' => false
 		),
 		'Subscription' => array(
@@ -237,11 +238,17 @@ function __construct(){
 				}
 				return false;
 			}
-			/**
-			 * @todo alf: das ganze muss ohne "recursive" laufen.... alles bitte mit contain
-			 */
 
-			function getContentReferences($category_id = null){
+
+            /**
+             * get authors for a paper / category
+             *
+             * @param int $category_id - filter by category
+             * @param bool $show_all - if true show a (distinct) list of authors
+             *
+             * @return array
+             */
+			function getContentReferences($category_id = null, $show_all = false){
 
 				if($this->_contentReferences == null){
 
@@ -250,8 +257,11 @@ function __construct(){
 
 					$conditions = array('conditions' => array(
 						'ContentPaper.paper_id' => $this->id));
-					
-					if($category_id !=  null){
+					if($show_all){
+                        $conditions['fields'] = array('DISTINCT ContentPaper.user_id', 'ContentPaper.id');
+                        $conditions['group'] = array('ContentPaper.user_id');//each user only once
+                    }
+					else if($category_id !=  null){
 						$conditions['conditions']['ContentPaper.category_id'] = $category_id;
 					}
                     else{
@@ -261,7 +271,6 @@ function __construct(){
 
 					$paperReferences = array();
 					$contentPaper->contain('Topic.id' ,'Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id');
-					//$contentPaper->recursive = $recursive;// to get user from topic
 					$paperReferences = $contentPaper->find('all', $conditions);
 
 

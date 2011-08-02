@@ -146,6 +146,11 @@ class PapersController extends AppController {
 			$paper['Paper']['subscribed'] = false;
 		}
 
+        //get number of authors for frontpage
+        $this->ContentPaper->contain();
+        $frontpage_authors = $this->ContentPaper->find('count', array('conditions' => array('ContentPaper.paper_id' => $paper['Paper']['id'], 'ContentPaper.category_id' => NULL)));
+        $paper['Paper']['frontpage_authors_count'] = $frontpage_authors;
+
 		$this->set('hash', $this->Upload->getHash());
 
 		$this->set('paper', $paper);
@@ -310,19 +315,53 @@ class PapersController extends AppController {
             }
 
 
-			$this->Paper->contain();
-			$this->Paper->read(null, $id);
+			$this->Paper->contain('Category');
+			$paper_data = $this->Paper->read(null, $id);
+
+            //check if "all" authors is selected
+            $all = false;
+            if(isset($this->params['form']['all']) && !empty($this->params['form']['all']) && $this->params['form']['all'] == 'all'){
+                $all = true;
+
+                //not delete of authors here
+                $paper_owner = false;
+            }
 
 			$references = array();
-			$references = $this->Paper->getContentReferences($category_id);
+			$references = $this->Paper->getContentReferences($category_id, $all);
 
             $this->set('owner', $paper_owner);
-
+            $this->set('paper_id', $paper_data['Paper']['id']);
 			$this->set('references', $references);
+
+            //buid dropdown to filter the references within the popup
+            $types = array();
+
+            $types['refs_all'] = __('All Authors' ,true);
+
+            $frontpage_authors = $this->ContentPaper->find('count', array('conditions' => array('ContentPaper.paper_id' => $paper_data['Paper']['id'], 'ContentPaper.category_id' => NULL)));
+            $types['refs_paper/'.$paper_data['Paper']['id']] = sprintf(__('front page (%d)' ,true), $frontpage_authors);
+
+            foreach($paper_data['Category'] as $cat){
+                $types['refs_paper/'.$paper_data['Paper']['id'].'/'.$cat['id']] = $cat['name'] . ' ('.$cat['content_paper_count'].')';
+            }
+
+            //set selected type for dropdown
+
+            if($category_id == null){
+                $this->set('type', 'refs_paper/'.$paper_data['Paper']['id']);
+            }
+            else{
+                $this->set('type', 'refs_paper/'.$paper_data['Paper']['id'].'/'.$category_id);
+            }
+
+
+
+
+            $this->set('types' , $types);
 
 		}
 
-		$this->render('references', 'ajax');//custom ctp, ajax for blank layout
 
 	}
 

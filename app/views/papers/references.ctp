@@ -1,83 +1,42 @@
-<?php
+<div id="ref-chooser">
+    <?php echo $this->Form->create('Type');?>
+    <?php echo $this->Form->input('types', array('type'=>'select','options'=>$types, 'selected' =>$type, 'label' => false));?>
+    <?php echo $this->Form->end(); ?>
+</div>
+<div id="ref-content" class="modal-content">
+    <?php echo $this->element('papers/references'); ?>
+</div>
 
-        if(count($references) > 0):
-	for($i = 0; $i < count($references); $i++): ?>
+<script type="text/javascript">
 
-        <?php $reference = $references[$i];  ?>
+$(document).ready(function() {
+    //bind listener to filer references
+    $('#TypeReferencesForm').change(function() {
+        //get the selected value
+        var type = $('#TypeReferencesForm option:selected').val();
 
+        //remove the prefix and generate url
+        var sub = type.substring(5);
+        var all = '';
+        if(sub == 'all'){
+            //if all -> add post param to json request#
+            all = 'all';
+            var url = 'papers/references/paper/<?php echo $paper_id; ?>';
+        }else{
+            var url = 'papers/references/' + sub;
+        }
 
-        <?php if($owner): ?>
-	    	<div style="float:left;margin:0 5px 5px 0;"><div id="link-del<?php echo $reference['ContentPaper']['id']; ?>" class="tt-title link-delete">x</div>
-        <?php endif; ?>
-
-        <?php
-		$link_data = array();
-		$link_data['url'] = array('controller' => 'users', 'action' => 'view', $reference['User']['id']);
-		$link_data['custom'] = array('class' => 'user-image');
-        $link_data['additional'] = "display:block;";
-		$name = $reference['User']['username'];
-		if(isset($reference['User']['name']) && !empty($reference['User']['name'])) $name.= " (".$reference['User']['name'].")";
-		echo $image->render($reference['User'], 50, 50, array("alt" => $reference['User']['username'], 'title' => $name, 'class' => 'img-paper-user tt-title', 'id' => 'del'. $reference['ContentPaper']['id']), $link_data); ?></div>
-		<?php /* if(!empty($reference['User']['id'])): ?>
-		 <li><?php echo $reference['User']['name'] ?> (whole user)</li>
-		<?php endif; ?>
-		
-		<?php if(!empty($reference['Topic']['id'])): ?>
-		
-		<li><?php echo $reference['Topic']['name']; ?> (topic from user <?php echo  $reference['Topic']['User']['name'] ?> )</li>
-		<?php endif; */ ?>		
-	<?php endfor; ?>
-
-<?php endif; ?>
-
-<?php //echo $this->Html->link('< ' . __('Back to Paper', true), array('controller' => 'papers', 'action' => 'view', $paper_id)); ?>
-
-<script>
-$('.tt-title').tipsy({ fade: false, opacity: 1, gravity: 'sw'});
-
-function listenHover(element){
-    id = $(element).attr('id');
-    $('#link-'+id).show();
-    //remove hover listener
-    //$('.img-paper-user').die('hover');
-}
-
-function removeListenHover(element){
-    id = $(element).attr('id');
-
-    $('#link-'+id).hide();
-}
-
-//show link to delte user
-$('.img-paper-user').live('hover', function(){
-    listenHover(this);
-
-});
-
-//hide link to delte user
-$('.img-paper-user').live('mouseout', function(){
-    removeListenHover(this);
-});
+        var req = $.post(base_url + '/' + url + '.json', {all:all})
+           .success(function( string ){
+               $('#ref-content').html(string);
+           })
+           .error(function(){
+               alert('error');
+        });
 
 
-$('.link-delete').live('hover', function(){
-    //add hover stlye
-    $(this).addClass('hover_remove_btn');
+    });
 
-    //extract id for image from id from link
-    link_id = $(this).attr('id');
-    len = "link-";
-    img_id = link_id.substring(len.length, link_id.length);
-
-    listenHover($('#'+img_id));
-});
-
-
-$('.link-delete').live('mouseout', function(){
-    img_id = $(this).attr('id');
-
-    //listenHover(this);
-    $(this).removeClass('hover_remove_btn');
 });
 
 </script>

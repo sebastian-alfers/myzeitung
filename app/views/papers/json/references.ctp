@@ -1,1 +1,3 @@
-<?php echo json_encode($references); ?>
+<?php
+$render = $this->element('papers/references');
+echo json_encode($render); ?>

@@ -264,7 +264,7 @@ class AppController extends Controller {
                     return true;
                 }
                 else{
-                    $this->log('User ' . $logged_in_user_id . ' trys to change ' . $model . ' with id ' . $model->id . ' without beeing the owner!');
+                    $this->log('User ' . $logged_in_user_id . ' trys to change ' . get_class($model) . ' with id ' . $model->id . ' without beeing the owner!');
                     return false;
                 }
             }
