@@ -1,3 +1,15 @@
+<?php
+$has_topics = false;
+if($session->read('Auth.User.topic_count') > 0){
+    $has_topics = true;
+}
+
+if($has_topics){
+
+    echo $this->element('posts/repost_modal_choose_topic');
+}
+?>
+
 <?php if(count($post['Post']['image']) > 0): ?>
 <style type="text/css">
 
@@ -102,7 +114,16 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
                     <?php if($article_reposted_by_user == true):?>
                          <li><?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Undo repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']),array('class' => 'btn', 'escape' => false));?></li>
                     <?php else:?>
-                        <li><?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']),array('class' => 'btn', 'escape' => false));?></li>
+                        <?php
+                        //if the user has one or more topics, no href. in this case, the link will be observed and a popup comes
+                        $link = '/posts/repost/'. $post['Post']['id'];
+                        $class = 'class="btn"';
+                        if($has_topics){
+                            $link = '#';
+                            $class = 'class="repost btn"';
+                        }
+                        ?>
+                        <li><a href="<?php echo $link; ?>" <?php echo $class; ?> id="<?php echo $post['Post']['id']; ?>"><span class="repost-ico icon"></span><?php __('Repost'); ?></a></li>
                     <?php endif;?>
                 <?php endif;?>
 				<?php if($session->read('Auth.User.id') != null && $post['Post']['user_id'] == $session->read('Auth.User.id')): ?>

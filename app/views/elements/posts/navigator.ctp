@@ -5,6 +5,7 @@ if($session->read('Auth.User.topic_count') > 0){
 }
 
 if($has_topics){
+
     echo $this->element('posts/repost_modal_choose_topic');
 }
 ?>

@@ -22,6 +22,7 @@ class ContentPaper extends AppModel {
 			'order' => '',
 			'counterCache' => true,
             'counterScope' => array('ContentPaper.enabled' => true),
+            'counterQuery' => 'DISTINCT ContentPaper.user_id'
 			),
 		'Category' => array(
 			'className' => 'Category',

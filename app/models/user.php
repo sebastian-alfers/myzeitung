@@ -53,7 +53,8 @@ class User extends AppModel {
 		'offset' => '',
 		'exclusive' => '',
 		'finderQuery' => '',
-		'counterQuery' => ''
+		'counterQuery' => '',
+        'counterCache' => true
 		),
 
 	'ContentPaper' => array(
