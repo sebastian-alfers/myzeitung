@@ -1,10 +1,22 @@
+<?php
+if($session->read('Auth.User.id')){
+    echo $this->element('users/modal_subscribe');
+    e($cf->script('user/subscribe.js'));
+}
+?>
+<?php
+$subscribe_link = '/login';
+if($session->read('Auth.User.id')){
+    $subscribe_link = '#';
+}
+?>
 <?php echo $this->element('search/results/sidebar'); ?>
 <div id="maincolwrapper"> 
 	<div id="maincol">
 
 			<h4 class="nav-title"><span><?php echo __('Searchresults for')?></span> <?php echo $query;?></h4>
             <?php if(isset($results)): ?>
-       		    <?php echo $this->element('search/results', array('results' => $results)); ?>
+       		    <?php echo $this->element('search/results', array('results' => $results, 'subscribe_link' => $subscribe_link)); ?>
             <?php endif;?>
 		
     <?php if(isset($results)): ?>

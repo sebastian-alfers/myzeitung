@@ -13,7 +13,7 @@ $(document).ready(function() {
 	<div id="maincol" class="account">
 		<h4 class="account-title"><?php echo __('Delete Account', true);?></h4>
 
-				<?php echo $this->Form->create('User', array('inputDefaults' => array('error' => false, 'div' => false)));?>
+				<?php echo $this->Form->create('User', array('class' => 'jqtransform', 'inputDefaults' => array('error' => false, 'div' => false)));?>
 				<?php echo $this->Form->hidden('id' , array('value' => $user['User']['id']));?>
 				<?php echo $this->Form->hidden('username' , array('value' => $user['User']['username']));?>
 				<?php echo $this->Form->hidden('image' , array('value' => $user['User']['image']));?>

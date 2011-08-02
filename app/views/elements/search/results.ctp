@@ -3,7 +3,7 @@
 	<?php  foreach ($results['results'] as $result): ?>
 		<?php if($result instanceof Apache_Solr_Document): ?>
 			<?php if($result->type == 'user'):?>
-			<?php echo $this->element('search/results/user', array('user' => $result)); ?>
+			<?php echo $this->element('search/results/user', array('user' => $result, 'subscribe_link' => $subscribe_link)); ?>
 			<?php elseif($result->type == 'post'):?>
 			<?php echo $this->element('search/results/post', array('post' => $result)); ?>
 			<?php elseif($result->type == 'paper'):?>

@@ -1,56 +1,9 @@
 <?php
-
 if($session->read('Auth.User.id')){
     echo $this->element('users/modal_subscribe');
+    e($cf->script('user/subscribe.js'));
 }
 ?>
-
-<?php if($session->read('Auth.User.id')): ?>
-<script type="text/javascript">
-
-$(document).ready(function() {
-	
-	$('.subscribe-user').bind('click', function(){subscribeDialog(this);});
-
-
-});	
-
-function subscribeDialog(element){
-    var user_subscribe_id = $(element).attr('id');
-	loadForm(user_subscribe_id);
-    $('#dialog-subscribe').dialog('open');
-		
-	return false;
-}
-
-function loadForm(user_subscribe_id){
-    $('#dialog-subscribe-content').html("");
-    var req = $.post(base_url + '/users/subscribe/'+user_subscribe_id)
-       .success(function( string ){
-           $('#dialog-subscribe-content').html(string);
-       })
-       .error(function(){
-           alert('error');
-    });
-}
-
-$(function() {
-
-	$( "#dialog:ui-dialog" ).dialog( "destroy" );
-	$( "#dialog-subscribe" ).dialog({
-		resizable: false,
-		height:340,
-		width:400,
-		draggable:false,
-		modal: true,
-		autoOpen: false
-    });//end button .dialog
-});
-//
-</script>
-
-<?php endif; ?>
-
 
 <?php echo $this->element('users/modal_activity'); ?>
 
