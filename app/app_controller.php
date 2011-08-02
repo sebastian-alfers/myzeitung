@@ -52,11 +52,16 @@ class AppController extends Controller {
 
 
 	public function beforeFilter(){
+        App::import('Core', 'I18n');
+        $trans = new I18n();
+        $_this =& I18n::getInstance();
+        $_this->__domains['default']['deu']['LC_MESSAGES']['%plural-c'].= ';';
 
         //load locale
      //   App::import('Core', 'L10n');
      //   $this->L10n = new L10n();
      //   $this->L10n->get('deu');
+
 
         //$this->Security->blackHoleCallback = 'blackHole';
 
