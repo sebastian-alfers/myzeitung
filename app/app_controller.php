@@ -220,7 +220,13 @@ class AppController extends Controller {
             'admin_delete' => $this->superadmin,
  			),
         'admin' => array(
-            'admin_index' => $this->admin
+            'admin_index' => $this->admin,
+            ),
+        'search' => array(
+            'admin_index' => $this->admin,
+            'admin_refreshUsersIndex' => $this->superadmin,
+            'admin_refreshPostsIndex' => $this->superadmin,
+            'admin_refreshPapersIndex' => $this->superadmin,
             ),
 		);
 		

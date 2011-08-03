@@ -233,13 +233,12 @@ class PostsController extends AppController {
 						//$this->data = array();
 						$this->data = $temp_data;
 						$this->data['Post']['image'] = $this->images;
+                        $this->log($this->data['Post']['image']);
 						$this->data["Post"]["user_id"] = $user_id;
 						$this->data['Post']['hash'] = $hash;
 						$this->data['Post']['content'] = $content;
-						// writing the path of the first picture to a class variable because the array will be serialized before reaching the updateSolr method
 
-						$this->Post->solr_preview_image = $this->images[0];
-                       -// debug($this->images);
+
 						$this->Post->updateSolr = true;
 						if ($this->Post->save($this->data)) {
 
@@ -412,9 +411,7 @@ class PostsController extends AppController {
 
 
 			$this->Post->updateSolr = true;
-            if(isset($this->images[0]['path'])){
-                $this->Post->solr_preview_image = $this->images[0]['path'];
-            }
+
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));

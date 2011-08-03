@@ -18,8 +18,8 @@ var $belongsTo = array(
 		'order' => '',
 		//counting just reposts
 		'counterCache' => 'repost_count',
-		'counterScope' => array(
-                                'PostUser.enabled' => true),
+		'counterScope' => array('PostUser.repost' => 1,
+                                'PostUser.enabled' => 1),
 		),
 	'User' => array(
 		'className' => 'User',
@@ -29,8 +29,8 @@ var $belongsTo = array(
 		'order' => '',
 		//counting just reposts
 		'counterCache' => 'repost_count',
-		'counterScope' => array(
-                             'PostUser.enabled' => true),
+		'counterScope' => array('PostUser.repost' => 1,
+                             'PostUser.enabled' => 1),
 		),
 
 

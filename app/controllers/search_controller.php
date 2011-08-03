@@ -62,7 +62,26 @@ class SearchController extends AppController {
 	 * @param unknown_type $queryType
 	 */
 	
+    
+    function admin_index(){
 
+    }
+    function admin_refreshPostsIndex($dry_run = true){
+
+        $this->Solr->refreshPostsIndex($dry_run);
+        $this->redirect($this->referer());
+
+    }
+    function admin_refreshUsersIndex($dry_run = true){
+        $this->Solr->refreshUsersIndex($dry_run);
+        $this->redirect($this->referer());
+
+    }
+    function admin_refreshPapersIndex($dry_run = true){
+        $this->Solr->refreshPapersIndex($dry_run);
+        $this->redirect($this->referer());
+
+    }
 
 	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS, $start = 0){
 		$params = array();
@@ -175,7 +194,6 @@ class SearchController extends AppController {
 				}
             }
 		}
-        $this->log($search_string);
 		return $search_string;
 	}
 	

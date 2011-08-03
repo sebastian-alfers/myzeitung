@@ -10,7 +10,6 @@ class Post extends AppModel {
     var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
 
     var $updateSolr = false;
-    var $solr_preview_image = '';
 
     var $CategoryPaperPost = null;
 
@@ -67,69 +66,70 @@ class Post extends AppModel {
 			),
 
 
-			);
+        );
 
 
 
 
-            function disable(){
+    function disable(){
 
-                if($this->data['Post']['enabled'] == true){
-                    $postData = $this->data;
-                    //disable all posts_users entries with cascading and callbacks
-                    App::import('model','PostUser');
-                    $this->PostUser = new PostUser();
-                    $this->PostUser->contain();
-                     $postUsers = $this->PostUser->find('all',array('conditions' => array('post_id' => $this->id)));
-                    foreach($postUsers as $postUser){
-                        $this->PostUser->data = $postUser;
-                        $this->PostUser->disable();
-                    }
-                    //disable post
-                    $this->data = $postData;
-                    $this->data['Post']['enabled'] = false;
-                    $this->save($this->data);
-                    //delete solr entry
-                    $this->deleteFromSolr();
-
-                    return true;
-                }
-                //already disabled
-                return false;
-
+        if($this->data['Post']['enabled'] == true){
+            $postData = $this->data;
+            //disable all posts_users entries with cascading and callbacks
+            App::import('model','PostUser');
+            $this->PostUser = new PostUser();
+            $this->PostUser->contain();
+             $postUsers = $this->PostUser->find('all',array('conditions' => array('post_id' => $this->id)));
+            foreach($postUsers as $postUser){
+                $this->PostUser->data = $postUser;
+                $this->PostUser->disable();
             }
-            function enable(){
+            //disable post
+            $this->data = $postData;
+            $this->data['Post']['enabled'] = false;
+            $this->save($this->data);
+            //delete solr entry
+            $this->deleteFromSolr();
 
-                if($this->data['Post']['enabled'] == false){
-                    $postData = $this->data;
-                    //enable all posts_users entries with cascading and callbacks
-                    App::import('model','PostUser');
-                    $this->PostUser = new PostUser();
-                    $this->PostUser->contain();
-                    $postUsers = $this->PostUser->find('all',array('conditions' => array('post_id' => $this->id)));
-                    foreach($postUsers as $postUser){
-                        $this->PostUser->data = $postUser;
-                        $this->PostUser->enable();
-                    }
-                    //enable post
-                    $this->data = $postData;
-                    $this->data['Post']['enabled'] = true;
-                    $this->updateSolr = true;
-                    $this->save($this->data);
-                    
-                    return true;
-                }
-                //already enabled
-                return false;
+            return true;
+        }
+        //already disabled
+        return false;
+
+    }
+    function enable(){
+
+        if($this->data['Post']['enabled'] == false){
+            $postData = $this->data;
+            //enable all posts_users entries with cascading and callbacks
+            App::import('model','PostUser');
+            $this->PostUser = new PostUser();
+            $this->PostUser->contain();
+            $postUsers = $this->PostUser->find('all',array('conditions' => array('post_id' => $this->id)));
+            foreach($postUsers as $postUser){
+                $this->PostUser->data = $postUser;
+                $this->PostUser->enable();
             }
+            //enable post
+            $this->data = $postData;
+            $this->data['Post']['enabled'] = true;
+            $this->updateSolr = true;
+            $this->save($this->data);
+
+            return true;
+        }
+        //already enabled
+        return false;
+    }
 
 
-            private function deleteFromSolr(){
-                App::import('model','Solr');
-                $solr = new Solr();
-                $solr->delete(Solr::TYPE_POST.'_'.$this->id);
-                return true;
-            }
+    function deleteFromSolr(){
+   $this->log('model delete'.$this->id);
+        App::import('model','Solr');
+        $solr = new Solr();
+        $solr->delete(Solr::TYPE_POST.'_'.$this->id);
+        return true;
+    }
 			/**
 			 * @author tim
 			 *
@@ -254,10 +254,7 @@ class Post extends AppModel {
                 if(!is_null($this->data['Post']['reposters'])){
                     //if not null: check if filled and not already an array
                     if(!empty($this->data['Post']['reposters']) && !is_array($this->data['Post']['reposters'])){
-                      //  $this->log($this->data['Post']['reposters']);
-                      //  $this->log(unserialize($this->data['Post']['reposters']));
-                      //  $this->log(unserialize(unserialize($this->data['Post']['reposters'])));
-                      //  die();
+
                         $reposters = unserialize($this->data['Post']['reposters']);
                     }
                 }else{
@@ -352,11 +349,7 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
-                if(!empty($this->solr_preview_image)){
-					$this->solr_preview_image = serialize($this->solr_preview_image);
-				}
 
-				
 				//generate preview of post				
 				$content = explode(' ', strip_tags($this->data['Post']['content']));
 				for($i = 0; $i < count($content); $i++){
@@ -468,39 +461,49 @@ class Post extends AppModel {
                 }
 
             }
-    private function addToOrUpdateSolr(){
-                App::import('model','Solr');
-                $this->User->contain();
-                $userData = $this->User->read(null, $this->data['Post']['user_id']);
+    function addToOrUpdateSolr(){
+        App::import('model','Solr');
+        $this->User->contain();
+        $userData = $this->User->read(null, $this->data['Post']['user_id']);
 
-                if($userData['User']['id']){
-                    if(isset($this->data['Post']['topic_id'])){
-                        $this->Topic->contain();
-                        $topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+        if($userData['User']['id']){
+            if(isset($this->data['Post']['topic_id'])){
+                $this->Topic->contain();
+                $topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
 
-                        if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
-                            $this->data['Post']['topic_name'] = $topicData['Topic']['name'];
-                        }
-                    }
-                    if(!empty($this->solr_preview_image)){
-                        $this->data['Post']['image'] = $this->solr_preview_image;
-
-                    }
-                    $this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
-                    $this->data['Post']['id'] = $this->id;
-                    $this->data['Post']['user_name'] = $userData['User']['name'];
-                    $this->data['Post']['user_username'] = $userData['User']['username'];
-                    $this->data['Post']['user_id'] = $userData['User']['id'];
-                    $this->data['Post']['type'] = Solr::TYPE_POST;
-
-                    $solr = new Solr();
-                    $solr->add($this->addFieldsForIndex($this->data));
-
-                }
-                else{
-                    $this->log('Error while reading user for Post! No solr index update');
+                if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
+                    $this->data['Post']['topic_name'] = $topicData['Topic']['name'];
                 }
             }
+
+
+            if(!empty($this->data['Post']['image'])){
+                $this->data['Post']['image'] = $this->generateSearchPreviewPicture($this->data['Post']['image']);
+            }
+            $this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
+            $this->data['Post']['id'] = $this->id;
+            $this->data['Post']['user_name'] = $userData['User']['name'];
+            $this->data['Post']['user_username'] = $userData['User']['username'];
+            $this->data['Post']['user_id'] = $userData['User']['id'];
+            $this->data['Post']['type'] = Solr::TYPE_POST;
+
+            $solr = new Solr();
+            $solr->add($this->addFieldsForIndex($this->data));
+
+        }
+        else{
+            $this->log('Error while reading user for Post! No solr index update');
+        }
+    }
+
+    private function generateSearchPreviewPicture($images = null){
+        if(!empty($images)){
+            $images = unserialize($images);
+            if(isset($images[0])){
+                return serialize($images[0]);
+            }
+        }
+    }
 
 			/**
 			 * @todo move to abstract for all models
