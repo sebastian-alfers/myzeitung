@@ -20,7 +20,7 @@ class Solr extends AppModel {
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 	
 	const HOST = 'localhost';
-	const PORT = 8080; # -alf 8080  -tim 8983
+	const PORT = 8983; # -alf 8080  -tim 8983
 	const PATH = '/solr';
 
 
@@ -124,6 +124,159 @@ class Solr extends AppModel {
 
 	}
 
+
+
+    function refreshPostsIndex(){
+        //read all posts with  order "id desc"
+        App::import('model','Post');
+        $this->Post = new Post();
+        $this->Post->contain('Topic.id', 'Topic.name');
+
+        $posts = $this->Post->find('all',array('order' => array('Post.id desc')));
+
+        $lastFoundId = 0;
+        //just in case there are still search entries, with an higher id, than the highest
+        //record from database
+        if(isset($posts[0]['Post']['id'])){
+            $lastFoundId = $posts[0]['Post']['id'] + 25;
+        }
+
+        foreach($posts as $post){
+            //if a post is enabled its gonna be updated in the index
+            //if a post is disabled (not enabled) its gonna be deleted from the index
+            $this->Post->id = $post['Post']['id'];
+            if($post['Post']['enabled'] == true){
+                $this->Post->data = $post;
+                $this->Post->addToOrUpdateSolr();
+            }else{
+                $this->Post->deleteFromSolr();
+            }
+            //start of the magic :-)
+            //comparing the id of the LAST and the ACTIVE record.
+            //if the result of the substraction (differene )of the LAST-id and the ACTIVE-id is larger than 1
+            //we know that there were records in between once. to be on the safe side, we delete all these
+            //"ghost-records" from solr, just in case that there might be a solr-record left.
+            if(($lastFoundId - $post['Post']['id']) > 1){
+                //there had been posts between the LAST and the ACTIVE record
+                //-> delete all index_entries that match those post id's in between
+                $deleteStartId = $post['Post']['id'] + 1;
+                $deleteEndId = $lastFoundId - 1;
+                for($i = $deleteStartId; $i <= $deleteEndId; $i++){
+                    $this->Post->id = $i;
+                    $this->Post->deleteFromSolr();
+                }
+            }
+
+            //keep the id of the active record
+            //this will be the "last record id" for the NEXT record.
+            $lastFoundId = $post['Post']['id'];
+        }
+    }
+
+
+
+    function refreshUsersIndex(){
+        //read all users with  order "id desc"
+        App::import('model','Users');
+        $this->User = new User();
+        $this->User->contain();
+
+        $users = $this->User->find('all',array('order' => array('User.id desc')));
+
+        $lastFoundId = 0;
+        //just in case there are still search entries, with an higher id, than the highest
+        //record from database
+        if(isset($users[0]['User']['id'])){
+            $lastFoundId = $users[0]['User']['id'] + 25;
+        }
+
+        foreach($users as $user){
+            $this->User->id = $user['User']['id'];
+            //if a user is enabled its gonna be updated in the index
+            //if a User is disabled (not enabled) its gonna be deleted from the index
+            if($user['User']['enabled'] == true){
+                 $this->User->data = $user;
+                 $this->User->addToOrUpdateSolr();
+            }else{
+                 $this->User->deleteFromSolr();
+            }
+            //start of the magic :-)
+            //comparing the id of the LAST and the ACTIVE record.
+            //if the result of the substraction (differene )of the LAST-id and the ACTIVE-id is larger than 1
+            //we know that there were records in between once. to be on the safe side, we delete all these
+            //"ghost-records" from solr, just in case that there might be a solr-record left.
+            if(($lastFoundId - $user['User']['id']) > 1){
+                //there had been users between the LAST and the ACTIVE record
+                //-> delete all index_entries that match those post id's in between
+                $deleteStartId = $user['User']['id'] + 1;
+                $deleteEndId = $lastFoundId - 1;
+
+                for($i = $deleteStartId; $i <= $deleteEndId; $i++){
+                    $this->User->id = $i;
+                    $this->User->deleteFromSolr();
+                }
+            }
+
+            //keep the id of the active record
+            //this will be the "last record id" for the NEXT record.
+            $lastFoundId = $user['User']['id'];
+        }
+    }
+
+
+    
+    function refreshPapersIndex(){
+        //read all Papers with  order "id desc"
+        App::import('model','Papers');
+        $this->Paper = new Paper();
+        $this->Paper->contain();
+        $papers = $this->Paper->find('all',array('order' => array('Paper.id desc')));
+
+        $lastFoundId = 0;
+        //just in case there are still search entries, with an higher id, than the highest
+        //record from database
+        if(isset($papers[0]['Paper']['id'])){
+            $lastFoundId = $papers[0]['Paper']['id'] + 25;
+
+        }
+
+        foreach($papers as $paper){
+            $this->Paper->id = $paper['Paper']['id'];
+            //if a paper is enabled its gonna be updated in the index
+            //if a paper is disabled (not enabled) its gonna be deleted from the index
+            if($paper['Paper']['enabled'] == true){
+                $this->Paper->data = $paper;
+                $this->Paper->addToOrUpdateSolr();
+            }else{
+               $this->Paper->deleteFromSolr();
+            }
+            //start of the magic :-)
+            //comparing the id of the LAST and the ACTIVE record.
+            //if the result of the substraction (differene )of the LAST-id and the ACTIVE-id is larger than 1
+            //we know that there were records in between once. to be on the safe side, we delete all these
+            //"ghost-records" from solr, just in case that there might be a solr-record left.
+            if(($lastFoundId - $paper['Paper']['id']) > 1){
+                //there had been papers between the LAST and the ACTIVE record
+                //-> delete all index_entries that match those post id's in between
+                $deleteStartId = $paper['Paper']['id'] + 1;
+                $deleteEndId = $lastFoundId - 1;
+
+                for($i = $deleteStartId; $i <= $deleteEndId; $i++){
+                    $this->Paper->id = $i;
+                    $this->Paper->deleteFromSolr();
+                }
+            }
+
+            //keep the id of the active record
+            //this will be the "last record id" for the NEXT record.
+            $lastFoundId = $paper['Paper']['id'];
+        }
+    }
+
+    
+
+
+
 	/**
 	 *
 	 * performs a query to solr and returns result
@@ -184,7 +337,7 @@ class Solr extends AppModel {
 		}
 		catch (Exception $e)
 		{
-			$this->log('Erro while performing query to solr. query: ' . $query);
+			$this->log('Error while performing query to solr. query: ' . $query);
 		}
 
 		return $results;

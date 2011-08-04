@@ -507,7 +507,7 @@ class User extends AppModel {
 
 			}
 		}
-        private function addToOrUpdateSolr(){
+        function addToOrUpdateSolr(){
 
             App::import('model','Solr');
 
@@ -627,7 +627,7 @@ class User extends AppModel {
 		}
 
 		function addFieldsForIndex($data){
-				
+
 			$solrFields = array();
 				
 			$solrFields['User']['id'] = $data['User']['id'];
@@ -654,7 +654,8 @@ class User extends AppModel {
 	     *
 		 */
 
-        private function deleteFromSolr(){
+        function deleteFromSolr(){
+     
             App::import('model','Solr');
             $solr = new Solr();
             $solr->delete(Solr::TYPE_USER.'_'.$this->id);

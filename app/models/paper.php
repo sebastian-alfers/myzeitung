@@ -382,7 +382,7 @@ function __construct(){
 				}
 			}
 
-            private function addToOrUpdateSolr(){
+            function addToOrUpdateSolr(){
             //get User information
                 App::import('model','Solr');
 				App::import('model','User');
@@ -747,7 +747,7 @@ function __construct(){
 			}
 
 
-            private function deleteFromSolr(){
+            function deleteFromSolr(){
                 App::import('model','Solr');
                 $solr = new Solr();
                 $solr->delete(Solr::TYPE_PAPER.'_'.$this->id);

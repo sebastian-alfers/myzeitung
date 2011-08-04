@@ -31,6 +31,7 @@
 			<div id="user-nav">
                 <?php if($is_superadmin): ?>
                     <ul>
+                        <li><a href="/admin/search/index"><?php __('Search'); ?></a></li>
                         <li><a href="/admin/papers/index"><?php __('Papers'); ?></a></li>
                         <li><a href="/admin/posts/index"><?php __('Posts'); ?></a></li>
 				        <li><a href="/admin/users/index"><?php __('Users'); ?></a></li>

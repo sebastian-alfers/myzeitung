@@ -79,7 +79,7 @@ if($has_topics){
 							<?php //not image -> show text preview?>
                                 <p>
 								<?php //echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
-								<?php echo $this->Text->truncate(strip_tags($post['Post']['content']), 175,array('ending' => '...'.' '.$this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])), 'exact' => false, 'html' => true)); ?>
+								<?php echo $this->Text->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])), 'exact' => false, 'html' => true)); ?>
                                 </p>
 							<?php endif;  ?>
 							<ul class="footer">
