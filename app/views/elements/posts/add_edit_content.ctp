@@ -3,21 +3,6 @@
 <?php echo $this->element('posts/modal_add_url'); ?>
 <?php echo $this->element('posts/modal_add_video_url'); ?>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$(".scroll").click(function(event){
-		//prevent the default action for the click event
-		event.preventDefault();
-
-        scrollTo('sortable');
-
-	});
-});
-</script>
-
-        <a href="#sortable" class="scroll">test</a>
-
-
 <div class="article-nav">
     <h1><?php __('New Post'); ?></h1>
 
