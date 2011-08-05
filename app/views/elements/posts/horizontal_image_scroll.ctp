@@ -50,7 +50,7 @@ $is_scroling = $count_sub_images > 1;//now, we scroll only two images
 				if(!isset($images[$i])) continue;
 		        $img_details['image'] = $images[$i];
                 $link_data = array();
-				$link_data['url'] = '/img/cache/post/2011/08/b6d767d2f8ed5d21a44b0e5886680cb9/288/180/bildschirmfoto_2011-07-03_um_18.34.19.png';
+				$link_data['url'] = '/img/'.$img_details['image']['path'];
 				$link_data['custom'] = array('class' => 'pirobox_gall', 'rel' => 'gallery', 'rev' => $i+1);
 
                 echo $image->render($img_details, 180, 150, array("alt" => 'sub'), $link_data);
