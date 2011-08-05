@@ -8,7 +8,7 @@
 	<ul>
 	<?php foreach($user_documents as $user): ?>
 		<?php if($user instanceof Apache_Solr_Document): ?>
-			<li class="user">
+			<li class="user art">
 				<?php
 				if(isset($user->user_image)){
 					$img = unserialize($user->user_image);
