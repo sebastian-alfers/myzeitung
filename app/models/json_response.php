@@ -61,6 +61,9 @@ class JsonResponse extends AppModel {
      */
     private function _setResponseData($data = array()){
         $this->_responseData = $data;
+        if(!isset($data['msg']) && empty($data['msg'])){
+            $this->_responseData['msg'] = '';
+        }
     }
 
     /**

@@ -48,11 +48,13 @@ class UploadComponent extends Object {
 	}
 
 	/**
-	 * copy images
-	 *
-	 * @param int id of post
-	 * @param $timestamp date the post is created
-	 */
+     * @param  $hash - name of folder in img/tmp
+     * @param null $id - to hash the path
+     * @param null $timestamp - added to the path
+     * @param  $images - string, with comma-seperated links
+     * @param  $folder - e.g. post or paper, like namespace
+     * @return array|bool
+     */
 	public function copyImagesFromHash($hash, $id = null, $timestamp = null, $images, $folder){
 
 		$new_images = array();
@@ -97,13 +99,24 @@ class UploadComponent extends Object {
 					$tmp_path = $path_to_tmp_folder.$file;  //root/path/to/hash/file.jpg
 					$new_full_path = $post_img_folder.$file; //root/path/to/new/file.jpg
 
-
 					if(!is_dir($tmp_path) && file_exists($tmp_path)){
 						$size = getimagesize($tmp_path);
 
+                        if(file_exists($new_full_path)){
+                            $parts = explode("/", $new_full_path);
+                            $count = count($parts);
+
+                            $parts[$count-1] = uniqid().'_' . $parts[$count -1];
+                            $new_full_path = '';
+                            foreach($parts as $index => $part){
+                                $new_full_path.=$part;
+                                if($index+1 < $count) $new_full_path.= DS;
+                            }
+                        }
+
 						if (copy($tmp_path , $new_full_path)) {
 							unlink($tmp_path);
-							$new_images[] = array('path' => $folder.DS.$new_rel_path.$file, 'file_name' => $file, 'size' => $size);
+							$new_images[] = array('path' => $folder.DS.$new_rel_path.$file, 'file_name' => basename($new_full_path), 'size' => $size);
 						}
 					}
 

@@ -1,5 +1,9 @@
 <?php
 
+require_once('libs/OpenGraph.php');
+require_once('libs/ImageLoader.php');
+
+
 class UrlContentExtract extends AppModel {
 
     var $_htmlData = '';
@@ -15,15 +19,33 @@ class UrlContentExtract extends AppModel {
      */
     function getVideoPreview($url){
 
-        $html = new DOMDocument();
-        $html->loadHtmlFile( 'http://www.youtube.com/watch?v=X5halJlIRQ0&feature=feedrec' );
+        $graph = OpenGraph::fetch($url);
 
-		$meta_regex = '/<meta[^>]*'.'/Ui';
-		preg_match_all($meta_regex, $this->_htmlData, $meta, PREG_PATTERN_ORDER);
-		print_r($meta);
+
+        foreach ($graph as $key => $value) {
+            echo "$key => $value";
+        }
+
+        $image = new GetImage;
+
+        // just an image URL
+        $image->source = 'http://static.php.net/www.php.net/images/php_snow_2008.gif';
+        $image->save_to = '/vagrant/app/webroot/img/tmp/'; // with trailing slash at the end
+
+        $get = $image->download('gd'); // using GD
+
+        if($get)
+        {
+        echo 'The image has been saved.';
+        }
+
+
+
 
 
     }
+
+
 	
 	/**
 	 * gets a valid url and returns content
@@ -95,6 +117,19 @@ class UrlContentExtract extends AppModel {
 	 *
 	 * @return array
 	 */
+	private function _getMetaTags($html_site){
+		$meta_regex = '/<meta[^>]*'.'/Ui';
+		preg_match_all($meta_regex, $html_site, $meta, PREG_PATTERN_ORDER);
+		return $meta;
+	}
+
+	/**
+	 * returns all images
+	 *
+	 * @param String $html_site
+	 *
+	 * @return array
+	 */
 	private function _getImages($html_site){
 		$image_regex = '/<img[^>]*'.'src=[\"|\'](.*)[\"|\']/Ui';
 		preg_match_all($image_regex, $html_site, $img, PREG_PATTERN_ORDER);
@@ -137,6 +172,7 @@ class UrlContentExtract extends AppModel {
 		{
 			$data .= fgets($file, 1024);
 		}
+
 		$this->_htmlData = $data;
 	}
 

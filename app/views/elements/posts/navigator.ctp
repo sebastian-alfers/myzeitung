@@ -60,12 +60,15 @@ if($has_topics){
                             ?>
 							<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
 							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
-
+                                <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
+                                 <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>
+                                    <span class="post video-item">video</span>
+                                 <?php endif; ?>
                                  <?php echo $image->render($post['Post'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
 
                              <?php /*
                                if(isset($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):
-							$info = $image->resize($post['Post']['image'][0]['path'], 200, 117, null, true);//return array bacuse of last param -> true
+							  $info = $image->resize($post['Post']['image'][0]['path'], 200, 117, null, true);//return array bacuse of last param -> true
 							    ?>
 
 								<p style="height:117px;overflow:hidden;margin-bottom:25px;">

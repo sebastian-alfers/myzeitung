@@ -45,13 +45,30 @@ $is_scroling = $count_sub_images > 1;//now, we scroll only two images
 		<div class="items">
 
 			<?php for($i = 0; $i <= $count_sub_images-1; $i++): ?>
+                 <?php if(!isset($images[$i])) continue;
+                       $img_details['image'] = $images[$i];
+
+                         ?>
+
 	            <div>
+                 <?php if(isset($img_details['image']['item_type']) && $img_details['image']['item_type'] == 'video'): ?>
+                    <span class="post-view video-item">video</span>
+                 <?php endif; ?>
 				<?php 
-				if(!isset($images[$i])) continue;
-		        $img_details['image'] = $images[$i];
+
+
                 $link_data = array();
-				$link_data['url'] = '/img/'.$img_details['image']['path'];
-				$link_data['custom'] = array('class' => 'pirobox_gall', 'rel' => 'gallery', 'rev' => $i+1);
+                if(isset($images[$i]['item_type']) && $images[$i]['item_type'] == 'video'){
+                    $href = $images[$i]['video']['video'];
+                    $rel = 'iframe-640-505';
+                }
+                else{
+                    $href = '/img/'.$img_details['image']['path'];
+                    $rel = 'gallery';
+
+                }
+				$link_data['url'] = $href;
+				$link_data['custom'] = array('class' => 'pirobox_gall', 'rel' => $rel, 'rev' => $i+1);
 
                 echo $image->render($img_details, 180, 150, array("alt" => 'sub'), $link_data);
 				//$info = $image->resize($images[$i]['path'], 80, 80, null, true);//return array because of last param -> true

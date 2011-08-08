@@ -376,16 +376,39 @@ class PostsController extends AppController {
 		}
 		if (!empty($this->data)) {
 			//save new sorted images
+            $images = '';
+            $this->data['Post']['media'] = $this->_processMediaData(json_decode($this->data['Post']['media']));
+
+            foreach($this->data['Post']['media'] as $item){
+                $images .= $item['img_name'] . ',';
+            }
 
 			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
+                //process data format of media
 
-				$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $this->data['Post']['images'], 'post');
+
+				$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $id, $created, $images, 'post');
 				if(is_array($this->images)){
 				}
 			}
 				
-			if(!empty($this->data['Post']['images'])){
-				$tranf_images = $this->_transformImages($this->data['Post']['images'], $id, $created);
+			if($images != ''){
+				$tranf_images = $this->_transformImages($images, $id, $created);
+
+                //extract video data if available
+                foreach($tranf_images as &$item){
+                    $file_name =  $item['file_name'];
+
+                    foreach($this->data['Post']['media'] as $data){
+                        if($file_name == $data['img_name'] && $data['item_type'] == 'video'){
+                            $item['item_type'] = $data['item_type'];
+                            unset($data['item_type']);
+                            $item['video'] = $data;
+
+                        }
+                    }
+
+                }
 
 				$this->data['Post']['image'] = $tranf_images;
 			}
@@ -471,7 +494,17 @@ class PostsController extends AppController {
 				
 			//$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
 			foreach ($this->data['Post']['image'] as $img){
-				$return_imgs[] = array('path' => $img['path'], 'name' => $img['file_name']);
+
+                $tmp = array('path' => $img['path'], 'name' => $img['file_name']);
+                if(isset($img['video'])) $tmp['video'] = $img['video'];
+                if(!isset($img['item_type']) || $img['item_type'] == ''){
+                    $tmp['item_type'] = 'image';
+                }
+                else{
+                    $tmp['item_type'] = $img['item_type'];
+                }
+
+                $return_imgs[] = $tmp;
 			}
 			if(count($return_imgs) > 0){
 				$this->set('images', $return_imgs);
@@ -655,9 +688,21 @@ class PostsController extends AppController {
 		$this->render('ajx_url_content_extract', 'ajax');//empty ctp, ajax for blank layout
 	}
 
+    /**
+     * transform images to be saved
+     *
+     * @param  $imgs string - comma-seperated list of images
+     * @param  $post_id int
+     * @param  $timestamp
+     * @return array
+     */
 	private function _transformImages($imgs, $post_id, $timestamp){
 		$new_imgs = array();
+
+        //remove empty element of array
+
 		$imgs = explode(',', $imgs);
+        $imgs = array_filter($imgs);
 
 		$year = date('Y', strtotime($timestamp));
 		$month = date('m', strtotime($timestamp));
@@ -665,7 +710,6 @@ class PostsController extends AppController {
 		$rel_path = $year.DS.$month.DS.md5($post_id).DS;// starting from webroot/img/* folder
 
 		$root = $this->Upload->getWebrootUrl().'img'.DS;
-			
 
 		foreach($imgs as $img){
 			$path = 'post'.DS.$rel_path.$img;
@@ -758,6 +802,26 @@ class PostsController extends AppController {
             $this->redirect($this->referer());
 
         }
+    }
+
+    /**
+     * transforms the json_encoded string to more handy array
+     *
+     * @param  $array
+     * @return array
+     */
+    private function _processMediaData($array){
+
+        for($i = 0; $i < count($array); $i++){
+            $tmp = array();
+            foreach($array[$i] as $attribute){
+               $tmp[$attribute[0]] = $attribute[1];
+            }
+            $array[$i] = $tmp;
+        }
+
+        return $array;
+
     }
 }
 ?>
