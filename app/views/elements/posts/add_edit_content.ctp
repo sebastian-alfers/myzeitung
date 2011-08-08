@@ -3,7 +3,6 @@
 <?php echo $this->element('posts/modal_add_url'); ?>
 <?php echo $this->element('posts/modal_add_video_url'); ?>
 
-
 <div class="article-nav">
     <h1><?php __('New Post'); ?></h1>
 
@@ -36,7 +35,7 @@
     <div class="article-content">
         <label><?php __('Content'); ?></label>
 
-    <textarea id="PostContent" name="data[Post][content]" rows="15" cols="80" style="height:400px;" class="tinymce">
+    <textarea id="PostContent" name="data[Post][content]" rows="5" cols="10" style="height:200px;" class="tinymce">
     <?php echo $mzform->value($this, 'Post', 'content'); ?>
         </textarea>
     </div>

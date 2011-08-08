@@ -16,6 +16,7 @@ e($cf->script('global/myzeitung'));
 e($cf->script('jquery.pop.js'));
 e($cf->script('jquery.tipsy.js'));
 e($cf->script('tiny_mce/tiny_mce.js'));
+e($cf->script('pirobox_extended_min.js'));
 
 
 e($cf->css('jquery.fileupload-ui'));
@@ -32,6 +33,9 @@ echo $cf->css('style');
 ?>
 
 <link rel="stylesheet" href="/js/tiny_mce/themes/advanced/skins/default/ui.css">
+
+
+
 
 
 
@@ -52,7 +56,8 @@ tinyMCE.init({
         width : 728,
         theme_advanced_resizing_max_width: 728,
         theme_advanced_resizing_min_width: 728,
-        plugins : "autolink,lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+        plugins : "autolink,lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
         entity_encoding : "raw",
         // Theme options
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|formatselect, bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,cleanup,code,|,forecolor,backcolor",
@@ -64,7 +69,6 @@ tinyMCE.init({
         theme_advanced_statusbar_location : "bottom",
         theme_advanced_resizing : true,
         oninit : "setPlainText",
-        paste_use_dialog : false,
         paste_auto_cleanup_on_paste : true,
         paste_convert_headers_to_strong : false,
         paste_strip_class_attributes : "all",

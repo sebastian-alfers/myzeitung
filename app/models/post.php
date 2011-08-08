@@ -246,7 +246,7 @@ class Post extends AppModel {
                 }
                 $this->data['Post']['reposters'] = serialize($reposters);
 
-                $this->save($this->data['Post']);
+                $this->save($this->data, false);
             }
     
             function addUserToReposters($user_id){
@@ -266,7 +266,9 @@ class Post extends AppModel {
                 if(!in_array($user_id,$reposters)){
                             $reposters[] = $user_id;
                             $this->data['Post']['reposters'] = serialize($reposters);
-                            $this->save($this->data['Post']);
+
+                            //save without validation, otherwise we have validation error while update the post
+                            $this->save($this->data, false);
                 }
 
             }

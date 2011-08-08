@@ -18,6 +18,9 @@ class UploadComponent extends Object {
 		$file_name = preg_replace('/^\W+|\W+$/', '', $file_name); // remove all non-alphanumeric chars at begin & end of string
 		$file_name = preg_replace('/\s+/', '_', $file_name); // compress internal whitespace and replace with _
 		$file_name = strtolower(preg_replace('/\W-/', '', $file_name)); // remove all non-alphanumeric chars except _ and -
+        $pattern = array("','", "';'", "'#'", );
+        $file_name = preg_replace($pattern, '', $file_name);
+
 
 		return $file_name;
 	}
