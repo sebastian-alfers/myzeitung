@@ -379,7 +379,7 @@ class Solr extends AppModel {
 
 		var_dump($this->getSolr()->deleteByQuery('*:*'));
 		$this->getSolr()->commit();
-		echo "has been delteted";
+		echo "has been deleted";
 		return true;
 	}
 
