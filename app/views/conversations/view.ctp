@@ -17,7 +17,7 @@
                             <?php endforeach; ?>
 
                         </ul>
-
+                        <a name="answer"></a>
 						<div class="write-anwer">
 								<form action="">
 									<h4>Antworten</h4>

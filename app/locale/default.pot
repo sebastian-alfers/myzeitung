@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-07-28 13:57+0200\n"
+"POT-Creation-Date: 2011-08-09 16:51+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,3293 +14,2430 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /app_controller.php:226
+#: /Applications/MAMP/htdocs/myzeitung//_controller.php:251
 msgid "No Permission"
 msgstr ""
 
-#: /controllers/categories_controller.php:17;88
+#: /Applications/MAMP/htdocs/myzeitung//controllers/ajax_controller.php:134
+msgid "Please enter a youtube or vimeo link"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:17;88
 msgid "Invalid category"
 msgstr ""
 
-#: /controllers/categories_controller.php:39
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:39
 msgid "Invalid parameters"
 msgstr ""
 
-#: /controllers/categories_controller.php:61
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:61
 msgid "Unable to read parent category."
 msgstr ""
 
-#: /controllers/categories_controller.php:72
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:72
 msgid "This paper does not belong to you. You cannot add a category."
 msgstr ""
 
-#: /controllers/categories_controller.php:78;93
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:78;93
 msgid "The category has been saved"
 msgstr ""
 
-#: /controllers/categories_controller.php:81;96
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:81;96
 msgid "The category could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/categories_controller.php:109
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:109
 msgid "Invalid id for category"
 msgstr ""
 
-#: /controllers/categories_controller.php:113
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:113
 msgid "Category deleted"
 msgstr ""
 
-#: /controllers/categories_controller.php:116
+#: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:116
 msgid "Category was not deleted"
 msgstr ""
 
-#: /controllers/comments_controller.php:33
+#: /Applications/MAMP/htdocs/myzeitung//controllers/comments_controller.php:33
 msgid "The comment has been saved"
 msgstr ""
 
-#: /controllers/comments_controller.php:36
+#: /Applications/MAMP/htdocs/myzeitung//controllers/comments_controller.php:36
 msgid "The comment could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/comments_controller.php:114
+#: /Applications/MAMP/htdocs/myzeitung//controllers/comments_controller.php:114
 msgid "Invalid comment id"
 msgstr ""
 
-#: /controllers/comments_controller.php:124
+#: /Applications/MAMP/htdocs/myzeitung//controllers/comments_controller.php:124
 msgid "You are not allowed to delete this comment"
 msgstr ""
 
-#: /controllers/comments_controller.php:130
+#: /Applications/MAMP/htdocs/myzeitung//controllers/comments_controller.php:130
 msgid "Comment deleted"
 msgstr ""
 
-#: /controllers/comments_controller.php:133
+#: /Applications/MAMP/htdocs/myzeitung//controllers/comments_controller.php:133
 msgid "Comment has not been deleted"
 msgstr ""
 
-#: /controllers/comments_controller.php:156
-msgid "New comment on your post:"
+#: /Applications/MAMP/htdocs/myzeitung//controllers/comments_controller.php:157
+msgid "%s wrote a new comment to your post: %s"
 msgstr ""
 
-#: /controllers/complaints_controller.php:51
+#: /Applications/MAMP/htdocs/myzeitung//controllers/complaints_controller.php:51
 msgid "Thank you for you help! Your complaint will be processed."
 msgstr ""
 
-#: /controllers/complaints_controller.php:124;132
+#: /Applications/MAMP/htdocs/myzeitung//controllers/complaints_controller.php:124;132
 msgid "Invalid complaint"
 msgstr ""
 
-#: /controllers/complaints_controller.php:148
+#: /Applications/MAMP/htdocs/myzeitung//controllers/complaints_controller.php:148
 msgid "The complaint has been saved"
 msgstr ""
 
-#: /controllers/complaints_controller.php:151
+#: /Applications/MAMP/htdocs/myzeitung//controllers/complaints_controller.php:151
 msgid "The complaint could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/complaints_controller.php:175
+#: /Applications/MAMP/htdocs/myzeitung//controllers/complaints_controller.php:175
 msgid "Invalid id for complaint"
 msgstr ""
 
-#: /controllers/complaints_controller.php:179
+#: /Applications/MAMP/htdocs/myzeitung//controllers/complaints_controller.php:179
 msgid "Complaint deleted"
 msgstr ""
 
-#: /controllers/complaints_controller.php:182
+#: /Applications/MAMP/htdocs/myzeitung//controllers/complaints_controller.php:182
 msgid "Complaint was not deleted"
 msgstr ""
 
-#: /controllers/conversations_controller.php:13
+#: /Applications/MAMP/htdocs/myzeitung//controllers/conversations_controller.php:13
 msgid "Invalid recipient"
 msgstr ""
 
-#: /controllers/conversations_controller.php:25
+#: /Applications/MAMP/htdocs/myzeitung//controllers/conversations_controller.php:25
 msgid "This user does not acceppt messages."
 msgstr ""
 
-#: /controllers/conversations_controller.php:63
+#: /Applications/MAMP/htdocs/myzeitung//controllers/conversations_controller.php:63
 msgid "The Message has been sent"
 msgstr ""
 
-#: /controllers/conversations_controller.php:68
+#: /Applications/MAMP/htdocs/myzeitung//controllers/conversations_controller.php:68
 msgid "The Message could not be sent. Please, try again."
 msgstr ""
 
-#: /controllers/conversations_controller.php:182;242
+#: /Applications/MAMP/htdocs/myzeitung//controllers/conversations_controller.php:182;242
 msgid "You do not participate in this particular conversation."
 msgstr ""
 
-#: /controllers/conversations_controller.php:287
+#: /Applications/MAMP/htdocs/myzeitung//controllers/conversations_controller.php:291
 msgid "New Message from"
 msgstr ""
 
-#: /controllers/papers_controller.php:67;430;482
+#: /Applications/MAMP/htdocs/myzeitung//controllers/index_controller.php:11
+msgid "The index table posts_users has been cleaned up"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:68;492;552
 msgid "Invalid paper"
 msgstr ""
 
-#: /controllers/papers_controller.php:153
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:75
+msgid "invalid paper"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:79
+msgid "This paper has been blocked temporarily due to infringement."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:170
 msgid "Error during photo upload"
 msgstr ""
 
-#: /controllers/papers_controller.php:176
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:193
 msgid "Image has been saved"
 msgstr ""
 
-#: /controllers/papers_controller.php:181;187
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:198;204
 msgid "Could not save paper picture, please try again."
 msgstr ""
 
-#: /controllers/papers_controller.php:193
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:210
 msgid "You do not have permissions"
 msgstr ""
 
-#: /controllers/papers_controller.php:216
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:234
 msgid "You successfully subscribed to the paper: %s"
 msgstr ""
 
-#: /controllers/papers_controller.php:218
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:236
 msgid "Could not subscribe this paper."
 msgstr ""
 
-#: /controllers/papers_controller.php:221;226
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:239
+msgid "This is your own paper. Your own papers are always subscribed automatically."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:242;248
 msgid "Invalid paper id."
 msgstr ""
 
-#: /controllers/papers_controller.php:242
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:267
 msgid "You successfully unsubscribed the paper: %s"
 msgstr ""
 
-#: /controllers/papers_controller.php:244
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:269
 msgid "Could not unsubscribe"
 msgstr ""
 
-#: /controllers/papers_controller.php:247
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:272
+msgid "This is your own paper. You cannot unsubscribe your own papers, but you could delete them instead of that."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:275
 msgid "Invalid paper id"
 msgstr ""
 
-#: /controllers/papers_controller.php:252
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:280
 msgid "No paper id"
 msgstr ""
 
-#: /controllers/papers_controller.php:266
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:294
 msgid "invalid data for content view "
 msgstr ""
 
-#: /controllers/papers_controller.php:365
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:344
+msgid "All Authors"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:347
+msgid "front page (%d)"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:427
 msgid "No paper parameter passed."
 msgstr ""
 
-#: /controllers/papers_controller.php:369
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:431
 msgid "Invalid parameter for the target passed."
 msgstr ""
 
-#: /controllers/papers_controller.php:405;436
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:467;501
 msgid "The paper has been saved"
 msgstr ""
 
-#: /controllers/papers_controller.php:409
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:471
 msgid "Paper saved, error while saving the paper route"
 msgstr ""
 
-#: /controllers/papers_controller.php:412;439
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:474;504
 msgid "The paper could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/papers_controller.php:456
-msgid "Invalid id for paper"
-msgstr ""
-
-#: /controllers/papers_controller.php:463
-msgid "Paper deleted"
-msgstr ""
-
-#: /controllers/papers_controller.php:466
-msgid "Paper was not deleted"
-msgstr ""
-
-#: /controllers/papers_controller.php:469
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:512;539
 msgid "The Paper does not belong to you."
 msgstr ""
 
-#: /controllers/papers_controller.php:487
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:526;634
+msgid "Invalid id for paper"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:533;642
+msgid "Paper deleted"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:536;646
+msgid "Paper was not deleted"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:557
 msgid "No permissions"
 msgstr ""
 
-#: /controllers/posts_controller.php:74
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:75
 msgid "Post successfully reposted."
 msgstr ""
 
-#: /controllers/posts_controller.php:76
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:77
 msgid "Post could not be reposted"
 msgstr ""
 
-#: /controllers/posts_controller.php:79;108
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:80;109
 msgid "Invalid post id"
 msgstr ""
 
-#: /controllers/posts_controller.php:84;113
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:85;114
 msgid "No post id"
 msgstr ""
 
-#: /controllers/posts_controller.php:103
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:104
 msgid "Repost deleted successfully."
 msgstr ""
 
-#: /controllers/posts_controller.php:105
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:106
 msgid "Repost could not be deleted"
 msgstr ""
 
-#: /controllers/posts_controller.php:126;361
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:127;133;374
 msgid "Invalid post"
 msgstr ""
 
-#: /controllers/posts_controller.php:237;241
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:137
+msgid "This post has been blocked temporarily due to infringement."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:250;254
 msgid "Not able to copy images for post"
 msgstr ""
 
-#: /controllers/posts_controller.php:245;406
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:258;440
 msgid "The post has been saved"
 msgstr ""
 
-#: /controllers/posts_controller.php:254;416
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:267;450
 msgid "The post could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/posts_controller.php:265;439
-#: /controllers/topics_controller.php:65
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:278;473
+#: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:65
 msgid "No Topic"
 msgstr ""
 
-#: /controllers/posts_controller.php:276
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:289
 msgid "default value"
 msgstr ""
 
-#: /controllers/posts_controller.php:277;443
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:290;477
 msgid "Yes"
 msgstr ""
 
-#: /controllers/posts_controller.php:278;444
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:291;478
 msgid "No"
 msgstr ""
 
-#: /controllers/posts_controller.php:335;347
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:348
 msgid "No permission"
 msgstr ""
 
-#: /controllers/posts_controller.php:442
-msgid "use privacy settings"
-msgstr ""
-
-#: /controllers/posts_controller.php:490
-msgid "Invalid id for post"
-msgstr ""
-
-#: /controllers/posts_controller.php:498
-msgid "Post deleted"
-msgstr ""
-
-#: /controllers/posts_controller.php:502
-msgid "Post was not deleted"
-msgstr ""
-
-#: /controllers/posts_controller.php:505
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:360;551
 msgid "The Post does not belong to you."
 msgstr ""
 
-#: /controllers/topics_controller.php:86
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:476
+msgid "use privacy settings"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:535;743
+msgid "Invalid id for post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:543;751
+msgid "Post deleted"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/posts_controller.php:548;755
+msgid "Post was not deleted"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/search_controller.php:72
+msgid "Posts search index has been refreshed"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/search_controller.php:78
+msgid "Users search index has been refreshed"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/search_controller.php:84
+msgid "Papers search index has been refreshed"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:86
 msgid "Invalid Topic-id"
 msgstr ""
 
-#: /controllers/topics_controller.php:95
+#: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:95
 msgid "Topic deleted"
 msgstr ""
 
-#: /controllers/topics_controller.php:98
+#: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:98
 msgid "Topic was not deleted"
 msgstr ""
 
-#: /controllers/topics_controller.php:101
+#: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:101
 msgid "The Topic does not belong to you."
 msgstr ""
 
-#: /controllers/users_controller.php:94;103;169;302;743;795;827;858;1052;1074
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:95;103;174;313;749;801;833;864;1059;1081
 msgid "Invalid user"
 msgstr ""
 
-#: /controllers/users_controller.php:286
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:107;181
+msgid "This user has been blocked temporarily due to infringement."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:297
 msgid "Thank you for registration."
 msgstr ""
 
-#: /controllers/users_controller.php:293;310;1065;1082
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:304;321;1072;1089
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/users_controller.php:307;1062;1079
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:318;1069;1086
 msgid "The user has been saved"
 msgstr ""
 
-#: /controllers/users_controller.php:345
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:356
 msgid "No user id passed."
 msgstr ""
 
-#: /controllers/users_controller.php:416
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:426
 msgid "Not able to subscribe user/topic to paper - invalid target type"
 msgstr ""
 
-#: /controllers/users_controller.php:480
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:486
 msgid "No user param"
 msgstr ""
 
-#: /controllers/users_controller.php:492
-#: /views/layouts/default.ctp:26
-#: /views/layouts/home.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:498
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/default.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/home.ctp:26
 msgid "myZeitung"
 msgstr ""
 
-#: /controllers/users_controller.php:540
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:546
 msgid "Can not load user"
 msgstr ""
 
-#: /controllers/users_controller.php:755;768;802;833
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:761;774;808;839
 msgid "The changes have been saved"
 msgstr ""
 
-#: /controllers/users_controller.php:763;773;807;838
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:769;779;813;844
 msgid "The changes could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/users_controller.php:867
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:873
 msgid "Your account has been deleted."
 msgstr ""
 
-#: /controllers/users_controller.php:870
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:876
 msgid "Your account could not be deleted."
 msgstr ""
 
-#: /controllers/users_controller.php:893
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:899
 msgid "Error while loading user"
 msgstr ""
 
-#: /controllers/users_controller.php:911
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:917
 msgid "Your new profile picture has been saved."
 msgstr ""
 
-#: /controllers/users_controller.php:917;924
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:923;930
 msgid "Could not save profile picture, please try again."
 msgstr ""
 
-#: /controllers/users_controller.php:998
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1004
 msgid "Welcome to myZeitung"
 msgstr ""
 
-#: /controllers/users_controller.php:1006
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1012
 msgid "Password change request"
 msgstr ""
 
-#: /controllers/users_controller.php:1040
-msgid "Subscription info"
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1047
+msgid "You have been subscribed"
 msgstr ""
 
-#: /controllers/users_controller.php:1089
-#: /views/elements/search/results/user.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1096
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/user.ctp:27
 msgid "Author"
 msgstr ""
 
-#: /controllers/users_controller.php:1090
-#: /views/elements/header.ctp:89
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1097
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:89
 msgid "Admin"
 msgstr ""
 
-#: /controllers/users_controller.php:1091
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1098
 msgid "Superadmin"
 msgstr ""
 
-#: /controllers/users_controller.php:1098
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1105
 msgid "Invalid id for user"
 msgstr ""
 
-#: /controllers/users_controller.php:1102
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1109
 msgid "User deleted"
 msgstr ""
 
-#: /controllers/users_controller.php:1105
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1112
 msgid "User was not deleted"
 msgstr ""
 
-#: /models/complaint.php:111
-#: /models/user.php:131
+#: /Applications/MAMP/htdocs/myzeitung//models/complaint.php:111
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:132
 msgid "Please enter your email address."
 msgstr ""
 
-#: /models/complaint.php:116
-#: /models/user.php:136
+#: /Applications/MAMP/htdocs/myzeitung//models/complaint.php:116
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:137
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: /models/paper.php:120
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:122
 msgid "Please enter a title for your paper"
 msgstr ""
 
-#: /models/paper.php:125
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:127
 msgid "Paper titles can only be 40 characters long."
 msgstr ""
 
-#: /models/paper.php:132
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:134
 msgid "Descriptions can only be 200 characters long."
 msgstr ""
 
-#: /models/paper.php:139
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:141
 msgid "Please provide a valid URL. http://your-link.domain"
 msgstr ""
 
-#: /models/paper.php:147
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:149
 msgid "User/Topic successfully subscribed to your Paper/Category"
 msgstr ""
 
-#: /models/paper.php:148
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:150
 msgid "Subscription successfully saved. There was at least one topic of this user subscribed to your Paper/Category which has been replaced to allow this new Subscription."
 msgstr ""
 
-#: /models/paper.php:149
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:151
 msgid "This exact Subscription already exists"
 msgstr ""
 
-#: /models/paper.php:150
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:152
 msgid "You already subscribed this User (with all topics) to this Paper/Category"
 msgstr ""
 
-#: /models/paper.php:151
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:153
 msgid "Invalid Topic chosen"
 msgstr ""
 
-#: /models/paper.php:152
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:154
 msgid "The Subscription could not be saved, please try again"
 msgstr ""
 
-#: /models/paper.php:153
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:155
 msgid "The Paper of the your chosen Category could not be found."
 msgstr ""
 
-#: /models/paper.php:154
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:156
 msgid "No valid User/Topic or Paper/Category chosen"
 msgstr ""
 
-#: /models/post.php:473
+#: /Applications/MAMP/htdocs/myzeitung//models/post.php:542
 msgid "Please enter a Title."
 msgstr ""
 
-#: /models/post.php:478
+#: /Applications/MAMP/htdocs/myzeitung//models/post.php:547
 msgid "Titles can only be 100 characters long."
 msgstr ""
 
-#: /models/post.php:485
+#: /Applications/MAMP/htdocs/myzeitung//models/post.php:554
 msgid "Please provide additional content: a picture, a video, a message or a link."
 msgstr ""
 
-#: /models/user.php:116
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:117
 msgid "Names can only be 40 characters long."
 msgstr ""
 
-#: /models/user.php:123
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:124
 msgid "Your description can only be 200 characters long."
 msgstr ""
 
-#: /models/user.php:141
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:142
 msgid "This email address has already been registered."
 msgstr ""
 
-#: /models/user.php:149
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:150
 msgid "Please enter your desired username."
 msgstr ""
 
-#: /models/user.php:154
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:155
 msgid "Usernames must be between 3 and 15 characters long."
 msgstr ""
 
-#: /models/user.php:159
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:160
 msgid "Usernames must only contain letters and numbers."
 msgstr ""
 
-#: /models/user.php:164
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:165
 msgid "This username has already been taken."
 msgstr ""
 
-#: /models/user.php:173
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:174
 msgid "Passwords must be between 5 and 20 characters long."
 msgstr ""
 
-#: /models/user.php:180
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:181
 msgid "Passwords do not match"
 msgstr ""
 
-#: /models/user.php:187
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:188
 msgid "Your old password does not match."
 msgstr ""
 
-#: /models/user.php:194
+#: /Applications/MAMP/htdocs/myzeitung//models/user.php:195
 msgid "Please accept the terms of service and privacy policy."
 msgstr ""
 
-#: /views/categories/add.ctp:4
-#: /views/papers/index_backup_alf.ctp:57
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/add.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:57
 msgid "Add Category"
 msgstr ""
 
-#: /views/categories/add.ctp:15
-#: /views/categories/edit.ctp:13
-#: /views/comments/add.ctp:13
-#: /views/complaints/admin_edit.ctp:34
-#: /views/conversations/add.ctp:15
-#: /views/conversations/reply.ctp:12
-#: /views/elements/topics/view.ctp:7
-#: /views/papers/addcontent.ctp:15
-#: /views/papers/edit.ctp:15
-#: /views/posts/edit.ctp:13
-#: /views/topics/add.ctp:10
-#: /views/topics/edit.ctp:10
-#: /views/users/admin_add.ctp:25
-#: /views/users/admin_edit.ctp:18
-#: /view/helpers/form.php:1311
-#: /view/scaffolds/edit.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/add.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/comments/add.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_edit.ctp:34
+#: /Applications/MAMP/htdocs/myzeitung//views/conversations/add.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/conversations/reply.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/view.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/addcontent.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/edit.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/topics/add.ctp:10
+#: /Applications/MAMP/htdocs/myzeitung//views/topics/edit.ctp:10
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_edit.ctp:17
 msgid "Submit"
 msgstr ""
 
-#: /views/categories/edit.ctp:4
-#: /views/categories/view.ctp:34
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:34
 msgid "Edit Category"
 msgstr ""
 
-#: /views/categories/edit.ctp:16
-#: /views/categories/index.ctp:10;61
-#: /views/categories/view.ctp:32;56
-#: /views/comments/show.ctp:86
-#: /views/papers/edit.ctp:18
-#: /views/papers/index_backup_alf.ctp:19;80
-#: /views/topics/add.ctp:13
-#: /views/topics/edit.ctp:13
-#: /views/users/admin_add.ctp:28
-#: /views/users/admin_index.ctp:12
-#: /view/scaffolds/edit.ctp:28
-#: /view/scaffolds/index.ctp:27;77
-#: /view/scaffolds/view.ctp:50
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:16
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:10;61
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:32;56
+#: /Applications/MAMP/htdocs/myzeitung//views/comments/show.ctp:86
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:18
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:19;80
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/topics/add.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/topics/edit.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:12
 msgid "Actions"
 msgstr ""
 
-#: /views/categories/edit.ctp:19
-#: /views/categories/index.ctp:41
-#: /views/categories/view.ctp:75
-#: /views/complaints/admin_index.ctp:71
-#: /views/papers/edit.ctp:21
-#: /views/papers/index_backup_alf.ctp:60
-#: /views/posts/view.ctp:109
-#: /views/users/admin_index.ctp:36
-#: /view/scaffolds/edit.ctp:31
-#: /view/scaffolds/index.ctp:57
-#: /view/scaffolds/view.ctp:146
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:75
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:71
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:44
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:60
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:44
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:82
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:41
 msgid "Delete"
 msgstr ""
 
-#: /views/categories/edit.ctp:19
-#: /views/categories/index.ctp:41
-#: /views/categories/view.ctp:35;75
-#: /views/complaints/admin_index.ctp:71
-#: /views/papers/edit.ctp:21
-#: /views/papers/index_backup_alf.ctp:60
-#: /views/users/admin_index.ctp:36
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:35;75
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:71
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:60
 msgid "Are you sure you want to delete # %s?"
 msgstr ""
 
-#: /views/categories/edit.ctp:20;25
-#: /views/categories/index.ctp:68
-#: /views/categories/view.ctp:36;42
-#: /views/papers/edit.ctp:25
-#: /views/papers/index_backup_alf.ctp:85
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:20;25
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:68
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:36;42
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:85
 msgid "List Categories"
 msgstr ""
 
-#: /views/categories/edit.ctp:21
-#: /views/categories/index.ctp:64
-#: /views/categories/view.ctp:38
-#: /views/papers/edit.ctp:22
-#: /views/users/admin_add.ctp:44
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:64
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:44
 msgid "List Papers"
 msgstr ""
 
-#: /views/categories/edit.ctp:22
-#: /views/categories/index.ctp:65
-#: /views/categories/view.ctp:39
-#: /views/elements/header.ctp:77
-#: /views/elements/users/sidebar/buttons.ctp:15
-#: /views/papers/add_edit.ctp:15
-#: /views/papers/index_backup_alf.ctp:82
-#: /views/users/admin_add.ctp:45
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:65
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:77
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/buttons.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:82
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:45
 msgid "New Paper"
 msgstr ""
 
-#: /views/categories/edit.ctp:23
-#: /views/categories/index.ctp:66
-#: /views/categories/view.ctp:40
-#: /views/papers/edit.ctp:23
-#: /views/papers/index_backup_alf.ctp:83
-#: /views/users/admin_add.ctp:34
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:66
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:83
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:34
 msgid "List Routes"
 msgstr ""
 
-#: /views/categories/edit.ctp:24
-#: /views/categories/index.ctp:67
-#: /views/categories/view.ctp:41
-#: /views/papers/edit.ctp:24
-#: /views/papers/index_backup_alf.ctp:84
-#: /views/users/admin_add.ctp:35
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:67
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:84
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:35
 msgid "New Route"
 msgstr ""
 
-#: /views/categories/edit.ctp:26
-#: /views/categories/index.ctp:69
-#: /views/categories/view.ctp:43;84
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/edit.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:69
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:43;84
 msgid "New Child Category"
 msgstr ""
 
-#: /views/categories/index.ctp:2
-#: /views/papers/index_backup_alf.ctp:18
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:18
 msgid "Categories"
 msgstr ""
 
-#: /views/categories/index.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:38
 msgid "Add Subcategory"
 msgstr ""
 
-#: /views/categories/index.ctp:39
-#: /views/categories/view.ctp:73
-#: /views/complaints/admin_index.ctp:68
-#: /views/papers/index_backup_alf.ctp:58
-#: /views/users/admin_index.ctp:33
-#: /view/scaffolds/index.ctp:55
-#: /view/scaffolds/view.ctp:144
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:73
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:68
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:58
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:33
 msgid "View"
 msgstr ""
 
-#: /views/categories/index.ctp:40
-#: /views/categories/view.ctp:74
-#: /views/complaints/admin_index.ctp:70
-#: /views/papers/index_backup_alf.ctp:59
-#: /views/posts/view.ctp:110
-#: /views/users/admin_index.ctp:35
-#: /view/scaffolds/index.ctp:56
-#: /view/scaffolds/view.ctp:145
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:74
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:70
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:59
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:83
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:35
 msgid "Edit"
 msgstr ""
 
-#: /views/categories/index.ctp:49
-#: /views/complaints/admin_index.ctp:80
-#: /views/papers/index_backup_alf.ctp:68
-#: /views/users/admin_index.ctp:45
-#: /view/scaffolds/index.ctp:67
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:49
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:80
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:53
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:68
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:53
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:50
 msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
 msgstr ""
 
-#: /views/categories/index.ctp:54
-#: /views/complaints/admin_index.ctp:85
-#: /views/papers/index_backup_alf.ctp:73
-#: /views/users/admin_index.ctp:50
-#: /view/scaffolds/index.ctp:71
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:54
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:85
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:58
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:73
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:58
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:55
 msgid "previous"
 msgstr ""
 
-#: /views/categories/index.ctp:57
-#: /views/complaints/admin_index.ctp:88
-#: /views/papers/index_backup_alf.ctp:76
-#: /views/users/admin_index.ctp:53
-#: /view/scaffolds/index.ctp:73
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:57
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:88
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:61
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:76
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:61
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:58
 msgid "next"
 msgstr ""
 
-#: /views/categories/index.ctp:63
-#: /views/categories/view.ctp:37
-#: /views/elements/papers/sidebar.ctp:61
-#: /views/papers/edit.ctp:26
-#: /views/papers/index_backup_alf.ctp:86
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/index.ctp:63
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:61
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:86
 msgid "New Category"
 msgstr ""
 
-#: /views/categories/view.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:2
 msgid "Category"
 msgstr ""
 
-#: /views/categories/view.ctp:4;51
-#: /views/complaints/admin_view.ctp:4
-#: /views/users/admin_view.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:4;51
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:4
 msgid "Id"
 msgstr ""
 
-#: /views/categories/view.ctp:9;52
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:9;52
 msgid "Parent Id"
 msgstr ""
 
-#: /views/categories/view.ctp:14
-#: /views/complaints/admin_view.ctp:10
-#: /views/elements/search/results/paper.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:14
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:10
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/paper.ctp:19
 msgid "Paper"
 msgstr ""
 
-#: /views/categories/view.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:19
 msgid "Route"
 msgstr ""
 
-#: /views/categories/view.ctp:24;55
-#: /views/users/acc_about_me.ctp:22
-#: /views/users/add.ctp:29
-#: /views/users/admin_view.ctp:14
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:24;55
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_about_me.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:29
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:14
 msgid "Name"
 msgstr ""
 
-#: /views/categories/view.ctp:35
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:35
 msgid "Delete Category"
 msgstr ""
 
-#: /views/categories/view.ctp:47
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:47
 msgid "Related Categories"
 msgstr ""
 
-#: /views/categories/view.ctp:53
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:53
 msgid "Paper Id"
 msgstr ""
 
-#: /views/categories/view.ctp:54
+#: /Applications/MAMP/htdocs/myzeitung//views/categories/view.ctp:54
 msgid "Route Id"
 msgstr ""
 
-#: /views/comments/add.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/comments/add.ctp:4
 msgid "Add Comment"
 msgstr ""
 
-#: /views/comments/show.ctp:2
-#: /views/complaints/admin_index.ctp:7
-#: /views/complaints/admin_view.ctp:45
-#: /views/elements/posts/add_edit_sidebar.ctp:46
+#: /Applications/MAMP/htdocs/myzeitung//views/comments/show.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:45
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:46
 msgid "Comments"
 msgstr ""
 
-#: /views/comments/show.ctp:27;48;69
-#: /views/conversations/reply.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/comments/show.ctp:27;48;69
+#: /Applications/MAMP/htdocs/myzeitung//views/conversations/reply.ctp:4
 msgid "Reply"
 msgstr ""
 
-#: /views/comments/show.ctp:88
+#: /Applications/MAMP/htdocs/myzeitung//views/comments/show.ctp:88
 msgid "New Comment"
 msgstr ""
 
-#: /views/comments/show.ctp:89
+#: /Applications/MAMP/htdocs/myzeitung//views/comments/show.ctp:89
 msgid "Back to Post"
 msgstr ""
 
-#: /views/complaints/add.ctp:5
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:5
 msgid "Your Name: "
 msgstr ""
 
-#: /views/complaints/add.ctp:6
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:6
 msgid "Your Email: "
 msgstr ""
 
-#: /views/complaints/add.ctp:11
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:11
 msgid "Firstname"
 msgstr ""
 
-#: /views/complaints/add.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:12
 msgid "Lastname"
 msgstr ""
 
-#: /views/complaints/add.ctp:13
-#: /views/users/acc_general.ctp:21
-#: /views/users/admin_view.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:24
 msgid "Email"
 msgstr ""
 
-#: /views/complaints/add.ctp:20
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:20
 msgid "What is wrong with this User? Please describe the issue below."
 msgstr ""
 
-#: /views/complaints/add.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:23
 msgid "What is wrong with this Post? Please describe the issue below."
 msgstr ""
 
-#: /views/complaints/add.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:26
 msgid "What is wrong with this Paper? Please describe the issue below."
 msgstr ""
 
-#: /views/complaints/add.ctp:29
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/add.ctp:29
 msgid "What is wrong with this Comment? Please describe the issue below."
 msgstr ""
 
-#: /views/complaints/admin_edit.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_edit.ctp:4
 msgid "Admin Edit Complaint"
 msgstr ""
 
-#: /views/complaints/admin_edit.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_edit.ctp:38
 msgid "Comment History"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:2
-#: /views/elements/admin_header.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:43
 msgid "Complaints"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:6
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:6
 msgid "Complain Type"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:8
-#: /views/complaints/admin_view.ctp:54
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:8
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:54
 msgid "Reporter"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:23
 msgid "Paper:"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:28
 msgid "Post:"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:33
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:33
 msgid "Comment:"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:45
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:45
 msgid "User:"
 msgstr ""
 
-#: /views/complaints/admin_index.ctp:51
-msgid "comments"
-msgstr ""
-
-#: /views/complaints/admin_index.ctp:54
-msgid "comment"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:2
-msgid "Complaint"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:17
-#: /views/elements/search/results/post.ctp:44
-msgid "Post"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:25
-msgid "Comment"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:33
-#: /views/users/admin_view.ctp:2
-msgid "User"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:40
-msgid "Reason"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:61
-msgid "Reporter Email"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:66
-msgid "Complaintstatus"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:71
-#: /views/users/admin_view.ctp:44
-msgid "Created"
-msgstr ""
-
-#: /views/complaints/admin_view.ctp:75
-#: /views/users/admin_view.ctp:49
-msgid "Modified"
-msgstr ""
-
-#: /views/conversations/add.ctp:4
-#: /views/elements/header/breadcrumbs.ctp:70
-msgid "New Message"
-msgstr ""
-
-#: /views/conversations/index.ctp:4
-#: /views/elements/header.ctp:80
-msgid "Conversations"
-msgstr ""
-
-#: /views/conversations/index.ctp:72
-msgid "between you and"
-msgstr ""
-
-#: /views/conversations/view.ctp:6
-msgid "Conversation between you"
-msgstr ""
-
-#: /views/elements/admin_header.ctp:6
-#: /views/elements/header.ctp:5
-msgid "logged in as"
-msgstr ""
-
-#: /views/elements/admin_header.ctp:6
-msgid "logout"
-msgstr ""
-
-#: /views/elements/admin_header.ctp:12
-#: /views/elements/header.ctp:21
-#: /views/users/add.ctp:19
-msgid "You already have an account?"
-msgstr ""
-
-#: /views/elements/admin_header.ctp:13
-#: /views/elements/header.ctp:22
-#: /views/elements/header/breadcrumbs.ctp:33
-#: /views/users/login.ctp:15;25
-msgid "Login"
-msgstr ""
-
-#: /views/elements/admin_header.ctp:15
-#: /views/elements/header.ctp:24
-msgid "No?"
-msgstr ""
-
-#: /views/elements/admin_header.ctp:16
-#: /views/elements/header.ctp:25
-#: /views/elements/header/breadcrumbs.ctp:31
-#: /views/home/index.ctp:120
-msgid "Register"
-msgstr ""
-
-#: /views/elements/admin_header.ctp:34
-msgid "User Management"
-msgstr ""
-
-#: /views/elements/header.ctp:34
-#: /views/elements/search/results/sidebar.ctp:16
-#: /views/search/auto_complete.ctp:6
-msgid "Posts"
-msgstr ""
-
-#: /views/elements/header.ctp:36
-#: /views/search/auto_complete.ctp:16
-msgid "Authors"
-msgstr ""
-
-#: /views/elements/header.ctp:38
-#: /views/elements/header/breadcrumbs.ctp:49
-#: /views/elements/search/results/sidebar.ctp:13
-#: /views/elements/users/sidebar.ctp:75
-#: /views/elements/users/sidebar/subscriptions.ctp:52;54
-#: /views/papers/index_backup_alf.ctp:12
-#: /views/search/auto_complete.ctp:11
-msgid "Papers"
-msgstr ""
-
-#: /views/elements/header.ctp:41;41;41;42
-#: /views/elements/search/autocomplete/script.ctp:24
-#: /views/home/index.ctp:20;20;20
-msgid "Find"
-msgstr ""
-
-#: /views/elements/header.ctp:57
-msgid "My Posts"
-msgstr ""
-
-#: /views/elements/header.ctp:58
-msgid "My Papers"
-msgstr ""
-
-#: /views/elements/header.ctp:59
-#: /views/elements/header/breadcrumbs.ctp:67;69;72
-msgid "Messages"
-msgstr ""
-
-#: /views/elements/header.ctp:64;76
-#: /views/elements/header/breadcrumbs.ctp:10
-#: /views/elements/posts/add_edit_content.ctp:8
-#: /views/users/admin_add.ctp:37
-msgid "New Post"
-msgstr ""
-
-#: /views/elements/header.ctp:78
-msgid "my Posts"
-msgstr ""
-
-#: /views/elements/header.ctp:79
-#: /views/elements/header/breadcrumbs.ctp:44
-#: /views/elements/users/sidebar/subscriptions.ctp:57;59
-msgid "Subscriptions"
-msgstr ""
-
-#: /views/elements/header.ctp:86
-msgid "Account / Settings"
-msgstr ""
-
-#: /views/elements/header.ctp:87
-msgid "Logout"
-msgstr ""
-
-#: /views/elements/comments/add.ctp:12
-msgid "Please enter your reply or press cancel"
-msgstr ""
-
-#: /views/elements/comments/add.ctp:24
-msgid "Please enter your comment"
-msgstr ""
-
-#: /views/elements/comments/comment_content.ctp:28
-msgid "Remove"
-msgstr ""
-
-#: /views/elements/comments/form.ctp:2
-msgid "Post comment"
-msgstr ""
-
-#: /views/elements/comments/form.ctp:8
-msgid "Post reply"
-msgstr ""
-
-#: /views/elements/comments/form.ctp:16
-msgid "Leave a comment to this Post"
-msgstr ""
-
-#: /views/elements/complaints/admin_comments.ctp:4
-msgid "Written by"
-msgstr ""
-
-#: /views/elements/complaints/link.ctp:2
-msgid "Complain"
-msgstr ""
-
-#: /views/elements/conversations/message.ctp:26
-#: /views/elements/search/results/paper.ctp:19
-#: /views/elements/search/results/post.ctp:44
-msgid "from"
-msgstr ""
-
-#: /views/elements/email/html/forgot_password.ctp:2
-#: /views/elements/email/text/forgot_password.ctp:2
-msgid "Your new password: "
-msgstr ""
-
-#: /views/elements/email/html/welcome.ctp:2
-#: /views/elements/email/text/welcome.ctp:2
-msgid "Welcome to myZeitung.de "
-msgstr ""
-
-#: /views/elements/global/modal_upload.ctp:2
-#: /views/papers/settings/image.ctp:6
-msgid "Profile picture"
-msgstr ""
-
-#: /views/elements/global/modal_upload.ctp:8
-msgid "Choose image"
-msgstr ""
-
-#: /views/elements/global/modal_upload.ctp:25
-msgid "Save Picture"
-msgstr ""
-
-#: /views/elements/global/paginate.ctp:3
-msgid "Previous"
-msgstr ""
-
-#: /views/elements/global/paginate.ctp:7
-msgid "Next"
-msgstr ""
-
-#: /views/elements/header/breadcrumbs.ctp:12
-#: /views/elements/posts/navigator.ctp:15
-msgid "Browse Posts"
-msgstr ""
-
-#: /views/elements/header/breadcrumbs.ctp:14
-#: /views/elements/posts/navigator.ctp:145
-#: /views/posts/edit.ctp:4
-msgid "Edit Post"
-msgstr ""
-
-#: /views/elements/header/breadcrumbs.ctp:35
-#: /views/users/forgot_password.ctp:18
-#: /views/users/login.ctp:21
-msgid "I forgot my password"
-msgstr ""
-
-#: /views/elements/header/breadcrumbs.ctp:37
-#: /views/elements/search/results/sidebar.ctp:10
-#: /views/users/admin_index.ctp:2
-msgid "Users"
-msgstr ""
-
-#: /views/elements/header/breadcrumbs.ctp:39
-msgid "Account Settings"
-msgstr ""
-
-#: /views/elements/header/breadcrumbs.ctp:63
-msgid "Search Results"
-msgstr ""
-
-#: /views/elements/papers/modal_references.ctp:51
-msgid "References"
-msgstr ""
-
-#: /views/elements/papers/navigator.ctp:4
-msgid "Browse Papers"
-msgstr ""
-
-#: /views/elements/papers/navigator.ctp:36
-msgid "created by"
-msgstr ""
-
-#: /views/elements/papers/navigator.ctp:20
-#: /views/elements/users/navigator.ctp:17
-#: /views/elements/users/sidebar/activity.ctp:4
-msgid "%d post"
-msgid_plural "%d posts"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/navigator.ctp:22
-msgid "%d subscription"
-msgid_plural "%d subscriptions"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/navigator.ctp:24
-msgid "%d author"
-msgid_plural "%d authors"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/sidebar.ctp:54
-#: /views/elements/posts/navigator.ctp:102
-#: /views/elements/search/autocomplete/papers.ctp:27
-#: /views/elements/search/autocomplete/posts.ctp:34
-msgid "by"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:62
-msgid "Upload Image"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:67
-#: /views/elements/search/results/paper.ctp:26
-#: /views/elements/users/sidebar/buttons.ctp:8
-msgid "Subscribe"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:71
-#: /views/elements/search/results/paper.ctp:32
-msgid "Unsubscribe"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:79
-msgid "Filter by Category"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:84;86
-msgid "front page"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:101
-#: /views/elements/users/modal_activity.ctp:34
-#: /views/elements/users/sidebar/activity.ctp:1
-msgid "Activity"
-msgstr ""
-
-#: /views/elements/papers/sidebar.ctp:81
-msgid "%1$s person is published in this paper"
-msgid_plural "%1$s persons are published in this paper"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/sidebar.ctp:89
-msgid "%1$s person is published this category"
-msgid_plural "%1$s persons are published this category"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/sidebar.ctp:103
-msgid "%d Post"
-msgid_plural "%d Posts"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/sidebar.ctp:104
-msgid "%d Subscribed User/Topic"
-msgid_plural "%d Subscribed Users/Topics"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/sidebar.ctp:105
-msgid "%d Subscriber"
-msgid_plural "%d Subscribers"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/papers/index/sidebar.ctp:12
-#: /views/elements/posts/index/sidebar.ctp:14
-#: /views/elements/users/index/sidebar.ctp:12
-#: /views/elements/users/sidebar/subscriptions.ctp:21
-msgid "order by"
-msgstr ""
-
-#: /views/elements/papers/index/sidebar.ctp:19
-#: /views/elements/posts/add_edit_content.ctp:32
-#: /views/elements/posts/index/sidebar.ctp:36
-#: /views/elements/users/sidebar/subscriptions.ctp:27
-#: /views/papers/add_edit.ctp:21
-msgid "Title"
-msgstr ""
-
-#: /views/elements/papers/index/sidebar.ctp:23
-#: /views/elements/users/sidebar/subscriptions.ctp:31
-msgid "Number of Authors"
-msgstr ""
-
-#: /views/elements/papers/index/sidebar.ctp:27
-#: /views/elements/users/index/sidebar.ctp:21
-#: /views/elements/users/sidebar/subscriptions.ctp:35
-msgid "Number of Posts"
-msgstr ""
-
-#: /views/elements/papers/index/sidebar.ctp:31
-#: /views/elements/users/sidebar/subscriptions.ctp:39
-msgid "Number of Subscriptions"
-msgstr ""
-
-#: /views/elements/posts/add_edit_content.ctp:15
-msgid "Save Post"
-msgstr ""
-
-#: /views/elements/posts/add_edit_content.ctp:37
-msgid "Content"
-msgstr ""
-
-#: /views/elements/posts/add_edit_content.ctp:47
-msgid "Media (images and videos): "
-msgstr ""
-
-#: /views/elements/posts/add_edit_content.ctp:48
-msgid "Preview Picture"
-msgstr ""
-
-#: /views/elements/posts/add_edit_content.ctp:54
-#: /views/elements/posts/add_edit_sidebar.ctp:39
-msgid "remove"
-msgstr ""
-
-#: /views/elements/posts/add_edit_sidebar.ctp:18
-msgid "Add Images"
-msgstr ""
-
-#: /views/elements/posts/add_edit_sidebar.ctp:22
-msgid "Add Video"
-msgstr ""
-
-#: /views/elements/posts/add_edit_sidebar.ctp:26
-msgid "Topic"
-msgstr ""
-
-#: /views/elements/posts/add_edit_sidebar.ctp:31
-#: /views/topics/add.ctp:4
-msgid "Add Topic"
-msgstr ""
-
-#: /views/elements/posts/add_edit_sidebar.ctp:34
-msgid "Links"
-msgstr ""
-
-#: /views/elements/posts/modal_add_url.ctp:1
-msgid "add URL"
-msgstr ""
-
-#: /views/elements/posts/modal_add_video_url.ctp:1
-msgid "add Video"
-msgstr ""
-
-#: /views/elements/posts/navigator.ctp:81
-msgid "read more"
-msgstr ""
-
-#: /views/elements/posts/navigator.ctp:147
-msgid "Delete Post"
-msgstr ""
-
-#: /views/elements/posts/navigator.ctp:147
-#: /views/posts/view.ctp:109
-msgid "Are you sure you want to delete your post: %s?"
-msgstr ""
-
-#: /views/elements/posts/navigator.ctp:150
-msgid "Undo Repost"
-msgstr ""
-
-#: /views/elements/posts/navigator.ctp:165
-#: /views/elements/search/results/post.ctp:63
-#: /views/posts/view.ctp:105
-msgid "Repost"
-msgstr ""
-
-#: /views/elements/posts/navigator.ctp:44
-#: /views/elements/search/results/post.ctp:50
-#: /views/posts/view.ctp:92
-msgid "%d repost"
-msgid_plural "%d reposts"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/posts/navigator.ctp:46
-#: /views/elements/search/results/post.ctp:52
-#: /views/posts/view.ctp:94
-msgid "%d time viewed"
-msgid_plural "%d times viewed"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/posts/navigator.ctp:48
-#: /views/elements/search/results/post.ctp:54
-#: /views/elements/users/sidebar/activity.ctp:6
-#: /views/posts/view.ctp:96
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:53
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:49
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:6
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:60
 msgid "%d comment"
 msgid_plural "%d comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/posts/repost_modal_choose_topic.ctp:1
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:2
+msgid "Complaint"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:17
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/post.ctp:38
+msgid "Post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:25
+msgid "Comment"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:33
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:2
+msgid "User"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:40
+msgid "Reason"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:61
+msgid "Reporter Email"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:66
+msgid "Complaintstatus"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:71
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:44
+msgid "Created"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_view.ctp:75
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:49
+msgid "Modified"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/conversations/add.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:70
+msgid "New Message"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/conversations/index.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:80
+msgid "Conversations"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/conversations/index.ctp:72
+msgid "between you and"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/conversations/view.ctp:6
+msgid "Conversation between you"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:5
+msgid "logged in as"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:7
+msgid "logout"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:19
+msgid "You already have an account?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:14
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:33
+#: /Applications/MAMP/htdocs/myzeitung//views/users/login.ctp:15;25
+msgid "Login"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:16
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:24
+msgid "No?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:17
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:120
+msgid "Register"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:35
+msgid "Search"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:36
+msgid "Data Associations"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:49
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/sidebar.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:52;54
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/search/auto_complete.ctp:11
+msgid "Papers"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:34
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/sidebar.ctp:16
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/search/auto_complete.ctp:6
+msgid "Posts"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/sidebar.ctp:10
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:2
+msgid "Users"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:36
+#: /Applications/MAMP/htdocs/myzeitung//views/search/auto_complete.ctp:16
+msgid "Authors"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:41;41;41;42
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/autocomplete/script.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:20;20;20
+msgid "Find"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:57
+msgid "My Posts"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:58
+msgid "My Papers"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:59
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:67;69;72
+msgid "Messages"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:64;76
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:10
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:37
+msgid "New Post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:78
+msgid "my Posts"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:79
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:44
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:57;59
+msgid "Subscriptions"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:86
+msgid "Account / Settings"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:87
+msgid "Logout"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/comments/add.ctp:12
+msgid "Please enter your reply or press cancel"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/comments/add.ctp:24
+msgid "Please enter your comment"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/comments/comment_content.ctp:28
+msgid "Remove"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/comments/form.ctp:2
+msgid "Post comment"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/comments/form.ctp:8
+msgid "Post reply"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/comments/form.ctp:16
+msgid "Leave a comment to this Post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/complaints/admin_comments.ctp:4
+msgid "Written by"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/complaints/link.ctp:2
+msgid "Complain"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/conversations/message.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/paper.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/post.ctp:38
+msgid "from"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/forgot_password.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/forgot_password.ctp:1
+msgid "Your new password: "
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/forgot_password.ctp:5
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/forgot_password.ctp:2
+msgid "Login and change your password:"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/new_comment.ctp:3
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/new_comment.ctp:2
+msgid "Your following post has been commented:"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/new_message.ctp:6
+msgid " wrote a new message in the conversation "
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/new_message.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/new_message.ctp:16
+msgid "Conversation History"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/new_message.ctp:32
+msgid "View complete Conversation on myZeitung "
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/subscription.ctp:13
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:13
+msgid "User %1$s subscribed to all of your posts into the paper %2$s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/subscription.ctp:18
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:20
+msgid "User %1$s subscribed to the posts of your topic %2$s into the paper %3$s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/subscription.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:26
+msgid "User %1$s subscribed to all of your posts into the category %2$s of the paper %3$s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/subscription.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:31
+msgid "User %1$s subscribed to the posts of your topic %2$s into the category %3$s of the paper %4$s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:1
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:1
+msgid "Welcome to myZeitung.de"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:3
+msgid "Start using myZeitung"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:5
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:4
+msgid "Publish a Post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:6
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:5
+msgid "Customize your Profile"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:9
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:7
+msgid "Explore myZeitung"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:10
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:8
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:16
+msgid "Browse Posts"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:11
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:9
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/navigator.ctp:4
+msgid "Browse Papers"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:10
+msgid "Browse Authors"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/new_comment.ctp:5
+msgid "Click on this link to see your post with and all comments: "
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/new_message.ctp:4
+msgid " wrote a new message in the conversation: "
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/new_message.ctp:25
+msgid "Use the following link to see the complete conversation on myZeitung or to answer: "
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:14;21;27;32
+msgid "Have a look at the profile of your subscriber: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:15;22
+msgid "Have a look at the paper you have been subscribed to: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:28;33
+msgid "Have a look at the paper category you have been subscribed to: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/modal_upload.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/settings/image.ctp:6
+msgid "Profile picture"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/modal_upload.ctp:8
+msgid "Choose image"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/modal_upload.ctp:25
+msgid "Save Picture"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/paginate.ctp:3
+msgid "Previous"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/paginate.ctp:7
+msgid "Next"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:14
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:149
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/edit.ctp:4
+msgid "Edit Post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:35
+#: /Applications/MAMP/htdocs/myzeitung//views/users/forgot_password.ctp:18
+#: /Applications/MAMP/htdocs/myzeitung//views/users/login.ctp:21
+msgid "I forgot my password"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:39
+msgid "Account Settings"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:63
+msgid "Search Results"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/modal_references.ctp:50
+msgid "Authors of this paper"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/navigator.ctp:36
+msgid "created by"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/navigator.ctp:20
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/navigator.ctp:17
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:4
+msgid "%d post"
+msgid_plural "%d posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/navigator.ctp:22
+msgid "%d subscription"
+msgid_plural "%d subscriptions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/navigator.ctp:24
+msgid "%d author"
+msgid_plural "%d authors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:54
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:106
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/autocomplete/papers.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/autocomplete/posts.ctp:30
+msgid "by"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:62
+msgid "Upload Image"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:67
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/paper.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/user.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/buttons.ctp:8
+msgid "Subscribe"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:71
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/paper.ctp:34
+msgid "Unsubscribe"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:79
+msgid "Filter by Category"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:84;86
+msgid "front page"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:101
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/modal_activity.ctp:34
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:1
+msgid "Activity"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:81
+msgid "%1$s person is published in this paper"
+msgid_plural "%1$s persons are published in this paper"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:89
+msgid "%1$s person is published this category"
+msgid_plural "%1$s persons are published this category"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:103
+msgid "%d Post"
+msgid_plural "%d Posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:104
+msgid "%d Subscribed User/Topic"
+msgid_plural "%d Subscribed Users/Topics"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/sidebar.ctp:105
+msgid "%d Subscriber"
+msgid_plural "%d Subscribers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/index/sidebar.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/index/sidebar.ctp:14
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/index/sidebar.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:21
+msgid "order by"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/index/sidebar.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/index/sidebar.ctp:36
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:21
+msgid "Title"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/index/sidebar.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:31
+msgid "Number of Authors"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/index/sidebar.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/index/sidebar.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:35
+msgid "Number of Posts"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/index/sidebar.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:39
+msgid "Number of Subscriptions"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:14
+msgid "Save Post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:36
+msgid "Content"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:46
+msgid "Media (images and videos): "
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:47
+msgid "Preview Picture"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:56
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:39
+msgid "remove"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:18
+msgid "Add Images"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:22
+msgid "Add Video"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:26
+msgid "Topic"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/topics/add.ctp:4
+msgid "Add Topic"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:34
+msgid "Links"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:43
+msgid "Add links"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/modal_add_url.ctp:1
+msgid "add URL"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/modal_add_video_url.ctp:1
+msgid "add Video"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:85
+msgid "read more"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:151
+msgid "Delete Post"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:151
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:82
+msgid "Are you sure you want to delete your post: %s?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:154
+msgid "Undo Repost"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:169
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/post.ctp:58
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:78
+msgid "Repost"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:45
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:5
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:56
+msgid "%d repost"
+msgid_plural "%d reposts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/navigator.ctp:47
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:58
+msgid "%d time viewed"
+msgid_plural "%d times viewed"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/repost_modal_choose_topic.ctp:1
 msgid "Choose you topic"
 msgstr ""
 
-#: /views/elements/posts/index/sidebar.ctp:20
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/index/sidebar.ctp:20
 msgid "Date"
 msgstr ""
 
-#: /views/elements/posts/index/sidebar.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/index/sidebar.ctp:24
 msgid "Number of views"
 msgstr ""
 
-#: /views/elements/posts/index/sidebar.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/index/sidebar.ctp:28
 msgid "Number of comments"
 msgstr ""
 
-#: /views/elements/posts/index/sidebar.ctp:32
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/index/sidebar.ctp:32
 msgid "Number of reposts"
 msgstr ""
 
-#: /views/elements/search/results/post.ctp:61
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/post.ctp:56
 msgid "undo Repost"
 msgstr ""
 
-#: /views/elements/search/results/sidebar.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/sidebar.ctp:7
 msgid "All Results"
 msgstr ""
 
-#: /views/elements/search/results/user.ctp:22
-#: /views/elements/users/sidebar/buttons.ctp:11
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/user.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/buttons.ctp:11
 msgid "Send Message"
 msgstr ""
 
-#: /views/elements/topics/modal_add_topic.ctp:1
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/modal_add_topic.ctp:1
 msgid "add Topic"
 msgstr ""
 
-#: /views/elements/users/modal_subscribe.ctp:1
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/modal_subscribe.ctp:1
 msgid "Subscribe User"
 msgstr ""
 
-#: /views/elements/users/navigator.ctp:5
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/navigator.ctp:5
 msgid "Browse Users"
 msgstr ""
 
-#: /views/elements/users/navigator.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/navigator.ctp:19
 msgid "published in %d paper"
 msgid_plural "published in %d papers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/users/sidebar.ctp:111
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar.ctp:64
 msgid "Print"
 msgstr ""
 
-#: /views/elements/users/index/sidebar.ctp:17
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/index/sidebar.ctp:17
 msgid "Number of Subscribers"
 msgstr ""
 
-#: /views/elements/users/index/sidebar.ctp:25
-#: /views/users/add.ctp:23
-#: /views/users/admin_view.ctp:29
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/index/sidebar.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:29
 msgid "Username"
 msgstr ""
 
-#: /views/elements/users/index/sidebar.ctp:29
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/index/sidebar.ctp:29
 msgid "Date of joining"
 msgstr ""
 
-#: /views/elements/users/sidebar/account_menue.ctp:18
-#: /views/users/acc_about_me.ctp:14;29
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:18
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_about_me.ctp:14;29
 msgid "About Me"
 msgstr ""
 
-#: /views/elements/users/sidebar/account_menue.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:21
 msgid "Profile Picture"
 msgstr ""
 
-#: /views/elements/users/sidebar/account_menue.ctp:25
-#: /views/users/acc_general.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:15
 msgid "General Settings"
 msgstr ""
 
-#: /views/elements/users/sidebar/account_menue.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:28
 msgid "Privacy"
 msgstr ""
 
-#: /views/elements/users/sidebar/activity.ctp:5
-msgid "%d pepost"
-msgid_plural "%d reposts"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /views/elements/users/sidebar/activity.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:7
 msgid "%d subscriber"
 msgid_plural "%d subscribers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/users/sidebar/activity.ctp:8
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:8
 msgid "%d paper subscription"
 msgid_plural "%d paper subscriptions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/users/sidebar/activity.ctp:9
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:9
 msgid "%d paper"
 msgid_plural "%d papers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/elements/users/sidebar/papers.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/papers.ctp:2
 msgid "Top Papers by"
 msgstr ""
 
-#: /views/elements/users/sidebar/papers.ctp:20
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/papers.ctp:20
 msgid "Show all papers by"
 msgstr ""
 
-#: /views/elements/users/sidebar/subscriptions.ctp:47;49
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/subscriptions.ctp:47;49
 msgid "All Papers"
 msgstr ""
 
-#: /views/elements/users/sidebar/topics.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/topics.ctp:2
 msgid "Show Posts by Topic"
 msgstr ""
 
-#: /views/elements/users/sidebar/topics.ctp:7;9
-msgid "All Posts"
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/topics.ctp:7;9
+msgid "All Posts (%d)"
 msgstr ""
 
-#: /views/helpers/mz_time.php:149
-#: /view/helpers/time.php:588
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:149
 msgid "on %s"
 msgstr ""
 
-#: /views/helpers/mz_time.php:183
-#: /view/helpers/time.php:622
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:183
 msgid "%s ago"
 msgstr ""
 
-#: /views/helpers/mz_time.php:153
-#: /view/helpers/time.php:592
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:153
 msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/helpers/mz_time.php:154;159
-#: /view/helpers/time.php:593;598
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:154;159
 msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/helpers/mz_time.php:160;164
-#: /view/helpers/time.php:594;599;603
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:160;164
 msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/helpers/mz_time.php:168
-#: /view/helpers/time.php:595;600;604;607
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:168
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/helpers/mz_time.php:172
-#: /view/helpers/time.php:608;611
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:172
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/helpers/mz_time.php:176
-#: /view/helpers/time.php:612;615
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:176
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/helpers/mz_time.php:179
-#: /view/helpers/time.php:618
+#: /Applications/MAMP/htdocs/myzeitung//views/helpers/mz_time.php:179
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/home/index.ctp:12
-#: /views/users/login.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/users/login.ctp:24
 msgid "Remember Me"
 msgstr ""
 
-#: /views/home/index.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:39
 msgid "Top Papers"
 msgstr ""
 
-#: /views/home/index.ctp:57
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:57
 msgid "more papers"
 msgstr ""
 
-#: /views/home/index.ctp:60
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:60
 msgid "Top Authors"
 msgstr ""
 
-#: /views/home/index.ctp:82
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:82
 msgid "more authors"
 msgstr ""
 
-#: /views/home/index.ctp:88
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:88
 msgid "Newest Articles"
 msgstr ""
 
-#: /views/home/index.ctp:111
+#: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:111
 msgid "more posts"
 msgstr ""
 
-#: /views/layouts/admin.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//views/index/admin_index.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:2
+msgid "Search - solr"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/index/admin_index.ctp:6
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:6;12;18
+msgid "<span>!!!</span>"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/index/admin_index.ctp:6
+msgid "Are you sure to refresh the PostUser index?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/index/admin_index.ctp:7
+msgid "blabbel schnabbel"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/admin.ctp:26
 msgid "myZeitung - admin"
 msgstr ""
 
-#: /views/layouts/default-backup.ctp:25
-#: /view/layouts/default.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/default-backup.ctp:25
 msgid "CakePHP: the rapid development php framework:"
 msgstr ""
 
-#: /views/layouts/default-backup.ctp:50
-#: /view/layouts/default.ctp:39;50
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/default-backup.ctp:50
 msgid "CakePHP: the rapid development php framework"
 msgstr ""
 
-#: /views/pages/home.ctp:12
-#: /view/pages/home.ctp:49
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/email/html/default.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/email/text/default.ctp:4
+msgid "This message was sent to %s."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/email/html/default.ctp:26
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/email/text/default.ctp:5
+msgid "If you don't want to receive these emails from myZeitung, you can unsubscribe emails here:"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/layouts/email/html/default.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_privacy.ctp:14
+msgid "Privacy Settings"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:12
 msgid "Your tmp directory is writable."
 msgstr ""
 
-#: /views/pages/home.ctp:16
-#: /view/pages/home.ctp:53
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:16
 msgid "Your tmp directory is NOT writable."
 msgstr ""
 
-#: /views/pages/home.ctp:26
-#: /view/pages/home.ctp:63
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:26
 msgid "The %s is being used for caching. To change the config edit APP/config/core.php "
 msgstr ""
 
-#: /views/pages/home.ctp:30
-#: /view/pages/home.ctp:67
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:30
 msgid "Your cache is NOT working. Please check the settings in APP/config/core.php"
 msgstr ""
 
-#: /views/pages/home.ctp:40
-#: /view/pages/home.ctp:77
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:40
 msgid "Your database configuration file is present."
 msgstr ""
 
-#: /views/pages/home.ctp:45
-#: /view/pages/home.ctp:82
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:45
 msgid "Your database configuration file is NOT present."
 msgstr ""
 
-#: /views/pages/home.ctp:47
-#: /view/pages/home.ctp:84
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:47
 msgid "Rename config/database.php.default to config/database.php"
 msgstr ""
 
-#: /views/pages/home.ctp:64
-#: /view/pages/home.ctp:111
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:64
 msgid "Cake is able to connect to the database."
 msgstr ""
 
-#: /views/pages/home.ctp:68
-#: /view/pages/home.ctp:115
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:68
 msgid "Cake is NOT able to connect to the database."
 msgstr ""
 
-#: /views/pages/home.ctp:74
-#: /view/pages/home.ctp:121
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:74
 msgid "Editing this Page"
 msgstr ""
 
-#: /views/pages/home.ctp:77
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:77
 msgid "To change the content of this page, edit: %s\n\t\tTo change its layout, edit: %s\n\t\tYou can also add some CSS styles for your pages at: %s"
 msgstr ""
 
-#: /views/papers/add_edit.ctp:27
-#: /views/users/admin_view.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:19
 msgid "Description"
 msgstr ""
 
-#: /views/papers/add_edit.ctp:28;41
-#: /views/users/acc_about_me.ctp:23;30
-#: /views/users/add.ctp:30
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:28;41
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_about_me.ctp:23;30
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:30
 msgid "(optional)"
 msgstr ""
 
-#: /views/papers/add_edit.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:28
 msgid "If you want to describe the contents of this paper."
 msgstr ""
 
-#: /views/papers/add_edit.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:40
 msgid "URL / Link"
 msgstr ""
 
-#: /views/papers/add_edit.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:41
 msgid "If you want to specify a link of which this paper is about."
 msgstr ""
 
-#: /views/papers/add_edit.ctp:49
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:49
 msgid "Save paper"
 msgstr ""
 
-#: /views/papers/addcontent.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/addcontent.ctp:7
 msgid "Add Content to your Paper"
 msgstr ""
 
-#: /views/papers/edit.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:37
+msgid "Disable"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:40
+msgid "Are you sure you want to disable this paper?: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:42
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:42
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:39
+msgid "Enable"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:42
+msgid "Are you sure you want to enable this paper?: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:44
+msgid "Are you sure you want to delete this paper?: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:4
 msgid "Edit Paper"
 msgstr ""
 
-#: /views/papers/edit.ctp:27
-#: /views/papers/index_backup_alf.ctp:87
-#: /views/users/admin_add.ctp:46
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:87
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:46
 msgid "List Subscriptions"
 msgstr ""
 
-#: /views/papers/edit.ctp:28
-#: /views/papers/index_backup_alf.ctp:88
-#: /views/users/admin_add.ctp:47
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:88
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:47
 msgid "New Subscription"
 msgstr ""
 
-#: /views/papers/index_backup_alf.ctp:39;43;55
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:39;43;55
 msgid "Add Content"
 msgstr ""
 
-#: /views/papers/index_backup_alf.ctp:56
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:56
 msgid "Show Content"
 msgstr ""
 
-#: /views/papers/settings/image.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/settings/image.ctp:12
 msgid "Add Profile Image"
 msgstr ""
 
-#: /views/papers/settings/image.ctp:32
-#: /views/users/acc_about_me.ctp:37
-#: /views/users/acc_general.ctp:43
-#: /views/users/acc_privacy.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/settings/image.ctp:32
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_about_me.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:43
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_privacy.ctp:23
 msgid "Save Changes"
 msgstr ""
 
-#: /views/posts/edit.ctp:17
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:40
+msgid "Are you sure you want to disable this post?: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:42
+msgid "Are you sure you want to enable this post?: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:44
+msgid "Are you sure you want to delete this post?: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/edit.ctp:17
 msgid "Options"
 msgstr ""
 
-#: /views/posts/edit.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/edit.ctp:19
 msgid "Back"
 msgstr ""
 
-#: /views/posts/view.ctp:103
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:67
 msgid "Undo repost"
 msgstr ""
 
-#: /views/posts/view.ctp:118
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:91
 msgid "posted"
 msgstr ""
 
-#: /views/posts/view.ctp:134
+#: /Applications/MAMP/htdocs/myzeitung//views/posts/view.ctp:105
 msgid "Reference"
 msgid_plural "References"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /views/search/auto_complete.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:6
+msgid "Are you sure to refresh the Solr index for all Posts?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:7;13;19
+msgid "This algorithm will delete all entries that are deleted or disabled in the database. All other entries will be refreshed in the search index"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:12
+msgid "Are you sure to refresh the Solr index for all Users?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:18
+msgid "Are you sure to refresh the Solr index for all Papers?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/search/auto_complete.ctp:22
 msgid "Show all results"
 msgstr ""
 
-#: /views/search/index.ctp:5
+#: /Applications/MAMP/htdocs/myzeitung//views/search/index.ctp:17
 msgid "Searchresults for"
 msgstr ""
 
-#: /views/search/index.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/search/index.ctp:24
 msgid "more results"
 msgstr ""
 
-#: /views/topics/edit.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/topics/edit.ctp:4
 msgid "Edit Topic"
 msgstr ""
 
-#: /views/users/acc_about_me.ctp:23
-#: /views/users/add.ctp:30
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_about_me.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:30
 msgid "If you want to be found by your name"
 msgstr ""
 
-#: /views/users/acc_about_me.ctp:30
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_about_me.ctp:30
 msgid "Tell people something about yourself."
 msgstr ""
 
-#: /views/users/acc_delete.ctp:14;23
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_delete.ctp:14;23
 msgid "Delete Account"
 msgstr ""
 
-#: /views/users/acc_delete.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_delete.ctp:21
 msgid "I want to delete my account. All my information, posts, papers and images will be deleted."
 msgstr ""
 
-#: /views/users/acc_general.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:27
 msgid "Old Password"
 msgstr ""
 
-#: /views/users/acc_general.ctp:32
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:32
 msgid "New Password"
 msgstr ""
 
-#: /views/users/acc_general.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:37
 msgid "Confirm Password"
 msgstr ""
 
-#: /views/users/acc_general.ctp:46
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:46
 msgid "I want to delete my Account"
 msgstr ""
 
-#: /views/users/acc_privacy.ctp:14
-msgid "Privacy Settings"
-msgstr ""
-
-#: /views/users/acc_privacy.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_privacy.ctp:21
 msgid "Allow comments on my Articles"
 msgstr ""
 
-#: /views/users/acc_privacy.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/users/acc_privacy.ctp:22
 msgid "Allow people to send me messages"
 msgstr ""
 
-#: /views/users/add.ctp:18
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:18
 msgid "Create a new account"
 msgstr ""
 
-#: /views/users/add.ctp:36
-#: /views/users/admin_view.ctp:34
-#: /views/users/login.ctp:20
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:36
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:34
+#: /Applications/MAMP/htdocs/myzeitung//views/users/login.ctp:20
 msgid "Password"
 msgstr ""
 
-#: /views/users/add.ctp:42
-#: /views/users/forgot_password.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:42
+#: /Applications/MAMP/htdocs/myzeitung//views/users/forgot_password.ctp:23
 msgid "E-Mail"
 msgstr ""
 
-#: /views/users/add.ctp:49;60
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:43
+msgid "The email address is not visible to other users."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:50;61
 msgid "TOS"
 msgstr ""
 
-#: /views/users/add.ctp:60
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:61
 msgid "I accept the"
 msgstr ""
 
-#: /views/users/add.ctp:60
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:61
 msgid "and"
 msgstr ""
 
-#: /views/users/add.ctp:60
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:61
 msgid "Privacy Policy"
 msgstr ""
 
-#: /views/users/add.ctp:65
+#: /Applications/MAMP/htdocs/myzeitung//views/users/add.ctp:66
 msgid "Create Account"
 msgstr ""
 
-#: /views/users/admin_add.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:4
 msgid "Admin Add User"
 msgstr ""
 
-#: /views/users/admin_add.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:31
 msgid "List Users"
 msgstr ""
 
-#: /views/users/admin_add.ctp:32
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:32
 msgid "List Groups"
 msgstr ""
 
-#: /views/users/admin_add.ctp:33
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:33
 msgid "New Group"
 msgstr ""
 
-#: /views/users/admin_add.ctp:36
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:36
 msgid "List Posts"
 msgstr ""
 
-#: /views/users/admin_add.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:38
 msgid "List Post Users"
 msgstr ""
 
-#: /views/users/admin_add.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:39
 msgid "New Post User"
 msgstr ""
 
-#: /views/users/admin_add.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:40
 msgid "List Topics"
 msgstr ""
 
-#: /views/users/admin_add.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:41
 msgid "New Topic"
 msgstr ""
 
-#: /views/users/admin_add.ctp:42
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:42
 msgid "List Content Papers"
 msgstr ""
 
-#: /views/users/admin_add.ctp:43
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_add.ctp:43
 msgid "New Content Paper"
 msgstr ""
 
-#: /views/users/admin_edit.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_edit.ctp:4
 msgid "Admin Edit User"
 msgstr ""
 
-#: /views/users/admin_view.ctp:9
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:37;39
+msgid "Are you sure you want to disable this user: %s?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:41
+msgid "Are you sure you want to delete this user: %s?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:9
 msgid "Group"
 msgstr ""
 
-#: /views/users/admin_view.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:39
 msgid "Image"
 msgstr ""
 
-#: /views/users/admin_view.ctp:54
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:54
 msgid "Lastlogin"
 msgstr ""
 
-#: /views/users/admin_view.ctp:59
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:59
 msgid "Enabled"
 msgstr ""
 
-#: /views/users/admin_view.ctp:64
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:64
 msgid "Allow Messages"
 msgstr ""
 
-#: /views/users/admin_view.ctp:69
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:69
 msgid "Allow Comments"
 msgstr ""
 
-#: /views/users/admin_view.ctp:74
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:74
 msgid "Subscription Count"
 msgstr ""
 
-#: /views/users/admin_view.ctp:79
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:79
 msgid "Content Paper Count"
 msgstr ""
 
-#: /views/users/admin_view.ctp:84
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:84
 msgid "Post Count"
 msgstr ""
 
-#: /views/users/admin_view.ctp:89
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:89
 msgid "Posts User Count"
 msgstr ""
 
-#: /views/users/admin_view.ctp:94
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:94
 msgid "Comment Count"
 msgstr ""
 
-#: /views/users/admin_view.ctp:99
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_view.ctp:99
 msgid "Paper Count"
 msgstr ""
 
-#: /views/users/forgot_password.ctp:30
+#: /Applications/MAMP/htdocs/myzeitung//views/users/forgot_password.ctp:30
 msgid "Send new password"
 msgstr ""
 
-#: /views/users/login.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/users/login.ctp:19
 msgid "Username or Email"
 msgstr ""
 
-#: /views/users/references.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/users/references.ctp:12
 msgid "Name: %1$s"
 msgstr ""
 
-#: /views/users/references.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/users/references.ctp:15
 msgid "All your posts appear in this paper."
 msgstr ""
 
-#: /views/users/references.ctp:22
+#: /Applications/MAMP/htdocs/myzeitung//views/users/references.ctp:22
 msgid "Posts of your topic %1$s appear in this paper"
 msgstr ""
 
-#: /views/users/references.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/users/references.ctp:31
 msgid "Posts of your topic %1$s appear for the category %2$s"
 msgstr ""
 
-#: /views/users/references.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/users/references.ctp:39
 msgid "All your posts appear in the category %1$s"
 msgstr ""
 
-#: /views/users/subscribe.ctp:19
+#: /Applications/MAMP/htdocs/myzeitung//views/users/subscribe.ctp:19
 msgid "Choose your paper:"
 msgstr ""
 
-#: /views/users/subscribe.ctp:24
+#: /Applications/MAMP/htdocs/myzeitung//views/users/subscribe.ctp:24
 msgid "Into: "
 msgstr ""
 
-#: /views/users/subscribe.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/users/subscribe.ctp:31
 msgid "Save"
 msgstr ""
 
-#: /webroot/test.php:88
+#: /Applications/MAMP/htdocs/myzeitung//webroot/test.php:88
 msgid "Debug setting does not allow access to this url."
 msgstr ""
 
-#: /cache.php:622
-msgid "Method write() not implemented in %s"
-msgstr ""
-
-#: /cache.php:633
-msgid "Method read() not implemented in %s"
-msgstr ""
-
-#: /cache.php:645
-msgid "Method increment() not implemented in %s"
-msgstr ""
-
-#: /cache.php:656
-msgid "Method decrement() not implemented in %s"
-msgstr ""
-
-#: /cake_log.php:101
-msgid "Missing logger classname"
-msgstr ""
-
-#: /cake_log.php:133
-msgid "Could not load logger class %s"
-msgstr ""
-
-#: /cake_log.php:138
-msgid "logger class %s does not implement a write method."
-msgstr ""
-
-#: /cake_session.php:280
-msgid "Deleting session key {%s}"
-msgstr ""
-
-#: /cake_session.php:285
-msgid "%s doesn't exist"
-msgstr ""
-
-#: /cake_session.php:444
-msgid "Writing session key {%s}: %s"
-msgstr ""
-
-#: /cake_session.php:506
-msgid "You must set the all Configure::write('Session.*') in core.php to use database storage"
-msgstr ""
-
-#: /cake_socket.php:244
-msgid "Connection timed out"
-msgstr ""
-
-#: /class_registry.php:154
-msgid "(ClassRegistry::init() could not create instance of %1$s class %2$s "
-msgstr ""
-
-#: /class_registry.php:164
-msgid "(ClassRegistry::init() Attempted to create instance of a class with a numeric name"
-msgstr ""
-
-#: /configure.php:267
-msgid "Configure::load() - no variable $config found in %s.php"
-msgstr ""
-
-#: /configure.php:394
-msgid "Can't find application core file. Please create %score.php, and make sure it is readable by PHP."
-msgstr ""
-
-#: /configure.php:401
-msgid "Cache not configured properly. Please check Cache::config(); in APP/config/core.php"
-msgstr ""
-
-#: /configure.php:435
-msgid "Can't find application bootstrap file. Please create %sbootstrap.php, and make sure it is readable by PHP."
-msgstr ""
-
-#: /debugger.php:684
-msgid "Please change the value of 'Security.salt' in app/config/core.php to a salt value specific to your application"
-msgstr ""
-
-#: /debugger.php:688
-msgid "Please change the value of 'Security.cipherSeed' in app/config/core.php to a numeric (digits only) seed value specific to your application"
-msgstr ""
-
-#: /error.php:162
-msgid "Not Found"
-msgstr ""
-
-#: /error.php:185
-msgid "An Internal Error Has Occurred"
-msgstr ""
-
-#: /error.php:204
-#: /view/errors/missing_controller.ctp:20
-msgid "Missing Controller"
-msgstr ""
-
-#: /error.php:223
-msgid "Missing Method in Controller"
-msgstr ""
-
-#: /error.php:240
-msgid "Trying to access private method in class"
-msgstr ""
-
-#: /error.php:259
-#: /view/errors/missing_table.ctp:20
-msgid "Missing Database Table"
-msgstr ""
-
-#: /error.php:274
-msgid "Scaffold Missing Database Connection"
-msgstr ""
-
-#: /error.php:292
-#: /view/errors/missing_view.ctp:20
-msgid "Missing View"
-msgstr ""
-
-#: /error.php:309
-#: /view/errors/missing_layout.ctp:20
-msgid "Missing Layout"
-msgstr ""
-
-#: /error.php:327
-#: /view/errors/missing_connection.ctp:20
-#: /view/errors/missing_scaffolddb.ctp:20
-msgid "Missing Database Connection"
-msgstr ""
-
-#: /error.php:344
-#: /view/errors/missing_helper_file.ctp:20
-msgid "Missing Helper File"
-msgstr ""
-
-#: /error.php:361
-#: /view/errors/missing_helper_class.ctp:20
-msgid "Missing Helper Class"
-msgstr ""
-
-#: /error.php:378
-#: /view/errors/missing_behavior_file.ctp:20
-msgid "Missing Behavior File"
-msgstr ""
-
-#: /error.php:395
-#: /view/errors/missing_behavior_class.ctp:20
-msgid "Missing Behavior Class"
-msgstr ""
-
-#: /error.php:413
-#: /view/errors/missing_component_file.ctp:20
-msgid "Missing Component File"
-msgstr ""
-
-#: /error.php:431
-#: /view/errors/missing_component_class.ctp:20
-msgid "Missing Component Class"
-msgstr ""
-
-#: /error.php:447
-#: /view/errors/missing_model.ctp:20
-msgid "Missing Model"
-msgstr ""
-
-#: /folder.php:379;400
-msgid "%s changed to %s"
-msgstr ""
-
-#: /folder.php:383;402
-msgid "%s NOT changed to %s"
-msgstr ""
-
-#: /folder.php:489
-msgid "%s is a file"
-msgstr ""
-
-#: /folder.php:500;665
-msgid "%s created"
-msgstr ""
-
-#: /folder.php:504
-msgid "%s NOT created"
-msgstr ""
-
-#: /folder.php:579;593
-msgid "%s removed"
-msgstr ""
-
-#: /folder.php:581;590
-msgid "%s NOT removed"
-msgstr ""
-
-#: /folder.php:629
-msgid "%s not found"
-msgstr ""
-
-#: /folder.php:638
-msgid "%s not writable"
-msgstr ""
-
-#: /folder.php:652
-msgid "%s copied to %s"
-msgstr ""
-
-#: /folder.php:654
-msgid "%s NOT copied to %s"
-msgstr ""
-
-#: /folder.php:669
-msgid "%s not created"
-msgstr ""
-
-#: /http_socket.php:539
-msgid "HttpSocket::_decodeBody - Unknown encoding: %s. Activate quirks mode to surpress error."
-msgstr ""
-
-#: /http_socket.php:565
-msgid "HttpSocket::_decodeChunkedBody - Could not parse malformed chunk. Activate quirks mode to do this."
-msgstr ""
-
-#: /http_socket.php:827
-msgid "HttpSocket::_buildRequestLine - Passed an invalid request line string. Activate quirks mode to do this."
-msgstr ""
-
-#: /http_socket.php:842
-msgid "HttpSocket::_buildRequestLine - The \"*\" asterisk character is only allowed for the following methods: %s. Activate quirks mode to work outside of HTTP/1.1 specs."
-msgstr ""
-
-#: /overloadable_php4.php:73;133
-#: /overloadable_php5.php:48;80
-msgid "Magic method handler call__ not defined in %s"
-msgstr ""
-
-#: /router.php:288
-msgid "Route classes must extend CakeRoute"
-msgstr ""
-
-#: /security.php:173
-msgid "You cannot use an empty key for Security::cipher()"
-msgstr ""
-
-#: /validation.php:342
-msgid "You must define the $operator parameter for Validation::comparison()"
-msgstr ""
-
-#: /validation.php:366
-msgid "You must define a regular expression for Validation::custom()"
-msgstr ""
-
-#: /validation.php:927
-msgid "Could not find %s class, unable to complete validation."
-msgstr ""
-
-#: /validation.php:931
-msgid "Method %s does not exist on %s unable to complete validation."
-msgstr ""
-
-#: /xml.php:408
-msgid "Cannot append a node to itself."
-msgstr ""
-
-#: /xml.php:906
-msgid "XML cannot be read"
-msgstr ""
-
-#: /cache/file.php:267
-msgid "%s is not writable"
-msgstr ""
-
-#: /cache/memcache.php:161
-msgid "Method increment() not implemented for compressed cache in %s"
-msgstr ""
-
-#: /cache/memcache.php:177
-msgid "Method decrement() not implemented for compressed cache in %s"
-msgstr ""
-
-#: /controller/controller.php:366
-msgid "Controller::__construct() : Can not get or parse my own class name, exiting."
-msgstr ""
-
-#: /controller/controller.php:803
-msgid "%sController::isAuthorized() is not defined."
-msgstr ""
-
-#: /controller/controller.php:1099
-msgid "Controller::paginate() - can't find model %1$s in controller %2$sController"
-msgstr ""
-
-#: /controller/scaffold.php:180
-msgid "Scaffold :: "
-msgstr ""
-
-#: /controller/scaffold.php:226
-msgid "No id set for %s::view()"
-msgstr ""
-
-#: /controller/scaffold.php:293
-msgid "updated"
-msgstr ""
-
-#: /controller/scaffold.php:296
-msgid "saved"
-msgstr ""
-
-#: /controller/scaffold.php:306
-msgid "Invalid id for %s::edit()"
-msgstr ""
-
-#: /controller/scaffold.php:325
-msgid "The %1$s has been %2$s"
-msgstr ""
-
-#: /controller/scaffold.php:341
-msgid "Please correct errors below."
-msgstr ""
-
-#: /controller/scaffold.php:381
-msgid "No id set for %s::delete()"
-msgstr ""
-
-#: /controller/scaffold.php:396
-msgid "The %1$s with id: %2$d has been deleted."
-msgstr ""
-
-#: /controller/scaffold.php:408
-msgid "There was an error deleting the %1$s with id: %2$d"
-msgstr ""
-
-#: /controller/components/acl.php:55
-msgid "Could not find %s."
-msgstr ""
-
-#: /controller/components/acl.php:180
-msgid "[acl_base] The AclBase class constructor has been called, or the class was instantiated. This class must remain abstract. Please refer to the Cake docs for ACL configuration."
-msgstr ""
-
-#: /controller/components/acl.php:273
-msgid "DbAcl::check() - Failed ARO/ACO node lookup in permissions check.  Node references:\nAro: "
-msgstr ""
-
-#: /controller/components/acl.php:278
-msgid "DbAcl::check() - Failed ACO node lookup in permissions check.  Node references:\nAro: "
-msgstr ""
-
-#: /controller/components/acl.php:286
-msgid "ACO permissions key %s does not exist in DbAcl::check()"
-msgstr ""
-
-#: /controller/components/acl.php:361
-msgid "DbAcl::allow() - Invalid node"
-msgstr ""
-
-#: /controller/components/auth.php:422
-msgid "Could not find AclComponent. Please include Acl in Controller::$components."
-msgstr ""
-
-#: /controller/components/auth.php:465
-msgid "Could not find $userModel. Please set AuthComponent::$userModel in beforeFilter()."
-msgstr ""
-
-#: /controller/components/auth.php:477
-msgid "Login failed. Invalid username or password."
-msgstr ""
-
-#: /controller/components/auth.php:478
-msgid "You are not authorized to access that location."
-msgstr ""
-
-#: /controller/components/auth.php:533
-msgid "Auth::startup() - Attempted access of un-mapped action \"%1$s\" in controller \"%2$s\""
-msgstr ""
-
-#: /controller/components/auth.php:557
-msgid "Could not find %s. Set AuthComponent::$object in beforeFilter() or pass a valid object"
-msgstr ""
-
-#: /controller/components/auth.php:563
-msgid "%s::isAuthorized() is not defined."
-msgstr ""
-
-#: /controller/components/auth.php:571
-msgid "Auth::isAuthorized() - $authorize is set to an incorrect value.  Allowed settings are: \"actions\", \"crud\", \"model\" or null."
-msgstr ""
-
-#: /controller/components/auth.php:826
-msgid "Auth::getModel() - Model is not set or could not be found"
-msgstr ""
-
-#: /controller/components/email.php:723
-msgid "_lineLength cannot be accessed please use lineLength"
-msgstr ""
-
-#: /controller/components/security.php:337
-msgid "SecurityComponent::loginCredentials() - Server does not support digest authentication"
-msgstr ""
-
-#: /model/cake_schema.php:606
-msgid "Schema generation error: invalid column type %s does not exist in DBO"
-msgstr ""
-
-#: /model/connection_manager.php:102
-msgid "ConnectionManager::getDataSource - Non-existent data source %s"
-msgstr ""
-
-#: /model/connection_manager.php:110
-msgid "ConnectionManager::getDataSource - Could not load class %s"
-msgstr ""
-
-#: /model/connection_manager.php:185
-msgid "ConnectionManager::loadDataSource - Unable to import DataSource class %s"
-msgstr ""
-
-#: /model/db_acl.php:146
-msgid "Model class '%s' not found in AclNode::node() when trying to bind %s object"
-msgstr ""
-
-#: /model/db_acl.php:191
-msgid "AclNode::node() - Couldn't find %s node identified by \"%s\""
-msgstr ""
-
-#: /model/model.php:953
-msgid "(Model::getColumnTypes) Unable to build model field data. If you are using a model without a database table, try implementing schema()"
-msgstr ""
-
-#: /model/model.php:2565
-msgid "This field cannot be left blank"
-msgstr ""
-
-#: /model/model.php:2613
-msgid "Could not find validation handler %s for %s"
-msgstr ""
-
-#: /model/model.php:2923
-msgid "Invalid join model settings in %s"
-msgstr ""
-
-#: /model/model_behavior.php:448
-msgid "BehaviorCollection::dispatchMethod() - Method %s not found in any attached behavior"
-msgstr ""
-
-#: /model/behaviors/acl.php:64
-msgid "Callback parentNode() not defined in %s"
-msgstr ""
-
-#: /model/behaviors/containable.php:363
-msgid "Model \"%s\" is not associated with model \"%s\""
-msgstr ""
-
-#: /model/behaviors/translate.php:59
-msgid "Datasource %s for TranslateBehavior of model %s is not connected"
-msgstr ""
-
-#: /model/behaviors/translate.php:455
-msgid "Association %s is already binded to model %s"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:684
-msgid "SQL Error:"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:686
-msgid "Aff:%s Num:%s Took:%sms"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:688
-msgid "Query:"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:923
-#: /model/datasources/dbo/dbo_oracle.php:997
-msgid "SQL Error in model %s:"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2521
-msgid "FIXME: Can't parse field: "
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2632;2694
-#: /model/datasources/dbo/dbo_mysql.php:355
-#: /model/datasources/dbo/dbo_oracle.php:1147
-msgid "Invalid schema object"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2720
-#: /model/datasources/dbo/dbo_sqlite.php:493
-msgid "Column name or type not defined in schema"
-msgstr ""
-
-#: /model/datasources/dbo_source.php:2725
-#: /model/datasources/dbo/dbo_sqlite.php:498
-msgid "Column type %s does not exist"
-msgstr ""
-
-#: /model/datasources/dbo/dbo_mssql.php:121
-msgid "PHP SQL Server interface is not installed, cannot continue. For troubleshooting information, see http://php.net/mssql/"
-msgstr ""
-
-#: /model/datasources/dbo/dbo_oracle.php:586
-msgid "Must specify table to operate on constraints"
-msgstr ""
-
-#: /model/datasources/dbo/dbo_oracle.php:644
-msgid "DboOracle::constraint() accepts only enable, disable, or list"
-msgstr ""
-
-#: /view/helper.php:154
-msgid "Method %1$s::%2$s does not exist"
-msgstr ""
-
-#: /view/view.php:449
-msgid "Error in view %s, got: <blockquote>%s</blockquote>"
-msgstr ""
-
-#: /view/view.php:493
-msgid "Error in layout %s, got: <blockquote>%s</blockquote>"
-msgstr ""
-
-#: /view/errors/error404.ctp:22
-#: /view/errors/error500.ctp:22
-#: /view/errors/missing_action.ctp:22;26
-#: /view/errors/missing_behavior_class.ctp:22;26
-#: /view/errors/missing_behavior_file.ctp:22;26
-#: /view/errors/missing_component_class.ctp:22;26
-#: /view/errors/missing_component_file.ctp:22;26
-#: /view/errors/missing_connection.ctp:22;26
-#: /view/errors/missing_controller.ctp:22;26
-#: /view/errors/missing_helper_class.ctp:22;26
-#: /view/errors/missing_helper_file.ctp:22;26
-#: /view/errors/missing_layout.ctp:22;26
-#: /view/errors/missing_model.ctp:22;26
-#: /view/errors/missing_scaffolddb.ctp:22;26
-#: /view/errors/missing_table.ctp:22
-#: /view/errors/missing_view.ctp:22;26
-#: /view/errors/private_action.ctp:22
-#: /view/errors/scaffold_error.ctp:22
-msgid "Error"
-msgstr ""
-
-#: /view/errors/error404.ctp:23
-msgid "The requested address %s was not found on this server."
-msgstr ""
-
-#: /view/errors/error500.ctp:23
-msgid "An Internal Error Has Occurred."
-msgstr ""
-
-#: /view/errors/missing_action.ctp:20
-msgid "Missing Method in %s"
-msgstr ""
-
-#: /view/errors/missing_action.ctp:23
-msgid "The action %1$s is not defined in controller %2$s"
-msgstr ""
-
-#: /view/errors/missing_action.ctp:27
-msgid "Create %1$s%2$s in file: %3$s."
-msgstr ""
-
-#: /view/errors/missing_action.ctp:44
-#: /view/errors/missing_behavior_class.ctp:37
-#: /view/errors/missing_behavior_file.ctp:37
-#: /view/errors/missing_component_class.ctp:37
-#: /view/errors/missing_component_file.ctp:37
-#: /view/errors/missing_connection.ctp:30
-#: /view/errors/missing_controller.ctp:38
-#: /view/errors/missing_helper_class.ctp:37
-#: /view/errors/missing_helper_file.ctp:37
-#: /view/errors/missing_layout.ctp:30
-#: /view/errors/missing_model.ctp:39
-#: /view/errors/missing_scaffolddb.ctp:30
-#: /view/errors/missing_table.ctp:26
-#: /view/errors/missing_view.ctp:30
-#: /view/errors/private_action.ctp:26
-#: /view/errors/scaffold_error.ctp:26
-msgid "Notice"
-msgstr ""
-
-#: /view/errors/missing_action.ctp:45
-#: /view/errors/missing_behavior_class.ctp:38
-#: /view/errors/missing_behavior_file.ctp:38
-#: /view/errors/missing_component_class.ctp:38
-#: /view/errors/missing_component_file.ctp:38
-#: /view/errors/missing_controller.ctp:39
-#: /view/errors/missing_helper_class.ctp:38
-#: /view/errors/missing_helper_file.ctp:38
-#: /view/errors/missing_layout.ctp:31
-#: /view/errors/missing_model.ctp:40
-#: /view/errors/missing_scaffolddb.ctp:31
-#: /view/errors/missing_table.ctp:27
-#: /view/errors/missing_view.ctp:31
-#: /view/errors/private_action.ctp:27
-#: /view/errors/scaffold_error.ctp:27
-msgid "If you want to customize this error message, create %s"
-msgstr ""
-
-#: /view/errors/missing_behavior_class.ctp:23
-msgid "The behavior class <em>%s</em> can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_behavior_class.ctp:27
-#: /view/errors/missing_behavior_file.ctp:27
-#: /view/errors/missing_helper_class.ctp:27
-#: /view/errors/missing_helper_file.ctp:27
-msgid "Create the class below in file: %s"
-msgstr ""
-
-#: /view/errors/missing_behavior_file.ctp:23
-msgid "The Behavior file %s can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_component_class.ctp:23
-msgid "Component class %1$s in %2$s was not found."
-msgstr ""
-
-#: /view/errors/missing_component_class.ctp:27
-#: /view/errors/missing_component_file.ctp:27
-#: /view/errors/missing_model.ctp:27
-msgid "Create the class %s in file: %s"
-msgstr ""
-
-#: /view/errors/missing_component_file.ctp:23
-msgid "The component file was not found."
-msgstr ""
-
-#: /view/errors/missing_connection.ctp:23
-msgid "%s requires a database connection"
-msgstr ""
-
-#: /view/errors/missing_connection.ctp:27
-msgid "Confirm you have created the file : %s."
-msgstr ""
-
-#: /view/errors/missing_connection.ctp:31
-msgid "If you want to customize this error message, create %s."
-msgstr ""
-
-#: /view/errors/missing_controller.ctp:23
-msgid "%s could not be found."
-msgstr ""
-
-#: /view/errors/missing_controller.ctp:27
-msgid "Create the class %s below in file: %s"
-msgstr ""
-
-#: /view/errors/missing_helper_class.ctp:23
-msgid "The helper class <em>%s</em> can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_helper_file.ctp:23
-msgid "The helper file %s can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_layout.ctp:23
-msgid "The layout file %s can not be found or does not exist."
-msgstr ""
-
-#: /view/errors/missing_layout.ctp:27
-#: /view/errors/missing_scaffolddb.ctp:27
-#: /view/errors/missing_view.ctp:27
-msgid "Confirm you have created the file: %s"
-msgstr ""
-
-#: /view/errors/missing_model.ctp:23
-msgid "<em>%s</em> could not be found."
-msgstr ""
-
-#: /view/errors/missing_scaffolddb.ctp:23
-msgid "Scaffold requires a database connection"
-msgstr ""
-
-#: /view/errors/missing_table.ctp:23
-msgid "Database table %1$s for model %2$s was not found."
-msgstr ""
-
-#: /view/errors/missing_view.ctp:23
-msgid "The view for %1$s%2$s was not found."
-msgstr ""
-
-#: /view/errors/private_action.ctp:20
-msgid "Private Method in %s"
-msgstr ""
-
-#: /view/errors/private_action.ctp:23
-msgid "%s%s cannot be accessed directly."
-msgstr ""
-
-#: /view/errors/scaffold_error.ctp:20
-msgid "Scaffold Error"
-msgstr ""
-
-#: /view/errors/scaffold_error.ctp:23
-msgid "Method _scaffoldError in was not found in the controller"
-msgstr ""
-
-#: /view/helpers/form.php:510
-msgid "Error in field %s"
-msgstr ""
-
-#: /view/helpers/form.php:627
-#: /view/scaffolds/edit.ctp:40
-#: /view/scaffolds/index.ctp:79;86
-#: /view/scaffolds/view.ctp:56;63;155
-msgid "New %s"
-msgstr ""
-
-#: /view/helpers/form.php:633
-#: /view/scaffolds/view.ctp:53;94
-msgid "Edit %s"
-msgstr ""
-
-#: /view/helpers/form.php:2131
-msgid "January"
-msgstr ""
-
-#: /view/helpers/form.php:2132
-msgid "February"
-msgstr ""
-
-#: /view/helpers/form.php:2133
-msgid "March"
-msgstr ""
-
-#: /view/helpers/form.php:2134
-msgid "April"
-msgstr ""
-
-#: /view/helpers/form.php:2135
-msgid "May"
-msgstr ""
-
-#: /view/helpers/form.php:2136
-msgid "June"
-msgstr ""
-
-#: /view/helpers/form.php:2137
-msgid "July"
-msgstr ""
-
-#: /view/helpers/form.php:2138
-msgid "August"
-msgstr ""
-
-#: /view/helpers/form.php:2139
-msgid "September"
-msgstr ""
-
-#: /view/helpers/form.php:2140
-msgid "October"
-msgstr ""
-
-#: /view/helpers/form.php:2141
-msgid "November"
-msgstr ""
-
-#: /view/helpers/form.php:2142
-msgid "December"
-msgstr ""
-
-#: /view/helpers/js.php:154
-msgid "JsHelper:: Missing Method %s is undefined"
-msgstr ""
-
-#: /view/helpers/js.php:795
-msgid "%s does not have get() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:814
-msgid "%s does not have event() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:825
-msgid "%s does not have domReady() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:835
-msgid "%s does not have each() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:863
-msgid "%s does not have effect() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:893
-msgid "%s does not have request() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:917
-msgid "%s does not have drag() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:939
-msgid "%s does not have drop() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:965
-msgid "%s does not have sortable() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:990
-msgid "%s does not have slider() implemented"
-msgstr ""
-
-#: /view/helpers/js.php:1010
-msgid "%s does not have serializeForm() implemented"
-msgstr ""
-
-#: /view/helpers/mootools_engine.php:310
-msgid "MootoolsEngine::drop() requires a \"drag\" option to properly function"
-msgstr ""
-
-#: /view/helpers/number.php:93
-msgid "%d KB"
-msgstr ""
-
-#: /view/helpers/number.php:95
-msgid "%.2f MB"
-msgstr ""
-
-#: /view/helpers/number.php:97
-msgid "%.2f GB"
-msgstr ""
-
-#: /view/helpers/number.php:99
-msgid "%.2f TB"
-msgstr ""
-
-#: /view/helpers/number.php:91
-msgid "%d Byte"
-msgid_plural "%d Bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: /view/helpers/paginator.php:99
-msgid "%s does not implement a link() method, it is incompatible with PaginatorHelper"
-msgstr ""
-
-#: /view/helpers/paginator.php:534
-msgid " of "
-msgstr ""
-
-#: /view/helpers/session.php:184
-msgid "You can not write to a Session from the view"
-msgstr ""
-
-#: /view/helpers/time.php:239
-msgid "Today, %s"
-msgstr ""
-
-#: /view/helpers/time.php:241
-msgid "Yesterday, %s"
-msgstr ""
-
-#: /view/helpers/time.php:658
-msgid "days"
-msgstr ""
-
-#: /view/helpers/time.php:61
-msgid "abday"
-msgstr ""
-
-#: /view/helpers/time.php:67
-msgid "day"
-msgstr ""
-
-#: /view/helpers/time.php:73
-msgid "d_t_fmt"
-msgstr ""
-
-#: /view/helpers/time.php:95
-msgid "abmon"
-msgstr ""
-
-#: /view/helpers/time.php:101
-msgid "mon"
-msgstr ""
-
-#: /view/helpers/time.php:112
-msgid "am_pm"
-msgstr ""
-
-#: /view/helpers/time.php:119
-msgid "t_fmt_ampm"
-msgstr ""
-
-#: /view/helpers/time.php:133
-msgid "d_fmt"
-msgstr ""
-
-#: /view/helpers/time.php:139
-msgid "t_fmt"
-msgstr ""
-
-#: /view/pages/home.ctp:23
-msgid "Release Notes for CakePHP %s."
-msgstr ""
-
-#: /view/pages/home.ctp:24
-msgid "Read the changelog"
-msgstr ""
-
-#: /view/pages/home.ctp:31
-msgid "URL rewriting is not properly configured on your server. "
-msgstr ""
-
-#: /view/pages/home.ctp:35
-msgid "Help me configure it"
-msgstr ""
-
-#: /view/pages/home.ctp:40
-msgid "I don't / can't use URL rewriting"
-msgstr ""
-
-#: /view/pages/home.ctp:93
-msgid "PCRE has not been compiled with Unicode support."
-msgstr ""
-
-#: /view/pages/home.ctp:95
-msgid "Recompile PCRE with Unicode support by adding <code>--enable-unicode-properties</code> when configuring"
-msgstr ""
-
-#: /view/pages/home.ctp:124
-msgid "To change the content of this page, create: APP/views/pages/home.ctp.<br />\nTo change its layout, create: APP/views/layouts/default.ctp.<br />\nYou can also add some CSS styles for your pages at: APP/webroot/css."
-msgstr ""
-
-#: /view/pages/home.ctp:130
-msgid "Getting Started"
-msgstr ""
-
-#: /view/pages/home.ctp:134
-msgid "New"
-msgstr ""
-
-#: /view/pages/home.ctp:134
-msgid "CakePHP 1.3 Docs"
-msgstr ""
-
-#: /view/pages/home.ctp:143
-msgid "The 15 min Blog Tutorial"
-msgstr ""
-
-#: /view/pages/home.ctp:150
-msgid "More about Cake"
-msgstr ""
-
-#: /view/pages/home.ctp:152
-msgid "CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC."
-msgstr ""
-
-#: /view/pages/home.ctp:155
-msgid "Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility."
-msgstr ""
-
-#: /view/pages/home.ctp:159
-msgid "Cake Software Foundation"
-msgstr ""
-
-#: /view/pages/home.ctp:160
-msgid "Promoting development related to CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:161
-msgid "CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:162
-msgid "The Rapid Development Framework"
-msgstr ""
-
-#: /view/pages/home.ctp:163
-msgid "CakePHP Documentation"
-msgstr ""
-
-#: /view/pages/home.ctp:164
-msgid "Your Rapid Development Cookbook"
-msgstr ""
-
-#: /view/pages/home.ctp:165
-msgid "CakePHP API"
-msgstr ""
-
-#: /view/pages/home.ctp:166
-msgid "Quick Reference"
-msgstr ""
-
-#: /view/pages/home.ctp:167
-msgid "The Bakery"
-msgstr ""
-
-#: /view/pages/home.ctp:168
-msgid "Everything CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:169
-msgid "The Show"
-msgstr ""
-
-#: /view/pages/home.ctp:170
-msgid "The Show is a live and archived internet radio broadcast CakePHP-related topics and answer questions live via IRC, Skype, and telephone."
-msgstr ""
-
-#: /view/pages/home.ctp:171
-msgid "CakePHP Google Group"
-msgstr ""
-
-#: /view/pages/home.ctp:172
-msgid "Community mailing list"
-msgstr ""
-
-#: /view/pages/home.ctp:174
-msgid "Live chat about CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:175
-msgid "CakePHP Code"
-msgstr ""
-
-#: /view/pages/home.ctp:176
-msgid "For the Development of CakePHP Git repository, Downloads"
-msgstr ""
-
-#: /view/pages/home.ctp:177
-msgid "CakePHP Lighthouse"
-msgstr ""
-
-#: /view/pages/home.ctp:178
-msgid "CakePHP Tickets, Wiki pages, Roadmap"
-msgstr ""
-
-#: /view/pages/home.ctp:179
-msgid "CakeForge"
-msgstr ""
-
-#: /view/pages/home.ctp:180
-msgid "Open Development for CakePHP"
-msgstr ""
-
-#: /view/pages/home.ctp:181
-msgid "Book Store"
-msgstr ""
-
-#: /view/pages/home.ctp:182
-msgid "Recommended Software Books"
-msgstr ""
-
-#: /view/pages/home.ctp:183
-msgid "CakePHP gear"
-msgstr ""
-
-#: /view/pages/home.ctp:184
-msgid "Get your own CakePHP gear - Doughnate to Cake"
-msgstr ""
-
-#: /view/scaffolds/edit.ctp:31
-#: /view/scaffolds/index.ctp:57
-#: /view/scaffolds/view.ctp:54;146
-msgid "Are you sure you want to delete"
-msgstr ""
-
-#: /view/scaffolds/edit.ctp:33
-msgid "List"
-msgstr ""
-
-#: /view/scaffolds/edit.ctp:39
-#: /view/scaffolds/index.ctp:85
-#: /view/scaffolds/view.ctp:55;62
-msgid "List %s"
-msgstr ""
-
-#: /view/scaffolds/view.ctp:21
-msgid "View %s"
-msgstr ""
-
-#: /view/scaffolds/view.ctp:54
-msgid "Delete %s"
-msgstr ""
-
-#: /view/scaffolds/view.ctp:75;114
-msgid "Related %s"
-msgstr ""
-
-#: /plugins/debug_kit/controllers/components/toolbar.php:99
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/controllers/components/toolbar.php:99
 msgid "Component initialization"
 msgstr ""
 
-#: /plugins/debug_kit/controllers/components/toolbar.php:100
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/controllers/components/toolbar.php:100
 msgid "Component initialization and startup"
 msgstr ""
 
-#: /plugins/debug_kit/controllers/components/toolbar.php:170
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/controllers/components/toolbar.php:170
 msgid "Controller action"
 msgstr ""
 
-#: /plugins/debug_kit/controllers/components/toolbar.php:171
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/controllers/components/toolbar.php:171
 msgid "Controller action start"
 msgstr ""
 
-#: /plugins/debug_kit/controllers/components/toolbar.php:199
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/controllers/components/toolbar.php:199
 msgid "Render Controller Action"
 msgstr ""
 
-#: /plugins/debug_kit/controllers/components/toolbar.php:200
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/controllers/components/toolbar.php:200
 msgid "Controller render start"
 msgstr ""
 
-#: /plugins/debug_kit/controllers/components/toolbar.php:266
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/controllers/components/toolbar.php:266
 msgid "Could not load DebugToolbar panel %s"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/debug_kit_debugger.php:185
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/debug_kit_debugger.php:185
 msgid "Core Processing (Derived)"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/fire_cake.php:297
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/fire_cake.php:297
 msgid "Headers already sent in %s on line %s. Cannot send log data to FirePHP."
 msgstr ""
 
-#: /plugins/debug_kit/vendors/fire_cake.php:318
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/fire_cake.php:318
 msgid "Incorrect parameter count for FireCake::fb()"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/fire_cake.php:397
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/fire_cake.php:397
 msgid "Maximum number (99,999) of messages reached!"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:50
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:50
 msgid "-> Testing :url"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:76
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:76
 msgid "Total Requests made: :requests"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:77
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:77
 msgid "Total Time elapsed: :duration (seconds)"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:81
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:81
 msgid "Requests/Second: :rps req/sec"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:85
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:85
 msgid "Average request time: :average-time seconds"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:89
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:89
 msgid "Standard deviation of average request time: :std-dev"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:93
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:93
 msgid "Longest/shortest request: :longest sec/:shortest sec"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:145
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:145
 msgid "DebugKit Benchmark Shell"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:147
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:147
 msgid "\tAllows you to obtain some rough benchmarking statistics \n\tabout a fully qualified URL."
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:149
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:149
 msgid "\tUse:"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:150
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:150
 msgid "\t\tcake benchmark [-n iterations] [-t timeout] url"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:152
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:152
 msgid "\tParams:"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:153
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:153
 msgid "\t\t-n Number of iterations to perform. Defaults to 10. \n\t\t   Must be an integer."
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:154
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:154
 msgid "\t\t-t Maximum total time for all iterations, in seconds. \n\t\t   Defaults to 100. Must be an integer."
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:156
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:156
 msgid "\tIf a single iteration takes more than the \n\ttimeout specified, only one request will be made."
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:158
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:158
 msgid "\tExample Use:"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:159
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:159
 msgid "\t\tcake benchmark -n 10 -t 100 http://localhost/testsite"
 msgstr ""
 
-#: /plugins/debug_kit/vendors/shells/benchmark.php:161
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/vendors/shells/benchmark.php:161
 msgid "\tNote that this benchmark does not include browser render time"
 msgstr ""
 
-#: /plugins/debug_kit/views/debug.php:41
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/debug.php:41
 msgid "Rendering %s"
 msgstr ""
 
-#: /plugins/debug_kit/views/debug.php:63
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/debug.php:63
 msgid "Starting to render"
 msgstr ""
 
-#: /plugins/debug_kit/views/debug.php:67
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/debug.php:67
 msgid "Finished"
 msgstr ""
 
-#: /plugins/debug_kit/views/debug.php:83
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/debug.php:83
 msgid "Rendering View"
 msgstr ""
 
-#: /plugins/debug_kit/views/debug.php:89
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/debug.php:89
 msgid "View render complete"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/debug_toolbar.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/debug_toolbar.ctp:25
 msgid "There are no active panels. You must enable a panel to see its output."
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/history_panel.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/history_panel.ctp:21
 msgid "Request History"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/history_panel.ctp:23
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/history_panel.ctp:23
 msgid "No previous requests logged."
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/history_panel.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/history_panel.ctp:25
 msgid "previous requests available"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/history_panel.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/history_panel.ctp:27
 msgid "Restore to current request"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/log_panel.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/log_panel.ctp:21
 msgid "Logs"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/log_panel.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/log_panel.ctp:28
 msgid "Time"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/log_panel.ctp:28
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:40;64
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/log_panel.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:40;64
 msgid "Message"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/log_panel.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/log_panel.ctp:37
 msgid "There were no log entries made this request"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/request_panel.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/request_panel.ctp:21
 msgid "Request"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/request_panel.ctp:35
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/request_panel.ctp:35
 msgid "Current Route"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/session_panel.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/session_panel.ctp:21
 msgid "Session"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/sql_log_panel.ctp:25
 msgid "Sql Logs"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/sql_log_panel.ctp:40
 msgid "Query Explain:"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:43
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/sql_log_panel.ctp:43
 msgid "Click an \"Explain\" link above, to see the query explanation."
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/sql_log_panel.ctp:48
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/sql_log_panel.ctp:48
 msgid "No active database connections"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:33
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:33
 msgid "Memory"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:36
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:36
 msgid "Peak Memory Use"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:40
 msgid "Memory use"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:53
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:53
 msgid "Timers"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:55
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:55
 msgid "%s (ms)"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:56
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:56
 msgid "Total Request Time:"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:65
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:65
 msgid "Time in ms"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/timer_panel.ctp:66
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/timer_panel.ctp:66
 msgid "Graph"
 msgstr ""
 
-#: /plugins/debug_kit/views/elements/variables_panel.ctp:21
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/elements/variables_panel.ctp:21
 msgid "View Variables"
 msgstr ""
 
-#: /plugins/debug_kit/views/helpers/html_toolbar.php:184
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/helpers/html_toolbar.php:184
 msgid "Explain"
 msgstr ""
 
-#: /plugins/debug_kit/views/helpers/simple_graph.php:77
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/helpers/simple_graph.php:77
 msgid "Starting %sms into the request, taking %sms"
 msgstr ""
 
-#: /plugins/debug_kit/views/helpers/toolbar.php:158
+#: /Applications/MAMP/htdocs/myzeitung//plugins/debug_kit/views/helpers/toolbar.php:158
 msgid "maybe slow"
 msgstr ""
 

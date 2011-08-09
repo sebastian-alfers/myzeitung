@@ -315,5 +315,14 @@ var $belongsTo = array(
         //already enabled
         return false;
     }
+    function cleanUpIndex(){
+        App::import('model','Post');
+        $this->Post = new Post();
+
+        //read all posts_users entries grouped by post_id
+        $PostUserEntries = $this->find('all',array('group' => 'post_id','order' => 'post_id'));
+        $this->log($PostUserEntries);
+
+    }
 }
 ?>

@@ -1,7 +1,8 @@
 <div id="header">
 	<h1 id="logo"><a href="/">myZeitung - admin</a></h1>
 		
-			<?php if($session->read('Auth.User.id')): // logged in??>
+			<?php if($session->read('Auth.User.id')):  ?>
+
 			<div id="user-info">
 			<?php echo __("logged in as", true)." "; ?><?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?> | <a href="/users/logout"><?php __('logout'); ?></a>
 
@@ -32,6 +33,7 @@
                 <?php if($is_superadmin): ?>
                     <ul>
                         <li><a href="/admin/search/index"><?php __('Search'); ?></a></li>
+                         <li><a href="/admin/index/index"><?php __('Data Associations'); ?></a></li>
                         <li><a href="/admin/papers/index"><?php __('Papers'); ?></a></li>
                         <li><a href="/admin/posts/index"><?php __('Posts'); ?></a></li>
 				        <li><a href="/admin/users/index"><?php __('Users'); ?></a></li>

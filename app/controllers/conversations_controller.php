@@ -6,7 +6,7 @@ class ConversationsController extends AppController {
 
     var $components = array('Email');
 
-    var $helpers = array('Image', 'MzTime');
+    var $helpers = array('Text', 'Image', 'MzTime');
 
 	function add($recipient_id = null){
 		if(!$recipient_id && empty($this->data)) {
@@ -92,7 +92,7 @@ class ConversationsController extends AppController {
 				$messageData['ConversationMessage']['conversation_id'] = $conversation_id;
 				$messageData['ConversationMessage']['user_id'] = $this->Auth->user('id');
 				$messageData['ConversationMessage']['message'] = $reply_msg;
-                $this->log($messageData);
+
 				if($this->ConversationMessage->save($messageData)){
 					//update last_message_id of the conversation
 					$this->Conversation->save(array('id' => $conversation_id, 'last_message_id' => $this->ConversationMessage->id));
@@ -275,11 +275,15 @@ class ConversationsController extends AppController {
           $this->User->contain();
           $sender = $this->User->read(array('id', 'username', 'name'), $sender_id);
           $this->Conversation->contain(array('ConversationMessage' =>
-                                        array('User' =>
-                                             array('fields' => array('id', 'name', 'username', 'image')))));
+                                        array('order' => 'ConversationMessage.id desc',
+                                               'limit' => 6,
+                                            'User' => array('fields' => array('id', 'name', 'username', 'image')))));
 
           $conversation = $this->Conversation->read(null, $conversation_id);
 
+        
+
+          
           $this->set('sender', $sender);
           $this->set('recipient', $recipient);
           $this->set('conversation', $conversation);
