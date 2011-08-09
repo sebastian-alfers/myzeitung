@@ -1,4 +1,4 @@
-<?php echo __("Welcome to myZeitung.de");?> <?php echo $recipient['User']['username']."\n\n";?>>
+<?php echo __("Welcome to myZeitung.de", true);?> <?php echo $recipient['User']['username']."\n\n";?>>
 
 <?php echo __('Start using myZeitung', true)."\n";?>
     <?php echo __('Publish a Post', true);?>: <?php echo $this->Html->url(array('controller' => 'posts', 'action' => 'add'),true)."\n";?>

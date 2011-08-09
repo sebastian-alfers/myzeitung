@@ -1,4 +1,4 @@
-<p><?php echo __("Welcome to myZeitung.de");?>
+<p><?php echo __("Welcome to myZeitung.de", true);?>
    <strong>&nbsp; <?php echo $recipient['User']['username'];?></strong></p>
 <p style='color:#232424;'>
     <strong><?php echo __('Start using myZeitung', true);?></strong><br />

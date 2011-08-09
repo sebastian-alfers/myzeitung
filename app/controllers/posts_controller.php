@@ -530,6 +530,7 @@ class PostsController extends AppController {
 
 
 	function delete($id = null) {
+  
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for post', true));
 			$this->redirect($this->referer());
@@ -540,13 +541,15 @@ class PostsController extends AppController {
             // second param = cascade -> delete associated records from hasmany , hasone relations
             if ($this->Post->delete($id, true)) {
                 $this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
-              //  $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+                $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+                
             $this->redirect($this->referer());
             }
             $this->Session->setFlash(__('Post was not deleted', true));
             $this->redirect($this->referer());
         } else {
             $this->Session->setFlash(__('The Post does not belong to you.', true));
+       
             $this->redirect($this->referer());
         }
     }

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-08-09 14:16+0200\n"
-"PO-Revision-Date: 2011-08-09 15:14+0100\n"
+"PO-Revision-Date: 2011-08-09 15:40+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1190,7 +1190,6 @@ msgstr "Benutzer %1$s hat Ihre Artikel des Themas %2$s in die Kategorie %3$s der
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/welcome.ctp:1
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/welcome.ctp:1
-#, fuzzy
 msgid "Welcome to myZeitung.de"
 msgstr "Willkommen bei myZeitung.de"
 

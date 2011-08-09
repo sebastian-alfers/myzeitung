@@ -24,7 +24,7 @@
 			<p style="color:#a3a3a3; padding: 23px; font-size:12px; line-height: 19px; margin: 0;">
 				<?php echo sprintf(__('This message was sent to %s.' ,true),$recipient['User']['email']);?>
                 <?php echo __('If you don\'t want to receive these emails from myZeitung, you can unsubscribe emails here:' );?>
-                <?php echo $this->Html->link('Privacy Settings',$this->Html->url(array('controller' => 'users', 'action' => 'accPrivacy'), true) , array('style' => 'color:#a3a3a3'));?>
+                <?php echo $this->Html->link(__('Privacy Settings',true),$this->Html->url(array('controller' => 'users', 'action' => 'accPrivacy'), true) , array('style' => 'color:#a3a3a3'));?>
 			</p>
 			</td>
 		</tr>

@@ -4,9 +4,9 @@
 				<li>
 				<?php //show only links for not selected items when being in blog overview?>
 				<?php if(($this->params['controller'] == 'users' && isset($this->params['pass'][1])) || $this->params['controller'] != 'users'):?>
-					<?php /* no topic selected */ echo $this->Html->link(__('All Posts'.' ('.$user['User']['post_count'].')', true), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?>
+					<?php /* no topic selected */ echo $this->Html->link(sprintf(__('All Posts (%d)',true),$user['User']['post_count']), array('controller' => 'users',  'action' => 'view', $user['User']['id'])); ?>
 				<?php else:?>
-					<i><?php /* topic selected - show link*/ echo __('All Posts'.' ('.$user['User']['post_count'].')', true);?></i>
+					<i><?php /* topic selected - show link*/ echo sprintf(__('All Posts (%d)',true),$user['User']['post_count']);?></i>
 				<?php endif;?> </li>
         			<?php foreach($user['Topic'] as $topic):?>
         		<li>	
