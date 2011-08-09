@@ -58,12 +58,12 @@
             <?php endif; ?>
             <?php echo $complaint['Complaint']['reporter_email']; ?>
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Reporter Email'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Email', true); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $complaint['Complaint']['reporter_email']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Complaintstatus'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Status'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $complaint['Complaintstatus']['value']; ?>
 			&nbsp;

@@ -4,13 +4,21 @@
 <?php echo $this->element('posts/modal_add_video_url'); ?>
 
 <div class="article-nav">
-    <h1><?php __('New Post'); ?></h1>
+    <?php if($this->params['action'] == 'add'):?>
+      <h1><?php echo __('New Post', true); ?></h1>
+    <?php else:?>
+       <h1><?php echo __('Edit your Post', true); ?></h1>
+    <?php endif;?>
+
 
     <ul class="create-actions">
         <?php
         $form = 'PostAddForm';
         if($this->params['action'] == 'edit') $form = 'PostEditForm';
         ?>
+        <?php if($this->params['action'] == 'edit'):?>
+         <li><?php echo $this->Html->link(__('Delete', true), array('controller' => 'posts',  'action' => 'delete', $this->data['Post']['id']), null, sprintf(__('Are you sure you want to delete your post: %s?', true), $this->data['Post']['title'])); ?></li>
+        <?php endif;?>
         <li class="big-btn" onclick="preSubmitActions();$('#<?php echo $form; ?>').submit();"><a class="btn"><span class="icon icon-tick"></span><?php __('Save Post'); ?></a></li>
        <?php // <li class="big-btn"><a href="create-article.html" class="btn"><span class="icon icon-circle"></span>Vorschau</a></li> */ ?>
     </ul>

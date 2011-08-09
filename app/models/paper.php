@@ -123,8 +123,8 @@ function __construct(){
 					'last' 			=> true,
 				),
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 40),
-					'message'		=> __('Paper titles can only be 40 characters long.', true),
+					'rule'			=> array('maxlength', 55),
+					'message'		=> __('Paper titles can only be 55 characters long.', true),
 					'last' 			=> true,
 				),
 			),
