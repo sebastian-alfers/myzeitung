@@ -174,10 +174,6 @@ class UploadComponent extends Object {
 				}
 			}
 		}
-		else{
-			$this->log('can not open directory for remove images: ' . $path_to_tmp_folder);
-			return false;
-		}
 			
 	}
 }

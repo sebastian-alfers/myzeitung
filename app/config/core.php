@@ -55,7 +55,7 @@ Configure::write('log', true);
  * Turn off all caching application-wide.
  *
  */
-Configure::write('Cache.disable', true);
+Configure::write('Cache.disable', false);
 
 /**
  * Enable cache checking.
@@ -66,7 +66,7 @@ Configure::write('Cache.disable', true);
  * or in each action using $this->cacheAction = true.
  *
  */
-Configure::write('Cache.check', false);
+Configure::write('Cache.check', true);
 
 
 

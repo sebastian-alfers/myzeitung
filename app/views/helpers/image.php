@@ -37,6 +37,7 @@ class ImageHelper extends Helper {
 		///Applications/MAMP/htdocs/myzeitung/webroot/img/post/38/bildschirmfoto_2011-02-17_um_13.06.46.png
 		$orig_img_path = $img_path.$path;
 
+
 		if($orig_size == null){
 			$orig_size = getimagesize($orig_img_path);
 		}

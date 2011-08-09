@@ -61,9 +61,7 @@ class JsonResponse extends AppModel {
      */
     private function _setResponseData($data = array()){
         $this->_responseData = $data;
-        if(!isset($data['msg']) && empty($data['msg'])){
-            $this->_responseData['msg'] = '';
-        }
+
     }
 
     /**
@@ -77,6 +75,18 @@ class JsonResponse extends AppModel {
             self::RESPONSE_STATUS => $this->_responseStatus,
             self::RESPONSE_DATA => $this->_responseData
         ));
+    }
+
+    /**
+     * @param  $status - msg of custom status
+     * @param array $data
+     * @return void
+     */
+    public function customStatus($status, $data = array()){
+        $this->_responseStatus = $status;
+        $this->_setResponseData($data);
+
+        return $this->_generateResult();
     }
 
 
