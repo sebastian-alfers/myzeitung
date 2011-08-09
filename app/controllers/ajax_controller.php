@@ -124,18 +124,23 @@ class AjaxController extends AppController {
         }
         $this->Paper->set(  array('url' => $url));
 
-        $this->log($url);
 
         if($this->Paper->validates(array('fieldList' => array('url')))){
-
+            $this->log($url);
             //check if it is video url
             $pattern = '/youtube/i';
             if(!preg_match($pattern, $url)){
-                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => __('Please enter a youtube or vimeo link'))));
+                $this->log('a');
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('valid_url_no_video', array('msg' => __('Please enter a youtube or vimeo link', true))));
+                //$this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+                return;
             }
             else{
+                $this->log('b');
                 //fetch preview img
                 $graph = OpenGraph::fetch($url);
+
+                $this->log(count($graph));
 
                 $open_graph_data = array();
                 foreach ($graph as $key => $value) {
@@ -182,10 +187,12 @@ class AjaxController extends AppController {
 
 
                             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('open_graph_data' => $open_graph_data, 'file_name' => $view_file_name)));
+                            return;
                         }
                     }
                     else{
                         $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+                        return;
                     }
                 }
             }

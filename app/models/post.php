@@ -560,7 +560,7 @@ class Post extends AppModel {
 }
 
     function checkForContent($data) {
-        if(empty($data['content']) && empty($this->data['Post']['images']) && empty($this->data['Post']['links'])){
+        if(empty($data['content']) && empty($this->data['Post']['media']) && empty($this->data['Post']['links'])){
             return false;
         }
         return true;

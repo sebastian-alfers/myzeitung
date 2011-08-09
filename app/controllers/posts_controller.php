@@ -192,9 +192,19 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-          //  $this->log('ganz vorne');
-          //  $this->log($this->data);
-			//debug($this->data);die();
+
+			//save new sorted images
+            $images = '';
+            $this->data['Post']['media'] = $this->_processMediaData(json_decode($this->data['Post']['media']));
+
+
+
+            foreach($this->data['Post']['media'] as $item){
+                $images .= $item['img_name'] . ',';
+            }
+
+
+
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}
@@ -211,6 +221,8 @@ class PostsController extends AppController {
 				unset($temp_data['Post']['id']);
 			}
 
+
+
 			$this->processLinks();
 			//add to solr if no pictures must be saved
 			if(!($this->Upload->hasImagesInHashFolder($this->data['Post']['hash']))){
@@ -225,9 +237,14 @@ class PostsController extends AppController {
           //  $this->log($this->data);
 			if ($this->Post->save($this->data)) {
 
+                $this->Post->contain();
+                $created_date = $this->Post->read('created', $this->Post->id);
+
 				//copy images after post has been saved to add new post-id to img path
 				if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
-					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $this->data['Post']['images'], 'post');
+
+					$this->images = $this->Upload->copyImagesFromHash($this->data['Post']['hash'], $this->Post->id, null, $images, 'post');
+
 					if(is_array($this->images)){
 						$hash = $this->data['Post']['hash'];
 						//$this->data = array();
@@ -237,6 +254,31 @@ class PostsController extends AppController {
 						$this->data["Post"]["user_id"] = $user_id;
 						$this->data['Post']['hash'] = $hash;
 						$this->data['Post']['content'] = $content;
+
+
+                        if($images != ''){
+                            $tranf_images = $this->_transformImages($images, $this->Post->id, $created_date['Post']['created']);
+
+                            //extract video data if available
+                            foreach($tranf_images as &$item){
+                                $file_name =  $item['file_name'];
+
+                                foreach($this->data['Post']['media'] as $data){
+                                    if($file_name == $data['img_name'] && $data['item_type'] == 'video'){
+                                        $item['item_type'] = $data['item_type'];
+                                        unset($data['item_type']);
+                                        $item['video'] = $data;
+
+                                    }
+                                }
+
+                            }
+                            $this->data['Post']['image'] = $tranf_images;
+                        }
+                        else{
+                            //noe images
+                            $this->data['Post']['image'] = '';
+                        }
 
 
 						$this->Post->updateSolr = true;
