@@ -16,7 +16,7 @@
                         type="file" name="file" multiple>
 
                         	 <span>+</span><?php __('Add Images'); ?>
-                        <input type="hidden" name="hash" value="<?php echo $hash; ?>" />
+                        <input type="hidden" name="hash" id="hash" value="<?php echo $hash; ?>" />
                     </form>
 
                         <a class="btn" id="add_url_video_link"><span>+</span><?php __('Add Video'); ?></a>

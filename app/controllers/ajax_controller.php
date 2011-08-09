@@ -82,9 +82,9 @@ class AjaxController extends AppController {
      *
      * @return void
      */
-        function validateUrl(){
+     function validateUrl(){
 
-            $url = '';
+        $url = '';
 
         if(isset($this->params['form']['url'])){
             $url = $this->params['form']['url'];
@@ -110,9 +110,93 @@ class AjaxController extends AppController {
      */
     function getVideoPreview(){
 
-        $url = "http://www.youtube.com/watch?v=X5halJlIRQ0&feature=feedrec";
+        if(!isset($this->params['form']['url']) || !isset($this->params['form']['hash'])){
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+            return;
+        }
 
-        print_r($this->UrlContentExtract->getVideoPreview($url));
+        //from json-request
+        $url = $this->params['form']['url'];
+        $hash= $this->params['form']['hash'];
+
+        if(substr($url, 0, 7) != 'http://'){
+            $url = 'http://'.$url;
+        }
+        $this->Paper->set(  array('url' => $url));
+
+        $this->log($url);
+
+        if($this->Paper->validates(array('fieldList' => array('url')))){
+
+            //check if it is video url
+            $pattern = '/youtube/i';
+            if(!preg_match($pattern, $url)){
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => __('Please enter a youtube or vimeo link'))));
+            }
+            else{
+                //fetch preview img
+                $graph = OpenGraph::fetch($url);
+
+                $open_graph_data = array();
+                foreach ($graph as $key => $value) {
+                        $open_graph_data[$key] = $value;
+                }
+
+                if(count($open_graph_data) > 1){
+
+                    //check if file exists
+
+                    $url = getimagesize($open_graph_data['image']);
+
+                    if(is_array($url))
+                    {
+                        //copy preview from remote url to tmp
+                        $image = new GetImage;
+                        // just an image URL
+                        $image->source = $open_graph_data['image'];
+
+                        $path = $this->Upload->getWebrootUrl().$this->Upload->getPathToTmpHashFolder($hash);
+
+                        if(!is_dir($path)){
+                            if (!mkdir($path, 0755, true)) {
+                                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+                                return;
+                            }
+                        }
+
+                        //check if file exists
+
+                        $file_name = basename($image->source);
+                        $view_file_path = '/img/tmp/'.$hash.'/';
+                        $view_file_name = $file_name;
+
+                        $file_name = uniqid().'_';//add a prefix, orig file_name will be concatinated later
+                        $view_file_name =  $file_name.$view_file_name;
+
+                        $image->save_to = $path.$file_name;
+                        $get = $image->download('gd'); // using GD
+
+
+                        if($get){
+                            $open_graph_data['image'] = $view_file_path.$view_file_name;
+
+
+                            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('open_graph_data' => $open_graph_data, 'file_name' => $view_file_name)));
+                        }
+                    }
+                    else{
+                        $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+                    }
+                }
+            }
+        }
+        else{
+            $messages = $this->Paper->invalidFields();
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['url'])));
+         }
+        //$url = $this->UrlContentExtract->getVideoPreview($url);
+
+        //$this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('url' => $url)));
 
     }
 
