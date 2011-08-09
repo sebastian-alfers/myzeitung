@@ -124,7 +124,6 @@ class Post extends AppModel {
 
 
     function deleteFromSolr(){
-   $this->log('model delete'.$this->id);
         App::import('model','Solr');
         $solr = new Solr();
         $solr->delete(Solr::TYPE_POST.'_'.$this->id);

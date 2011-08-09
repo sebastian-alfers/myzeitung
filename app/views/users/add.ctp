@@ -39,7 +39,8 @@ $(document).ready(function() {
 							<?php endif; ?>
 							</div>
 							
-							<div><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'label' => __('E-Mail', true))); ?>
+							<div class="info-p"><?php  echo $this->Form->input('email', array('type' => 'text', 'class' => 'textinput', 'label' => __('E-Mail', true))); ?>
+                            <span class="info"><?php echo __('The email address is not visible to other users.', true);?></span>
 							<?php if(!is_null($this->Form->error('User.email'))): ?>
 								<div class="error-message"><b></b><?php echo $this->Form->error('User.email', array('wrap'=> false));?></div>
 							<?php endif; ?>
