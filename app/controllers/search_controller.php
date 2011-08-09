@@ -66,19 +66,22 @@ class SearchController extends AppController {
     function admin_index(){
 
     }
-    function admin_refreshPostsIndex($dry_run = true){
+    function admin_refreshPostsIndex(){
 
-        $this->Solr->refreshPostsIndex($dry_run);
+        $this->Solr->refreshPostsIndex();
+        $this->Session->setFlash(__('Posts search index has been refreshed', true));
         $this->redirect($this->referer());
 
     }
-    function admin_refreshUsersIndex($dry_run = true){
-        $this->Solr->refreshUsersIndex($dry_run);
+    function admin_refreshUsersIndex(){
+        $this->Solr->refreshUsersIndex();
+        $this->Session->setFlash(__('Users search index has been refreshed', true));
         $this->redirect($this->referer());
 
     }
-    function admin_refreshPapersIndex($dry_run = true){
-        $this->Solr->refreshPapersIndex($dry_run);
+    function admin_refreshPapersIndex(){
+        $this->Solr->refreshPapersIndex();
+        $this->Session->setFlash(__('Papers search index has been refreshed', true));
         $this->redirect($this->referer());
 
     }

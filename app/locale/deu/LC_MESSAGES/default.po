@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-08-09 14:16+0200\n"
-"PO-Revision-Date: 2011-08-09 15:11+0100\n"
+"PO-Revision-Date: 2011-08-09 15:14+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1166,7 +1166,7 @@ msgstr "vorherige Nachrichten"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/new_message.ctp:32
 msgid "View complete Conversation on myZeitung "
-msgstr "Schauen Sie Sich die komplette Konversations auf myZeitung an"
+msgstr "Schauen Sie Sich die komplette Konversation auf myZeitung an"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/email/html/subscription.ctp:13
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/email/text/subscription.ctp:13
@@ -1757,7 +1757,7 @@ msgstr "Diese Nachricht wurde an %s gesendet."
 #: /Applications/MAMP/htdocs/myzeitung//views/layouts/email/html/default.ctp:26
 #: /Applications/MAMP/htdocs/myzeitung//views/layouts/email/text/default.ctp:5
 msgid "If you don't want to receive these emails from myZeitung, you can unsubscribe emails here:"
-msgstr "Wenn Sie diese Art von Email nicht von myZeitung erhalten wollen, so können Sie dies hier konfigurieren:"
+msgstr "Wenn Sie von myZeitung diese Art von Email nicht erhalten wollen, so können Sie dies hier konfigurieren:"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:12
 msgid "Your tmp directory is writable."

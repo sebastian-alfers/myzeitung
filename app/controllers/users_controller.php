@@ -99,19 +99,16 @@ class UsersController extends AppController {
         //unbinding irrelevant relations for the query
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
         $user = $this->getUserForSidebar($user_id);
+        if(!isset($user['User']['id'])){
+            $this->Session->setFlash(__('Invalid user', true));
+            $this->redirect(array('controller' => 'users', 'action' => 'view', $this->Auth->User("id")));
+        }
         if($user['User']['enabled'] == false){
-           $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
+            $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
            $this->redirect($this->referer());
-       }
+        }
 
 
-		//check, if user exists in db
-		$this->User->contain();
-		$user_data = $this->User->read('id', $user_id);
-		if(!isset($user_data['User']['id'])){
-			$this->Session->setFlash(__('Invalid user', true));
-			$this->redirect(array('controller' => 'users', 'action' => 'view', $this->Auth->User("id")));
-		}
 
 
 
@@ -388,7 +385,6 @@ class UsersController extends AppController {
 	 *
 	 */
 	function subscribe($user_id = ''){
-
         $email_user_id = null;
         $email_topic_id = null;
         $email_paper_id = null;
@@ -468,11 +464,7 @@ class UsersController extends AppController {
                 $return_code = $this->Paper->associateContent($data);
 				if(in_array($return_code,$this->Paper->return_codes_success)){
 					$msg = $this->Paper->return_code_messages[$return_code];
-                   $this->log('oben');
-                    $this->log($email_paper_id);
-                    $this->log($email_user_id);
-                    $this->log($email_category_id);
-                    $this->log($email_topic_id);
+
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
 					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
@@ -1007,7 +999,7 @@ class UsersController extends AppController {
         $user = $this->User->read(null, $user_id);
 
         //setting params for template
-        $this->set('username', $user['User']['username']);
+        $this->set('recipient', $user);
         //send mail
         $this->_sendMail($user['User']['email'], __('Welcome to myZeitung', true),'welcome');
     }
@@ -1015,7 +1007,7 @@ class UsersController extends AppController {
         $this->User->contain();
         $user = $this->User->read(null, $user_id);
 
-      $this->set('user', $user['User']);
+      $this->set('recipient', $user);
       $this->set('password', $password);
       $this->_sendMail($user['User']['email'], __('Password change request', true),'forgot_password');
       $this->Session->setFlash('A new password has been sent to your supplied email address.');
@@ -1030,7 +1022,7 @@ class UsersController extends AppController {
         $paper = array();
         $category = null;
 
-        $this->Paper->contain();
+        $this->Paper->contain('User.id','User.name', 'User.username');
         $paper = $this->Paper->read(array('id', 'title', 'owner_id'), $paper_id);
         //send only an email if the user did not subscribe himself
         if($paper['Paper']['owner_id'] != $user_id){
@@ -1041,17 +1033,18 @@ class UsersController extends AppController {
                 $this->Topic->contain();
                 $topic = $this->Topic->read(array('id', 'name'), $topic_id);
             }
-            if($category != null){
+            if($category_id != null){
                 $this->Category->contain();
                 $category = $this->Category->read(array('id', 'name'), $category_id);
             }
 
-            $this->set('user', $user);
+            
+            $this->set('recipient', $user);
             $this->set('paper', $paper);
             $this->set('category', $category);
             $this->set('topic', $topic);
 
-            $this->_sendMail($user['User']['email'], __('Subscription info', true),'subscription');
+            $this->_sendMail($user['User']['email'], __('You have been subscribed', true),'subscription');
         }
 
     }

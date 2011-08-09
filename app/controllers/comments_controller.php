@@ -149,11 +149,12 @@ class CommentsController extends AppController {
       $this->User->contain();
       $commentator = $this->User->read(array('id', 'username', 'name'), $comment['Comment']['user_id']);
 
-      $this->set('owner', $owner);
+      $this->set('recipient', $owner);
       $this->set('commentator', $commentator);
       $this->set('comment', $comment);
+      $this->set('post', $post);
 
-      $this->_sendMail($owner['User']['email'], __('New comment on your post:', true).' '.$post['Post']['title'],'new_comment');
+      $this->_sendMail($owner['User']['email'], sprintf(__('%s wrote a new comment to your post: %s', true), $commentator['User']['username'], $post['Post']['title']),'new_comment');
 
 
      }

@@ -71,6 +71,10 @@ class PapersController extends AppController {
         $this->Paper->contain(array('User.id', 'User.name', 'User.username', 'User.image',
                                       'Category' => array('fields' => array('content_paper_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
         $paper = $this->Paper->read(null, $paper_id);
+        if(!isset($paper['Paper']['id'])){
+            $this->Session->setFlash(__('invalid paper', true));
+			$this->redirect($this->referer());
+        }
         if($paper['Paper']['enabled'] == false){
             $this->Session->setFlash(__('This paper has been blocked temporarily due to infringement.', true));
 			$this->redirect($this->referer());
