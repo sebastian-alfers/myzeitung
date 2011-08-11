@@ -30,6 +30,13 @@
 Router::connect('/', array('controller' => 'home', 'action' => 'index'));
 
 /**
+ * TEST ALTER
+ */
+
+//Router::connect('/a/:username/:title-:id', array('controller' => 'posts', 'action' => 'view'),array('pass' => array('id'),'title' => '[^-]+'));
+
+
+/**
  * register action
  */
 
@@ -48,10 +55,18 @@ Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 
 /**
+ * user account settings
+ */
+
+Router::connect('/settings', array('controller' => 'users', 'action' => 'accAboutMe'));
+Router::connect('/settings/privacy', array('controller' => 'users', 'action' => 'accPrivacy'));
+Router::connect('/settings/general', array('controller' => 'users', 'action' => 'accGeneral'));
+
+/**
  * ...and connect the rest of 'Pages' controller's urls.
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
+//Router::connect('/(.*).htm', array('controller' => 'pages', 'action' => 'display'));
 
 /*
 $menus = '';
