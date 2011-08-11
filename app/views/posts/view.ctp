@@ -92,7 +92,8 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 			<h1><?php echo $post['Post']['title'];?></h1>
 			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>
 
-            <?php if(isset($images)):?>
+
+            <?php if($images != false && isset($images) && count($images) > 0):?>
 					<span class="main-article-imgs">
                         <?php echo $this->element('posts/horizontal_image_scroll', array('images' => $images)); ?>
                     </span>

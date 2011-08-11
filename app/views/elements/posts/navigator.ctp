@@ -1,4 +1,11 @@
 <?php
+
+$subscribe_link = '/login';
+if($session->read('Auth.User.id')){
+    $subscribe_link = '#';
+}
+
+
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;
@@ -131,11 +138,10 @@ if($has_topics){
 									<?php /* END showing last reposter */?>
 								</li>
 								<li>
-								<?php //echo $this->Html->image($post['User']['image'], array("class" => "user-image", "alt" => $post['User']['username']."-image", "url" => array('controller' => 'users', 'action' => 'view', $post['Post']['user_id'])));?>
 								<?php 
 								$image_options = array();
 								$image_options['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
-								$image_options['custom'] = array('class' => 'user-image');
+								$image_options['custom'] = array('class' => 'user-image', 'rel' => $subscribe_link, 'id' => 555);
 								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);
 
 //								}

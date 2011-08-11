@@ -18,6 +18,7 @@ e($cf->script('jquery.tipsy.js'));
 e($cf->script('tiny_mce/tiny_mce.js'));
 e($cf->script('pirobox_extended_min.js'));
 e($cf->script('json2.js'));
+e($cf->script('jquery.spinner.js'));
 
 
 e($cf->css('jquery.fileupload-ui'));
