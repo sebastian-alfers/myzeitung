@@ -257,6 +257,9 @@ class InstallController extends AppController {
 			else{
 				$this->Install->create();
 			}
+            if(is_array($data['version'])){
+                $data['version'] = $this->_getFirstStringInArray($data['version']);
+            }
 			if ($this->Install->save(array('Install' => $data))){
 				$this->_log('Updated DB version of namespace ' . $namespaceName . ' to version ' . $data['version']);
 			}
@@ -319,6 +322,9 @@ class InstallController extends AppController {
 		}
 
 		foreach($files as $file){
+            if(is_array($file)){
+                $file = $this->_getFirstStringInArray($file);
+            }
 			if(!$this->isInstallFileValid($namespaceName, $file)){
 				//log
 				$this->_log('ERROR! file ' . $namespaceName . '/' . $file . ' is not valid! Can not install it.');
@@ -348,6 +354,27 @@ class InstallController extends AppController {
 		return true;
 
 	}
+
+    /**
+     * get filename from array
+     *
+     * @param  $data
+     * @return
+     */
+    private function _getFirstStringInArray($data){
+        foreach($data as $item){
+            if(is_array($item)){
+                foreach($item as $item_file){
+                    return $item_file;
+                }
+            }
+            else{
+                return $item;
+            }
+        }
+    }
+
+
 
 	/**
 	 * installs a file
@@ -596,6 +623,7 @@ class InstallController extends AppController {
 	 * @param string $file
 	 */
 	function isInstallFileValid($namespaceName, $file){
+
 		//check file type
 		if('.php' != substr($file, -4)){
 			$this->_log('Namespace-File validation Error. Wrong file extension. Only .php allowed. The file ' . $file . ' in namespace ' . $namespaceName . ' is wrong format. Format should be: [namespace]_[version].php');
