@@ -123,8 +123,8 @@ function __construct(){
 					'last' 			=> true,
 				),
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 40),
-					'message'		=> __('Paper titles can only be 40 characters long.', true),
+					'rule'			=> array('maxlength', 55),
+					'message'		=> __('Paper titles can only be 55 characters long.', true),
 					'last' 			=> true,
 				),
 			),
@@ -759,11 +759,6 @@ function __construct(){
         if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
             $this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
         }
-        if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
-            $this->data['Paper']['url'] = '';
-        }
-
-
         return true;
     }
     function afterDelete(){

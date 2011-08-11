@@ -804,7 +804,7 @@ class UsersController extends AppController {
 
 		if (!empty($this->data)) {
 			$this->User->updateSolr = true;
-			if ($this->User->save($this->data, true, array('name', 'description'))) {
+			if ($this->User->save($this->data, true, array('name', 'description', 'url'))) {
 				$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
 				//update session variables:
 				$this->Session->write("Auth.User.name", $this->data['User']['name']);
@@ -989,7 +989,7 @@ class UsersController extends AppController {
 			$user['User'] = $this->Session->read('Auth.User');
 		} else {
 		//reading user
-			$user = $this->User->read(array('id','enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+			$user = $this->User->read(array('id','url', 'enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
 		return $user;
 	}

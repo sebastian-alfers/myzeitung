@@ -195,7 +195,15 @@ class User extends AppModel {
                     'message'       => __('Please accept the terms of service and privacy policy.', true),  
 					'last'			=> true,
                 )  
-            ) 
+            ),
+            'url' => array(
+				'valid_url' => array(
+					'rule'			=> array('url', true), /* second param defines wether you force an input of a protocol like http:// ftp:// etc */
+					'message'		=> __('Please provide a valid URL. http://your-link.domain', true),
+					'allowEmpty'    => true,
+                    'last'			=> true,
+				),
+			),
 		);		
 	}
 	
@@ -420,247 +428,253 @@ class User extends AppModel {
             //already enabled
             return false;
         }
-		function beforeSave(){
-			if(!empty($this->data['User']['image']) && is_array($this->data['User']['image']) && !empty($this->data['User']['image'])){
-				$this->data['User']['image'] = serialize($this->data['User']['image']);
-			}
-			// to prevent hashing before validation: temp field passwd is used
-		    if (isset($this->data['User']['passwd'])){  
-				$this->data['User']['password'] = Security::hash($this->data['User']['passwd'], null, true);  
-				unset($this->data['User']['passwd']);  
-    		}
-			
-			if (isset($this->data['User']['passwd_confirm']))  
-			{  
-				unset($this->data['User']['passwd_confirm']);  
-			}  
-			if (isset($this->data['User']['old_password']))  
-			{  
-				unset($this->data['User']['old_password']);  
-			}  
-			if (isset($this->data['User']['tos_accept']))  
-			{  
-				unset($this->data['User']['tos_accept']);  
-			}  
-			
-			return true;
-		}
+    function beforeSave(){
+        if(!empty($this->data['User']['image']) && is_array($this->data['User']['image']) && !empty($this->data['User']['image'])){
+            $this->data['User']['image'] = serialize($this->data['User']['image']);
+        }
+        // to prevent hashing before validation: temp field passwd is used
+        if (isset($this->data['User']['passwd'])){
+            $this->data['User']['password'] = Security::hash($this->data['User']['passwd'], null, true);
+            unset($this->data['User']['passwd']);
+        }
 
-		function beforeDelete(){
-			App::import('model','Comment');
-			$this->Comment = new Comment();
-				
-			// reading all comments of the deleted user and reseting the user_id to null
-			// "comment from -deleted user-"
-			$this->Comment->contain();
-			$comments = $this->Comment->findAllByUser_id($this->id);
-			foreach($comments as $comment){
-				$comment['Comment']['user_id']= null;
-				$this->Comment->save($comment);
-			}
-			
-			App::import('model','ConversationMessage');
-			$this->ConversationMessage = new ConversationMessage();
-				
-			// reading all conversationmessages of the deleted user and reseting the user_id to null
-			// "message from -deleted user-"
-			$this->ConversationMessage->contain();
-			$messages = $this->ConversationMessage->findAllByUser_id($this->id);
-			foreach($messages as $message){
-				$message['ConversationMessage']['user_id']= null;
-				$this->ConversationMessage->save($message);
-			}
-			
-			
-			App::import('model','ConversationUser');
-			$this->ConversationUser = new ConversationUser();
-			// reading all conversationusers of the deleted user and reseting the user_id to null
-			// "message between X,Y and deleted user"
-			$this->ConversationUser->contain();
-			$conversationusers = $this->ConversationUser->findAllByUser_id($this->id);
-			foreach($conversationusers as $conversationuser){
-				$conversationuser['ConversationUser']['user_id']= null;
-				$conversationuser['ConversationUser']['status']= Conversation::STATUS_REMOVED;
-				$this->ConversationUser->save($conversationuser);
-			}
-			
-			return true;
-				
-		}
-		/**
-		 * 1.update solr index
+        if (isset($this->data['User']['passwd_confirm']))
+        {
+            unset($this->data['User']['passwd_confirm']);
+        }
+        if (isset($this->data['User']['old_password']))
+        {
+            unset($this->data['User']['old_password']);
+        }
+        if (isset($this->data['User']['tos_accept']))
+        {
+            unset($this->data['User']['tos_accept']);
+        }
+        return true;
+    }
 
-		 */
-		function afterSave(){
+    function beforeValidate(){
+        if (isset($this->data['User']['url']) && $this->data['User']['url'] == 'http://') {
+            $this->data['User']['url'] = '';
+        }
+        $this->log($this->data);
+    }
 
-			if($this->updateSolr){
-                //update solr index
-				$this->addToOrUpdateSolr();
-				/*
-				 App::import('model','Cachekey');
-				 $cachekey = new Cachekey();
-				 $cachekey->create();
-				 if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
-				 //App::import('model','Route');
-				 //$this->save(array('route_id', $route->id));
-				 */
+    function beforeDelete(){
+        App::import('model','Comment');
+        $this->Comment = new Comment();
 
-			}
-		}
-        function addToOrUpdateSolr(){
+        // reading all comments of the deleted user and reseting the user_id to null
+        // "comment from -deleted user-"
+        $this->Comment->contain();
+        $comments = $this->Comment->findAllByUser_id($this->id);
+        foreach($comments as $comment){
+            $comment['Comment']['user_id']= null;
+            $this->Comment->save($comment);
+        }
 
-            App::import('model','Solr');
+        App::import('model','ConversationMessage');
+        $this->ConversationMessage = new ConversationMessage();
 
-            $this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
-            $this->data['User']['type'] = Solr::TYPE_USER;
+        // reading all conversationmessages of the deleted user and reseting the user_id to null
+        // "message from -deleted user-"
+        $this->ConversationMessage->contain();
+        $messages = $this->ConversationMessage->findAllByUser_id($this->id);
+        foreach($messages as $message){
+            $message['ConversationMessage']['user_id']= null;
+            $this->ConversationMessage->save($message);
+        }
 
-            if(!isset($this->data['User']['id'])){
-                if($this->id){
-                    $this->data['User']['id'] = $this->id;
-                }
 
+        App::import('model','ConversationUser');
+        $this->ConversationUser = new ConversationUser();
+        // reading all conversationusers of the deleted user and reseting the user_id to null
+        // "message between X,Y and deleted user"
+        $this->ConversationUser->contain();
+        $conversationusers = $this->ConversationUser->findAllByUser_id($this->id);
+        foreach($conversationusers as $conversationuser){
+            $conversationuser['ConversationUser']['user_id']= null;
+            $conversationuser['ConversationUser']['status']= Conversation::STATUS_REMOVED;
+            $this->ConversationUser->save($conversationuser);
+        }
+
+        return true;
+
+    }
+    /**
+     * 1.update solr index
+
+     */
+    function afterSave(){
+
+        if($this->updateSolr){
+            //update solr index
+            $this->addToOrUpdateSolr();
+            /*
+             App::import('model','Cachekey');
+             $cachekey = new Cachekey();
+             $cachekey->create();
+             if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
+             //App::import('model','Route');
+             //$this->save(array('route_id', $route->id));
+             */
+
+        }
+    }
+    function addToOrUpdateSolr(){
+
+        App::import('model','Solr');
+
+        $this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
+        $this->data['User']['type'] = Solr::TYPE_USER;
+
+        if(!isset($this->data['User']['id'])){
+            if($this->id){
+                $this->data['User']['id'] = $this->id;
             }
 
-            $this->data['User']['user_name'] = $this->data['User']['name'];
-            $this->data['User']['user_username'] = $this->data['User']['username'];
-            $this->data['User']['user_id'] = $this->data['User']['id'];
+        }
 
-            $solr = new Solr();
-            $solr->add($this->addFieldsForIndex($this->data));
+        $this->data['User']['user_name'] = $this->data['User']['name'];
+        $this->data['User']['user_username'] = $this->data['User']['username'];
+        $this->data['User']['user_id'] = $this->data['User']['id'];
+
+        $solr = new Solr();
+        $solr->add($this->addFieldsForIndex($this->data));
+
+    }
+
+    /**
+     * if a user writes for a paper / category is definded in content_papers
+     * this method retuns all users references
+     *
+     * @param $user_id
+     * @package $group_by_paper
+     */
+    function getAllUserContentReferences($user_id, $group_by_paper = true){
+        App::import('model','ContentPaper');
+        //App::import('model','Topic');
+        $references = array();
+        $conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
+
+        $this->ContentPaper = new ContentPaper();
+        $this->ContentPaper->contain('Paper', 'Category', 'Topic');
+        $references = $this->ContentPaper->find('all', $conditions);
+
+        if(!$group_by_paper) return $references;
+
+        $grouped_references = array();
+
+        foreach($references as $ref){
+            $paper_id = $ref['ContentPaper']['paper_id'];
+
+            if(!isset($grouped_references[$paper_id]))
+                $grouped_references[$paper_id]['Paper'] = $ref['Paper'];//save paper
+
+            //now save all references to this paper
+
+
+            //check if whole user is in paper
+            if(empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
+                $grouped_references[$paper_id]['references']['whole_user_in_paper'] = true;
+            }
+
+            //check if user topic is in whole paper
+            if(empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
+                $grouped_references[$paper_id]['references']['user_topic_in_paper'][]['Topic'] = $ref['Topic'];
+            }
+
+            //check if whole user is in category
+            if(!empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
+                $grouped_references[$paper_id]['references']['whole_user_in_category'][]['Category'] = $ref['Category'];
+            }
+
+            //check if user topic is in category
+            if(!empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
+                $grouped_references[$paper_id]['references']['user_topic_in_category'][] = array('Category' => $ref['Category'],
+                                                        'Topic' => $ref['Topic']);
+            }
+
+            $grouped_references[$paper_id]['references'] = $grouped_references[$paper_id]['references'];
 
         }
-		
-		/**
-		 * if a user writes for a paper / category is definded in content_papers
-		 * this method retuns all users references
-		 * 
-		 * @param $user_id
-		 * @package $group_by_paper
-		 */
-		function getAllUserContentReferences($user_id, $group_by_paper = true){
-			App::import('model','ContentPaper');
-			//App::import('model','Topic');
-			$references = array();
-			$conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
 
-			$this->ContentPaper = new ContentPaper();
-			$this->ContentPaper->contain('Paper', 'Category', 'Topic');
-			$references = $this->ContentPaper->find('all', $conditions);
-			
-			if(!$group_by_paper) return $references;
-			
-			$grouped_references = array();
+        return $grouped_references;
+    }
 
-			foreach($references as $ref){
-				$paper_id = $ref['ContentPaper']['paper_id'];
-				
-				if(!isset($grouped_references[$paper_id]))
-					$grouped_references[$paper_id]['Paper'] = $ref['Paper'];//save paper
-					
-				//now save all references to this paper
-				
-					
-				//check if whole user is in paper
-				if(empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
-					$grouped_references[$paper_id]['references']['whole_user_in_paper'] = true;
-				}
+    function getWholeUserReferences($user_id){
+        App::import('model','ContentPaper');
+        //App::import('model','Topic');
+        $wholeUserReferences = array();
+        $conditions = array('conditions' => array('ContentPaper.topic_id' => null, 'ContentPaper.user_id' => $user_id));
+        //$this->ContentPaper->recursive = 0;
 
-				//check if user topic is in whole paper
-				if(empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
-					$grouped_references[$paper_id]['references']['user_topic_in_paper'][]['Topic'] = $ref['Topic'];
-				}								
-				
-				//check if whole user is in category
-				if(!empty($ref['Category']['id']) && empty($ref['Topic']['id'])){
-					$grouped_references[$paper_id]['references']['whole_user_in_category'][]['Category'] = $ref['Category'];
-				}				
+        $this->ContentPaper = new ContentPaper();
+        $this->ContentPaper->contain('Paper', 'Category');
+        $wholeUserReferences = $this->ContentPaper->find('all', $conditions);
+        return $wholeUserReferences;
+    }
 
-				//check if user topic is in category
-				if(!empty($ref['Category']['id']) && !empty($ref['Topic']['id'])){
-					$grouped_references[$paper_id]['references']['user_topic_in_category'][] = array('Category' => $ref['Category'],
-															'Topic' => $ref['Topic']);
-				}		
+    function getUserTopicReferences($user_id){
+        $topicReferences = array();
 
-				$grouped_references[$paper_id]['references'] = $grouped_references[$paper_id]['references'];
-				
-			}
-			
-			return $grouped_references;			
-		}
+        //get all users topics
+        $this->Topic = new Topic();
 
-		function getWholeUserReferences($user_id){
-			App::import('model','ContentPaper');
-			//App::import('model','Topic');
-			$wholeUserReferences = array();
-			$conditions = array('conditions' => array('ContentPaper.topic_id' => null, 'ContentPaper.user_id' => $user_id));
-			//$this->ContentPaper->recursive = 0;
+        $this->Topic->contain();
+        $topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+        $this->log($conditions);
 
-			$this->ContentPaper = new ContentPaper();
-			$this->ContentPaper->contain('Paper', 'Category');
-			$wholeUserReferences = $this->ContentPaper->find('all', $conditions);
-			return $wholeUserReferences;
-		}
-
-		function getUserTopicReferences($user_id){
-			$topicReferences = array();
-
-			//get all users topics
-			$this->Topic = new Topic();
-
-			$this->Topic->contain();
-			$topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
+        foreach($topics as $topid_id => $topic_name){
+            $conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
+            //$this->ContentPaper->recursive = 0;
             $this->log($conditions);
+            $this->ContentPaper->contain('Paper', 'Category', 'Topic');
+            $topicRef = $this->ContentPaper->find('all', $conditions);
+            if(isset($topicRef[0]['ContentPaper']['id']) && !empty($topicRef[0]['ContentPaper']['id'])){
+                $topicReferences[] = $topicRef[0];
+            }
 
-			foreach($topics as $topid_id => $topic_name){
-				$conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
-				//$this->ContentPaper->recursive = 0;
-                $this->log($conditions);
-				$this->ContentPaper->contain('Paper', 'Category', 'Topic');
-				$topicRef = $this->ContentPaper->find('all', $conditions);
-				if(isset($topicRef[0]['ContentPaper']['id']) && !empty($topicRef[0]['ContentPaper']['id'])){
-					$topicReferences[] = $topicRef[0];
-				}
-
-			}
-
-			return $topicReferences;
-		}
-
-		function addFieldsForIndex($data){
-
-			$solrFields = array();
-				
-			$solrFields['User']['id'] = $data['User']['id'];
-			$solrFields['User']['user_username'] = $data['User']['user_username'];
-			$solrFields['User']['user_name'] = $data['User']['user_name'];
-			$solrFields['User']['type'] = $data['User']['type'];
-			$solrFields['User']['user_id'] = $data['User']['user_id'];
-			$solrFields['User']['index_id'] = $data['User']['index_id'];
-			if(isset($data['User']['image'])){
-				$solrFields['User']['user_image'] = $data['User']['image'];
-			}
-			return $solrFields;
-				
-		}
-
-
-
-        function afterDelete(){
-            $this->deleteFromSolr();
         }
 
-		/**
-		 * remove the user from solr index
-	     *
-		 */
+        return $topicReferences;
+    }
 
-        function deleteFromSolr(){
-     
-            App::import('model','Solr');
-            $solr = new Solr();
-            $solr->delete(Solr::TYPE_USER.'_'.$this->id);
-            return true;
+    function addFieldsForIndex($data){
+
+        $solrFields = array();
+
+        $solrFields['User']['id'] = $data['User']['id'];
+        $solrFields['User']['user_username'] = $data['User']['user_username'];
+        $solrFields['User']['user_name'] = $data['User']['user_name'];
+        $solrFields['User']['type'] = $data['User']['type'];
+        $solrFields['User']['user_id'] = $data['User']['user_id'];
+        $solrFields['User']['index_id'] = $data['User']['index_id'];
+        if(isset($data['User']['image'])){
+            $solrFields['User']['user_image'] = $data['User']['image'];
         }
+        return $solrFields;
+
+    }
+
+
+
+    function afterDelete(){
+        $this->deleteFromSolr();
+    }
+
+    /**
+     * remove the user from solr index
+     *
+     */
+
+    function deleteFromSolr(){
+
+        App::import('model','Solr');
+        $solr = new Solr();
+        $solr->delete(Solr::TYPE_USER.'_'.$this->id);
+        return true;
+    }
 
 }
 ?>
