@@ -11,7 +11,7 @@
         $form = 'PostAddForm';
         if($this->params['action'] == 'edit') $form = 'PostEditForm';
         ?>
-        <li class="big-btn" onclick="preSubmitActions($('#<?php echo $form; ?>'));"><a class="btn"><span class="icon icon-tick"></span><?php __('Save Post'); ?></a></li>
+        <li class="big-btn" id="submit-post" onclick="preSubmitActions($('#<?php echo $form; ?>'));"><a class="btn"><span class="icon icon-tick"></span><?php __('Save Post'); ?></a></li>
        <?php // <li class="big-btn"><a href="create-article.html" class="btn"><span class="icon icon-circle"></span>Vorschau</a></li> */ ?>
     </ul>
 </div>
