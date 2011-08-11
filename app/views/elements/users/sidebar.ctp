@@ -1,10 +1,3 @@
-<?php
-if($session->read('Auth.User.id')){
-    echo $this->element('users/modal_subscribe');
-    e($cf->script('user/subscribe.js'));
-}
-?>
-
 <?php echo $this->element('users/modal_activity'); ?>
 
 <div id="leftcolwapper">

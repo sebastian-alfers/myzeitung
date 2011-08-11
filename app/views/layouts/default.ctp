@@ -31,6 +31,13 @@
 	
 </head>
 	<body>
+    <?php
+    if($session->read('Auth.User.id')){
+        echo $this->element('users/modal_subscribe');
+        e($cf->script('user/subscribe.js'));
+    }
+    ?>
+    <div class="popbox shadow" id="subscribe-box"></div>
     <?php /*
         <div id="help-menu">
                 <a id="showit">show</a>

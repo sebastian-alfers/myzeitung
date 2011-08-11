@@ -30,13 +30,14 @@
                         <br /><br />
 						<a class="btn" onclick="topicDialog()"><span>+</span><?php __('Add Topic'); ?></a>
 					<hr>
-					
+
 					<h5><?php __('Links'); ?></h5>
 					
 					<ul class="themes" id="links">
 					<?php if(isset($links) && !empty($links)): ?>
+
 						<?php foreach($links as $link): ?>
-						<li><li id="<?php echo $link; ?>"><a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a><br /><a class="remove_li_item"><?php __('remove'); ?></a></li>
+						<li id="<?php echo $link; ?>"><a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a><br /><a class="remove_li_item"><?php __('remove'); ?></a></li>
 						<?php endforeach; ?>
 					<?php endif;?>
 					</ul>
