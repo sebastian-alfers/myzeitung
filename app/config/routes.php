@@ -40,27 +40,27 @@ Router::connect('/', array('controller' => 'home', 'action' => 'index'));
  * register action
  */
 
-//Router::connect('/register', array('controller' => 'users', 'action' => 'add'));
+Router::connect('/register', array('controller' => 'users', 'action' => 'add'));
 
 /**
  * login
  */
 
-//Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
+Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 
 /**
  * logout
  */
 
-//Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 
 /**
  * user account settings
  */
 
-//Router::connect('/settings', array('controller' => 'users', 'action' => 'accAboutMe'));
-//Router::connect('/settings/privacy', array('controller' => 'users', 'action' => 'accPrivacy'));
-//Router::connect('/settings/general', array('controller' => 'users', 'action' => 'accGeneral'));
+Router::connect('/settings', array('controller' => 'users', 'action' => 'accAboutMe'));
+Router::connect('/settings/privacy', array('controller' => 'users', 'action' => 'accPrivacy'));
+Router::connect('/settings/general', array('controller' => 'users', 'action' => 'accGeneral'));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.
