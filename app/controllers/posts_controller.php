@@ -9,7 +9,7 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array('JqImgcrop', 'Upload');
-	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'Text');
+	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
 
 
 
@@ -601,6 +601,7 @@ class PostsController extends AppController {
 	 */
 
 	function ajxImageProcess(){
+        $this->log('hier');
 		if(isset($_FILES['file'])){
 			$file = $_FILES['file'];
 

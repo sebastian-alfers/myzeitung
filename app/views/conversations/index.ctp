@@ -83,7 +83,7 @@
 
                                         </p>
 
-                                		<p class="excerpt"><?php echo $this->Html->link($this->Text->truncate($conversation['Conversation']['LastMessage']['message'], 160 ,array('ending' => '...', 'exact' => false, 'html' => false)),array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']));?></p>
+                                		<p class="excerpt"><?php echo $this->Html->link($this->MzText->truncate($conversation['Conversation']['LastMessage']['message'], 160 ,array('ending' => '...', 'exact' => false, 'html' => false)),array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']));?></p>
 									</li>
 									<li class="actions">
                                         <?php echo $this->Html->link('' ,array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']), array('class' => 'icon icon-answer', 'escape' => false));?>

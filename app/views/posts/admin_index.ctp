@@ -27,7 +27,7 @@
 		<td><?php echo $post['Post']['id']; ?>&nbsp;</td>
         <td><?php echo $post['Post']['user_id']; ?>&nbsp;</td>
         <td><?php echo $post['User']['username']; ?>&nbsp;</td>
-        <td><?php echo $this->Text->truncate($post['Post']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
+        <td><?php echo $this->MzText->truncate($post['Post']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
         <td><?php echo $post['Post']['repost_count']; ?></td>
         <td><?php echo $post['Post']['view_count']; ?></td>
         <td><?php echo $post['Post']['comment_count']; ?></td>

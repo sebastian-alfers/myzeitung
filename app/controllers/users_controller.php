@@ -4,7 +4,7 @@ class UsersController extends AppController {
 	var $name = 'Users';
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
-	var $helpers = array('Text', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
+	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
 
 
 	public function beforeFilter(){
@@ -87,6 +87,10 @@ class UsersController extends AppController {
 	 * @param $topic_id
 	 */
 	function view($user_id = null, $topic_id = null) {
+
+        $this->Route->create();
+        $this->Route->save(array('ref_id' => 12, 'source' => 'test', 'target_controller' => 'ttt', 'target_action' => 'action', 'target_param' => 33, 'parent_id' => 12));
+
 
 		if (!$user_id) {
 			//no param from url -> get from Auth

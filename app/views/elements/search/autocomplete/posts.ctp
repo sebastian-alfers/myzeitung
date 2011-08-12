@@ -25,7 +25,7 @@
                 // post headline
                                     ?>
 
-				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $this->Text->truncate($post->post_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></h6>
+				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $this->MzText->truncate($post->post_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></h6>
 				<br />
 				<span class="from"><?php __('by');?> <a href="/users/view/<?php echo $post->user_id; ?>"><strong><?php echo $post->user_username; ?></strong></a> <?php /*echo $this->MzTime->timeAgoInWords($post->timestamp);*/ ?></span>
 				<?php /*

@@ -24,7 +24,7 @@
                                 <?php $tipsy_title = sprintf(__n('%d author', '%d authors', $paper['Paper']['content_paper_count'],true), $paper['Paper']['content_paper_count']);?>
 								<li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['content_paper_count'];?></li>
 							</ul>
-							<h4><?php echo $this->Text->truncate($paper['Paper']['title'], 20,array('ending' => '...', 'exact' => false, 'html' => false));?></h4>
+							<h4><?php echo $this->MzText->truncate($paper['Paper']['title'], 20,array('ending' => '...', 'exact' => false, 'html' => false));?></h4>
                                 <?php
                                     $image_options = array();
                                     $image_options['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
@@ -46,10 +46,10 @@
                                     //echo $image->render($paper['User'], 30, 30, array(), $image_options, ImageHelper::USER);
                                 ?>
                                 <?php echo $this->Html->link(
-                                            $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image'), ImageHelper::USER)
-                                            .'<strong>'.$paper['User']['username'].'</strong><br />'.$this->Text->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
+                                            $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image-container'), ImageHelper::USER)
+                                            .'<strong>'.$paper['User']['username'].'</strong><br />'.$this->MzText->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
                                                 array('controller' => 'users', 'action' => 'view', $paper['User']['id']),
-                                                array('escape' => false));?>
+                                                array('escape' => false, 'id' => $paper['User']['id'], 'alt' => $this->MzText->getUserName($paper['User']), 'rel' => $this->MzText->getSubscribeUrl(),'class' => 'user-image'));?>
 								</li>
 							</ul>
                             

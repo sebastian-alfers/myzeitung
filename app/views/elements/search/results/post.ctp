@@ -27,8 +27,8 @@
 	$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
 	echo $image->render(array('image' => $img), 58, 58,array("alt" => $post->post_title), $link_data, 'post');
     // post headline
-    $headline = $this->Text->truncate($post->post_title, 55,array('ending' => '...', 'exact' => true, 'html' => false));
-    $content_preview= $this->Text->truncate($post->post_content, 140,array('ending' => '...', 'exact' => true, 'html' => false));
+    $headline = $this->MzText->truncate($post->post_title, 55,array('ending' => '...', 'exact' => true, 'html' => false));
+    $content_preview= $this->MzText->truncate($post->post_content, 140,array('ending' => '...', 'exact' => true, 'html' => false));
 
 ?>
     </div>

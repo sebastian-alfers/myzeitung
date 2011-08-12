@@ -9,25 +9,32 @@
 			$user = $session->read('Auth.User');
 			$link_data = array();
 			$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
-			$link_data['custom'] = array('class' => 'user-image');
+            $name = "<h3>".$user['username']."</h3>";
+            if(isset($user['username']) && !empty($user['username'])){
+               $name .= $user['username'];
+            }
+
+
+
+			$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername($user), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user['id']);
 			echo $image->render($user, 30, 30, array("alt" => $user['username']), $link_data);
-									
-			?>						
-			
+
+			?>
+
 			<?php   //end logged in?>
 			<?php else: //not logged in?>
 				<div id="user-info" class="not-loggedin">
-				<?php 
+				<?php
 				echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
-				array('controller' => 'users', 'action' => 'login'), array('class' => 'btn')); 
+				array('controller' => 'users', 'action' => 'login'), array('class' => 'btn'));
 				echo __("No?", true);
 				echo $this->Html->link(__("Register", true),
 				array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register'));
 				?>
 			<?php endif; //end not logged in? ?>
 		</div> <!-- /#user-info -->
-		
+
 		<div id="mainnav">
 			<ul>
 				<?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'index'):?><li class="current"><?php else:?><li><?php endif;?>
@@ -43,13 +50,13 @@
 
 				<ul id="search-suggest" style="display:none">
 				</ul><!-- end auto suggest -->
-			</form>			
+			</form>
 		</div>
-		
+
 		<div id="nav">
-			
+
 			<div id="breadcrumb">
-			 	<?php echo $this->element('header/breadcrumbs'); ?>	  
+			 	<?php echo $this->element('header/breadcrumbs'); ?>
 			</div><!-- / #breadcrumb -->
 			<?php if($session->read('Auth.User.id')):?>
 			<div id="user-nav">
@@ -65,8 +72,8 @@
 				</ul>
 			</div><!-- / #user-nav -->
 			<?php endif;?>
-			
-		</div><!-- / #nav --> 
+
+		</div><!-- / #nav -->
 </div><!-- / #header -->
 
 

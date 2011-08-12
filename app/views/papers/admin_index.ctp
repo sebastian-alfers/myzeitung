@@ -27,7 +27,7 @@
 		<td><?php echo $paper['Paper']['id']; ?>&nbsp;</td>
         <td><?php echo $paper['Paper']['owner_id']; ?>&nbsp;</td>
         <td><?php echo $paper['User']['username']; ?>&nbsp;</td>
-        <td><?php echo $this->Text->truncate($paper['Paper']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
+        <td><?php echo $this->MzText->truncate($paper['Paper']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
         <td><?php echo $paper['Paper']['subscription_count']; ?></td>
         <td><?php echo $paper['Paper']['content_paper_count']; ?></td>
         <td><?php echo $paper['Paper']['category_paper_post_count']; ?></td>

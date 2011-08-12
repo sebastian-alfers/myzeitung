@@ -24,7 +24,7 @@
 				?>									
 				<h6><a href="/users/view/<?php echo $user->id; ?>"><?php echo $user->user_username; ?></a></h6>
 				<?php if(isset($user->user_name) && !empty($user->user_name)): ?>
-					<p><a href="/users/view/<?php echo $user->id; ?>"><?php echo $this->Text->truncate($user->user_name, 20,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></p>
+					<p><a href="/users/view/<?php echo $user->id; ?>"><?php echo $this->MzText->truncate($user->user_name, 20,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></p>
                 <?php else: ?>
                     <div style="height:20px"></div>
 				<?php endif; ?>
