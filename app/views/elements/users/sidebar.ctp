@@ -7,7 +7,7 @@
 				<?php
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
-				$link_data['custom'] = array('class' => 'user-image');
+				$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUserName($user['User']), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user['User']['id']);
 				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 			</div>
 

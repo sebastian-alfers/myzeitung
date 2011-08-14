@@ -52,15 +52,18 @@ class AppController extends Controller {
 
 
 	public function beforeFilter(){
+
+        $this->_setLanguage();
+
         //App::import('Core', 'I18n');
         //$trans = new I18n();
         //$_this =& I18n::getInstance();
         //$_this->__domains['default']['deu']['LC_MESSAGES']['%plural-c'].= ';';
 
         //load locale
-     //   App::import('Core', 'L10n');
-     //   $this->L10n = new L10n();
-     //   $this->L10n->get('deu');
+
+
+
 
 
         //$this->Security->blackHoleCallback = 'blackHole';
@@ -352,6 +355,23 @@ class AppController extends Controller {
 
     }
 
+    /**
+     * set language based on cookie
+     *
+     * @return void
+     */
+    function _setLanguage() {
+
+        if ($this->Cookie->read('lang') && !$this->Session->check('Config.language')) {
+            $this->Session->write('Config.language', $this->Cookie->read('lang'));
+        }
+        else if (isset($this->params['language']) && ($this->params['language']
+                 !=  $this->Session->read('Config.language'))) {
+
+            $this->Session->write('Config.language', $this->params['language']);
+            $this->Cookie->write('lang', $this->params['language'], false, '20 days');
+        }
+    }
 
 	function beforeRender()
     {

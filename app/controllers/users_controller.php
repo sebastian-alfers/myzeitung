@@ -3,7 +3,7 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email');
-	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription');
+	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
 
 
@@ -509,13 +509,15 @@ class UsersController extends AppController {
 			if ($this->Paper->save($data)) {
                 $this->set('new_paper', 'jau neu wa');
 
-                $this->subscribe($user_id);
+                return $this->subscribe($user_id);
             }
             else{
 
             }
 
 		}
+
+
 
 		//determine to show the user a selection of papers / categories or not
 		$show_options = false;
@@ -557,23 +559,26 @@ class UsersController extends AppController {
 		}
 
 		if($show_options){
+
+            $json_data = array();
+
 			//set user id, who will be subscribed, for view
-			$this->set('user_id', $user_id);
+			$json_data['user_id'] = $user_id;
 
 			//the user has at least one paper with one category in it
 			if($has_one_paper){
 
 				//user has exactly one paper
-				$this->set('paper_id', $papers[0]['Paper']['id']);
+				$json_data['paper_id'] = $papers[0]['Paper']['id'];
 
 				if($has_categories){
 					//only one paper given with one or more category the user gets as an option
 					$paper_category_drop_down = $this->_generatePaperSelectData($logged_in_user_id);
-					$this->set('paper_category_chooser', $paper_category_drop_down);
+					$json_data['paper_category_chooser'] = $paper_category_drop_down;
 				}
 				else{
 					//no paper / category options -> just display paper name
-					$this->set('paper_name', $papers[0]['Paper']['title']);
+					$json_data['paper_name'] = $papers[0]['Paper']['title'];
 				}
 			}
 
@@ -581,25 +586,28 @@ class UsersController extends AppController {
 			if($has_more_papers){
 				//read all papers
 				$paper_category_drop_down = $this->_generatePaperSelectData($logged_in_user_id);
-				$this->set('paper_category_chooser', $paper_category_drop_down);
+				$json_data['paper_category_chooser'] = $paper_category_drop_down;
 			}
 
 			if($has_topics){
 				//the user who wil be associated, has one or more topics. choose whole user or a specifict topic
 				$user_topic_drop_down = $this->_generateUserSelectData($user_id);
-				$this->set('user_topic_chooser', $user_topic_drop_down);
-
+				$json_data['user_topic_chooser'] = $user_topic_drop_down;
 			}
+
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($json_data));
 
 
 			//die();
 			//$this->redirect(array('action' => 'associate', $user_id));
 		}
 		else{
+
 			//one paper, no category, no topics for user
 			//read paper, prepare data, associate
 			$paper_id = $papers[0]['Paper']['id'];
             $this->Paper->contain();
+
 			if($this->Paper->read(null, $paper_id)){
 
 				//prepare data
@@ -624,25 +632,29 @@ class UsersController extends AppController {
 
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+
+                    $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
 				}
 				else{
                     $msg = $this->Paper->return_code_messages[$return_code];
 					$this->Session->setFlash($msg, true);
-					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+                    $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
 
 				}
 
 				//echo 'macht user ' . $user_id . ' in paper ' .$papers[0]['Paper']['id'];
 			}
 			else{
-				//$this->Session->setFlash(__('Error while reading paper', true));
+				$this->Session->setFlash(__('Error while reading paper', true));
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
 				//$this->redirect(array('action' => 'view', $logged_in_user_id));
 
 			}
 
 		}
-        $this->render('subscribe', 'ajax');
+        //$this->render('subscribe', 'ajax');
 
 	}
 

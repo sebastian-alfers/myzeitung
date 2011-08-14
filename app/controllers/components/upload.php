@@ -10,6 +10,10 @@ class UploadComponent extends Object {
 
 	var $components = array('Session');
 
+    public function test(){
+        echo "test";
+    }
+
 	public function transformFileName($file_name){
 		if($file_name == ''){
 			return '';

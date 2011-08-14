@@ -2,11 +2,16 @@
 <div class="left image">
 <?php
 //defining variables relevant for the repost / undo repost button
-	$article_reposted_by_user = false;
+    $article_reposted_by_user = false;
 	$article_belongs_to_user = false;
-	if(is_array($post->post_reposters) && in_array($session->read('Auth.User.id'),$post->post_reposters)){
+
+
+	if($this->Reposter->UserHasAlreadyRepostedPost($post->post_reposters, $post->user_id)){
 		$article_reposted_by_user = true;
 	}
+
+
+
 	if($session->read('Auth.User.id') == $post->user_id){
 		$article_belongs_to_user = true;
 		//just if a user could somehow repost his own post
@@ -53,9 +58,19 @@
 		<?php if(!$article_belongs_to_user):?>
 			<?php if($article_reposted_by_user):?>
 		 	<?php //undo repost button?>
-			<?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('undo Repost', true), array('controller' => 'posts', 'action' => 'undoRepost', $post->id), array('escape' => false, 'class' => 'btn', ));?>
+			    <?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('undo Repost', true), array('controller' => 'posts', 'action' => 'undoRepost', $post->id), array('escape' => false, 'class' => 'btn', ));?>
 			<?php else:?>
-			<?php echo $this->Html->link('<span class="repost-ico icon"></span>'.__('Repost', true), array('controller' => 'posts', 'action' => 'repost', $post->id), array('escape' => false, 'class' => 'btn', ));?>
+                <?php
+                //if the user has one or more topics, no href. in this case, the link will be observed and a popup comes
+                $link = '/posts/repost/'. $post->id;
+                $class = 'btn';
+                if($has_topics){
+                    $link = '/#';
+                    $class = 'class="btn repost"';
+                }
+                ?>
+
+                <a href="<?php echo $link; ?>" <?php echo $class; ?> id="<?php echo $post->id; ?>"><span class="repost-ico icon"></span><?php __('Repost'); ?></a>
 			<?php //repost button?>
 			<?php endif;?>
 		<?php endif;?>

@@ -95,6 +95,12 @@
             <?php if($is_admin || $is_superadmin): ?>
                 <li><a href="/admin/admin"><?php __('Admin'); ?></a></li>
             <?php endif; ?>
+
+            <?php if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu'): ?>
+                <li><a href="/locale/eng"><?php __('English'); ?></a></li>
+            <?php else: ?>
+                <li><a href="/locale/deu"><?php __('Deutsch'); ?></a></li>
+            <?php endif; ?>
         </ul>
     </div>
 </div>

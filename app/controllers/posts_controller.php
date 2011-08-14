@@ -483,6 +483,8 @@ class PostsController extends AppController {
 				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
 			} else {
 
+
+
                 if(empty($this->data['Post']['topic_id'])){
                     //needs to be done to select "no topic" on error
                     $this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
@@ -503,7 +505,8 @@ class PostsController extends AppController {
 		if (empty($this->data)) {
 			$this->Post->contain();
 			$this->data = $this->Post->read(null, $id);
-            if(!empty($this->data['Post']['image'])){
+
+            if(!empty($this->data['Post']['media'])){
                 $this->data['Post']['image'] = unserialize($this->data['Post']['image']);
             }
 

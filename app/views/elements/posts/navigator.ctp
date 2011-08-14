@@ -6,7 +6,6 @@ $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;
 }
-
 if($has_topics){
 
     echo $this->element('posts/repost_modal_choose_topic');
@@ -163,7 +162,7 @@ if($has_topics){
                                     $link = '/posts/repost/'. $post['Post']['id'];
                                     $class = '';
                                     if($has_topics){
-                                        $link = '#';
+                                        $link = '/#';
                                         $class = 'class="repost"';
                                     }
 

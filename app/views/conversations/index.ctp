@@ -28,7 +28,7 @@
 
 
                                     <?php // PICTURE HANDLING ?>
-									<li class="user-image">
+									<li class="user-image-container">
                                         <?php if(count($conversation['Conversation']['ConversationUser']) > 2):
                                             // show 2 pictures if more than 2 participants (--> at least 2 more than your self)
                                             $picture_count = 0;
