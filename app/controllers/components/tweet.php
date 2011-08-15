@@ -59,10 +59,14 @@ class TweetComponent extends Object {
      * @return void
      */
     public function connect(){
+
         if(!$this->isTokenAvailable()){
 
             $this->_connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
-            $this->_request_token = $this->_connection->getRequestToken('http://127.0.0.1:8180/twitter/callback');
+
+            $callback_url = Router::url('/', true);
+            $callback_url.= 'twitter/callback';
+            $this->_request_token = $this->_connection->getRequestToken($callback_url);
 
             if($this->_saveTemporaryCredentials()){
                 switch ($this->_connection->http_code) {

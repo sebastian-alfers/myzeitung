@@ -7,6 +7,5 @@
 
 define('CONSUMER_KEY', 'nhTFk7CxUqd64YDjlE9Tg');
 define('CONSUMER_SECRET', 'bnjn7GqVpqzinUyUltL4o7dw97b2Ds1JZwXGWvyVc');
-//define('OAUTH_CALLBACK', 'http://www.myzeitung.de/twitter/');
-define('OAUTH_CALLBACK', 'oob');
+
 
