@@ -34,6 +34,7 @@ echo $cf->css('style');
 		
 ?>
 
+<script src="http://platform.twitter.com/anywhere.js?id=nhTFk7CxUqd64YDjlE9Tg&v=1" type="text/javascript"></script>
 <link rel="stylesheet" href="/js/tiny_mce/themes/advanced/skins/default/ui.css">
 
 

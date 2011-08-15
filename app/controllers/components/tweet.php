@@ -31,51 +31,67 @@ class TweetComponent extends Object {
 
     }
 
-    public function getConnection(){
+
+    public function processCallback(){
+        if($this->isValidCallback()){
+            /* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
+            $this->_connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $this->Session->read($this->_getOAuthTokenPath()), $this->Session->read($this->_getOAuthTokenSecretPath()));
+
+            /* Request access tokens from twitter */
+            $access_token = $this->_connection->getAccessToken($_REQUEST['oauth_verifier']);
+
+            $this->Session->write($this->_getAccessTokenPath(), $access_token);
+
+
+            /* Save the access tokens. Normally these would be saved in a database for future use. */
+            //$_SESSION['access_token'] = $access_token;
+
+        }
+    }
+
+    public function isValidCallback(){
+        return (isset($_REQUEST['oauth_token']) && $this->Session->read($this->_getOAuthTokenPath()) === $_REQUEST['oauth_token']);
+    }
+
+    /**
+     * redirect to twitter
+     *
+     * @return void
+     */
+    public function connect(){
         if(!$this->isTokenAvailable()){
 
             $this->_connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
-            $this->_request_token = $this->_connection->getRequestToken(OAUTH_CALLBACK);
+            $this->_request_token = $this->_connection->getRequestToken('http://127.0.0.1:8180/twitter/callback');
 
             if($this->_saveTemporaryCredentials()){
-                if($this->isValidConnection()){
-                    /* Create a TwitterOauth object with consumer/user tokens. */
+                switch ($this->_connection->http_code) {
+                    case 200:
+                        /* Build authorize URL and redirect user to Twitter. */
+                        $url = $this->_connection->getAuthorizeURL($this->_request_token);
+                        header('Location: ' . $url);
+                        break;
 
-                }
-                else{
-                    echo "nene du";
+                    default:
+                        /* Show notification if something went wrong. */
+                        echo 'Could not connect to Twitter. Refresh the page or try again later.';
+                        break;
                 }
             }
-            else{
-
-            }
+        }
 
             //debug($this->_request_token);
-        }
-        else{
+    }
 
+    public function getConnection(){
+
+
+        if($this->isTokenAvailable()){
             $this->_connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $this->Session->read($this->_getOAuthTokenPath()), $this->Session->read($this->_getOAuthTokenSecretPath()));
             return $this->_connection;
         }
         return $this->_connection;
     }
-
-    function isValidConnection(){
-        switch ($this->_connection->http_code) {
-          case 200:
-            /* Build authorize URL and redirect user to Twitter. */
-            $url = $this->_connection->getAuthorizeURL($this->_request_token);
-
-            header('Location: ' . $url);
-
-            break;
-          default:
-            /* Show notification if something went wrong. */
-            echo 'Could not connect to Twitter. Refresh the page or try again later.';
-            return false;
-        }
-    }
-
 
 
     private function _saveTemporaryCredentials(){
@@ -88,6 +104,10 @@ class TweetComponent extends Object {
             return true;
         }
         return false;
+    }
+
+    private function _getAccessTokenPath(){
+        return self::SOCIAL.'.'.self::TWITTER.'.'.self::ACCESS_TOKEN;
     }
 
     /**
@@ -129,11 +149,7 @@ class TweetComponent extends Object {
     }
 
     function clearSessions(){
-        debug($this->Session->read());
-
         $this->Session->write(self::SOCIAL, NULL);
-
-        debug($this->Session->read());
     }
 
 
