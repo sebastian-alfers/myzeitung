@@ -94,6 +94,19 @@ class User extends AppModel {
 		'exclusive' => '',
 		'finderQuery' => '',
 		'counterQuery' => ''
+		),
+	'Setting' => array(
+		'className' => 'Setting',
+		'foreignKey' => 'model_id',
+		'dependent' => true,
+		'conditions' => "Setting.model_type = 'User'",
+		'fields' => 'Setting.namespace, Setting.key, Setting.value',
+		'order' => '',
+		'limit' => '',
+		'offset' => '',
+		'exclusive' => '',
+		'finderQuery' => '',
+		'counterQuery' => ''
 		)
 
 		);
@@ -206,6 +219,7 @@ class User extends AppModel {
 			),
 		);		
 	}
+
 	
    function validatePasswdConfirm($data)  
     {  
@@ -675,6 +689,7 @@ class User extends AppModel {
         $solr->delete(Solr::TYPE_USER.'_'.$this->id);
         return true;
     }
+
 
 }
 ?>

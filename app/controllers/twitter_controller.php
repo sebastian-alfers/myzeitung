@@ -6,26 +6,25 @@ class TwitterController extends AppController {
 
     var $name = 'Twitter';
 
-    var $components = array('Tweet');
+    var $components = array('Tweet', 'Settings');
 
     public function beforeFilter(){
         parent::beforeFilter();
         //declaration which actions can be accessed without being logged in
-        $this->Auth->allow('index', 'connect', 'clear', 'callback', 'reAuth');
+        $this->Auth->allow('connect', 'clear', 'callback', 'reAuth', 'remove');
     }
 
+
+    /*
     function index(){
-
-        debug($this->Session->read());
-
         if($this->Tweet->isTokenAvailable()){
-            $conn = $this->Tweet->getConnection();
+            $this->redirect(array('controller' => 'settings', 'action' => 'social-media'));
+            //$conn = $this->Tweet->getConnection();
 
-            debug($conn->get('account/verify_credentials'));
             //$content = $conn->get('account/rate_limit_status');
             //echo "Current API hits remaining: {$content->remaining_hits}.";
 
-            /* statuses/update */
+
             //date_default_timezone_set('GMT');
             //$parameters = array('status' => date(DATE_RFC822));
             //$status = $conn->post('statuses/update', $parameters);
@@ -33,8 +32,21 @@ class TwitterController extends AppController {
 
         }
         else{
-            $this->redirect(array('controller' => 'twitter',  'action' => 'connect'));
+            $this->redirect(array('controller' => 'twitter',  'action' => 'clear'));
         }
+    }
+    */
+
+
+    /**
+     * remove settings from session and settings in DB
+     *
+     * @return void
+     */
+    function remove(){
+        $this->Settings->removeTwitter();
+        $this->Session->setFlash(__('Your twitter profile has been removed. You can activate it ', true));
+        $this->redirect($this->referer());
     }
 
 
@@ -48,7 +60,7 @@ class TwitterController extends AppController {
         if($this->Tweet->isValidCallback()){
             $this->Tweet->processCallback();
         }
-        $this->redirect(array('controller' => 'twitter', 'action' => 'index'));
+        $this->redirect(array('controller' => 'settings', 'action' => 'social-media'));
     }
 
     /**
@@ -74,7 +86,7 @@ class TwitterController extends AppController {
 
     function clear(){
         $this->Tweet->clearSessions();
-        $this->redirect(array('controller' => 'twitter',  'action' => 'index'));
+        $this->redirect(array('controller' => 'twitter',  'action' => 'connect'));
     }
 
 

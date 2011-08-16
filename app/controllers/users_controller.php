@@ -2,7 +2,7 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email');
+	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
 
@@ -15,15 +15,23 @@ class UsersController extends AppController {
 
 
 	public function login(){
+
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
+
+
             $this->redirect(array('controller' => 'users', 'action' => 'view'));
         }
 
 		// login with username or email
 		// the following code is just for the case that the combination of user.username(!) and user.password did not work:
 		//	trying the combination of user.email and user.password
+
+
+
+        $this->log('login');
+
 
 		if(
 		!empty($this->data) &&
@@ -839,6 +847,30 @@ class UsersController extends AppController {
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
 	}
+
+    function accSocial(){
+        $id = $this->Session->read('Auth.User.id');
+
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}
+
+        $settings = $this->Settings->get($id);
+        $this->data['User']['use_twitter'] = false;
+        if(isset($settings['twitter']['oauth_token']) && !empty($settings['twitter']['oauth_token'])){
+            $this->data['User']['use_twitter'] = true;
+        }
+
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
+
+        //$this->Tweet->createTweet();
+
+        //debug($this->Session->read());
+    }
 
 	function accPrivacy(){
 

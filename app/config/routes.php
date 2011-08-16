@@ -61,6 +61,7 @@ Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'))
 Router::connect('/settings', array('controller' => 'users', 'action' => 'accAboutMe'));
 Router::connect('/settings/privacy', array('controller' => 'users', 'action' => 'accPrivacy'));
 Router::connect('/settings/general', array('controller' => 'users', 'action' => 'accGeneral'));
+Router::connect('/settings/social-media', array('controller' => 'users', 'action' => 'accSocial'));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

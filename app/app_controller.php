@@ -152,6 +152,7 @@ class AppController extends Controller {
 			'accAboutMe' => $this->user,
 			'accGeneral' => $this->user,
 			'accPrivacy' => $this->user,
+            'accSocial' => $this->user,
         	'accDelete' => $this->user,
             'admin_index' => $this->admin,
             'admin_edit' => $this->superadmin,
