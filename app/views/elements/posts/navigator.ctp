@@ -1,7 +1,4 @@
 <?php
-
-
-
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;
@@ -64,7 +61,7 @@ if($has_topics){
 							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
                                 <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
                                  <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>
-                                    <span class="post video-item">video</span>
+                                    <a href="/posts/view/<?php echo $post['Post']['id']; ?>"><span class="post video-item">video</span></a>
                                  <?php endif; ?>
                                  <?php echo $image->render($post['Post'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
 
