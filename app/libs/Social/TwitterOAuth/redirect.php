@@ -11,7 +11,7 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
 /* Get temporary credentials. */
 $request_token = $connection->getRequestToken(OAUTH_CALLBACK);
 
-/* Save temporary credentials to session. */
+/* Save temporary credentials to session. */	
 $_SESSION['oauth_token'] = $token = $request_token['oauth_token'];
 $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
  
