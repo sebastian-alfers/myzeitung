@@ -5,7 +5,7 @@ $(document).ready(function() {
         var options = {};
         $('.twitter').toggle( 'blind', options, 500 );
         timeout = setTimeout(function() {
-                document.location = 'http://localhost:8180/twitter/toggle';
+                document.location = '<?php echo $tw_toggle_url; ?>';
         }, 200);
 
     });
