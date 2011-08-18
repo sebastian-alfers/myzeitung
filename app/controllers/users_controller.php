@@ -1,8 +1,13 @@
 <?php
+
+require "libs/Social/FacebookOAuth/src/base_facebook.php";
+require "libs/Social/FacebookOAuth/src/facebook.php";
+require "libs/Social/FacebookOAuth/config.php";
+
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email');
+	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
 
@@ -15,15 +20,23 @@ class UsersController extends AppController {
 
 
 	public function login(){
+
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
+
+
             $this->redirect(array('controller' => 'users', 'action' => 'view'));
         }
 
 		// login with username or email
 		// the following code is just for the case that the combination of user.username(!) and user.password did not work:
 		//	trying the combination of user.email and user.password
+
+
+
+        $this->log('login');
+
 
 		if(
 		!empty($this->data) &&
@@ -839,6 +852,69 @@ class UsersController extends AppController {
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
 	}
+
+    function accSocial(){
+        $id = $this->Session->read('Auth.User.id');
+
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}
+
+        $settings = $this->Settings->get($id);
+        $this->data['User']['use_twitter'] = false;
+
+
+
+        if($this->Tweet->useTwitter()){
+            $this->data['User']['use_twitter'] = true;
+            $userProfile = $this->Tweet->getUserProfile();
+            if(is_array($userProfile)){
+                $this->data['User']['twitter_account_data'] = $userProfile;
+            }
+        }
+
+
+        $this->data['User']['use_fb'] = false;
+        $facebook = new Facebook(array(
+            'appId'  => FB_APP_ID,
+            'secret' => FB_APP_SECRET,
+            'cookie' => true
+        ));
+        // Get User ID
+        $user = $facebook->getUser();
+        if ($user) {
+            $this->set('fb_user', $user);
+            $this->data['User']['use_fb'] = true;
+
+            if ($user) {
+              try {
+                // Proceed knowing you have a logged in user who's authenticated.
+                $user_profile = $facebook->api('/me');
+                $this->data['User']['fb_account_data'] = $user_profile;
+              } catch (FacebookApiException $e) {
+                    //echo($e);
+                    $user = null;
+                    $this->data['User']['use_fb'] = false;
+                }
+            }
+        }
+        if ($user) {
+            $logoutUrl = $facebook->getLogoutUrl();
+            $this->set('fb_url', $logoutUrl);
+        }
+        else{
+            $loginUrl = $facebook->getLoginUrl(array('scope' => 'publish_stream'));
+            $this->set('fb_url', $loginUrl);
+        }
+
+
+
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
+    }
 
 	function accPrivacy(){
 

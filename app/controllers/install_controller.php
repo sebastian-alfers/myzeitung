@@ -61,11 +61,7 @@ class InstallController extends AppController {
 	//array index
 	const FILE_VERSIONS = 'file_versions';
 
-	public function beforeFilter(){
-		parent::beforeFilter();
-		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index');
-	}
+
 	
 	/**
 	 * construct
