@@ -20,8 +20,8 @@
 
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
-				$link_data['additional'] = 'display:inline;';
-				echo $image->render(array('image' => $img), 45, 45,null, $link_data, 'post');
+				//$link_data['additional'] = 'display:block;';
+				echo '<div style="float:left;margin:0 10px 0 10px;;height:45px;width:45px;overflow:hidden">'.$image->render(array('image' => $img), 45, 45,array(), $link_data, 'post').'</div>';
                 // post headline
                                     ?>
 
