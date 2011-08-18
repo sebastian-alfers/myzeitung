@@ -213,7 +213,7 @@ class AppController extends Controller {
 			'delete' => $this->user
 			),
 		'install' => array(
-			'index' => $this->user,
+			'index' => $this->superadmin,
 			),
 		'conversations' => array(
 			'add' => $this->user,
@@ -241,6 +241,16 @@ class AppController extends Controller {
             'admin_cleanUpPostUserIndex' => $this->superadmin,
             'admin_index' => $this->admin,
             ),
+        'twitter' => array(
+            'callback'  => $this->user,
+            'toggle'    => $this->user,
+            ),
+        'facebook' => array(
+            'test'    => $this->user,
+            'toggle'  => $this->user,
+            'logout'  => $this->user,
+            'login'  => $this->user,
+        ),
 		);
 
 

@@ -4,7 +4,7 @@ require_once('libs/Social/TwitterOAuth/twitteroauth/twitteroauth.php');
 require_once('libs/Social/TwitterOAuth/config.php');
 
 /**
- * provides different helper methods for uploadging
+ * access to twitter
  *
  * @author sebastianalfers
  *
@@ -36,7 +36,7 @@ class TweetComponent extends Object {
     public function processCallback(){
         if($this->isValidCallback()){
             /* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
-            $this->_connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $this->Session->read($this->_getOAuthTokenPath()), $this->Session->read($this->_getOAuthTokenSecretPath()));
+            $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $this->Session->read($this->_getOAuthTokenPath()), $this->Session->read($this->_getOAuthTokenSecretPath()));
 
             /* Request access tokens from twitter */
             $access_token = $this->_connection->getAccessToken($_REQUEST['oauth_verifier']);
@@ -69,7 +69,7 @@ class TweetComponent extends Object {
 
         if(!$this->isTokenAvailable()){
 
-            $this->_connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
+            $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET);
 
             $callback_url = Router::url('/', true);
             $callback_url.= 'twitter/callback';
@@ -96,7 +96,7 @@ class TweetComponent extends Object {
 
     public function getConnection(){
         if($this->isTokenAvailable()){
-            $this->_connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $this->Session->read($this->_getOAuthTokenPath()), $this->Session->read($this->_getOAuthTokenSecretPath()));
+            $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $this->Session->read($this->_getOAuthTokenPath()), $this->Session->read($this->_getOAuthTokenSecretPath()));
             return $this->_connection;
         }
         return $this->_connection;
@@ -135,38 +135,98 @@ class TweetComponent extends Object {
     }
 
 
+    /**
+     * load user profile data via tw api
+     *
+     * @return void
+     */
+    public function getUserProfile(){
 
-    public function isTokenAvailable(){
-        $this->_session = $this->Session->read();
 
-        return isset($this->_session[self::AUTH][self::USER][self::SETTINGS][self::TWITTER][self::OAUTH_TOKEN]) &&
-               isset($this->_session[self::AUTH][self::USER][self::SETTINGS][self::TWITTER][self::OAUTH_TOKEN_SECRET]);
+        if($this->useTwitter()){
+            $this->_connection = $this->getConnection();
+
+            /* account/verify_credentials */
+            $method = 'account/verify_credentials';
+            $response = $this->_connection->get($method);
+
+            if($this->isStatusValid($this->_connection->http_code)){
+                $filerResponse = array();
+
+                if(isset($response->name) && !empty($response->name))
+                    $filerResponse['name'] = $response->name;
+
+                if(isset($response->screen_name) && !empty($response->screen_name))
+                    $filerResponse['screen_name'] = $response->screen_name;
+
+                if(isset($response->profile_image_url) && !empty($response->profile_image_url))
+                    $filerResponse['profile_image_url'] = $response->profile_image_url;
+
+
+                return $filerResponse;
+
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            $this->Session->setFlash(__('You are not connected to twitter', true));
+        }
+
 
     }
 
 
+
+    public function isTokenAvailable(){
+        $settings = $this->Settings->get($this->Session->read('Auth.User.id'), 'twitter');
+        return (isset($settings['twitter']['oauth_token']) &&
+               isset($settings['twitter']['oauth_token_secret']));
+    }
+
+
+
+
     function checkConfig(){
-        if (CONSUMER_KEY === '' || CONSUMER_SECRET === '') {
+        if (TW_CONSUMER_KEY === '' || TW_CONSUMER_SECRET === '') {
           echo 'You need a consumer key and secret to test the sample code. Get one from <a href="https://twitter.com/apps">https://twitter.com/apps</a>';
           exit;
         }
     }
 
     function clearSessions(){
-        $this->Session->write(self::AUTH, NULL);
+        $this->Session->write("Auth.User.Settings.twitter", NULL);
     }
 
-    function createTweet(){
 
-        if($this->useTwiter()){
+    /**
+     * create tweet on users wall
+     *
+     * @return bool
+     */
+    function createTweet($msg = ''){
+
+        if($this->useTwitter()){
+            debug('use me');
             $this->_connection = $this->getConnection();
+            if($msg != ''){
+                debug('mgs ist ' . $msg);
 
+                $parameters = array('status' => $msg);
+                $status = $this->_connection->post('statuses/update', $parameters);
 
-            /* statuses/update */
-            date_default_timezone_set('GMT');
-            $parameters = array('status' => date(DATE_RFC822) . ' at myzeitung');
-            $status = $this->_connection->post('statuses/update', $parameters);
-            $this->twitteroauth_row('statuses/update', $status, $this->_connection->http_code, $parameters);
+                debug($this->_connection);
+                if($this->isStatusValid($this->_connection->http_code)){
+                        debug('is valid');
+                       return $status;
+                }
+                else{
+                    debug($status);
+                    debug('nooooot');
+                    return false;
+                }
+            }
         }
         else{
             $this->Session->setFlash(__('You are not connected to twitter', true));
@@ -174,7 +234,16 @@ class TweetComponent extends Object {
 
     }
 
-    function useTwiter(){
+    /**
+     * tweet that a post has been created
+     *
+     * @return void
+     */
+    function newPost($msg){
+        return $this->createTweet($msg);
+    }
+
+    function useTwitter(){
         return $this->isTokenAvailable();
     }
 
@@ -183,43 +252,35 @@ class TweetComponent extends Object {
     }
 
 
-function twitteroauth_row($method, $response, $http_code, $parameters = '') {
-  echo '<tr>';
-  echo "<td><b>{$method}</b></td>";
-  switch ($http_code) {
-    case '200':
-    case '304':
-      $color = 'green';
-      break;
-    case '400':
-    case '401':
-    case '403':
-    case '404':
-    case '406':
-      $color = 'red';
-      break;
-    case '500':
-    case '502':
-    case '503':
-      $color = 'orange';
-      break;
-    default:
-      $color = 'grey';
-  }
-  echo "<td style='background: {$color};'>{$http_code}</td>";
-  if (!is_string($response)) {
-    $response = print_r($response, TRUE);
-  }
-  if (!is_string($parameters)) {
-    $parameters = print_r($parameters, TRUE);
-  }
-  echo '<td>', strlen($response), '</td>';
-  echo '<td>', $parameters, '</td>';
-  echo '</tr><tr>';
-  echo '<td colspan="4">', substr($response, 0, 400), '...</td>';
-  echo '</tr>';
+    /**
+     * analyze request and return data
+     *
+     * @param obs $response - result from e.g. $this->_connection->post or $this->_connection->get
+     * @param  $http_code - from api call
+     * @return bool
+     */
+    function isStatusValid($http_code) {
 
-}
+        switch ($http_code) {
+            case '400':
+            case '401':
+            case '403':
+            case '404':
+            case '406':
+              return false;
+              break;
+            case '500':
+            case '502':
+            case '503':
+                return false;
+                break;
+        }
+
+        //200 or 304
+        return true;
+
+
+    }
 
 
 }

@@ -1,4 +1,9 @@
 <?php
+
+require "libs/Social/FacebookOAuth/src/base_facebook.php";
+require "libs/Social/FacebookOAuth/src/facebook.php";
+require "libs/Social/FacebookOAuth/config.php";
+
 class UsersController extends AppController {
 
 	var $name = 'Users';
@@ -858,18 +863,57 @@ class UsersController extends AppController {
 
         $settings = $this->Settings->get($id);
         $this->data['User']['use_twitter'] = false;
-        if(isset($settings['twitter']['oauth_token']) && !empty($settings['twitter']['oauth_token'])){
+
+
+
+        if($this->Tweet->useTwitter()){
             $this->data['User']['use_twitter'] = true;
+            $userProfile = $this->Tweet->getUserProfile();
+            if(is_array($userProfile)){
+                $this->data['User']['twitter_account_data'] = $userProfile;
+            }
         }
+
+
+        $this->data['User']['use_fb'] = false;
+        $facebook = new Facebook(array(
+            'appId'  => FB_APP_ID,
+            'secret' => FB_APP_SECRET,
+            'cookie' => true
+        ));
+        // Get User ID
+        $user = $facebook->getUser();
+        if ($user) {
+            $this->set('fb_user', $user);
+            $this->data['User']['use_fb'] = true;
+
+            if ($user) {
+              try {
+                // Proceed knowing you have a logged in user who's authenticated.
+                $user_profile = $facebook->api('/me');
+                $this->data['User']['fb_account_data'] = $user_profile;
+              } catch (FacebookApiException $e) {
+                    //echo($e);
+                    $user = null;
+                    $this->data['User']['use_fb'] = false;
+                }
+            }
+        }
+        if ($user) {
+            $logoutUrl = $facebook->getLogoutUrl();
+            $this->set('fb_url', $logoutUrl);
+        }
+        else{
+            $loginUrl = $facebook->getLoginUrl(array('scope' => 'publish_stream'));
+            $this->set('fb_url', $loginUrl);
+        }
+
+
 
 		$this->User->contain();
 		$user= $this->getUserForSidebar();
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
-
-        //$this->Tweet->createTweet();
-
-        //debug($this->Session->read());
     }
 
 	function accPrivacy(){

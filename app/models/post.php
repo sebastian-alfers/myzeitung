@@ -460,7 +460,6 @@ class Post extends AppModel {
                     // update solr index with saved date
                     $this->addToOrUpdateSolr();
                 }
-
             }
     function addToOrUpdateSolr(){
         App::import('model','Solr');

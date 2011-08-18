@@ -12,9 +12,10 @@ class SettingsComponent extends Object {
 
 
     function get($model_id = '', $namespace = ''){
+
         $ses = $this->Session->read('Auth.User');
 
-        if(!isset($ses['Settings'])){
+        if(!isset($ses['Settings']) || empty($ses['Settings'])){
             $this->loadSettings($model_id);
         }
 
@@ -48,6 +49,7 @@ class SettingsComponent extends Object {
                                          'namespace' => $namespace,
                                          'key' => $key);
             }
+
             $data['Setting']['value'] = $value;
 
 
@@ -58,6 +60,7 @@ class SettingsComponent extends Object {
     }
 
     function loadSettings($id = ''){
+
         if($id == ''){
             $id = $this->Session->read('Auth.User.id');
         }
