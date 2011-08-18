@@ -865,7 +865,7 @@ class UsersController extends AppController {
         $this->data['User']['use_twitter'] = false;
 
         //always the same url
-        $tw_toggle_url =  $callback_url = Router::url('/twitter/callback', true);
+        $tw_toggle_url =  $callback_url = Router::url('/twitter/toggle', true);
         $this->set('tw_toggle_url', $tw_toggle_url);
         if($this->Tweet->useTwitter()){
             $this->data['User']['use_twitter'] = true;
