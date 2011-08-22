@@ -357,8 +357,7 @@ function __construct(){
 
     function addRoute(){
 
-        App::import('model','Route');
-        $this->Route = new Route();
+
         $this->Route->create();
 
         $routeString = $this->generateRouteString();
@@ -391,8 +390,7 @@ function __construct(){
     }
 
     private function generateRouteString(){
-        App::import('model','User');
-        $this->User = new User();
+
         $this->User->contain();
         $user = $this->User->read(array('id','username'),$this->data['Paper']['owner_id']);
 
@@ -454,6 +452,13 @@ function __construct(){
         $this->contain();
         $papers = $this->find('all');
 
+        App::import('model','Route');
+        $this->Route = new Route();
+        App::import('model','User');
+        $this->User = new User();
+        App::import('model','Solr');
+        $this->Solr = new Solr();
+        
         foreach($papers as $paper){
             $this->id = $paper['Paper']['id'];
             $this->data = $paper;
@@ -469,13 +474,18 @@ function __construct(){
 			 * update solr index with saved data
 			 */
 			function afterSave($created){
+                App::import('model','Route');
+                $this->Route = new Route();
+                App::import('model','User');
+                $this->User = new User();
 				
                 $this->addRoute();
 
 				if(!$this->updateSolr)return;
 
 				if($this->id){
-
+                     App::import('model','Solr');
+                     $this->Solr = new Solr();
                      $this->addToOrUpdateSolr();
 
                     //create subscription for created paper
@@ -498,7 +508,7 @@ function __construct(){
 
             function addToOrUpdateSolr(){
             //get User information
-                App::import('model','Solr');
+
 
 			//	App::import('model','Subscription');
 
@@ -518,8 +528,8 @@ function __construct(){
                     $data['Paper']['paper_image'] = $this->data['Paper']['image'];
                 }
                 $data['Paper']['route_source'] = $this->data['Route'][0]['source'];
-                $solr = new Solr();
-                $solr->add($this->addFieldsForIndex($data));
+
+                $this->Solr->add($this->addFieldsForIndex($data));
 
 
             }

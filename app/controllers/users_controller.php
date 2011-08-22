@@ -167,6 +167,7 @@ class UsersController extends AppController {
 
 		$this->set('posts', $this->paginate($this->User->Post));
 
+
 		//references
 	/*	$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
 		$this->set('wholeUserReferences', $wholeUserReferences);

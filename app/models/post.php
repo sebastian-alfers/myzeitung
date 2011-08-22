@@ -231,11 +231,16 @@ class Post extends AppModel {
         $posts = $this->find('all');
 
 
+
         App::import('model','Route');
         $this->Route = new Route();
 
         App::import('model','User');
         $this->User = new User();
+
+        App::import('model','Solr');
+        $this->Solr = new Solr();
+
 
         foreach($posts as $post){
             $this->id = $post['Post']['id'];
@@ -587,12 +592,14 @@ class Post extends AppModel {
 
         if($this->updateSolr){
             // update solr index with saved date
+            App::import('model','Solr');
+            $this->Solr = new Solr();
             $this->addToOrUpdateSolr();
         }
 
     }
     function addToOrUpdateSolr(){
-        App::import('model','Solr');
+
         $this->contain('Route', 'User');
         $this->data = $this->read(null, $this->id);
       //  $this->User->contain();
@@ -623,8 +630,8 @@ class Post extends AppModel {
             $this->data['Post']['type'] = Solr::TYPE_POST;
             $this->data['Post']['route_source'] = $this->data['Route'][0]['source'];
 
-            $solr = new Solr();
-            $solr->add($this->addFieldsForIndex($this->data));
+
+            $this->Solr->add($this->addFieldsForIndex($this->data));
 
         }
         else{
