@@ -6,8 +6,10 @@
 			<div class="userstart">
 				<?php
 				$link_data = array();
+
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
-				$link_data['custom'] = array('class' => 'user-image');
+				$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUserName($user['User']), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user['User']['id']);
+
 				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 			</div>
 
@@ -29,7 +31,7 @@
 				<?php echo $this->element('users/sidebar/subscriptions'); ?>
 			<?php endif;?>
 			<?php //elements shown when being on actions in users-account settings ?>
-			<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe')):?>
+			<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial')): ?>
 				<?php echo $this->element('users/sidebar/account_menue', array('user_id' => $user['User']['id'])); ?>
 			<?php endif;?>
 

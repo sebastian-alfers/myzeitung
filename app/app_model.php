@@ -32,4 +32,9 @@
  */
 class AppModel extends Model {
 	var $actsAs = array('Containable');
+
+    function saveConfig(){
+        debug($this->id);
+        debug(get_class($this));
+    }
 }

@@ -1,13 +1,10 @@
 <?php echo $this->element('papers/modal_references'); ?>
 
 <?php
-if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session->read('Auth.User.id')){
-    $paper_belongs_to_user = false;
-}elseif($paper['Paper']['owner_id'] == $session->read('Auth.User.id')){
-    $paper_belongs_to_user = true;
-}
 
 if($paper_belongs_to_user){
+    echo $this->element('categories/modal_add_edit', array('paper_id' => $paper['Paper']['id']));
+
     echo $html->script('global/upload');
     echo $this->element('global/modal_upload',
                          array('title'  => 'upload paper picture',
@@ -58,7 +55,8 @@ if($paper_belongs_to_user){
         <?php ?>
         <ul>
             <?php if($paper_belongs_to_user):?>
-            <li><?php echo $this->Html->link('<span>+</span>'.__('New Category', true), array('controller' => 'categories', 'action' => 'add', Category::PARAM_PAPER, $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
+            <li>
+                <a href="#" class="btn" id="add_category"><span>+</span><?php __('New Category'); ?></a>
             <li><a class="btn" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
             <?php endif;?>
             <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
@@ -73,9 +71,10 @@ if($paper_belongs_to_user){
             <?php endif;?>
         </ul>
             <hr />
-            <?php ?>
+
         <?php $category_id = null;?>
         <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>
+        <div id="category-content">
             <h6><?php echo __('Filter by Category', true);?></h6>
                <ul>
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['frontpage_authors_count'] , true), $paper['Paper']['frontpage_authors_count']); ?>"></span>
@@ -86,17 +85,20 @@ if($paper_belongs_to_user){
                     <i><?php /* topic selected - show link*/ echo __('front page', true)/* . ' ('.$paper['Paper']['category_paper_post_count'].')'*/;?></i>
                 <?php endif;?> </li>
                 <?php foreach($paper['Category'] as $category):?>
+
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
                 <?php  if($category_id != $category['id'] || $category_id == null):?>
                     <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$category['category_paper_post_count'].')'*/, $paper['Route'][0]['source'].'/'.$category['id']); ?>
+
                 <?php else:?>
                     <i><?php  /* this topic is selected - show text*/ echo $category['name']/*. ' ('.$category['category_paper_post_count'].')'*/?></i>
                 <?php endif;?>
+                <span class="edit-icon" id="/categories/index/<?php echo $paper['Paper']['id']?>" category-id="<?php echo $category['id']; ?>"></span>
                 </li>
                 <?php endforeach;?>
             </ul>
+        </div>
             <hr />
-
 
             <h6><?php echo __('Activity', true);?></h6>
               <ul>
@@ -105,7 +107,11 @@ if($paper_belongs_to_user){
                  <li><?php echo sprintf(__n('%d Subscriber', '%d Subscribers', $paper['Paper']['subscription_count'],true), $paper['Paper']['subscription_count']);?></li>
             </ul>
             <hr />
+            <a class="btn settings-btn" href="/papers/edit/<?php echo $paper['Paper']['id']; ?>"><span class="icon icon-general"></span><?php __('Edit Paper'); ?></a>
             <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
+
+
+
 
 
                             <?php /*references*/ // echo $this->Html->link('References', array('controller' => 'papers', 'action' => 'references', 'paper/'.$paper['Paper']['id'])); ?>

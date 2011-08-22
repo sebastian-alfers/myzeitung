@@ -21,7 +21,9 @@ $(document).ready(function() {
 
     });
 
-	$(".repost").click(function(){
+	$(".repost").click(function(e){
+        e.preventDefault();
+        alert('jo');
 
         var post_id = $(this).attr('id');
         var req = $.post(base_url + '/topics/getTopics.json', {post_id: post_id})

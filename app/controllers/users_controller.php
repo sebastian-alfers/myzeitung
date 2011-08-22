@@ -1,10 +1,16 @@
 <?php
+
+require "libs/Social/FacebookOAuth/src/base_facebook.php";
+require "libs/Social/FacebookOAuth/src/facebook.php";
+require "libs/Social/FacebookOAuth/config.php";
+
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email');
-	var $uses = array('User', 'Category', 'Paper','Group', 'Topic',  'ContentPaper', 'Subscription');
-	var $helpers = array('Text', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
+
+	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
+	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
+	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
 
 
 	public function beforeFilter(){
@@ -15,15 +21,23 @@ class UsersController extends AppController {
 
 
 	public function login(){
+
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
+
             $this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+
         }
 
 		// login with username or email
 		// the following code is just for the case that the combination of user.username(!) and user.password did not work:
 		//	trying the combination of user.email and user.password
+
+
+
+        $this->log('login');
+
 
 		if(
 		!empty($this->data) &&
@@ -91,8 +105,9 @@ class UsersController extends AppController {
 
 
 		if (!$username) {
+
 			//no param from url -> get from Auth
-			$username = $this->Auth->User("username");
+			$username = strtolower($this->Auth->User("username"));
 			if(!$username){
 				$this->Session->setFlash(__('Invalid user', true));
 				$this->redirect(array('action' => 'index'));
@@ -486,13 +501,15 @@ class UsersController extends AppController {
 			if ($this->Paper->save($data)) {
                 $this->set('new_paper', 'jau neu wa');
 
-                $this->subscribe($user_id);
+                return $this->subscribe($user_id);
             }
             else{
 
             }
 
 		}
+
+
 
 		//determine to show the user a selection of papers / categories or not
 		$show_options = false;
@@ -534,23 +551,29 @@ class UsersController extends AppController {
 		}
 
 		if($show_options){
+
+            $json_data = array();
+
 			//set user id, who will be subscribed, for view
-			$this->set('user_id', $user_id);
-            $this->set('username', $user_data['User']['username']);
+
+			$json_data['user_id'] = $user_id;
+           //@todo alf bitte username in die formulardaten packen, damit der redirect oben funzen kann
+          //   $this->set('username', $user_data['User']['username']);
+
 			//the user has at least one paper with one category in it
 			if($has_one_paper){
 
 				//user has exactly one paper
-				$this->set('paper_id', $papers[0]['Paper']['id']);
+				$json_data['paper_id'] = $papers[0]['Paper']['id'];
 
 				if($has_categories){
 					//only one paper given with one or more category the user gets as an option
 					$paper_category_drop_down = $this->_generatePaperSelectData($logged_in_user_id);
-					$this->set('paper_category_chooser', $paper_category_drop_down);
+					$json_data['paper_category_chooser'] = $paper_category_drop_down;
 				}
 				else{
 					//no paper / category options -> just display paper name
-					$this->set('paper_name', $papers[0]['Paper']['title']);
+					$json_data['paper_name'] = $papers[0]['Paper']['title'];
 				}
 			}
 
@@ -558,25 +581,28 @@ class UsersController extends AppController {
 			if($has_more_papers){
 				//read all papers
 				$paper_category_drop_down = $this->_generatePaperSelectData($logged_in_user_id);
-				$this->set('paper_category_chooser', $paper_category_drop_down);
+				$json_data['paper_category_chooser'] = $paper_category_drop_down;
 			}
 
 			if($has_topics){
 				//the user who wil be associated, has one or more topics. choose whole user or a specifict topic
 				$user_topic_drop_down = $this->_generateUserSelectData($user_id);
-				$this->set('user_topic_chooser', $user_topic_drop_down);
-
+				$json_data['user_topic_chooser'] = $user_topic_drop_down;
 			}
+
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($json_data));
 
 
 			//die();
 			//$this->redirect(array('action' => 'associate', $user_id));
 		}
 		else{
+
 			//one paper, no category, no topics for user
 			//read paper, prepare data, associate
 			$paper_id = $papers[0]['Paper']['id'];
             $this->Paper->contain();
+
 			if($this->Paper->read(null, $paper_id)){
 
 				//prepare data
@@ -601,25 +627,31 @@ class UsersController extends AppController {
 
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
+
+
+                    $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+
 				}
 				else{
                     $msg = $this->Paper->return_code_messages[$return_code];
 					$this->Session->setFlash($msg, true);
-					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
+                    $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
+
 
 				}
 
 				//echo 'macht user ' . $user_id . ' in paper ' .$papers[0]['Paper']['id'];
 			}
 			else{
-				//$this->Session->setFlash(__('Error while reading paper', true));
+				$this->Session->setFlash(__('Error while reading paper', true));
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
 				//$this->redirect(array('action' => 'view', $logged_in_user_id));
 
 			}
 
 		}
-        $this->render('subscribe', 'ajax');
+        //$this->render('subscribe', 'ajax');
 
 	}
 
@@ -804,6 +836,70 @@ class UsersController extends AppController {
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
 	}
+
+    function accSocial(){
+        $id = $this->Session->read('Auth.User.id');
+
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}
+
+        $settings = $this->Settings->get($id);
+        $this->data['User']['use_twitter'] = false;
+
+        //always the same url
+        $tw_toggle_url =  $callback_url = Router::url('/twitter/toggle', true);
+        $this->set('tw_toggle_url', $tw_toggle_url);
+        if($this->Tweet->useTwitter()){
+            $this->data['User']['use_twitter'] = true;
+            $userProfile = $this->Tweet->getUserProfile();
+            if(is_array($userProfile)){
+                $this->data['User']['twitter_account_data'] = $userProfile;
+            }
+        }
+
+
+        $this->data['User']['use_fb'] = false;
+        $facebook = new Facebook(array(
+            'appId'  => FB_APP_ID,
+            'secret' => FB_APP_SECRET,
+            'cookie' => true
+        ));
+        // Get User ID
+        $user = $facebook->getUser();
+        if ($user) {
+            $this->set('fb_user', $user);
+            $this->data['User']['use_fb'] = true;
+
+            if ($user) {
+              try {
+                // Proceed knowing you have a logged in user who's authenticated.
+                $user_profile = $facebook->api('/me');
+                $this->data['User']['fb_account_data'] = $user_profile;
+              } catch (FacebookApiException $e) {
+                    //echo($e);
+                    $user = null;
+                    $this->data['User']['use_fb'] = false;
+                }
+            }
+        }
+        if ($user) {
+            $logoutUrl = $facebook->getLogoutUrl();
+            $this->set('fb_url', $logoutUrl);
+        }
+        else{
+            $loginUrl = $facebook->getLoginUrl(array('scope' => 'publish_stream'));
+            $this->set('fb_url', $loginUrl);
+        }
+
+
+
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
+    }
 
 	function accPrivacy(){
 

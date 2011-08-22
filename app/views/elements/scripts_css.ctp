@@ -27,13 +27,11 @@ e($cf->css('jquery-ui-1.8.11'));
 
 echo $cf->css('style');
 
-
-
-
 //	echo $scripts_for_layout;
 		
 ?>
 
+<script src="http://platform.twitter.com/anywhere.js?id=nhTFk7CxUqd64YDjlE9Tg&v=1" type="text/javascript"></script>
 <link rel="stylesheet" href="/js/tiny_mce/themes/advanced/skins/default/ui.css">
 
 

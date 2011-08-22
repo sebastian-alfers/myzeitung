@@ -1,4 +1,9 @@
 <?php
+
+require "libs/Social/FacebookOAuth/src/base_facebook.php";
+require "libs/Social/FacebookOAuth/src/facebook.php";
+require "libs/Social/FacebookOAuth/config.php";
+
 class PostsController extends AppController {
 
 	const NO_TOPIC_ID = 'null';
@@ -8,8 +13,8 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
 
-	var $components = array('JqImgcrop', 'Upload');
-	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'Text');
+	var $components = array('JqImgcrop', 'Upload', 'Settings', 'Tweet');
+	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
 
 
 
@@ -238,6 +243,37 @@ class PostsController extends AppController {
           //  $this->log('direkt vor dem saven');
           //  $this->log($this->data);
 			if ($this->Post->save($this->data)) {
+                $post_url = 'http://myzeitung.de/posts/view/' . $this->Post->id;
+                $social_msg = __('Checkout my latest article as myZeitung: ', true);
+                $social_msg .= $post_url;
+
+                if($this->Tweet->useTwitter()){
+                    $this->Tweet->newPost($social_msg);
+                }
+
+                $this->data['User']['use_fb'] = false;
+                $facebook = new Facebook(array(
+                    'appId'  => FB_APP_ID,
+                    'secret' => FB_APP_SECRET,
+                    'cookie' => true
+                ));
+                // Get User ID
+                $user = $facebook->getUser();
+
+                // Login or logout url will be needed depending on current user state.
+                if ($user) {
+                    $request['message'] = $social_msg;
+                    $request['name'] = $this->data['Post']['title'];
+                    $request['link'] = $post_url;
+                    //$request['description'] = "Test FB api";
+                    try{
+                      $response = $facebook->api('/me/feed',"POST",$request);
+
+                  } catch (FacebookApiException $e) {
+                      $this->log($e);
+                  }
+
+                }
 
                 $this->Post->contain();
                 $created_date = $this->Post->read('created', $this->Post->id);
@@ -485,6 +521,8 @@ class PostsController extends AppController {
 				$this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
 			} else {
 
+
+
                 if(empty($this->data['Post']['topic_id'])){
                     //needs to be done to select "no topic" on error
                     $this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
@@ -505,7 +543,8 @@ class PostsController extends AppController {
 		if (empty($this->data)) {
 			$this->Post->contain();
 			$this->data = $this->Post->read(null, $id);
-            if(!empty($this->data['Post']['image'])){
+
+            if(!empty($this->data['Post']['media'])){
                 $this->data['Post']['image'] = unserialize($this->data['Post']['image']);
             }
 
@@ -603,6 +642,7 @@ class PostsController extends AppController {
 	 */
 
 	function ajxImageProcess(){
+        $this->log('hier');
 		if(isset($_FILES['file'])){
 			$file = $_FILES['file'];
 

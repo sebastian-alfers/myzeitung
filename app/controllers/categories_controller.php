@@ -4,13 +4,38 @@ class CategoriesController extends AppController {
 
 	var $name = 'Categories';
 	
-	var $uses = array('Paper', 'Category');
+	var $uses = array('Paper', 'Category', 'ContentPaper');
 	var $helpers = array('MzTime', 'Image', 'Html', 'Javascript', 'Ajax');
-	
-	function index() {
-		$this->Category->recursive = 0;
-		$this->set('categories', $this->paginate());
+    var $components = array('Upload');
+
+
+
+
+    /**
+     * @return void
+
+	function index($paper_id) {
+		if(!$paper_id){
+            $this->Session->setFlash(__('No Permission', true));
+			$this->redirect(array('controller' => 'papers', 'action' => 'index'));
+        }
+        if(!$this->canEdit('Paper', $paper_id, 'owner_id')){
+            $this->Session->setFlash(__('No Permission', true));
+			$this->redirect(array('controller' => 'papers', 'action' => 'index'));
+        }
+        $this->Paper->contain(array('Category'));
+        $paper = $this->Paper->read(null, $paper_id);
+
+        $this->set('hash', $this->Upload->getHash());
+
+        //get number of authors for frontpage
+        $this->ContentPaper->contain();
+        $frontpage_authors = $this->ContentPaper->find('count', array('conditions' => array('ContentPaper.paper_id' => $paper['Paper']['id'], 'ContentPaper.category_id' => NULL)));
+        $paper['Paper']['frontpage_authors_count'] = $frontpage_authors;
+
+        $this->set('paper', $paper);
 	}
+    */
 
 
 	function addcategory(){
@@ -23,8 +48,9 @@ class CategoriesController extends AppController {
 	 * @param type     category / paper
 	 * @param id    	paper_id / parent_category_id
 	 * @todo rewrite this crap with proper params 
-	 */
+
 	function add() {
+
 
 		if (empty($this->data)) {
 			//check for param in get url
@@ -41,50 +67,75 @@ class CategoriesController extends AppController {
 			}
 				
 		}
-		else{
-			if(isset($this->data['Category']['parent_id']) && !empty($this->data['Category']['parent_id'])){
-				//read paper from parent id
-				$this->Category->contain('Paper.id', 'Paper.owner_id');
-				$category = $this->Category->read(null, $this->data['Category']['parent_id']);
-				
-				if($category['Category']['id'] && $category['Paper']['id']){
-						$this->data['Category']['paper_id'] = $category['Paper']['id'];
-				}
-				else{
-					$this->Session->setFlash(__('Unable to read parent category.', true));
-					$this->redirect(array('controller' => 'papers', 'action' => 'index'));
-				}				
-				
-			}
-			if(isset($this->data['Category']['paper_id']) && !empty($this->data['Category']['paper_id'])){
-				$this->Paper->contain('Route');
-				$paper = $this->Paper->read(array('id', 'owner_id'),$this->data['Category']['paper_id']);
-				$owner_id = $paper['Paper']['owner_id'];
-			}
-			if($this->Auth->user('id') != $owner_id){
-					$this->Session->setFlash(__('This paper does not belong to you. You cannot add a category.', true));
-					$this->redirect($this->referer());
-			}
-				
-			$this->Category->create();
-			if ($this->Category->save($this->data)) {
-				$this->Session->setFlash(__('The category has been saved', true), 'default', array('class' => 'success'));
-                $this->redirect($this->data['Route'][0]['source']);
-			} else {
-				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
-			}
-		}
+
+
+
+        /*
+        if(isset($this->data['Category']['parent_id']) && !empty($this->data['Category']['parent_id'])){
+            //read paper from parent id
+            $this->Category->contain('Paper.id', 'Paper.owner_id');
+            $category = $this->Category->read(null, $this->data['Category']['parent_id']);
+
+            if($category['Category']['id'] && $category['Paper']['id']){
+                    $this->data['Category']['paper_id'] = $category['Paper']['id'];
+            }
+            else{
+                $this->Session->setFlash(__('Unable to read parent category.', true));
+                $this->redirect(array('controller' => 'papers', 'action' => 'index'));
+            }
+
+        }
+
+        if(isset($this->data['Category']['paper_id']) && !empty($this->data['Category']['paper_id'])){
+            if(!$this->canEdit('Paper', $this->data['Category']['paper_id'], 'owner_id')){
+                $this->Session->setFlash(__('No Permission', true));
+                $this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
+            }
+        }
+
+        $this->Category->create();
+        if ($this->Category->save($this->data)) {
+            $this->Session->setFlash(__('The category has been saved', true), 'default', array('class' => 'success'));
+            $this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
+        } else {
+            $this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
+        }
+
+
 	}
+    */
 
 	function edit($id = null) {
+
+        if($id == null && isset($this->data['Category']['post_id']) && !empty($this->data['Category']['post_id'])){
+            $id = $this->data['Category']['post_id'];
+        }
+
+
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid category', true));
 			$this->redirect($this->referer());
 		}
+
+
+        if(!$this->canEdit('Paper', $this->data['Category']['paper_id'], 'owner_id')){
+            $this->Session->setFlash(__('No Permission', true));
+			$this->redirect(array('controller' => 'papers', 'action' => 'index'));
+        }
+
+
 		if (!empty($this->data)) {
+
+            if(!isset($this->data['Category']['id']) || $this->data['Category']['id'] == ''){
+                $this->Category->create();
+            }
+
+
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true), 'default', array('class' => 'success'));
+
 				$this->redirect($this->referer());
+
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
 			}

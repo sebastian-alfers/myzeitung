@@ -10,7 +10,7 @@
 	$link_data = array();
 	$link_data['url'] = $paper->route_source;
 	echo $image->render(array('image' => $img), 58, 58,array(), $link_data, 'paper');
-	$paper_description = $this->Text->truncate($paper->paper_description, 75,array('ending' => '...', 'exact' => true, 'html' => false));
+	$paper_description = $this->MzText->truncate($paper->paper_description, 75,array('ending' => '...', 'exact' => true, 'html' => false));
 ?>		
 </div>
 <div class="left">

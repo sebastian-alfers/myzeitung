@@ -38,13 +38,13 @@ class AppController extends Controller {
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
 
-    var $helpers = array('Cf', 'Session', 'Mzform', 'Image');
+    var $helpers = array('Cf', 'Session', 'Mzform', 'Image', 'MzText');
 
     //acl groups
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
     var $admin = array(self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
     var $superadmin = array(self::ROLE_SUPERADMIN);
-    
+
     //acl roles
     const ROLE_USER = 1; //normal, logged in user
     const ROLE_ADMIN = 2; //normal, logged in user
@@ -52,31 +52,34 @@ class AppController extends Controller {
 
 
 	public function beforeFilter(){
+
+        $this->_setLanguage();
+
         //App::import('Core', 'I18n');
         //$trans = new I18n();
         //$_this =& I18n::getInstance();
         //$_this->__domains['default']['deu']['LC_MESSAGES']['%plural-c'].= ';';
 
         //load locale
-     //   App::import('Core', 'L10n');
-     //   $this->L10n = new L10n();
-     //   $this->L10n->get('deu');
+
+
+
 
 
         //$this->Security->blackHoleCallback = 'blackHole';
 
 	    $this->RequestHandler->setContent('json', 'text/x-json');
-		
-		
+
+
 		$this->AutoLogin->cookieName = 'myZeitung';
 		$this->AutoLogin->expires = '+1 month';
 		$this->AutoLogin->settings = array(
 			'controller' => 'users',
 			'loginAction' => 'login',
 			'logoutAction' => 'logout'
-		
+
 		);
-         
+
 		if(isset($this->Auth)) {
 			// this makes the Auth-component use the isAuthorized()-method below
 			$this->Auth->authorize = 'controller';
@@ -109,26 +112,26 @@ class AppController extends Controller {
 	}
 
 
-	
-	
+
+
 	protected function setConversationCount(){
 		$this->ConversationUser->contain();
-		$this->set('conversation_count', $this->ConversationUser->find('count', 
+		$this->set('conversation_count', $this->ConversationUser->find('count',
 											array('conditions' => array('user_id' => $this->Session->read('Auth.User.id'),
 												 'status' => Conversation::STATUS_NEW))));
 	}
-	
-	
+
+
 	public function _autoLogin($user) {
 		// Do something
 		// $user contains the Auth session
 	}
-		
-	
+
+
 	function isAuthorized() {
 
 
-		// defining the authorized usergroups for every action of every controller 
+		// defining the authorized usergroups for every action of every controller
 		// 1 = admin 2=common user
 		$allowedActions = array(
         'ajax' => array(
@@ -145,10 +148,11 @@ class AppController extends Controller {
 			'delete' => $this->user,
 			'subscribe' => $this->user,
 			'accImage' => $this->user,
-			'ajxProfileImageProcess' => $this->user,		
+			'ajxProfileImageProcess' => $this->user,
 			'accAboutMe' => $this->user,
 			'accGeneral' => $this->user,
 			'accPrivacy' => $this->user,
+            'accSocial' => $this->user,
         	'accDelete' => $this->user,
             'admin_index' => $this->admin,
             'admin_edit' => $this->superadmin,
@@ -177,7 +181,7 @@ class AppController extends Controller {
             'admin_enable' => $this->admin,
             'admin_index' => $this->admin,
             'admin_delete' => $this->superadmin,
-			),	
+			),
 		'papers' => array(
 			'index' => $this->user,
 			'add' => $this->user,
@@ -194,14 +198,14 @@ class AppController extends Controller {
             'admin_enable' => $this->admin,
             'admin_index' => $this->admin,
             'admin_delete' => $this->superadmin,
-			),				
+			),
 		'categories' => array(
 			'index' => $this->user,
 			'add' => $this->user,
 			'edit' => $this->user,
 			'view' => $this->user,
 			'delete' => $this->user,
-			),		
+			),
 		'comments' => array(
 			'add' => $this->user,
 			'ajxAdd' => $this->user,
@@ -209,7 +213,7 @@ class AppController extends Controller {
 			'delete' => $this->user
 			),
 		'install' => array(
-			'index' => $this->user,
+			'index' => $this->superadmin,
 			),
 		'conversations' => array(
 			'add' => $this->user,
@@ -239,13 +243,23 @@ class AppController extends Controller {
             'admin_refreshPostPaperRoutes' => $this->superadmin,
             
             ),
+        'twitter' => array(
+            'callback'  => $this->user,
+            'toggle'    => $this->user,
+            ),
+        'facebook' => array(
+            'test'    => $this->user,
+            'toggle'  => $this->user,
+            'logout'  => $this->user,
+            'login'  => $this->user,
+        ),
 		);
-		
-		
+
+
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
 			if(isset($allowedActions[low($this->name)])) {
 			$controllerActions = $allowedActions[low($this->name)];
-			if(isset($controllerActions[$this->action]) && 
+			if(isset($controllerActions[$this->action]) &&
 			in_array($this->Auth->user('group_id'), $controllerActions[$this->action])) {
 				return true;
 			}
@@ -354,6 +368,23 @@ class AppController extends Controller {
 
     }
 
+    /**
+     * set language based on cookie
+     *
+     * @return void
+     */
+    function _setLanguage() {
+
+        if ($this->Cookie->read('lang') && !$this->Session->check('Config.language')) {
+            $this->Session->write('Config.language', $this->Cookie->read('lang'));
+        }
+        else if (isset($this->params['language']) && ($this->params['language']
+                 !=  $this->Session->read('Config.language'))) {
+
+            $this->Session->write('Config.language', $this->params['language']);
+            $this->Cookie->write('lang', $this->params['language'], false, '20 days');
+        }
+    }
 
 	function beforeRender()
     {
@@ -363,7 +394,7 @@ class AppController extends Controller {
         //if (Configure::read('debug') == 0) {
             //ob_start();
        //}
-    } 
+    }
 /*
 	function afterFilter()
     {
@@ -372,15 +403,15 @@ class AppController extends Controller {
             ob_end_clean();
             echo $this->_clean($output);
         }
-    } 
-	
+    }
+
 	function _clean($string){
         $string = str_replace("\n", '', $string);
         $string = str_replace("\t", '', $string);
         $string = preg_replace('/[ ]+/', ' ', $string);
         $string = preg_replace('/<!--[^-]*-->/', '', $string);
         return $string;
-    } 
+    }
 	*/
 }
 

@@ -6,7 +6,7 @@ class ConversationsController extends AppController {
 
     var $components = array('Email');
 
-    var $helpers = array('Text', 'Image', 'MzTime');
+    var $helpers = array('MzText', 'Image', 'MzTime');
 
 	function add($recipient_id = null){
 		if(!$recipient_id && empty($this->data)) {

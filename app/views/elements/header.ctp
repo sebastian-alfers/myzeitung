@@ -8,26 +8,35 @@
 			//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', 'username' => $session->read('Auth.User.username')), array('class' => "user-image", 'escape' => false));
 			$user = $session->read('Auth.User');
 			$link_data = array();
+
 			$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']));
-			$link_data['custom'] = array('class' => 'user-image');
+            $name = "<h3>".$user['username']."</h3>";
+            if(isset($user['username']) && !empty($user['username'])){
+               $name .= $user['username'];
+            }
+
+
+
+			$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername($user), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user['id']);
+
 			echo $image->render($user, 30, 30, array("alt" => $user['username']), $link_data);
-									
-			?>						
-			
+
+			?>
+
 			<?php   //end logged in?>
 			<?php else: //not logged in?>
 				<div id="user-info" class="not-loggedin">
-				<?php 
+				<?php
 				echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
-				array('controller' => 'users', 'action' => 'login'), array('class' => 'btn')); 
+				array('controller' => 'users', 'action' => 'login'), array('class' => 'btn'));
 				echo __("No?", true);
 				echo $this->Html->link(__("Register", true),
 				array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register'));
 				?>
 			<?php endif; //end not logged in? ?>
 		</div> <!-- /#user-info -->
-		
+
 		<div id="mainnav">
 			<ul>
 				<?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'index'):?><li class="current"><?php else:?><li><?php endif;?>
@@ -43,13 +52,13 @@
 
 				<ul id="search-suggest" style="display:none">
 				</ul><!-- end auto suggest -->
-			</form>			
+			</form>
 		</div>
-		
+
 		<div id="nav">
-			
+
 			<div id="breadcrumb">
-			 	<?php echo $this->element('header/breadcrumbs'); ?>	  
+			 	<?php echo $this->element('header/breadcrumbs'); ?>
 			</div><!-- / #breadcrumb -->
 			<?php if($session->read('Auth.User.id')):?>
 			<div id="user-nav">
@@ -65,8 +74,8 @@
 				</ul>
 			</div><!-- / #user-nav -->
 			<?php endif;?>
-			
-		</div><!-- / #nav --> 
+
+		</div><!-- / #nav -->
 </div><!-- / #header -->
 
 
@@ -87,6 +96,12 @@
             <li class="spacer"><li><?php echo $this->Html->link(__('Logout', true), array('controller' => 'users' , 'action' => 'logout'));?></li>
             <?php if($is_admin || $is_superadmin): ?>
                 <li><?php echo $this->Html->link(__('Admin', true), array('controller' => 'admin' , 'action' => 'admin'));?></li>
+            <?php endif; ?>
+
+            <?php if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu'): ?>
+                <li><a href="/locale/eng"><?php __('English'); ?></a></li>
+            <?php else: ?>
+                <li><a href="/locale/deu"><?php __('Deutsch'); ?></a></li>
             <?php endif; ?>
         </ul>
     </div>

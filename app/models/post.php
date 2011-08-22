@@ -564,8 +564,8 @@ class Post extends AppModel {
                 if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
                     $PostUserData['topic_id'] = $this->data['Post']['topic_id'];
                 }
-
                 $this->PostUser->save($PostUserData);
+
             }
 
         }

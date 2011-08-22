@@ -49,8 +49,18 @@ $(document).ready(function() {
 				<div class="accept">	
 					<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save paper', true);?></a>
 				</div>
-								
-				<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>	
+
+				<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>
+
+                <?php if($edit): ?>
+
+                <hr />
+				<div class="accept">
+
+					<a href="/papers/delete/<?php echo $paper_id; ?>" class="btn big"><span>-</span><?php echo __('Delete paper', true);?></a>
+				</div>
+                <?php endif; ?>
+
 		
 	</div><!-- / #maincol -->
 

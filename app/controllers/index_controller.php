@@ -3,6 +3,7 @@ class IndexController extends AppController {
 
     var $name = 'Index';
     var $components = array('Auth', 'Session');
+
     var $uses = array('PostUser', 'Post','Paper');
     var $helpers = array('Text' ,'MzTime', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
 

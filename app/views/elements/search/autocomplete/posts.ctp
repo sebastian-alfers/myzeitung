@@ -19,13 +19,15 @@
 				}				
 
 				$link_data = array();
+
 				$link_data['url'] = $post->route_source;
-				$link_data['additional'] = 'display:inline;';
-				echo $image->render(array('image' => $img), 45, 45,null, $link_data, 'post');
+				//$link_data['additional'] = 'display:block;';
+				echo '<div style="float:left;margin:0 10px 0 10px;;height:45px;width:45px;overflow:hidden">'.$image->render(array('image' => $img), 45, 45,array(), $link_data, 'post').'</div>';
                 // post headline
                                     ?>
 
-				<h6><?php echo $this->Html->link($this->Text->truncate($post->post_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)),$post->route_source);?></h6>
+				<h6><a href="/posts/view/<?php echo $post->id; ?>"><?php echo $this->MzText->truncate($post->post_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></h6>
+
 				<br />
 				<span class="from"><?php __('by');?><?php echo ' '.$this->Html->link($post->user_username ,array('controller' => 'users','action' => 'view', 'username' => strtolower($post->user_username)));?><?php /*echo $this->MzTime->timeAgoInWords($post->timestamp);*/ ?></span>
 				<?php /*

@@ -13,21 +13,30 @@
     <div class="articlewrapper">
         <div class="article">
             <ul class="iconbar">
-                <?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
                 <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $user['User']['post_count'],true), $user['User']['post_count']);?>
                  <li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['post_count']; ?></li>
                 <?php $tipsy_title = sprintf(__n('published in %d paper', 'published in %d papers', $user['User']['content_paper_count'],true), $user['User']['content_paper_count']);?>
                 <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['content_paper_count']; ?></li>
             </ul>
             
+
             <h4><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?></h4>
-             <?php $linktext = $this->Text->truncate($user['User']['name'], 18,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
+             <?php $linktext = $this->MzText->truncate($user['User']['name'], 18,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
             <h5><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view','username' =>  $user['User']['username']), array('rel' => 'nofollow'));?></h5>
+
            <?php
             $image_options = array();
             $image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
             $image_options['additional'] = 'margin-left:14px';
-            $image_options['rel'] = 'nofollow';
+
+      //      $image_options['rel'] = 'nofollow';
+
+            $image_options['custom']['alt'] = $this->MzText->getUsername($user['User']);
+            $image_options['custom']['class'] = 'user-image';
+            $image_options['custom']['id'] = $user['User']['id'];
+            $image_options['custom']['rel'] = $this->MzText->getSubscribeUrl();
+
+
             echo $image->render($user['User'], 110, 110, array(), $image_options, ImageHelper::USER);
             ?>
 

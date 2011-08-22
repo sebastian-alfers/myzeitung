@@ -46,10 +46,10 @@ if(in_array($prefix,array('/p/','/a/'))){
     }
 
     $route = Cache::read('url_'.$temp_url);
-    App::import('Model', 'Route');
-    $this->Route = new Route();
-    if(empty($route)) {
 
+    if(empty($route)) {
+        App::import('Model', 'Route');
+        $this->Route = new Route();
 
         $this->Route->contain('ParentRoute');
         $route = $this->Route->find('first', array(
@@ -115,6 +115,7 @@ Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'))
 Router::connect('/settings', array('controller' => 'users', 'action' => 'accAboutMe'));
 Router::connect('/settings/privacy', array('controller' => 'users', 'action' => 'accPrivacy'));
 Router::connect('/settings/general', array('controller' => 'users', 'action' => 'accGeneral'));
+Router::connect('/settings/social-media', array('controller' => 'users', 'action' => 'accSocial'));
 
 
 /**
@@ -134,6 +135,7 @@ Router::connect('/article/edit/*', array('controller' => 'papers', 'action' => '
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 //Router::connect('/(.*).htm', array('controller' => 'pages', 'action' => 'display'));
+
 
 
 

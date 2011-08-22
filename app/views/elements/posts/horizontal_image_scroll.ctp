@@ -7,33 +7,7 @@ if(!isset($images)) {
 
 
 
-//remove emtpy elements
-$imgs = array();
-foreach($images as $img){
-	$imgs[] = $img;
-}
-$images = $imgs;
-unset($imgs);
-
-//can be passed from the place this element is included in
-if(!isset($width)){
-	$width = 200;
-}
-?>
-
-<?php
-$first_img_width = $width;
-$count_sub_images = count($images);
-
-
-$div_width = 80;
-$div_height = 80;
-$sub_width = $div_width * $count_sub_images;
-
-//check, if horizonatl scrolling needed
-$sub_width += 40; //padding for buddon (left and right)
-
-$is_scroling = $count_sub_images > 1;//now, we scroll only two images
+$is_scroling = count($images) > 1;//now, we scroll only two images
 ?>
 
 
@@ -44,18 +18,9 @@ $is_scroling = $count_sub_images > 1;//now, we scroll only two images
 	<div class="scrollable">
 		<div class="items">
 
-			<?php for($i = 0; $i <= $count_sub_images-1; $i++): ?>
+			<?php for($i = 0; $i <= count($images)-1; $i++): ?>
                  <?php if(!isset($images[$i])) continue;
                        $img_details['image'] = $images[$i];
-
-                         ?>
-
-	            <div>
-                 <?php if(isset($img_details['image']['item_type']) && $img_details['image']['item_type'] == 'video'): ?>
-                    <span class="post-view video-item">video</span>
-                 <?php endif; ?>
-				<?php 
-
 
                 $link_data = array();
                 if(isset($images[$i]['item_type']) && $images[$i]['item_type'] == 'video'){
@@ -70,9 +35,15 @@ $is_scroling = $count_sub_images > 1;//now, we scroll only two images
 				$link_data['url'] = $href;
 				$link_data['custom'] = array('class' => 'pirobox_gall', 'rel' => $rel, 'rev' => $i+1);
 
-                echo $image->render($img_details, 180, 150, array("alt" => 'sub'), $link_data);
-				//$info = $image->resize($images[$i]['path'], 80, 80, null, true);//return array because of last param -> true
-				//echo $this->Html->image($info['path'], array('style' => $info['inline'])); ?>
+                ?>
+
+	            <div>
+                 <?php if(isset($img_details['image']['item_type']) && $img_details['image']['item_type'] == 'video'): ?>
+                    <a href="<?php echo $href; ?>" class="<?php echo $link_data['custom']['class']; ?>" rel="<?php echo $link_data['custom']['rel']; ?>" rev="<?php echo $link_data['custom']['rev']; ?>" ><span class="post-view video-item">video</span></a>
+                 <?php endif; ?>
+				<?php
+                echo $image->render($img_details, 300, 200, array("alt" => 'sub'), $link_data);
+                ?>
 
                 </div>
 			<?php endfor; //images to be scrolled ?>

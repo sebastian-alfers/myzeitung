@@ -1,17 +1,11 @@
 <?php
-
-$subscribe_link = '/login';
-if($session->read('Auth.User.id')){
-    $subscribe_link = '#';
-}
-
-
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;
 }
 
 $paginator = $this->element('global/paginate');
+
 
 if($has_topics){
 
@@ -59,7 +53,7 @@ if($has_topics){
                                 <li class="comments tt-title" title="<?php echo $tipsy_title;?>"><?php echo $post['Post']['comment_count'];?><span>.</span></li>
 							</ul>
 
-                                <?php $headline = $this->Text->truncate($post['Post']['title'], 50,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
+                                <?php $headline = $this->MzText->truncate($post['Post']['title'], 50,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
                                 <?php // post headline
                                /* $headline = substr($post['Post']['title'],0,50);
                                 if(strlen($post['Post']['title']) > 50){
@@ -72,7 +66,7 @@ if($has_topics){
 							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
                                 <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
                                  <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>
-                                    <span class="post video-item">video</span>
+                                    <a href="/posts/view/<?php echo $post['Post']['id']; ?>"><span class="post video-item">video</span></a>
                                  <?php endif; ?>
                                  <?php echo $image->render($post['Post'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
 
@@ -92,7 +86,7 @@ if($has_topics){
 							<?php //not image -> show text preview?>
                                 <p>
 								<?php //echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
-								<?php echo $this->Text->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), $post['Route'][0]['source'],array('rel' => 'nofollow')), 'exact' => false, 'html' => true)); ?>
+								<?php echo $this->MzText->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), $post['Route'][0]['source'],array('rel' => 'nofollow')), 'exact' => false, 'html' => true)); ?>
                                 </p>
 							<?php endif;  ?>
 							<ul class="footer">
@@ -102,11 +96,11 @@ if($has_topics){
                                   <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true) ||
                                            ($this->params['controller'] == 'papers' && $this->params['action'] == 'view' && !empty($post['lastReposter']['id']))){
 
-                                           $linktext = $this->Text->truncate($post['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false));
+                                           $linktext = $this->MzText->truncate($post['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false));
 
                                         //not paper-view or user-view OR not a repost
                                         }else{
-                                           $linktext = $this->Text->truncate($post['User']['username'], 12,array('ending' => '...', 'exact' => true, 'html' => false));
+                                           $linktext = $this->MzText->truncate($post['User']['username'], 12,array('ending' => '...', 'exact' => true, 'html' => false));
 
                                         }?>
                                 <?php $tipsy_name= $post['User']['username'];
@@ -123,8 +117,10 @@ if($has_topics){
                                                 if($user['User']['name']){
                                                     $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
                                                 }?>
-                                                <?php $linktext = $this->Text->truncate($user['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
+
+                                                <?php $linktext = $this->MzText->truncate($user['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+
 											<?php endif;?> 
 										<?php elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?> 
 										<?php /* paper view - controller papers action view */ ?> 
@@ -134,8 +130,10 @@ if($has_topics){
                                                 if($post['lastReposter']['name']){
                                                     $tipsy_name = $post['lastReposter']['username'].' - '.$post['lastReposter']['name'];
                                                 }?>
-                                                <?php $linktext = $this->Text->truncate($post['lastReposter']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
+
+                                                <?php $linktext = $this->MzText->truncate($post['lastReposter']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view',  'username' => strtolower($post['lastReposter']['username'])),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+
 											<?php endif;?>
 										<?php endif;?>
 									<?php /* END showing last reposter */?>
@@ -143,8 +141,9 @@ if($has_topics){
 								<li>
 								<?php 
 								$image_options = array();
+
 								$image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']));
-								$image_options['custom'] = array('class' => 'user-image', 'rel' => $subscribe_link, 'id' => 555);
+								$image_options['custom'] = array('class' => 'user-image', 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $post['User']['id'], 'alt' => $this->MzText->getUsername($post['User']));
                                 $image_options['rel'] = 'nofollow';
 
 								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);
@@ -170,12 +169,14 @@ if($has_topics){
                                    //$link = '/posts/repost/'. $post['Post']['id'];
                                     $class = '';
                                     if($has_topics){
+
                                         $link = '#';
                                     $class = 'class="repost"';
                                     }?>
                                     <?php echo $this->Html->link(__('Repost', true), $link, array('id' => $post['Post']['id'], 'class' => 'repost', 'rel' => 'nofollow'));?>
                                     
                                    
+
 								<?php endif;?>
 								
 								</li>

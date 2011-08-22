@@ -25,7 +25,7 @@
 			<?php echo $user['User']['group_id']; ?>
         </td>
         <td><?php echo $user['User']['username']; ?>&nbsp;</td>
-        <td><?php echo $this->Text->truncate($user['User']['name'], 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
+        <td><?php echo $this->MzText->truncate($user['User']['name'], 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
         <td><?php echo $user['User']['email']; ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$user['User']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$user['User']['modified']); ?>&nbsp;</td>

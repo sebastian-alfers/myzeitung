@@ -4,7 +4,7 @@ class PapersController extends AppController {
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session', 'Papercomp', 'Upload');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('Text' ,'MzTime', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
+	var $helpers = array('MzText' ,'MzTime', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
 
 	var $allowedSettingsActions = array('image');
 
@@ -102,7 +102,7 @@ class PapersController extends AppController {
                                                                 'Post.enabled' =>true),
 		),
 		),
-			
+
 		//order
 			        	'order' => 'last_post_repost_date DESC',
 	          			'group' => array('CategoryPaperPost.post_id'),
@@ -111,7 +111,7 @@ class PapersController extends AppController {
 		//the created field last_post_repost_date is important to just get the last entry with the last_Reposter
   						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
-                                             
+
 
 		//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('Route', 'User.id','User.username','User.name',  'User.image'),
@@ -146,9 +146,9 @@ class PapersController extends AppController {
             }
 		}
 		// END - last relevant reposter
-		 
 
-        
+
+
 		//add information if the user (if logged in) has already subscribed the paper
 		$this->Subscription->contain();
 		if($this->Auth->user('id') && ($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $paper['Paper']['id'])))) > 0){
@@ -470,7 +470,7 @@ class PapersController extends AppController {
             */
 			//	$route = $this->Route->save($routeData);
 
-					
+
 			//	if(!empty($route)){
 					$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
                     $this->Paper->contain('Route');
@@ -494,6 +494,7 @@ class PapersController extends AppController {
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
 		$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
+        $this->set('edit', false);
 		$this->render('add_edit');
 	}
 
@@ -510,7 +511,10 @@ class PapersController extends AppController {
                 $this->Paper->updateSolr = true;
                 if ($this->Paper->save($this->data)) {
                     $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-                    $this->redirect($this->data['Paper']['route_source']);
+
+                    $this->redirect($this->data['Route'][0]['source']);
+
+
                 } else {
                     $this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
                 }
@@ -531,6 +535,10 @@ class PapersController extends AppController {
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
 		//$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
+
+        $this->set('paper_id', $id);
+        $this->set('edit', true);
+
 		$this->render('add_edit');
 	}
 

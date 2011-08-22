@@ -24,7 +24,9 @@
 				?>									
 				<h6><?php echo $this->Html->link( $user->user_username, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))) ?></h6>
 				<?php if(isset($user->user_name) && !empty($user->user_name)): ?>
+
 					<p><?php echo $this->Html->link( $this->Text->truncate($user->user_name, 20,array('ending' => '...', 'exact' => true, 'html' => false)), array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))) ?></p>
+
                 <?php else: ?>
                     <div style="height:20px"></div>
 				<?php endif; ?>
