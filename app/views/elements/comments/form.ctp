@@ -18,12 +18,12 @@ if(isset($class)){
 
 		
 
-		<?php //echo $this->Html->link($this->Html->image($image->resize($session->read('Auth.User.image'), 65, null)), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('escape' => false));?>
-		<?php //echo $this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?>
+		<?php //echo $this->Html->link($this->Html->image($image->resize($session->read('Auth.User.image'), 65, null)), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username')), array('escape' => false));?>
+		<?php //echo $this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', 'username' => $session->read('Auth.User.username')));?>
 
 		<?php
 		$user = $session->read('Auth.User');
-        $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
+        $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']));
         $link_data['custom'] = array('class' => 'user-image');
         echo $image->render($user, 65, 65, array("alt" => $user['username']), $link_data);
 		?>

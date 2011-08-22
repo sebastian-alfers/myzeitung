@@ -13,7 +13,7 @@ if(count($references) > 0):
 
         <?php
 		$link_data = array();
-		$link_data['url'] = array('controller' => 'users', 'action' => 'view', $reference['User']['id']);
+		$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($reference['User']['username']));
 		$link_data['custom'] = array('class' => 'user-image');
         $link_data['additional'] = "display:block;";
 		$name = $reference['User']['username'];

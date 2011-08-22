@@ -7,6 +7,11 @@
             <li><?php echo __('blabbel schnabbel', true); ?></li>
         </ul>
     <br />
+         <ul>
+            <li class='big-btn'><?php echo $this->Html->link(__('<span>!!!</span>'.'Refresh Post- and Paper-Routes', true), array( 'action' => 'refreshPostPaperRoutes', false),array('escape' => false,'class' => 'btn'), __('Are you sure to refresh the Routes for Posts and Papers??', true)); ?></li>
+            <li><?php echo __('blabbel schnabbel', true); ?></li>
+        </ul>
+    <br />
     <br />
 
     <?php endif; ?>

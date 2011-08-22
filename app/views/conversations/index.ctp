@@ -76,7 +76,7 @@
 									                if($user['User']['name']){
 										                $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
 									                }
-                                                    echo '<strong>'.$this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', $user['User']['id']), array('class' => 'user-image tt-title', 'title' => $tipsy_name, 'escape' => false)).'</strong>';
+                                                    echo '<strong>'.$this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])), array('class' => 'user-image tt-title', 'title' => $tipsy_name, 'escape' => false)).'</strong>';
                                                   
                                                 }
                                             }?>

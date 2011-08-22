@@ -20,17 +20,17 @@
 		<td><?php echo $complaint['Complaint']['id']; ?>&nbsp;</td>
         <?php if(!empty($complaint['Complaint']['paper_id'])): ?>
 		<td>
-			<?php __('Paper:'); ?> <a href="/papers/view/<?php echo $complaint['Paper']['id']; ?>" target="blank"><?php echo $complaint['Paper']['title']; ?> </a>
+			<?php __('Paper:'); echo $this->Html->link($complaint['Paper']['title'], $complain['Route'][0]['source'], array('target' => 'blank'));?>
 		</td>
         <?php endif; ?>
         <?php if(!empty($complaint['Complaint']['post_id'])): ?>
 		<td>
-			<?php __('Post:'); ?> <a href="/posts/view/<?php echo $complaint['Post']['id']; ?>" target="blank"><?php echo $complaint['Post']['title']; ?> </a>
+			<?php __('Post:'); echo $this->Html->link($complaint['Post']['title'], $complain['Route'][0]['source'], array('target' => 'blank'));?> 
 		</td>
         <?php endif; ?>
         <?php if(!empty($complaint['Complaint']['comment_id'])): ?>
 		<td>
-			<?php __('Comment:'); ?> <a href="/posts/view/<?php echo $complaint['Comment']['post_id']; ?>/#comment_<?php echo $complaint['Comment']['id']; ?>" target="blank">
+			<?php __('Comment:'); echo $this->Html->link($complaint['Post']['title'], $complain['Route'][0]['source'].'#comment_'.$complaint['Comment']['id'], array('target' => 'blank'));?>
             <?php if(strlen($complaint['Comment']['text']) > 30){
                     echo substr($complaint['Comment']['text'], 0, 30) . ' ...';
                 }
@@ -42,7 +42,7 @@
         <?php endif; ?>
         <?php if(!empty($complaint['Complaint']['user_id'])): ?>
 		<td>
-			<?php __('User:'); ?> <a href="/users/view/<?php echo $complaint['User']['id']; ?>" target="blank"><?php echo $complaint['User']['username']; ?></a>
+			<?php __('User:'); echo $this->Html->link($complaint['User']['username'], array('controller' => 'users','action' => 'view', 'username' => strtolower($complaint['User']['username']), array('target' => 'blank') ));?>
 		</td>
         <?php endif; ?>
 		<td><?php
@@ -57,7 +57,8 @@
                 ?></td>
 		<td>
             <?php if(isset($complaint['Reporter']['id']) && !empty($complaint['Reporter']['id'])): ?>
-               <a href="/users/view/<?php echo $complaint['Reporter']['id']; ?>" target="blank"><?php echo $complaint['Reporter']['name']; ?></a>
+                <?php echo $this->Html->link($complaint['Reporter']['username'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($complaint['Reporter']['username'])), array('target' => 'blank')); ?>
+               
             <?php endif; ?>
             <br />
             <?php echo $complaint['Complaint']['reporter_name']; ?><br />

@@ -26,21 +26,6 @@ class CommentsController extends AppController {
 
 
 
-	function add($post_id = null, $parent_id = null) {
-		if (!empty($this->data)) {
-			$this->Comment->create();
-			if ($this->Comment->save($this->data)) {
-				$this->Session->setFlash(__('The comment has been saved', true), 'default', array('class' => 'success'));
-				$this->redirect(array('controller' => 'comments', 'action' => 'show', $this->data['Comment']['post_id']));
-			} else {
-				$this->Session->setFlash(__('The comment could not be saved. Please, try again.', true));
-			}
-		}
-		$this->set('post_id', $post_id);
-		$this->set('parent_id', $parent_id);
-		$this->set('user_id', $this->Auth->user('id'));
-	}
-
 	/**
 	 * add comment via ajax
 	 *
@@ -142,7 +127,7 @@ class CommentsController extends AppController {
       $commentator = array();
       $post = array();
 
-      $this->Post->contain();
+      $this->Post->contain('Route');
       $post = $this->Post->read(array('id', 'title', 'user_id'), $comment['Comment']['post_id']);
       $this->User->contain();
       $owner = $this->User->read(array('id', 'username', 'name', 'email'), $post['Post']['user_id']);

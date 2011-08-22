@@ -43,7 +43,7 @@
 								<li>
 									<?php
                                     $link_data = array();
-                                    $link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
+                                    $link_data['url'] = $paper['Route'][0]['source'];
                                     $link_data['custom'] = array('class' => 'tt-title', 'title' => $paper['Paper']['title']);
                                     $img['image'] = $paper['Paper']['image'];
                                     echo $image->render($img, 58, 58, array("alt" => $paper['Paper']['title']), $link_data, ImageHelper::PAPER);
@@ -54,7 +54,8 @@
 							</ul>
 
                         <div class="more">
-                            <a href="/papers/"><?php __('more papers'); ?></a></div>
+                            <?php echo $this->Html->link(__('more papers'), array('controller' => 'papers', 'action' => 'index')); ?>
+                            </div>
 						<hr />
 
 						<h3><?php __('Top Authors'); ?></h3>
@@ -70,7 +71,7 @@
 									
 									
                                     $link_data = array();
-                                    $link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+                                    $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
                                     $link_data['custom'] = array('class' => 'user-image tt-title', 'title' => $tipsy_name);
                                     echo $image->render($user['User'], 58, 58, array("alt" => $user['User']['username']), $link_data);
                                     ?>
@@ -79,7 +80,7 @@
 							<?php endforeach;?>
 						</ul>
                         <div class="more">
-                            <a href="/users/"><?php __('more authors'); ?></a>
+                            <?php echo $this->Html->link(__('more authors'), array('controller' => 'users', 'action' => 'index')); ?>
                         </div>
 								
 					</div><!-- /.col1 -->
@@ -95,20 +96,21 @@
                                             $headline .='...';
                                         }
                                     ?>
-                                    <h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
+                                    <h5><?php echo $this->Html->link($headline, $post['Route'][0]['source']);?></h5>
 									<?php // user container?>
 									
                                      <?php echo $this->Html->link(
                                             $image->render($post['User'], 26, 26, array( "alt" => $post['User']['username'], "class" => 'user-image'), array("tag" => "div"), ImageHelper::USER)
                                             .'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>',
-                                                array('controller' => 'users', 'action' => 'view', $post['User']['id']),
+                                                array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username'])),
                                                 array('class' => "user",'escape' => false));?>
 
                                 
 								</div>
 							<?php endforeach;?>
                         <div class="more">
-                            <a href="/posts/"><?php __('more posts'); ?></a>
+                            <?php echo $this->Html->link(__('more posts'), array('controller' => 'posts', 'action' => 'index')); ?>
+                            
                         </div>
 					</div><!-- /.col2 -->
 					

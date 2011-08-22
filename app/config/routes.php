@@ -27,14 +27,68 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
+
+
+
+$prefix = substr($_SERVER['REQUEST_URI'],0,3);
+if(in_array($prefix,array('/p/','/a/'))){
+    $temp_url = $_SERVER['REQUEST_URI'];
+    $temp_url_extra = '';
+    //filter pagination params to find the correct routing in cache or database
+    // '/p/username/paper_title/page:2/sort:asc ....' ---> '/p/username/paper_title'
+    if(substr_count($_SERVER['REQUEST_URI'], '/') > 3){
+        $pos = strpos($_SERVER['REQUEST_URI'], '/', 4);
+        $pos = strpos($_SERVER['REQUEST_URI'], '/', $pos+1);
+        $temp_url = substr($_SERVER['REQUEST_URI'], 0, $pos);
+        //save extra parameters in case we have to 301 redirect -> so we can forward the params
+        $temp_url_extra = substr($_SERVER['REQUEST_URI'], $pos);
+       
+    }
+
+    $route = Cache::read('url_'.$temp_url);
+
+    if(empty($route)) {
+        App::import('Model', 'Route');
+        $this->Route = new Route();
+
+        $this->Route->contain('ParentRoute');
+        $route = $this->Route->find('first', array(
+                'conditions' => array('Route.source' => $temp_url)));
+        if(!empty($route['Route']['source'])){
+            Cache::write('url_'.$temp_url, $route);
+        }
+    }
+    
+    //redirect to current location and add potential extra (pagination params)
+    if($route['Route']['parent_id'] != null){
+            header ('HTTP/1.1 301 Moved Permanently');
+            header ('Location: '.$route['ParentRoute']['source'].$temp_url_extra);
+    }
+
+    if(!empty($route)){
+        //Router::connect($_SERVER['REQUEST_URI'].'/*',array('controller' => $route['Route']['target_controller'] , 'action' => $route['Route']['target_action'], $route['Route']['target_param']));
+        if($route['Route']['ref_type'] == Route::TYPE_PAPER){
+            Router::connect('/p/:username/:slug/:category_id/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+', 'category_id' => '[0-9]+') );
+            Router::connect('/p/:username/:slug/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
+        }
+        if($route['Route']['ref_type'] == Route::TYPE_POST){
+            //if at some point we use a pagination system WITHIN an article , we need to add '/*' at the end of the url
+            Router::connect('/a/:username/:slug/*',array('controller' => 'posts' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
+        }
+    }
+
+}
+
+
 Router::connect('/', array('controller' => 'home', 'action' => 'index'));
 
 /**
- * TEST ALTER
+ * user profile etc
  */
 
-//Router::connect('/a/:username/:title-:id', array('controller' => 'posts', 'action' => 'view'),array('pass' => array('id'),'title' => '[^-]+'));
-
+Router::connect('/u/:username/papers/*', array('controller' => 'users','action' =>'viewSubscriptions'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
+Router::connect('/u/:username/:id', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username','id'),'username' => '[a-z0-9]+[^/]','id' => '[0-9]+'));
+Router::connect('/u/:username/*', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
 
 /**
  * register action
@@ -63,61 +117,29 @@ Router::connect('/settings/privacy', array('controller' => 'users', 'action' => 
 Router::connect('/settings/general', array('controller' => 'users', 'action' => 'accGeneral'));
 Router::connect('/settings/social-media', array('controller' => 'users', 'action' => 'accSocial'));
 
+
+/**
+ * index actions
+ */
+
+Router::connect('/authors/*', array('controller' => 'users', 'action' => 'index'));
+Router::connect('/articles/*', array('controller' => 'posts', 'action' => 'index'));
+Router::connect('/papers/*', array('controller' => 'papers', 'action' => 'index'));
+Router::connect('/paper/add', array('controller' => 'papers', 'action' => 'add'));
+Router::connect('/paper/edit/*', array('controller' => 'papers', 'action' => 'edit'));
+Router::connect('/article/add', array('controller' => 'papers', 'action' => 'add'));
+Router::connect('/article/edit/*', array('controller' => 'papers', 'action' => 'edit'));
+
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 //Router::connect('/(.*).htm', array('controller' => 'pages', 'action' => 'display'));
 
-/*
-$menus = '';
-$cache = ClassRegistry::init('cache');
-
-
-$cache->delete('routes');
-$menusModel = ClassRegistry::init('Route');
-if($cache->read('routes')){
-	$menus = $cache->read('routes');
-}
-else{
-	$menus = $menusModel->find('all');
-	$cache->write('routes', $menus);
-}
-
-
-foreach($menus as $menuitem){
-
-	//check for deprecated url -> send 302 + redir to parent url
-	if($menuitem['Route']['source'] == $_REQUEST['url'] && $menuitem['Route']['parent_id'] != 0){
-		//load parent_route
-		$parentRoute = $menusModel->findById($menuitem['Route']['parent_id']);
-		header ('HTTP/1.1 301 Moved Permanently');
-		header ('Location: '. $parentRoute['Route']['source']);
-	}
-
-	if($menuitem['Route']['parent_id'] != 0){
-		//load parent_route
-		$parentRoute = $menusModel->findById($menuitem['Route']['parent_id']);
-
-  	    $menuitem['Route']['target_controller'] = $parentRoute['Route']['target_controller'];
-  	    $menuitem['Route']['target_action'] = $parentRoute['Route']['target_action'];
-  	    $menuitem['Route']['target_param'] = $parentRoute['Route']['target_param'];
-  	}
-
-    Router::connect('/' . $menuitem['Route']['source'],
-			  array('controller' => $menuitem['Route']['target_controller'],
-			  		'action' 	 => $menuitem['Route']['target_action'] ,
-			  		$menuitem['Route']['target_param'] ));
 
 
 
 
-		//	  		echo '/'.$menuitem['Route']['source'] .' <br />';
-}
-//Router::connect('/', array('controller' => 'homepage', 'action' =>'index'));
-
- *
- */
 
 
 Router::parseExtensions('json');

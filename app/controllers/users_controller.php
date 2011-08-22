@@ -7,6 +7,7 @@ require "libs/Social/FacebookOAuth/config.php";
 class UsersController extends AppController {
 
 	var $name = 'Users';
+
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
@@ -25,8 +26,8 @@ class UsersController extends AppController {
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
 
+            $this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
 
-            $this->redirect(array('controller' => 'users', 'action' => 'view'));
         }
 
 		// login with username or email
@@ -49,6 +50,7 @@ class UsersController extends AppController {
      												'recursive' => -1
 			));
 			if(!empty($user) && $this->Auth->login($user)) {
+               
 				if($this->Auth->autoRedirect){
 					$this->redirect($this->Auth->redirect());
 				}
@@ -99,35 +101,33 @@ class UsersController extends AppController {
 	 * @param $id -
 	 * @param $topic_id
 	 */
-	function view($user_id = null, $topic_id = null) {
-
-        $this->Route->create();
-        $this->Route->save(array('ref_id' => 12, 'source' => 'test', 'target_controller' => 'ttt', 'target_action' => 'action', 'target_param' => 33, 'parent_id' => 12));
+	function view($username = null, $topic_id = null) {
 
 
-		if (!$user_id) {
+		if (!$username) {
+
 			//no param from url -> get from Auth
-			$user_id = $this->Auth->User("id");
-			if(!$user_id){
+			$username = strtolower($this->Auth->User("username"));
+			if(!$username){
 				$this->Session->setFlash(__('Invalid user', true));
 				$this->redirect(array('action' => 'index'));
 			}
 		}
         //unbinding irrelevant relations for the query
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-        $user = $this->getUserForSidebar($user_id);
+
+        $user = $this->getUserForSidebar($username);
+
         if(!isset($user['User']['id'])){
             $this->Session->setFlash(__('Invalid user', true));
-            $this->redirect(array('controller' => 'users', 'action' => 'view', $this->Auth->User("id")));
+            //404
+            $this->redirect(array('controller' => 'users', 'action' => 'index'));
         }
         if($user['User']['enabled'] == false){
             $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
-           $this->redirect($this->referer());
+            //redirect to user index - 307 http statuscode temporary redirect
+            $this->redirect(array('controller' => 'users', 'action' => 'index'),307);
         }
-
-
-
-
 
 		/*writing all settings for the paginate function.
 		 important here is, that only the user's posts are subject for pagination.*/
@@ -141,10 +141,11 @@ class UsersController extends AppController {
 	                    'type' => 'INNER',
 	                    'conditions' => array(
 	                        'PostUser.post_id = Post.id',
-	                		'PostUser.user_id' => $user_id,
+	                		'PostUser.user_id' => $user['User']['id'],
                             'Post.enabled' => true,
-		),
-		),
+		                    ),
+                        'contain' => array('Route'),
+		                ),
 		),
 		//limit of records per page
 	            'limit' => 9,
@@ -152,7 +153,7 @@ class UsersController extends AppController {
 	            'order' => 'PostUser.created DESC',
 	            'fields' => array('Post.*', 'PostUser.repost'),
 		//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array( 'User.id','User.username', 'User.name', 'User.image'),
+	            'contain' => array('Route', 'User.id','User.username', 'User.name', 'User.image'),
 		)
 		);
 		if($topic_id != null){
@@ -162,6 +163,7 @@ class UsersController extends AppController {
 
 
 		$this->set('user', $user);
+    
 
 		$this->set('posts', $this->paginate($this->User->Post));
 
@@ -182,18 +184,19 @@ class UsersController extends AppController {
 	 * @param $id -
 	 * @param $topic_id
 	 */
-	function viewSubscriptions($user_id = null, $own_paper = null) {
+	function viewSubscriptions($username = null, $own_paper = null) {
 
-        if (!$user_id) {
+
+        if (!$username) {
             //no param from url -> get from Auth
-            $user_id = $this->Auth->User("id");
-            if(!$user_id){
+            $username = $this->Auth->User("id");
+            if(!$username){
                 $this->Session->setFlash(__('Invalid user', true));
                 $this->redirect(array('action' => 'index'));
             }
         }
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-        $user = $this->User->read(array('id','enabled','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $user_id);
+        $user = $this->getUserForSidebar($username);
         if($user['User']['enabled'] == false){
             $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
 			$this->redirect($this->referer());
@@ -210,7 +213,7 @@ class UsersController extends AppController {
 	                    'type' => 'INNER',
 	                    'conditions' => array(
 	                        'Subscription.paper_id = Paper.id',
-	                		'Subscription.user_id' => $user_id,
+	                		'Subscription.user_id' => $user['User']['id'],
                             'Paper.enabled' => true,
         ),
         ),
@@ -218,11 +221,11 @@ class UsersController extends AppController {
         //fields
 	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'content_paper_count', 'category_paper_post_count'),
         //limit of records per page
-	            'limit' => 9,
+	            'limit' => 12,
         //order
 	            'order' => 'Paper.title ASC',
         //contain array: limit the (related) data and models being loaded per post
-	            'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
+	            'contain' => array('Route', 'User.id', 'User.image', 'User.username', 'User.name'),
 
 
         )
@@ -265,7 +268,7 @@ class UsersController extends AppController {
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
-            $this->redirect(array('controller' => 'users', 'action' => 'view'));
+            $this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
         }
 
 
@@ -281,31 +284,7 @@ class UsersController extends AppController {
 				//$this->Topic->create();
 				//$this->Topic->save($topicData);
 
-				//@todo move it to a better place -> to user model
-				//afer adding user -> add new route
-				/*		$route = new Route();
-				$route->create();
 
-				if( $route->save(array('source' => $this->data['User']['username'] ,
-				'target_controller' 	=> 'users',
-				'target_action'     	=> 'view',
-				'target_param'		=> $this->User->id)))
-				{
-				if($route->id){
-				$this->data['User']['route_id'] = $route->id;
-				$this->User->save($this->data);
-				$this->redirect('/'.$this->data['User']['username']);
-				}
-				else{
-				$this->Session->setFlash(__('The user has been saved', true));
-				$this->redirect(array('action' => 'add'));
-				}
-				}
-				else{
-				$this->Session->setFlash(__('Please choose a valid url key', true));
-				$this->redirect(array('action' => 'add'));
-				}
-				*/
 
                 //send welcome email to new user
                 $this->_sendWelcomeEmail($this->User->id);
@@ -441,7 +420,7 @@ class UsersController extends AppController {
 				//check, if submitted target type is valid
 				if(!$this->_validateTargetType($target_type)){
 					$this->Session->setFlash(__('Not able to subscribe user/topic to paper - invalid target type', true));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
 				}
 
 				$data['Paper']['target_id'] = $target[1];
@@ -484,12 +463,12 @@ class UsersController extends AppController {
 
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
 				}
 				else{
                     $msg = $this->Paper->return_code_messages[$return_code];
 					$this->Session->setFlash($msg, true);
-					$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
 
 				}
 			}
@@ -501,7 +480,7 @@ class UsersController extends AppController {
 
 		if(empty($user_id)){
 			$this->Session->setFlash(__('No user param', true));
-			$this->redirect(array('action' => 'view', $logged_in_user_id));
+			$this->redirect(array('action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
 		}
 
 		//get paper of logged in user
@@ -576,7 +555,10 @@ class UsersController extends AppController {
             $json_data = array();
 
 			//set user id, who will be subscribed, for view
+
 			$json_data['user_id'] = $user_id;
+           //@todo alf bitte username in die formulardaten packen, damit der redirect oben funzen kann
+          //   $this->set('username', $user_data['User']['username']);
 
 			//the user has at least one paper with one category in it
 			if($has_one_paper){
@@ -646,14 +628,16 @@ class UsersController extends AppController {
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
 
+
                     $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
 					//$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
+
 				}
 				else{
                     $msg = $this->Paper->return_code_messages[$return_code];
 					$this->Session->setFlash($msg, true);
-					//$this->redirect(array('controller' => 'users', 'action' => 'view', $this->data['User']['user_id']));
                     $this->set(JsonResponse::RESPONSE, $this->JsonResponse->customStatus('reload'));
+
 
 				}
 
@@ -750,7 +734,7 @@ class UsersController extends AppController {
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
-            $this->redirect(array('controller' => 'users', 'action' => 'view'));
+            $this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
         }
 
       if(!empty($this->data)) {
@@ -1076,15 +1060,17 @@ class UsersController extends AppController {
 	 * IMPORTANT : containments must be defined in the action
 	 * @param unknown_type $user_id
 	 */
-	protected function getUserForSidebar($user_id = ''){
-		if($user_id == ''){
+	protected function getUserForSidebar($username = null){
+		$user = array();
+        if($username == null){
 		//reading logged in user from session
 			$user['User'] = $this->Session->read('Auth.User');
 		} else {
 		//reading user
-			$user = $this->User->read(array('id','url', 'enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+            $user = $this->User->find('first',array('conditions' => array('LOWER(User.username)' => strtolower($username))));
+			//$user = $this->User->read(array('id','url', 'enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
 		}
-		return $user;
+        return $user;
 	}
 
     protected function _sendWelcomeEmail($user_id){
@@ -1115,7 +1101,7 @@ class UsersController extends AppController {
         $paper = array();
         $category = null;
 
-        $this->Paper->contain('User.id','User.name', 'User.username');
+        $this->Paper->contain('Route', 'User.id','User.name', 'User.username');
         $paper = $this->Paper->read(array('id', 'title', 'owner_id'), $paper_id);
         //send only an email if the user did not subscribe himself
         if($paper['Paper']['owner_id'] != $user_id){

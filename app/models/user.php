@@ -169,7 +169,8 @@ class User extends AppModel {
 					'last'			=> true,
 				),
 				'alpha' => array(
-					'rule'			=> 'alphaNumeric',
+                       // alphaNumeric rule did somehow allow accented characters...
+					'rule'			=> array('custom', '/^[a-z0-9]*$/i'),
 					'message'		=> __('Usernames must only contain letters and numbers.', true),
 					'last'			=> true,	
 				),
@@ -254,61 +255,6 @@ class User extends AppModel {
       return $pass;
     }
 
-//		function afterFind($results){
-			
-			
-//			//adding default user image to users without an image
-//			if(isset($results['image'])){
-//				if(empty($results['image'])){
-//					$results['image'] =self::DEFAULT_USER_IMAGE;
-//				}
-//			} else {
-//
-//				foreach($results as $key => $val) {
-//					if(isset($val['User'])){
-//						if(isset($val['User']['image'])){
-//							if(empty($val['User']['image'])){
-//								$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
-//							}
-//						} else {
-//							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
-//						}
-//					}
-//					if(isset($val['image'])){
-//						if(empty($val['image'])){
-//							$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
-//						}
-//					} else {
-//
-//						if(isset($results[$key]['User']['image'])){
-//							$results[$key]['User']['image'] = self::DEFAULT_USER_IMAGE;
-//						}
-//					}
-//				}
-//				if(isset($val['image'])){
-//					if(empty($val['image'])){
-//						$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
-//					}
-//				} else {
-//					$results[$key]['image'] = self::DEFAULT_USER_IMAGE;
-//				}
-//			}
-//			if(isset($results['User'])){
-//				if(isset($results['image'])){
-//					if(empty($results['image'])){
-//						$results['image'] = self::DEFAULT_USER_IMAGE;
-//					}
-//				} else {
-//					$results['image'] = self::DEFAULT_USER_IMAGE;
-//				}
-//			}
-//			
-//
-//			debug($results);
-//			die();			
-//
-//			return $results;
-//		}
 
 		/**
 		 *	hook into save process
@@ -365,8 +311,12 @@ class User extends AppModel {
                     $this->Comment->data = $comment;
                     $this->Comment->disable();
                 }
+                //disable routes
+             //   $this->disableRoutes();
 
 
+
+                
                 $this->data = $userData;
                 $this->data['User']['enabled'] = false;
                 $this->save($this->data);
@@ -427,7 +377,11 @@ class User extends AppModel {
                     $this->Comment->data = $comment;
                     $this->Comment->enable();
                 }
+                //enable Routes
+                //$this->enableRoutes();
 
+
+                
                 $this->data = $userData;
 
                 $this->addToOrUpdateSolr();
@@ -519,21 +473,15 @@ class User extends AppModel {
      * 1.update solr index
 
      */
-    function afterSave(){
-
+    function afterSave($created){
+    /*    if($created){
+            $this->addRoute();
+        }*/
         if($this->updateSolr){
             //update solr index
             $this->addToOrUpdateSolr();
-            /*
-             App::import('model','Cachekey');
-             $cachekey = new Cachekey();
-             $cachekey->create();
-             if ($cachekey->save(array('old_key' => 123, 'new_key' => 1234))) {}
-             //App::import('model','Route');
-             //$this->save(array('route_id', $route->id));
-             */
-
         }
+
     }
     function addToOrUpdateSolr(){
 
@@ -557,6 +505,62 @@ class User extends AppModel {
         $solr->add($this->addFieldsForIndex($this->data));
 
     }
+/*
+    function addRoute(){
+        App::import('model','Route');
+        $this->Route = new Route();
+        $this->Route->create();
+
+        $route_username = strtolower($this->data['User']['username']);
+        $routeData['Route'] = array('source' => '/a/'.$route_username,
+                           'target_controller' 	=> 'users',
+                           'target_action'     	=> 'view',
+                            'target_param'		=> $this->id,
+                            'ref_id'            => Route::TYPE_USER.$this->id);
+
+         if( $this->Route->save($routeData,false)){
+
+             return true;
+        }
+
+        return false;
+    }
+    function deleteRoutes(){
+        App::import('model','Route');
+        $this->Route = new Route();
+        $conditions = array('Route.ref_id' 	=> Route::TYPE_USER.$this->id);
+        //cascade = false, callbackes = true
+        $this->Route->contain();
+        $this->Route->deleteAll($conditions, false, true);
+    }*/
+    /*
+    function enableRoutes(){
+        App::import('model','Route');
+        $this->Route = new Route();
+        $conditions = array('Route.ref_id' 	=> Route::TYPE_USER.$this->id);
+        $this->Route->contain();
+        $routes = $this->Route->find('all',array('conditions' => $conditions));
+        foreach($routes as $route){
+            $route['Route']['enabled'] = true;
+            $this->Route->save($route);
+        }
+    }
+    function disableRoutes(){
+        App::import('model','Route');
+        $this->Route = new Route();
+        $conditions = array('Route.ref_id' 	=> Route::TYPE_USER.$this->id);
+        $this->log('disableroutes function');
+        $this->Route->contain();
+        $routes = $this->Route->find('all',array('conditions' => $conditions));
+       
+
+        foreach($routes as $route){
+            $route['Route']['enabled'] = false;
+            $this->log($route);
+            $this->Route->save($route);
+        }
+    } */
+
 
     /**
      * if a user writes for a paper / category is definded in content_papers
@@ -675,6 +679,7 @@ class User extends AppModel {
 
     function afterDelete(){
         $this->deleteFromSolr();
+        $this->deleteRoutes();
     }
 
     /**

@@ -240,6 +240,8 @@ class AppController extends Controller {
         'index' => array(
             'admin_cleanUpPostUserIndex' => $this->superadmin,
             'admin_index' => $this->admin,
+            'admin_refreshPostPaperRoutes' => $this->superadmin,
+            
             ),
         'twitter' => array(
             'callback'  => $this->user,

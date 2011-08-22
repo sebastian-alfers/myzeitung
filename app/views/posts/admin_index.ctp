@@ -34,7 +34,7 @@
 		<td><?php echo $this->MzTime->format('d.m.y',$post['Post']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$post['Post']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $post['Post']['id'], 'admin' => false), array('target' => 'blank')); ?>
+			<?php echo $this->Html->link(__('View', true), array($post['Route'][0]['source']), array('target' => 'blank')); ?>
             <?php if($is_superadmin): ?>
                 <?php if($post['Post']['enabled']):?>
 			        <?php echo $this->Html->link(__('Disable', true), array('action' => 'disable', $post['Post']['id']),null, sprintf(__('Are you sure you want to disable this post?: %s', true), $post['Post']['title'])); ?>

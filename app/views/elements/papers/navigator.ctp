@@ -1,10 +1,12 @@
+<?php $paginator = $this->element('global/paginate');?>
+
 <div id="maincolwrapper" class="paper-view">
     <div id="maincol">
          <?php if($this->params['action'] == 'index'):?>
           <h2><?php echo __('Browse Papers', true);?></h2>
         <?php endif;?>
 			    	<div class="article-nav">
-                         <?php echo $this->element('global/paginate'); ?>
+                         <?php echo $paginator ?>
 					</div>
 
                       	<?php
@@ -27,7 +29,7 @@
 							<h4><?php echo $this->MzText->truncate($paper['Paper']['title'], 30,array('ending' => '...', 'exact' => false, 'html' => false));?></h4>
                                 <?php
                                     $image_options = array();
-                                    $image_options['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
+                                    $image_options['url'] = $paper['Route'][0]['source'];
                                     $image_options['additional'] = 'margin-left:14px';
                                     echo $image->render($paper['Paper'], 110, 110, array(), $image_options, ImageHelper::PAPER);
                                 ?>
@@ -46,10 +48,13 @@
                                     //echo $image->render($paper['User'], 30, 30, array(), $image_options, ImageHelper::USER);
                                 ?>
                                 <?php echo $this->Html->link(
-                                            $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image-container'), ImageHelper::USER)
-                                            .'<strong>'.$paper['User']['username'].'</strong><br />'.$this->MzText->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
-                                                array('controller' => 'users', 'action' => 'view', $paper['User']['id']),
+
+                                            $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image'), ImageHelper::USER)
+                                            .'<strong>'.$paper['User']['username'].'</strong><br />'.$this->Text->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
+                                                array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($paper['User']['username'])),
                                                 array('escape' => false, 'id' => $paper['User']['id'], 'alt' => $this->MzText->getUserName($paper['User']), 'rel' => $this->MzText->getSubscribeUrl(),'class' => 'user-image'));?>
+
+
 								</li>
 							</ul>
                             
@@ -62,7 +67,7 @@
 
 
 				    <div class="article-nav article-nav-bottom">
-                          <?php echo $this->element('global/paginate'); ?>
+                          <?php echo $paginator ?>
 					</div><!-- / .article-nav -->	
 
 					<div>

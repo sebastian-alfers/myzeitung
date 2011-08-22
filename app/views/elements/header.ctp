@@ -1,14 +1,15 @@
 <div id="header">
-	<h1 id="logo"><a href="/">myZeitung</a></h1>
-			<?php if($session->read('Auth.User.id')): // logged in??>
+	<h1 id="logo"><?php echo $this->Html->link('myZeitung', array('controller' => 'home', 'action' => 'index'));?></h1>
+			<?php if($session->read('Auth.User.id')): ?>
 			<div id="user-info">
-			<?php echo __("logged in as", true)." "; ?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?>
+			<?php echo __("logged in as", true)." "; ?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username ')))."</strong> ";?>
                         <a href="login" class="signin"><span><strong><?php echo $session->read('Auth.User.username'); ?></strong></span></a>
 			<?php
-			//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')), array('class' => "user-image", 'escape' => false));
+			//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', 'username' => $session->read('Auth.User.username')), array('class' => "user-image", 'escape' => false));
 			$user = $session->read('Auth.User');
 			$link_data = array();
-			$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['id']);
+
+			$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']));
             $name = "<h3>".$user['username']."</h3>";
             if(isset($user['username']) && !empty($user['username'])){
                $name .= $user['username'];
@@ -17,6 +18,7 @@
 
 
 			$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername($user), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user['id']);
+
 			echo $image->render($user, 30, 30, array("alt" => $user['username']), $link_data);
 
 			?>
@@ -61,9 +63,9 @@
 			<?php if($session->read('Auth.User.id')):?>
 			<div id="user-nav">
 				<ul>
-				<li><?php echo $this->Html->link(__('My Posts', true), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')));?></li>
-				<li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', $session->read('Auth.User.id')));?></li>
-				<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index', $session->read('Auth.User.id')));?>
+				<li><?php echo $this->Html->link(__('My Articles', true), array('controller' => 'users', 'action' => 'view', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
+				<li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username'))));?></li>
+				<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index'));?>
 					<?php if($this->Session->read('Auth.User.allow_messages') && isset($conversation_count) && $conversation_count > 0):?>
 					<span class="round-icon"><?php echo $conversation_count;?></span>
 					<?php endif;?>
@@ -80,20 +82,20 @@
 <div id="signin_menu">
     <div style="float:left;width:117px;">
         <ul>
-            <li><a href="/posts/add"><?php __('New Post'); ?></a></li>
-            <li class="spacer"><a href="/papers/add"><?php __('New Paper'); ?></a></li>
-            <li><a href="/users/view/<?php echo $session->read('Auth.User.id'); ?>"><?php __('my Posts'); ?></a></li>
-            <li><a href="/users/viewSubscriptions/<?php echo $session->read('Auth.User.id'); ?>"><?php __('Subscriptions'); ?></a></li>
-            <li><a href="/conversations/"><?php __('Conversations'); ?></a></li>
-            <?php /*<li><a href="/posts/add"><?php __('my Comments'); ?></a></li> */ ?>
+            <li><?php echo $this->Html->link(__('New Post', true), array('controller' => 'posts' , 'action' => 'add'));?></li>
+            <li class="spacer"><?php echo $this->Html->link(__('New Paper', true), array('controller' => 'papers' , 'action' => 'add'));?></li>
+            <li><?php echo $this->Html->link(__('My Articles',true), array('controller' => 'users' , 'action' => 'view', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
+            <li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users' , 'action' => 'viewSubscriptions', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
+            <li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations' , 'action' => 'index' ));?></li>
+            <?php /*<li><a href="/posts/add"><?php __('my Comments', true); ?></a></li> */ ?>
         </ul>
     </div>
     <div>
         <ul style="float:left">
-            <li><a href="/users/accAboutMe"><?php __('Account / Settings'); ?></a></li>
-            <li class="spacer"><a href="/users/logout"><?php __('Logout'); ?></a></li>
+            <li><?php echo $this->Html->link(__('Account / Settings', true), array('controller' => 'users' , 'action' => 'accAboutMe'));?></li>
+            <li class="spacer"><li><?php echo $this->Html->link(__('Logout', true), array('controller' => 'users' , 'action' => 'logout'));?></li>
             <?php if($is_admin || $is_superadmin): ?>
-                <li><a href="/admin/admin"><?php __('Admin'); ?></a></li>
+                <li><?php echo $this->Html->link(__('Admin', true), array('controller' => 'admin' , 'action' => 'admin'));?></li>
             <?php endif; ?>
 
             <?php if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu'): ?>

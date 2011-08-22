@@ -213,11 +213,12 @@ class SearchController extends AppController {
 					if($result instanceof Apache_Solr_Document){
 						
 						if($result->type == 'paper'){
-						//if a result is a paper, and the user DOES NOT OWN this paper, there are two options: user has subscribed the paper (unsubscribe button) 
-						//																				user has not subscribed the paper (subscribe button) 
-						$result->paper_subscribed = false;
-						//check for subscriptions - if yes -> subscribed = true
-							if($this->Auth->user('id')){
+
+                            //if a result is a paper, and the user DOES NOT OWN this paper, there are two options: user has subscribed the paper (unsubscribe button)
+                            //																				user has not subscribed the paper (subscribe button)
+                            $result->paper_subscribed = false;
+                            //check for subscriptions - if yes -> subscribed = true
+                           	if($this->Auth->user('id')){
 								$this->Subscription->contain();
 								if(($this->Subscription->find('count', array('conditions' => array('Subscription.user_id' => $this->Auth->user('id'),'Subscription.paper_id' => $result->id)))) > 0){
 									$result->paper_subscribed = true;
@@ -239,7 +240,7 @@ class SearchController extends AppController {
 							$result->post_reposters = array();
 							$this->Post->contain();
 							$this->data = $this->Post->read(array('reposters', 'comment_count', 'repost_count', 'view_count'), $result->id);
-							$result->post_comment_count = $this->data['Post']['comment_count'];
+                            $result->post_comment_count = $this->data['Post']['comment_count'];
 							$result->post_repost_count = $this->data['Post']['repost_count'];
 							$result->post_view_count = $this->data['Post']['view_count'];
 							$result->post_reposters = $this->data['Post']['reposters'];

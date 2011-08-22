@@ -31,6 +31,7 @@ class PostsController extends AppController {
 
 
 	function index() {
+
 		$this->paginate = array(
 	        'Post' => array(
 		//limit of records per page
@@ -41,11 +42,9 @@ class PostsController extends AppController {
 		    	'fields' => array(),
                 'conditions' => array('Post.enabled' => true),
 		//contain array: limit the (related) data and models being loaded per post
-	            'contain' => array('User.username','User.id', 'User.name', 'User.image'),
+	            'contain' => array('Route', 'User.username','User.id', 'User.name', 'User.image'),
 		)
 		);
-		//$this->Post->useCustom = false;
-		//$this->Post->useCustom = false;
 
 		$this->set('posts', $this->paginate());
 	}
@@ -128,6 +127,7 @@ class PostsController extends AppController {
 	 * @param $id
 	 */
 	function view($id = null) {
+        $this->log($id);
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid post', true));
 			$this->redirect($this->referer());
@@ -143,7 +143,7 @@ class PostsController extends AppController {
 			$this->redirect($this->referer());
         }
 
-
+        
 		// incrementing post's view_counter
 
 		// check if the user already read this post during this session
@@ -185,9 +185,11 @@ class PostsController extends AppController {
 
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
-		$this->set('post', $post);
+		//$this->log('vor dem set');die();
+        $this->set('post', $post);
 		$this->set('user', $user);
 		$this->set('comments',$comments);
+        
 
 	}
 
@@ -334,7 +336,7 @@ class PostsController extends AppController {
 				}
 
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));
-				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
+				$this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Auth->User('username'))));
 			} else {
                 $validation_errors= $this->Post->invalidFields();
 
@@ -516,7 +518,7 @@ class PostsController extends AppController {
 			if ($this->Post->save($this->data)) {
 				$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
 				$this->Session->setFlash(__('The post has been saved', true), 'default', array('class' => 'success'));
-				$this->redirect(array('controller' => 'users',  'action' => 'view', $user_id));
+				$this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
 			} else {
 
 
@@ -622,7 +624,7 @@ class PostsController extends AppController {
             // second param = cascade -> delete associated records from hasmany , hasone relations
             if ($this->Post->delete($id, true)) {
                 $this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
-                $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+                $this->redirect(array('controller' => 'users',  'action' => 'view',  'username' => strtolower($this->Session->read('Auth.User.username'))));
                 
             $this->redirect($this->referer());
             }
@@ -817,7 +819,7 @@ class PostsController extends AppController {
 
 
     function admin_index() {
-        $this->paginate = array('contain' => array('User.id', 'User.username'));
+        $this->paginate = array('contain' => array('Route', 'User.id', 'User.username'));
 		$this->set('posts', $this->paginate());
 	}
     function admin_delete($id = null) {

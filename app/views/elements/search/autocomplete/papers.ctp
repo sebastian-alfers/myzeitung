@@ -19,12 +19,14 @@
 						$img = '';
 					}					
 					$link_data = array();
-					$link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper->id);
+					$link_data['url'] = $paper->route_source;
 					$link_data['additional'] = 'display:inline;';
 					echo $image->render(array('image' => $img), 45, 45,null, $link_data, 'paper',ImageHelper::PAPER);
 					?>
-					<h6><a href="/papers/view/<?php echo $paper->id; ?>"><?php echo $this->MzText->truncate($paper->paper_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></h6>
-					<p class="discr"><?php __('by'); ?> <a href="/users/view/<?php echo $paper->user_id; ?>"><?php echo $paper->user_username;?></a></p>
+
+					<h6><?php echo $this->Html->link($this->Text->truncate($paper->paper_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)), $paper->route_source);?></h6>
+					<p class="discr"><?php __('by'); echo ' '.$this->Html->link($paper->user_username, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper->user_username)));?></p>
+
 				</p></li>				
 			<?php endif; ?>			
 		<?php endforeach; ?>

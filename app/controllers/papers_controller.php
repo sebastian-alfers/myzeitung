@@ -31,7 +31,7 @@ class PapersController extends AppController {
 		//order
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
-			             'contain' => array('User.id', 'User.image', 'User.username', 'User.name'),
+			             'contain' => array('Route','User.id', 'User.image', 'User.username', 'User.name'),
                           'conditions' => array('Paper.enabled' => true),
 		)
 		);
@@ -53,6 +53,7 @@ class PapersController extends AppController {
 				}
 			}
 		}
+      
 		$this->set('papers', $papers);
 	}
 
@@ -64,20 +65,26 @@ class PapersController extends AppController {
 	 * @param $category_id
 	 */
 	function view($paper_id = null, $category_id = null) {
+    
 		if (!$paper_id) {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-        $this->Paper->contain(array('User.id', 'User.name', 'User.username', 'User.image',
+        $this->Paper->contain(array('Route', 'User.id', 'User.name', 'User.username', 'User.image',
                                       'Category' => array('fields' => array('content_paper_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
         $paper = $this->Paper->read(null, $paper_id);
         if(!isset($paper['Paper']['id'])){
             $this->Session->setFlash(__('invalid paper', true));
-			$this->redirect($this->referer());
+			$this->redirect(array('action' => 'index'));
         }
         if($paper['Paper']['enabled'] == false){
             $this->Session->setFlash(__('This paper has been blocked temporarily due to infringement.', true));
-			$this->redirect($this->referer());
+			$this->redirect(array('action' => 'index'));
+        }
+        if($category_id == null && isset($this->params['category_id'])){
+            $category_id = $this->params['category_id'];
+            $this->log('catid');
+            $this->log($category_id);
         }
 
 		/*writing all settings for the paginate function.
@@ -107,7 +114,7 @@ class PapersController extends AppController {
 
 
 		//contain array: limit the (related) data and models being loaded per post
-			            'contain' => array('User.id','User.username','User.name',  'User.image'),
+			            'contain' => array('Route', 'User.id','User.username','User.name',  'User.image'),
 		),
 		);
 
@@ -180,7 +187,7 @@ class PapersController extends AppController {
 			if($this->Upload->hasImagesInHashFolder($hash)){
 				$this->log('has in hash');
 				$image = array();
-				$this->Paper->contain();
+				$this->Paper->contain('Route');
 				$paper_data = $this->Paper->read(null, $paper_id);
 				$paper_created = $paper_data['Paper']['created'];
 				$image = $this->Upload->copyImagesFromHash($hash, $paper_id, $paper_created, $this->data['Paper']['new_image'], 'paper');
@@ -226,7 +233,7 @@ class PapersController extends AppController {
 	function subscribe($paper_id){
 		if(isset($paper_id)){
 
-			$this->Paper->contain();
+			$this->Paper->contain('Route');
             $this->data= $this->Paper->read(null, $paper_id);
 			if($this->data['Paper']['id']){
                 if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
@@ -258,7 +265,7 @@ class PapersController extends AppController {
 	function unsubscribe($paper_id){
 		if(isset($paper_id)){
 
-			$this->Paper->contain();
+			$this->Paper->contain('Route');
 
             $this->data= $this->Paper->read(null, $paper_id);
 			if($this->data['Paper']['id']){
@@ -319,7 +326,7 @@ class PapersController extends AppController {
             }
 
 
-			$this->Paper->contain('Category');
+			$this->Paper->contain('Category', 'Route');
 			$paper_data = $this->Paper->read(null, $id);
 
             //check if "all" authors is selected
@@ -440,14 +447,15 @@ class PapersController extends AppController {
 			//generated user data for select drop down
 			$content_data = $this->_generateUserSelectData();
 			$this->set(ContentPaper::CONTENT_DATA, $content_data);
-		}
+		}   
 	}
 
 
 	function add() {
+        $this->log('start');
 		if (!empty($this->data)) {
 			//adding a route
-
+                $this->log('data da');
 			$this->Paper->create();
 			$this->data['Paper']['owner_id'] = $this->Auth->User("id");
 			$this->Paper->updateSolr = true;
@@ -465,7 +473,9 @@ class PapersController extends AppController {
 
 			//	if(!empty($route)){
 					$this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-					$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->Paper->id));
+                    $this->Paper->contain('Route');
+                    $paper = $this->Paper->read(array('id'),$this->Paper->id);
+					$this->redirect($paper['Route'][0]['source']);
 			//	}
 			//	else{
 					$this->Session->setFlash(__('Paper saved, error while saving the paper route', true));
@@ -478,6 +488,7 @@ class PapersController extends AppController {
 
 
 		}
+        $this->log('no data');
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
@@ -493,20 +504,25 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-        $this->Paper->contain();
+        $this->Paper->contain('Route');
         $paper =  $this->Paper->read(array('id','owner_id'), $id);
         if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
             if (!empty($this->data)) {
                 $this->Paper->updateSolr = true;
                 if ($this->Paper->save($this->data)) {
                     $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-                    $this->redirect(array('controller' => 'papers', 'action' => 'view', $id));
+
+                    $this->redirect($this->data['Route'][0]['source']);
+
+
                 } else {
                     $this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
                 }
             }
             if (empty($this->data)) {
+                $this->Paper->contain('Route');
                 $this->data = $this->Paper->read(null, $id);
+                $this->data['Paper']['route_source'] = $this->data['Route'][0]['source'];
                 $this->set('owner_id', $this->data['Paper']['owner_id']);
             }
          } else {
@@ -517,7 +533,7 @@ class PapersController extends AppController {
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
-		$papers = $this->paginate($this->User->Paper);
+		//$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
 
         $this->set('paper_id', $id);
@@ -675,7 +691,7 @@ class PapersController extends AppController {
         }
     }
     function admin_enable($paper_id){
-        $this->Paper->contain(User);
+        $this->Paper->contain('User');
         $paper = $this->Paper->read(null, $paper_id);
         if(isset($paper['Paper']['id']) && !empty($paper['Paper']['id'])){
             if($paper['Paper']['enabled'] == true){

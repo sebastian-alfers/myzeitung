@@ -1,4 +1,14 @@
 <?php
+if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'){
+    $paginator->options(array('url'=> array('controller' => 'users',
+                                            'action' => 'viewSubscriptions',
+                                            'username' => $this->params['username']) ,
+                                                                                )
+
+    );
+} ?>
+
+<?php
 
 
 
@@ -46,17 +56,17 @@ if(isset($this->params['named']) && is_array($this->params['named'])){
         <?php if($this->params['action'] == 'viewSubscriptions' && isset($this->params['pass'][1]) && $this->params['pass'][1] == Paper::FILTER_ALL):?>
          <li class="active"><span class="icon icon-allresults"></span><?php echo __('All Papers', true);?> </li>
         <?php else:?>
-            <li><?php echo $this->Html->link('<span class="icon icon-allresults"></span>'.__('All Papers', true), array('controller' => 'users',  'action' => 'viewSubscriptions', $user['User']['id'], Paper::FILTER_ALL, $filter_string),array('escape' => false));?></li>
+            <li><?php echo $this->Html->link('<span class="icon icon-allresults"></span>'.__('All Papers', true), array('controller' => 'users',  'action' => 'viewSubscriptions', 'username' => strtolower($user['User']['username']), Paper::FILTER_ALL, $filter_string),array('escape' => false));?></li>
         <?php endif;?>
         <?php if($this->params['action'] == 'viewSubscriptions' && isset($this->params['pass'][1]) && $this->params['pass'][1] == Paper::FILTER_OWN):?>
          <li class="active"><span class="icon icon-userresults"></span><?php echo $user['User']['username'].'\'s '.__('Papers', true);?></li>
         <?php else:?>
-            <li><?php echo $this->Html->link('<span class="icon icon-userresults"></span>'.$user['User']['username'].'\'s '.__('Papers', true), array('controller' => 'users',  'action' => 'viewSubscriptions', $user['User']['id'], Paper::FILTER_OWN , $filter_string),array('escape' => false));?></li>
+            <li><?php echo $this->Html->link('<span class="icon icon-userresults"></span>'.$user['User']['username'].'\'s '.__('Papers', true), array('controller' => 'users',  'action' => 'viewSubscriptions', 'username' => strtolower($user['User']['username']), Paper::FILTER_OWN , $filter_string),array('escape' => false));?></li>
         <?php endif;?>
         <?php if($this->params['action'] == 'viewSubscriptions' && isset($this->params['pass'][1]) && $this->params['pass'][1] == Paper::FILTER_SUBSCRIBED):?>
          <li class="active"><span class="icon icon-newsresults"></span><?php echo $user['User']['username'].'\'s '.__('Subscriptions', true);?></li>
         <?php else:?>
-            <li><?php echo $this->Html->link('<span class="icon icon-newsresults"></span>'.$user['User']['username'].'\'s '.__('Subscriptions', true), array('controller' => 'users',  'action' => 'viewSubscriptions', $user['User']['id'],  Paper::FILTER_SUBSCRIBED , $filter_string),array('escape' => false));?></li>
+            <li><?php echo $this->Html->link('<span class="icon icon-newsresults"></span>'.$user['User']['username'].'\'s '.__('Subscriptions', true), array('controller' => 'users',  'action' => 'viewSubscriptions', 'username' => strtolower($user['User']['username']),  Paper::FILTER_SUBSCRIBED , $filter_string),array('escape' => false));?></li>
         <?php endif;?>
     </ul>
 

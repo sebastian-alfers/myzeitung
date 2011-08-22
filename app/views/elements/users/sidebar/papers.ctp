@@ -10,7 +10,7 @@
 
                 $img = $image->render($paper, 35, 35, array("alt" => $paper['title']), $container_data, ImageHelper::PAPER);
                 echo $this->Html->link($img.' '.$paper['title'],
-                            array('controller' => 'papers', 'action' => 'view', $paper['id']),array('escape' => false));
+                            $paper['Route'][0]['source'],array('escape' => false));
                 ?>
 
 			    </li>

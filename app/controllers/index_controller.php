@@ -3,8 +3,9 @@ class IndexController extends AppController {
 
     var $name = 'Index';
     var $components = array('Auth', 'Session');
-    var $uses = array('PostUser');
-    var $helpers = array('MzText' ,'MzTime', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
+
+    var $uses = array('PostUser', 'Post','Paper');
+    var $helpers = array('Text' ,'MzTime', 'Image', 'Html', 'Javascript', 'Ajax', 'Reposter');
 
     function admin_cleanUpPostUserIndex(){
         $this->PostUser->cleanUpIndex();
@@ -13,5 +14,10 @@ class IndexController extends AppController {
     }
     function admin_index(){
 
+    }
+    function admin_refreshPostPaperRoutes(){
+        $this->Post->refreshRoutes();
+        $this->Paper->refreshRoutes();
+         $this->redirect($this->referer());
     }
 }

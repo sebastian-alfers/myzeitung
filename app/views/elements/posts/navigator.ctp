@@ -3,6 +3,10 @@ $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;
 }
+
+$paginator = $this->element('global/paginate');
+
+
 if($has_topics){
 
     echo $this->element('posts/repost_modal_choose_topic');
@@ -19,7 +23,7 @@ if($has_topics){
         <?php endif;?>
 
         <div class="article-nav">
-             <?php echo $this->element('global/paginate'); ?>
+             <?php echo $paginator ?>
         </div>
 
 		<?php foreach ($posts as $index => $post):	
@@ -56,8 +60,9 @@ if($has_topics){
                                     $headline .='...';
                                     
                             }*/
-                            ?>
-							<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>
+                            /*<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>   */?>
+
+							<h5><?php echo $this->Html->link($headline, $post['Route'][0]['source']);?></h5>
 							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
                                 <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
                                  <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>
@@ -81,7 +86,7 @@ if($has_topics){
 							<?php //not image -> show text preview?>
                                 <p>
 								<?php //echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
-								<?php echo $this->MzText->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])), 'exact' => false, 'html' => true)); ?>
+								<?php echo $this->MzText->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), $post['Route'][0]['source'],array('rel' => 'nofollow')), 'exact' => false, 'html' => true)); ?>
                                 </p>
 							<?php endif;  ?>
 							<ul class="footer">
@@ -102,7 +107,7 @@ if($has_topics){
                                         if($post['User']['name']){
                                             $tipsy_name = $post['User']['username'].' - '.$post['User']['name'];
                                         }?>
-								<li><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $post['Post']['user_id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+								<li><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
 										<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'): ?> 
 											<?php /* blog view - controller users action view */ ?> 
@@ -112,8 +117,10 @@ if($has_topics){
                                                 if($user['User']['name']){
                                                     $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
                                                 }?>
+
                                                 <?php $linktext = $this->MzText->truncate($user['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
-                                                <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $user['User']['id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+                                                <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+
 											<?php endif;?> 
 										<?php elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?> 
 										<?php /* paper view - controller papers action view */ ?> 
@@ -123,8 +130,10 @@ if($has_topics){
                                                 if($post['lastReposter']['name']){
                                                     $tipsy_name = $post['lastReposter']['username'].' - '.$post['lastReposter']['name'];
                                                 }?>
+
                                                 <?php $linktext = $this->MzText->truncate($post['lastReposter']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
-                                                <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $post['lastReposter']['id']),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+                                                <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view',  'username' => strtolower($post['lastReposter']['username'])),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+
 											<?php endif;?>
 										<?php endif;?>
 									<?php /* END showing last reposter */?>
@@ -132,9 +141,11 @@ if($has_topics){
 								<li>
 								<?php 
 								$image_options = array();
-								$image_options['url'] = array('controller' => 'users', 'action' => 'view', $post['User']['id']);
 
- 								$image_options['custom'] = array('class' => 'user-image', 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $post['User']['id'], 'alt' => $this->MzText->getUsername($post['User']));
+								$image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']));
+								$image_options['custom'] = array('class' => 'user-image', 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $post['User']['id'], 'alt' => $this->MzText->getUsername($post['User']));
+                                $image_options['rel'] = 'nofollow';
+
 								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);
 
 //								}
@@ -145,27 +156,27 @@ if($has_topics){
 								<li>						
 								<?php if($article_belongs_to_user):?>
 									<?php // posts belongs to user - show edit and delete?>
-									<?php echo $this->Html->link(__('Edit Post', true), array('controller' => 'posts', 'action' => 'edit', $post['Post']['id']));?>
+									<?php echo $this->Html->link(__('Edit Post', true), array('controller' => 'posts', 'action' => 'edit', $post['Post']['id']),array('rel' => 'nofollow'));?>
 									&nbsp;&nbsp;
-									<?php echo $this->Html->link(__('Delete Post', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete your post: %s?', true), $post['Post']['title'])); ?>
+									<?php echo $this->Html->link(__('Delete Post', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete your post: %s?', true), $post['Post']['title']),array('rel' => 'nofollow')); ?>
 								<?php elseif($article_reposted_by_user):?>
 									<?php // post does not belong to user - user has already reposted post - show undo repost button?>
-									<?php echo $this->Html->link(__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']));?>
+									<?php echo $this->Html->link(__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']),array('rel' => 'nofollow'));?>
 								<?php else:?>
-									<?php // post does not belong to user - not reposted yet - show repost button?>
-									<?php //echo $this->Html->link(__('Repost', true), array('controller' => 'posts','action' => 'repost', $post['Post']['id']));?>
-                                    <?php
+									<?php // post does not belong to user - not reposted yet - show repost button
                                     //if the user has one or more topics, no href. in this case, the link will be observed and a popup comes
-                                    $link = '/posts/repost/'. $post['Post']['id'];
+                                   $link=  $this->Html->url(array('controller' => 'posts','action' => 'repost', $post['Post']['id']));
+                                   //$link = '/posts/repost/'. $post['Post']['id'];
                                     $class = '';
                                     if($has_topics){
-                                        $link = '/#';
-                                        $class = 'class="repost"';
-                                    }
 
-                                    ?>
+                                        $link = '#';
+                                    $class = 'class="repost"';
+                                    }?>
+                                    <?php echo $this->Html->link(__('Repost', true), $link, array('id' => $post['Post']['id'], 'class' => 'repost', 'rel' => 'nofollow'));?>
+                                    
+                                   
 
-                                    <a href="<?php echo $link; ?>" <?php echo $class; ?> id="<?php echo $post['Post']['id']; ?>"><?php __('Repost'); ?></a>
 								<?php endif;?>
 								
 								</li>
@@ -178,7 +189,7 @@ if($has_topics){
 					
 						
 				<div class="article-nav article-nav-bottom">
-                          <?php echo $this->element('global/paginate'); ?>
+                          <?php echo $paginator ?>
 					</div><!-- / .article-nav -->												
 					
 					</div><!-- / #maincol -->

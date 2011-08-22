@@ -2,7 +2,7 @@
 <tr>
     <td style="padding:15px 23px 2px; border-bottom: 1px solid #e4e3e3">
         <p style="font-size: 13px;">
-           <?php  echo $this->Html->link($sender['User']['username'], $this->Html->url(array('controller' => 'users', 'action' =>  'view',$sender['User']['id']),true), array('style' => 'color:#232424; font-weight:bold;')); ?>
+           <?php  echo $this->Html->link($sender['User']['username'], $this->Html->url(array('controller' => 'users', 'action' =>  'view','username' => strtolower($sender['User']['username'])),true), array('style' => 'color:#232424; font-weight:bold;')); ?>
            <?php echo __(' wrote a new message in the conversation ');?>
            <?php echo $this->Html->link($conversation['Conversation']['title'], $conversation_link, array('style' => 'color:#232424; font-weight:bold'));?>
         </p>

@@ -22,7 +22,7 @@ if($paper_belongs_to_user){
             <div class="userstart">
                 <?php
                 $link_data = array();
-                $link_data['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
+                $link_data['url'] = $paper['Route'][0]['source'];
                 $link_data['custom'] = array('class' => 'paper-image');
                 echo $image->render($paper['Paper'], 185, 185, array("alt" => $paper['Paper']['title']), $link_data, ImageHelper::PAPER);
 
@@ -48,7 +48,7 @@ if($paper_belongs_to_user){
                  $linktext = $paper['User']['username']; ?>
                 
 
-                <p class="user-url"><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $paper['User']['id']), array('class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
+                <p class="user-url"><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
         <?php endif;?>
 
         <hr />
@@ -71,20 +71,25 @@ if($paper_belongs_to_user){
             <?php endif;?>
         </ul>
             <hr />
+
+        <?php $category_id = null;?>
+        <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>
         <div id="category-content">
             <h6><?php echo __('Filter by Category', true);?></h6>
-            <ul>
+               <ul>
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['frontpage_authors_count'] , true), $paper['Paper']['frontpage_authors_count']); ?>"></span>
                 <?php //show only links for not selected items?>
-                <?php if(isset($this->params['pass'][1])):?>
-                    <?php /* no topic selected */ echo $this->Html->link(__('front page', true)/* . '('.$paper['Paper']['category_paper_post_count'].')'*/, array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'])); ?>
+                <?php if($category_id != null):?>
+                    <?php /* no topic selected */ echo $this->Html->link(__('front page', true)/* . '('.$paper['Paper']['category_paper_post_count'].')'*/, $paper['Route'][0]['source']); ?>
                 <?php else:?>
                     <i><?php /* topic selected - show link*/ echo __('front page', true)/* . ' ('.$paper['Paper']['category_paper_post_count'].')'*/;?></i>
                 <?php endif;?> </li>
                 <?php foreach($paper['Category'] as $category):?>
-                <li class="category"><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
-                <?php  if((isset($this->params['pass'][1]) && $this->params['pass'][1] != $category['id']) || !isset($this->params['pass'][1])):?>
-                    <?php /* this topic is not selected - show link */ echo $this->Html->link(htmlspecialchars_decode($category['name']) /*.' ('.$category['category_paper_post_count'].')'*/, array('controller' => 'papers',  'action' => 'view', $paper['Paper']['id'], $category['id']), array('escape' => false)); ?>
+
+                <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
+                <?php  if($category_id != $category['id'] || $category_id == null):?>
+                    <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$category['category_paper_post_count'].')'*/, $paper['Route'][0]['source'].'/'.$category['id']); ?>
+
                 <?php else:?>
                     <i><?php  /* this topic is selected - show text*/ echo $category['name']/*. ' ('.$category['category_paper_post_count'].')'*/?></i>
                 <?php endif;?>

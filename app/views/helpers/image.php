@@ -357,6 +357,9 @@ class ImageHelper extends Helper {
             if(isset($container_data['additional'])){
                 $custom_img_data['style']  .= $container_data['additional'];
             }
+            if(isset($container_data['rel'])){
+                 $custom_img_data['rel'] = $container_data['rel'];
+            }
 
             return $this->Html->link($img, $container_data['url'], $custom_img_data);
         }
