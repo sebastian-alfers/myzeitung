@@ -456,6 +456,8 @@ function __construct(){
         $this->Route = new Route();
         App::import('model','User');
         $this->User = new User();
+        App::import('model','Solr');
+        $this->Solr = new Solr();
         
         foreach($papers as $paper){
             $this->id = $paper['Paper']['id'];
@@ -482,7 +484,8 @@ function __construct(){
 				if(!$this->updateSolr)return;
 
 				if($this->id){
-
+                     App::import('model','Solr');
+                     $this->Solr = new Solr();
                      $this->addToOrUpdateSolr();
 
                     //create subscription for created paper
@@ -505,7 +508,7 @@ function __construct(){
 
             function addToOrUpdateSolr(){
             //get User information
-                App::import('model','Solr');
+
 
 			//	App::import('model','Subscription');
 
@@ -525,8 +528,8 @@ function __construct(){
                     $data['Paper']['paper_image'] = $this->data['Paper']['image'];
                 }
                 $data['Paper']['route_source'] = $this->data['Route'][0]['source'];
-                $solr = new Solr();
-                $solr->add($this->addFieldsForIndex($data));
+
+                $this->Solr->add($this->addFieldsForIndex($data));
 
 
             }
