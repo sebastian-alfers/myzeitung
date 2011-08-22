@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is core configuration file.
  *
@@ -55,7 +56,7 @@ Configure::write('log', true);
  * Turn off all caching application-wide.
  *
  */
-Configure::write('Cache.disable', true);
+Configure::write('Cache.disable', false);
 
 /**
  * Enable cache checking.

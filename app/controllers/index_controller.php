@@ -17,7 +17,7 @@ class IndexController extends AppController {
     }
     function admin_refreshPostPaperRoutes(){
         $this->Post->refreshRoutes();
-        $this->Paper->refreshRoutes();
+        //$this->Paper->refreshRoutes();
          $this->redirect($this->referer());
     }
 }
