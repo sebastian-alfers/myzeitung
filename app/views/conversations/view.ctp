@@ -6,7 +6,7 @@
                         <p class="from-top"><?php echo __('Conversation between you',true);?>
                             <?php foreach($users as $user):?>
                                 <?php if($user['User']['id'] != $session->read('Auth.User.id')):?>
-                                    ,&nbsp;<strong>&nbsp;<?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></strong>
+                                    ,&nbsp;<strong>&nbsp;<?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?></strong>
                                 <?php endif; ?>
                             <?php endforeach;?>
                             </p>
@@ -89,7 +89,7 @@ $(document).ready(function() {
 	<?php foreach($messages as $message): ?>
 
 	<tr>
-		<td><?php echo $this->Html->link($message['User']['username'], array('action' => 'view', $message['User']['id'])); ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($message['User']['username'], array('action' => 'view', 'username' => $message['User']['username'])); ?>&nbsp;</td>
 		<td><?php echo $message['ConversationMessage']['created'];?>&nbsp;</td>
 		<td><?php echo $message['ConversationMessage']['message']; ?>&nbsp;</td>
 		</tr>

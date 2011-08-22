@@ -14,7 +14,7 @@ if($this->params['controller'] == 'posts'){
 	 	$this->Html->addCrumb(__('Edit Post', true), null , array('escape' => false));	
 	 }elseif($this->params['action'] == 'view'){
 
-	 	$this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']) , array('escape' => false));
+	 	$this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])) , array('escape' => false));
         $free_crumb_length = $max_crumb_length - strlen($user['User']['username']);
         if(strlen($post['Post']['title']) > $free_crumb_length){
             $crumbtext = substr($post['Post']['title'],0,$free_crumb_length).'...';
@@ -40,8 +40,8 @@ if($this->params['controller'] == 'posts'){
 	 }elseif($this->params['action'] == 'view'){
 	 	$this->Html->addCrumb($user['User']['username'],  null , array('escape' => false));	
 	 }elseif($this->params['action'] == 'viewSubscriptions'){
-	 	$this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']) , array('escape' => false));	
-	 	$this->Html->addCrumb(__('Subscriptions', true),  null , array('escape' => false));	
+	 	$this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])) , array('escape' => false));
+	 	$this->Html->addCrumb(__('Papers', true),  null , array('escape' => false));
 	 }
 
 }elseif($this->params['controller'] == 'papers'){
@@ -49,7 +49,7 @@ if($this->params['controller'] == 'posts'){
 		$this->Html->addCrumb(__('Papers', true), null , array('escape' => false));
 	}elseif($this->params['action'] == 'view'){
 
-		$this->Html->addCrumb($paper['User']['username'],  array('controller' => 'users', 'action' => 'view', $paper['User']['id'])  , array('escape' => false));
+		$this->Html->addCrumb($paper['User']['username'],  array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username']))  , array('escape' => false));
         $free_crumb_length = $max_crumb_length - strlen($paper['User']['username']);
        if(strlen($paper['Paper']['title']) > $free_crumb_length){
             $crumbtext = substr($paper['Paper']['title'],0,$free_crumb_length).'...';

@@ -6,7 +6,7 @@
 			<div class="userstart">
 				<?php
 				$link_data = array();
-				$link_data['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+				$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
 				$link_data['custom'] = array('class' => 'user-image');
 				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 			</div>

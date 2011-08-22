@@ -1,36 +1,77 @@
 <?php
 class Route extends AppModel {
 	var $name = 'Route';
-	//var $displayField = 'name';
+
+
+    const TYPE_POST = 'POST';
+    const TYPE_PAPER = 'PAPER';
+   // const TYPE_USER = 'USER';
+
+
+
+
+
+
+
+	var $validate = array(
+
+	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
-	const TEST = 1223;
-	
-	function afterSave(){
-		$cache = ClassRegistry::init('cache');
-		$cache->delete('routes');
-		/*
-		App::import('model','Cachekey');
-		$cachekey = new Cachekey();
-		$routeKey = $cachekey->findByKey('routes');
-		if($routeKey === false){
-			
-			$cachekey->create();
-			$data = array('key' => 'routes',  'new_key' => md5(mktime()));
-			$data['old_key'] =  md5(mktime());
-			$cachekey->save($data);
-		}
-		else{
-			$routeKey['Cachekeys']['new_key'] = md5(mktime());
-			$cachekey->save($routeKey);
-		}
-		*/
+	var $belongsTo = array(
+		'ParentRoute' => array(
+			'className' => 'Route',
+			'foreignKey' => 'parent_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
 
+	var $hasMany = array(
+		'ChildRoute' => array(
+			'className' => 'Route',
+			'foreignKey' => 'parent_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
 
+  //  function afterSave($created){
+     //moved to post and paper model
+      //  $this->deleteRouteCache();
+      //  $this->updateRouteCache();
 
+//    }
+    function deleteRouteCache($source){
+        $cache = ClassRegistry::init('cache');
+        $cache->delete('url_'.$source);
+    }
+  /*  function updateRouteCache(){
+        $cache = ClassRegistry::init('cache');
+        $cache->update('url_'.$this->data['source'], $this->data);
+    }*/
+ /*   function klatschMirRoutenRein(){
+        $this->log('klatsch');
+        for($i=0;$i <= 999999;$i++){
+            $this->create();
+            $this->data['Route'] = array('source' => '/test/'.$i,
+                                         'target_controller' => 'users',
+                                         'target_action' => 'view',
+                                          'target_param' => 6,
+                                        'ref_id' =>'USER_6');
+           $this->save($this->data);
+            if($i == 0){
+            $this->log('schleife');
+            }
+        }
+    }*/
 
-		//$parentRoute = $menusModel->findById($menuitem['Route']['parent_id']);
-
-	}
 }
-?>

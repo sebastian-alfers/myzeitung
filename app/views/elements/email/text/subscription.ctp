@@ -1,8 +1,8 @@
 
-<?php $subscriberLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', $paper['User']['id']),true);
+<?php $subscriberLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => $paper['User']['username']),true);
      $paperLink = $this->Html->url(array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']),true);
 if($topic != null){
-    $topicLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', $recipient['User']['id'], $topic['Topic']['id']),true);
+    $topicLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => $recipient['User']['username'], $topic['Topic']['id']),true);
 }
 if($category != null){
     $categoryLink = $this->Html->url(array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id'], $category['Category']['id']),true);

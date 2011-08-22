@@ -16,16 +16,14 @@
         $form = 'PostAddForm';
         if($this->params['action'] == 'edit') $form = 'PostEditForm';
         ?>
-<<<<<<< HEAD
-        <li class="big-btn" id="submit-post" onclick="preSubmitActions($('#<?php echo $form; ?>'));"><a class="btn"><span class="icon icon-tick"></span><?php __('Save Post'); ?></a></li>
-=======
+
 
         <?php if($this->params['action'] == 'edit'):?>
          <li><?php echo $this->Html->link(__('Delete', true), array('controller' => 'posts',  'action' => 'delete', $this->data['Post']['id']), null, sprintf(__('Are you sure you want to delete your post: %s?', true), $this->data['Post']['title'])); ?></li>
         <?php endif;?>
-        <li class="big-btn" onclick="preSubmitActions($('#<?php echo $form; ?>'));"><a class="btn"><span class="icon icon-tick"></span><?php __('Save Post'); ?></a></li>
+       <li class="big-btn" id="submit-post" onclick="preSubmitActions($('#<?php echo $form; ?>'));"><a class="btn"><span class="icon icon-tick"></span><?php __('Save Post'); ?></a></li>
 
->>>>>>> eb64133d180846c248d5d41769855faafb3c0a34
+
        <?php // <li class="big-btn"><a href="create-article.html" class="btn"><span class="icon icon-circle"></span>Vorschau</a></li> */ ?>
     </ul>
 </div>

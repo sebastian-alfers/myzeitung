@@ -17,6 +17,7 @@ $(document).ready(function() {
 				<?php echo $this->Form->create('Paper' , array( 'inputDefaults' => array('error' => false, 'div' => false)));?>
 				<?php echo $this->Form->hidden('id');?>
 				<?php echo $this->Form->hidden('owner_id'); ?>
+                <?php echo $this->Form->hidden('route_source'); ?>
 				
 				<div><?php  echo $this->Form->input('title', array('maxlength' => 55 ,'type' => 'text', 'class' => 'textinput', 'label' => __('Title', true))); ?>
 				<?php if(!is_null($this->Form->error('Paper.title'))): ?>

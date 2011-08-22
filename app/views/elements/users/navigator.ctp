@@ -1,11 +1,11 @@
-
+<?php $paginator = $this->element('global/paginate'); ?>
 <div id="maincolwrapper" class="user-view">
     <div id="maincol">
         <?php if($this->params['action'] == 'index'):?>
           <h2><?php echo __('Browse Users', true);?></h2>
         <?php endif;?>
 <div class="article-nav">
-    <?php echo $this->element('global/paginate'); ?>
+    <?php echo $paginator;  ?>
 </div>
 
 <?php foreach ($users as $index => $user): ?>
@@ -20,13 +20,14 @@
                 <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['content_paper_count']; ?></li>
             </ul>
             
-            <h4><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></h4>
+            <h4><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?></h4>
              <?php $linktext = $this->Text->truncate($user['User']['name'], 18,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
-            <h5><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></h5>
+            <h5><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view','username' =>  $user['User']['username']), array('rel' => 'nofollow'));?></h5>
            <?php
             $image_options = array();
-            $image_options['url'] = array('controller' => 'users', 'action' => 'view', $user['User']['id']);
+            $image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
             $image_options['additional'] = 'margin-left:14px';
+            $image_options['rel'] = 'nofollow';
             echo $image->render($user['User'], 110, 110, array(), $image_options, ImageHelper::USER);
             ?>
 
@@ -40,7 +41,7 @@
 
 
     <div class="article-nav article-nav-bottom">
-    <?php echo $this->element('global/paginate'); ?>
+    <?php echo $paginator; ?>
     </div><!-- / .article-nav -->
 
     <div>

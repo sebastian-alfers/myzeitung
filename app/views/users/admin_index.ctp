@@ -30,7 +30,7 @@
 		<td><?php echo $this->MzTime->format('d.m.y',$user['User']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$user['User']['modified']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $user['User']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', 'username' => strtolower($user['User']['username']),'admin' => false),  array('target' => 'blank')); ?>
             <?php if($is_superadmin): ?>
 			    <?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $user['User']['id'])); ?>
                 <?php if($user['User']['enabled']):?>

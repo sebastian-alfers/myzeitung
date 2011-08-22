@@ -55,7 +55,7 @@
 			<?php echo $this->Html->link(__('Add Content', true), array('action' => 'addcontent', ContentPaper::PAPER, $paper['Paper']['id'])); ?>
 			<?php echo $this->Html->link(__('Show Content', true), array('action' => 'references', ContentPaper::PAPER, $paper['Paper']['id'])); ?>
 			<br /><br /><?php echo $this->Html->link(__('Add Category', true), array('controller' => 'categories', 'action' => 'add', 'paper', $paper['Paper']['id'])); ?>		
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $paper['Paper']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), $paper['Route'][0]['source']); ?>
 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $paper['Paper']['id'])); ?>
 			<br /><br /><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $paper['Paper']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $paper['Paper']['id'])); ?>
 		</td>

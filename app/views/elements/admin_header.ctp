@@ -1,10 +1,10 @@
 <div id="header">
-	<h1 id="logo"><a href="/">myZeitung - admin</a></h1>
+	<h1 id="logo"><?php echo $this->Html->link('myZeitung - Admin', array('controller' => 'home', 'action' => 'index', 'admin' => false));?></h1>
 		
 			<?php if($session->read('Auth.User.id')):  ?>
 
 			<div id="user-info">
-			<?php echo __("logged in as", true)." "; ?><?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', $session->read('Auth.User.id')))."</strong> ";?> | <a href="/users/logout"><?php __('logout'); ?></a>
+			<?php echo __("logged in as", true)." "; ?><?php echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($session->read('Auth.User.username'))))."</strong> ";?> | <?php echo $this->Html->link(__('logout', true), array('controller' => 'users' , 'action' => 'logout', 'admin' => false)); ?>
 
 			<?php   //end logged in?>
 			<?php else: //not logged in?>
@@ -32,15 +32,15 @@
 			<div id="user-nav">
                 <?php if($is_superadmin): ?>
                     <ul>
-                        <li><a href="/admin/search/index"><?php __('Search'); ?></a></li>
-                         <li><a href="/admin/index/index"><?php __('Data Associations'); ?></a></li>
-                        <li><a href="/admin/papers/index"><?php __('Papers'); ?></a></li>
-                        <li><a href="/admin/posts/index"><?php __('Posts'); ?></a></li>
-				        <li><a href="/admin/users/index"><?php __('Users'); ?></a></li>
+                        <li><?php echo $this->Html->link(__('Search', true), array('controller' => 'search', 'action' => 'index'));?></li>
+                        <li><?php echo $this->Html->link(__('Data Associations', true), array('controller' => 'index', 'action' => 'index'));?></li>
+                         <li><?php echo $this->Html->link(__('Papers', true), array('controller' => 'papers', 'action' => 'index'));?></li>
+                         <li><?php echo $this->Html->link(__('Posts', true), array('controller' => 'posts', 'action' => 'index'));?></li>
+                         <li><?php echo $this->Html->link(__('Users', true), array('controller' => 'users', 'action' => 'index'));?></li>
 				    </ul>
                 <?php endif; ?>
 				<ul>
-				    <li><a href="/admin/complaints/index"><?php __('Complaints'); ?></a></li>
+                     <li><?php echo $this->Html->link(__('Complaints', true), array('controller' => 'complaints', 'action' => 'index'));?></li>
 				</ul>
 			</div><!-- / #user-nav -->
 			<?php endif;?>

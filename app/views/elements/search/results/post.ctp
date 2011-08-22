@@ -24,7 +24,7 @@
 	}
 
 	$link_data = array();
-	$link_data['url'] = array('controller' => 'posts', 'action' => 'view', $post->id);
+	$link_data['url'] = $post->route_source;
 	echo $image->render(array('image' => $img), 58, 58,array("alt" => $post->post_title), $link_data, 'post');
     // post headline
     $headline = $this->Text->truncate($post->post_title, 55,array('ending' => '...', 'exact' => true, 'html' => false));
@@ -33,9 +33,13 @@
 ?>
     </div>
 <div class="left">
-	<h3><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post->id));?></h3>
-	<p><?php echo $this->Html->link($content_preview,array('controller' => 'posts', 'action' => 'view', $post->id)) ;?></p>
-	<p class="from"><strong><?php echo __('Post', true);?></strong> <?php echo __('from', true);?> <a><strong><?php echo $post->user_username;?></strong></a> &#8212; <?php echo $post->user_name?></p>
+	<h3><?php echo $this->Html->link($headline, $post->route_source);?></h3>
+	<p><?php echo $this->Html->link($content_preview,$post->route_source);?></p>
+    <?php $userLinkText = '<strong>'.$post->user_username.'</strong>';?>
+    <?php if(!empty($post->user_name)){
+                $userLinkText.='&#8212'.$post->user_name;
+        }?>
+	<p class="from"><strong><?php echo __('Post', true);?></strong> <?php echo __('from', true);?> <?php echo $this->Html->link( $userLinkText,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post->user_username)),array('escape' => false));?></p>
 	
 
 	<div class="actions">	

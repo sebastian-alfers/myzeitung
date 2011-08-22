@@ -29,13 +29,6 @@ class Paper extends AppModel {
 	var $updateSolr = true;
 	
 	private  $_contentReferences = null;
-	
-	var $hasOne = array(
-		'Route' => array(
-			'className' => 'Route',
-			'foreignKey' => 'ref_id',//important to have FK
-	    ),
-	);
 
 
 	var $belongsTo = array(
@@ -100,8 +93,18 @@ class Paper extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+        'Route' => array(
+            'className' => 'Route',
+            'foreignKey' => 'ref_id',
+            'dependent' => 'false',
+            'limit' => 1,
+            'conditions' => array('Route.parent_id' => null,
+                                'Route.ref_type' => 'PAPER'),
+            ),
 	);
+
+
 
     function beforeValidate() {
         if (isset($this->data['Paper']['url']) && $this->data['Paper']['url'] == 'http://') {
@@ -352,29 +355,140 @@ function __construct(){
 		}
  */
 
+    function addRoute(){
+
+        App::import('model','Route');
+        $this->Route = new Route();
+        $this->Route->create();
+
+        $routeString = $this->generateRouteString();
+        if($routeString != ''){
+            $routeData['Route'] = array('source' => $routeString,
+                               'target_controller' 	=> 'papers',
+                               'target_action'     	=> 'view',
+                                'target_param'		=> $this->id,
+                                'ref_type'          => Route::TYPE_PAPER,
+                                'ref_id'            => $this->id);
+
+             if($this->Route->save($routeData,false)){
+                 $newRouteId = $this->Route->id;
+                 // update children
+                 $this->Route->contain();
+                 $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_PAPER, 'ref_id' => $this->id)));
+                 foreach($oldRoutes as $oldRoute){
+                      if($oldRoute['Route']['id'] !=  $newRouteId){
+                          $oldRoute['Route']['parent_id'] = $newRouteId;
+                          $this->Route->save($oldRoute);
+                      }
+                 }
+                 return true;
+             }
+        }else{
+            return true;
+        }
+
+        return false;
+    }
+
+    private function generateRouteString(){
+        App::import('model','User');
+        $this->User = new User();
+        $this->User->contain();
+        $user = $this->User->read(array('id','username'),$this->data['Paper']['owner_id']);
+
+
+        $this->Inflector = ClassRegistry::init('Inflector');
+        $routeUsername = strtolower($user['User']['username']);
+        $routeTitle= strtolower($this->Inflector->slug($this->data['Paper']['title'],'-'));
+        $routeString = '/p/'.$routeUsername.'/'.$routeTitle;
+        $this->Route->contain();
+        $existingRoutes = $this->Route->findAllBySource($routeString);
+
+        if(count($existingRoutes) >0){
+            //the route is already used
+            $sameTarget = true;
+            foreach($existingRoutes as $existingRoute){
+                if($existingRoute['Route']['ref_type'] !=  Route::TYPE_PAPER || $existingRoute['Route']['ref_id'] != $this->id){
+                    $sameTarget = false;
+                }
+            }
+            if($sameTarget){
+                //route already exists - nothing needed
+                return '';
+            }else{
+                //generate new routestring with uniqid
+                //$routeString = 'a/'.$routeUsername.'/'.$routeTitle.'-'.uniqid();
+                //generate new routestring with added id
+                $routeString = '/p/'.$routeUsername.'/'.$routeTitle.'-p'.$this->id;
+                //if this specific routestring does exist, it must direct to the same target
+                $this->Route->contain();
+                $existingRoutes = $this->Route->findAllBySource($routeString);
+                if(count($existingRoutes)>0){
+                    return '';
+                }
+                return $routeString;
+            }
+
+        }else{
+            //the route is not used yet
+            return $routeString;
+
+        }
+
+
+
+        return $route_title;
+    }
+
+
+
+    function deleteRoutes(){
+        App::import('model','Route');
+        $this->Route = new Route();
+        $conditions = array('Route.ref_type' => Route::TYPE_PAPER,  'Route.ref_id' 	=> $this->id);
+        //cascade = false, callbackes = true
+        $this->Route->contain();
+        $this->Route->deleteAll($conditions, false, true);
+    }
+    function refreshRoutes(){
+        $this->contain();
+        $papers = $this->find('all');
+
+        foreach($papers as $paper){
+            $this->id = $paper['Paper']['id'];
+            $this->data = $paper;
+            $this->addRoute();
+            $this->addToOrUpdateSolr();
+        }
+
+    }
+
+
 			/**
 			 * 1)
 			 * update solr index with saved data
 			 */
 			function afterSave($created){
 				
+                $this->addRoute();
+
 				if(!$this->updateSolr)return;
 
 				if($this->id){
 
                      $this->addToOrUpdateSolr();
 
-                //create subscription for created paper
-                if($created){
-                    $subscriptionData = array('paper_id' => $this->id,
-                                        'user_id' => $this->data['Paper']['owner_id'],
-                                        'own_paper' => true,
-                    );
-                    $this->Subscription = new Subscription();
-                    $this->Subscription->create();
-                    $this->Subscription->save($subscriptionData);
+                    //create subscription for created paper
+                    if($created){
+                        $subscriptionData = array('paper_id' => $this->id,
+                                            'user_id' => $this->data['Paper']['owner_id'],
+                                            'own_paper' => true,
+                        );
+                        $this->Subscription = new Subscription();
+                        $this->Subscription->create();
+                        $this->Subscription->save($subscriptionData);
 
-                }
+                    }
 
 				}
 				else{
@@ -385,23 +499,25 @@ function __construct(){
             function addToOrUpdateSolr(){
             //get User information
                 App::import('model','Solr');
-				App::import('model','User');
-				App::import('model','Subscription');
-                $user = new User();
 
-                $user->contain();
-                $userData = $user->read(null, $this->data['Paper']['owner_id']);
+			//	App::import('model','Subscription');
+
+                $this->contain('User', 'Route');
+                $this->data = $this->read(null, $this->id);
+
+
                 $data['Paper']['index_id'] = Solr::TYPE_PAPER.'_'.$this->id;
                 $data['Paper']['id'] = $this->id;
                 $data['Paper']['type'] = Solr::TYPE_PAPER;
                 $data['Paper']['paper_title'] = $this->data['Paper']['title'];
                 $data['Paper']['paper_description'] = $this->data['Paper']['description'];
-                $data['Paper']['user_id'] = $userData['User']['id'];
-                $data['Paper']['user_name'] = $userData['User']['name'];
-                $data['Paper']['user_username'] = $userData['User']['username'];
+                $data['Paper']['user_id'] = $this->data['User']['id'];
+                $data['Paper']['user_name'] = $this->data['User']['name'];
+                $data['Paper']['user_username'] = $this->data['User']['username'];
                 if(isset($this->data['Paper']['image'])){
                     $data['Paper']['paper_image'] = $this->data['Paper']['image'];
                 }
+                $data['Paper']['route_source'] = $this->data['Route'][0]['source'];
                 $solr = new Solr();
                 $solr->add($this->addFieldsForIndex($data));
 
@@ -740,6 +856,7 @@ function __construct(){
 				$solrFields['Paper']['user_name']			= $data['Paper']['user_name'];
 				$solrFields['Paper']['user_username']		= $data['Paper']['user_username'];
 				$solrFields['Paper']['type']				= $data['Paper']['type'];
+                $solrFields['Paper']['route_source']		= $data['Paper']['route_source'];
 				if(isset($data['Paper']['paper_image'])){
 					$solrFields['Paper']['paper_image'] = $data['Paper']['paper_image'];
 				}
@@ -759,10 +876,12 @@ function __construct(){
         if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
             $this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
         }
+
         return true;
     }
     function afterDelete(){
         $this->deleteFromSolr();
+        $this->deleteRoutes();
         return true;
      }
 

@@ -20,7 +20,7 @@
 		<tr<?php echo $class;?>>
 			<td>
 				<?php echo $comment['Comment']['created']; ?>&nbsp;
-				<?php echo $this->Html->link($comment['User']['username'], array('controller' => 'users', 'action' => 'view', $comment['User']['id'])); ?>:&nbsp;
+				<?php echo $this->Html->link($comment['User']['username'], array('controller' => 'users', 'action' => 'view','username' => strtolower($comment['User']['username']))); ?>:&nbsp;
 				<?php echo $comment['Comment']['text']; ?>&nbsp;
 			</td>
 			<td class="actions">
@@ -41,7 +41,7 @@
 			<tr<?php echo $class;?>>
 			<td>
 				&nbsp;&nbsp;&nbsp;<?php echo $reply['Comment']['created']; ?>&nbsp;
-				<?php echo $this->Html->link($reply['User']['username'], array('controller' => 'users', 'action' => 'view', $reply['User']['id'])); ?>:&nbsp;
+				<?php echo $this->Html->link($reply['User']['username'], array('controller' => 'users', 'action' => 'view', 'username' => strtolower($reply['User']['username']))); ?>:&nbsp;
 				<?php echo $reply['Comment']['text']; ?>&nbsp;
 			</td>
 			<td class="actions">
@@ -62,7 +62,7 @@
 				<tr<?php echo $class;?>>
 				<td>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $replyReply['Comment']['created']; ?>&nbsp;
-					<?php echo $this->Html->link($replyReply['User']['username'], array('controller' => 'users', 'action' => 'view', $replyReply['User']['id'])); ?>:&nbsp;
+					<?php echo $this->Html->link($replyReply['User']['username'], array('controller' => 'users', 'action' => 'view', 'username' => strtolower($replyReply['User']['username']))); ?>:&nbsp;
 					<?php echo $replyReply['Comment']['text']; ?>&nbsp;
 				</td>
 				<td class="actions">

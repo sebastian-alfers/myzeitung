@@ -1,16 +1,16 @@
 <p class="user-info">
 		<?php
 		//$info = $image->resize(['image'],65, 65, null, true);
-		//echo $this->Html->link($this->Html->image($info['path']),array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']),array('class' => "user-image", 'style' => $info['inline'], 'escape' => false));
+		//echo $this->Html->link($this->Html->image($info['path']),array('controller' => 'users', 'action' => 'view', 'username' => $current_comment['User']['username']),array('class' => "user-image", 'style' => $info['inline'], 'escape' => false));
 		
 
 
         $link_data = array();
-        $link_data['url'] = array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']);
+        $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username']));
         $link_data['custom'] = array('class' => 'user-image');
         echo $image->render($current_comment['User'], 65, 65, array("alt" => $current_comment['User']['username']), $link_data); ?>
 
-		<?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', $current_comment['User']['id']));?>
+		<?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username'])));?>
 		<?php echo $this->MzTime->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
 </p>
 	<p class="content">

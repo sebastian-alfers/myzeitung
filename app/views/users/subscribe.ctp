@@ -8,6 +8,7 @@
 
 <?php if(isset($user_id)): ?>
 	<?php echo $this->Form->hidden('user_id',array('value' => $user_id)); ?>
+    <?php echo $this->Form->hidden('username',array('value' => $username)); ?>
 <?php endif; //isset user_id?>
 
 

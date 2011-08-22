@@ -18,12 +18,12 @@ if(isset($id) && !empty($id)){
              $image_options = array();
               $image_options['tag'] = 'div';
              echo $image->render($message['User'], 37, 37, array("alt" => $message['User']['username']), $image_options, ImageHelper::USER); ?>
-            <?php //echo $this->Html->link($image->render($message['User'], 37, 37, array( "alt" => $message['User']['username'], "class" => 'user-image'), array(), ImageHelper::USER),array('controller' => 'users', 'action' => 'view',$message['User']['id']), array('escape' => false));?>
+            <?php //echo $this->Html->link($image->render($message['User'], 37, 37, array( "alt" => $message['User']['username'], "class" => 'user-image'), array(), ImageHelper::USER),array('controller' => 'users', 'action' => 'view', 'username' => $message['User']['username']), array('escape' => false));?>
         </li>
         <li class="is-answer">
         </li>
         <li class="message-info">
-            <p class="from"><?php echo __("from", true);?>&nbsp;<?php echo $this->Html->link('<strong>'.$message['User']['username'].'</strong>'.$message['User']['name'],array('controller' => 'users', 'action' => 'view',$message['User']['id']), array('escape' => false));?>
+            <p class="from"><?php echo __("from", true);?>&nbsp;<?php echo $this->Html->link('<strong>'.$message['User']['username'].'</strong>'.$message['User']['name'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($message['User']['username'])), array('escape' => false));?>
 
             <p class="message-content"><?php echo $message['ConversationMessage']['message'];?></p>
         </li>

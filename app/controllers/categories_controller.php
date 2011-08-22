@@ -12,13 +12,6 @@ class CategoriesController extends AppController {
 		$this->set('categories', $this->paginate());
 	}
 
-	function view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid category', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('category', $this->Category->read(null, $id));
-	}
 
 	function addcategory(){
 
@@ -42,7 +35,7 @@ class CategoriesController extends AppController {
 			//pass param for paper or category for hidden value
 			if($this->params['pass'][0] == Category::PARAM_PAPER){
 				$this->set('paper_id', $this->params['pass'][1]);
-			}
+            }
 			elseif($this->params['pass'][0] == Category::PARAM_CATEGORY){
 				$this->set('parent_id', $this->params['pass'][1]);
 			}
@@ -64,19 +57,19 @@ class CategoriesController extends AppController {
 				
 			}
 			if(isset($this->data['Category']['paper_id']) && !empty($this->data['Category']['paper_id'])){
-				$this->Paper->contain();
+				$this->Paper->contain('Route');
 				$paper = $this->Paper->read(array('id', 'owner_id'),$this->data['Category']['paper_id']);
 				$owner_id = $paper['Paper']['owner_id'];
 			}
 			if($this->Auth->user('id') != $owner_id){
 					$this->Session->setFlash(__('This paper does not belong to you. You cannot add a category.', true));
-					$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
+					$this->redirect($this->referer());
 			}
 				
 			$this->Category->create();
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true), 'default', array('class' => 'success'));
-				$this->redirect(array('controller' => 'papers', 'action' => 'view', $this->data['Category']['paper_id']));
+                $this->redirect($this->data['Route'][0]['source']);
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
 			}
@@ -86,12 +79,12 @@ class CategoriesController extends AppController {
 	function edit($id = null) {
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid category', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
 		if (!empty($this->data)) {
 			if ($this->Category->save($this->data)) {
 				$this->Session->setFlash(__('The category has been saved', true), 'default', array('class' => 'success'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect($this->referer());
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
 			}
@@ -107,14 +100,14 @@ class CategoriesController extends AppController {
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for category', true));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect($this->referer());
 		}
 		if ($this->Category->delete($id, true)) {
 			$this->Session->setFlash(__('Category deleted', true), 'default', array('class' => 'success'));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect($this->referer());
 		}
 		$this->Session->setFlash(__('Category was not deleted', true));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect($this->referer());
 	}
 }
 ?>

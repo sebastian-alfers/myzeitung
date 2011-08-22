@@ -8,12 +8,11 @@ class Post extends AppModel {
     var $topicChanged = false;
 
     var $actsAs = array('Increment'=>array('incrementFieldName'=>'view_count'));
-
+   
     var $updateSolr = false;
 
     var $CategoryPaperPost = null;
-
-
+    
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
@@ -34,7 +33,7 @@ class Post extends AppModel {
 			'order' => '',
 			'counterCache' => true,
             'counterScope' => array('Post.enabled' => true),
-	),
+	    ),
 	);
 
 	var $hasMany = array(
@@ -64,9 +63,18 @@ class Post extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 			),
+       'Route' => array(
+            'className' => 'Route',
+            'foreignKey' => 'ref_id',
+            'dependent' => 'false',
+            'limit' => 1,
+            'conditions' => array('parent_id' => null,
+                                 'ref_type' => 'POST'),
+            ),
 
 
-        );
+      );
+
 
 
 
@@ -121,7 +129,114 @@ class Post extends AppModel {
         //already enabled
         return false;
     }
+    function addRoute(){
 
+        App::import('model','Route');
+        $this->Route = new Route();
+        $this->Route->create();
+
+        $routeString = $this->generateRouteString();
+        if($routeString != ''){
+            $routeData['Route'] = array('source' => $routeString,
+                               'target_controller' 	=> 'posts',
+                               'target_action'     	=> 'view',
+                                'target_param'		=> $this->id,
+                                'ref_type'          => Route::TYPE_POST,
+                                'ref_id'            => $this->id);
+
+             if($this->Route->save($routeData,false)){
+                 $newRouteId = $this->Route->id;
+                 // update children
+                 $this->Route->contain();
+                 $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_POST,  'ref_id' => $this->id)));
+                 foreach($oldRoutes as $oldRoute){
+                      if($oldRoute['Route']['id'] !=  $newRouteId){
+                          $oldRoute['Route']['parent_id'] = $newRouteId;
+                          $this->Route->save($oldRoute);
+                          $this->Route->deleteRouteCache($oldRoute['Route']['source']);
+                      }
+                 }
+                 return true;
+             }
+        }else{
+            return true;
+        }
+
+        return false;
+    }
+
+    private function generateRouteString(){
+        App::import('model','User');
+        $this->User = new User();
+        $this->User->contain();
+        $user = $this->User->read(array('id','username'),$this->data['Post']['user_id']);
+
+
+        $this->Inflector = ClassRegistry::init('Inflector');
+        $routeUsername = strtolower($user['User']['username']);
+        $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
+        $routeString = '/a/'.$routeUsername.'/'.$routeTitle;
+        $this->Route->contain();
+        $existingRoutes = $this->Route->findAllBySource($routeString);
+
+        if(count($existingRoutes) >0){
+            //the route is already used
+            $sameTarget = true;
+            foreach($existingRoutes as $existingRoute){
+                if($existingRoute['Route']['ref_type'] !=  Route::TYPE_POST || $existingRoute['Route']['ref_id'] != $this->id){
+                    $sameTarget = false;
+                }
+            }
+            if($sameTarget){
+                //route already exists - nothing needed
+                return '';
+            }else{
+                //generate new routestring with uniqid
+                //$routeString = 'a/'.$routeUsername.'/'.$routeTitle.'-'.uniqid();
+                //generate new routestring with added id
+                $routeString = '/a/'.$routeUsername.'/'.$routeTitle.'-a'.$this->id;
+                $this->Route->contain();
+                $existingRoutes = $this->Route->findAllBySource($routeString);
+                //if this specific routestring does exist, it must direct to the same target
+                if(count($existingRoutes)>0){
+                    return '';
+                }
+                return $routeString;
+            }
+
+        }else{
+            //the route is not used yet
+            return $routeString;
+
+        }
+
+
+
+        return $route_title;
+    }
+
+
+
+    function deleteRoutes(){
+        App::import('model','Route');
+        $this->Route = new Route();
+        $conditions = array('Route.ref_type' => Route::TYPE_POST, 'Route.ref_id' 	=> $this->id);
+        //cascade = false, callbackes = true
+        $this->Route->contain();
+        $this->Route->deleteAll($conditions, false, true);
+    }
+    function refreshRoutes(){
+        $this->contain();
+        $posts = $this->find('all');
+
+        foreach($posts as $post){
+            $this->id = $post['Post']['id'];
+            $this->data = $post;
+            $this->addRoute();
+            $this->addToOrUpdateSolr();
+        }
+
+    }
 
     function deleteFromSolr(){
         App::import('model','Solr');
@@ -413,61 +528,67 @@ class Post extends AppModel {
 			 * 2)
 			 * update solr index with saved data
 			 */
-			function afterSave($created){
-				
-
-				//1) updating PostUser-Entry
-				App::import('model','PostUser');
-				$this->PostUser = new PostUser();
-
-				$PostUserData = array('user_id' => $this->data['Post']['user_id'],
-								   'post_id' => $this->id);
-
-				if($created){
-					//write PostUser-Entry
-
-					if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
-						$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
-					}
-
-					$this->PostUser->create();
-					$this->PostUser->save($PostUserData);
-			
-				} else {
-					//update PostUser-Entry - but ONLY IF the topic_id has changed
-					if($this->topicChanged){
-
-						//delete old entry -> important for deleting all data-associations (from old topic)
-						$this->PostUser->contain();
-                        // params 1. conditions 2. cascading 3. callbacks
-						$this->PostUser->deleteAll(array('repost'=> false, 'user_id' => $this->data['Post']['user_id'], 'post_id' => $this->data['Post']['id']), true, true);
-						
-						//creating new postuser entry for new associations for new topic
-						$this->PostUser->create();
-                        //keep the old created date - to prevent the post to be more up to date
-                        $PostUserData['created'] = $this->data['Post']['created'];
-						if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
-							$PostUserData['topic_id'] = $this->data['Post']['topic_id'];
-						}
-
-						$this->PostUser->save($PostUserData);
-					}
-
-				}
+    function afterSave($created){
 
 
-				if($this->updateSolr){
-                    // update solr index with saved date
-                    $this->addToOrUpdateSolr();
+        //1) updating PostUser-Entry
+        App::import('model','PostUser');
+        $this->PostUser = new PostUser();
+
+        $PostUserData = array('user_id' => $this->data['Post']['user_id'],
+                           'post_id' => $this->id);
+
+        if($created){
+            //write PostUser-Entry
+
+            if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
+                $PostUserData['topic_id'] = $this->data['Post']['topic_id'];
+            }
+
+            $this->PostUser->create();
+            $this->PostUser->save($PostUserData);
+
+        } else {
+            //update PostUser-Entry - but ONLY IF the topic_id has changed
+            if($this->topicChanged){
+
+                //delete old entry -> important for deleting all data-associations (from old topic)
+                $this->PostUser->contain();
+                // params 1. conditions 2. cascading 3. callbacks
+                $this->PostUser->deleteAll(array('repost'=> false, 'user_id' => $this->data['Post']['user_id'], 'post_id' => $this->data['Post']['id']), true, true);
+
+                //creating new postuser entry for new associations for new topic
+                $this->PostUser->create();
+                //keep the old created date - to prevent the post to be more up to date
+                $PostUserData['created'] = $this->data['Post']['created'];
+                if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
+                    $PostUserData['topic_id'] = $this->data['Post']['topic_id'];
                 }
 
+                $this->PostUser->save($PostUserData);
             }
+
+        }
+
+        $this->addRoute();
+
+        if($this->updateSolr){
+            // update solr index with saved date
+            $this->addToOrUpdateSolr();
+        }
+
+    }
     function addToOrUpdateSolr(){
         App::import('model','Solr');
-        $this->User->contain();
-        $userData = $this->User->read(null, $this->data['Post']['user_id']);
+        $this->contain('Route', 'User');
+        $this->data = $this->read(null, $this->id);
+      //  $this->User->contain();
+       // $userData = $this->User->read(null, $this->data['Post']['user_id']);
 
-        if($userData['User']['id']){
+
+
+
+        if($this->data['User']['id']){
             if(isset($this->data['Post']['topic_id'])){
                 $this->Topic->contain();
                 $topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
@@ -483,10 +604,11 @@ class Post extends AppModel {
             }
             $this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
             $this->data['Post']['id'] = $this->id;
-            $this->data['Post']['user_name'] = $userData['User']['name'];
-            $this->data['Post']['user_username'] = $userData['User']['username'];
-            $this->data['Post']['user_id'] = $userData['User']['id'];
+            $this->data['Post']['user_name'] = $this->data['User']['name'];
+            $this->data['Post']['user_username'] = $this->data['User']['username'];
+            $this->data['Post']['user_id'] = $this->data['User']['id'];
             $this->data['Post']['type'] = Solr::TYPE_POST;
+            $this->data['Post']['route_source'] = $this->data['Route'][0]['source'];
 
             $solr = new Solr();
             $solr->add($this->addFieldsForIndex($this->data));
@@ -506,31 +628,31 @@ class Post extends AppModel {
         }
     }
 
-			/**
-			 * @todo move to abstract for all models
-			 * Enter description here ...
-			 */
-			private function addFieldsForIndex($data){
-				$solrFields = array();
-				$solrFields['Post']['id'] = $data['Post']['id'];
-				$solrFields['Post']['post_title'] = $data['Post']['title'];
-				$solrFields['Post']['post_content'] = strip_tags($data['Post']['content']);
-               // debug($data);
-				if(isset($data['Post']['image'])){
-					$solrFields['Post']['post_image'] = $data['Post']['image'];
-				}
-				if(isset($data['Post']['topic_name'])){
-					$solrFields['Post']['topic_name'] = $data['Post']['topic_name'];
-				}
-				$solrFields['Post']['user_name'] = $data['Post']['user_name'];
-				$solrFields['Post']['user_username'] = $data['Post']['user_username'];
-				$solrFields['Post']['user_id'] = $data['Post']['user_id'];
-				$solrFields['Post']['index_id'] = $data['Post']['index_id'];
-				$solrFields['Post']['type'] = $data['Post']['type'];
-				$solrFields['Post']['post_content_preview'] = $data['Post']['content_preview'];
-				
-				return $solrFields;
-			}
+    /**
+     * @todo move to abstract for all models
+     * Enter description here ...
+     */
+    private function addFieldsForIndex($data){
+        $solrFields = array();
+        $solrFields['Post']['id'] = $data['Post']['id'];
+        $solrFields['Post']['post_title'] = $data['Post']['title'];
+        $solrFields['Post']['post_content'] = strip_tags($data['Post']['content']);
+       // debug($data);
+        if(isset($data['Post']['image'])){
+            $solrFields['Post']['post_image'] = $data['Post']['image'];
+        }
+        if(isset($data['Post']['topic_name'])){
+            $solrFields['Post']['topic_name'] = $data['Post']['topic_name'];
+        }
+        $solrFields['Post']['user_name'] = $data['Post']['user_name'];
+        $solrFields['Post']['user_username'] = $data['Post']['user_username'];
+        $solrFields['Post']['user_id'] = $data['Post']['user_id'];
+        $solrFields['Post']['index_id'] = $data['Post']['index_id'];
+        $solrFields['Post']['type'] = $data['Post']['type'];
+        $solrFields['Post']['post_content_preview'] = $data['Post']['content_preview'];
+        $solrFields['Post']['route_source'] =   $data['Post']['route_source'];
+        return $solrFields;
+    }
 
 
 	function __construct(){
@@ -564,6 +686,7 @@ class Post extends AppModel {
         }
         return true;
     }
+
 
     function afterDelete(){
         $this->deleteFromSolr();
