@@ -483,6 +483,7 @@ class PapersController extends AppController {
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
 		$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
+        $this->set('edit', false);
 		$this->render('add_edit');
 	}
 
@@ -499,7 +500,7 @@ class PapersController extends AppController {
                 $this->Paper->updateSolr = true;
                 if ($this->Paper->save($this->data)) {
                     $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
-                    $this->redirect(array('action' => 'index'));
+                    $this->redirect(array('controller' => 'papers', 'action' => 'view', $id));
                 } else {
                     $this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
                 }
@@ -518,6 +519,10 @@ class PapersController extends AppController {
 		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
 		$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
+
+        $this->set('paper_id', $id);
+        $this->set('edit', true);
+
 		$this->render('add_edit');
 	}
 

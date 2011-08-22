@@ -24,7 +24,7 @@
                                 <?php $tipsy_title = sprintf(__n('%d author', '%d authors', $paper['Paper']['content_paper_count'],true), $paper['Paper']['content_paper_count']);?>
 								<li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['content_paper_count'];?></li>
 							</ul>
-							<h4><?php echo $this->MzText->truncate($paper['Paper']['title'], 20,array('ending' => '...', 'exact' => false, 'html' => false));?></h4>
+							<h4><?php echo $this->MzText->truncate($paper['Paper']['title'], 30,array('ending' => '...', 'exact' => false, 'html' => false));?></h4>
                                 <?php
                                     $image_options = array();
                                     $image_options['url'] = array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']);
