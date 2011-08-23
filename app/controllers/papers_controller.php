@@ -172,11 +172,12 @@ class PapersController extends AppController {
 
 	function saveImage(){
 
-
 		if (empty($this->data)) {
 			$this->Session->setFlash(__('Error during photo upload', true));
 			$this->redirect($this->referer());
 		}
+
+
 
 		$paper_id = $this->data['Paper']['id'];
 

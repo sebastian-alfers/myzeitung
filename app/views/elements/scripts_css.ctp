@@ -13,28 +13,59 @@ echo $this->Html->meta('icon');
  * set options in app_controller
  *
  */
-$javascript->link('jquery-1.5.1.min', false);
-$javascript->link('jquery.fileupload', false);
-$javascript->link('jquery.fileupload-ui', false);
-$javascript->link('jquery-ui-1.8.11.min', false);
-$javascript->link('jquery.jqtransform', false);
-$javascript->link('global/myzeitung', false);
-$javascript->link('jquery.pop.js', false);
-$javascript->link('jquery.tipsy.js', false);
-$javascript->link('tiny_mce/tiny_mce.js', false);
-$javascript->link('pirobox_extended_min.js', false);
-$javascript->link('json2.js', false);
-$javascript->link('jquery.spinner.js', false);
+$disable_combine = true;
+$this->MzJavascript->link('jquery-1.5.1.min');
+$this->MzJavascript->link('jquery.fileupload');
+$this->MzJavascript->link('jquery.fileupload-ui');
+$this->MzJavascript->link('jquery-ui-1.8.11.min');
+$this->MzJavascript->link('jquery.jqtransform');
+$this->MzJavascript->link('global/myzeitung');
+$this->MzJavascript->link('jquery.pop.js');
+$this->MzJavascript->link('jquery.tipsy.js');
+$this->MzJavascript->link('tiny_mce/tiny_mce.js');
+$this->MzJavascript->link('pirobox_extended_min.js');
+$this->MzJavascript->link('json2.js');
+$this->MzJavascript->link('jquery.spinner.js');
+
+//tiny mce
+$this->MzJavascript->link('tiny_mce/plugins/autolink/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/lists/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/spellchecker/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/pagebreak/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/style/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/layer/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/table/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/save/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/advhr/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/advimage/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/emotions/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/advlink/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/iespell/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/inlinepopups/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/insertdatetime/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/media/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/preview/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/print/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/searchreplace/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/paste/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/directionality/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/fullscreen/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/noneditable/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/visualchars/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/nonbreaking/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/xhtmlxtras/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/template/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/themes/advanced/editor_template.js');
+$this->MzJavascript->link('tiny_mce/langs/en.js');
+
+
 
 //the order of the scrips is important!
-$html->css('style', false, array('inline' => false));
-$html->css('jquery.fileupload-ui', false, array('inline' => false));
-$html->css('jquery-ui-1.8.11', false, array('inline' => false));
-
-
-//$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
-
-
+$this->MzHtml->css('style');
+$this->MzHtml->css('jquery.fileupload-ui');
+$this->MzHtml->css('jquery-ui-1.8.11');
+//$this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
+$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
 
 echo $asset->scripts_for_layout();
 

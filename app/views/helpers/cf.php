@@ -13,7 +13,7 @@ class CfHelper extends AppHelper {
 /**
  * Let's load required helpers
  */
-  public $helpers = array('Html', 'Javascript');
+  public $helpers = array('Html');
   
 /**
  * Where are the assets hosted?
