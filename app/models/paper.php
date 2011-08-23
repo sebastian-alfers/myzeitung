@@ -355,19 +355,23 @@ function __construct(){
 		}
  */
 
+
+    /**
+     * returns false if no route was written
+     */
     function addRoute(){
 
 
-        $this->Route->create();
 
         $routeString = $this->generateRouteString();
         if($routeString != ''){
             $routeData['Route'] = array('source' => $routeString,
-                               'target_controller' 	=> 'papers',
-                               'target_action'     	=> 'view',
-                                'target_param'		=> $this->id,
-                                'ref_type'          => Route::TYPE_PAPER,
-                                'ref_id'            => $this->id);
+                                        'target_controller' 	=> 'papers',
+                                        'target_action'     	=> 'view',
+                                        'target_param'		=> $this->id,
+                                        'ref_type'          => Route::TYPE_PAPER,
+                                        'ref_id'            => $this->id);
+            $this->Route->create();
 
              if($this->Route->save($routeData,false)){
                  $newRouteId = $this->Route->id;
@@ -383,7 +387,7 @@ function __construct(){
                  return true;
              }
         }else{
-            return true;
+            return false;
         }
 
         return false;
@@ -462,8 +466,9 @@ function __construct(){
         foreach($papers as $paper){
             $this->id = $paper['Paper']['id'];
             $this->data = $paper;
-            $this->addRoute();
-            $this->addToOrUpdateSolr();
+            if($this->addRoute()){
+                $this->addToOrUpdateSolr();
+            }
         }
 
     }

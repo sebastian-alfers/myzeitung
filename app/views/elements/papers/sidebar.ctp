@@ -55,9 +55,9 @@ if($paper_belongs_to_user){
         <?php ?>
         <ul>
             <?php if($paper_belongs_to_user):?>
-            <li>
-                <a href="#" class="btn" id="add_category"><span>+</span><?php __('New Category'); ?></a>
-            <li><a class="btn" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
+              <li> <?php echo $this->Html->link('<span class="icon icon-general"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn settings-btn', 'escape' => false));?></li>
+              <li><a class="btn" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
+            <li><a href="#" class="btn" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
             <?php endif;?>
             <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
             <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
@@ -107,7 +107,7 @@ if($paper_belongs_to_user){
                  <li><?php echo sprintf(__n('%d Subscriber', '%d Subscribers', $paper['Paper']['subscription_count'],true), $paper['Paper']['subscription_count']);?></li>
             </ul>
             <hr />
-            <a class="btn settings-btn" href="/papers/edit/<?php echo $paper['Paper']['id']; ?>"><span class="icon icon-general"></span><?php __('Edit Paper'); ?></a>
+
             <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
 
 
