@@ -1,7 +1,7 @@
 <?php echo $this->element('users/sidebar'); ?>
 				<div id="maincolwrapper">
 					<div id="maincol" class="account message-overview">
-						<h4 class="account-title"><?php echo __('Conversations', true);?></h4>
+						<h4 class="account-title"><?php echo __('Messages', true);?></h4>
 
 						<div class="message-top-nav" >
                             <?php /*

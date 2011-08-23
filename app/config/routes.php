@@ -31,7 +31,7 @@
 
 
 $prefix = substr($_SERVER['REQUEST_URI'],0,3);
-if(in_array($prefix,array('/p/','/a/'))){
+if(in_array($preffix,array('/p/','/a/'))){
     $temp_url = $_SERVER['REQUEST_URI'];
     $temp_url_extra = '';
     //filter pagination params to find the correct routing in cache or database

@@ -38,5 +38,32 @@ class MzTextHelper extends TextHelper {
         return $name;
 
     }
+
+    /**
+     * @param  $string
+     * @return string
+     *
+     * add possessive "s", "'s" or "'" to a string depending on language and string.
+     */
+
+    function possessive($string){
+        $lang = $this->Session->read('Config.language');
+        if(empty($lang)){
+            $lang = Configure::read('Config.language');
+        }
+        if($lang == 'deu'){
+            //german grammar  Hans -> "Hans' Artikel" Tim -> "Tims Artikel"
+            if(in_array(substr($string, -1),array('s','S','ß','z','Z','x','X'))){
+                $addition = "'";
+            }else{
+                $addition = "s";
+            }
+            return $string.$addition;
+        //english as backup
+        }else{
+            //english grammar   Steve Jobs -> "Steve Jobs' articles"  Steve -> "Steve's articles"
+            return  $string.(substr($string, -1) == 's' ? "'" : "'s");
+        }
+    }
 }
 ?>
