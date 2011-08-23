@@ -54,7 +54,7 @@
 							</ul>
 
                         <div class="more">
-                            <?php echo $this->Html->link(__('more papers'), array('controller' => 'papers', 'action' => 'index')); ?>
+                            <?php echo $this->Html->link(__('more papers', true), array('controller' => 'papers', 'action' => 'index')); ?>
                             </div>
 						<hr />
 
@@ -80,7 +80,7 @@
 							<?php endforeach;?>
 						</ul>
                         <div class="more">
-                            <?php echo $this->Html->link(__('more authors'), array('controller' => 'users', 'action' => 'index')); ?>
+                            <?php echo $this->Html->link(__('more authors', true), array('controller' => 'users', 'action' => 'index')); ?>
                         </div>
 								
 					</div><!-- /.col1 -->
@@ -109,7 +109,7 @@
 								</div>
 							<?php endforeach;?>
                         <div class="more">
-                            <?php echo $this->Html->link(__('more posts'), array('controller' => 'posts', 'action' => 'index')); ?>
+                            <?php echo $this->Html->link(__('more posts', true), array('controller' => 'posts', 'action' => 'index')); ?>
                             
                         </div>
 					</div><!-- /.col2 -->

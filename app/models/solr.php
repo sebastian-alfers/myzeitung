@@ -1,6 +1,7 @@
 <?php
 
-require_once('libs/Apache/Solr/Service.php');
+//require_once('libs/Apache/Solr/Service.php');
+App::import('Lib', 'ApacheSolrService', array('file' => 'Apache/Solr/Service.php'));
 
 class Solr extends AppModel {
 
@@ -46,6 +47,7 @@ class Solr extends AppModel {
 
         if(USE_SOLR){
              $this->solr = new Apache_Solr_Service(self::HOST, $port, self::PATH);
+            
         }
 
     }
