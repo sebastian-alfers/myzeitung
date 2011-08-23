@@ -9,6 +9,7 @@ class ConversationsController extends AppController {
     var $helpers = array('MzText', 'Image', 'MzTime');
 
 	function add($recipient_id = null){
+
 		if(!$recipient_id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid recipient', true));
 			$this->redirect($this->referer());

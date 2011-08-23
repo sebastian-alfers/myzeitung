@@ -1,3 +1,8 @@
+<?php
+$to = $user['User']['username'];
+if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
+?>
+<?php echo $this->element('users/modal_send_msg', array('recipient' => $user, 'user_id' => $session->read('Auth.User.id'), 'to' => $to)); ?>
 <?php echo $this->element('users/modal_activity'); ?>
 
 <div id="leftcolwapper">

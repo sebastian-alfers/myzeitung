@@ -38,7 +38,10 @@ class AppController extends Controller {
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
 
-    var $helpers = array('Cf', 'Session', 'Mzform', 'Image', 'MzText');
+    /*
+     * options for the Asses.asset plugin
+     */
+    var $helpers = array('Javascript', 'Html', 'Session', 'Mzform', 'Image', 'MzText', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
 
     //acl groups
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);

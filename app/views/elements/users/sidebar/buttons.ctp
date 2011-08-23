@@ -8,7 +8,9 @@ if($session->read('Auth.User.id')){
 <li><a href="<?php echo $link; ?>" class="btn subscribe-user" id="<?php echo $user['User']['id']; ?>"><span>+</span><?php __('Subscribe'); ?></a></li>
 <?php if($user['User']['id'] != $session->read('Auth.User.id')): // - cannot send a message to himself ?>
 	<?php if($user['User']['allow_messages']):?>
-		<li><?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user['User']['id']), array('escape' => false, 'class' => 'btn btn-send', ));?></li>
+		<li>
+            <a href="#" class="btn btn-send new-conversation"><span class="send-icon"></span><?php __('Send Message'); ?></a>
+        </li>
 	<?php endif;?>
 	<?php else:?>
 		<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'): ?>

@@ -10,7 +10,7 @@ class UsersController extends AppController {
 
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
 	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
-	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter');
+	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript');
 
 
 	public function beforeFilter(){
@@ -166,6 +166,7 @@ class UsersController extends AppController {
     
 
 		$this->set('posts', $this->paginate($this->User->Post));
+
 
 		//references
 	/*	$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
@@ -381,6 +382,7 @@ class UsersController extends AppController {
 	 *
 	 */
 	function subscribe($user_id = ''){
+
         $email_user_id = null;
         $email_topic_id = null;
         $email_paper_id = null;
@@ -420,7 +422,9 @@ class UsersController extends AppController {
 				//check, if submitted target type is valid
 				if(!$this->_validateTargetType($target_type)){
 					$this->Session->setFlash(__('Not able to subscribe user/topic to paper - invalid target type', true));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
+
+                    $this->redirect($this->referer());
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
 				}
 
 				$data['Paper']['target_id'] = $target[1];
@@ -463,12 +467,16 @@ class UsersController extends AppController {
 
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
 					$this->Session->setFlash($msg,'default', array('class' => 'success'));
-					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
+
+                    $this->redirect($this->referer());
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
 				}
 				else{
                     $msg = $this->Paper->return_code_messages[$return_code];
 					$this->Session->setFlash($msg, true);
-					$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
+
+					//$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->data['User']['username'])));
+                    $this->redirect($this->referer());
 
 				}
 			}

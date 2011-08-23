@@ -131,8 +131,8 @@ class Post extends AppModel {
     }
     function addRoute(){
 
-        App::import('model','Route');
-        $this->Route = new Route();
+
+
         $this->Route->create();
 
         $routeString = $this->generateRouteString();
@@ -166,8 +166,7 @@ class Post extends AppModel {
     }
 
     private function generateRouteString(){
-        App::import('model','User');
-        $this->User = new User();
+
         $this->User->contain();
         $user = $this->User->read(array('id','username'),$this->data['Post']['user_id']);
 
@@ -225,12 +224,23 @@ class Post extends AppModel {
         $this->Route->contain();
         $this->Route->deleteAll($conditions, false, true);
     }
+
+
     function refreshRoutes(){
         $this->contain();
         $posts = $this->find('all');
 
+
+
+        App::import('model','Route');
+        $this->Route = new Route();
+
+        App::import('model','User');
+        $this->User = new User();
+
         App::import('model','Solr');
         $this->Solr = new Solr();
+
 
         foreach($posts as $post){
             $this->id = $post['Post']['id'];
@@ -533,6 +543,11 @@ class Post extends AppModel {
 			 */
     function afterSave($created){
 
+        App::import('model','Route');
+        $this->Route = new Route();
+
+        App::import('model','User');
+        $this->User = new User();
 
         //1) updating PostUser-Entry
         App::import('model','PostUser');
