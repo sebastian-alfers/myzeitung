@@ -1,6 +1,7 @@
 <?php
 
-require_once('libs/Apache/Solr/Service.php');
+//require_once('libs/Apache/Solr/Service.php');
+App::import('Lib', 'ApacheSolrService', array('file' => 'Apache/Solr/Service.php'));
 
 class Solr extends AppModel {
 
@@ -20,7 +21,7 @@ class Solr extends AppModel {
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 	
 	const HOST = 'localhost';
-	const PORT = 8983; # -alf 8080  -tim 8983
+	const PORT = 8080; # -alf 8080  -tim 8983
 	const PATH = '/solr';
 
 
@@ -46,6 +47,7 @@ class Solr extends AppModel {
 
         if(USE_SOLR){
              $this->solr = new Apache_Solr_Service(self::HOST, $port, self::PATH);
+            
         }
 
     }
