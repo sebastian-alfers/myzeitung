@@ -6,33 +6,41 @@
 <?php
 echo $this->Html->meta('icon');
 
+/*
+ * all CSS/JS will be compressed and combined
+ * by the plugin "asset"
+ *
+ * set options in app_controller
+ *
+ */
+$javascript->link('jquery-1.5.1.min', false);
+$javascript->link('jquery.fileupload', false);
+$javascript->link('jquery.fileupload-ui', false);
+$javascript->link('jquery-ui-1.8.11.min', false);
+$javascript->link('jquery.jqtransform', false);
+$javascript->link('global/myzeitung', false);
+$javascript->link('jquery.pop.js', false);
+$javascript->link('jquery.tipsy.js', false);
+$javascript->link('tiny_mce/tiny_mce.js', false);
+$javascript->link('pirobox_extended_min.js', false);
+$javascript->link('json2.js', false);
+$javascript->link('jquery.spinner.js', false);
 
-e($cf->script('jquery-1.5.1.min'));
-e($cf->script('jquery.fileupload'));
-e($cf->script('jquery.fileupload-ui'));
-e($cf->script('jquery-ui-1.8.11.min'));
-e($cf->script('jquery.jqtransform'));
-e($cf->script('global/myzeitung'));
-e($cf->script('jquery.pop.js'));
-e($cf->script('jquery.tipsy.js'));
-e($cf->script('tiny_mce/tiny_mce.js'));
-e($cf->script('pirobox_extended_min.js'));
-e($cf->script('json2.js'));
-e($cf->script('jquery.spinner.js'));
+//the order of the scrips is important!
+$html->css('style', false, array('inline' => false));
+$html->css('jquery.fileupload-ui', false, array('inline' => false));
+$html->css('jquery-ui-1.8.11', false, array('inline' => false));
 
 
-e($cf->css('jquery.fileupload-ui'));
-e($cf->css('jquery-ui-1.8.11'));
+//$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
 
 
-echo $cf->css('style');
 
-//	echo $scripts_for_layout;
-		
+echo $asset->scripts_for_layout();
+
 ?>
 
 <script src="http://platform.twitter.com/anywhere.js?id=nhTFk7CxUqd64YDjlE9Tg&v=1" type="text/javascript"></script>
-<link rel="stylesheet" href="/js/tiny_mce/themes/advanced/skins/default/ui.css">
 
 
 
