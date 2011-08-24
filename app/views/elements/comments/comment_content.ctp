@@ -25,7 +25,7 @@
 		$logged_in_user_id = $session->read('Auth.User.id');
 		
 		if($comment_user_id == $logged_in_user_id || $logged_in_user_id == $post_owner): ?>
-			<?php echo $this->Html->link('<span class="reply-icon"></span>'. __('Remove', true), array('controller' => 'comments', 'action' => 'delete', $current_comment['Comment']['id']), array('escape' => false, 'class' => 'btn', ));?>
+			<?php echo $this->Html->link('<span class="send-icon"></span>'. __('Remove', true), array('controller' => 'comments', 'action' => 'delete', $current_comment['Comment']['id']), array('escape' => false, 'class' => 'btn gray', ));?>
 		<?php endif; ?>
 
         <div id="btn_comment_complain_<?php echo $current_comment['Comment']['id']; ?>" style="display: none;">

@@ -19,7 +19,7 @@
                         <input type="hidden" name="hash" id="hash" value="<?php echo $hash; ?>" />
                     </form>
 
-                        <a class="btn" id="add_url_video_link"><span>+</span><?php __('Add Video'); ?></a>
+                        <a class="btn gray" id="add_url_video_link"><span>+</span><?php __('Add Video'); ?></a>
 
 					<hr>
 					
@@ -28,7 +28,7 @@
                             <?php echo $this->Form->input('topic_id', array('label' => false, 'id' => 'SelectPostTopicId')); ?>
 						</form>
                         <br /><br />
-						<a class="btn" onclick="topicDialog()"><span>+</span><?php __('Add Topic'); ?></a>
+						<a class="btn gray" onclick="topicDialog()"><span>+</span><?php __('Add Topic'); ?></a>
 					<hr>
 
 					<h5><?php __('Links'); ?></h5>
@@ -41,7 +41,7 @@
 						<?php endforeach; ?>
 					<?php endif;?>
 					</ul>
-                        <a class="btn" id="btn-add-link"><span>+</span><?php echo __('Add links', true);?></a>
+                        <a class="btn gray" id="btn-add-link"><span>+</span><?php echo __('Add links', true);?></a>
 
                     <hr>
                     <h5><?php __('Comments'); ?></h5>
