@@ -1,8 +1,42 @@
-<?php
+<?php // we use the src of tinymce since we changed it in line 9332 ?>
+<?php $this->MzJavascript->link('tiny_mce/tiny_mce_src.js'); ?>
+<?php $this->MzJavascript->link('post/add_edit.js'); ?>
 
+<?php
+/*
+$this->MzJavascript->link('tiny_mce/plugins/autolink/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/lists/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/spellchecker/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/pagebreak/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/style/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/layer/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/table/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/save/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/advhr/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/advimage/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/emotions/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/advlink/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/iespell/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/inlinepopups/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/insertdatetime/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/media/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/preview/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/print/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/searchreplace/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/paste/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/directionality/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/fullscreen/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/noneditable/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/visualchars/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/nonbreaking/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/xhtmlxtras/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/plugins/template/editor_plugin.js');
+$this->MzJavascript->link('tiny_mce/themes/advanced/editor_template.js');
+$this->MzJavascript->link('tiny_mce/langs/en.js');
+*/
 ?>
 
-<?php echo $html->script('post/add_edit.js'); ?>
+
 <?php echo $this->element('topics/modal_add_topic'); ?>
 <?php echo $this->element('posts/modal_add_url'); ?>
 <?php echo $this->element('posts/modal_add_video_url'); ?>

@@ -4,12 +4,12 @@ App::import('Helper', 'Javascript');
 
 class MzJavascriptHelper extends JavascriptHelper {
 
-    function link($url){
+    function link($url, $combine = true){
 
-        $disable_combine = true;
+        $disable_combine = false;
 
-        if($disable_combine){
-            echo parent::link($url, $disable_combine);
+        if(!$combine || $disable_combine){
+            echo parent::link($url, true);
         }
         else{
             parent::link($url, $disable_combine);

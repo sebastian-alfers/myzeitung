@@ -1,3 +1,5 @@
+<?php $this->MzJavascript->link('pirobox_extended_min.js'); ?>
+
 <?php
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){

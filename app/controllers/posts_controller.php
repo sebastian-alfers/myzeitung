@@ -194,7 +194,6 @@ class PostsController extends AppController {
 	}
 
 	function add() {
-
 		$error = false;
 
 		$user_id = $this->Auth->User('id');
