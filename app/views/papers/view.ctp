@@ -8,7 +8,7 @@ if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session-
 
 ?>
 
-<?php if($paper_belongs_to_user)  echo $html->script('paper/view'); ?>
+<?php $this->MzJavascript->link('paper/view'); ?>
 
 <?php echo $this->element('papers/sidebar', array('paper_belongs_to_user' => $paper_belongs_to_user)); ?>
 <?php echo $this->element('posts/navigator'); ?>

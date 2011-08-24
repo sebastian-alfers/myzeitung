@@ -1,4 +1,6 @@
+<?php $this->MzJavascript->link('post/view.js'); ?>
 <?php $this->MzJavascript->link('pirobox_extended_min.js'); ?>
+
 
 <?php
 $has_topics = false;
@@ -13,8 +15,8 @@ if($has_topics){
 ?>
 
 <?php if(!is_array($post['Post']['image'])): ?>
-        <?php $images = unserialize($post['Post']['image']); ?>
-
+    <?php $images = unserialize($post['Post']['image']); ?>
+    <?php //only init if images are available ?>
     <script type="text/javascript">
     $(document).ready(function() {
         $().piroBox_ext({

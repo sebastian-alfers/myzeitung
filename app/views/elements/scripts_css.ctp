@@ -26,25 +26,16 @@ if($session->read('Auth.User.id')){
     $this->MzJavascript->link('user/subscribe');
     $this->MzJavascript->link('jquery.fileupload');
     $this->MzJavascript->link('jquery.fileupload-ui');
-
 }
 
 //the order of the scrips is important!
 $this->MzHtml->css('style');
-$this->MzHtml->css('jquery.fileupload-ui');
 $this->MzHtml->css('jquery-ui-1.8.11');
 $this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
 //$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
 
 echo $asset->scripts_for_layout();
 ?>
-
-<script type="text/javascript" language="javascript">
-		$(function(){
-		    $('form.jqtransform').jqTransform({imgPath:'jqtransformplugin/img/'});
-
-		});
-</script>
 
 <?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'add'): ?>
     <?php //the init of tinymce has to be in the header ?>
