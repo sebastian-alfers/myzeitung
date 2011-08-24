@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 <div id="maincolwrapper"> 
 	<div id="maincol" class="account">
-		<h4 class="account-title"><?php echo __('About Me', true);?></h4>
+		<h2 class="account-title"><?php echo __('About Me', true);?></h2>
 
 				<?php echo $this->Form->create('User' , array( 'inputDefaults' => array('error' => false, 'div' => false)));?>
 				<?php echo $this->Form->hidden('id' , array('value' => $user['User']['id']));?>

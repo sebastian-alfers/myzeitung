@@ -1,7 +1,7 @@
 <?php
 class Paper extends AppModel {
 
-    const DEFAULT_PAPER_IMAGE = 'assets/default-paper-image.jpg';
+    const DEFAULT_PAPER_IMAGE = 'assets/default-paper-img.png';
 
     const FILTER_OWN = 'own';
     const FILTER_ALL = 'all';

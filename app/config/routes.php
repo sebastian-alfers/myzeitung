@@ -47,9 +47,9 @@ if(in_array($prefix,array('/p/','/a/'))){
 
     $route = Cache::read('url_'.$temp_url);
 
+    App::import('Model', 'Route');
+    $this->Route = new Route();
     if(empty($route)) {
-        App::import('Model', 'Route');
-        $this->Route = new Route();
 
         $this->Route->contain('ParentRoute');
         $route = $this->Route->find('first', array(

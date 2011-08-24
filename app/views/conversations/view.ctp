@@ -1,7 +1,7 @@
 			<?php echo $this->element('users/sidebar'); ?>
 					<div id="maincolwrapper">
 					<div id="maincol" class="account message-overview message-view">
-						<h4 class="account-title message-title"><?php echo $conversation['Conversation']['title'];?></h4>
+						<h2 class="account-title message-title"><?php echo $conversation['Conversation']['title'];?></h2>
 
                         <p class="from-top"><?php echo __('Conversation between you',true);?>
                             <?php foreach($users as $user):?>

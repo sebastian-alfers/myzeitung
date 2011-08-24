@@ -32,7 +32,7 @@ class HomeController extends AppController {
 		$this->set('users', $this->User->find('all', $user_options));
 		//loading users
 		$this->Post->contain('Route', 'User.id', 'User.username', 'User.name', 'User.image');
-		$post_options = array('limit' => 6, 'order' => array('Post.created DESC'), 'fields' => array('id','title'));
+		$post_options = array('limit' => 7, 'order' => array('Post.created DESC'), 'fields' => array('id','title'));
 		$this->set('posts', $this->Post->find('all', $post_options));
 		
 		$this->layout = 'home';

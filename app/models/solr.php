@@ -30,7 +30,7 @@ class Solr extends AppModel {
 	//additional fields
 	var $fields = array();
 
-	CONST DEFAULT_LIMIT = 2;
+	CONST DEFAULT_LIMIT = 10;
 	CONST SUGGEST_LIMIT = 6;
 	
 	private $solr = null;
@@ -143,6 +143,7 @@ class Solr extends AppModel {
             $lastFoundId = $posts[0]['Post']['id'] + 25;
         }
 
+        $this->Post->Solr = $this;
         foreach($posts as $post){
             //if a post is enabled its gonna be updated in the index
             //if a post is disabled (not enabled) its gonna be deleted from the index
@@ -191,7 +192,7 @@ class Solr extends AppModel {
         if(isset($users[0]['User']['id'])){
             $lastFoundId = $users[0]['User']['id'] + 25;
         }
-
+        $this->User->Solr = $this;
         foreach($users as $user){
             $this->User->id = $user['User']['id'];
             //if a user is enabled its gonna be updated in the index
@@ -241,7 +242,7 @@ class Solr extends AppModel {
             $lastFoundId = $papers[0]['Paper']['id'] + 25;
 
         }
-
+        $this->Paper->Solr = $this;
         foreach($papers as $paper){
             $this->Paper->id = $paper['Paper']['id'];
             //if a paper is enabled its gonna be updated in the index
