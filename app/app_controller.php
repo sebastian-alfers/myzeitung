@@ -35,7 +35,7 @@ class AppController extends Controller {
     const LOG_LEVEL_SECURITY = 'secutity';
 
 	//load debug toolbar in plugins/debug_toolbar/
-	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'DebugKit.Toolbar', 'RequestHandler');
+	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'RequestHandler');
 	var $uses = array('User','ConversationUser');
 
     /*

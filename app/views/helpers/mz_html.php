@@ -6,9 +6,9 @@ class MzHtmlHelper extends HtmlHelper {
 
     function css($path){
 
-        $combine = false;
+        $disable_combine = false;
 
-        echo parent::css($path, $combine, array('inline' => $combine));
+        echo parent::css($path, $disable_combine, array('inline' => $disable_combine));
 
     }
 
