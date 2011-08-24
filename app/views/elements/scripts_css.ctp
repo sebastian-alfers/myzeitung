@@ -13,28 +13,32 @@ echo $this->Html->meta('icon');
  * set options in app_controller
  *
  */
-$javascript->link('jquery-1.5.1.min', false);
-$javascript->link('jquery.fileupload', false);
-$javascript->link('jquery.fileupload-ui', false);
-$javascript->link('jquery-ui-1.8.11.min', false);
-$javascript->link('jquery.jqtransform', false);
-$javascript->link('global/myzeitung', false);
-$javascript->link('jquery.pop.js', false);
-$javascript->link('jquery.tipsy.js', false);
-$javascript->link('tiny_mce/tiny_mce.js', false);
-$javascript->link('pirobox_extended_min.js', false);
-$javascript->link('json2.js', false);
-$javascript->link('jquery.spinner.js', false);
+$this->MzJavascript->link('jquery-1.5.1.min');
+$this->MzJavascript->link('tiny_mce/tiny_mce.js');
+$this->MzJavascript->link('jquery.fileupload');
+$this->MzJavascript->link('jquery.fileupload-ui');
+$this->MzJavascript->link('jquery-ui-1.8.11.min');
+$this->MzJavascript->link('jquery.jqtransform');
+$this->MzJavascript->link('global/myzeitung');
+$this->MzJavascript->link('jquery.pop.js');
+$this->MzJavascript->link('jquery.tipsy.js');
+
+$this->MzJavascript->link('pirobox_extended_min.js');
+$this->MzJavascript->link('json2.js');
+$this->MzJavascript->link('jquery.spinner.js');
+
+//tiny mce
+
+
+
 
 //the order of the scrips is important!
-$html->css('style', false, array('inline' => false));
-$html->css('jquery.fileupload-ui', false, array('inline' => false));
-$html->css('jquery-ui-1.8.11', false, array('inline' => false));
+$this->MzHtml->css('style');
+$this->MzHtml->css('jquery.fileupload-ui');
 
-
-//$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
-
-
+$this->MzHtml->css('jquery-ui-1.8.11');
+//$this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
+$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
 
 echo $asset->scripts_for_layout();
 

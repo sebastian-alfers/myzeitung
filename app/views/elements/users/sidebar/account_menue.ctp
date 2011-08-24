@@ -20,6 +20,9 @@ echo $this->element('global/modal_upload',
     <li id="add_image">
         <span class="icon icon-profilpic"></span><a><?php __('Profile Picture'); ?></a>
     </li>
+
+
+
 		
 	<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accGeneral' || $this->params['action'] == 'accDelete')):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-general"></span>'.__('General Settings', true), array('controller' => 'users', 'action' => 'accGeneral'), array('escape' => false,));?></li>

@@ -562,20 +562,12 @@ class PostsController extends AppController {
 
 		//set images
 		if(isset($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
-			//check, if there are already images
-			if(isset($image) && !empty($image)){
-				foreach($image as $img){
-
-				}
-			}
-
-
 			$return_imgs = array();
 
-			$webroot = $this->Upload->getWebrootUrl();
-				
-				
-			//$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
+
+            if(!is_array($this->data['Post']['image'])){
+                $this->data['Post']['image'] = unserialize($this->data['Post']['image']);
+            }
 			foreach ($this->data['Post']['image'] as $img){
 
                 $tmp = array('path' => $img['path'], 'name' => $img['file_name']);
@@ -596,7 +588,7 @@ class PostsController extends AppController {
 		
 		if(isset($this->data['Post']['links']) && !empty($this->data['Post']['links'])){
 			$this->set('links', unserialize($this->data['Post']['links']));			
-		}		
+		}
 		
 		$this->set('allow_comments', $allow_comments);
 		$this->set(compact('topics', 'users'));

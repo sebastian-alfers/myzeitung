@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <?php echo $html->script('post/add_edit.js'); ?>
 <?php echo $this->element('topics/modal_add_topic'); ?>
 <?php echo $this->element('posts/modal_add_url'); ?>

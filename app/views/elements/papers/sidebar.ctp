@@ -11,7 +11,7 @@ if($paper_belongs_to_user){
                                'hash'   => $hash,
                                'model'  => 'Paper',
                                'model_id'=> $paper['Paper']['id'],
-                               'submit' => array('controller' => 'papers', 'action' => 'saveImage')));
+                               'submit' => array('controller' => 'paper', 'action' => 'saveImage')));
 }//end pape_belongs_to_user
 
 ?>
