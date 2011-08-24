@@ -1,17 +1,17 @@
 <?php echo $this->element('users/sidebar'); ?>
 				<div id="maincolwrapper">
 					<div id="maincol" class="account message-overview">
-						<h4 class="account-title"><?php echo __('Messages', true);?></h4>
-
+						<h2 class="account-title"><?php echo __('Messages', true);?></h2>
+                        <?php /*
 						<div class="message-top-nav" >
-                            <?php /*
+                            <?php
 						<a href="" class="btn btn-send"><span class="send-icon"></span>Neue Nachricht</a>
 
 							<form id="search-messages" action="search-result.html" class="">
 								<input class="searchinput" type="text" onblur="if (this.value == '') {this.value = 'User durchsuchen';}" onfocus="if (this.value == 'User durchsuchen') {this.value = '';}" value="Nachrichten durchsuchen" />
 								<button class="submit" type="submit" value="">Suchen</button>
-							</form> */ ?>
-						</div>
+							</form>  ?>
+						</div> */?>
 
 						<ul class="messages">
 
@@ -76,7 +76,7 @@
 									                if($user['User']['name']){
 										                $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
 									                }
-                                                    echo '<strong>'.$this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])), array('class' => 'user-image tt-title', 'title' => $tipsy_name, 'escape' => false)).'</strong>';
+                                                    echo '<strong>'.$this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name, 'escape' => false)).'</strong>';
                                                   
                                                 }
                                             }?>

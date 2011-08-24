@@ -129,20 +129,22 @@ class Post extends AppModel {
         //already enabled
         return false;
     }
+
+
+    /**
+     * returns false if no route was written
+     */
     function addRoute(){
-
-
-
-        $this->Route->create();
 
         $routeString = $this->generateRouteString();
         if($routeString != ''){
             $routeData['Route'] = array('source' => $routeString,
-                               'target_controller' 	=> 'posts',
-                               'target_action'     	=> 'view',
-                                'target_param'		=> $this->id,
-                                'ref_type'          => Route::TYPE_POST,
-                                'ref_id'            => $this->id);
+                                        'target_controller' 	=> 'posts',
+                                        'target_action'     	=> 'view',
+                                        'target_param'		=> $this->id,
+                                        'ref_type'          => Route::TYPE_POST,
+                                        'ref_id'            => $this->id);
+            $this->Route->create();
 
              if($this->Route->save($routeData,false)){
                  $newRouteId = $this->Route->id;
@@ -159,7 +161,7 @@ class Post extends AppModel {
                  return true;
              }
         }else{
-            return true;
+            return false;
         }
 
         return false;
@@ -245,8 +247,9 @@ class Post extends AppModel {
         foreach($posts as $post){
             $this->id = $post['Post']['id'];
             $this->data = $post;
-            $this->addRoute();
-            $this->addToOrUpdateSolr();
+            if($this->addRoute()){
+                $this->addToOrUpdateSolr();
+            }
         }
 
     }

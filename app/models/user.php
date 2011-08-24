@@ -1,7 +1,7 @@
 <?php
 class User extends AppModel {
 
-    const DEFAULT_USER_IMAGE 	= 'assets/default-user-image.jpg';
+    const DEFAULT_USER_IMAGE 	= 'assets/default-user-img.png';
 
 	//field-validation in constructor -> otherwise it's not possible to use "__('translate this', true)" in error messages.
 
@@ -479,13 +479,15 @@ class User extends AppModel {
         }*/
         if($this->updateSolr){
             //update solr index
+            App::import('model','Solr');
+            $this->Solr = new Solr();
             $this->addToOrUpdateSolr();
         }
 
     }
     function addToOrUpdateSolr(){
 
-        App::import('model','Solr');
+
 
         $this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
         $this->data['User']['type'] = Solr::TYPE_USER;
@@ -500,9 +502,8 @@ class User extends AppModel {
         $this->data['User']['user_name'] = $this->data['User']['name'];
         $this->data['User']['user_username'] = $this->data['User']['username'];
         $this->data['User']['user_id'] = $this->data['User']['id'];
-
-        $solr = new Solr();
-        $solr->add($this->addFieldsForIndex($this->data));
+        
+        $this->Solr->add($this->addFieldsForIndex($this->data));
 
     }
 /*

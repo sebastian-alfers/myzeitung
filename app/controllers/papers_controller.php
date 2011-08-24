@@ -513,7 +513,7 @@ class PapersController extends AppController {
                 if ($this->Paper->save($this->data)) {
                     $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
 
-                    $this->redirect($this->data['Route'][0]['source']);
+                    $this->redirect($this->data['Paper']['route_source']);
 
 
                 } else {
