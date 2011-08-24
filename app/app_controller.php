@@ -256,6 +256,10 @@ class AppController extends Controller {
             'logout'  => $this->user,
             'login'  => $this->user,
         ),
+        'settings' => array(
+            'admin_index'    => $this->user,
+            'admin_edit'  => $this->user,
+        ),
 		);
 
 
