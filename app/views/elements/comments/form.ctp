@@ -32,6 +32,6 @@ if(isset($class)){
 	<form action="" class="leave-comment" <?php echo $inline_form; ?>>
 		<label>Kommentar</label>
 		<textarea rows="5" cols="10" id="comment_text" <?php echo $textarea_class; ?> <?php echo $inline_textarea; ?>></textarea>
-		<a class="btn" id="add_comment"><span>+</span><?php echo $label;?></a>
+		<a class="btn" id="add_comment" pid="<?php echo $post_id; ?>"><span>+</span><?php echo $label;?></a>
 	</form>
 </div> <!-- / .your-comment -->
