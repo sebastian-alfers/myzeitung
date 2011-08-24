@@ -8,10 +8,11 @@ class ReposterHelper extends AppHelper {
             if(!is_array($reposters)){
                 $reposters = unserialize($reposters);
             }
-            //debug($reposters);
-            //die();
-            if(in_array($user_id,$reposters)){
-                return true;
+
+            if($user_id != null){
+                if(in_array($user_id,$reposters)){
+                    return true;
+                }
             }
         }
     return false;

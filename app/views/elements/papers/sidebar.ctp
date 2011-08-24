@@ -55,9 +55,9 @@ if($paper_belongs_to_user){
         <?php ?>
         <ul>
             <?php if($paper_belongs_to_user):?>
-              <li> <?php echo $this->Html->link('<span class="icon icon-general"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn settings-btn', 'escape' => false));?></li>
-              <li><a class="btn" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
-            <li><a href="#" class="btn" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
+              <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'escape' => false));?></li>
+              <li><a class="btn gray" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
+            <li><a href="#" class="btn gray" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
             <?php endif;?>
             <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
             <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>

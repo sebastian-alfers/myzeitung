@@ -6,7 +6,7 @@
 	$article_belongs_to_user = false;
 
 
-	if($this->Reposter->UserHasAlreadyRepostedPost($post->post_reposters, $post->user_id)){
+	if($this->Reposter->UserHasAlreadyRepostedPost($post->post_reposters,$session->read('Auth.User.id'))){
 		$article_reposted_by_user = true;
 	}
 
@@ -70,11 +70,10 @@
                 $class = 'btn';
                 if($has_topics){
                     $link = '/#';
-                    $class = 'class="btn repost"';
                 }
                 ?>
 
-                <a href="<?php echo $link; ?>" <?php echo $class; ?> id="<?php echo $post->id; ?>"><span class="repost-ico icon"></span><?php __('Repost'); ?></a>
+                <a href="<?php echo $link; ?>" class="btn repost" id="<?php echo $post->id; ?>"><span class="repost-ico icon"></span><?php __('Repost'); ?></a>
 			<?php //repost button?>
 			<?php endif;?>
 		<?php endif;?>

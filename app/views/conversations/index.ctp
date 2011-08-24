@@ -5,7 +5,7 @@
                         <?php /*
 						<div class="message-top-nav" >
                             <?php
-						<a href="" class="btn btn-send"><span class="send-icon"></span>Neue Nachricht</a>
+						<a href="" class="btn gray"><span class="send-icon"></span>Neue Nachricht</a>
 
 							<form id="search-messages" action="search-result.html" class="">
 								<input class="searchinput" type="text" onblur="if (this.value == '') {this.value = 'User durchsuchen';}" onfocus="if (this.value == 'User durchsuchen') {this.value = '';}" value="Nachrichten durchsuchen" />

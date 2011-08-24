@@ -129,7 +129,9 @@ class SearchController extends AppController {
 			$results = $this->Solr->query($search_string, $limit, $grouped, $start ,$params);
 
 			if($results and $queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
+
 				$results = $this->addExtraInformation($results);
+              //  debug($results);
 			}
 			
 			$this->set('rows', $results['rows']);

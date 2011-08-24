@@ -19,7 +19,7 @@
 	<p><?php echo $this->Html->link($user->user_name, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username)));?></p>
 	<div class="actions">
 	<?php if($user->id != $session->read('Auth.User.id') && $user->user_allow_messages == true):?>
-		<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user->user_id), array('escape' => false, 'class' => 'btn user-button-1 btn-send', ));?>
+		<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user->user_id), array('escape' => false, 'class' => 'btn user-button-1 gray', ));?>
 	<?php endif;?>
 
        <a href="<?php echo $subscribe_link; ?>" class="btn user-button-2 subscribe-user" id="<?php echo $user->id; ?>"><span>+</span><?php __('Subscribe'); ?></a>
