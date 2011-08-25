@@ -130,6 +130,7 @@ Router::connect('/paper/subscribe/*', array('controller' => 'papers', 'action' =
 Router::connect('/paper/unsubscribe/*', array('controller' => 'papers', 'action' => 'unsubscribe'));
 Router::connect('/paper/edit/*', array('controller' => 'papers', 'action' => 'edit'));
 Router::connect('/paper/saveImage/*', array('controller' => 'papers', 'action' => 'saveImage'));
+Router::connect('/paper/references/*', array('controller' => 'papers', 'action' => 'references'));
 Router::connect('/article/add', array('controller' => 'papers', 'action' => 'add'));
 Router::connect('/article/edit/*', array('controller' => 'papers', 'action' => 'edit'));
 

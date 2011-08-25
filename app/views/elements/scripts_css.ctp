@@ -37,7 +37,7 @@ $this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
 echo $asset->scripts_for_layout();
 ?>
 
-<?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'add'): ?>
+<?php if($this->params['controller'] == 'posts' && in_array($this->params['action'], array('add', 'edit'))): ?>
     <?php //the init of tinymce has to be in the header ?>
     <?php echo $this->element('posts/add_edit/tiny_mce_js'); ?>
 <?php endif; ?>
