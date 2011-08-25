@@ -486,25 +486,7 @@ class User extends AppModel {
 
     }
     function addToOrUpdateSolr(){
-
-
-
-        $this->data['User']['index_id'] = Solr::TYPE_USER.'_'.$this->id;
-        $this->data['User']['type'] = Solr::TYPE_USER;
-
-        if(!isset($this->data['User']['id'])){
-            if($this->id){
-                $this->data['User']['id'] = $this->id;
-            }
-
-        }
-
-        $this->data['User']['user_name'] = $this->data['User']['name'];
-        $this->data['User']['user_username'] = $this->data['User']['username'];
-        $this->data['User']['user_id'] = $this->data['User']['id'];
-        
-        $this->Solr->add($this->addFieldsForIndex($this->data));
-
+        $this->Solr->add(array($this->generateSolrData()));
     }
 /*
     function addRoute(){
@@ -659,18 +641,24 @@ class User extends AppModel {
         return $topicReferences;
     }
 
-    function addFieldsForIndex($data){
+    function generateSolrData(){
+        if(!isset($this->data['User']['id'])){
+            if($this->id){
+                $this->data['User']['id'] = $this->id;
+            }
+
+        }
 
         $solrFields = array();
 
-        $solrFields['User']['id'] = $data['User']['id'];
-        $solrFields['User']['user_username'] = $data['User']['user_username'];
-        $solrFields['User']['user_name'] = $data['User']['user_name'];
-        $solrFields['User']['type'] = $data['User']['type'];
-        $solrFields['User']['user_id'] = $data['User']['user_id'];
-        $solrFields['User']['index_id'] = $data['User']['index_id'];
-        if(isset($data['User']['image'])){
-            $solrFields['User']['user_image'] = $data['User']['image'];
+        $solrFields['id'] = $this->data['User']['id'];
+        $solrFields['user_username'] = $this->data['User']['username'];
+        $solrFields['user_name'] = $this->data['User']['name'];
+        $solrFields['type'] = Solr::TYPE_USER;
+        $solrFields['user_id'] = $this->data['User']['id'];
+        $solrFields['index_id'] =  Solr::TYPE_USER.'_'.$this->id;
+        if(isset($this->data['User']['image'])){
+            $solrFields['user_image'] = $this->data['User']['image'];
         }
         return $solrFields;
 

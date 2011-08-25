@@ -232,8 +232,6 @@ class Post extends AppModel {
         $this->contain();
         $posts = $this->find('all');
 
-
-
         App::import('model','Route');
         $this->Route = new Route();
 
@@ -243,13 +241,19 @@ class Post extends AppModel {
         App::import('model','Solr');
         $this->Solr = new Solr();
 
+        $solrEntries = array();
 
         foreach($posts as $post){
             $this->id = $post['Post']['id'];
             $this->data = $post;
             if($this->addRoute()){
-                $this->addToOrUpdateSolr();
+                $solrFields = $this->generateSolrData();
+                $solrEntries[] =  $solrFields['Post'];
             }
+        }
+
+        if(count($solrEntries) > 0){
+            $this->Solr->add($solrEntries);
         }
 
     }
@@ -602,44 +606,50 @@ class Post extends AppModel {
 
     }
     function addToOrUpdateSolr(){
-
-        $this->contain('Route', 'User');
-        $this->data = $this->read(null, $this->id);
-      //  $this->User->contain();
-       // $userData = $this->User->read(null, $this->data['Post']['user_id']);
+            $this->Solr->add(array($this->generateSolrData()));
+    }
 
 
 
 
-        if($this->data['User']['id']){
-            if(isset($this->data['Post']['topic_id'])){
-                $this->Topic->contain();
-                $topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+    function generateSolrData(){
 
-                if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
-                    $this->data['Post']['topic_name'] = $topicData['Topic']['name'];
-                }
-            }
-
-
-            if(!empty($this->data['Post']['image'])){
-                $this->data['Post']['image'] = $this->generateSearchPreviewPicture($this->data['Post']['image']);
-            }
-            $this->data['Post']['index_id'] = Solr::TYPE_POST.'_'.$this->id;
-            $this->data['Post']['id'] = $this->id;
-            $this->data['Post']['user_name'] = $this->data['User']['name'];
-            $this->data['Post']['user_username'] = $this->data['User']['username'];
-            $this->data['Post']['user_id'] = $this->data['User']['id'];
-            $this->data['Post']['type'] = Solr::TYPE_POST;
-            $this->data['Post']['route_source'] = $this->data['Route'][0]['source'];
-
-
-            $this->Solr->add($this->addFieldsForIndex($this->data));
+        if(!isset($this->data['Post']) || !isset($this->data['Route']) || !isset($this->data['User'])){
+            $this->contain('Route', 'User');
+            $this->data = $this->read(null, $this->id);
 
         }
-        else{
-            $this->log('Error while reading user for Post! No solr index update');
+
+
+        $solrFields = array();
+        $solrFields['id'] = $this->data['Post']['id'];
+        $solrFields['post_title'] = $this->data['Post']['title'];
+        $solrFields['post_content'] = strip_tags($this->data['Post']['content']);
+       // debug($data);
+        if(!empty($this->data['Post']['image'])){
+            $solrFields['post_image'] = $this->generateSearchPreviewPicture($this->data['Post']['image']);
+        }elseif(!empty($this->data['User']['image'])){
+            $solrFields['post_image'] = $this->data['User']['image'];
         }
+
+        if(isset($this->data['topic_id'])){
+            $this->Topic->contain();
+            $topicData = $this->Topic->read(null, $this->data['Post']['topic_id']);
+
+            if($topicData['Topic']['id'] && !empty($topicData['Topic']['name'])){
+                $solrFields['topic_name'] = $topicData['Topic']['name'];
+            }
+        }
+
+        $solrFields['user_name'] = $this->data['User']['name'];
+        $solrFields['user_username'] = $this->data['User']['username'];
+        $solrFields['user_id'] = $this->data['Post']['user_id'];
+        $solrFields['index_id'] = Solr::TYPE_POST.'_'.$this->id;
+        $solrFields['type'] = Solr::TYPE_POST;
+        $solrFields['post_content_preview'] = $this->data['Post']['content_preview'];
+        $solrFields['route_source'] =   $this->data['Route'][0]['source'];
+
+        return $solrFields;
     }
 
     private function generateSearchPreviewPicture($images = null){
@@ -650,34 +660,7 @@ class Post extends AppModel {
             }
         }
     }
-
-    /**
-     * @todo move to abstract for all models
-     * Enter description here ...
-     */
-    private function addFieldsForIndex($data){
-        $solrFields = array();
-        $solrFields['Post']['id'] = $data['Post']['id'];
-        $solrFields['Post']['post_title'] = $data['Post']['title'];
-        $solrFields['Post']['post_content'] = strip_tags($data['Post']['content']);
-       // debug($data);
-        if(isset($data['Post']['image'])){
-            $solrFields['Post']['post_image'] = $data['Post']['image'];
-        }
-        if(isset($data['Post']['topic_name'])){
-            $solrFields['Post']['topic_name'] = $data['Post']['topic_name'];
-        }
-        $solrFields['Post']['user_name'] = $data['Post']['user_name'];
-        $solrFields['Post']['user_username'] = $data['Post']['user_username'];
-        $solrFields['Post']['user_id'] = $data['Post']['user_id'];
-        $solrFields['Post']['index_id'] = $data['Post']['index_id'];
-        $solrFields['Post']['type'] = $data['Post']['type'];
-        $solrFields['Post']['post_content_preview'] = $data['Post']['content_preview'];
-        $solrFields['Post']['route_source'] =   $data['Post']['route_source'];
-        return $solrFields;
-    }
-
-
+    
 	function __construct(){
 		parent::__construct();
 		$this->validate = array(

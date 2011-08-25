@@ -462,15 +462,23 @@ function __construct(){
         $this->User = new User();
         App::import('model','Solr');
         $this->Solr = new Solr();
-        
+
+        $solrEntries = array();
+
+
         foreach($papers as $paper){
             $this->id = $paper['Paper']['id'];
             $this->data = $paper;
             if($this->addRoute()){
-                $this->addToOrUpdateSolr();
+                $solrFields = $this->generateSolrData();
+                $solrEntries[] =  $solrFields;
             }
         }
+       
 
+        if(count($solrEntries) > 0){
+            $this->Solr->add($solrEntries);
+        }
     }
 
 
@@ -517,24 +525,8 @@ function __construct(){
 
 			//	App::import('model','Subscription');
 
-                $this->contain('User', 'Route');
-                $this->data = $this->read(null, $this->id);
 
-
-                $data['Paper']['index_id'] = Solr::TYPE_PAPER.'_'.$this->id;
-                $data['Paper']['id'] = $this->id;
-                $data['Paper']['type'] = Solr::TYPE_PAPER;
-                $data['Paper']['paper_title'] = $this->data['Paper']['title'];
-                $data['Paper']['paper_description'] = $this->data['Paper']['description'];
-                $data['Paper']['user_id'] = $this->data['User']['id'];
-                $data['Paper']['user_name'] = $this->data['User']['name'];
-                $data['Paper']['user_username'] = $this->data['User']['username'];
-                if(isset($this->data['Paper']['image'])){
-                    $data['Paper']['paper_image'] = $this->data['Paper']['image'];
-                }
-                $data['Paper']['route_source'] = $this->data['Route'][0]['source'];
-
-                $this->Solr->add($this->addFieldsForIndex($data));
+                $this->Solr->add(array($this->generateSolrData()));
 
 
             }
@@ -855,26 +847,27 @@ function __construct(){
 			}
 
 
+			function generateSolrData(){
 
-			/**
-			 * @todo move to abstract for all models
-			 * Enter description here ...
-			 */
-			private function addFieldsForIndex($data){
+                if(!isset($this->data['User']) ||  !isset($this->data['Route']) || !isset($this->data['Paper'])){
+                    $this->contain('User', 'Route');
+                    $this->data = $this->read(null, $this->id);
+                }
 
 				$solrFields = array();
-				$solrFields['Paper']['id']					= $data['Paper']['id'];
-				$solrFields['Paper']['paper_title']			= $data['Paper']['paper_title'];
-				$solrFields['Paper']['paper_description']	= $data['Paper']['paper_description'];
-				$solrFields['Paper']['index_id']			= $data['Paper']['index_id'];
-				$solrFields['Paper']['user_id']				= $data['Paper']['user_id'];
-				$solrFields['Paper']['user_name']			= $data['Paper']['user_name'];
-				$solrFields['Paper']['user_username']		= $data['Paper']['user_username'];
-				$solrFields['Paper']['type']				= $data['Paper']['type'];
-                $solrFields['Paper']['route_source']		= $data['Paper']['route_source'];
-				if(isset($data['Paper']['paper_image'])){
-					$solrFields['Paper']['paper_image'] = $data['Paper']['paper_image'];
-				}
+				$solrFields['id']					= $this->data['Paper']['id'];
+				$solrFields['paper_title']			= $this->data['Paper']['title'];
+				$solrFields['paper_description']	= $this->data['Paper']['description'];
+				$solrFields['index_id']			= Solr::TYPE_PAPER.'_'.$this->id;
+				$solrFields['user_id']				= $this->data['User']['id'];
+				$solrFields['user_name']			= $this->data['User']['name'];
+				$solrFields['user_username']		= $this->data['User']['username'];
+				$solrFields['type']				= Solr::TYPE_PAPER;
+                $solrFields['route_source']		= $this->data['Route'][0]['source'];
+                 if(isset($this->data['Paper']['image'])){
+                    $solrFields['paper_image'] = $this->data['Paper']['image'];
+                }
+
 				return $solrFields;
 			}
 

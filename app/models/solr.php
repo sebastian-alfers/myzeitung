@@ -66,15 +66,16 @@ class Solr extends AppModel {
 			$documents = array();
 
 			foreach ( $docs as $item => $fields ) {
-
+          //      debug($item);
 				$part = new Apache_Solr_Document();
 
 				foreach ( $fields as $key => $value ) {
+        //            debug($key);
 					$part->$key = $value;
 				}
 				$documents[] = $part;
 			}
-
+           // debug($documents);
 			if($this->getSolr()){
 				$this->getSolr()->addDocuments( $documents );
 				$this->getSolr()->commit();
@@ -114,15 +115,24 @@ class Solr extends AppModel {
 	 *
 	 * @param string $id
 	 */
-	function delete($id){
+	function delete($records){
+        if(!empty($records)){
+            if(!is_array($records)){
+                $record = $records;
+                $records = array();
+                $records[] = $record;
+            }
+        }
 		if(!USE_SOLR) return;
 
-		if(!empty($id)){
-			$xml = '<delete><id>'. $id .'</id></delete>';
-			$this->getSolr()->delete($xml);
-			$this->getSolr()->commit();
-			$this->getSolr()->optimize();
-		}
+        foreach($records as $record){
+            $xml = '<delete><id>'. $record .'</id></delete>';
+            $this->getSolr()->delete($xml);
+
+        }
+   
+        $this->getSolr()->commit();
+        $this->getSolr()->optimize();
 
 	}
 
@@ -132,7 +142,7 @@ class Solr extends AppModel {
         //read all posts with  order "id desc"
         App::import('model','Post');
         $this->Post = new Post();
-        $this->Post->contain('Topic.id', 'Topic.name');
+        $this->Post->contain('User','Route', 'Topic.id', 'Topic.name');
 
         $posts = $this->Post->find('all',array('order' => array('Post.id desc')));
 
@@ -143,16 +153,20 @@ class Solr extends AppModel {
             $lastFoundId = $posts[0]['Post']['id'] + 25;
         }
 
-        $this->Post->Solr = $this;
+        $delete = array();
+        $update = array();
+
+        
         foreach($posts as $post){
             //if a post is enabled its gonna be updated in the index
             //if a post is disabled (not enabled) its gonna be deleted from the index
-            $this->Post->id = $post['Post']['id'];
+
             if($post['Post']['enabled'] == true){
+                $this->Post->id = $post['Post']['id'];
                 $this->Post->data = $post;
-                $this->Post->addToOrUpdateSolr();
+                $update[] = $this->Post->generateSolrData();
             }else{
-                $this->Post->deleteFromSolr();
+                $delete[] = self::TYPE_POST.'_'.$post['Post']['id'];
             }
             //start of the magic :-)
             //comparing the id of the LAST and the ACTIVE record.
@@ -165,8 +179,7 @@ class Solr extends AppModel {
                 $deleteStartId = $post['Post']['id'] + 1;
                 $deleteEndId = $lastFoundId - 1;
                 for($i = $deleteStartId; $i <= $deleteEndId; $i++){
-                    $this->Post->id = $i;
-                    $this->Post->deleteFromSolr();
+                    $delete[] = self::TYPE_POST.'_'.$i;
                 }
             }
 
@@ -174,6 +187,9 @@ class Solr extends AppModel {
             //this will be the "last record id" for the NEXT record.
             $lastFoundId = $post['Post']['id'];
         }
+        //add or delete records
+        $this->add($update);
+        $this->delete($delete);
     }
 
 
@@ -192,16 +208,21 @@ class Solr extends AppModel {
         if(isset($users[0]['User']['id'])){
             $lastFoundId = $users[0]['User']['id'] + 25;
         }
-        $this->User->Solr = $this;
+
+        $delete = array();
+        $update = array();
+
+
         foreach($users as $user){
             $this->User->id = $user['User']['id'];
             //if a user is enabled its gonna be updated in the index
             //if a User is disabled (not enabled) its gonna be deleted from the index
             if($user['User']['enabled'] == true){
-                 $this->User->data = $user;
-                 $this->User->addToOrUpdateSolr();
+                $this->User->id = $user['User']['id'];
+                $this->User->data = $user;
+                $update[] = $this->User->generateSolrData();
             }else{
-                 $this->User->deleteFromSolr();
+                $delete[] = self::TYPE_USER.'_'.$user['User']['id'];
             }
             //start of the magic :-)
             //comparing the id of the LAST and the ACTIVE record.
@@ -215,8 +236,7 @@ class Solr extends AppModel {
                 $deleteEndId = $lastFoundId - 1;
 
                 for($i = $deleteStartId; $i <= $deleteEndId; $i++){
-                    $this->User->id = $i;
-                    $this->User->deleteFromSolr();
+                    $delete[] = self::TYPE_USER.'_'.$i;
                 }
             }
 
@@ -224,6 +244,9 @@ class Solr extends AppModel {
             //this will be the "last record id" for the NEXT record.
             $lastFoundId = $user['User']['id'];
         }
+        //add or delete records
+        $this->add($update);
+        $this->delete($delete);
     }
 
 
@@ -232,7 +255,7 @@ class Solr extends AppModel {
         //read all Papers with  order "id desc"
         App::import('model','Papers');
         $this->Paper = new Paper();
-        $this->Paper->contain();
+        $this->Paper->contain('User', 'Route');
         $papers = $this->Paper->find('all',array('order' => array('Paper.id desc')));
 
         $lastFoundId = 0;
@@ -242,16 +265,20 @@ class Solr extends AppModel {
             $lastFoundId = $papers[0]['Paper']['id'] + 25;
 
         }
-        $this->Paper->Solr = $this;
+
+        $delete = array();
+        $update = array();
+
         foreach($papers as $paper){
-            $this->Paper->id = $paper['Paper']['id'];
+
             //if a paper is enabled its gonna be updated in the index
             //if a paper is disabled (not enabled) its gonna be deleted from the index
             if($paper['Paper']['enabled'] == true){
+                $this->Paper->id = $paper['Paper']['id'];
                 $this->Paper->data = $paper;
-                $this->Paper->addToOrUpdateSolr();
+                $update[] = $this->Paper->generateSolrData();
             }else{
-               $this->Paper->deleteFromSolr();
+                $delete[] = self::TYPE_PAPER.'_'.$paper['Paper']['id'];
             }
             //start of the magic :-)
             //comparing the id of the LAST and the ACTIVE record.
@@ -265,8 +292,7 @@ class Solr extends AppModel {
                 $deleteEndId = $lastFoundId - 1;
 
                 for($i = $deleteStartId; $i <= $deleteEndId; $i++){
-                    $this->Paper->id = $i;
-                    $this->Paper->deleteFromSolr();
+                    $delete[] = self::TYPE_PAPER.'_'.$i;
                 }
             }
 
@@ -274,9 +300,11 @@ class Solr extends AppModel {
             //this will be the "last record id" for the NEXT record.
             $lastFoundId = $paper['Paper']['id'];
         }
+        //add or delete records
+        $this->add($update);
+        $this->delete($delete);
     }
 
-    
 
 
 
