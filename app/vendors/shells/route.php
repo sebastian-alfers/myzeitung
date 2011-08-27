@@ -2,13 +2,11 @@
 class RouteShell extends Shell{
     public $uses = array('Post', 'Paper');
     public function main(){
-        $this->out("Alf ist doof.");
-        $this->out();
-        $this->out("Arbeit Arbeit. Das kann ich!");
-        $this->out("Refreshing Post Routes");
+
+        $this->out("Refreshing Routes for Posts");
         $this->Post->refreshRoutes();
         $this->out("done...");
-        $this->out("Refreshing Paper Routes");
+        $this->out("Refreshing Routes for Papers");
         $this->Paper->refreshRoutes();
         $this->out("done...");
     }
