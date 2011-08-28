@@ -1,4 +1,4 @@
-<?php if(isset($results)): ?>
+<?php if(isset($results) && is_array($results)): ?>
     <?php
     $has_topics = false;
     if($session->read('Auth.User.topic_count') > 0){
@@ -21,6 +21,8 @@
 			<?php endif;?>
 		<?php endif;?>
 	<?php endforeach; ?>
-	</ul> <!-- / .search-result -->	
+	</ul> <!-- / .search-result -->
+<?php else: ?>
+        <?php __('The search is currently disabled'); ?>
 <?php endif; ?>
 

@@ -1,5 +1,5 @@
 <?php
-class MzformHelper extends Helper {
+class MzformHelper extends FormHelper {
 
 
     /**

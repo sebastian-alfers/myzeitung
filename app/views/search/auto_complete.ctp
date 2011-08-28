@@ -1,4 +1,4 @@
-<?php if(isset($results) && !empty($results)): ?>
+<?php if(isset($results) && !empty($results) && is_array($results)): ?>
  <?php  foreach ($results['results'] as $type => $docs): ?>
  	
  	<?php if($type == 'post'):?>
