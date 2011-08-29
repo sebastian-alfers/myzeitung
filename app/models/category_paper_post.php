@@ -41,8 +41,17 @@ class CategoryPaperPost extends AppModel {
 			'fields' => '',
 			'order' => '',
 
-			)
-			);
+			),
+        'ContentPaper' => array(
+			'className' => 'ContentPaper',
+			'foreignKey' => 'content_paper_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+
+			),
+
+        );
 
 			function __construct(){
 				parent::__construct();

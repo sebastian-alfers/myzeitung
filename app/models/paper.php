@@ -482,402 +482,402 @@ function __construct(){
     }
 
 
-			/**
-			 * 1)
-			 * update solr index with saved data
-			 */
-			function afterSave($created){
-                App::import('model','Route');
-                $this->Route = new Route();
-                App::import('model','User');
-                $this->User = new User();
-				
-                $this->addRoute();
+    /**
+     * 1)
+     * update solr index with saved data
+     */
+    function afterSave($created){
+        App::import('model','Route');
+        $this->Route = new Route();
+        App::import('model','User');
+        $this->User = new User();
 
-				if(!$this->updateSolr)return;
+        $this->addRoute();
 
-				if($this->id){
-                     App::import('model','Solr');
-                     $this->Solr = new Solr();
-                     $this->addToOrUpdateSolr();
+        if(!$this->updateSolr)return;
 
-                    //create subscription for created paper
-                    if($created){
-                        $subscriptionData = array('paper_id' => $this->id,
-                                            'user_id' => $this->data['Paper']['owner_id'],
-                                            'own_paper' => true,
-                        );
-                        $this->Subscription = new Subscription();
-                        $this->Subscription->create();
-                        $this->Subscription->save($subscriptionData);
+        if($this->id){
+             App::import('model','Solr');
+             $this->Solr = new Solr();
+             $this->addToOrUpdateSolr();
 
-                    }
-
-				}
-				else{
-					$this->log('Error while adding paper to solr! No paper id in afterSave()');
-				}
-			}
-
-            function addToOrUpdateSolr(){
-            //get User information
-
-
-			//	App::import('model','Subscription');
-
-
-                $this->Solr->add(array($this->generateSolrData()));
-
+            //create subscription for created paper
+            if($created){
+                $subscriptionData = array('paper_id' => $this->id,
+                                    'user_id' => $this->data['Paper']['owner_id'],
+                                    'own_paper' => true,
+                );
+                $this->Subscription = new Subscription();
+                $this->Subscription->create();
+                $this->Subscription->save($subscriptionData);
 
             }
 
+        }
+        else{
+            $this->log('Error while adding paper to solr! No paper id in afterSave()');
+        }
+    }
+
+    function addToOrUpdateSolr(){
+    //get User information
 
 
-			/**
-			 * associate content to a paper or category
-			 *
-			 * @param $data data from controller
-			 * 		  $data['Paper] [ContentPaper::CONTENT_DATA] = user_#userid | paper_#paperid
-			 * 		  $data['Paper']['target_type'] = ContentPaper::PAPER | ContentPaper::CATEGORY
-			 *		  $data['Paper']['target_id'] = #paperid | #categoryid
-			 *        
-			 */
-			public function associateContent($data){
-
-				if(isset($data['Paper'][ContentPaper::CONTENT_DATA]) && !empty($data['Paper'][ContentPaper::CONTENT_DATA])){
-					//validate if hidden field is paper or category
-
-					//add content for
-					$source = $data['Paper'][ContentPaper::CONTENT_DATA];
-					//split
-					$source = explode(ContentPaper::SEPERATOR, $source);
-					$sourceType = $source[0];
-					$sourceId   = $source[1];
-					$targetType = $data['Paper']['target_type'];
-                    $this->log($data);
-					if($this->isValidTargetType($targetType) &&
-					$this->isValidSourceType($sourceType) &&
-					isset($data['Paper']['target_id']))
-					{
-						if(count($source) == 2){
-                            if($sourceType == ContentPaper::USER){
-                              $user_id = $sourceId;
-                            } else{
-
-                                $user_id = $data['Paper']['user_id'];
-                            }
-                            //prepare variables to indicate whole user or only topic as source
-                           // $user_id = $sourceId;
-
-                            $topic_id = null;
-							if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
-							switch ($targetType){
-								case ContentPaper::PAPER:									
-									return $this->_associateContentForPaper($data, $user_id, $topic_id);//$topic_id can be null
-									break;
-								case ContentPaper::CATEGORY:
-									$category_id = $data['Paper']['target_id'];
-									//get paper for category
-									$this->Category->contain('Paper');
-									$category = $this->Category->read(null, $category_id);
-
-									if($category['Paper']['id']){
-										$paper_id = $category['Paper']['id'];
-                                        $return_code = $this->newContentForPaper($paper_id, $category_id, $user_id, $topic_id);
-										if(in_array($return_code, $this->return_codes_success)){
-											// todo: save data here
-											return $return_code;
-										}
-									}
-									else{
-										//category MUST have a paper
-										//not able to read paper for category -> error
-										//$this->Session->setFlash(__('error while reading paper for category!', true));
-										//$this->redirect(array('action' => 'index'));
-										return self::RETURN_CODE_ERROR_NO_PAPER_TO_CATEGORY;
-									}
-									break;
-							}
-						}
-					}else{
-						//no valid source or target type
-                        $this->log('numero uno');
-						return self::RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE;
-
-					}
+    //	App::import('model','Subscription');
 
 
-				}
-               return $return_code;
+        $this->Solr->add(array($this->generateSolrData()));
 
 
-			}
+    }
 
 
-			/**
-			 *	returns true if is allowed to associate data (user or topic) to a paper (or category)
-			 *
-			 *
-			 * validate by following criteria
-			 * - if constelation(paper_id, category_id, user_id, topic_id) isnt already there
-			 *
-			 * - if the whole user is associated to a paper or category, check if there are already
-			 *   other associations to one or more topic of the user IN THIS paper or category
-			 *
-			 *   @todo ask is want to delete all other refs to the user�s topics and add whole user
-			 *
-			 * - if a topic is associated to a paper or a category, check if this topic isnt already
-			 *   associated in this category
-			 *
-			 * @param int $categoryId
-			 * @param int $userId
-			 * @param int $topicId
-			 */
-			private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
-				
-				//check if there is already a subscription for exactly this constellation
-				$conditions = array('conditions' => array(
-											'ContentPaper.paper_id' => $paperId,
-											'ContentPaper.category_id' => $categoryId,
-											'ContentPaper.user_id' => $userId,
-											'ContentPaper.topic_id' => $topicId));
-				App::import('model','ContentPaper');
-				$contentPaper = new ContentPaper();
-				$checkDoubleReference = $contentPaper->find('all', $conditions);
 
-				//if we get an result -> not allowed to add this constelation
-				if(isset($checkDoubleReference[0]['ContentPaper']['id'])){
-                    return self::RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION;
-				}
-				
-				if(!$topicId){
-					//get user topics
-					$this->User->contain('Topic.id');
-					$user = $this->User->read(null, $userId);
+    /**
+     * associate content to a paper or category
+     *
+     * @param $data data from controller
+     * 		  $data['Paper] [ContentPaper::CONTENT_DATA] = user_#userid | paper_#paperid
+     * 		  $data['Paper']['target_type'] = ContentPaper::PAPER | ContentPaper::CATEGORY
+     *		  $data['Paper']['target_id'] = #paperid | #categoryid
+     *
+     */
+    public function associateContent($data){
 
+        if(isset($data['Paper'][ContentPaper::CONTENT_DATA]) && !empty($data['Paper'][ContentPaper::CONTENT_DATA])){
+            //validate if hidden field is paper or category
 
-					$userTopics = $user['Topic'];
-                    $this->log('user topics');
-                    $this->log($userTopics);
-					//if user has no topcis (should not be possible...)
-                    if(count($userTopics) == 0) return self::RETURN_CODE_SUCCESS;
-					
-					$this->contain();
-					$paper = $this->read(null, $this->id);
+            //add content for
+            $source = $data['Paper'][ContentPaper::CONTENT_DATA];
+            //split
+            $source = explode(ContentPaper::SEPERATOR, $source);
+            $sourceType = $source[0];
+            $sourceId   = $source[1];
+            $targetType = $data['Paper']['target_type'];
+            $this->log($data);
+            if($this->isValidTargetType($targetType) &&
+            $this->isValidSourceType($sourceType) &&
+            isset($data['Paper']['target_id']))
+            {
+                if(count($source) == 2){
+                    if($sourceType == ContentPaper::USER){
+                      $user_id = $sourceId;
+                    } else{
 
-					
-					if($categoryId){
-						//whole user to a category
-						//reading all topics of the category.
-						$categoryTopics = $this->getTopicReferencesToOnlyThisCategory($categoryId);
-						//if category has no topics referenced
-  						if(count($categoryTopics) == 0) return self::RETURN_CODE_SUCCESS;
-					}
+                        $user_id = $data['Paper']['user_id'];
+                    }
+                    //prepare variables to indicate whole user or only topic as source
+                   // $user_id = $sourceId;
 
-					//whole user to paper
-					//get all user topics associated to that paper  ( front page)
-					//check if already one of the users topics is associated to this paper itself (front page)
-    				$paperTopics = $this->getTopicReferencesToOnlyThisPaper();
-                   // debug(count($paperTopics && !$categoryId));
-					//if paper has no topics referenced and there is no category referenced
-					if(count($paperTopics) == 0  && !$categoryId) return self::RETURN_CODE_SUCCESS;
+                    $topic_id = null;
+                    if($sourceType == ContentPaper::TOPIC) $topic_id = $sourceId;
+                    switch ($targetType){
+                        case ContentPaper::PAPER:
+                            return $this->_associateContentForPaper($data, $user_id, $topic_id);//$topic_id can be null
+                            break;
+                        case ContentPaper::CATEGORY:
+                            $category_id = $data['Paper']['target_id'];
+                            //get paper for category
+                            $this->Category->contain('Paper');
+                            $category = $this->Category->read(null, $category_id);
 
-                    //"overwrite" all topic associations of the user with the "whole user association" by deleting all topics of this user
-                    // in the specific category or paper-frontpage
-					if($categoryId == null){
-                        //check if one of the user topics is in the paper topics (front page)
-
-                        foreach($userTopics as $userTopic){
-
-                            foreach($paperTopics as $paperTopic){
-                                if($userTopic['id'] == $paperTopic['ContentPaper']['topic_id']){
-                                    //delete the topic association, because it is gonna be redundant after the whole user is subscribed
-                                    $this->ContentPaper->delete($paperTopic['ContentPaper']['id'], true);
+                            if($category['Paper']['id']){
+                                $paper_id = $category['Paper']['id'];
+                                $return_code = $this->newContentForPaper($paper_id, $category_id, $user_id, $topic_id);
+                                if(in_array($return_code, $this->return_codes_success)){
+                                    // todo: save data here
+                                    return $return_code;
                                 }
                             }
-                        }
-                    }else{
-                       //check if one of the user topics is in the paper topics (front page)
-                        foreach($userTopics as $userTopic){
-                            foreach($categoryTopics as $categoryTopic){
-                                if($userTopic['id'] == $categoryTopic['ContentPaper']['topic_id']){
-                                    //delete the topic association, because it is gonna be redundant after the whole user is subscribed
-                                    $this->ContentPaper->delete($categoryTopic['ContentPaper']['id'], true);
-                                  }
+                            else{
+                                //category MUST have a paper
+                                //not able to read paper for category -> error
+                                //$this->Session->setFlash(__('error while reading paper for category!', true));
+                                //$this->redirect(array('action' => 'index'));
+                                return self::RETURN_CODE_ERROR_NO_PAPER_TO_CATEGORY;
                             }
+                            break;
+                    }
+                }
+            }else{
+                //no valid source or target type
+                $this->log('numero uno');
+                return self::RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE;
+
+            }
+
+
+        }
+       return $return_code;
+
+
+    }
+
+
+    /**
+     *	returns true if is allowed to associate data (user or topic) to a paper (or category)
+     *
+     *
+     * validate by following criteria
+     * - if constelation(paper_id, category_id, user_id, topic_id) isnt already there
+     *
+     * - if the whole user is associated to a paper or category, check if there are already
+     *   other associations to one or more topic of the user IN THIS paper or category
+     *
+     *   @todo ask is want to delete all other refs to the user�s topics and add whole user
+     *
+     * - if a topic is associated to a paper or a category, check if this topic isnt already
+     *   associated in this category
+     *
+     * @param int $categoryId
+     * @param int $userId
+     * @param int $topicId
+     */
+    private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
+
+        //check if there is already a subscription for exactly this constellation
+        $conditions = array('conditions' => array(
+                                    'ContentPaper.paper_id' => $paperId,
+                                    'ContentPaper.category_id' => $categoryId,
+                                    'ContentPaper.user_id' => $userId,
+                                    'ContentPaper.topic_id' => $topicId));
+        App::import('model','ContentPaper');
+        $contentPaper = new ContentPaper();
+        $checkDoubleReference = $contentPaper->find('all', $conditions);
+
+        //if we get an result -> not allowed to add this constelation
+        if(isset($checkDoubleReference[0]['ContentPaper']['id'])){
+            return self::RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION;
+        }
+
+        if(!$topicId){
+            //get user topics
+            $this->User->contain('Topic.id');
+            $user = $this->User->read(null, $userId);
+
+
+            $userTopics = $user['Topic'];
+            $this->log('user topics');
+            $this->log($userTopics);
+            //if user has no topcis (should not be possible...)
+            if(count($userTopics) == 0) return self::RETURN_CODE_SUCCESS;
+
+            $this->contain();
+            $paper = $this->read(null, $this->id);
+
+
+            if($categoryId){
+                //whole user to a category
+                //reading all topics of the category.
+                $categoryTopics = $this->getTopicReferencesToOnlyThisCategory($categoryId);
+                //if category has no topics referenced
+                if(count($categoryTopics) == 0) return self::RETURN_CODE_SUCCESS;
+            }
+
+            //whole user to paper
+            //get all user topics associated to that paper  ( front page)
+            //check if already one of the users topics is associated to this paper itself (front page)
+            $paperTopics = $this->getTopicReferencesToOnlyThisPaper();
+           // debug(count($paperTopics && !$categoryId));
+            //if paper has no topics referenced and there is no category referenced
+            if(count($paperTopics) == 0  && !$categoryId) return self::RETURN_CODE_SUCCESS;
+
+            //"overwrite" all topic associations of the user with the "whole user association" by deleting all topics of this user
+            // in the specific category or paper-frontpage
+            if($categoryId == null){
+                //check if one of the user topics is in the paper topics (front page)
+
+                foreach($userTopics as $userTopic){
+
+                    foreach($paperTopics as $paperTopic){
+                        if($userTopic['id'] == $paperTopic['ContentPaper']['topic_id']){
+                            //delete the topic association, because it is gonna be redundant after the whole user is subscribed
+                            $this->ContentPaper->delete($paperTopic['ContentPaper']['id'], true);
                         }
                     }
-					return self::RETURN_CODE_SUCCESS_DELETED_TOPICS;
-
-
-				}
-				else{
-
-					
-					//check if the complete user is not already in the same category (or frontpage) as the topic thats gonna be subscribed
-
-					App::import('model','Topic');
-					$topic = new Topic();
-					$topic->contain();
-					$topic->read(null, $topicId);
-
-					if(!$topic->id){
-						return self::RETURN_CODE_ERROR_INVALID_TOPIC;
-					}else{
-
-
-						if($topic->data['Topic']['user_id']){
-							//check if the topics user is not in this part of the paper (frontpage or category)
-							$userId = $topic->data['Topic']['user_id'];
-							$conditions = array('conditions' => array(
-											'ContentPaper.paper_id' => $this->id,
-											'ContentPaper.user_id' => $userId,
-											'ContentPaper.category_id' => null,
-                                            'ContentPaper.topic_id' => null));
-
-							if($categoryId > 0){
-								//add category
-								$conditions['conditions']['ContentPaper.category_id'] = $categoryId;
-							}
-
-
-                            $contentPaper->contain();
-							$checkUser = $contentPaper->find('all', $conditions);
-
-							if(isset($checkUser[0]['ContentPaper']['id'])){
-								//user is already in paper
-								//$this->Session->setFlash(__('The owner of this topic is already in this category ', true));
-								//$this->redirect(array('action' => 'index'));
-								return self::RETURN_CODE_ERROR_WHOLE_USER_ALREADY_SUBCRIBED;
-							}
-							//topics user is not in the paper -> can add topic to paper / category
-							return self::RETURN_CODE_SUCCESS;
-						}
-						else{
-							return self::RETURN_CODE_ERROR_INVALID_TOPIC;
-						}
-					}
-				}
-				return self::RETURN_CODE_SUCCESS;
-			}
-				
-			/**
-			 * after content (user or category) has be
-			 *
-			 */
-			function initialImportPosts(){
-					
-
-			}
-
-
-			/**
-			 * associate content to paper
-			 *
-			 * @param int $categoryId
-			 * @param int $userId
-			 * @param int $topicId
-			 *
-			 * @return boolean
-			 */
-			public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
-
-                $return_code = $this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId);
-				if(!in_array($return_code, $this->return_codes_success)){
-					return $return_code;
                 }
-
-				//$this->ContentPaper->find('all', )
-
-				//this->_saveNewContent(paper, ....)
-				$data = array();
-				$data['ContentPaper'] = array();
-				$data['ContentPaper']['paper_id'] 	= $this->id;
-				$data['ContentPaper']['category_id'] 	= $categoryId;
-				$data['ContentPaper']['user_id'] 		= $userId;
-				$data['ContentPaper']['topic_id'] 	= $topicId;
-
-				App::import('model','ContentPaper');
-				$contentPaper = new ContentPaper();
-				$contentPaper->create();
-                if(!$contentPaper->save($data)){
-                    return self::RETURN_CODE_ERROR_ASSO_NOT_SAVED;
-                }else{
-                    return $return_code;
+            }else{
+               //check if one of the user topics is in the paper topics (front page)
+                foreach($userTopics as $userTopic){
+                    foreach($categoryTopics as $categoryTopic){
+                        if($userTopic['id'] == $categoryTopic['ContentPaper']['topic_id']){
+                            //delete the topic association, because it is gonna be redundant after the whole user is subscribed
+                            $this->ContentPaper->delete($categoryTopic['ContentPaper']['id'], true);
+                          }
+                    }
                 }
-			}
-
-			/**
-			 *
-			 * associate contenet (user or topic) to a paper
-			 *
-			 * @param int $user_id
-			 * @param int $topic_id
-			 */
-			private function _associateContentForPaper($data, $user_id, $topic_id){
-
-				$paper_id = $data['Paper']['target_id'];
-                return  $this->newContentForPaper($paper_id, null, $user_id, $topic_id);
-                
-			}
-
-
-
-			/**
-			 * get $data and checks if is type
-			 * paper or category for paper_content
-			 *
-			 * @return boolean
-			 */
-			public function isValidTargetType($targetType){
-				return (($targetType == ContentPaper::PAPER) ||
-				($targetType == ContentPaper::CATEGORY));
-			}
-
-			/**
-			 * get $data and checks if is type
-			 * paper or category for paper_content
-			 *
-			 * @return boolean
-			 */
-			public function isValidSourceType($sourceType){
-
-				return (($sourceType == ContentPaper::USER) ||
-				($sourceType == ContentPaper::TOPIC));
-			}
-
-
-			function generateSolrData(){
-
-                if(!isset($this->data['User']) ||  !isset($this->data['Route']) || !isset($this->data['Paper'])){
-                    $this->contain('User', 'Route');
-                    $this->data = $this->read(null, $this->id);
-                }
-
-				$solrFields = array();
-				$solrFields['id']					= $this->data['Paper']['id'];
-				$solrFields['paper_title']			= $this->data['Paper']['title'];
-				$solrFields['paper_description']	= $this->data['Paper']['description'];
-				$solrFields['index_id']			= Solr::TYPE_PAPER.'_'.$this->id;
-				$solrFields['user_id']				= $this->data['User']['id'];
-				$solrFields['user_name']			= $this->data['User']['name'];
-				$solrFields['user_username']		= $this->data['User']['username'];
-				$solrFields['type']				= Solr::TYPE_PAPER;
-                $solrFields['route_source']		= $this->data['Route'][0]['source'];
-                 if(isset($this->data['Paper']['image'])){
-                    $solrFields['paper_image'] = $this->data['Paper']['image'];
-                }
-
-				return $solrFields;
-			}
-
-
-            function deleteFromSolr(){
-                App::import('model','Solr');
-                $solr = new Solr();
-                $solr->delete(Solr::TYPE_PAPER.'_'.$this->id);
-                return true;
             }
+            return self::RETURN_CODE_SUCCESS_DELETED_TOPICS;
+
+
+        }
+        else{
+
+
+            //check if the complete user is not already in the same category (or frontpage) as the topic thats gonna be subscribed
+
+            App::import('model','Topic');
+            $topic = new Topic();
+            $topic->contain();
+            $topic->read(null, $topicId);
+
+            if(!$topic->id){
+                return self::RETURN_CODE_ERROR_INVALID_TOPIC;
+            }else{
+
+
+                if($topic->data['Topic']['user_id']){
+                    //check if the topics user is not in this part of the paper (frontpage or category)
+                    $userId = $topic->data['Topic']['user_id'];
+                    $conditions = array('conditions' => array(
+                                    'ContentPaper.paper_id' => $this->id,
+                                    'ContentPaper.user_id' => $userId,
+                                    'ContentPaper.category_id' => null,
+                                    'ContentPaper.topic_id' => null));
+
+                    if($categoryId > 0){
+                        //add category
+                        $conditions['conditions']['ContentPaper.category_id'] = $categoryId;
+                    }
+
+
+                    $contentPaper->contain();
+                    $checkUser = $contentPaper->find('all', $conditions);
+
+                    if(isset($checkUser[0]['ContentPaper']['id'])){
+                        //user is already in paper
+                        //$this->Session->setFlash(__('The owner of this topic is already in this category ', true));
+                        //$this->redirect(array('action' => 'index'));
+                        return self::RETURN_CODE_ERROR_WHOLE_USER_ALREADY_SUBCRIBED;
+                    }
+                    //topics user is not in the paper -> can add topic to paper / category
+                    return self::RETURN_CODE_SUCCESS;
+                }
+                else{
+                    return self::RETURN_CODE_ERROR_INVALID_TOPIC;
+                }
+            }
+        }
+        return self::RETURN_CODE_SUCCESS;
+    }
+
+    /**
+     * after content (user or category) has be
+     *
+     */
+    function initialImportPosts(){
+
+
+    }
+
+
+    /**
+     * associate content to paper
+     *
+     * @param int $categoryId
+     * @param int $userId
+     * @param int $topicId
+     *
+     * @return boolean
+     */
+    public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
+
+        $return_code = $this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId);
+        if(!in_array($return_code, $this->return_codes_success)){
+            return $return_code;
+        }
+
+        //$this->ContentPaper->find('all', )
+
+        //this->_saveNewContent(paper, ....)
+        $data = array();
+        $data['ContentPaper'] = array();
+        $data['ContentPaper']['paper_id'] 	= $this->id;
+        $data['ContentPaper']['category_id'] 	= $categoryId;
+        $data['ContentPaper']['user_id'] 		= $userId;
+        $data['ContentPaper']['topic_id'] 	= $topicId;
+
+        App::import('model','ContentPaper');
+        $contentPaper = new ContentPaper();
+        $contentPaper->create();
+        if(!$contentPaper->save($data)){
+            return self::RETURN_CODE_ERROR_ASSO_NOT_SAVED;
+        }else{
+            return $return_code;
+        }
+    }
+
+    /**
+     *
+     * associate contenet (user or topic) to a paper
+     *
+     * @param int $user_id
+     * @param int $topic_id
+     */
+    private function _associateContentForPaper($data, $user_id, $topic_id){
+
+        $paper_id = $data['Paper']['target_id'];
+        return  $this->newContentForPaper($paper_id, null, $user_id, $topic_id);
+
+    }
+
+
+
+    /**
+     * get $data and checks if is type
+     * paper or category for paper_content
+     *
+     * @return boolean
+     */
+    public function isValidTargetType($targetType){
+        return (($targetType == ContentPaper::PAPER) ||
+        ($targetType == ContentPaper::CATEGORY));
+    }
+
+    /**
+     * get $data and checks if is type
+     * paper or category for paper_content
+     *
+     * @return boolean
+     */
+    public function isValidSourceType($sourceType){
+
+        return (($sourceType == ContentPaper::USER) ||
+        ($sourceType == ContentPaper::TOPIC));
+    }
+
+
+    function generateSolrData(){
+
+        if(!isset($this->data['User']) ||  !isset($this->data['Route']) || !isset($this->data['Paper'])){
+            $this->contain('User', 'Route');
+            $this->data = $this->read(null, $this->id);
+        }
+
+        $solrFields = array();
+        $solrFields['id']					= $this->data['Paper']['id'];
+        $solrFields['paper_title']			= $this->data['Paper']['title'];
+        $solrFields['paper_description']	= $this->data['Paper']['description'];
+        $solrFields['index_id']			= Solr::TYPE_PAPER.'_'.$this->id;
+        $solrFields['user_id']				= $this->data['User']['id'];
+        $solrFields['user_name']			= $this->data['User']['name'];
+        $solrFields['user_username']		= $this->data['User']['username'];
+        $solrFields['type']				= Solr::TYPE_PAPER;
+        $solrFields['route_source']		= $this->data['Route'][0]['source'];
+         if(isset($this->data['Paper']['image'])){
+            $solrFields['paper_image'] = $this->data['Paper']['image'];
+        }
+
+        return $solrFields;
+    }
+
+
+    function deleteFromSolr(){
+        App::import('model','Solr');
+        $solr = new Solr();
+        $solr->delete(Solr::TYPE_PAPER.'_'.$this->id);
+        return true;
+    }
 
 
     function beforeSave(){

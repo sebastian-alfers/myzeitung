@@ -71,9 +71,10 @@ class ContentPaper extends AppModel {
 
 			);
 
-    public function afterSave(){
-
-        $this->getOldPostsOfNewSubscription();
+    public function afterSave($created){
+        if($created && $this->data['ContentPaper']['enabled']){
+            $this->getOldPostsOfNewSubscription();
+        }
       //  debug($this->data);
         //$this->sendEmailToSubscribedAuthor();
 
@@ -100,11 +101,10 @@ class ContentPaper extends AppModel {
 
         $this->PostUser->contain();
         $posts = $this->PostUser->find('all', array('conditions' => $conditions));
-        
         App::import('model','CategoryPaperPost');
+        $this->CategoryPaperPost = new CategoryPaperPost();
 
         foreach($posts as $post){
-            $this->CategoryPaperPost = new CategoryPaperPost();
             $new_post = array();
             $new_post['CategoryPaperPost']['post_id'] = $post['PostUser']['post_id'];
             $new_post['CategoryPaperPost']['paper_id'] = $this->data['ContentPaper']['paper_id'];
@@ -121,7 +121,9 @@ class ContentPaper extends AppModel {
             //if(isset($this->data['ContentPaper']['category_id']) && !empty($this->data['ContentPaper']['category_id'])){
             $new_post['CategoryPaperPost']['category_id'] = $this->data['ContentPaper']['category_id'];
             //}
+            $this->CategoryPaperPost->create();
             $this->CategoryPaperPost->save($new_post);
+
         }
 
 
@@ -153,6 +155,41 @@ class ContentPaper extends AppModel {
         }
         //already enabled
         return false;
+    }
+    function cleanUpIndex(){
+
+        App::import('model','CategoryPaperPost');
+        $this->CategoryPaperPost = new CategoryPaperPost();
+
+        //get all ContentPaper entries and delete posts from the cpp index if user is disabled
+        $this->contain('User.id','User.enabled');
+        $subscriptions = $this->find('all', null);
+        foreach($subscriptions as $subscription){
+            if(!isset($subscription['User']['id']) || $subscription['User']['enabled'] == false){
+                //if user is disabled or deleted - disable association
+                $this->id = $subscription['ContentPaper']['id'];
+                $this->data = $subscription;
+                $this->disable();
+                $this->CategoryPaperPost->deleteAll(array('content_paper_id' => $subscription['ContentPaper']['id']), false, true);
+            }
+
+        }
+        //read all cppEntries grouped by content_paper_id
+        $this->CategoryPaperPost->contain('ContentPaper.id','ContentPaper.enabled');
+        $cppEntries = $this->CategoryPaperPost->find('all',array('fields' => array('content_paper_id'),'group' => array('content_paper_id')));
+        foreach($cppEntries as $cppEntry){
+            if(!isset($cppEntry['ContentPaper']['id']) || $cppEntry['ContentPaper']['enabled'] == false){
+                $this->CategoryPaperPost->deleteAll(array('content_paper_id' => $cppEntry['CategoryPaperPost']['content_paper_id']), false, true);
+            }
+        }
+        //read all cppEntries grouped by post_user_id
+        $this->CategoryPaperPost->contain('PostUser.id', 'PostUser.enabled');
+        $cppEntries = $this->CategoryPaperPost->find('all',array('fields' => array('post_user_id'),'group' => array('post_user_id')));
+        foreach($cppEntries as $cppEntry){
+            if(!isset($cppEntry['PostUser']['id']) || $cppEntry['PostUser']['enabled'] == false){
+                $this->CategoryPaperPost->deleteAll(array('post_user_id' => $cppEntry['CategoryPaperPost']['post_user_id']), false, true);
+            }
+        }
     }
 }
 ?>

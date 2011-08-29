@@ -241,6 +241,7 @@ class AppController extends Controller {
             'admin_refreshPapersIndex' => $this->superadmin,
             ),
         'index' => array(
+             'admin_cleanUpContentPaperIndex' => $this->superadmin,
             'admin_cleanUpPostUserIndex' => $this->superadmin,
             'admin_index' => $this->admin,
             'admin_refreshPostPaperRoutes' => $this->superadmin,

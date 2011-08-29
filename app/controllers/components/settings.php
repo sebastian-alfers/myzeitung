@@ -100,10 +100,10 @@ class SettingsComponent extends Object {
         $settings = new Setting();
         $settings->contain();
 
-        $conditins = array('Setting.model_type' => 'User', 'Setting.model_id' => $this->Session->read('Auth.User.id'),
+        $conditions = array('Setting.model_type' => 'User', 'Setting.model_id' => $this->Session->read('Auth.User.id'),
                            'Setting.namespace' => 'twitter');
 
-        $settings->deleteAll($conditins);
+        $settings->deleteAll($conditions);
 
     }
 }
