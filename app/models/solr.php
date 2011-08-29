@@ -20,9 +20,9 @@ class Solr extends AppModel {
 	const SEARCH_RESULT_SEARCH_FIELD_NGRM = 'search_field_ngrm';
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 	
-	const HOST = 'localhost';
-	const PORT = 8983; # -alf 8080  -tim 8983
-	const PATH = '/solr';
+	var $_host = '';
+	var $_port = 8080; //default port # -alf 8080  -tim 8983
+	var $_path = '/solr';
 
 
 	var $useTable = false;
@@ -36,18 +36,14 @@ class Solr extends AppModel {
 	private $solr = null;
 
 	function __construct(){
+
 		parent::__construct();
 
-        $port = self::PORT;
+        $this->_host = Configure::read('Solr.host');
+        $this->_port = Configure::read('Solr.port');
 
-        if(defined('SOLR_PORT')){
-
-             $port = SOLR_PORT;
-        }
-
-        if(USE_SOLR){
-             $this->solr = new Apache_Solr_Service(self::HOST, $port, self::PATH);
-            
+        if(Configure::read('Solr.enable')){
+             $this->solr = new Apache_Solr_Service($this->_host, $this->_port, $this->_path);
         }
 
     }
@@ -339,6 +335,9 @@ class Solr extends AppModel {
 					$query.= ' AND ' . $field_name.':"'.$filter_value.'"';
 				}
 			}
+            if(!is_object($this->getSolr())){
+                return 'no serch';
+            }
 			$response = $this->getSolr()->search($query, $start, $limit, $params);
 
 			if ( $response->getHttpStatus() == 200 ) {

@@ -21,9 +21,9 @@ $(document).ready(function() {
         if(sub == 'all'){
             //if all -> add post param to json request#
             all = 'all';
-            var url = 'papers/references/paper/<?php echo $paper_id; ?>';
+            var url = 'paper/references/paper/<?php echo $paper_id; ?>';
         }else{
-            var url = 'papers/references/' + sub;
+            var url = 'paper/references/' + sub;
         }
 
         var req = $.post(base_url + '/' + url + '.json', {all:all})

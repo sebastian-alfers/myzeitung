@@ -71,7 +71,7 @@ class CfHelper extends AppHelper {
   private $forceTimestamp = FALSE;
 
  public function __construct(){
-     if(USE_CDN){
+     if(Configure::read('Cdn.enable')){
         $this->_isLocal = false;
      }
  }

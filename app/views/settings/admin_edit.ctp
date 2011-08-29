@@ -4,19 +4,17 @@
 		<legend><?php __('Edit Setting'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('model_type');
-		echo $this->Form->input('model_id');
-		echo $this->Form->input('key');
-		echo $this->Form->input('value');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
-</div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
+		echo $this->data['Setting']['key'];
 
-		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Setting.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Setting.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Settings', true), array('action' => 'index'));?></li>
-	</ul>
+        echo $this->element('settings/edit/value/'.$this->data['Setting']['value_data_type']);
+
+        ?>
+
+        <?php if(isset($this->data['Setting']['note']) && !empty($this->data['Setting']['note'])): ?>
+            <?php echo nl2br($this->data['Setting']['note']); ?>
+        <?php endif; ?>
+
+	</fieldset>
+
+<?php echo $this->Form->end(__('Save', true));?>
 </div>

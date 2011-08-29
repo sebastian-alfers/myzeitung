@@ -2,9 +2,8 @@
 	<?php foreach($references as $paper):?>
 		<div style="float: left; margin: 0 5px 5px 0;"><?php
 		$link_data = array();
-		$link_data['url'] = $paper['Route'][0]['source'];
+		$link_data['url'] = $paper['Paper']['Route'][0]['source'];
 		$link_data['custom'] = array('class' => 'user-image');
-		$name = 'nameeee';
 		
 		//build the mouseover-text
 		$hover = array();

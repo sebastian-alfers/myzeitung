@@ -579,7 +579,7 @@ class User extends AppModel {
         $conditions = array('conditions' => array('ContentPaper.user_id' => $user_id));
 
         $this->ContentPaper = new ContentPaper();
-        $this->ContentPaper->contain('Paper', 'Category', 'Topic');
+        $this->ContentPaper->contain('Paper', 'Paper.Route', 'Category', 'Topic');
         $references = $this->ContentPaper->find('all', $conditions);
 
         if(!$group_by_paper) return $references;

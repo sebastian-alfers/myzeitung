@@ -1,0 +1,1 @@
+<?php echo $this->Form->input('value', array ('options' => array(0 => '0 (Production Mode)', 1 => '1 (Development Mode, no debug() and no SQL debug)', 2 => '2 (Development Mode)',))); ?>

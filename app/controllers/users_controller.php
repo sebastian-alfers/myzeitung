@@ -356,6 +356,7 @@ class UsersController extends AppController {
 		$user_id = $this->params['pass'][0];
 
 		$references = $this->User->getAllUserContentReferences($user_id);
+        $this->log($references);
 		//debug($references);
 		$this->set('references', $references);
 

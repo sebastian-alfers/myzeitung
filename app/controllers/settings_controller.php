@@ -11,6 +11,7 @@ class SettingsController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+            Cache::delete('Core');
 			if ($this->Setting->save($this->data)) {
 				$this->Session->setFlash(__('The setting has been saved', true));
 				$this->redirect(array('action' => 'index'));
@@ -24,7 +25,9 @@ class SettingsController extends AppController {
 	}
 
 	function admin_index() {
-		$this->Setting->recursive = 0;
+		$this->Setting->contain();
+
+        $this->paginate =  array('conditions' => array('Setting.namespace' => 'Core'));
 		$this->set('settings', $this->paginate());
 	}
 

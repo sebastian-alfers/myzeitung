@@ -15,20 +15,20 @@ class SearchController extends AppController {
 
 
 	function index() {
-		
 		if(!isset($this->params['form']['start'])){
 			$start = 0 ;
 		}
 		else{
 			$start = $this->params['form']['start'];
 		}
-		
+
+
 		$this->getResults(null, solr::QUERY_TYPE_SEARCH_RESULTS, $start);
 
 		$this->set('start', $start);
-		$this->set('per_page', solr::DEFAULT_LIMIT);		
-		
-		if($this->params['isAjax']){	
+		$this->set('per_page', solr::DEFAULT_LIMIT);
+
+		if($this->params['isAjax']){
 			$this->render('more_results', 'ajax');
 		}
 				
@@ -211,7 +211,7 @@ class SearchController extends AppController {
 	 * @param unknown_type $results
 	 */
 	private function addExtraInformation($results = null){
-		if($results){
+		if(is_array($results)){
 				//feeding results with addtional info (as you can see below)																				
 				foreach($results['results'] as &$result){
 					

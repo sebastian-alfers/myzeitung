@@ -10,10 +10,6 @@ class UploadComponent extends Object {
 
 	var $components = array('Session');
 
-    public function test(){
-        echo "test";
-    }
-
 	public function transformFileName($file_name){
 		if($file_name == ''){
 			return '';
@@ -24,6 +20,8 @@ class UploadComponent extends Object {
 		$file_name = strtolower(preg_replace('/\W-/', '', $file_name)); // remove all non-alphanumeric chars except _ and -
         $pattern = array("','", "';'", "'#'", );
         $file_name = preg_replace($pattern, '', $file_name);
+
+        $file_name = uniqid().'-'.$file_name;
 
 
 		return $file_name;
