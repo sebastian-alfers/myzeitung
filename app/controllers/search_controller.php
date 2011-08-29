@@ -66,11 +66,14 @@ class SearchController extends AppController {
     function admin_index(){
 
     }
+    function admin_hansmeiser(){
+        $this->Solr->refreshPostsIndex();
+    }
     function admin_refreshPostsIndex(){
-
         $this->Solr->refreshPostsIndex();
         $this->Session->setFlash(__('Posts search index has been refreshed', true));
         $this->redirect($this->referer());
+
 
     }
     function admin_refreshUsersIndex(){

@@ -391,6 +391,7 @@ class Post extends AppModel {
 
                         $reposters = unserialize($this->data['Post']['reposters']);
                     }
+
                 }else{
                     $reposters = array();
                 }

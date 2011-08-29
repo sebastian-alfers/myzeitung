@@ -65,7 +65,7 @@ class PapersController extends AppController {
 	 * @param $category_id
 	 */
 	function view($paper_id = null, $category_id = null) {
-    
+
 		if (!$paper_id) {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
@@ -83,8 +83,7 @@ class PapersController extends AppController {
         }
         if($category_id == null && isset($this->params['category_id'])){
             $category_id = $this->params['category_id'];
-            $this->log('catid');
-            $this->log($category_id);
+
         }
 
 		/*writing all settings for the paginate function.
@@ -99,8 +98,9 @@ class PapersController extends AppController {
 				                 		'alias' => 'CategoryPaperPost',
 				                		'type' => 'RIGHT',
 				                  		'conditions' => array('CategoryPaperPost.post_id = Post.id',
-                                                                'Post.enabled' =>true),
-		),
+                                                            //post.enabled coses bugs. but it shouldnt be shown here anyway
+                                                                /*'Post.enabled' =>true*/),
+		    ),
 		),
 
 		//order
@@ -115,7 +115,7 @@ class PapersController extends AppController {
 
 		//contain array: limit the (related) data and models being loaded per post
 			            'contain' => array('Route', 'User.id','User.username','User.name',  'User.image'),
-		),
+	    	),
 		);
 
 		//useCustom defines which kind of paginateCount the Post-Model should use. "true" -> counting entries in category_paper_posts
@@ -133,6 +133,7 @@ class PapersController extends AppController {
 			//adding the category to the conditions array
 			$conditions['category_id'] = $category_id;
 		}
+        
 		foreach($posts as &$post){
 			$conditions['post_id'] = $post['Post']['id'];
 			$this->CategoryPaperPost->contain();

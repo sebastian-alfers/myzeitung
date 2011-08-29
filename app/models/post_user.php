@@ -315,13 +315,85 @@ var $belongsTo = array(
         //already enabled
         return false;
     }
+    /**
+     * groups all postuser entries by post_id
+     *      check if posts exists and is enabled. delete or disable if post is not existent or disabled
+     * reads all enabled posts and checks if there is an active (non-repost) post user entry.
+     * and collects all reposts
+     *       if no entry is found, one is created
+     * saves post with new reposters array
+     */
     function cleanUpIndex(){
-        App::import('model','Post');
-        $this->Post = new Post();
 
         //read all posts_users entries grouped by post_id
-        $PostUserEntries = $this->find('all',array('group' => 'post_id','order' => 'post_id'));
-        $this->log($PostUserEntries);
+        $this->contain('Post');
+        $publishedPosts = $this->find('all',array('group' => 'post_id','order' => 'post_id'));
+
+        foreach($publishedPosts as $publishedPost){
+            if(!isset($publishedPost['Post']['id'])){
+                //post has been deleted
+                //delete all post user entries belonging to deleted post
+                $this->deleteAll(array('post_id' => $publishedPost['PostUser']['post_id']), true, true);
+            }elseif($publishedPost['Post']['enabled'] == false){
+                //post has been disabled
+                //disable all postUser entries belonging to disabled post
+                $entriesToDisable = $this->find('all', array('conditions' => array('post_id' => $publishedPost['PostUser']['post_id'])));
+                foreach($entriesToDisable as $entryToDisable){
+                    $this->id = $entryToDisable['PostUser']['id'];
+                    $this->data = $entryToDisable;
+                    $this->disable();
+                }
+            }
+
+        }
+        App::import('model','Post');
+        $this->Post = new Post();
+        $this->Post->contain('PostUser');
+        $posts = $this->Post->find('all', array('conditions' => array('Post.enabled' => true)));
+
+
+        foreach($posts as $post){
+            //check if active non-repost post-user entry is found
+            //collect all reposts to renew the reposters array (just in case...)
+                $activePostUserEntryFound = false;
+                $reposters = array();
+                if(isset($post['PostUser']) && count($post['PostUser']) >0){
+                    foreach($post['PostUser'] as $postUserEntry){
+                        if($postUserEntry['repost'] == false){
+                            if($postUserEntry['enabled'] == false){
+                                $this->id = $postUserEntry['id'];
+                                $this->data = array('PostUser' => $postUserEntry);
+                                $this->enabled();
+                            }
+                            $activePostUserEntryFound = true;
+                        }else{
+                            //save reposter to temp reposters array
+                            $reposters[] = $postUserEntry['user_id'];
+                        }
+                    }
+                }
+            //write a post-user entry for the post (not a repost) if none was found
+            if(!$activePostUserEntryFound){
+                $postUserData['PostUser']['post_id'] = $post['Post']['id'];
+                $postUserData['PostUser']['topic_id'] = $post['Post']['topic_id'];
+                $postUserData['PostUser']['user_id'] = $post['Post']['user_id'];
+                $postUserData['PostUser']['enabled'] = true;
+                $postUserData['PostUser']['repost'] = false;
+                $postUserData['PostUser']['created'] = $post['Post']['created'];
+                $this->save($postUserData);
+            }
+            if(count($reposters) > 0){
+                $this->log($reposters);
+            }
+            $reposters = serialize($reposters);
+
+            //renew the reposters array if necessary
+            if($reposters != $post['Post']['reposters']){
+                $post['Post']['reposters'] = $reposters;
+                $this->Post->save($post);
+            }
+
+        }
 
     }
 }

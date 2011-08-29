@@ -171,7 +171,7 @@ class User extends AppModel {
 				'alpha' => array(
                        // alphaNumeric rule did somehow allow accented characters...
 					'rule'			=> array('custom', '/^[a-z0-9]*$/i'),
-					'message'		=> __('Usernames must only contain letters and numbers.', true),
+					'message'		=> __('Usernames must only contain letters and numbers (no special characters).', true),
 					'last'			=> true,	
 				),
 	    		'unique' => array(
@@ -275,6 +275,15 @@ class User extends AppModel {
                     $this->Post->data = $post;
                     $this->Post->disable();
                 }
+                //disable all reposts of this user
+                App::import('model','PostUser');
+                $this->PostUser = new PostUser();
+                $this->PostUser->contain();
+                $reposts = $this->PostUser->find('all',array('conditions' => array('repost' => true, 'user_id' => $this->id)));
+                foreach($reposts as $repost){
+                    $this->PostUser->data = $repost;
+                    $this->PostUser->disable();
+                }
                 //disable all papers of this user
                 App::import('model','Paper');
                 $this->Paper = new Paper();
@@ -341,6 +350,15 @@ class User extends AppModel {
                     $this->Post->data = $post;
                     $this->Post->enable();
                 }
+                //enable all reposts of this user
+                App::import('model','PostUser');
+                $this->PostUser = new PostUser();
+                $this->PostUser->contain();
+                $reposts = $this->PostUser->find('all',array('conditions' => array('repost' => true, 'user_id' => $this->id)));
+                foreach($reposts as $repost){
+                    $this->PostUser->data = $repost;
+                    $this->PostUser->enable();
+                }
                 //enable all papers of this user
                 App::import('model','Paper');
                 $this->Paper = new Paper();
@@ -384,6 +402,8 @@ class User extends AppModel {
                 
                 $this->data = $userData;
 
+                App::import('model','Solr');
+                $this->Solr = new Solr();
                 $this->addToOrUpdateSolr();
 
                 $this->data['User']['enabled'] = true;
