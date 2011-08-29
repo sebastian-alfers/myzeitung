@@ -170,7 +170,7 @@ class PostsController extends AppController {
 			$this->Session->write('read_posts',array($id));
 			$this->Post->doIncrement($id);
 		}
-		$this->Comment->contain('User.username','User.id','User.image');
+		$this->Comment->contain('User.username','User.id','User.image', 'User.name');
 		//'threaded' gets also the replies (children) and children's children etc. (for tree behavior. not sure if for not-tree also)
 		$comments = $this->Comment->find('threaded',array(
 										'conditions' => array('Comment.post_id' => $id,

@@ -52,6 +52,7 @@ class CommentsController extends AppController {
 				$current_comment['User']['image'] = $this->Session->read('Auth.User.image');
 				$current_comment['User']['id'] = $this->Session->read('Auth.User.id');
 				$current_comment['User']['username'] = $this->Session->read('Auth.User.username');
+                $current_comment['User']['name'] = $this->Session->read('Auth.User.name');
                 $current_comment['Comment']['id'] = $this->Comment->id;
 				$current_comment['Comment']['created'] = $this->data['Comment']['created'];
 				$current_comment['Comment']['text'] = $this->data['Comment']['text'];

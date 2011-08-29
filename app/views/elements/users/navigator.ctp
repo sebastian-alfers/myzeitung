@@ -35,7 +35,7 @@
             $image_options['custom']['class'] = 'user-image';
             $image_options['custom']['id'] = $user['User']['id'];
             $image_options['custom']['rel'] = $this->MzText->getSubscribeUrl();
-
+            $image_options['custom']['link'] = $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])));
 
             echo $image->render($user['User'], 110, 110, array(), $image_options, ImageHelper::USER);
             ?>

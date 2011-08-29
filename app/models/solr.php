@@ -55,7 +55,7 @@ class Solr extends AppModel {
 	 * @param array $documents
 	 */
 	function add($docs = array()){
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		try {
 
@@ -119,7 +119,7 @@ class Solr extends AppModel {
                 $records[] = $record;
             }
         }
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
         foreach($records as $record){
             $xml = '<delete><id>'. $record .'</id></delete>';
@@ -317,7 +317,7 @@ class Solr extends AppModel {
 	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $start = 0,$params = null){
 
 		
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 		
 		if(empty($query)) return false;
 		$results = array();
@@ -379,7 +379,7 @@ class Solr extends AppModel {
 	 */
 	function getSolr(){
 
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		if(!$this->canPing()){
 			$this->solr = null;
@@ -393,7 +393,7 @@ class Solr extends AppModel {
 	 *
 	 */
 	function canPing(){
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		if($this->solr instanceof Apache_Solr_Service && $this->solr != null){
 			if (!$this->solr->ping()) return false;
@@ -405,7 +405,7 @@ class Solr extends AppModel {
 	}
 
 	function deleteIndex(){
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		var_dump($this->getSolr()->deleteByQuery('*:*'));
 		$this->getSolr()->commit();

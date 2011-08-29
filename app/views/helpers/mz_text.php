@@ -1,7 +1,6 @@
 <?php
 App::import('Helper', 'Text');
 
-
 class MzTextHelper extends TextHelper {
 
     public $helpers = array('Session');
@@ -24,6 +23,7 @@ class MzTextHelper extends TextHelper {
      * @return void
      */
     function getUsername($user){
+
         $name = '';
 
         if(isset($user['username']) && !empty($user['username'])){
@@ -34,9 +34,7 @@ class MzTextHelper extends TextHelper {
         if(isset($user['name']) && !empty($user['name'])){
            $name .= $user['name'];
         }
-
         return $name;
-
     }
 
     /**

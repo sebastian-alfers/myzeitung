@@ -147,7 +147,7 @@ if($has_topics){
 								$image_options = array();
 
 								$image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']));
-								$image_options['custom'] = array('class' => 'user-image', 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $post['User']['id'], 'alt' => $this->MzText->getUsername($post['User']));
+								$image_options['custom'] = array('class' => 'user-image', 'rel' => $this->MzText->getSubscribeUrl(), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']))), 'id' => $post['User']['id'], 'alt' => $this->MzText->getUsername($post['User']));
                                 $image_options['rel'] = 'nofollow';
 
 								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);

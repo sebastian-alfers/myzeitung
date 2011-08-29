@@ -19,8 +19,7 @@
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username));
 				$link_data['additional'] = 'display:inline;';
-				echo $image->render(array('image' => $img), 45, 45,null, $link_data, ImageHelper::USER);
-				 				
+				echo '<div>'.$image->render(array('image' => $img), 45, 45,array(), $link_data, ImageHelper::USER).'</div>';
 				?>									
 				<h6><?php echo $this->Html->link( $user->user_username, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))) ?></h6>
 				<?php if(isset($user->user_name) && !empty($user->user_name)): ?>

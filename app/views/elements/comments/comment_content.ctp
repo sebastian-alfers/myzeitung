@@ -2,12 +2,14 @@
 		<?php
 		//$info = $image->resize(['image'],65, 65, null, true);
 		//echo $this->Html->link($this->Html->image($info['path']),array('controller' => 'users', 'action' => 'view', 'username' => $current_comment['User']['username']),array('class' => "user-image", 'style' => $info['inline'], 'escape' => false));
-		
-
 
         $link_data = array();
         $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username']));
-        $link_data['custom'] = array('class' => 'user-image');
+        $link_data['custom'] = array('class' => 'user-image',
+                                     'alt' => $this->MzText->getUsername($current_comment['User']),
+                                     'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username']))),
+                                     'rel' => $this->MzText->getSubscribeUrl(),
+                                     'id' => $current_comment['User']['id']);
         echo $image->render($current_comment['User'], 65, 65, array("alt" => $current_comment['User']['username']), $link_data); ?>
 
 		<?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username'])));?>
