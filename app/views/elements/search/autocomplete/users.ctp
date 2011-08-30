@@ -19,6 +19,7 @@
 				$link_data = array();
 				$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username));
 				$link_data['additional'] = 'display:inline;';
+                $link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername(array('username' => $user->user_username, 'name' => $user->user_name)), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user->id);
 				echo '<div>'.$image->render(array('image' => $img), 45, 45,array(), $link_data, ImageHelper::USER).'</div>';
 				?>									
 				<h6><?php echo $this->Html->link( $user->user_username, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))) ?></h6>

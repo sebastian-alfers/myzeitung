@@ -4,7 +4,6 @@
 
 if($paper_belongs_to_user){
     echo $this->element('categories/modal_add_edit', array('paper_id' => $paper['Paper']['id']));
-
     echo $html->script('global/upload');
     echo $this->element('global/modal_upload',
                          array('title'  => 'upload paper picture',
@@ -12,7 +11,7 @@ if($paper_belongs_to_user){
                                'model'  => 'Paper',
                                'model_id'=> $paper['Paper']['id'],
                                'submit' => array('controller' => 'paper', 'action' => 'saveImage')));
-}//end pape_belongs_to_user
+}//end paper_belongs_to_user
 
 ?>
 
@@ -86,14 +85,16 @@ if($paper_belongs_to_user){
                 <?php endif;?> </li>
                 <?php foreach($paper['Category'] as $category):?>
 
-                <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
+                <li class="category"><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
                 <?php  if($category_id != $category['id'] || $category_id == null):?>
                     <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$category['category_paper_post_count'].')'*/, $paper['Route'][0]['source'].'/'.$category['id']); ?>
 
                 <?php else:?>
                     <i><?php  /* this topic is selected - show text*/ echo $category['name']/*. ' ('.$category['category_paper_post_count'].')'*/?></i>
                 <?php endif;?>
-                <span class="edit-icon" id="/categories/index/<?php echo $paper['Paper']['id']?>" category-id="<?php echo $category['id']; ?>"></span>
+                <?php if($paper_belongs_to_user): ?>
+                    <span class="edit-icon" id="/categories/index/<?php echo $paper['Paper']['id']?>" category-id="<?php echo $category['id']; ?>"></span>
+                <?php endif; ?>
                 </li>
                 <?php endforeach;?>
             </ul>

@@ -9,7 +9,7 @@
 	}
 	$link_data = array();
 	$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username));
-	//$link_data['custom'] = array('style' => 'display:inline;overflow:hidden;height:58px;width:58px;');
+	$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername(array('username' => $user->user_username, 'name' => $user->user_name)), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user->id);
 	echo $image->render(array('image' => $img), 58, 58,array('title' => $user->user_username), $link_data);
 				 				
 ?>									
