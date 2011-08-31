@@ -123,53 +123,59 @@ class PostsController extends AppController {
 
 	/**
 	 * @author Tim
-	 * function for preparing date to view a specific post.
-	 * @param $id
-	 */
-	function view($id = null) {
+     * function for preparing date to view a specific post.
+     * @param $id
+     */
+    function view($id = null) {
         $this->log($id);
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid post', true));
-			$this->redirect($this->referer());
-		}
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid post', true));
+            $this->redirect($this->referer());
+        }
         $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
-		$post = $this->Post->read(null, $id);
+        $post = $this->Post->read(null, $id);
         if(!isset($post['Post']['id']) || empty($post['Post']['id'])){
-			$this->Session->setFlash(__('Invalid post', true));
-			$this->redirect($this->referer());
+            $this->Session->setFlash(__('Invalid post', true));
+            $this->redirect($this->referer());
         }
         if($post['Post']['enabled'] == false){
             $this->Session->setFlash(__('This post has been blocked temporarily due to infringement.', true));
-			$this->redirect($this->referer());
+            $this->redirect($this->referer());
         }
 
-        
-		// incrementing post's view_counter
+        $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
 
-		// check if the user already read this post during this session
-		//read_posts exists in the session?
+        $post = $this->Post->read(null, $id);
 
-		if($this->Session->check('read_posts')){
-			$read_posts = $this->Session->read('read_posts');
-			//read_posts is an array?
-			if(is_array($read_posts)){
-				if(!in_array($id,$read_posts)){
-					//user has not read the post in this session -> increment
-					$read_posts[] = $id;
-					$this->Session->write('read_posts', $read_posts);
-					$this->Post->doIncrement($id);
-				}
-			} else {
-				//no read-posts array
-				//user has not read the post in this session -> increment
-				$this->Session->write('read_posts',array($id));
-				$this->Post->doIncrement($id);
-			}
-		}else {
-			//user has not read the post in this session -> increment
-			$this->Session->write('read_posts',array($id));
-			$this->Post->doIncrement($id);
-		}
+        // incrementing post's view_counter
+
+        // check if the user already read this post during this session
+        $user_id = $this->Session->read('Auth.User.id');
+        // owner doesnt count
+        if($user_id != $post['Post']['user_id']){
+            //read_posts exists in the session?
+            if($this->Session->check('read_posts')){
+                $read_posts = $this->Session->read('read_posts');
+                //read_posts is an array?
+                if(is_array($read_posts)){
+                    if(!in_array($id,$read_posts)){
+                        //user has not read the post in this session -> increment
+                        $read_posts[] = $id;
+                        $this->Session->write('read_posts', $read_posts);
+                        $this->Post->doIncrement($id);
+                    }
+                } else {
+                    //no read-posts array
+                    //user has not read the post in this session -> increment
+                    $this->Session->write('read_posts',array($id));
+                    $this->Post->doIncrement($id);
+                }
+            }else {
+                //user has not read the post in this session -> increment
+                $this->Session->write('read_posts',array($id));
+                $this->Post->doIncrement($id);
+            }
+        }
 		$this->Comment->contain('User.username','User.id','User.image', 'User.name');
 		//'threaded' gets also the replies (children) and children's children etc. (for tree behavior. not sure if for not-tree also)
 		$comments = $this->Comment->find('threaded',array(
@@ -179,9 +185,6 @@ class PostsController extends AppController {
 										'fields' => array('id','user_id','post_id','parent_id','text','created')));
 
 
-		$this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
-
-		$post = $this->Post->read(null, $id);
 
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);

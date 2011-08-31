@@ -11,16 +11,16 @@ if($user_is_owner){
     <li>
     <?php //show only links for not selected items when being in blog overview?>
     <?php if(($this->params['controller'] == 'users' && isset($this->params['pass'][1])) || $this->params['controller'] != 'users'):?>
-        <?php /* no topic selected */ echo $this->Html->link(sprintf(__('All Posts (%d)',true),$user['User']['post_count']), array('controller' => 'users',  'action' => 'view', 'username' => strtolower($user['User']['username']))); ?>
+        <?php /* no topic selected */ echo $this->Html->link(sprintf(__('All Posts (%s)',true),$this->MzNumber->counterToReadableSize($user['User']['post_count'])), array('controller' => 'users',  'action' => 'view', 'username' => strtolower($user['User']['username']))); ?>
     <?php else:?>
-        <i><?php /* topic selected - show link*/ echo sprintf(__('All Posts (%d)',true),$user['User']['post_count']);?></i>
+        <i><?php /* topic selected - show link*/ echo sprintf(__('All Posts (%s)',true),$this->MzNumber->counterToReadableSize($user['User']['post_count']));?></i>
     <?php endif;?> </li>
         <?php foreach($user['Topic'] as $topic):?>
     <li class="topic">
     <?php  if(($this->params['controller'] == 'users' && isset($this->params['pass'][1]) && $this->params['pass'][1] != $topic['id']) || $this->params['controller'] != 'users' || !isset($this->params['pass'][1])):?>
-            <?php /* this topic is not selected - show link */ echo $this->Html->link($topic['name'].' ('.$topic['post_count'].')', array('controller' => 'users',  'action' => 'view', 'username' => strtolower($user['User']['username']), $topic['id'])); ?>
+            <?php /* this topic is not selected - show link */ echo $this->Html->link($topic['name'].' ('.$this->MzNumber->counterToReadableSize($topic['post_count']).')', array('controller' => 'users',  'action' => 'view', 'username' => strtolower($user['User']['username']), $topic['id'])); ?>
         <?php else:?>
-            <i><?php  /* this topic is selected - show text*/ echo $topic['name'].' ('.$topic['post_count'].')'?></i>
+            <i><?php  /* this topic is selected - show text*/ echo $topic['name'].' ('.$this->MzNumber->counterToReadableSize($topic['post_count']).')'?></i>
         <?php endif;?>
         <?php if($user_is_owner): ?>
             <span class="edit-icon" topic-id="<?php echo $topic['id']; ?>"></span>

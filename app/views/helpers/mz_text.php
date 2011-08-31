@@ -63,5 +63,6 @@ class MzTextHelper extends TextHelper {
             return  $string.(substr($string, -1) == 's' ? "'" : "'s");
         }
     }
+
 }
 ?>

@@ -13,10 +13,10 @@
     <div class="articlewrapper">
         <div class="article">
             <ul class="iconbar">
-                <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $user['User']['post_count'],true), $user['User']['post_count']);?>
-                 <li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['post_count']; ?></li>
-                <?php $tipsy_title = sprintf(__n('published in %d paper', 'published in %d papers', $user['User']['subscriber_count'],true), $user['User']['subscriber_count']);?>
-                <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['subscriber_count']; ?></li>
+                <?php $tipsy_title = sprintf(__n('%s post', '%s posts', $user['User']['post_count'],true), $this->MzNumber->counterToReadableSize($user['User']['post_count']));?>
+                 <li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $this->MzNumber->counterToReadableSize($user['User']['post_count']); ?></li>
+                <?php $tipsy_title = sprintf(__n('published in %s paper', 'published in %s papers', $user['User']['subscriber_count'],true), $this->MzNumber->counterToReadableSize($user['User']['subscriber_count']));?>
+                <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $this->MzNumber->counterToReadableSize($user['User']['subscriber_count']); ?></li>
             </ul>
             
 
