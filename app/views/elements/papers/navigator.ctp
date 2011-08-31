@@ -22,8 +22,8 @@
 							<?php //<span class="round-icon">2</span> ?>
 							<ul class="iconbar">
                                 <?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
-                                <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $paper['Paper']['category_paper_post_count'],true), $paper['Paper']['category_paper_post_count']);?>
-								<li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['category_paper_post_count'];?></li>
+                                <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $paper['Paper']['post_count'],true), $paper['Paper']['post_count']);?>
+								<li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['post_count'];?></li>
                                 <?php $tipsy_title = sprintf(__n('%d subscription', '%d subscriptions', $paper['Paper']['subscription_count'],true), $paper['Paper']['subscription_count']);?>
 								<li class="abos tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['subscription_count'];?></li>
                                 <?php $tipsy_title = sprintf(__n('%d author', '%d authors', $paper['Paper']['author_count'],true), $paper['Paper']['author_count']);?>

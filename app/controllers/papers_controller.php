@@ -25,7 +25,7 @@ class PapersController extends AppController {
 		$this->paginate = array(
 		 	 'Paper' => array(
 		//fields
-	          			 'fields' => array('id', 'image', 'owner_id','title','description','created','subscription_count', 'author_count', 'category_paper_post_count'),
+	          			 'fields' => array('id', 'image', 'owner_id','title','description','created','subscription_count', 'author_count', 'post_count'),
 		//limit of records per page
 			            'limit' => 12,
 		//order
@@ -71,7 +71,7 @@ class PapersController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
         $this->Paper->contain(array('Route', 'User.id', 'User.name', 'User.username', 'User.image',
-                                      'Category' => array('fields' => array('author_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
+                                      'Category' => array('fields' => array('author_count', 'name', 'id', 'post_count'),'order' => array('name asc'))));
         $paper = $this->Paper->read(null, $paper_id);
         if(!isset($paper['Paper']['id'])){
             $this->Session->setFlash(__('invalid paper', true));

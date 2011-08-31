@@ -220,7 +220,7 @@ class UsersController extends AppController {
         ),
         ),
         //fields
-	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'author_count', 'category_paper_post_count'),
+	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'author_count', 'post_count'),
         //limit of records per page
 	            'limit' => 12,
         //order

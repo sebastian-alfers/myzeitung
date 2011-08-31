@@ -18,8 +18,7 @@ class PostUser extends AppModel {
             'order' => '',
             //counting just reposts
            'counterCache' => true,
-            'counterScope' => array('PostUser.repost' => 1,
-                                 'PostUser.enabled' => 1),
+            'counterScope' => array('PostUser.enabled' => 1),
             ),
 
         'User' => array(
@@ -89,19 +88,19 @@ class PostUser extends AppModel {
 			 */
 			function afterSave($created){
 					
-				App::import('model','CategoryPaperPost');
 				App::import('model','Topic');
-				
 
-				//Associations
-				if(isset($this->data['PostUser']['PostUser.user_id'])){
-					$this->data['PostUser']['user_id'] = $this->data['PostUser']['PostUser.user_id'];
-				}
-				//$this->User->contain();
-				//$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
 
-				if($created){
-					//$this->_publishPostInPaperAndCategories($userData);
+                //Associations
+                if(isset($this->data['PostUser']['PostUser.user_id'])){
+                    $this->data['PostUser']['user_id'] = $this->data['PostUser']['PostUser.user_id'];
+                }
+                //$this->User->contain();
+                //$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
+
+                if($created){
+                   // App::import('model','CategoryPaperPost');
+                    //$this->_publishPostInPaperAndCategories($userData);
                     $this->_publishInPapersAndCategories();
 
 				}
@@ -109,30 +108,30 @@ class PostUser extends AppModel {
 
 			}
     
-            function updateCounterCache($keys = array(), $created = false){
-                $keys = empty($keys) ? $this->data[$this->alias] : $keys;
+    function updateCounterCache($keys = array(), $created = false){
+        $keys = empty($keys) ? $this->data[$this->alias] : $keys;
 
-                //update post
-                $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => true, 'PostUser.post_id' => $keys['post_id'])));
-                $this->Post->id = $keys['post_id'];
-                $this->Post->saveField('repost_count', $count_reposts, array('callbacks' => 0, 'validate' => 0));
+        //update post
+        $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => true, 'PostUser.post_id' => $keys['post_id'])));
+        $this->Post->id = $keys['post_id'];
+        $this->Post->saveField('repost_count', $count_reposts, array('callbacks' => 0, 'validate' => 0));
 
-                //update user
-                $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.user_id' => $keys['user_id'])));
-                $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.user_id' => $keys['user_id'])));
-                $this->User->id = $keys['user_id'];
-                $this->User->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
+        //update user
+        $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.user_id' => $keys['user_id'])));
+        $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.user_id' => $keys['user_id'])));
+        $this->User->id = $keys['user_id'];
+        $this->User->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
 
-                //update topic
-                if(isset($keys['topic_id']) && !empty($keys['topic_id'])){
-                    $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.topic_id' => $keys['topic_id'])));
-                    $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.topic_id' => $keys['topic_id'])));
-                    $this->Topic->id = $keys['topic_id'];
-                    $this->Topic->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
+        //update topic
+        if(isset($keys['topic_id']) && !empty($keys['topic_id'])){
+            $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.topic_id' => $keys['topic_id'])));
+            $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.topic_id' => $keys['topic_id'])));
+            $this->Topic->id = $keys['topic_id'];
+            $this->Topic->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
 
-                }
+        }
 
-            }
+    }
 
 			/**
              * function to publish a post in papers:
@@ -163,26 +162,32 @@ class PostUser extends AppModel {
                 }
                 $this->ContentPaper->contain();
                 $subscriptions = $this->ContentPaper->find('all',array('conditions' => $conditions));
-
-                //publish post in each relevant paper or category
-                foreach($subscriptions as $subscription){
-                    //set CategoryPaperPost data
+                if(count($subscriptions) > 0){
+                    App::import('model','CategoryPaperPost');
+                    $this->CategoryPaperPost = new CategoryPaperPost();
+                    //publish post in each relevant paper or category
+                    //set general data
                     $CategoryPaperPostData['post_id'] = $this->data['PostUser']['post_id'];
                     $CategoryPaperPostData['post_user_id'] = $this->id;
-                    $CategoryPaperPostData['content_paper_id'] = $subscription['ContentPaper']['id'];
-                    $CategoryPaperPostData['paper_id'] = $subscription['ContentPaper']['paper_id'];
-                    $CategoryPaperPostData['category_id'] = $subscription['ContentPaper']['category_id'];
                     //very important! : keep the posts_user created date
                     $CategoryPaperPostData['created'] = $this->data['PostUser']['created'];
                     if(isset($this->data['PostUser']['repost']) && $this->data['PostUser']['repost'] == true){
                         //set the id and username of the reposter, if PostUser-Entry is just a repost
                         $user = $this->User->read('username', $this->data['PostUser']['user_id']);
                         $CategoryPaperPostData['reposter_id'] = $this->data['PostUser']['user_id'];
-						$CategoryPaperPostData['reposter_username'] = $user['User']['username'];
+                        $CategoryPaperPostData['reposter_username'] = $user['User']['username'];
                     }
-                    $this->CategoryPaperPost->create();
-                    $this->CategoryPaperPost->save($CategoryPaperPostData);
+                    foreach($subscriptions as $subscription){
+                        //set content paper specific data data
+                        $CategoryPaperPostData['content_paper_id'] = $subscription['ContentPaper']['id'];
+                        $CategoryPaperPostData['paper_id'] = $subscription['ContentPaper']['paper_id'];
+                        $CategoryPaperPostData['category_id'] = $subscription['ContentPaper']['category_id'];
+                        $this->CategoryPaperPost->create();
+                        $this->CategoryPaperPost->save($CategoryPaperPostData);
+                    }
+
                 }
+
             }
             private function _unpublishFromPapersOrCategories(){
                 App::import('model','CategoryPaperPost');
@@ -288,15 +293,15 @@ class PostUser extends AppModel {
 
 
 					
-					//updating category_paper_post_counters of all papers and categores the post was added too in category_paper_post table (a post counts only once per paper or category - a post and several reposts of the same post are counted as one. )
+					//updating post_counters of all papers and categores the post was added too in category_paper_post table (a post counts only once per paper or category - a post and several reposts of the same post are counted as one. )
 					foreach($affectedCategories as $key => $value){
 						App::import('model','Category');
 						$this->Category = new Category();
 						//counting distinct posts
 						$this->CategoryPaperPost->contain();
-						$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('category_id' => $key)));
+						$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as post_count'),'conditions' => array('category_id' => $key)));
 						$categoryData['Category']['id'] = $key;
-						$categoryData['Category']['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];
+						$categoryData['Category']['post_count'] = $counter_result[0][0]['post_count'];
 						//saving category	
 						$this->Category->save($categoryData);
 					}
@@ -305,9 +310,9 @@ class PostUser extends AppModel {
 						$this->Paper = new Paper();
 						//counting distinct posts
 						$this->CategoryPaperPost->contain();
-						$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as category_paper_post_count'),'conditions' => array('paper_id' => $key)));
+						$counter_result = $this->CategoryPaperPost->find('all', array('fields' =>array('COUNT(DISTINCT(post_id)) as post_count'),'conditions' => array('paper_id' => $key)));
 						$paperData['Paper']['id'] = $key;
-						$paperData['Paper']['category_paper_post_count'] = $counter_result[0][0]['category_paper_post_count'];
+						$paperData['Paper']['post_count'] = $counter_result[0][0]['post_count'];
 						//saving paper
 						$this->Paper->doAfterSave = false;
 						$this->Paper->save($paperData);
