@@ -50,7 +50,7 @@ if(in_array($prefix,array('/p/','/a/'))){
     App::import('Model', 'Route');
     $this->Route = new Route();
     if(empty($route)) {
-
+        
         $this->Route->contain('ParentRoute');
         $route = $this->Route->find('first', array(
                 'conditions' => array('Route.source' => $temp_url)));
@@ -60,7 +60,9 @@ if(in_array($prefix,array('/p/','/a/'))){
     }
     
     //redirect to current location and add potential extra (pagination params)
+   // debug($route);
     if($route['Route']['parent_id'] != null){
+
             header ('HTTP/1.1 301 Moved Permanently');
             header ('Location: '.$route['ParentRoute']['source'].$temp_url_extra);
     }
@@ -124,15 +126,16 @@ Router::connect('/settings/social-media', array('controller' => 'users', 'action
 
 Router::connect('/authors/*', array('controller' => 'users', 'action' => 'index'));
 Router::connect('/articles/*', array('controller' => 'posts', 'action' => 'index'));
-Router::connect('/papers/*', array('controller' => 'papers', 'action' => 'index'));
+Router::connect('/newspapers/*', array('controller' => 'papers', 'action' => 'index'));
 Router::connect('/paper/add', array('controller' => 'papers', 'action' => 'add'));
 Router::connect('/paper/subscribe/*', array('controller' => 'papers', 'action' => 'subscribe'));
 Router::connect('/paper/unsubscribe/*', array('controller' => 'papers', 'action' => 'unsubscribe'));
 Router::connect('/paper/edit/*', array('controller' => 'papers', 'action' => 'edit'));
+Router::connect('/paper/delete/*', array('controller' => 'papers', 'action' => 'delete'));
 Router::connect('/paper/saveImage/*', array('controller' => 'papers', 'action' => 'saveImage'));
 Router::connect('/paper/references/*', array('controller' => 'papers', 'action' => 'references'));
-Router::connect('/article/add', array('controller' => 'papers', 'action' => 'add'));
-Router::connect('/article/edit/*', array('controller' => 'papers', 'action' => 'edit'));
+Router::connect('/article/add', array('controller' => 'posts', 'action' => 'add'));
+Router::connect('/article/edit/*', array('controller' => 'posts', 'action' => 'edit'));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

@@ -15,7 +15,7 @@
 		echo $this->Form->input('allow_messages');
 		echo $this->Form->input('allow_comments');
 		echo $this->Form->input('subscription_count');
-		echo $this->Form->input('content_paper_count');
+		echo $this->Form->input('subscriber_count');
 		echo $this->Form->input('post_count');
 		echo $this->Form->input('repost_count');
 		echo $this->Form->input('comment_count');

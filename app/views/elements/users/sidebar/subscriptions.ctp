@@ -36,13 +36,13 @@ if(isset($this->params['named']) && is_array($this->params['named'])){
              <li class="active"><?php else:?><li><?php endif;?>
              <?php echo $this->Paginator->sort('<span class="icon icon-title"></span>'. __('Title', true), 'title', array('escape' => false)); ?></li>
 
-             <?php if(in_array($this->Paginator->sortKey(), array('Paper.content_paper_count', 'Paper.content_paper_count ASC', 'Paper.content_paper_count DESC'))):?>
+             <?php if(in_array($this->Paginator->sortKey(), array('Paper.author_count', 'Paper.author_count ASC', 'Paper.author_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
-             <?php echo $this->Paginator->sort('<span class="icon icon-author"></span>'. __('Number of Authors', true), 'content_paper_count', array('escape' => false, 'direction' => 'DESC')); ?></li>
+             <?php echo $this->Paginator->sort('<span class="icon icon-author"></span>'. __('Number of Authors', true), 'author_count', array('escape' => false, 'direction' => 'DESC')); ?></li>
 
-             <?php if(in_array($this->Paginator->sortKey(), array('Paper.category_paper_post_count', 'Paper.category_paper_post_count ASC', 'Paper.category_paper_post_count DESC'))):?>
+             <?php if(in_array($this->Paginator->sortKey(), array('Paper.post_count', 'Paper.post_count ASC', 'Paper.post_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
-             <?php echo $this->Paginator->sort('<span class="icon icon-article"></span>'. __('Number of Posts', true), 'category_paper_post_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
+             <?php echo $this->Paginator->sort('<span class="icon icon-article"></span>'. __('Number of Posts', true), 'post_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
 
              <?php if(in_array($this->Paginator->sortKey(), array('Paper.subscription_count', 'Paper.subscription_count ASC', 'Paper.subscription_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>

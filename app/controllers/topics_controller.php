@@ -82,25 +82,41 @@ class TopicsController extends AppController {
 
 
 	function delete($id = null) {
+
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid Topic-id', true));
 			$this->redirect($this->referer());
 		}
-        $this->Topic->contain();
-        $topic =  $this->Topic->read(array('id','user_id'), $id);
-        $this->log($topic);
+        $this->Topic->contain('User.id');
+        $topic =  $this->Topic->read(array('id','user_id', 'post_count', 'repost_count', 'subscriber_count', 'name'), $id);
+
         if($topic['Topic']['user_id'] == $this->Session->read('Auth.User.id')){
-            // second param = cascade -> delete associated records from hasmany , hasone relations
-            if ($this->Topic->delete($id, true)) {
-                $this->Session->setFlash(__('Topic deleted', true), 'default', array('class' => 'success'));
-                $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+            //permission ok
+
+            //check, if user really wants to delte
+            if(empty($this->data)){
+                //read, how often a user is subscribe with all of his posts
+                $data = $this->User->find('all', array('conditions' => array()))
+
+                //show comprehension and confirm page
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('topic' => $topic)));
             }
-            $this->Session->setFlash(__('Topic was not deleted', true));
-            $this->redirect($this->referer());
+            else{
+                die('delete now');
+                // second param = cascade -> delete associated records from hasmany , hasone relations
+                if ($this->Topic->delete($id, true)) {
+                    $this->Session->setFlash(__('Topic deleted', true), 'default', array('class' => 'success'));
+                    $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+                }
+                $this->Session->setFlash(__('Topic was not deleted', true));
+            }
+
+            //$this->redirect($this->referer());
         } else {
             $this->Session->setFlash(__('The Topic does not belong to you.', true));
             $this->redirect($this->referer());
         }
+        $this->render('delete');
 	}
 	
 

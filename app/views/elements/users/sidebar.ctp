@@ -20,7 +20,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 
 			<h4><?php echo $user['User']['username'];?></h4>
         <?php //elements shown when being on actions users-view, posts-view ?>
-        <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view')):?>
+        <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'topics' && $this->params['action'] == 'delete')):?>
         <?php echo $this->element('users/sidebar/info'); ?>
         <?php echo $this->element('users/sidebar/buttons'); ?>
         <?php echo $this->element('users/sidebar/topics'); ?>

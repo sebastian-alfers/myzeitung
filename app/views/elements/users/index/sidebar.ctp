@@ -12,9 +12,9 @@
             <strong><?php echo __('order by', true).':';?></strong>
 
         <ul class="filter-search">
-            <?php if(in_array($this->Paginator->sortKey(), array('User.content_paper_count', 'User.content_paper_count ASC', 'User.content_paper_count DESC'))):?>
+            <?php if(in_array($this->Paginator->sortKey(), array('User.subscriber_count', 'User.subscriber_count ASC', 'User.subscriber_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>
-             <?php echo $this->Paginator->sort('<span class="icon icon-subscription"></span>'. __('Number of Subscribers', true), 'content_paper_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
+             <?php echo $this->Paginator->sort('<span class="icon icon-subscription"></span>'. __('Number of Subscribers', true), 'subscriber_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
 
             <?php if(in_array($this->Paginator->sortKey(), array('User.post_count', 'User.post_count ASC' , 'User.post_count DESC'))):?>
              <li class="active"><?php else:?><li><?php endif;?>

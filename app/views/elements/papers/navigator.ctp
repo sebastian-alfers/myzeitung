@@ -22,12 +22,12 @@
 							<?php //<span class="round-icon">2</span> ?>
 							<ul class="iconbar">
                                 <?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
-                                <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $paper['Paper']['category_paper_post_count'],true), $paper['Paper']['category_paper_post_count']);?>
-								<li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['category_paper_post_count'];?></li>
+                                <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $paper['Paper']['post_count'],true), $paper['Paper']['post_count']);?>
+								<li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['post_count'];?></li>
                                 <?php $tipsy_title = sprintf(__n('%d subscription', '%d subscriptions', $paper['Paper']['subscription_count'],true), $paper['Paper']['subscription_count']);?>
 								<li class="abos tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['subscription_count'];?></li>
-                                <?php $tipsy_title = sprintf(__n('%d author', '%d authors', $paper['Paper']['content_paper_count'],true), $paper['Paper']['content_paper_count']);?>
-								<li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['content_paper_count'];?></li>
+                                <?php $tipsy_title = sprintf(__n('%d author', '%d authors', $paper['Paper']['author_count'],true), $paper['Paper']['author_count']);?>
+								<li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $paper['Paper']['author_count'];?></li>
 							</ul>
 							<h4><?php echo $this->MzText->truncate($paper['Paper']['title'], 30,array('ending' => '...', 'exact' => false, 'html' => false));?></h4>
                                 <?php

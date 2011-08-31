@@ -22,8 +22,8 @@ class Post extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
-			'counterCache' => true,
-            'counterScope' => array('Post.enabled' => true),
+		/*	'counterCache' => true,
+            'counterScope' => array('Post.enabled' => true),*/
 	),
 		'Topic' => array(
 			'className' => 'Topic',
@@ -31,8 +31,8 @@ class Post extends AppModel {
 			'conditions' => 'Post.topic_id != null',
 			'fields' => '',
 			'order' => '',
-			'counterCache' => true,
-            'counterScope' => array('Post.enabled' => true),
+		/*	'counterCache' => true,
+            'counterScope' => array('Post.enabled' => true),*/
 	    ),
 	);
 
@@ -137,29 +137,37 @@ class Post extends AppModel {
     function addRoute(){
 
         $routeString = $this->generateRouteString();
+        //if NOT the exact route was currently active
         if($routeString != ''){
-            $routeData['Route'] = array('source' => $routeString,
+            if(substr($routeString,0,strlen(ROUTE::TYPE_NEW_ROUTE)) == ROUTE::TYPE_NEW_ROUTE){
+                //new route has to be created
+                $routeData['Route'] = array('source' => substr($routeString,strlen(ROUTE::TYPE_NEW_ROUTE)),
                                         'target_controller' 	=> 'posts',
                                         'target_action'     	=> 'view',
                                         'target_param'		=> $this->id,
                                         'ref_type'          => Route::TYPE_POST,
                                         'ref_id'            => $this->id);
-            $this->Route->create();
+                $this->Route->create();
+                if($this->Route->save($routeData,false)){
+                    $currentRouteId = $this->Route->id;
+                }
+            }elseif(substr($routeString,0,strlen(ROUTE::TYPE_OLD_ROUTE_ID)) == ROUTE::TYPE_OLD_ROUTE_ID){
+                //the route did already exist but was not active - has to be made parent again.
+                $currentRouteId = substr($routeString,strlen(ROUTE::TYPE_OLD_ROUTE_ID));
 
-             if($this->Route->save($routeData,false)){
-                 $newRouteId = $this->Route->id;
-                 // update children
-                 $this->Route->contain();
-                 $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_POST,  'ref_id' => $this->id)));
-                 foreach($oldRoutes as $oldRoute){
-                      if($oldRoute['Route']['id'] !=  $newRouteId){
-                          $oldRoute['Route']['parent_id'] = $newRouteId;
-                          $this->Route->save($oldRoute);
-                          $this->Route->deleteRouteCache($oldRoute['Route']['source']);
-                      }
+            }
+
+            // update children
+            $this->Route->contain();
+            $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_POST,  'ref_id' => $this->id)));
+            foreach($oldRoutes as $oldRoute){
+                 if($oldRoute['Route']['id'] !=  $currentRouteId){
+                     $oldRoute['Route']['parent_id'] = $currentRouteId;
+                     $this->Route->save($oldRoute);
                  }
-                 return true;
-             }
+                 $this->Route->deleteRouteCache($oldRoute['Route']['source']);
+            }
+            return true;
         }else{
             return false;
         }
@@ -168,32 +176,49 @@ class Post extends AppModel {
     }
 
     private function generateRouteString(){
-
+        
         $this->User->contain();
         $user = $this->User->read(array('id','username'),$this->data['Post']['user_id']);
 
-
+        //generate the theoretically needed route
         $this->Inflector = ClassRegistry::init('Inflector');
         $routeUsername = strtolower($user['User']['username']);
         $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
         $routeString = '/a/'.$routeUsername.'/'.$routeTitle;
+
+        //check if such a route does already exist
         $this->Route->contain();
         $existingRoutes = $this->Route->findAllBySource($routeString);
 
         if(count($existingRoutes) >0){
             //the route is already used
             $sameTarget = true;
+            $sameTargetId = null;
+
             foreach($existingRoutes as $existingRoute){
                 if($existingRoute['Route']['ref_type'] !=  Route::TYPE_POST || $existingRoute['Route']['ref_id'] != $this->id){
                     $sameTarget = false;
+                }else{
+                    //old route has the same target. if it is a child it needs to be made parent and the children being updated to new parent
+                    if($existingRoute['Route']['parent_id'] != null){
+
+                        $sameTargetId = Route::TYPE_OLD_ROUTE_ID.$existingRoute['Route']['id'];
+                        $existingRoute['Route']['parent_id'] = null;
+                        $this->Route->save($existingRoute);
+                    }
                 }
             }
             if($sameTarget){
-                //route already exists - nothing needed
-                return '';
+                if($sameTargetId == null){
+                    //route already exists - nothing needed
+                    return '';
+                }else{
+                    //old route reactivated -> needs to be parent again. children need to be updated to new parent
+                    return $sameTargetId;
+
+                }
             }else{
-                //generate new routestring with uniqid
-                //$routeString = 'a/'.$routeUsername.'/'.$routeTitle.'-'.uniqid();
+                //desired route did already exist. it was not directing to the same target - so it cant be taken.
                 //generate new routestring with added id
                 $routeString = '/a/'.$routeUsername.'/'.$routeTitle.'-a'.$this->id;
                 $this->Route->contain();
@@ -202,17 +227,14 @@ class Post extends AppModel {
                 if(count($existingRoutes)>0){
                     return '';
                 }
-                return $routeString;
+                return Route::TYPE_NEW_ROUTE.$routeString;
             }
 
         }else{
             //the route is not used yet
-            return $routeString;
+            return Route::TYPE_NEW_ROUTE.$routeString;
 
         }
-
-
-
         return $route_title;
     }
 
@@ -486,15 +508,15 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
-
-				//generate preview of post				
+                /*
+                //redundant because we process content with texthelpers trunate function
+				//generate preview of post
 				$content = explode(' ', strip_tags($this->data['Post']['content']));
 				for($i = 0; $i < count($content); $i++){
 					$content[$i] = trim($content[$i]);
 					$content[$i] = preg_replace('/\s\s+/', ' ', $content[$i]);
 				}
 
-                //redundant because we process content with texthelpers trunate function
 				$prev = '';
                 $max_chars = 175;
                 $chars = 0;
@@ -509,7 +531,7 @@ class Post extends AppModel {
 
 				}
 				$this->data['Post']['content_preview'] = $prev;
-
+                */
              
 				return true;
 			}
@@ -560,12 +582,22 @@ class Post extends AppModel {
         //1) updating PostUser-Entry
         App::import('model','PostUser');
         $this->PostUser = new PostUser();
+        
+        if($this->updateSolr){
 
-        $PostUserData = array('user_id' => $this->data['Post']['user_id'],
-                           'post_id' => $this->id);
+            $this->addRoute();
+
+            // update solr index with saved data
+            App::import('model','Solr');
+            $this->Solr = new Solr();
+            $this->addToOrUpdateSolr();
+        }
 
         if($created){
             //write PostUser-Entry
+            $PostUserData = array('user_id' => $this->data['Post']['user_id'],
+                                  'post_id' => $this->id);
+            $PostUserData['created'] = $this->data['Post']['created'];
 
             if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
                 $PostUserData['topic_id'] = $this->data['Post']['topic_id'];
@@ -596,14 +628,8 @@ class Post extends AppModel {
 
         }
 
-        $this->addRoute();
 
-        if($this->updateSolr){
-            // update solr index with saved date
-            App::import('model','Solr');
-            $this->Solr = new Solr();
-            $this->addToOrUpdateSolr();
-        }
+
 
     }
     function addToOrUpdateSolr(){

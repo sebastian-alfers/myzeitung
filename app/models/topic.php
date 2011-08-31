@@ -93,5 +93,6 @@ class Topic extends AppModel {
 		return true;
 	}
 
+
 }
 ?>

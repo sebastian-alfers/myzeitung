@@ -8,8 +8,8 @@
         <th><?php echo $this->Paginator->sort('Username', 'User.username');?></th>
         <th><?php echo $this->Paginator->sort('title');?></th>
         <th><?php echo $this->Paginator->sort('subscription_count');?></th>
-        <th><?php echo $this->Paginator->sort('content_paper_count');?></th>
-        <th><?php echo $this->Paginator->sort('category_paper_post_count');?></th>
+        <th><?php echo $this->Paginator->sort('subscriber_count');?></th>
+        <th><?php echo $this->Paginator->sort('post_count');?></th>
         <th><?php echo $this->Paginator->sort('created');?></th>
         <th><?php echo $this->Paginator->sort('modified');?></th>
         <th class="actions"><?php __('Actions');?></th>
@@ -29,8 +29,8 @@
         <td><?php echo $paper['User']['username']; ?>&nbsp;</td>
         <td><?php echo $this->MzText->truncate($paper['Paper']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
         <td><?php echo $paper['Paper']['subscription_count']; ?></td>
-        <td><?php echo $paper['Paper']['content_paper_count']; ?></td>
-        <td><?php echo $paper['Paper']['category_paper_post_count']; ?></td>
+        <td><?php echo $paper['Paper']['author_count']; ?></td>
+        <td><?php echo $paper['Paper']['post_count']; ?></td>
 		<td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['modified']); ?>&nbsp;</td>
 		<td class="actions">

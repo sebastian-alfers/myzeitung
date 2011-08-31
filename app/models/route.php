@@ -5,6 +5,9 @@ class Route extends AppModel {
 
     const TYPE_POST = 'POST';
     const TYPE_PAPER = 'PAPER';
+
+    const TYPE_NEW_ROUTE = 'NEW_ROUTE_';
+    const TYPE_OLD_ROUTE_ID = 'OLD_ROUTE_';
    // const TYPE_USER = 'USER';
 
 
@@ -44,12 +47,11 @@ class Route extends AppModel {
 		)
 	);
 
-  //  function afterSave($created){
+    function afterSave($created){
      //moved to post and paper model
       //  $this->deleteRouteCache();
-      //  $this->updateRouteCache();
 
-//    }
+    }
     function deleteRouteCache($source){
         $cache = ClassRegistry::init('cache');
         $cache->delete('url_'.$source);

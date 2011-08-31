@@ -56,8 +56,7 @@ $(document).ready(function() {
 
                 <hr />
 				<div class="accept">
-
-					<a href="/paper/delete/<?php echo $paper_id; ?>" class="btn big"><span>-</span><?php echo __('Delete paper', true);?></a>
+                    <?php echo $this->Html->link("<span>-</span>".__('Delete Paper', true), array('controller' => 'papers', 'action' => 'delete', $this->data['Paper']['id']) ,array('escape' => false, 'class' => 'btn big', 'rel' => 'nofollow'), sprintf(__('Are you sure you want to delete your paper: %s?', true), $this->data['Paper']['title'])); ?>
 				</div>
                 <?php endif; ?>
 

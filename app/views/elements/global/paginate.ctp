@@ -13,8 +13,6 @@ if($this->params['controller'] == 'users' && $this->params['action'] == 'view'){
 }
 //  paper view
 if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'){
-    $this->log('paginate');
-    $this->log($this->params);
     $options = array('url'=> array('controller' => 'papers',
                                             'action' => 'view',
                                             $paper['Paper']['id'],
