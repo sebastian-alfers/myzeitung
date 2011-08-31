@@ -14,7 +14,9 @@ if(count($references) > 0):
         <?php
 		$link_data = array();
 		$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($reference['User']['username']));
-		$link_data['custom'] = array('class' => 'user-image');
+		if(!$owner){
+            $link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername($reference['User']), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($reference['User']['username']))), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $reference['User']['id']);
+        }
         $link_data['additional'] = "display:block;";
 		$name = $reference['User']['username'];
 		if(isset($reference['User']['name']) && !empty($reference['User']['name'])) $name.= " (".$reference['User']['name'].")";

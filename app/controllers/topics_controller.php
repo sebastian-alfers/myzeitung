@@ -104,47 +104,70 @@ class TopicsController extends AppController {
 	}
 	
 
-//
-//	function view($id = null) {
-//		if (!$id) {
-//			$this->Session->setFlash(__('Invalid topic', true));
-//			$this->redirect(array('action' => 'index'));
-//		}
-//		$this->set('topic', $this->Topic->read(null, $id));
-//	}
-//
-//	function add() {
-//		if (!empty($this->data)) {
-//			$this->Topic->create();
-//			if ($this->Topic->save($this->data)) {
-//				$this->Session->setFlash(__('The topic has been saved', true));
-//				$this->redirect($this->referer());
-//			} else {
-//				$this->Session->setFlash(__('The topic could not be saved. Please, try again.', true));
-//			}
-//		}
-//		$this->set('user_id',$this->Auth->user('id'));
-//	}
-//
-//	function edit($id = null) {
-//		if (!$id && empty($this->data)) {
-//			$this->Session->setFlash(__('Invalid topic', true));
-//			$this->redirect(array('action' => 'index'));
-//		}
-//		if (!empty($this->data)) {
-//			if ($this->Topic->save($this->data)) {
-//				$this->Session->setFlash(__('The topic has been saved', true));
-//				$this->redirect(array('action' => 'index'));
-//			} else {
-//				$this->Session->setFlash(__('The topic could not be saved. Please, try again.', true));
-//			}
-//		}
-//		if (empty($this->data)) {
-//			$this->data = $this->Topic->read(null, $id);
-//		}
-//		$this->set('user_id',$this->Auth->user('id'));
-//	}
-//
+
+	function view_topic_name($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid topic', true));
+			$this->redirect(array('action' => 'index'));
+		}
+        $this->Topic->contain('User');
+		$topic = $this->Topic->read(null, $id);
+
+        if($topic['Topic']['id'] && ($topic['User']['id'] == $this->Session->read('Auth.User.id'))){
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('topic_name' => $topic['Topic']['name'])));
+        }
+        else{
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
+        }
+        $this->render('view_topic');
+	}
+
+    /*
+	function add() {
+		if (!empty($this->data)) {
+			$this->Topic->create();
+			if ($this->Topic->save($this->data)) {
+				$this->Session->setFlash(__('The topic has been saved', true));
+				$this->redirect($this->referer());
+			} else {
+				$this->Session->setFlash(__('The topic could not be saved. Please, try again.', true));
+			}
+		}
+		$this->set('user_id',$this->Auth->user('id'));
+	}*/
+
+	function edit($id = null) {
+
+
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid topic', true));
+			$this->redirect(array('action' => 'index'));
+		}
+
+		if (!empty($this->data)) {
+            //read topic to check permission
+            $this->Topic->contain();
+            $topic =  $this->Topic->read(array('id','user_id'), $this->data['Topic']['id']);
+
+            if($topic['Topic']['user_id'] != $this->Session->read('Auth.User.id')){
+				$this->Session->setFlash(__('No Permission', true));
+				$this->redirect($this->referer());
+            }
+            elseif($this->Topic->save($this->data)) {
+				$this->Session->setFlash(__('The topic has been saved', true), 'default', array('class' => 'success'));
+				$this->redirect($this->referer());
+			} else {
+				$this->Session->setFlash(__('The topic could not be saved. Please, try again.', true));
+				$this->redirect($this->referer());
+			}
+		}
+		if (empty($this->data)) {
+			$this->data = $this->Topic->read(null, $id);
+		}
+		$this->set('user_id',$this->Auth->user('id'));
+	}
+
+
 //	function delete($id = null) {
 //		if (!$id) {
 //			$this->Session->setFlash(__('Invalid id for topic', true));

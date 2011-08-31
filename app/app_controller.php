@@ -168,6 +168,8 @@ class AppController extends Controller {
 			'ajax_add' => $this->user,
             'getTopics' => $this->user,
             'delete' => $this->user,
+            'view_topic_name' => $this->user,
+            'edit' => $this->user
 			),
 		'posts' => array(
 			'index' => $this->user,

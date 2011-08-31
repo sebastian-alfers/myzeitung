@@ -1,6 +1,5 @@
 <div id="dialog-category" title="<?php __('Paper Category'); ?>" style="display:none">
 	 <p>
-
         <form id="CategoryForm" method="post" action="/categories/edit" accept-charset="utf-8">
             <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
             <input type="hidden" name="data[Category][id]" id="CategoryId" value="">

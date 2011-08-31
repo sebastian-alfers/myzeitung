@@ -37,7 +37,7 @@ $this->MzJavascript->link('tiny_mce/langs/en.js');
 ?>
 
 
-<?php echo $this->element('topics/modal_add_topic'); ?>
+<?php echo $this->element('topics/modal_add'); ?>
 <?php echo $this->element('posts/modal_add_url'); ?>
 <?php echo $this->element('posts/modal_add_video_url'); ?>
 
