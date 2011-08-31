@@ -28,9 +28,9 @@
         <td><?php echo $paper['Paper']['owner_id']; ?>&nbsp;</td>
         <td><?php echo $paper['User']['username']; ?>&nbsp;</td>
         <td><?php echo $this->MzText->truncate($paper['Paper']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
-        <td><?php echo $paper['Paper']['subscription_count']; ?></td>
-        <td><?php echo $paper['Paper']['author_count']; ?></td>
-        <td><?php echo $paper['Paper']['post_count']; ?></td>
+        <td><?php echo $this->MzNumber->format($paper['Paper']['subscription_count'],'.'); ?></td>
+        <td><?php echo $this->MzNumber->format($paper['Paper']['author_count'],'.'); ?></td>
+        <td><?php echo $this->MzNumber->format($paper['Paper']['post_count'],'.'); ?></td>
 		<td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['modified']); ?>&nbsp;</td>
 		<td class="actions">

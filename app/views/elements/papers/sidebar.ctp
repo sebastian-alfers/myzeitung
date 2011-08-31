@@ -79,9 +79,9 @@ if($paper_belongs_to_user){
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['frontpage_authors_count'] , true), $paper['Paper']['frontpage_authors_count']); ?>"></span>
                 <?php //show only links for not selected items?>
                 <?php if($category_id != null):?>
-                    <?php /* no topic selected */ echo $this->Html->link(__('front page', true)/* . '('.$paper['Paper']['post_count'].')'*/, $paper['Route'][0]['source']); ?>
+                    <?php /* no topic selected */ echo $this->Html->link(__('front page', true)/* . '('.$this->MzNumber->counterToReadableSize($paper['Paper']['post_count']).')'*/, $paper['Route'][0]['source']); ?>
                 <?php else:?>
-                    <i><?php /* topic selected - show link*/ echo __('front page', true)/* . ' ('.$paper['Paper']['post_count'].')'*/;?></i>
+                    <i><?php /* topic selected - show link*/ echo __('front page', true)/* . ' ('.$this->MzNumber->counterToReadableSize($paper['Paper']['post_count']).')'*/;?></i>
                 <?php endif;?> </li>
                 <?php foreach($paper['Category'] as $category):?>
 
@@ -89,10 +89,10 @@ if($paper_belongs_to_user){
                 <li class="category"><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['author_count'] ,true), $category['author_count']); ?>"></span>
 
                 <?php  if($category_id != $category['id'] || $category_id == null):?>
-                    <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$category['post_count'].')'*/, $paper['Route'][0]['source'].'/'.$category['id']); ?>
+                    <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$this->MzNumber->counterToReadableSize($category['post_count']).')'*/, $paper['Route'][0]['source'].'/'.$category['id']); ?>
 
                 <?php else:?>
-                    <i><?php  /* this topic is selected - show text*/ echo $category['name']/*. ' ('.$category['post_count'].')'*/?></i>
+                    <i><?php  /* this topic is selected - show text*/ echo $category['name']/*. ' ('.$this->MzNumber->counterToReadableSize($category['post_count']).')'*/?></i>
                 <?php endif;?>
                 <?php if($paper_belongs_to_user): ?>
                     <span class="edit-icon" id="/categories/index/<?php echo $paper['Paper']['id']?>" category-id="<?php echo $category['id']; ?>"></span>
@@ -105,9 +105,9 @@ if($paper_belongs_to_user){
 
             <h6><?php echo __('Activity', true);?></h6>
               <ul>
-                 <li><?php echo sprintf(__n('%d Post', '%d Posts', $paper['Paper']['post_count'],true), $paper['Paper']['post_count']);?></li>
-                 <li><?php echo sprintf(__n('%d Subscribed User/Topic', '%d Subscribed Users/Topics', $paper['Paper']['author_count'],true), $paper['Paper']['author_count']);?></li>
-                 <li><?php echo sprintf(__n('%d Subscriber', '%d Subscribers', $paper['Paper']['subscription_count'],true), $paper['Paper']['subscription_count']);?></li>
+                 <li><?php echo sprintf(__n('%s Post', '%s Posts', $paper['Paper']['post_count'],true), $this->MzNumber->format($paper['Paper']['post_count'],'.'));?></li>
+                 <li><?php echo sprintf(__n('%s Subscribed User/Topic', '%s Subscribed Users/Topics', $paper['Paper']['author_count'],true), $this->MzNumber->format($paper['Paper']['author_count'],'.'));?></li>
+                 <li><?php echo sprintf(__n('%s Subscriber', '%s Subscribers', $paper['Paper']['subscription_count'],true), $this->MzNumber->format($paper['Paper']['subscription_count'],'.'));?></li>
             </ul>
             <hr />
 

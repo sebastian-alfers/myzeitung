@@ -28,9 +28,9 @@
         <td><?php echo $post['Post']['user_id']; ?>&nbsp;</td>
         <td><?php echo $post['User']['username']; ?>&nbsp;</td>
         <td><?php echo $this->MzText->truncate($post['Post']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
-        <td><?php echo $post['Post']['repost_count']; ?></td>
-        <td><?php echo $post['Post']['view_count']; ?></td>
-        <td><?php echo $post['Post']['comment_count']; ?></td>
+        <td><?php echo $this->MzNumber->format($post['Post']['repost_count'],'.'); ?></td>
+        <td><?php echo $this->MzNumber->format($post['Post']['view_count'],'.'); ?></td>
+        <td><?php echo $this->MzNumber->format($post['Post']['comment_count'],'.'); ?></td>
 		<td><?php echo $this->MzTime->format('d.m.y',$post['Post']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$post['Post']['modified']); ?>&nbsp;</td>
 		<td class="actions">
