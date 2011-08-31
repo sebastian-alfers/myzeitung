@@ -227,23 +227,6 @@ Configure::write('Acl.database', 'default');
  */
 date_default_timezone_set('Europe/Berlin');
 
-switch(Configure::read('Cache.save_handler')){
-    case 'memcache':
-         Cache::config('default', array(
-            'engine' => 'Memcache', //[required]
-            'duration'=> 3600, //[optional]
-            'probability'=> 100, //[optional]
-            'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
-            'servers' => array(
-                ':' // localhost, default port 11211
-            ), //[optional]
-            'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
-        ));
-    case 'memcache':
-    default:
-        Cache::config('default', array('engine' => 'File'));
-}
-
 
 Configure::write('Config.language', 'deu');
 

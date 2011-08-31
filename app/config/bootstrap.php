@@ -72,5 +72,21 @@ foreach($boot_settings as $key => $value){
 }
 
 
+switch(Configure::read('Cache.save_handler')){
+    case 'memcache':
+         Cache::config('default', array(
+            'engine' => 'Memcache', //[required]
+            'duration'=> 3600, //[optional]
+            'probability'=> 100, //[optional]
+            'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+            'servers' => array(
+                Configure::read('Memcache.').':'.Configure::read('Memcache.port') // localhost, default port 11211
+            ), //[optional]
+            'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
+        ));
+    case 'file':
+    default:
+        Cache::config('default', array('engine' => 'File'));
+}
 
 
