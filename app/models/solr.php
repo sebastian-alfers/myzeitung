@@ -20,9 +20,9 @@ class Solr extends AppModel {
 	const SEARCH_RESULT_SEARCH_FIELD_NGRM = 'search_field_ngrm';
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 
-	const HOST = 'localhost';
-	const PORT = 8983; # -alf 8080  -tim 8983
-	const PATH = '/solr';
+	var $_host = '';
+	var $_port = 8080; //default port # -alf 8080  -tim 8983
+	var $_path = '/solr';
 
 
 	var $useTable = false;
@@ -36,19 +36,14 @@ class Solr extends AppModel {
 	private $solr = null;
 
 	function __construct(){
-        define('USE_SOLR', true);
+
 		parent::__construct();
 
-        $port = self::PORT;
+        $this->_host = Configure::read('Solr.host');
+        $this->_port = Configure::read('Solr.port');
 
-        if(defined('SOLR_PORT')){
-
-             $port = SOLR_PORT;
-        }
-
-        if(USE_SOLR){
-             $this->solr = new Apache_Solr_Service(self::HOST, $port, self::PATH);
-
+        if(Configure::read('Solr.enable')){
+             $this->solr = new Apache_Solr_Service($this->_host, $this->_port, $this->_path);
         }
 
     }
@@ -60,7 +55,7 @@ class Solr extends AppModel {
 	 * @param array $documents
 	 */
 	function add($docs = array()){
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		try {
 
@@ -124,7 +119,7 @@ class Solr extends AppModel {
                 $records[] = $record;
             }
         }
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
         foreach($records as $record){
             $xml = '<delete><id>'. $record .'</id></delete>';
@@ -322,7 +317,7 @@ class Solr extends AppModel {
 	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $start = 0,$params = null){
 
 
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		if(empty($query)) return false;
 		$results = array();
@@ -340,6 +335,9 @@ class Solr extends AppModel {
 					$query.= ' AND ' . $field_name.':"'.$filter_value.'"';
 				}
 			}
+            if(!is_object($this->getSolr())){
+                return 'no serch';
+            }
 			$response = $this->getSolr()->search($query, $start, $limit, $params);
 
 			if ( $response->getHttpStatus() == 200 ) {
@@ -381,7 +379,7 @@ class Solr extends AppModel {
 	 */
 	function getSolr(){
 
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		if(!$this->canPing()){
 			$this->solr = null;
@@ -395,7 +393,7 @@ class Solr extends AppModel {
 	 *
 	 */
 	function canPing(){
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		if($this->solr instanceof Apache_Solr_Service && $this->solr != null){
 			if (!$this->solr->ping()) return false;
@@ -407,7 +405,7 @@ class Solr extends AppModel {
 	}
 
 	function deleteIndex(){
-		if(!USE_SOLR) return;
+		if(!Configure::read('Solr.enable')) return;
 
 		var_dump($this->getSolr()->deleteByQuery('*:*'));
 		$this->getSolr()->commit();
@@ -427,3 +425,4 @@ class Solr extends AppModel {
 		}
 	}
 }
+
