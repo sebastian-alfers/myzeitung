@@ -184,7 +184,7 @@ class PostsController extends AppController {
 		$post = $this->Post->read(null, $id);
 
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
+		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
 		//$this->log('vor dem set');die();
         $this->set('post', $post);
 		$this->set('user', $user);
@@ -241,6 +241,7 @@ class PostsController extends AppController {
              }
           //  $this->log('direkt vor dem saven');
           //  $this->log($this->data);
+            $this->Post->updateSolr = true;
 			if ($this->Post->save($this->data)) {
                 $post_url = 'http://myzeitung.de/posts/view/' . $this->Post->id;
                 $social_msg = __('Checkout my latest article as myZeitung: ', true);

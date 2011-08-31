@@ -359,33 +359,43 @@ function __construct(){
     /**
      * returns false if no route was written
      */
+    /**
+     * returns false if no route was written
+     */
     function addRoute(){
 
-
-
         $routeString = $this->generateRouteString();
+        //if NOT the exact route was currently active
         if($routeString != ''){
-            $routeData['Route'] = array('source' => $routeString,
+            if(substr($routeString,0,strlen(ROUTE::TYPE_NEW_ROUTE)) == ROUTE::TYPE_NEW_ROUTE){
+                //new route has to be created
+                $routeData['Route'] = array('source' => substr($routeString,strlen(ROUTE::TYPE_NEW_ROUTE)),
                                         'target_controller' 	=> 'papers',
                                         'target_action'     	=> 'view',
                                         'target_param'		=> $this->id,
                                         'ref_type'          => Route::TYPE_PAPER,
                                         'ref_id'            => $this->id);
-            $this->Route->create();
+                $this->Route->create();
+                if($this->Route->save($routeData,false)){
+                    $currentRouteId = $this->Route->id;
+                }
+            }elseif(substr($routeString,0,strlen(ROUTE::TYPE_OLD_ROUTE_ID)) == ROUTE::TYPE_OLD_ROUTE_ID){
+                //the route did already exist but was not active - has to be made parent again.
+                $currentRouteId = substr($routeString,strlen(ROUTE::TYPE_OLD_ROUTE_ID));
 
-             if($this->Route->save($routeData,false)){
-                 $newRouteId = $this->Route->id;
-                 // update children
-                 $this->Route->contain();
-                 $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_PAPER, 'ref_id' => $this->id)));
-                 foreach($oldRoutes as $oldRoute){
-                      if($oldRoute['Route']['id'] !=  $newRouteId){
-                          $oldRoute['Route']['parent_id'] = $newRouteId;
-                          $this->Route->save($oldRoute);
-                      }
+            }
+
+            // update children
+            $this->Route->contain();
+            $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_PAPER,  'ref_id' => $this->id)));
+            foreach($oldRoutes as $oldRoute){
+                 if($oldRoute['Route']['id'] !=  $currentRouteId){
+                     $oldRoute['Route']['parent_id'] = $currentRouteId;
+                     $this->Route->save($oldRoute);
                  }
-                 return true;
-             }
+                 $this->Route->deleteRouteCache($oldRoute['Route']['source']);
+            }
+            return true;
         }else{
             return false;
         }
@@ -398,50 +408,63 @@ function __construct(){
         $this->User->contain();
         $user = $this->User->read(array('id','username'),$this->data['Paper']['owner_id']);
 
-
+        //generate the theoretically needed route
         $this->Inflector = ClassRegistry::init('Inflector');
         $routeUsername = strtolower($user['User']['username']);
         $routeTitle= strtolower($this->Inflector->slug($this->data['Paper']['title'],'-'));
         $routeString = '/p/'.$routeUsername.'/'.$routeTitle;
+
+        //check if such a route does already exist
         $this->Route->contain();
         $existingRoutes = $this->Route->findAllBySource($routeString);
 
         if(count($existingRoutes) >0){
             //the route is already used
             $sameTarget = true;
+            $sameTargetId = null;
+
             foreach($existingRoutes as $existingRoute){
                 if($existingRoute['Route']['ref_type'] !=  Route::TYPE_PAPER || $existingRoute['Route']['ref_id'] != $this->id){
                     $sameTarget = false;
+                }else{
+                    //old route has the same target. if it is a child it needs to be made parent and the children being updated to new parent
+                    if($existingRoute['Route']['parent_id'] != null){
+
+                        $sameTargetId = Route::TYPE_OLD_ROUTE_ID.$existingRoute['Route']['id'];
+                        $existingRoute['Route']['parent_id'] = null;
+                        $this->Route->save($existingRoute);
+                    }
                 }
             }
             if($sameTarget){
-                //route already exists - nothing needed
-                return '';
+                if($sameTargetId == null){
+                    //route already exists - nothing needed
+                    return '';
+                }else{
+                    //old route reactivated -> needs to be parent again. children need to be updated to new parent
+                    return $sameTargetId;
+
+                }
             }else{
-                //generate new routestring with uniqid
-                //$routeString = 'a/'.$routeUsername.'/'.$routeTitle.'-'.uniqid();
+                //desired route did already exist. it was not directing to the same target - so it cant be taken.
                 //generate new routestring with added id
                 $routeString = '/p/'.$routeUsername.'/'.$routeTitle.'-p'.$this->id;
-                //if this specific routestring does exist, it must direct to the same target
                 $this->Route->contain();
                 $existingRoutes = $this->Route->findAllBySource($routeString);
+                //if this specific routestring does exist, it must direct to the same target
                 if(count($existingRoutes)>0){
                     return '';
                 }
-                return $routeString;
+                return Route::TYPE_NEW_ROUTE.$routeString;
             }
 
         }else{
             //the route is not used yet
-            return $routeString;
+            return Route::TYPE_NEW_ROUTE.$routeString;
 
         }
-
-
-
         return $route_title;
     }
-
 
 
     function deleteRoutes(){

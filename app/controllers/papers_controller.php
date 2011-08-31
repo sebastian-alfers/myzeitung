@@ -25,7 +25,7 @@ class PapersController extends AppController {
 		$this->paginate = array(
 		 	 'Paper' => array(
 		//fields
-	          			 'fields' => array('id', 'image', 'owner_id','title','description','created','subscription_count', 'content_paper_count', 'category_paper_post_count'),
+	          			 'fields' => array('id', 'image', 'owner_id','title','description','created','subscription_count', 'author_count', 'category_paper_post_count'),
 		//limit of records per page
 			            'limit' => 12,
 		//order
@@ -71,7 +71,7 @@ class PapersController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
         $this->Paper->contain(array('Route', 'User.id', 'User.name', 'User.username', 'User.image',
-                                      'Category' => array('fields' => array('content_paper_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
+                                      'Category' => array('fields' => array('author_count', 'name', 'id', 'category_paper_post_count'),'order' => array('name asc'))));
         $paper = $this->Paper->read(null, $paper_id);
         if(!isset($paper['Paper']['id'])){
             $this->Session->setFlash(__('invalid paper', true));
@@ -356,7 +356,7 @@ class PapersController extends AppController {
             $types['refs_paper/'.$paper_data['Paper']['id']] = sprintf(__('front page (%d)' ,true), $frontpage_authors);
 
             foreach($paper_data['Category'] as $cat){
-                $types['refs_paper/'.$paper_data['Paper']['id'].'/'.$cat['id']] = $cat['name'] . ' ('.$cat['content_paper_count'].')';
+                $types['refs_paper/'.$paper_data['Paper']['id'].'/'.$cat['id']] = $cat['name'] . ' ('.$cat['author_count'].')';
             }
 
             //set selected type for dropdown
@@ -493,7 +493,7 @@ class PapersController extends AppController {
         $this->log('no data');
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
+		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
 		$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
         $this->set('edit', false);
@@ -534,7 +534,7 @@ class PapersController extends AppController {
 
 		//unbinding irrelevant relations for the query
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
+		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
 		//$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
 

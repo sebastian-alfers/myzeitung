@@ -3,38 +3,50 @@ class PostUser extends AppModel {
 	var $name = 'PostUser';
 
 
-	var $uses = array('Topic');
+	var $uses = array('Topic','User');
 
 	var $useTable = 'posts_users';            /// changing to "abc" table works fine
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
-var $belongsTo = array(
-	'Post' => array(
-		'className' => 'Post',
-		'foreignKey' => 'post_id',
-		'conditions' => '',
-		'fields' => '',
-		'order' => '',
-		//counting just reposts
-		'counterCache' => 'repost_count',
-		'counterScope' => array('PostUser.repost' => 1,
-                                'PostUser.enabled' => 1),
-		),
-	'User' => array(
-		'className' => 'User',
-		'foreignKey' => 'user_id',
-		'conditions' => '',
-		'fields' => '',
-		'order' => '',
-		//counting just reposts
-		'counterCache' => 'repost_count',
-		'counterScope' => array('PostUser.repost' => 1,
-                             'PostUser.enabled' => 1),
-		),
+    var $belongsTo = array(
+        'Post' => array(
+            'className' => 'Post',
+            'foreignKey' => 'post_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            //counting just reposts
+           'counterCache' => true,
+            'counterScope' => array('PostUser.repost' => 1,
+                                 'PostUser.enabled' => 1),
+            ),
+
+        'User' => array(
+            'className' => 'User',
+            'foreignKey' => 'user_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            //counting just reposts and just posts (2 counters)
+            'counterCache' => true,
+        'counterScope' => array('PostUser.enabled' => 1),
+            ),
+
+            'Topic' => array(
+            'className' => 'Topic',
+            'foreignKey' => 'topic_id',
+           // 'conditions' => 'PostUser.topic_id != null',
+            'fields' => '',
+            'order' => '',
+            //counting just posts and just reposts (2 counters)
+            'counterCache' => true,
+            'counterScope' => array('PostUser.enabled' => 1),
+            ),
 
 
-);
+
+    );
 
 	var $hasMany = array(
 		'CategoryPaperPost' => array(
@@ -81,12 +93,12 @@ var $belongsTo = array(
 				App::import('model','Topic');
 				
 
-				//Part 1 - Associations
+				//Associations
 				if(isset($this->data['PostUser']['PostUser.user_id'])){
 					$this->data['PostUser']['user_id'] = $this->data['PostUser']['PostUser.user_id'];
 				}
-				$this->User->contain();
-				$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
+				//$this->User->contain();
+				//$userData = $this->User->read(null, $this->data['PostUser']['user_id']);
 
 				if($created){
 					//$this->_publishPostInPaperAndCategories($userData);
@@ -96,6 +108,32 @@ var $belongsTo = array(
 				
 
 			}
+    
+            function updateCounterCache($keys = array(), $created = false){
+                $keys = empty($keys) ? $this->data[$this->alias] : $keys;
+
+                //update post
+                $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => true, 'PostUser.post_id' => $keys['post_id'])));
+                $this->Post->id = $keys['post_id'];
+                $this->Post->saveField('repost_count', $count_reposts, array('callbacks' => 0, 'validate' => 0));
+
+                //update user
+                $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.user_id' => $keys['user_id'])));
+                $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.user_id' => $keys['user_id'])));
+                $this->User->id = $keys['user_id'];
+                $this->User->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
+
+                //update topic
+                if(isset($keys['topic_id']) && !empty($keys['topic_id'])){
+                    $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.topic_id' => $keys['topic_id'])));
+                    $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.topic_id' => $keys['topic_id'])));
+                    $this->Topic->id = $keys['topic_id'];
+                    $this->Topic->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
+
+                }
+
+            }
+
 			/**
              * function to publish a post in papers:
              * if someones writes a post or reposts a posts, this function reads all user/topic subscriptions (content_papers) of the author of the post, or the reposter ( PostUser-user_id).

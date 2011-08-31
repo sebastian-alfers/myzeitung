@@ -86,7 +86,7 @@ if($paper_belongs_to_user){
                 <?php endif;?> </li>
                 <?php foreach($paper['Category'] as $category):?>
 
-                <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['content_paper_count'] ,true), $category['content_paper_count']); ?>"></span>
+                <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>/<?php echo $category['id']?>" title="<?php printf(__n('%1$s person is published this category','%1$s persons are published this category',$category['author_count'] ,true), $category['author_count']); ?>"></span>
                 <?php  if($category_id != $category['id'] || $category_id == null):?>
                     <?php /* this topic is not selected - show link */ echo $this->Html->link($category['name']/*.' ('.$category['category_paper_post_count'].')'*/, $paper['Route'][0]['source'].'/'.$category['id']); ?>
 
@@ -103,7 +103,7 @@ if($paper_belongs_to_user){
             <h6><?php echo __('Activity', true);?></h6>
               <ul>
                  <li><?php echo sprintf(__n('%d Post', '%d Posts', $paper['Paper']['category_paper_post_count'],true), $paper['Paper']['category_paper_post_count']);?></li>
-                 <li><?php echo sprintf(__n('%d Subscribed User/Topic', '%d Subscribed Users/Topics', $paper['Paper']['content_paper_count'],true), $paper['Paper']['content_paper_count']);?></li>
+                 <li><?php echo sprintf(__n('%d Subscribed User/Topic', '%d Subscribed Users/Topics', $paper['Paper']['author_count'],true), $paper['Paper']['author_count']);?></li>
                  <li><?php echo sprintf(__n('%d Subscriber', '%d Subscribers', $paper['Paper']['subscription_count'],true), $paper['Paper']['subscription_count']);?></li>
             </ul>
             <hr />

@@ -54,7 +54,7 @@ class ContentPaper extends AppModel {
 			)
 			);
 
-			var $hasMany = array(
+    var $hasMany = array(
 		'CategoryPaperPost' => array(
 			'className' => 'CategoryPaperPost',
 			'foreignKey' => 'content_paper_id',
@@ -190,6 +190,31 @@ class ContentPaper extends AppModel {
                 $this->CategoryPaperPost->deleteAll(array('post_user_id' => $cppEntry['CategoryPaperPost']['post_user_id']), false, true);
             }
         }
+    }
+    function updateCounterCache($keys = array(), $created = false){
+        $keys = empty($keys) ? $this->data[$this->alias] : $keys;
+        debug('hier');
+
+        //update user
+        $count = $this->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.user_id' => $keys['user_id']),'fields' => 'distinct ContentPaper.paper_id'));
+        $this->User->id = $keys['user_id'];
+        $this->User->saveField('subscriber_count', $count, array('callbacks' => 0, 'validate' => 0));
+    /*
+        //update user
+        $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.user_id' => $keys['user_id'])));
+        $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.user_id' => $keys['user_id'])));
+        $this->User->id = $keys['user_id'];
+        $this->User->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
+
+        //update topic
+        if(isset($keys['topic_id']) && !empty($keys['topic_id'])){
+            $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.topic_id' => $keys['topic_id'])));
+            $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.topic_id' => $keys['topic_id'])));
+            $this->Topic->id = $keys['topic_id'];
+            $this->Topic->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
+
+        }*/
+
     }
 }
 ?>

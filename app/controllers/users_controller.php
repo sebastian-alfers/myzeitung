@@ -74,7 +74,7 @@ class UsersController extends AppController {
 		//limit of records per page
 	            'limit' => 12,
 		//order
-	            'order' => 'User.content_paper_count DESC',
+	            'order' => 'User.subscriber_count DESC',
 		//fields - custom field sum...
 		    	'fields' => array(	'User.id',
                                     'User.image',
@@ -84,7 +84,7 @@ class UsersController extends AppController {
 		    						'User.repost_count',
 		    						'User.post_count',
 		    						'User.comment_count',
-                                    'User.content_paper_count'
+                                    'User.subscriber_count'
 		    						),
 		    						//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
@@ -220,7 +220,7 @@ class UsersController extends AppController {
         ),
         ),
         //fields
-	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'content_paper_count', 'category_paper_post_count'),
+	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'author_count', 'category_paper_post_count'),
         //limit of records per page
 	            'limit' => 12,
         //order
@@ -1077,7 +1077,7 @@ class UsersController extends AppController {
 		} else {
 		//reading user
             $user = $this->User->find('first',array('conditions' => array('LOWER(User.username)' => strtolower($username))));
-			//$user = $this->User->read(array('id','url', 'enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'content_paper_count', 'subscription_count', 'paper_count'), $user_id);
+			//$user = $this->User->read(array('id','url', 'enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $user_id);
 		}
         return $user;
 	}

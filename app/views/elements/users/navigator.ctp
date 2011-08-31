@@ -15,8 +15,8 @@
             <ul class="iconbar">
                 <?php $tipsy_title = sprintf(__n('%d post', '%d posts', $user['User']['post_count'],true), $user['User']['post_count']);?>
                  <li class="articles tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['post_count']; ?></li>
-                <?php $tipsy_title = sprintf(__n('published in %d paper', 'published in %d papers', $user['User']['content_paper_count'],true), $user['User']['content_paper_count']);?>
-                <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['content_paper_count']; ?></li>
+                <?php $tipsy_title = sprintf(__n('published in %d paper', 'published in %d papers', $user['User']['subscriber_count'],true), $user['User']['subscriber_count']);?>
+                <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $user['User']['subscriber_count']; ?></li>
             </ul>
             
 

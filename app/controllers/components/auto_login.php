@@ -78,7 +78,7 @@ class AutoLoginComponent extends Object {
 	 * @return boolean
 	 */
 	public function startup($Controller) {
-		$this->Controller = $Controller;
+        $this->Controller = $Controller;
 		$this->Auth = $this->Controller->Auth;
 
 		if (isset($this->Controller->Cookie)) {
@@ -91,9 +91,8 @@ class AutoLoginComponent extends Object {
 			$this->Cookie = new CookieComponent();
 			$this->Cookie->initialize($Controller, array());
 		}
-
 		$cookie = $this->Cookie->read($this->cookieName);
-		$user = $this->Auth->user();
+        $user = $this->Auth->user();
 
 		if ($user) {
 			return;
@@ -104,6 +103,7 @@ class AutoLoginComponent extends Object {
 			return;
 
 		} else if ($cookie['hash'] != $this->Auth->password($cookie[$this->Auth->fields['username']] . $cookie['time'])) {
+
 			$this->debug('Hash failed', $cookie, $user);
 			$this->delete();
 			return;

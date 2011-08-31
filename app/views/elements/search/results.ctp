@@ -1,3 +1,4 @@
+<?php //var_dump($results); ?>
 <?php if(isset($results) && is_array($results)): ?>
     <?php
     $has_topics = false;

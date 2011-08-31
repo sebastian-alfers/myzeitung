@@ -11,18 +11,18 @@ class Solr extends AppModel {
 	const TYPE_CATEGORY = 'category';
 	const TYPE_UNKNOWN = 'unknown';
 
-	
+
 	const QUERY_TYPE_AUTO_SUGGEST = 'auto';
 	const QUERY_TYPE_SEARCH_RESULTS = 'search';
-	
+
 	const SEARCH_RESULT_SEARCH_FIELD = 'search_field';
 	const SEARCH_RESULT_SEARCH_FIELD_PHONETIC = 'search_field_phonetic';
 	const SEARCH_RESULT_SEARCH_FIELD_NGRM = 'search_field_ngrm';
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
-	
-	var $_host = '';
-	var $_port = 8080; //default port # -alf 8080  -tim 8983
-	var $_path = '/solr';
+
+	const HOST = 'localhost';
+	const PORT = 8983; # -alf 8080  -tim 8983
+	const PATH = '/solr';
 
 
 	var $useTable = false;
@@ -32,18 +32,23 @@ class Solr extends AppModel {
 
 	CONST DEFAULT_LIMIT = 10;
 	CONST SUGGEST_LIMIT = 6;
-	
+
 	private $solr = null;
 
 	function __construct(){
-
+        define('USE_SOLR', true);
 		parent::__construct();
 
-        $this->_host = Configure::read('Solr.host');
-        $this->_port = Configure::read('Solr.port');
+        $port = self::PORT;
 
-        if(Configure::read('Solr.enable')){
-             $this->solr = new Apache_Solr_Service($this->_host, $this->_port, $this->_path);
+        if(defined('SOLR_PORT')){
+
+             $port = SOLR_PORT;
+        }
+
+        if(USE_SOLR){
+             $this->solr = new Apache_Solr_Service(self::HOST, $port, self::PATH);
+
         }
 
     }
@@ -55,7 +60,7 @@ class Solr extends AppModel {
 	 * @param array $documents
 	 */
 	function add($docs = array()){
-		if(!Configure::read('Solr.enable')) return;
+		if(!USE_SOLR) return;
 
 		try {
 
@@ -119,14 +124,14 @@ class Solr extends AppModel {
                 $records[] = $record;
             }
         }
-		if(!Configure::read('Solr.enable')) return;
+		if(!USE_SOLR) return;
 
         foreach($records as $record){
             $xml = '<delete><id>'. $record .'</id></delete>';
             $this->getSolr()->delete($xml);
 
         }
-   
+
         $this->getSolr()->commit();
         $this->getSolr()->optimize();
 
@@ -152,7 +157,7 @@ class Solr extends AppModel {
         $delete = array();
         $update = array();
 
-        
+
         foreach($posts as $post){
             //if a post is enabled its gonna be updated in the index
             //if a post is disabled (not enabled) its gonna be deleted from the index
@@ -246,7 +251,7 @@ class Solr extends AppModel {
     }
 
 
-    
+
     function refreshPapersIndex(){
         //read all Papers with  order "id desc"
         App::import('model','Papers');
@@ -316,28 +321,25 @@ class Solr extends AppModel {
 
 	function query($query, $limit = self::DEFAULT_LIMIT, $grouped = true, $start = 0,$params = null){
 
-		
-		if(!Configure::read('Solr.enable')) return;
-		
+
+		if(!USE_SOLR) return;
+
 		if(empty($query)) return false;
 		$results = array();
 		$params['sort'] = 'score desc';
-		
+
 		// if magic quotes is enabled then stripslashes will be needed
 		if (get_magic_quotes_gpc() == 1) $query = stripslashes($query);
 
 		try
-		{				
+		{
 			$data = array();
-				
+
 			if(!empty($this->fields)){
 				foreach($this->fields as $field_name => $filter_value){
 					$query.= ' AND ' . $field_name.':"'.$filter_value.'"';
 				}
 			}
-            if(!is_object($this->getSolr())){
-                return 'no serch';
-            }
 			$response = $this->getSolr()->search($query, $start, $limit, $params);
 
 			if ( $response->getHttpStatus() == 200 ) {
@@ -379,7 +381,7 @@ class Solr extends AppModel {
 	 */
 	function getSolr(){
 
-		if(!Configure::read('Solr.enable')) return;
+		if(!USE_SOLR) return;
 
 		if(!$this->canPing()){
 			$this->solr = null;
@@ -393,7 +395,7 @@ class Solr extends AppModel {
 	 *
 	 */
 	function canPing(){
-		if(!Configure::read('Solr.enable')) return;
+		if(!USE_SOLR) return;
 
 		if($this->solr instanceof Apache_Solr_Service && $this->solr != null){
 			if (!$this->solr->ping()) return false;
@@ -405,7 +407,7 @@ class Solr extends AppModel {
 	}
 
 	function deleteIndex(){
-		if(!Configure::read('Solr.enable')) return;
+		if(!USE_SOLR) return;
 
 		var_dump($this->getSolr()->deleteByQuery('*:*'));
 		$this->getSolr()->commit();
@@ -425,4 +427,3 @@ class Solr extends AppModel {
 		}
 	}
 }
-
