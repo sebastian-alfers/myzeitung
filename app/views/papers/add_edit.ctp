@@ -57,7 +57,7 @@ $(document).ready(function() {
                 <hr />
 				<div class="accept">
 
-					<a href="/papers/delete/<?php echo $paper_id; ?>" class="btn big"><span>-</span><?php echo __('Delete paper', true);?></a>
+					<a href="/paper/delete/<?php echo $paper_id; ?>" class="btn big"><span>-</span><?php echo __('Delete paper', true);?></a>
 				</div>
                 <?php endif; ?>
 

@@ -413,7 +413,9 @@ class PostsController extends AppController {
 		$this->set('user_id',$user_id);
 		$this->set('content_class', 'create-article');//for css in main layout file
 
-
+        if(isset($this->data['Post']['media'])){
+            $this->set('images', $this->data['Post']['media']);
+        }
 		//same template for add and edit
 		$this->render('add_edit');
 
@@ -422,7 +424,6 @@ class PostsController extends AppController {
 	function edit($id = null) {
 
 		$user_id = $this->Session->read('Auth.User.id');
-
 		if($user_id == null || empty($user_id)){
 			$this->Session->setFlash(__('No permission', true));
 			$this->redirect($this->referer());
@@ -597,8 +598,12 @@ class PostsController extends AppController {
 
 		$this->set('content_class', 'create-article');//for css in main layout file
 
+
+
 		//same template for add and edit
 		$this->render('add_edit');
+
+
 	}
 
 

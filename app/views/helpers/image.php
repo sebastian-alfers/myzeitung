@@ -155,10 +155,28 @@ class ImageHelper extends Helper {
 
 
 			if (function_exists("imagecreatetruecolor") && ($temp = imagecreatetruecolor ($width, $height))) {
+                $transindex = imagecolortransparent($image);
+                if($transindex >= 0) {
+                  $transcol = imagecolorsforindex($image, $transindex);
+                  $transindex = imagecolorallocatealpha($temp, $transcol['red'], $transcol['green'], $transcol['blue'], 127);
+                  imagefill($temp, 0, 0, $transindex);
+                }
+
+                imagecolortransparent($temp, $transindex);
+
+
                 imagealphablending($temp, false);
                 imagesavealpha($temp, true); // save alphablending setting (important)
 
 				imagecopyresampled ($temp, $image, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+
+                // restore transparency
+                if($transindex >= 0) {
+                  imagecolortransparent($temp, $transindex);
+                  for($y=0; $y<$height; ++$y)
+                    for($x=0; $x<$width; ++$x)
+                      if(((imagecolorat($temp, $x, $y)>>24) & 0x7F) >= 100) imagesetpixel($temp, $x, $y, $transindex);
+                }
 
 			} else {
 				$temp = imagecreate ($width, $height);

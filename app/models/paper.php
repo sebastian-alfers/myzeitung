@@ -257,7 +257,6 @@ function __construct(){
 
 					App::import('model','ContentPaper');
 					$contentPaper = new ContentPaper();
-
 					$conditions = array('conditions' => array(
 						'ContentPaper.paper_id' => $this->id));
 					if($show_all){
@@ -273,11 +272,10 @@ function __construct(){
 
 
 					$paperReferences = array();
-					$contentPaper->contain('Topic.id' ,'Paper.id', 'Category', 'User.id', 'User.username','User.name','User.image', 'User.Post.id');
+					$contentPaper->contain(array('Topic.id', 'Topic.name' ,'Paper.id', 'Category', 'User' => array('fields' => array('id', 'username', 'name', 'image'), 'order' => array('User.id'))));#, 'User.Post.id'
 					$paperReferences = $contentPaper->find('all', $conditions);
 
-
-					$this->_contentReferences =  $paperReferences;
+                    $this->_contentReferences = $paperReferences;
 				}
 
 				return $this->_contentReferences;

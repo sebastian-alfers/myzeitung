@@ -112,9 +112,8 @@ class ComplaintsController extends AppController {
     }
 
 	function admin_index() {
-		$this->Complaint->recursive = 0;
-
-        $this->paginate = array('Complaint' => array('order'=>'Complaint.id DESC'));
+        $this->paginate = array('Complaint' => array('order'=>'Complaint.id DESC',
+                                'contain' => array('Paper.Route', 'User', 'Paper.Route', 'Post.Route')));
 
 		$this->set('complaints', $this->paginate());
 	}

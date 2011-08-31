@@ -133,8 +133,8 @@ class User extends AppModel {
 			),
 			'description' => array(
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 200),
-					'message'		=> __('Your description can only be 200 characters long.', true),
+					'rule'			=> array('maxlength', 500),
+					'message'		=> __('Your description can only be 500 characters long.', true),
 					'last'			=> true,
 				),
 			),

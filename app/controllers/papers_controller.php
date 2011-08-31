@@ -337,13 +337,13 @@ class PapersController extends AppController {
                 $all = true;
 
                 //not delete of authors here
-                $paper_owner = false;
             }
 
 			$references = array();
 			$references = $this->Paper->getContentReferences($category_id, $all);
 
             $this->set('owner', $paper_owner);
+            $this->set('all', $all);
             $this->set('paper_id', $paper_data['Paper']['id']);
 			$this->set('references', $references);
 

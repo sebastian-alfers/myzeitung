@@ -5,7 +5,7 @@ if(count($references) > 0):
         <?php $reference = $references[$i];  ?>
 
 
-        <?php if($owner): ?>
+        <?php if($owner && !$all): ?>
 	    	<div style="float:left;margin:0 5px 5px 0;"><div id="link-del<?php echo $reference['ContentPaper']['id']; ?>" class="tt-title link-delete">x</div>
         <?php else: ?>
             <div style="float:left;margin:0 5px 5px 0;"><div class="tt-title link-delete"></div>
@@ -20,6 +20,13 @@ if(count($references) > 0):
         $link_data['additional'] = "display:block;";
 		$name = $reference['User']['username'];
 		if(isset($reference['User']['name']) && !empty($reference['User']['name'])) $name.= " (".$reference['User']['name'].")";
+
+        if($reference['Topic']['id']){
+            $name .= '<br />'. __('Topic', true) . ' ' . $reference['Topic']['name'];
+        }
+        else{
+            $name .= '<br />'. __('All Posts', true);
+        }
 
         echo $image->render($reference['User'], 50, 50, array("alt" => $reference['User']['username'], 'title' => $name, 'class' => 'img-paper-user tt-title', 'id' => 'del'. $reference['ContentPaper']['id']), $link_data); ?></div>
 		<?php /* if(!empty($reference['User']['id'])): ?>
@@ -37,7 +44,7 @@ if(count($references) > 0):
 <?php //echo $this->Html->link('< ' . __('Back to Paper', true), array('controller' => 'papers', 'action' => 'view', $paper_id)); ?>
 
 <script>
-$('.tt-title').tipsy({ fade: false, opacity: 1, gravity: 'sw'});
+$('.tt-title').tipsy({ fade: false, opacity: 1, gravity: 'sw', html: true});
 
 function listenHover(element){
     id = $(element).attr('id');

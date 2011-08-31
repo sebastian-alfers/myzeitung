@@ -28,7 +28,7 @@
 					<p><?php echo $this->Html->link( $this->MzText->truncate($user->user_name, 20,array('ending' => '...', 'exact' => true, 'html' => false)), array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))) ?></p>
 
                 <?php else: ?>
-                    <div style="height:20px"></div>
+                    <div style="height:0px"></div>
 				<?php endif; ?>
 			</li>						
 		<?php endif; ?>			

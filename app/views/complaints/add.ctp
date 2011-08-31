@@ -1,4 +1,4 @@
-<div class="complaints form">
+<div class="modal-content">
 <?php echo $this->Form->create('Complaint');?>
     <?php
     if($user_id != null){
@@ -39,4 +39,10 @@
 		echo $this->Form->hidden('complaintstatus_id', array('value' =>  1));
 	?>
 </form>
+</div>
+<div class="modal-buttons">
+    <ul>
+        <li><a href="#" class="btn" onclick="submitComplaintForm();"><span>+</span><?php __('Submit Complain'); ?></a></li>
+        <li><a href="#" class="btn" onclick="$('#dialog-complain').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
+    </ul>
 </div>

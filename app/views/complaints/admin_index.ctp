@@ -17,20 +17,30 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
+
 		<td><?php echo $complaint['Complaint']['id']; ?>&nbsp;</td>
         <?php if(!empty($complaint['Complaint']['paper_id'])): ?>
 		<td>
-			<?php __('Paper:'); echo $this->Html->link($complaint['Paper']['title'], $complain['Route'][0]['source'], array('target' => 'blank'));?>
+            <?php if($complaint['Paper']['id']): ?>
+			    <?php __('Paper:'); echo $this->Html->link($complaint['Paper']['title'], $complaint['Paper']['Route'][0]['source'], array('target' => 'blank'));?>
+            <?php else: ?>
+                <?php __('Paper not available. Deleted?'); ?>
+            <?php endif; ?>
 		</td>
         <?php endif; ?>
         <?php if(!empty($complaint['Complaint']['post_id'])): ?>
 		<td>
-			<?php __('Post:'); echo $this->Html->link($complaint['Post']['title'], $complain['Route'][0]['source'], array('target' => 'blank'));?> 
+            <?php if($complaint['Post']['id']): ?>
+			    <?php __('Post:'); echo $this->Html->link($complaint['Post']['title'], $complaint['Post']['Route'][0]['source'], array('target' => 'blank'));?>
+            <?php else: ?>
+                <?php __('Post not available. Deleted?'); ?>
+            <?php endif; ?>
+
 		</td>
         <?php endif; ?>
         <?php if(!empty($complaint['Complaint']['comment_id'])): ?>
 		<td>
-			<?php __('Comment:'); echo $this->Html->link($complaint['Post']['title'], $complain['Route'][0]['source'].'#comment_'.$complaint['Comment']['id'], array('target' => 'blank'));?>
+			<?php __('Comment:'); echo $this->Html->link($complaint['Post']['title'], $complaint['Route'][0]['source'].'#comment_'.$complaint['Comment']['id'], array('target' => 'blank'));?>
             <?php if(strlen($complaint['Comment']['text']) > 30){
                     echo substr($complaint['Comment']['text'], 0, 30) . ' ...';
                 }
@@ -41,8 +51,9 @@
 		</td>
         <?php endif; ?>
         <?php if(!empty($complaint['Complaint']['user_id'])): ?>
+
 		<td>
-			<?php __('User:'); echo $this->Html->link($complaint['User']['username'], array('controller' => 'users','action' => 'view', 'username' => strtolower($complaint['User']['username']), array('target' => 'blank') ));?>
+			<?php __('User:'); echo $this->Html->link($complaint['User']['username'], array('controller' => 'users','action' => 'view', 'username' => strtolower($complaint['User']['username']), 'admin' => false), array('target' => 'blank'));?>
 		</td>
         <?php endif; ?>
 		<td><?php
