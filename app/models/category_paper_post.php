@@ -76,23 +76,18 @@ class CategoryPaperPost extends AppModel {
         //get all content_associations from any user/topic to any paper/category
         $allContentData = $this->ContentPaper->find('all');
 
-        debug($allContentData);
     }
 
     function updateCounterCache($keys = array(), $created = false){
         $keys = empty($keys) ? $this->data[$this->alias] : $keys;
-        debug($keys);
         //update paper
         $count = $this->find('count',array('conditions' => array('CategoryPaperPost.paper_id' => $keys['paper_id']),'fields' => 'distinct CategoryPaperPost.post_id'));
         $this->Paper->id = $keys['paper_id'];
         $this->Paper->saveField('post_count', $count, array('callbacks' => 0, 'validate' => 0));
-        debug($count);
 
         //update category
         if(isset($keys['category_id']) && !empty($keys['category_id'])){
-            debug('cat');
             $count = $this->find('count',array('conditions' => array('CategoryPaperPost.category_id' => $keys['category_id']),'fields' => 'distinct CategoryPaperPost.post_id'));
-            debug($count);
             $this->Category->id = $keys['category_id'];
             $this->Category->saveField('post_count', $count, array('callbacks' => 0, 'validate' => 0));
         }
