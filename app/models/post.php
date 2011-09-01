@@ -186,6 +186,9 @@ class Post extends AppModel {
         $this->Inflector = ClassRegistry::init('Inflector');
         $routeUsername = strtolower($user['User']['username']);
         $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
+        if(empty($routeTitle)){
+            $routeTitle = 'article';
+        }
         $routeString = '/a/'.$routeUsername.'/'.$routeTitle;
 
         //check if such a route does already exist
