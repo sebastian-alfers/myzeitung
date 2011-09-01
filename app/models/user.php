@@ -452,13 +452,12 @@ class User extends AppModel {
         App::import('model','Comment');
         $this->Comment = new Comment();
 
-        // reading all comments of the deleted user and reseting the user_id to null
-        // "comment from -deleted user-"
+        // reading all comments of the deleted user and calling custom delete method. see in comments model
         $this->Comment->contain();
         $comments = $this->Comment->findAllByUser_id($this->id);
         foreach($comments as $comment){
-            $comment['Comment']['user_id']= null;
-            $this->Comment->save($comment);
+            $this->Comment->id = $comment['Comment']['id'];
+            $this->Comment->delete($comment['Comment']['id']);
         }
 
         App::import('model','ConversationMessage');
@@ -644,7 +643,7 @@ class User extends AppModel {
 
         $this->Topic->contain();
         $topics = $this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
-        $this->log($conditions);
+
 
         foreach($topics as $topid_id => $topic_name){
             $conditions = array('conditions' => array('ContentPaper.topic_id' => $topid_id));
@@ -688,7 +687,6 @@ class User extends AppModel {
 
     function afterDelete(){
         $this->deleteFromSolr();
-        $this->deleteRoutes();
     }
 
     /**

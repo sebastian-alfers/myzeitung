@@ -90,6 +90,30 @@ class Comment extends AppModel {
         return false;
     }
 
+    // if the comment has no children its gonna be deleted,
+    // if it has children its just gonna be "deactivated" ... the contents gonna be deleted.
+    function delete($id){
+        if(isset($id) && !empty($id)){
+            $this->id = $id;
+        }
+        if($this->id){
+            if($this->childCount() == 0){
+                if(parent::delete($this->id, false)){
+                    return true;
+                }
+            }else{
+                $data = array();
+                $data['Comment']['user_id'] = null;
+                $data['Comment']['text'] = '';
+                if($this->save($data, array('fieldList' => array('user_id', 'text')))){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
 
 }
 ?>

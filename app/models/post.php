@@ -647,7 +647,6 @@ class Post extends AppModel {
 
         }
 
-
         $solrFields = array();
         $solrFields['id'] = $this->data['Post']['id'];
         $solrFields['post_title'] = $this->data['Post']['title'];

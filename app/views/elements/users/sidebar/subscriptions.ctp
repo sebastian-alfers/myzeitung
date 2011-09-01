@@ -2,7 +2,7 @@
 if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'){
     $paginator->options(array('url'=> array('controller' => 'users',
                                             'action' => 'viewSubscriptions',
-                                            'username' => $this->params['username']) ,
+                                            'username' => strtolower($this->params['username'])) ,
                                                                                 )
 
     );

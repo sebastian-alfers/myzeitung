@@ -192,9 +192,12 @@ class PostUser extends AppModel {
             private function _unpublishFromPapersOrCategories(){
                 App::import('model','CategoryPaperPost');
                 $this->CategoryPaperPost = new CategoryPaperPost();
+                debug($this->id);
 
                 $this->CategoryPaperPost->contain();
-                $this->CategoryPaperPost->deleteAll(array('post_user_id' => $this->id),false, true);
+                if($this->CategoryPaperPost->deleteAll(array('post_user_id' => $this->id),false, true)){
+                    debug('success');
+                }
 
             }
 

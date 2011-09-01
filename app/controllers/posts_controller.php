@@ -179,10 +179,10 @@ class PostsController extends AppController {
 		$this->Comment->contain('User.username','User.id','User.image', 'User.name');
 		//'threaded' gets also the replies (children) and children's children etc. (for tree behavior. not sure if for not-tree also)
 		$comments = $this->Comment->find('threaded',array(
-										'conditions' => array('Comment.post_id' => $id,
-                                                                'Comment.enabled' => true),
+										'conditions' => array('Comment.post_id' => $id),
+                                                                //'Comment.enabled' => true),
 										'order'=>array('created DESC'),
-										'fields' => array('id','user_id','post_id','parent_id','text','created')));
+										'fields' => array('enabled', 'id','user_id','post_id','parent_id','text','created')));
 
 
 
@@ -192,7 +192,6 @@ class PostsController extends AppController {
         $this->set('post', $post);
 		$this->set('user', $user);
 		$this->set('comments',$comments);
-        
 
 	}
 

@@ -547,17 +547,17 @@ class PapersController extends AppController {
 	function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for paper', true));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect($this->referer());
 		}
         $this->Paper->contain();
         $paper =  $this->Paper->read(array('id','owner_id'), $id);
         if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
             if ($this->Paper->delete($id, true)) {
                 $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
-                $this->redirect(array('action'=>'index'));
+                $this->redirect(array('controller' => 'users', 'action'=>'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username'))));
             }
             $this->Session->setFlash(__('Paper was not deleted', true));
-            $this->redirect(array('action' => 'index'));
+            $this->redirect($this->referer());
         } else {
             $this->Session->setFlash(__('The Paper does not belong to you.', true));
             $this->redirect($this->referer());

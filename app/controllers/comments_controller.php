@@ -39,7 +39,7 @@ class CommentsController extends AppController {
 			$this->data['Comment']['user_id'] = $this->Session->read('Auth.User.id');
 
 			$this->data['Comment']['post_id'] = $_POST['post_id'];
-			
+
 			if(isset($_POST['parent_id']) && !empty($_POST['parent_id'])){
 				$this->data['Comment']['parent_id'] = $_POST['parent_id'];	
 			}
@@ -59,6 +59,7 @@ class CommentsController extends AppController {
 				$current_comment['Comment']['post_id']  = $this->data['Comment']['post_id'];
 				$current_comment['Comment']['reply_id'] = $this->Comment->id;
                 $current_comment['Comment']['user_id'] = $this->Session->read('Auth.User.id');
+                $current_comment['Comment']['enabled'] = true;
 
                 $this->_sendCommentEmail($this->data);
 
@@ -112,7 +113,7 @@ class CommentsController extends AppController {
 		}
 		
 		
-		if ($this->Comment->delete($id, true)) {
+		if ($this->Comment->delete($id)) {
 			$this->Session->setFlash(__('Comment deleted', true), 'default', array('class' => 'success'));
 			$this->redirect($this->referer());
 		}

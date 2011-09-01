@@ -192,7 +192,6 @@ class ContentPaper extends AppModel {
     }
     function updateCounterCache($keys = array(), $created = false){
         $keys = empty($keys) ? $this->data[$this->alias] : $keys;
-        debug($keys);
 
         //update user
         $count = $this->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.user_id' => $keys['user_id']),'fields' => 'distinct ContentPaper.paper_id'));

@@ -91,7 +91,7 @@
 			<?php echo $user['User']['repost_count']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Comment Count'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __( 'Comment Count'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $user['User']['comment_count']; ?>
 			&nbsp;
