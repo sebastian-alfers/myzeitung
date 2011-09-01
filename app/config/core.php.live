@@ -49,8 +49,8 @@ Configure::write('debug', 0);
 
 
 //         env
-Configure::write('Hosting.environment.local', true);
-Configure::write('Hosting.environment.live', false);
+Configure::write('Hosting.environment.local', false);
+Configure::write('Hosting.environment.live', true);
 
 
 /**
