@@ -100,13 +100,14 @@ class ConversationsController extends AppController {
 					//$this->Session->setFlash(__('The Message has been sent', true), 'default', array('class' => 'success'));
 
 					//update ConversationUser Status for recipients of the reply to "new message"
-					$this->ConversationUser->contain();
+					$this->ConversationUser->contain('User.enabled');
 					$recipients = $this->ConversationUser->findAllByConversationId($conversation_id);
+                    $this->log($recipients);
 					foreach($recipients as $recipient){
 						//change status only for recipients - not for author of the reply
-						if($recipient['ConversationUser']['user_id'] != $this->Auth->user('id')){
+						if($recipient['ConversationUser']['user_id'] != $this->Auth->user('id') && $recipient['User']['enabled']){
 							if($recipient['ConversationUser']['user_id']){
-								//active users get status : new message
+								//active (not deleted) users get status : new message
 								$recipient['ConversationUser']['status'] = Conversation::STATUS_NEW;
                                  //send email to recipient
 

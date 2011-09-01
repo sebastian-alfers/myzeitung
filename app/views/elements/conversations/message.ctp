@@ -23,7 +23,13 @@ if(isset($id) && !empty($id)){
         <li class="is-answer">
         </li>
         <li class="message-info">
-            <p class="from"><?php echo __("from", true);?>&nbsp;<?php echo $this->Html->link('<strong>'.$message['User']['username'].'</strong>'.$message['User']['name'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($message['User']['username'])), array('escape' => false));?>
+            <?php if(empty($message['User']['id'])):$message['User']['username'] = __('deleted user', true); endif;?>
+            <p class="from"><?php echo __("from", true);?>&nbsp;
+                <?php if($message['User']['id']):?>
+                    <?php echo $this->Html->link('<strong>'.$message['User']['username'].'</strong>'.$message['User']['name'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($message['User']['username'])), array('escape' => false));?>
+                <?php else:?>
+                    <?php echo '<strong>'.$message['User']['username'].'</strong>';?>
+                <?php endif;?>
 
             <p class="message-content"><?php echo $message['ConversationMessage']['message'];?></p>
         </li>
