@@ -1,4 +1,4 @@
-<?php $postUrl = $this->Html->url(array('controller' => 'posts', 'action' => 'view', $post['Post']['id']),true);?>
+<?php $postUrl = $this->Html->url($post['Route'][0]['source'],true);?>
 <?php echo __('Your following post has been commented:',true);?><?php echo " ".$post['Post']['title']."\n\n";?>
 <?php echo $this->MzTime->format('d.m.y G:i', $comment['Comment']['created'])." ".$commentator['User']['username']."\n";?>
 <?php echo $comment['Comment']['text']."\n\n";?>

@@ -102,20 +102,19 @@ class TopicsController extends AppController {
             if(empty($this->data)){
                 //read, how often a user is subscribe with all of his posts
                 $this->ContentPaper->contain('Paper');
-                $data = $this->ContentPaper->find('all', array('conditions' => array('ContentPaper.topic_id' => NULL, 'ContentPaper.user_id' => $topic['Topic']['user_id'])));
-
+                $count = $this->ContentPaper->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.user_id' => $topic['Topic']['user_id']),'fields' => 'distinct ContentPaper.paper_id'));
+                
                 //show comprehension and confirm page
-                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('topic' => $topic, 'whole_user_in_paper_count' => count($data))));
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('topic' => $topic, 'whole_user_in_paper_count' => $count)));
             }
             else{
                 // second param = cascade -> delete associated records from hasmany , hasone relations
                 if ($this->Topic->delete($id, true)) {
-                    debug($id);
-                    die('aaa');
+
                     $this->Session->setFlash(__('Topic deleted', true), 'default', array('class' => 'success'));
                     $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
                 }
-                die('bbb');
+
                 $this->Session->setFlash(__('Topic was not deleted', true));
             }
 

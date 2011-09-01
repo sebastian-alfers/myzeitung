@@ -410,6 +410,9 @@ function __construct(){
         $this->Inflector = ClassRegistry::init('Inflector');
         $routeUsername = strtolower($user['User']['username']);
         $routeTitle= strtolower($this->Inflector->slug($this->data['Paper']['title'],'-'));
+        if(empty($routeTitle)){
+            $routeTitle = 'paper';
+        }
         $routeString = '/p/'.$routeUsername.'/'.$routeTitle;
 
         //check if such a route does already exist

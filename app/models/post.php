@@ -186,6 +186,9 @@ class Post extends AppModel {
         $this->Inflector = ClassRegistry::init('Inflector');
         $routeUsername = strtolower($user['User']['username']);
         $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
+        if(empty($routeTitle)){
+            $routeTitle = 'article';
+        }
         $routeString = '/a/'.$routeUsername.'/'.$routeTitle;
 
         //check if such a route does already exist
@@ -611,7 +614,6 @@ class Post extends AppModel {
         } else {
             //update PostUser-Entry - but ONLY IF the topic_id has changed
             if($this->topicChanged){
-
                 //delete old entry -> important for deleting all data-associations (from old topic)
                 $this->PostUser->contain();
                 // params 1. conditions 2. cascading 3. callbacks
@@ -621,6 +623,9 @@ class Post extends AppModel {
                 $this->PostUser->create();
                 //keep the old created date - to prevent the post to be more up to date
                 $PostUserData['created'] = $this->data['Post']['created'];
+                $PostUserData['user_id'] = $this->data['Post']['user_id'];
+                $PostUserData['post_id'] = $this->data['Post']['id'];
+                $PostUserData['repost'] = false;
                 if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] != PostsController::NO_TOPIC_ID){
                     $PostUserData['topic_id'] = $this->data['Post']['topic_id'];
                 }

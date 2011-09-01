@@ -110,18 +110,19 @@ class PostUser extends AppModel {
     
     function updateCounterCache($keys = array(), $created = false){
         $keys = empty($keys) ? $this->data[$this->alias] : $keys;
-
-        //update post
-        $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => true, 'PostUser.post_id' => $keys['post_id'])));
-        $this->Post->id = $keys['post_id'];
-        $this->Post->saveField('repost_count', $count_reposts, array('callbacks' => 0, 'validate' => 0));
-
-        //update user
-        $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.user_id' => $keys['user_id'])));
-        $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.user_id' => $keys['user_id'])));
-        $this->User->id = $keys['user_id'];
-        $this->User->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
-
+        if(isset($keys['post_id']) && !empty($keys['post_id'])){
+            //update post
+            $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => true, 'PostUser.post_id' => $keys['post_id'])));
+            $this->Post->id = $keys['post_id'];
+            $this->Post->saveField('repost_count', $count_reposts, array('callbacks' => 0, 'validate' => 0));
+        }
+        if(isset($keys['user_id']) && !empty($keys['user_id'])){
+            //update user
+            $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.user_id' => $keys['user_id'])));
+            $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.user_id' => $keys['user_id'])));
+            $this->User->id = $keys['user_id'];
+            $this->User->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
+        }
         //update topic
         if(isset($keys['topic_id']) && !empty($keys['topic_id'])){
             $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.topic_id' => $keys['topic_id'])));
@@ -143,9 +144,9 @@ class PostUser extends AppModel {
                 App::import('model','ContentPaper');
                 $this->ContentPaper = new ContentPaper();
                 //read all subscriptions for the PostUser entry
-                //post posted into a topic:
-                //post needs to be published everywhere, where the whole user (topic = null) or the specific topic is subscribed
                 if(isset($this->data['PostUser']['topic_id']) && !empty($this->data['PostUser']['topic_id'])){
+                    //post posted into a topic:
+                    //post needs to be published everywhere, where the whole user (topic = null) or the specific topic is subscribed
                     $conditions = array('OR' => array(
                         //user_id and topic=Null
                                                  array('user_id' => $this->data['PostUser']['user_id'],
@@ -192,13 +193,8 @@ class PostUser extends AppModel {
             private function _unpublishFromPapersOrCategories(){
                 App::import('model','CategoryPaperPost');
                 $this->CategoryPaperPost = new CategoryPaperPost();
-                debug($this->id);
-
                 $this->CategoryPaperPost->contain();
-                if($this->CategoryPaperPost->deleteAll(array('post_user_id' => $this->id),false, true)){
-                    debug('success');
-                }
-
+                $this->CategoryPaperPost->deleteAll(array('post_user_id' => $this->id),false, true);
             }
 
 				/*
@@ -399,25 +395,28 @@ class PostUser extends AppModel {
 
 
         foreach($posts as $post){
-            //check if active non-repost post-user entry is found
-            //collect all reposts to renew the reposters array (just in case...)
-                $activePostUserEntryFound = false;
-                $reposters = array();
-                if(isset($post['PostUser']) && count($post['PostUser']) >0){
-                    foreach($post['PostUser'] as $postUserEntry){
-                        if($postUserEntry['repost'] == false){
-                            if($postUserEntry['enabled'] == false){
-                                $this->id = $postUserEntry['id'];
-                                $this->data = array('PostUser' => $postUserEntry);
-                                $this->enabled();
-                            }
-                            $activePostUserEntryFound = true;
-                        }else{
-                            //save reposter to temp reposters array
-                            $reposters[] = $postUserEntry['user_id'];
+        //check if active non-repost post-user entry is found
+        //collect all reposts to renew the reposters array (just in case...)
+            $activePostUserEntryFound = false;
+            $reposters = array();
+            if(isset($post['PostUser']) && count($post['PostUser']) >0){
+                foreach($post['PostUser'] as $postUserEntry){
+                    if($postUserEntry['repost'] == false){
+                        if($postUserEntry['enabled'] == false){
+                            $this->id = $postUserEntry['id'];
+                            $this->data = array('PostUser' => $postUserEntry);
+                            $this->enable();
                         }
+
+                        $activePostUserEntryFound = true;
+
+                    }else{
+                        //save reposter to temp reposters array
+                        $reposters[] = $postUserEntry['user_id'];
                     }
                 }
+            }
+
             //write a post-user entry for the post (not a repost) if none was found
             if(!$activePostUserEntryFound){
                 $postUserData['PostUser']['post_id'] = $post['Post']['id'];
@@ -426,17 +425,16 @@ class PostUser extends AppModel {
                 $postUserData['PostUser']['enabled'] = true;
                 $postUserData['PostUser']['repost'] = false;
                 $postUserData['PostUser']['created'] = $post['Post']['created'];
+                $this->create();
                 $this->save($postUserData);
             }
-            if(count($reposters) > 0){
-                $this->log($reposters);
-            }
+
             $reposters = serialize($reposters);
 
             //renew the reposters array if necessary
             if($reposters != $post['Post']['reposters']){
                 $post['Post']['reposters'] = $reposters;
-                $this->Post->save($post);
+                $this->Post->save($post, false);
             }
 
         }

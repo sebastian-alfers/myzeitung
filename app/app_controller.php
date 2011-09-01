@@ -215,7 +215,11 @@ class AppController extends Controller {
 			'add' => $this->user,
 			'ajxAdd' => $this->user,
 			'ajxGetForm' => $this->user,
-			'delete' => $this->user
+			'delete' => $this->user,
+            'admin_disable' => $this->admin,
+            'admin_enable' => $this->admin,
+            'admin_index' => $this->admin,
+            'admin_delete' => $this->superadmin,
 			),
 		'install' => array(
 			'index' => $this->superadmin,

@@ -145,6 +145,75 @@ class CommentsController extends AppController {
 
 
      }
+    function admin_index() {
+        $this->paginate = array('contain' => array('User.id', 'User.username', 'Post', 'Post.Route'));
+		$this->set('comments', $this->paginate());
+	}
+
+    function admin_delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for comment', true));
+			$this->redirect($this->referer());
+		}
+        // second param = cascade -> delete associated records from hasmany , hasone relations
+        if ($this->Comment->delete($id, true)) {
+            $this->Session->setFlash(__('Comment deleted', true), 'default', array('class' => 'success'));
+          //  $this->redirect(array('controller' => 'users',  'action' => 'view',  $this->Session->read('Auth.User.id')));
+        $this->redirect($this->referer());
+        }
+        $this->Session->setFlash(__('Comment was not deleted', true));
+        $this->redirect($this->referer());
+
+    }
+    function admin_disable($comment_id){
+        $this->Comment->contain();
+        $comment = $this->Comment->read(null, $comment_id);
+        if(isset($comment['Comment']['id']) && !empty($comment['Comment']['id'])){
+            if($comment['Comment']['enabled'] == false){
+                $this->Session->setFlash('This comment is already disabled');
+                $this->redirect($this->referer());
+            }else{
+                if($this->Comment->disable()){
+                    $this->Session->setFlash('Comment has been disabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+                }else{
+                    $this->Session->setFlash('This comment could not be disabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid comment');
+            $this->redirect($this->referer());
+
+        }
+    }
+    function admin_enable($comment_id){
+        $this->Comment->contain('User');
+        $comment = $this->Comment->read(null, $comment_id);
+        if(isset($comment['Comment']['id']) && !empty($comment['Comment']['id'])){
+            if($comment['Comment']['enabled'] == true){
+                $this->Session->setFlash('This comment is already enabled');
+                $this->redirect($this->referer());
+            }else{
+                if($comment['User']['enabled'] == false){
+                    $this->Session->setFlash('The User that created the comment is disabled. You cannot enable this comment.');
+                    $this->redirect($this->referer());
+                }
+                if($this->Comment->enable()){
+                    $this->Session->setFlash('Comment has been enabled successfully','default', array('class' => 'success'));
+                    $this->redirect($this->referer());
+
+                }else{
+                    $this->Session->setFlash('This Comment could not be enabled. Please try again.');
+                    $this->redirect($this->referer());
+                }
+            }
+        }else{
+            $this->Session->setFlash('Invalid Comment');
+            $this->redirect($this->referer());
+
+        }
+    }
 	
 }
 ?>
