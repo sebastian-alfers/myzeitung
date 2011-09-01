@@ -310,27 +310,31 @@ $(document).ready(function() {
         autoOpen: false
     });
 
-	$(".repost").click(function(e){
-        e.preventDefault();
-
-        var post_id = $(this).attr('id');
-        var req = $.post(base_url + '/topics/getTopics.json', {post_id: post_id})
-           .success(function( string ){
-                if(string.status == 'success'){
-                    $( '#dialog-repost-chosse-topic-content').html(string.data);
-                }
-                else{
-                    //alert(string.status);
-                }
-           })
-           .error(function(){
-               //alert('error');
-        });
-
-        $( "#dialog-repost-chosse-topic").dialog('open');
-
-        //stop browser of performing default action
-        return false;
-	});
 
 });
+
+
+    function observeRepost(){
+        $(".repost").click(function(e){
+            e.preventDefault();
+
+                var post_id = $(this).attr('id');
+                var req = $.post(base_url + '/topics/getTopics.json', {post_id: post_id})
+                   .success(function( string ){
+                        if(string.status == 'success'){
+                            $( '#dialog-repost-chosse-topic-content').html(string.data);
+                        }
+                        else{
+                            //alert(string.status);
+                        }
+                   })
+                   .error(function(){
+                       //alert('error');
+                });
+
+                $( "#dialog-repost-chosse-topic").dialog('open');
+
+                //stop browser of performing default action
+                return false;
+            });
+        }
