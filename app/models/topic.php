@@ -64,6 +64,7 @@ class Topic extends AppModel {
 	);
 	
 	function beforeDelete(){
+
 		App::import('model','Post');
 		$this->Post = new Post();
 		$this->Post->Contain();

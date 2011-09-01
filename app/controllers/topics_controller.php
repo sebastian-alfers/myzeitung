@@ -6,7 +6,7 @@ class TopicsController extends AppController {
 
     var $helpers = array('Form');
 
-    var $uses = array('Topic', 'JsonResponse');
+    var $uses = array('Topic', 'JsonResponse', 'ContentPaper');
 	
 	var $autoRender=false;
 	
@@ -84,8 +84,13 @@ class TopicsController extends AppController {
 	function delete($id = null) {
 
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid Topic-id', true));
-			$this->redirect($this->referer());
+            if(isset($this->data['Topic']['id']) && !empty($this->data['Topic']['id'])){
+                $id = $this->data['Topic']['id'];
+            }
+            else{
+                $this->Session->setFlash(__('Invalid Topic-id', true));
+                $this->redirect($this->referer());
+            }
 		}
         $this->Topic->contain('User.id');
         $topic =  $this->Topic->read(array('id','user_id', 'post_count', 'repost_count', 'subscriber_count', 'name'), $id);
@@ -96,24 +101,27 @@ class TopicsController extends AppController {
             //check, if user really wants to delte
             if(empty($this->data)){
                 //read, how often a user is subscribe with all of his posts
-                //$data = $this->User->find('all', array('conditions' => array()))
+                $this->ContentPaper->contain('Paper');
+                $data = $this->ContentPaper->find('all', array('conditions' => array('ContentPaper.topic_id' => NULL, 'ContentPaper.user_id' => $topic['Topic']['user_id'])));
 
                 //show comprehension and confirm page
-                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('topic' => $topic)));
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('topic' => $topic, 'whole_user_in_paper_count' => count($data))));
             }
             else{
-                die('delete now');
                 // second param = cascade -> delete associated records from hasmany , hasone relations
                 if ($this->Topic->delete($id, true)) {
+                    debug($id);
+                    die('aaa');
                     $this->Session->setFlash(__('Topic deleted', true), 'default', array('class' => 'success'));
                     $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
                 }
+                die('bbb');
                 $this->Session->setFlash(__('Topic was not deleted', true));
             }
 
             //$this->redirect($this->referer());
         } else {
-            $this->Session->setFlash(__('The Topic does not belong to you.', true));
+            $this->Session->setFlash(__('No permission', true));
             $this->redirect($this->referer());
         }
         $this->render('delete');
