@@ -22,29 +22,35 @@
  */
 
 
-/* set environment */
-Configure::write('Hosting.environment.local', false);
-Configure::write('Hosting.environment.staging', false);
+Cache::config('default', array(
+   'engine' => 'Memcache', //[required]
+   'duration'=> 3600, //[optional]
+   'probability'=> 100, //[optional]
+   'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+   'servers' => array(
+       '127.0.0.1:11211' // localhost, default port 11211
+   ), //[optional]
+   'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
+   ));
+//Cache::config('default', array('engine' => 'File'));
+
+//         SOLR
+Configure::write('Solr.enable', true);
+Configure::write('Solr.port', 8080);
+Configure::write('Solr.host', 'localhost');
+
+//         cache
+Configure::write('Cache.save_handler', 'memcache');//file
+Configure::write('Session.save', 'php');//
+
+//         debug
+Configure::write('debug', 0);
+
+
+
+//         env
+Configure::write('Hosting.environment.local', true);
 Configure::write('Hosting.environment.live', false);
-
-$envs = array('local', 'staging', 'live');
-
-//check to see if server name is set via vhost config in apache
-if(!isset($_SERVER['APPLICATION_ENV']) || empty($_SERVER['APPLICATION_ENV']) || !in_array($_SERVER['APPLICATION_ENV'], $envs)){
-	$_SERVER['APPLICATION_ENV'] = 'local';
-}
-
-
-
-switch($_SERVER['APPLICATION_ENV']){
-	case 'local':
-		Configure::write('Hosting.environment.local', true);
-		break;
-
-	case 'live':
-		Configure::write('Hosting.environment.live', true);
-		break;
-}
 
 
 /**
@@ -227,24 +233,9 @@ Configure::write('Acl.database', 'default');
  */
 date_default_timezone_set('Europe/Berlin');
 
-switch(Configure::read('Cache.save_handler')){
-    case 'memcache':
-         Cache::config('default', array(
-            'engine' => 'Memcache', //[required]
-            'duration'=> 3600, //[optional]
-            'probability'=> 100, //[optional]
-            'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
-            'servers' => array(
-                ':' // localhost, default port 11211
-            ), //[optional]
-            'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
-        ));
-    case 'memcache':
-    default:
-        Cache::config('default', array('engine' => 'File'));
-}
-
 
 Configure::write('Config.language', 'deu');
 
 define('CAKE_ADMIN', 'admin');
+
+

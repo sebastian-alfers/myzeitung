@@ -51,26 +51,3 @@
 
 
 //define('DEFAULT_LANGUAGE', 'deu');
-
-$boot_settings = Cache::read('Core');
-
-if(empty($boot_settings)){
-    App::Import('Model', 'Setting');
-    $sett = new Setting();
-    $sett->contain();
-
-    //only settings in core namespace are needed for bootstrap
-    $settings = $sett->find('all', array('conditions' => array('Setting.namespace' => 'Core'), 'fields' => 'Setting.key, Setting.value'));
-    foreach($settings as $setting){
-        $boot_settings[$setting['Setting']['key']] = $setting['Setting']['value'];
-    }
-    Cache::write('Core', $boot_settings);
-}
-
-foreach($boot_settings as $key => $value){
-    Configure::write($key, $value);
-}
-
-
-
-

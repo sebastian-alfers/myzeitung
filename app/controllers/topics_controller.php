@@ -96,7 +96,7 @@ class TopicsController extends AppController {
             //check, if user really wants to delte
             if(empty($this->data)){
                 //read, how often a user is subscribe with all of his posts
-                $data = $this->User->find('all', array('conditions' => array()))
+                //$data = $this->User->find('all', array('conditions' => array()))
 
                 //show comprehension and confirm page
                 $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success(array('topic' => $topic)));

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<!--[if IE 6 ]><html class="xp ie ielt9 ielt8 ielt7 ie6" lang="de-DE"><![endif]-->
+<!--[if IE 7 ]><html class="xp ie ielt9 ielt8 ie7" lang="de-DE"><![endif]-->
+<!--[if IE 8 ]><html class="xp ie ielt9 ie8" lang="de-DE"><![endif]-->
+<!--[if IE 9 ]><html class="xp ie ie9" lang="de-DE"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html lang="de-DE"><!--<![endif]-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Schlank und schnell: Mehrbenutzereditor Etherpad Lite 1.0 ver&ouml;ffentlicht - Golem.de</title>
+<meta name="title" content="Schlank und schnell: Mehrbenutzereditor Etherpad Lite 1.0 ver&ouml;ffentlicht - Golem.de">
+<meta name="description" content="Die Etherpad Foundation hat den von Google als Open Source veröffentlichten Mehrbenutzereditor Etherpad fast komplett neu geschrieben und Etherpad Lite 1.0 veröffentlicht. Es basiert auf Node.">
+<link rel="image_src" href="http://www.golem.de/1108/86036-19764-i.png">
+<meta property="og:title" content="Schlank und schnell: Mehrbenutzereditor Etherpad Lite 1.0 ver&ouml;ffentlicht - Golem.de"/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="http://www.golem.de/1108/86036.html"/>
+<meta property="og:image" content="http://www.golem.de/1108/86036-19764-i.png"/>
+<meta property="og:description" content="Die Etherpad Foundation hat den von Google als Open Source veröffentlichten Mehrbenutzereditor Etherpad fast komplett neu geschrieben und Etherpad Lite 1.0 veröffentlicht. Es basiert auf Node."/>
+<meta name="application-name" content="Golem.de">
+<meta name="msapplication-task" content="name=Homepage;action-uri=http://www.golem.de;icon-uri=http://www.golem.de/favicon.ico">
+<meta name="msapplication-task" content="name=Ticker;action-uri=http://www.golem.de/ticker/;icon-uri=http://www.golem.de/favicon.ico">
+<meta name="msapplication-task" content="name=Facebook;action-uri=http://www.facebook.com/golem;icon-uri=http://www.golem.de/_img/facebook_16.ico">
+<meta name="msapplication-task" content="name=Twitter;action-uri=http://twitter.com/GolemRedaktion;icon-uri=http://www.golem.de/_img/twitter_16.ico">
+<link rel="alternate" type="application/rss+xml" title="Golem.de RSS Feed" href="http://rss.golem.de/rss.php?feed=RSS1.0">
+<link rel="alternate" type="application/atom+xml" title="Golem.de ATOM Feed" href="http://rss.golem.de/rss.php?feed=ATOM1.0">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="54x54" href="/apple-touch-icon-54x54.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+
+<script type="text/javascript">
+<!--
+if(!Golem) {
+    var Golem = {};
+}
+if(!Golem.Ad) {
+    Golem.Ad = {};
+}
+ord = Math.random()*10000000000000000;
+if ((navigator.userAgent.search(/Windows NT 5\.[012]/i) > 0)) {
+    document.getElementsByTagName('html')[0].className+=' xp';
+}
+//-->
+</script>
+
+<link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic|Droid+Sans:regular,bold|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/staticrl/styles/golem_main_23-min.css" type="text/css">
+
+
+<script type="text/javascript" src="/staticrl/scripts/golem_article_28-min.js"></script>
+
+<script type="text/javascript">
+<!--
+Golem.CurrentArticle.idArticle = '86036';
+//-->
+</script>
+<script type="text/javascript">
+<!--
+var gafc_rubrik = '2374577038';
+var gafc_zone = '3410169894';
+//-->
+</script>
+</head>
+<body class="article">
+    <div class="golemContentToHide">
+<!-- IVW VERSION="1.4" -->
+<script type="text/javascript"> <!--
+ var IVW="http://golem.ivwbox.de/cgi-bin/ivw/CP/G_APPS";
+ document.write("<IMG SRC=\"" + IVW + "?r=" + escape(document.referrer) + "&d=" + (Math.random()*100000) + "\" WIDTH=\"1\" HEIGHT=\"1\" ALT=\"\">");
+// -->
+</script>
+<noscript>
+   <img src="http://golem.ivwbox.de/cgi-bin/ivw/CP/G_APPS?d=1314613185" width="1" height="1" alt="">
+</noscript>
+<!-- /IVW -->
+<!-- SZMFRABO VERSION="1.1" -->
+<script type="text/javascript">
+var szmvars="golem//CP//G_APPS";
+</script>
+<script type="text/javascript" src="http://golem.ivwbox.de/2004/01/survey.js">
+</script>
+<!-- /SZMFRABO -->
+<!-- BT -->
+<script type="text/javascript">
+  var n_pbt = "";
+</script>
+<script type="text/javascript" src="http://gwp.nuggad.net/rc?nuggn=223088769&amp;nuggsid=2088753725&amp;nuggtg=G_APPS">
+</script>
+<!-- /BT -->
+<div id="bannerTopWrapper">
+<div class="iqdSiteAlign">
+<div id="superbanner">
+<!-- begin ad tag (tile=1) -->
+<div id="iqadtile1gol">
+<script type="text/javascript">
+//<![CDATA[
+document.write('<script type="text/javascript" src="http://ad.de.doubleclick.net/adj/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=728x90;tile=1;dcopt=ist;' + n_pbt + ';ord=' + ord + '?"></scr' + 'ipt>');
+//]]>
+</script>
+<noscript><a href="http://ad.de.doubleclick.net/jump/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=728x90;tile=1;ord=1314613185?" target="_blank" ><img src="http://ad.de.doubleclick.net/ad/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=728x90;tile=1;ord=1314613185?" style="border:0;" alt="" /></a></noscript>
+</div>
+<!-- end ad tag (tile=1) -->
+
+<div id="skyscraper">
+<!-- begin ad tag (tile=2) -->
+<div id="iqadtile2gol">
+<script type="text/javascript">
+//<![CDATA[
+document.write('<script type="text/javascript" src="http://ad.de.doubleclick.net/adj/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=120x600;tile=2;' + n_pbt + ';ord=' + ord + '?"></scr' + 'ipt>');
+//]]>
+</script>
+<noscript><a href="http://ad.de.doubleclick.net/jump/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=120x600;tile=2;ord=1314613185?" target="_blank" ><img src="http://ad.de.doubleclick.net/ad/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=120x600;tile=2;ord=1314613185?" style="border:0;" alt="" /></a></noscript>
+</div>
+<!-- end ad tag (tile=2) -->
+</div><!-- skyscraper --> 
+</div><!-- superbanner -->
+
+</div>
+</div><div id="grandwrapper">
+<header id="header">
+    <div class="dh1">
+        <a href="http://www.golem.de/"><img alt="Golem.de - IT-News f&uuml;r Profis" src="/staticrl/images/logo.png" /></a>
+    </div>
+    
+    <nav id="header-nav-1">
+        <div class="implied">Navigation</div>
+        <ul>
+            <li><a href="http://www.golem.de/">Home</a></li>
+            <li><a href="http://www.golem.de/ticker/">Ticker</a></li>
+        </ul>
+    </nav><!-- #header-nav-1 -->  
+    <nav id="header-nav-2">
+        <div class="dh2">Top-Themen:</div>
+<ul>
+    <li><a href="http://www.golem.de/specials/gamescom/">Gamescom</a></li>
+    <li><a href="http://www.golem.de/specials/google-plus/">Google+</a></li>
+    <li><a href="http://www.golem.de/specials/facebook/">Facebook</a></li>
+    <li><a href="http://www.golem.de/specials/test/">Test</a></li>
+    <li><a href="http://www.golem.de/specials/windows7/">Windows 7</a></li>
+    <li><a href="http://www.golem.de/specials/firefox/">Firefox</a></li>
+    <li><a href="http://www.golem.de/specials/security/">Security</a></li>
+    <li class="contains-drop"><a href="http://www.golem.de/specials/">Mehr</a>
+        <ul>
+            <li><a href="http://www.golem.de/specials/linux/">Linux</a></li>
+            <li><a href="http://www.golem.de/specials/lion/">Mac OS X Lion</a></li>
+            <li><a href="http://www.golem.de/specials/ipad-2/">iPad 2</a></li>
+            <li><a href="http://www.golem.de/specials/google/">Google</a></li>
+            <li><a href="http://www.golem.de/specials/iphone4/">iPhone 4</a></li>
+            <li><a href="http://www.golem.de/specials/open-source/">Open Source</a></li>
+            <li><a href="http://www.golem.de/specials/foto/">Foto</a></li>
+            <li><a href="http://www.golem.de/specials/games/">Games</a></li>
+            <li><a href="http://www.golem.de/specials/android/">Android</a></li>
+            <li><a href="http://www.golem.de/specials/server/">Server</a></li>
+            <li><a href="http://www.golem.de/specials/amazon/">Amazon</a></li>
+            <li><a href="http://www.golem.de/specials/internet/">Internet</a></li>
+            <li><a href="http://www.golem.de/specials/apple/">Apple</a></li>
+        </ul>
+    </li>
+</ul>    </nav><!-- #header-nav-2 -->
+    
+<form method="get" action="http://suche.golem.de/search.php" name="su">
+    <input type="hidden" name="l" value="10">
+    <fieldset>
+        <label class="implied" for="search-text">Suchbegriffe:</label>
+        <span class="inputText">
+            <input id="search-text" placeholder="" type="text" name="q" value="" tabindex="1" />
+        </span>
+        <span class="inputSubmit">
+            <input id="search-submit" type="submit" value="Suchen" tabindex="2" />
+        </span>
+    </fieldset>
+</form>
+</header><!-- #header -->   
+
+        <div id="screen">
+            <div class="g g4 g-ie6">
+                <article>
+<script type="text/javascript">
+if ((typeof(Golem.grsess)!="undefined") && (Golem.grsess==1)) {
+document.write(unescape("%3Cdiv id='rl_afcbeco2'%3E%3C/div%3E"));
+document.write(unescape("%3Cscript src='http://www.golem.de/_js/rl_art_afc2.js' type='text/javascript'%3E%3C/script%3E"));
+document.write(unescape("%3Cscript src='http://pagead2.googlesyndication.com/pagead/show_ads.js' type='text/javascript'%3E%3C/script%3E"));
+}
+</script>
+
+<header class="cluster-header">
+
+<h2 class="head1">Schlank und schnell</h2>
+<h1 class="head5">Mehrbenutzereditor Etherpad Lite 1.0 ver&ouml;ffentlicht</h1>
+
+<p>Die <a href="http://www.golem.de/specials/etherpad/"  target="_blank" class="linkabstract" >Etherpad</a> Foundation hat den von Google als Open Source veröffentlichten Mehrbenutzereditor Etherpad fast komplett neu geschrieben und Etherpad Lite 1.0 veröffentlicht. Es basiert auf <a href="http://www.golem.de/specials/node.js/"  target="_blank" class="linkabstract" >Node.js</a> und soll mit deutlich weniger Ressourcen auskommen als das Original.</p>
+</header>
+
+<!-- BANNER -->
+
+<!-- begin ad tag (tile=4) -->
+<div id="iqadtile4gol">
+<div class="iqadcenter">
+<div class="text1 iqadmarker" id="label4iqadtile4gol">Anzeige</div>
+<script type="text/javascript">
+//<![CDATA[
+document.write('<script type="text/javascript" src="http://ad.de.doubleclick.net/adj/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=300x250;tile=4;' + n_pbt + ';ord=' + ord + '?"></scr' + 'ipt>');
+//]]>
+</script>
+<noscript><a href="http://ad.de.doubleclick.net/jump/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=300x250;tile=4;ord=1314613185?" target="_blank" ><img src="http://ad.de.doubleclick.net/ad/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=300x250;tile=4;ord=1314613185?" style="border:0;" alt="" /></a></noscript>
+</div>
+</div>
+<!-- end ad tag (tile=4) -->
+
+
+<div class="formatted">
+<!--content-->
+<p>Finanziert von der englischen Firma Primary Technology und unterstützt von der Etherpad Foundation, hat Peter Martischka in rund zwei Jahren Etherpad auf Node.js portiert. Die einst von Google für <a href="http://www.golem.de/0912/71671.html"  target="_blank" class="linkartikeltext" >Google Wave gekaufte Software Etherpad</a> wurde Ende 2009 <a href="http://www.golem.de/0912/72000.html"  target="_blank" class="linkartikeltext" >als Open Source freigegeben</a>. Sie läuft im Browser und ermöglicht es mehreren Nutzern gleichzeitig, an einem Dokument zu arbeiten.</p>
+<div id="gvideo_5676"></div>
+<p>
+
+Schon kurz nach der Freigabe von Etherpad als Open Source entstanden die ersten <a href="http://www.golem.de/0912/72054.html"  target="_blank" class="linkartikeltext" >alternativen Etherpad-Server</a>, nachdem Google angekündigt hatte, die Etherpad-Server abzuschalten. Auch die Piratenpartei in Deutschland setzte eigene Etherpad-Server auf, was später zu einer <a href="http://www.golem.de/1105/83832.html"  target="_blank" class="linkartikeltext" >wohl sinnlosen</a> <a href="http://www.golem.de/1105/83727.html"  target="_blank" class="linkartikeltext" >Beschlagnahmung der Server</a> führte.</p>
+<p>Doch technisch gesehen war Etherpad <em>"ein Monster, bei dem man als Admin froh war, wenn es lief und sich machtlos fühlte, wenn es Probleme gab"</em>, <a href="http://pitapoison.de/wie-etherpad-lite-entstand"  target="_blank" class="linkartikeltext" >wie Peter Martischka seine Idee für eine Portierung von Etherpad auf Node.js erläutert</a>. Martischka war einer der Administratoren der Etherpad-Server der Piratenpartei. Die Java Virtual Machine, unter der Etherpad läuft, benötige im laufenden Betrieb bis zu 2 GByte Speicher, <em>"die CPU-Last war durchgehend auf 100 Prozent, der Server reagierte meist nicht mehr und auch mehrere CPU-Kerne brachten keine Abhilfe"</em>, sagt Martischka. Bis heute werde das Piratenpad jede Nacht neu gestartet, um die Probleme von Memory Leaks und Endlosschleifen einzudämmen.</p>
+<!-- gallery -->
+<script type="text/javascript">
+<!--
+Golem.CurrentArticle.imageData = {
+small : [ ],
+medium : [ {id: 'a86036-1',articleC: null,galleryC: 1,width: 620,height: 329,subtitle: 'Neues Chat-Popup legt sich &uuml;ber das Etherpad.',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/chat-popup.png',delayed: false},
+{id: 'a86036-2',articleC: null,galleryC: 2,width: 620,height: 329,subtitle: 'Hauptansicht des Editiermodus l&auml;sst leicht in andere Applikationen einbetten.',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/chat-view.png',delayed: false},
+{id: 'a86036-3',articleC: null,galleryC: 3,width: 620,height: 329,subtitle: 'Per Timeslider kann nachverfolgt werden, wie sich ein Dokument ge&auml;ndert hat.',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/main-edit-view.png',delayed: false},
+{id: 'a86036-4',articleC: null,galleryC: 4,width: 620,height: 329,subtitle: 'Etherpad Lite mit integrierter Chat',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/timeslider-view.png',delayed: false}
+],
+large : [ {id: 'a86036-1',articleC: null,galleryC: null,width: 706,height: 375,subtitle: 'Neues Chat-Popup legt sich &uuml;ber das Etherpad.',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/chat-popup.png',delayed: false},
+{id: 'a86036-2',articleC: null,galleryC: null,width: 706,height: 375,subtitle: 'Hauptansicht des Editiermodus l&auml;sst leicht in andere Applikationen einbetten.',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/chat-view.png',delayed: false},
+{id: 'a86036-3',articleC: null,galleryC: null,width: 706,height: 375,subtitle: 'Per Timeslider kann nachverfolgt werden, wie sich ein Dokument ge&auml;ndert hat.',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/main-edit-view.png',delayed: false},
+{id: 'a86036-4',articleC: null,galleryC: null,width: 706,height: 375,subtitle: 'Etherpad Lite mit integrierter Chat',src: 'http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/timeslider-view.png',delayed: false}
+]
+}
+
+$(document).ready(function(){
+    $("#gg_fullScreenSubFSsmall").show(function(){this.src="http://www.golem.de/staticrl/images/icon-ggfs_b2.png";});
+});
+
+//-->
+</script>
+
+<style type="text/css">
+
+.golemGallery {
+    clear: both;
+    margin-bottom: 20px;
+    width: 620px !important;
+}
+.gg_embedded img {
+    margin: 0 auto;
+}
+.gg_embeddedSub img, #gg_fullScreenSubFSsmall {
+    width: 24px;
+    height: 24px;
+}
+.gg_embeddedSubText {
+    background-color: #fff;
+    color: #222;
+    padding: 4px 34px;
+    line-height: 1.2;
+    text-align: center;
+    min-height: 24px;
+}
+
+</style>
+
+<a id="gg1_anchor_id"></a><a id="gg1_anchor"></a>
+<div class="golemGallery" id="gg1">
+  <div class="gg_embedded gg_active">
+    <ul class="gg_embedded">
+<li class="gg_embedded gg1-1 gg_active"><a href="http://scr3.golem.de/?d=1108/Etherpad-Lite-1.0&amp;a=86036"><img class="gg_embedded" src="http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/chat-popup.png" id="a86036-1" title="Neues Chat-Popup legt sich &uuml;ber das Etherpad." alt="Neues Chat-Popup legt sich &uuml;ber das Etherpad." style="width:620px; height:329px; border:0;"></a></li>
+<li class="gg_embedded gg1-2"><a href="http://scr3.golem.de/?d=1108/Etherpad-Lite-1.0&amp;a=86036"><img class="gg_embedded" src="http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/chat-view.png" id="a86036-2" title="Hauptansicht des Editiermodus l&auml;sst leicht in andere Applikationen einbetten." alt="Hauptansicht des Editiermodus l&auml;sst leicht in andere Applikationen einbetten." style="width:620px; height:329px; border:0;"></a></li>
+<li class="gg_embedded gg1-3"><a href="http://scr3.golem.de/?d=1108/Etherpad-Lite-1.0&amp;a=86036"><img class="gg_embedded" src="http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/main-edit-view.png" id="a86036-3" title="Per Timeslider kann nachverfolgt werden, wie sich ein Dokument ge&auml;ndert hat." alt="Per Timeslider kann nachverfolgt werden, wie sich ein Dokument ge&auml;ndert hat." style="width:620px; height:329px; border:0;"></a></li>
+<li class="gg_embedded gg1-4"><a href="http://scr3.golem.de/?d=1108/Etherpad-Lite-1.0&amp;a=86036"><img class="gg_embedded" src="http://scr3.golem.de/screenshots/1108/Etherpad-Lite-1.0/thumb620/timeslider-view.png" id="a86036-4" title="Etherpad Lite mit integrierter Chat" alt="Etherpad Lite mit integrierter Chat" style="width:620px; height:329px; border:0;"></a></li>
+    </ul>
+    <div class="gg_embeddedIndex gg_solid">
+      <ul class="gg_prebackcounter">
+        <li class="gg_prebackcounterItem"><img src="http://www.golem.de/_img/gg/links.png" id="gg_fullScreenELeft" class="gg_embeddedIconPrev gg_cursorpointer" alt="vorheriges Bild" title="vorheriges Bild"></li>
+        <li class="gg_prebackcounterItem gg_embeddedIndexCounter">&nbsp;1/4</li>
+        <li class="gg_prebackcounterItem"><img src="http://www.golem.de/_img/gg/rechts.png" id="gg_fullScreenERight" class="gg_embeddedIconNext gg_cursorpointer" alt="n&auml;chstes Bild" title="n&auml;chstes Bild"></li>
+      </ul>
+    </div>
+    <div class="gg_embeddedSub">
+      <div class="gg_embeddedSubText">Neues Chat-Popup legt sich &uuml;ber das Etherpad.</div>
+      <img src="http://www.golem.de/staticrl/images/icon-ggfs_w2.png" class="gg_embeddedIconRight gg_embeddedIconFS gg_cursorpointer" alt="Vollbild" title="Vollbild">
+    </div>
+  </div>
+</div><!-- /gallery -->
+<script type="text/javascript"></script>
+
+<p>
+
+Daher entschied sich Martischka, Etherpad von der javabasierten Javascript-Implementierung Rhino auf Node.js zu portieren. Anfangs belächelt, veröffentlichte die Etherpad Foundation in der vergangenen Woche Etherpad Lite 1.0. Dabei handelt es sich nicht um eine Kopie von Etherpad, vielmehr wurde die Software neu ausgerichtet. Etherpad Lite sei nicht als eigenständige Applikation konzipiert, <em>"sondern mehr als Plugin für andere Plattformen"</em>, erklärte Martischka.</p>
+<p>Etherpad Lite heißt der neue Mehrbenutzereditor, weil er nicht den gleichen Funktionsumfang besitzt wie das Original.</p>
+<p>Dafür kommt Etherpad Lite mit deutlich weniger Hardwareressourcen aus als Etherpad. Die Software läuft unter Windows, Mac OS X und Unix-artigen Betriebssystemen, einschließlich Linux, ist Open Source und verfügt über ein vollständig dokumentiertes API. So soll sich Etherpad Lite leicht in ein CMS oder eine Website integrieren lassen. Dazu liegen Beispiele für jQuery und PHP bei.</p>
+<p>Martischka, der die Software - zuletzt finanziert durch Primary Technology - in Vollzeit entwickelt hat, kehrt derweil von England nach Deutschland zurück und sucht nach einem neuen Arbeitgeber, der ebenfalls Interesse an Etherpad Lite hat. Sollte er damit keinen Erfolg haben, wird es wohl wieder zu einem Wochenendprojekt.</p>
+<p>Etherpad Lite 1.0 steht unter <a href="http://etherpad.org/2011/08/22/major-release-etherpad-lite-v1/"  target="_blank" class="linkartikeltext" >etherpad.org</a> zum Download bereit. Der Code wird auf <a href="https://github.com/Pita/etherpad-lite/"  target="_blank" class="linkartikeltext" >Github gehostet</a> und Peter Martischka bietet unter <a href="http://pad.pitapoison.de"  target="_blank" class="linkartikeltext" >pad.pitapoison.de</a> eine Installation von Etherpad Lite zum Testen an.</p>
+<!--/content-->
+</div>
+
+<div id="rl_afcbeco1"></div>                </article>
+                <hr class="implied" />
+
+<div id="shareButton_article" style="clear:both; margin-bottom:20px; display:none;"></div>
+
+<div id="rl_afcbeco1b" style="display:none;"></div>
+<script type="text/javascript" src="http://www.golem.de/_js/rl_art_afc1.js">
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>             <script type="text/javascript" src="http://video.golem.de/nvplayer/nvb-swf_22-min.js"></script>
+<script type="text/javascript">
+<!--
+var vnode=document.getElementById("gvideo_5676");
+if(typeof(vnode)!="undefined" && vnode!=null){
+    vnode.display='table'; vnode.margin='10px auto'; vnode.clear='both';
+    vnode.innerHTML='<div id="NVBPlayer5676"></div>'+
+    '<div class="text1" style="padding:3px; text-align:center;">'+
+    '<a href="http://video.golem.de/software-entwicklung/5676/etherpad-lite-demo.html">Video: Etherpad Lite - Demo</a> '+
+    '(3:13)'+
+    '</div>';
+    var pn=document.getElementById('NVBPlayer5676');
+    if(typeof(pn)!="undefined" && pn!=null){
+        pn.style.position='relative'; pn.style.zIndex='2999';
+            pn.style.top='0px'; pn.style.left='0px';
+        var pmn=document.createElement('div'),
+            rbn=document.createElement('div');
+        pmn.id='playermask';
+        pmn.style.visibility='hidden'; pmn.style.position='absolute'; pmn.style.zIndex='2002';
+        pn.parentNode.insertBefore(pmn, pn);
+        rbn.id='roadblock';
+        rbn.style.visibility='hidden'; rbn.style.position='absolute'; rbn.style.zIndex='1';
+        rbn.style.width='300px'; rbn.style.height='250px';
+        rbn.style.marginTop='-303px'; rbn.style.marginLeft='620px';
+        rbn.style.padding='4px';
+        rbn.style.backgroundImage='url(http://video.golem.de/_img/white6.png)';
+        pn.parentNode.insertBefore(rbn, pn.nextSibling);
+        }
+    if(checkDevice()){
+        var gvp5676 = new HTML5Video("http://video.golem.de/nvplayer/NonverBlaster_02-art.swf","NVBPlayer5676video","620","349","9","#000000");
+    }else{
+        var gvp5676 = new SWFObject("http://video.golem.de/nvplayer/NonverBlaster_02-art.swf","NVBPlayer5676video","620","349","9","#000000");
+    }
+    gvp5676.addParam("allowfullscreen","true");
+    gvp5676.addParam("quality","high");
+    gvp5676.addParam("scale","noScale");
+    gvp5676.addParam("allowScriptAccess","always");
+    gvp5676.addVariable("id", "5676");
+    gvp5676.addVariable("qual", "medium");
+    gvp5676.addVariable("autoPl", "false");
+    gvp5676.addVariable("buffer", "3");
+    gvp5676.addVariable("image_src", "http://video.golem.de/teaser/1/1/5676/medium-480-etherpad-lite-v1-launch-video-snap.jpg");
+    gvp5676.write("NVBPlayer5676");
+    }
+//-->
+</script>
+<script type="text/javascript"></script><!-- FORUM -->
+<section id="comments">
+    <div class="dh1"><a href="http://forum.golem.de/kommentare/applikationen/schlank-und-schnell-mehrbenutzereditor-etherpad-lite-1.0-veroeffentlicht/55004,list.html">Kommentar&uuml;bersicht</a></div>
+    <ol>
+<li><div class="dh2"><a href="http://forum.golem.de/kommentare/applikationen/schlank-und-schnell-mehrbenutzereditor-etherpad-lite-1.0-veroeffentlicht/funktioniert-allerdings-ist-mir-der-zweck-nicht-ganz-klar/55004,2784556,2784556,read.html#msg-2784556" id="ltlart2784647">Dokumentationen ja</a></div><div class="dh3"><strong>Kaiser Ming</strong>&nbsp;12:04</div><p style="overflow:hidden;">
+gute Idee</p></li>
+<li><div class="dh2"><a href="http://forum.golem.de/kommentare/applikationen/schlank-und-schnell-mehrbenutzereditor-etherpad-lite-1.0-veroeffentlicht/haben-sofort-kriminelle-ausgenutzt/55004,2784627,2784627,read.html#msg-2784627" id="ltlart2784627">Haben sofort kriminelle ausgenutzt</a></div><div class="dh3"><strong>maxule</strong>&nbsp;11:53</div><p style="overflow:hidden;">... um Bankdaten mit Pin gegen Bitcoins zu verkaufen. :-(((</p></li>
+<li><div class="dh2"><a href="http://forum.golem.de/kommentare/applikationen/schlank-und-schnell-mehrbenutzereditor-etherpad-lite-1.0-veroeffentlicht/wozu/55004,2784591,2784591,read.html#msg-2784591" id="ltlart2784591">wozu??</a></div><div class="dh3"><strong>RazorHail</strong>&nbsp;11:28</div><p style="overflow:hidden;">google docs macht doch das alles schon, oder?</p></li>
+<li><div class="dh2"><a href="http://forum.golem.de/kommentare/applikationen/schlank-und-schnell-mehrbenutzereditor-etherpad-lite-1.0-veroeffentlicht/made-my-day/55004,2784534,2784534,read.html#msg-2784534" id="ltlart2784560">Re: made my day</a></div><div class="dh3"><strong>razer</strong>&nbsp;10:55</div><p style="overflow:hidden;">oh mama xD
+http://pad.pitapoison.de/p/test</p></li>
+    </ol>
+    <p class="meta">
+        <a href="http://forum.golem.de/posting.php?55004" class="rlink" rel="nofollow">Kommentieren</a>
+    </p>
+</section><!-- #comments -->
+<hr class="implied" />
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+var mrsep=',read.html#msg-';
+$("#comments a[id^='ltlart']").show(function(){
+  var msgi=this.id.substr(6); var msgt=this.href.substr(this.href.lastIndexOf('-')+1); if(msgi>msgt){this.iHcopy=this.innerHTML; this.href=this.href.replace(msgt+mrsep+msgt,msgi+mrsep+msgi); this.innerHTML=this.iHcopy;}
+});
+});
+//-->
+</script><!-- / FORUM --><!-- begin ad tag -->
+<div id="plista_widget_belowArticlev2" style="margin: 20px 0; clear: both;"></div>
+<script type="text/javascript"><!--
+gplinit=function(){
+  PLISTA.items.push({objectid: "86036", title: "Schlank und schnell: Mehrbenutzereditor Etherpad Lite 1.0 veröffentlicht",
+    text: "Die Etherpad Foundation hat den von Google als Open Source veröffentlichten Mehrbenutzereditor Etherpad fast komplett neu geschrieben und Etherpad Lite 1.0 veröffentlicht. Es basiert auf Node.",
+    url: "http://www.golem.de/1108/86036.html", img: "http://www.golem.de/1108/86036-19764-i.png", created_at: 1314604082});
+  PLISTA.partner.init();
+};
+(function(d,n){
+  var g=d.createElement(n),s=d.getElementsByTagName(n)[0];
+  g.async=true; g.src='http://static.plista.com/golem.de_v1.js';
+  g.onloadDone=false;
+  if(g.readyState){
+    g.onreadystatechange=function(){
+      if(this.readyState=="loaded" || this.readyState=="complete"){this.onreadystatechange=null; gplinit();}
+    };
+  }else{
+    g.onload=gplinit;
+  }
+  s.parentNode.insertBefore(g,s);
+})(document,'script');
+//--></script>
+<!-- end ad tag --><!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+    rdf:about="http://www.golem.de/1108/86036.html"
+    trackback:ping="http://www.golem.de/trackback/86036"
+    dc:title="Schlank und schnell: Mehrbenutzereditor Etherpad Lite 1.0 ver&ouml;ffentlicht"
+    dc:identifier="http://www.golem.de/1108/86036.html"
+    dc:creator="Golem.de" />
+</rdf:RDF>
+-->
+<section id="trackbacks">
+    <div class="dh1"><a href="http://www.golem.de/trackback/86036">Trackbacks</a></div>
+    <ol>
+       </ol>
+</section><!-- #trackbacks -->
+<hr class="implied" />            </div><!-- .g.g4.g-ie6 -->
+
+            <div class="g g2">
+<aside>
+    <h6 class="implied">Artikel</h6>
+<div style="margin-bottom:20px;"><img src="http://www.golem.de/1108/sp_86036-19763-i.png" alt="Schlank und schnell: Mehrbenutzereditor Etherpad Lite 1.0 ver&ouml;ffentlicht" style="margin:0 auto; border:0; width:300px; height:169px;"><div class="text1" style="text-align:center;">Etherpad Lite basiert auf Node.js. (Bild: Etherpad Foundation)</div></div>    <ol>
+        <li class="text1"><strong>Datum:</strong>
+29.8.2011, 09:48        </li>
+        <li class="text1"><strong>Autor:</strong>
+        <a href="http://www.golem.de/specials/autor-jens-ihlenfeld/" rel="author">Jens Ihlenfeld</a>        </li>
+        <li class="text1"><strong>Themen:</strong> <a href="/specials/etherpad/" title="Etherpad" class="lm">Etherpad</a>, <a href="/specials/google-wave/" title="Google Wave" class="lm">Google Wave</a>, <a href="/specials/node.js/" title="Node.js" class="lm">Node.js</a>, <a href="/specials/piratenpartei/" title="Piratenpartei" class="lm">Piratenpartei</a>, <a href="/specials/jquery/" title="jQuery" class="lm">jQuery</a>, <a href="/specials/api/" title="API" class="lm">API</a>, <a href="/specials/server/" title="Server" class="lm">Server</a>, <a href="/specials/desktop-applikationen/" title="Desktop-Applikationen" class="lm">Applikationen</a></li>
+        <li class="text1"><strong>Teilen:</strong>
+			<div id="shareButton_articlemeta"><a href="http://www.golem.de/sonstiges/Datenschutz.html#socialnetworks">Aktivieren</a><br></div>
+		</li>
+        <li class="text1"><strong>Tools:</strong>
+            <a href="/print.php?a=86036" rel="nofollow">Drucken</a>,
+            <a href="/mail.php?a=86036" rel="nofollow">E-Mail</a>,
+            <a href="/trackback/86036" rel="nofollow">Trackback</a>
+        </li>
+    </ol>
+</aside>
+<hr class="implied" />
+<!-- begin ad tag (tile=8) -->
+<div id="iqadtile8gol">
+<div class="text1 iqadmarker" id="label4iqadtile8gol">Anzeige</div>
+<script type="text/javascript">
+//<![CDATA[
+document.write('<script type="text/javascript" src="http://ad.de.doubleclick.net/adj/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=300x250,300x600;tile=8;' + n_pbt + ';ord=' + ord + '?"></scr' + 'ipt>');
+//]]>
+</script>
+<noscript><a href="http://ad.de.doubleclick.net/jump/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=300x250,300x600;tile=8;ord=1314613185?" target="_blank" ><img src="http://ad.de.doubleclick.net/ad/golem/artikel;kw=golem,iqdrelgol,apps,tsilkcalb,kommunikation,desktopapplikationen,etherpad,googlewave,nodejs,piratenpartei,jquery,api,server;doc=artikel;sz=300x250,300x600;tile=8;ord=1314613185?" style="border:0;" alt="" /></a></noscript>
+</div>
+<!-- end ad tag (tile=8) -->
+<section class="supplementary" id="job-market">
+    <div class="dh1 head3"><a href="http://jobs.golem.de/">Stellenmarkt</a></div>
+    <ol>
+        <li class="text1"><a href="http://www.jobware.de/view/aWQ9NTU4NzA1fGNpX3R5cGU9MHxwZj0xfG9yaWc9SVQtTkVXUy1UT1BKT0JTfHVoPTB8ZDpzcGVjaWFscz1jZmclMkZmb2xsb3clMkNub3Jlc2l6ZSUyRmZvbGxvd3xkOmNmZz1pdC1uZXdzfA%3D%3D/index.html" rel="nofollow" target="_blank">IT-Tester/in in der Verfahrensbetreuung </a><br>
+            GEZ, K&ouml;ln
+        </li>
+        <li class="text1"><a href="http://www.jobware.de/view/aWQ9NTU5MjMzfGNpX3R5cGU9MHxwZj0xfG9yaWc9SVQtTkVXUy1UT1BKT0JTfHVoPTB8ZDpzcGVjaWFscz1jZmclMkZmb2xsb3clMkNub3Jlc2l6ZSUyRmZvbGxvd3xkOmNmZz1pdC1uZXdzfA%3D%3D/index.html" rel="nofollow" target="_blank">Junior-Spezialist IT (m/w) Front Office / Risikomanagement - Abteilung IT Kapitalmarkt </a><br>
+            NRW.BANK, D&uuml;sseldorf
+        </li>
+        <li class="text1"><a href="http://www.jobware.de/view/aWQ9NTU4ODY1fGNpX3R5cGU9MHxwZj0xfG9yaWc9SVQtTkVXUy1UT1BKT0JTfHVoPTB8ZDpzcGVjaWFscz1jZmclMkZmb2xsb3clMkNub3Jlc2l6ZSUyRmZvbGxvd3xkOmNmZz1pdC1uZXdzfA%3D%3D/index.html" rel="nofollow" target="_blank">Webentwickler (m/w) </a><br>
+            Roland Berger Strategy Consultants Holding GmbH, M&uuml;nchen, Hamburg
+        </li>
+        <li class="text1"><a href="http://www.jobware.de/view/aWQ9NTU4ODExfGNpX3R5cGU9MHxwZj0xfG9yaWc9SVQtTkVXUy1UT1BKT0JTfHVoPTB8ZDpzcGVjaWFscz1jZmclMkZmb2xsb3clMkNub3Jlc2l6ZSUyRmZvbGxvd3xkOmNmZz1pdC1uZXdzfA%3D%3D/index.html" rel="nofollow" target="_blank">Projektleiter Prozessoptimierungen (m/w) </a><br>
+            Glatfelter Falkenhagen GmbH, Falkenhagen/Prignitz
+        </li>
+    </ol>
+    <p class="meta text1">&nbsp;</p>
+    <p class="more text1"><a href="http://jobs.golem.de/">Detailsuche</a></p>
+</section><!-- .supplementary -->
+<hr class="implied" />
+<section class="supplementary" id="followrss">
+    <div class="dh1 head3">Folgen Sie uns</div>
+<table>
+<tr>
+    <td><a href="http://www.facebook.com/golem" target="_blank"><img src="http://www.golem.de/_img/btn_facebook.png" alt="Auf Facebook folgen"></a></td>
+    <td><a href="http://twitter.com/GolemRedaktion" target="_blank"><img src="http://www.golem.de/_img/btn_twitter.png" alt="Auf Twitter folgen"></a></td>
+    <td><a href="http://www.golem.de/sonstiges/rss.html"><img src="http://www.golem.de/_img/btn_rss.png" alt="RSS Feed abonnieren"></a></td>
+</tr>
+</table>
+    </section><!-- .supplementary #followrss -->
+<hr class="implied" />
+<section id="video-clip" class="supplementary"><div class="dh1 head3"><a href="http://video.golem.de/">Videos</a></div><div style="display:table; margin:0 auto; text-align:center;">
+
+
+
+
+<a href="http://video.golem.de/games/5667/trackmania-2-canyon-trailer-(spielfeatures).html" title="Trackmania 2 Canyon - Trailer (Spielfeatures)"
+    style="display: block; position: relative; width:300px;">
+<img src="http://video.golem.de/teaser/1/1/5667/thumb-medium-300/trackmania-2-canyon-trailer-(spielfeatures).jpg" alt="Trackmania 2 Canyon - Trailer (Spielfeatures)"
+    style="width:300px; height:169px; border:0;"
+>
+<img src="/staticrl/images/icon-video-1.png" alt=""
+    style="position: absolute; left:10px; top:10px; width:21px; height:21px; border:0;"
+>
+<span class="text1">Trackmania 2 Canyon - Trailer (Spielfeatures)</span>
+</a>
+</div></section><section class="supplementary" id="related">
+    <div class="dh1 head3">Verwandte Artikel</div>
+    <ol>
+<li><a href="http://www.golem.de/0912/72054.html"><div class="dh2 head1"></div><p class="text1">Erste alternative Etherpad-Server gestartet</p></a></li>
+<li><a href="http://www.golem.de/0912/72000.html"><div class="dh2 head1"></div><p class="text1">Mehrbenutzereditor Etherpad ist Open Source</p></a></li>
+<li><a href="http://www.golem.de/0912/71675.html"><div class="dh2 head1"></div><p class="text1">Etherpad ist zur&uuml;ck und wird Open Source</p></a></li>
+<li><a href="http://www.golem.de/0912/71671.html"><div class="dh2 head1"></div><p class="text1">Google kauft Etherpad</p></a></li>
+<li><a href="http://www.golem.de/0811/63714.html"><div class="dh2 head1"></div><p class="text1">Gemeinsame Bearbeitung von Texten im Browser </p></a></li>
+    </ol>
+</section><!-- .supplementary#related -->
+<hr class="implied" />
+<div id="recently">
+    <section class="active" id="recent-articles">
+        <div class="dh1">Meistgelesen</div>
+        <ol>
+		    <li>
+                <a id="mral_85776" href="http://www.golem.de/1108/85776.html">
+                <div class="dh2 head1">UniOS</div>
+                <p class="text1">Zu sch&ouml;n, um wahr zu sein</p>
+                </a>
+            </li>
+		    <li>
+                <a id="mral_86030" href="http://www.golem.de/1108/86030.html">
+                <div class="dh2 head1">Nach dem Hack ist vor dem Hack</div>
+                <p class="text1">IT-Sicherheit der Bundespolizei in verheerendem Zustand</p>
+                </a>
+            </li>
+		    <li>
+                <a id="mral_85997" href="http://www.golem.de/1108/85997.html">
+                <div class="dh2 head1">Anonymous</div>
+                <p class="text1">&quot;Operation RTL hat gestartet&quot;</p>
+                </a>
+            </li>
+		    <li>
+                <a id="mral_86034" href="http://www.golem.de/1108/86034.html">
+                <div class="dh2 head1">Haptik</div>
+                <p class="text1">F&uuml;hlbare Kn&ouml;pfe trotz Touchscreen</p>
+                </a>
+            </li>
+		    <li>
+                <a id="mral_86025" href="http://www.golem.de/1108/86025.html">
+                <div class="dh2 head1">Razer Blade</div>
+                <p class="text1">Ungew&ouml;hnliches Notebook f&uuml;r Spieler</p>
+                </a>
+            </li>
+        </ol>
+        <!--<p class="more text1"><a href="">Mehr</a></p>-->
+    </section><!-- #recent-articles -->
+    <hr class="implied" />
+<section id="recent-comments">
+    <div class="dh1">Meistkommentiert</div>
+    <ol id="htlforum">
+<li><div class="dh2 head1"><a href="http://www.golem.de/1108/86027.html" target="_blank">&quot;Netze in Nutzerhand&quot;: Piratenpartei liegt in Berlin vor der FDP</a></div><p class="text1">Kommentare:&nbsp;189 | <a href="http://forum.golem.de/kommentare/politik-recht/netze-in-nutzerhand-piratenpartei-liegt-in-berlin-vor-der-fdp/reichsdeputationshauptschuss/54983,2784065,2784065,read.html#msg-2784065" rel="nofollow" id="htlmsg2784605" title="Re: Reichsdeputationshauptschuss">letzter Beitrag</a>&nbsp;11:38 Uhr</p></li>
+<li><div class="dh2 head1"><a href="http://www.golem.de/1108/86026.html" target="_blank">Tim Cook: Neuer Apple-Chef erh&auml;lt 383-Millionen-US-Dollar-Bonus</a></div><p class="text1">Kommentare:&nbsp;131 | <a href="http://forum.golem.de/kommentare/wirtschaft/tim-cook-neuer-apple-chef-erhaelt-383-millionen-us-dollar-bonus/soziale-un-gerechtigkeit/54982,2784192,2784192,read.html#msg-2784192" rel="nofollow" id="htlmsg2784579" title="Re: Soziale (Un)Gerechtigkeit">letzter Beitrag</a>&nbsp;11:16 Uhr</p></li>
+<li><div class="dh2 head1"><a href="http://www.golem.de/1108/86025.html" target="_blank">Razer Blade: Ungew&ouml;hnliches Notebook f&uuml;r Spieler</a></div><p class="text1">Kommentare:&nbsp;112 | <a href="http://forum.golem.de/kommentare/mobile-computing/razer-blade-ungewoehnliches-notebook-fuer-spieler/lohnt-sich-nicht.../54979,2784573,2784573,read.html#msg-2784573" rel="nofollow" id="htlmsg2784573" title="Lohnt sich nicht...">letzter Beitrag</a>&nbsp;11:08 Uhr</p></li>
+<li><div class="dh2 head1"><a href="http://www.golem.de/1108/86013.html" target="_blank">Signal Guru: Gr&uuml;ne Welle mit dem Smartphone</a></div><p class="text1">Kommentare:&nbsp;80 | <a href="http://forum.golem.de/kommentare/wissenschaft/signal-guru-gruene-welle-mit-dem-smartphone/na-toll-..../54964,2783079,2783079,read.html#msg-2783079" rel="nofollow" id="htlmsg2784571" title="Re: na toll ....">letzter Beitrag</a>&nbsp;11:07 Uhr</p></li>
+<li><div class="dh2 head1"><a href="http://www.golem.de/1108/86031.html" target="_blank">&quot;Fast tote Hose&quot;: Nur 40.000 Widerspr&uuml;che gegen Bing Streetside</a></div><p class="text1">Kommentare:&nbsp;76 | <a href="http://forum.golem.de/kommentare/internet/fast-tote-hose-nur-40.000-widersprueche-gegen-bing-streetside/experiment-geglueckt/54995,2784487,2784487,read.html#msg-2784487" rel="nofollow" id="htlmsg2784606" title="Re: Experiment gegl&uuml;ckt!">letzter Beitrag</a>&nbsp;11:39 Uhr</p></li>
+    </ol>
+    <p class="more text1"><a href="http://forum.golem.de/new/">Mehr</a></p>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+var mrsep=',read.html#msg-';
+$("#htlforum a[id^='htlmsg']").show(function(){
+  var msgi=this.id.substr(6); var msgt=this.href.substr(this.href.lastIndexOf('-')+1); if(msgi>msgt){this.iHcopy=this.innerHTML; this.href=this.href.replace(msgt+mrsep+msgt,msgi+mrsep+msgi); this.innerHTML=this.iHcopy;}
+});
+});
+//-->
+</script></section><!-- #recent-comments -->
+<hr class="implied" />
+            
+</div><!-- #recently --><section class="supplementary" id="small-ticker10">
+    <div class="dh1 head3"><a href="http://www.golem.de/ticker/">Ticker</a></div>
+    <ol>
+<li><a href="http://www.golem.de/1108/86024.html"><div class="dh2 head1">Test Age of Empires Online</div> <p class="text1">&quot;Ein bisschen Gold, bitte!&quot;</p></a></li>
+<li><a href="http://www.golem.de/1108/86044.html"><div class="dh2 head1">1234</div> <p class="text1">Morto-Internetwurm macht sich Allerweltspassw&ouml;rter zunutze</p></a></li>
+<li><a href="http://www.golem.de/1108/86039.html"><div class="dh2 head1">Linux-Distributionen</div> <p class="text1">Mit Mandriva 2011 ver&auml;ndert sich der Releasezyklus</p></a></li>
+<li><a href="http://www.golem.de/1108/86045.html"><div class="dh2 head1">Wine</div> <p class="text1">Multisampling f&uuml;r bessere Spieleunterst&uuml;tzung</p></a></li>
+<li><a href="http://www.golem.de/1108/86042.html"><div class="dh2 head1">Android-Tablet</div> <p class="text1">Samsungs Galaxy Tab 8.9 LTE mit schnellerem Prozessor</p></a></li>
+<li><a href="http://www.golem.de/1108/86043.html"><div class="dh2 head1">Raumfahrt</div> <p class="text1">Atomkraft f&uuml;r andere Planeten</p></a></li>
+<li><a href="http://www.golem.de/1108/86040.html"><div class="dh2 head1">Virtualisierung</div> <p class="text1">Eucalyptus integriert Hochverf&uuml;gbarkeit</p></a></li>
+<li><a href="http://www.golem.de/1108/86041.html"><div class="dh2 head1">iTelevision</div> <p class="text1">Apple soll an einem Fernseher arbeiten</p></a></li>
+<li><a href="http://www.golem.de/1108/86038.html"><div class="dh2 head1">Android-Smartphone</div> <p class="text1">Samsung bringt verbessertes Galaxy S2</p></a></li>
+<li><a href="http://www.golem.de/1108/86037.html"><div class="dh2 head1">Gamescom</div> <p class="text1">Anonymous will keine Angriffe auf RTL</p></a></li>
+    </ol>
+</section><!-- .supplementary#related -->
+<hr class="implied" />
+<section class="supplementary" id="newsletter">
+    <div class="dh1 head3"><a href="http://nl.golem.de">Newsletter-Abo</a></div>
+    <form action="http://nl.golem.de/newsletter.php" name="nl" method="post">
+        <input type="hidden" name="source" value="1">
+        <input type="hidden" name="default" value="2">
+        <input type="hidden" name="action" value="create">
+        <fieldset>
+            <label class="implied" for="supplementary-newsletter-email">E-Mail-Adresse:</label>
+            <span class="inputText">
+                <input id="supplementary-newsletter-email" placeholder="ihre@email.com" type="email" name="email" value="" />
+            </span>
+            <span class="inputSubmit">
+                <input id="supplementary-newsletter-submit" type="submit" value="Anmelden" />
+            </span>
+        </fieldset>
+    </form>
+</section><!-- .supplementary#newsletter -->
+<hr class="implied" />
+<section class="supplementary" id="contact">
+    <div class="dh1 head3">Haben wir etwas &uuml;bersehen?</div>
+    <p class="text1">E-Mail an <a href="mailto:news@golem.de" rel="nofollow">news@golem.de</a></p>
+</section><!-- .supplementary#contact -->
+<hr class="implied" />
+            </div><!-- .g.g2 -->
+
+            <div class="g g6 g-ie6 promos">
+<section class="g g-ie6 g2 promo" style="clear:both; margin-left:0;">
+    <div class="dh1 head3"><a href="http://www.golem.de/specials/navigationssystem/">Navigationssystem</a></div>
+<img id="proali_86013" alt="Signal Guru: Gr&uuml;ne Welle mit dem Smartphone" src="http://www.golem.de/1108/sp_86013-19683-i.jpg" /><header class="cluster-header"><a id="proal_86013" href="http://www.golem.de/1108/86013.html"><div class="dh3 head1">Signal Guru</div> <div class="dh2 head2">Gr&uuml;ne Welle mit dem Smartphone</div></a></header>
+    <p>US-Wissenschaftler haben eine <a href="http://www.golem.de/specials/smartphone/" target="_blank">Smartphone</a>-App entwickelt, die Fahrern anzeigt, wie schnell sie fahren m&uuml;ssen, damit sie an der n&auml;chsten Ampel nicht warten m&uuml;ssen. So reiten sie nicht nur auf einer gr&uuml;ne Welle, sondern k&ouml;nnen auch Benzin sparen.</p>
+    <ol>
+        <li class="text1"><a id="proalr_86013_84770" href="http://www.golem.de/1107/84770.html"><strong>Elektroauto</strong> Navigationssystem plant akkuoptimierte Strecke</a></li>
+        <li class="text1"><a id="proalr_86013_83787" href="http://www.golem.de/1105/83787.html"><strong>Barrierefreiheit</strong> Computersystem soll Blindenstock ersetzen</a></li>
+        <li class="text1"><a id="proalr_86013_83510" href="http://www.golem.de/1105/83510.html"><strong>Autonavigation</strong> Tomtom Start 20 gibt es f&uuml;r 140 Euro</a></li>
+    </ol>
+</section><!-- .g.g2.promo -->
+<hr class="implied" />
+<section class="g g-ie6 g2 promo" style="">
+    <div class="dh1 head3"><a href="http://www.golem.de/specials/gema/">Gema</a></div>
+<img id="proali_85952" alt="Gema-Hack: Standardpassw&ouml;rter verschlimmerten offenbar die Situation" src="http://www.golem.de/1108/sp_85881-19303-i.jpg" /><header class="cluster-header"><a id="proal_85952" href="http://www.golem.de/1108/85952.html"><div class="dh3 head1">Gema-Hack</div> <div class="dh2 head2">Standardpassw&ouml;rter verschlimmerten offenbar die Situation</div></a></header>
+    <p>Der Webserver der <a href="http://www.golem.de/specials/gema/" target="_blank">Gema</a> stand im Intranet; nachdem sie ihn gehackt hatten, konnten <a href="http://www.golem.de/specials/anonymous/" target="_blank">Anonymous</a>-Aktivisten nach eigener Darstellung von System zu System springen. Durch die Verwendung von Standardpassw&ouml;rtern bei kritischen Systemen hatten sie leichtes Spiel.</p>
+    <ol>
+        <li class="text1"><a id="proalr_85952_85881" href="http://www.golem.de/1108/85881.html"><strong>Keine Freiheitsrechte</strong> Anonymous attackiert erneut die Gema</a></li>
+        <li class="text1"><a id="proalr_85952_85062" href="http://www.golem.de/1107/85062.html"><strong>Urheberrecht</strong> Sita singt den Blues jetzt auch in Deutschland</a></li>
+        <li class="text1"><a id="proalr_85952_84961" href="http://www.golem.de/1107/84961.html"><strong>Sita Sings The Blues</strong> Gema soll Trickfilm unrechtm&auml;&szlig;ig gesperrt haben</a></li>
+    </ol>
+</section><!-- .g.g2.promo -->
+<hr class="implied" />
+<section class="g g-ie6 g2 promo" style="">
+    <div class="dh1 head3"><a href="http://www.golem.de/specials/mitchell-baker/">Mitchell Baker</a></div>
+<img id="proali_86003" alt="Mozilla: Firefox weiter alle 6 Wochen, aber mit Versionsnummer" src="http://www.golem.de/1108/sp_86003-19658-i.jpg" /><header class="cluster-header"><a id="proal_86003" href="http://www.golem.de/1108/86003.html"><div class="dh3 head1">Mozilla</div> <div class="dh2 head2">Firefox weiter alle 6 Wochen, aber mit Versionsnummer</div></a></header>
+    <p>Mozilla-Chefin Mitchell Baker hat den neuen Rapid-Release-Prozess von Firefox in einem Blogeintrag verteidigt. Derweil legt Mozilla-Sprecher Asa Dotzler den Zeitplan f&uuml;r Firefox 7 bis 13 vor.</p>
+    <ol>
+        <li class="text1"><a id="proalr_86003_82535" href="http://www.golem.de/1104/82535.html"><strong>Re-Integration</strong> Mozilla Messaging wird aufgel&ouml;st</a></li>
+        <li class="text1"><a id="proalr_86003_73694" href="http://www.golem.de/1003/73694.html"><strong></strong> Mozilla Public License wird &uuml;berarbeitet</a></li>
+    </ol>
+</section><!-- .g.g2.promo -->
+<hr class="implied" />
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+    $("img[id^='proali_']").wrap(function(){return '<a id="'+this.id.replace('proali_','proalt_')+'" href="'+document.getElementById(this.id.replace('proali_','proal_')).href+'"/>';});
+});
+//-->
+</script>            </div><!-- .g.g6.g-ie6.promos -->
+
+            <div class="g g6 g-ie6 activity">
+<!-- FORUM -->
+<section class="g g4" id="large-forum">
+    <div class="dh1"><a href="http://forum.golem.de/new/">Forumsbeitr&auml;ge &raquo;</a></div>
+    <ol id="ltlforum">
+<li><div class="dh2 text1"><a href="http://forum.golem.de/kommentare/security/gamescom-anonymous-will-keine-angriffe-auf-rtl/55006,list.html"><strong>Gamescom</strong> Anonymous will keine Angriffe auf RTL</a></div><p><a href="http://forum.golem.de/kommentare/security/gamescom-anonymous-will-keine-angriffe-auf-rtl/niemals-medien/55006,2784619,2784619,read.html#msg-2784619" id="ltlmsg2784676">Re: Niemals Medien?</a></p><p class="meta">wintermut3&nbsp;|&nbsp;12:17</p></li>
+<li><div class="dh2 text1"><a href="http://forum.golem.de/kommentare/audio-video/itelevision-apple-soll-an-einem-fernseher-arbeiten/55008,list.html"><strong>iTelevision</strong> Apple soll an einem Fernseher arbeiten</a></div><p><a href="http://forum.golem.de/kommentare/audio-video/itelevision-apple-soll-an-einem-fernseher-arbeiten/wer-das-display-meiner-glotze-anfasst-.../55008,2784617,2784617,read.html#msg-2784617" id="ltlmsg2784675">Re: Wer das Display meiner Glotze anfasst ...</a></p><p class="meta">OnlineGamer&nbsp;|&nbsp;12:17</p></li>
+<li><div class="dh2 text1"><a href="http://forum.golem.de/kommentare/handy/android-smartphone-samsung-bringt-verbessertes-galaxy-s2/55007,list.html"><strong>Android-Smartphone</strong> Samsung bringt verbessertes Galaxy S2</a></div><p><a href="http://forum.golem.de/kommentare/handy/android-smartphone-samsung-bringt-verbessertes-galaxy-s2/800-x-480-soll-das-ein-witz-sein-.../55007,2784582,2784582,read.html#msg-2784582" id="ltlmsg2784674">Das SGS2 HAT eine bessere Aufl&ouml;sung!</a></p><p class="meta">Planet&nbsp;|&nbsp;12:15</p></li>
+<li><div class="dh2 text1"><a href="http://forum.golem.de/kommentare/mobile-computing/android-tablet-samsungs-galaxy-tab-8.9-lte-mit-schnellerem-prozessor/55012,list.html"><strong>Android-Tablet</strong> Samsungs Galaxy Tab 8.9 LTE mit schnellerem Prozessor</a></div><p><a href="http://forum.golem.de/kommentare/mobile-computing/android-tablet-samsungs-galaxy-tab-8.9-lte-mit-schnellerem-prozessor/sieht-aus-wie-ein-ipad/55012,2784656,2784656,read.html#msg-2784656" id="ltlmsg2784673">Re: Sieht aus wie ein iPad</a></p><p class="meta">moppi&nbsp;|&nbsp;12:15</p></li>
+<li><div class="dh2 text1"><a href="http://forum.golem.de/kommentare/audio-video/itelevision-apple-soll-an-einem-fernseher-arbeiten/55008,list.html"><strong>iTelevision</strong> Apple soll an einem Fernseher arbeiten</a></div><p><a href="http://forum.golem.de/kommentare/audio-video/itelevision-apple-soll-an-einem-fernseher-arbeiten/es-wuerde-voellig-reichen-wenn-sie-frontrow-endlich-einmal.../55008,2784672,2784672,read.html#msg-2784672" id="ltlmsg2784672">Es w&uuml;rde v&ouml;llig reichen, wenn sie FrontRow...</a></p><p class="meta">Mondbasis&nbsp;|&nbsp;12:15</p></li>
+    </ol>
+</section><!-- .g.g4#large-forum -->
+<hr class="implied" />
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+var mrsep=',read.html#msg-';
+$("#ltlforum a[id^='ltlmsg']").show(function(){
+  var msgi=this.id.substr(6); var msgt=this.href.substr(this.href.lastIndexOf('-')+1); if(msgi>msgt){this.iHcopy=this.innerHTML; this.href=this.href.replace(msgt+mrsep+msgt,msgi+mrsep+msgi); this.innerHTML=this.iHcopy;}
+});
+});
+//-->
+</script><!-- / FORUM --><section class="g g2" id="small-ticker">
+    <div class="dh1"><a href="http://www.golem.de/ticker/">Ticker &raquo;</a></div>
+    <ol class="list-tickers">
+	        <li>
+            <div class="dh2 text1"><a id="tial_86024" href="http://www.golem.de/1108/86024.html"><strong>Test Age of Empires Online</strong> &quot;Ein bisschen Gold, bitte!&quot;</a></div>
+            <p class="meta">12:10</p>
+        </li>
+	        <li>
+            <div class="dh2 text1"><a id="tial_86044" href="http://www.golem.de/1108/86044.html"><strong>1234</strong> Morto-Internetwurm macht sich Allerweltspassw&ouml;rter zunutze</a></div>
+            <p class="meta">12:08</p>
+        </li>
+	        <li>
+            <div class="dh2 text1"><a id="tial_86039" href="http://www.golem.de/1108/86039.html"><strong>Linux-Distributionen</strong> Mit Mandriva 2011 ver&auml;ndert sich der Releasezyklus</a></div>
+            <p class="meta">12:08</p>
+        </li>
+	        <li>
+            <div class="dh2 text1"><a id="tial_86045" href="http://www.golem.de/1108/86045.html"><strong>Wine</strong> Multisampling f&uuml;r bessere Spieleunterst&uuml;tzung</a></div>
+            <p class="meta">12:02</p>
+        </li>
+	        <li>
+            <div class="dh2 text1"><a id="tial_86042" href="http://www.golem.de/1108/86042.html"><strong>Android-Tablet</strong> Samsungs Galaxy Tab 8.9 LTE mit schnellerem Prozessor</a></div>
+            <p class="meta">11:58</p>
+        </li>
+	        <li>
+            <div class="dh2 text1"><a id="tial_86043" href="http://www.golem.de/1108/86043.html"><strong>Raumfahrt</strong> Atomkraft f&uuml;r andere Planeten</a></div>
+            <p class="meta">11:57</p>
+        </li>
+	        <li>
+            <div class="dh2 text1"><a id="tial_86040" href="http://www.golem.de/1108/86040.html"><strong>Virtualisierung</strong> Eucalyptus integriert Hochverf&uuml;gbarkeit</a></div>
+            <p class="meta">11:49</p>
+        </li>
+	        <li>
+            <div class="dh2 text1"><a id="tial_86041" href="http://www.golem.de/1108/86041.html"><strong>iTelevision</strong> Apple soll an einem Fernseher arbeiten</a></div>
+            <p class="meta">11:37</p>
+        </li>
+	    </ol><!-- .list-tickers -->
+</section><!-- .g.g2#small-ticker -->
+<hr class="implied" />
+            </div><!-- .g.g6.g-ie6.activity -->
+
+        </div><!-- #screen -->
+<footer id="footer">
+    <ul>
+        <li><a href="http://www.golem.de/">Home</a></li>
+        <li><a href="http://www.golem.de/ticker/">Ticker</a></li>
+        <li><a href="http://www.golem.de/sonstiges/rss.html">RSS</a></li>
+        <li><a href="http://api.golem.de/">API</a></li>
+        <li><a href="http://forum.golem.de/">Forum</a></li>
+        <li><a href="http://www.golem.de/sonstiges/zusatzdienste.html">Zusatzdienste</a></li>
+        <li><a href="http://jobs.golem.de/">Jobs</a></li>
+        <li><a href="http://www.golem.de/sonstiges/impressum.html">Impressum</a></li>
+        <li><a href="http://www.golem.de/sonstiges/Datenschutz.html">Datenschutz</a></li>
+        <li><a href="http://www.golem.de/sonstiges/werbung.html">Werbung</a></li>
+        <li><a href="http://www.golem.de/microsite/freugol/index.html">Freunde</a></li>
+        <li><span id="gftrhook"></span></li>
+    </ul>
+    <p>&copy; 1997&mdash;2011 <a href="http://www.golem.de/">Golem.de</a>. Alle Rechte vorbehalten.</p>
+</footer><!-- #footer -->
+
+<script>
+<!--
+$(document).ready(function() {
+    $(document).trigger('DO_RECENTLY').trigger('SUPPORT_IE');
+});
+-->
+</script>
+<!--[if IE 6]>
+<script src="/staticrl/scripts/external/belated-png-0.0.8-min.js"></script>
+<script>
+    DD_belatedPNG.fix('#header img, .list-articles li img, .forum .threads .dh2, .ticker .is-image, .ticker .is-video, .cluster-video a, .cluster-video figcaption span');
+</script>
+<![endif]-->
+</div><!-- #grandwrapper -->
+	</div><!-- #golemContentToHide -->
+<div class="gg_fullscreen">
+  <ul class="gg_fullscreen"></ul>
+  <div class="gg_fullscreenIndex gg_solid">
+   <ul class="gg_prebackcounter">
+    <li class="gg_prebackcounterItem"><img src="http://www.golem.de/_img/gg/links.png" id="gg_fullScreenSubLeft" class="gg_subIconPrevPic  gg_activeI gg_cursorpointer"/></li>
+    <li class="gg_prebackcounterItem gg_fullscreenIndexCounter">&nbsp;0/00</li>
+    <li class="gg_prebackcounterItem"><img src="http://www.golem.de/_img/gg/rechts.png" id="gg_fullScreenSubRight" class="gg_subIconNextPic gg_activeI gg_cursorpointer"></li>
+   </ul>
+  </div>
+  <div class="gg_fullscreenSub gg_active">
+    <div class="gg_fullscreenSubText"></div>
+  </div>
+  <img src="http://www.golem.de/_img/gg/fullscreen.png" id="gg_fullScreenSubFSsmall" class="gg_fullscreenIconFS gg_cursorpointer" title="Zum Artikel" alt="Zum Artikel">
+  <img src="http://www.golem.de/_img/gg/plus.png" id="gg_fullScreenSubPlus" class="gg_subIcon gg_cursorpointer">
+  <img src="http://www.golem.de/_img/gg/minus.png" id="gg_fullScreenSubMinus" class="gg_subIcon gg_active gg_cursorpointer">
+</div>
+<div id="ivwcontainer">
+<script type="text/javascript">
+<!--
+var _gaq = _gaq || [];
+_gaq.push(['_gat._anonymizeIp'],
+['_setAccount','UA-518800-2'],['_setDomainName','golem.de'],['_trackPageview']);
+(function(d,t) {
+    var ga = d.createElement(t); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == d.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(ga, s);
+})(document,'script');
+(function(d,n){
+  var g=d.createElement(n),s=d.getElementsByTagName(n)[0];
+  g.async=true; g.src='http://www.golem.de/staticrl/scripts/golem_cpx_29-min.js';
+  s.parentNode.insertBefore(g,s);
+})(document,'script');
+//-->
+</script>
+<img src="http://cpx.golem.de/cpx.php?class=1&amp;aid=86036&amp;page=1&amp;ts=1314613185" alt="" width="1" height="1" />
+<img src="http://golem.met.vgwort.de/na/cd48a7d589a04e689f860c0a0238c887" width="1" height="1" alt="" />
+</div>
+<script type="text/javascript"><!--
+var patgr=/google\.(de|at|ch|com)\/(search|url)/g;
+if(patgr.test(document.referrer)){
+$(document).ready(function(){
+  $("span#gftrhook").html('<a href="http://www.vibrantmedia.com/whatisIntelliTXT.asp?cc=de" target="_blank">Gr&uuml;ne Links</a>');
+});
+(function(d,n){
+  var g=d.createElement(n),s=d.getElementsByTagName(n)[0];
+  g.async=true; g.src='http://golem.de.intellitxt.com/intellitxt/front.asp?ipid=28168';
+  s.parentNode.insertBefore(g,s);
+})(document,'script');
+}
+//--></script>
+<script type="text/javascript">
+<!--
+try{
+var lvdby_conf={'apiKey':'22cede61229ff2341c629a484e6234c5'};
+(function(d,n,p){
+  var g=d.createElement(n),s=d.getElementsByTagName(n)[0];
+  g.async=true; g.src=p+'api.loved.by/v1/js?api_key=22cede61229ff2341c629a484e6234c5';
+  s.parentNode.insertBefore(g,s);
+})(document,'script','https:'==document.location.protocol?'https://':'http://');
+}catch(e){}
+//-->
+</script>
+
+<div id="fb-root"></div>
+<script type="text/javascript">
+<!--
+var _gaq=_gaq || [];
+var shareUrl='http://www.golem.de/1108/86036.html';
+(function(d,n){
+  var g=d.createElement(n),s=d.getElementsByTagName(n)[0];
+  g.async=true; g.src='http://www.golem.de/staticrl/scripts/golem_low_28-min.js';
+  s.parentNode.insertBefore(g,s);
+})(document,'script');
+//-->
+</script>
+
+</body>
+</html>
