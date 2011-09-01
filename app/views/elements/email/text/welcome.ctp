@@ -2,7 +2,7 @@
 
 <?php echo __('Start using myZeitung', true)."\n";?>
     <?php echo __('Publish a Post', true);?>: <?php echo $this->Html->url(array('controller' => 'posts', 'action' => 'add'),true)."\n";?>
-    <?php echo __('Customize your Profile', true);?>: <?php echo $this->Html->url(array('controller' => 'users', 'action' => 'accGeneral'),true)."\n";?>
+    <?php echo __('Customize your Profile', true);?>: <?php echo $this->Html->url(array('controller' => 'users', 'action' => 'accAboutMe'),true)."\n";?>
 
 <?php echo __('Explore myZeitung', true)."\n";?>
     <?php echo __('Browse Posts', true);?>: <?php echo $this->Html->url(array('controller' => 'posts', 'action' => 'index'), true)."\n";?>
