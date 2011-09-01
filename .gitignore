@@ -9,3 +9,6 @@ app/webroot/jscache/*
 app/webroot/csscache/*
 app/webroot/img/cache/*
 app/webroot/img/tmp/*
+app/webroot/img/post/*
+app/webroot/img/user/*
+app/webroot/img/paper/*
