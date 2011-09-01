@@ -6,8 +6,12 @@ $(document).ready(function(){
     $('#topics-content .topic').bind('mouseleave', function(){
         $(this).find('.edit-icon').css('visibility', 'hidden');
     });
-
+    var view = '';
     $('.edit-icon').bind('click', function(e){
+        if(view != ''){
+            $('#dialog-topic').html(view);
+        }
+
         $( "#dialog-topic" ).dialog('open');
         var topic_id = $(this).attr('topic-id');
         $('#TopicId').val(topic_id);
@@ -25,13 +29,27 @@ $(document).ready(function(){
 		   .error(function(){
 			   alert('request error');
 		});
-
         //bind the event do delte box
-        $('#deletebox').unbind('click');//remove old clicks
-        $('#deletebox').bind('click', function(event){
+
+        $('.deletebox').live('click', function(event){
             event.preventDefault();
-            //redir to controller
-            goTo(base_url+'/topics/delete/'+topic_id);
+            //load conform and review dialog
+            var req = $.post(base_url + '/topics/delete/'+topic_id+'.json')
+               .success(function( response ){
+
+                   if(response.status == 'failure'){
+                       $( "#dialog-topic" ).dialog('close');
+                   }
+                   else if(response.status == 'success'){
+                       //save old view
+                       view = $('#dialog-topic').html();
+                       $('#dialog-topic').html(response.view);
+                   }
+               })
+               .error(function(){
+                   alert('request error');
+            });
+            //goTo(base_url+'/topics/delete/'+topic_id);
         });
 
     });
@@ -52,11 +70,15 @@ $(document).ready(function(){
 
 	$( "#dialog-topic" ).dialog({
         resizable: false,
-        height:200,
+        height:300,
         width:400,
         draggable:false,
         modal: true,
-        autoOpen: false
+        autoOpen: false,
+        beforeClose: function(event, ui) {
+            //reload if associations have been deleted
+            window.location.reload();
+        }
     });
 
 
