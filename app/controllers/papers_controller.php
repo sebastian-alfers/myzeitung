@@ -649,7 +649,7 @@ class PapersController extends AppController {
 		// @todo error log
 	}
     function admin_index() {
-        $this->paginate = array('contain' => array('User.id', 'User.username'));
+        $this->paginate = array('contain' => array('User.id', 'User.username', 'Route'));
 		$this->set('papers', $this->paginate());
 	}
     function admin_delete($id = null) {

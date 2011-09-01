@@ -4,12 +4,14 @@
 //post navigator
 //  user profile
 if($this->params['controller'] == 'users' && $this->params['action'] == 'view'){
-    $paginator->options(array('url'=> array('controller' => 'users',
+    $options = array('url'=> array('controller' => 'users',
                                             'action' => 'view',
-                                            'username' => $this->params['username']) ,
-                                                                                )
-
+                                            'username' => $this->params['username'])                                                                             
     );
+        if(isset($this->params['topic_id'])){
+        $options['url']['topic_id'] = $this->params['topic_id'];
+    }
+    $paginator->options($options);
 }
 //  paper view
 if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'){
