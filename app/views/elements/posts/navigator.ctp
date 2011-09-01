@@ -10,6 +10,13 @@ $paginator = $this->element('global/paginate');
 if($has_topics){
 
     echo $this->element('posts/repost_modal_choose_topic');
+    ?>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        observeRepost();
+    });
+    </script>
+    <?php
 }
 ?>
 
