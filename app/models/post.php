@@ -90,6 +90,7 @@ class Post extends AppModel {
              $postUsers = $this->PostUser->find('all',array('conditions' => array('post_id' => $this->id)));
             foreach($postUsers as $postUser){
                 $this->PostUser->data = $postUser;
+                $this->PostUser->id = $postUser['PostUser']['id'];
                 $this->PostUser->disable();
             }
             //disable post
@@ -116,6 +117,7 @@ class Post extends AppModel {
             $postUsers = $this->PostUser->find('all',array('conditions' => array('post_id' => $this->id)));
             foreach($postUsers as $postUser){
                 $this->PostUser->data = $postUser;
+                $this->PostUser->id = $postUser['PostUser']['id'];
                 $this->PostUser->enable();
             }
             //enable post

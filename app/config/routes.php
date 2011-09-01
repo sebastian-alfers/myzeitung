@@ -89,7 +89,7 @@ Router::connect('/', array('controller' => 'home', 'action' => 'index'));
  */
 
 Router::connect('/u/:username/papers/*', array('controller' => 'users','action' =>'viewSubscriptions'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
-Router::connect('/u/:username/:id', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username','id'),'username' => '[a-z0-9]+[^/]','id' => '[0-9]+'));
+Router::connect('/u/:username/:topic_id/*', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username','topic_id'),'username' => '[a-z0-9]+[^/]','topic_id' => '[0-9]+'));
 Router::connect('/u/:username/*', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
 
 /**
