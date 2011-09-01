@@ -67,14 +67,14 @@ class Topic extends AppModel {
 
 		App::import('model','Post');
 		$this->Post = new Post();
-		$this->Post->Contain();
+		$this->Post->contain();
 		//change all Post's topics that have the deleted topic. the posts_users entry will be update automatically for those
         $posts = $this->Post->findAllByTopic_id($this->id);
-		foreach($posts as $post){
 
+        foreach($posts as $post){
 			$post['Post']['topic_id'] = null;
             $this->Post->topicChanged= true;
-			$this->Post->save($post);
+            $this->Post->save($post, false);
 		}
         //change all reposts with the deleted topic id to topic = null;
 		App::import('model','PostUser');

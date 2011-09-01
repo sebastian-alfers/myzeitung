@@ -657,9 +657,6 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid id for paper', true));
 			$this->redirect($this->referer());
 		}
-        $this->Paper->contain();
-        $paper =  $this->Paper->read(array('id'), $id);
-
         // second param = cascade -> delete associated records from hasmany , hasone relations
         if ($this->Paper->delete($id, true)) {
             $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));

@@ -192,23 +192,24 @@ class ContentPaper extends AppModel {
     }
     function updateCounterCache($keys = array(), $created = false){
         $keys = empty($keys) ? $this->data[$this->alias] : $keys;
-
-        //update user
-        $count = $this->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.user_id' => $keys['user_id']),'fields' => 'distinct ContentPaper.paper_id'));
-        $this->User->id = $keys['user_id'];
-        $this->User->saveField('subscriber_count', $count, array('callbacks' => 0, 'validate' => 0));
-
+        if(isset($keys['user_id']) && !empty($keys['user_id'])){
+            //update user
+            $count = $this->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.user_id' => $keys['user_id']),'fields' => 'distinct ContentPaper.paper_id'));
+            $this->User->id = $keys['user_id'];
+            $this->User->saveField('subscriber_count', $count, array('callbacks' => 0, 'validate' => 0));
+        }
         //update topic
         if(isset($keys['topic_id']) && !empty($keys['topic_id'])){
             $count = $this->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.topic_id' => $keys['topic_id']),'fields' => 'distinct ContentPaper.paper_id'));
             $this->Topic->id = $keys['topic_id'];
             $this->Topic->saveField('subscriber_count', $count, array('callbacks' => 0, 'validate' => 0));
         }
-
-        //update paper
-        $count = $this->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.paper_id' => $keys['paper_id']),'fields' => 'distinct ContentPaper.user_id'));
-        $this->Paper->id = $keys['paper_id'];
-        $this->Paper->saveField('author_count', $count, array('callbacks' => 0, 'validate' => 0));
+        if(isset($keys['paper_id']) && !empty($keys['paper_id'])){
+            //update paper
+            $count = $this->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.paper_id' => $keys['paper_id']),'fields' => 'distinct ContentPaper.user_id'));
+            $this->Paper->id = $keys['paper_id'];
+            $this->Paper->saveField('author_count', $count, array('callbacks' => 0, 'validate' => 0));
+        }
 
         //update category
         if(isset($keys['category_id']) && !empty($keys['category_id'])){

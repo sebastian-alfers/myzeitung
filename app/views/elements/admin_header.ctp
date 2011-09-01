@@ -29,11 +29,12 @@
 		<div id="nav">
 
 			<?php if($session->read('Auth.User.id')):?>
-			<div id="user-nav">
+			<div id="user-nav" style="width: 950px; left: 64px;">
                 <?php if($is_superadmin): ?>
                     <ul>
                         <li><?php echo $this->Html->link(__('Search', true), array('controller' => 'search', 'action' => 'index'));?></li>
                         <li><?php echo $this->Html->link(__('Data Associations', true), array('controller' => 'index', 'action' => 'index'));?></li>
+                        <li><?php echo $this->Html->link(__('Comments', true), array('controller' => 'comments', 'action' => 'index'));?></li>
                          <li><?php echo $this->Html->link(__('Papers', true), array('controller' => 'papers', 'action' => 'index'));?></li>
                          <li><?php echo $this->Html->link(__('Posts', true), array('controller' => 'posts', 'action' => 'index'));?></li>
                          <li><?php echo $this->Html->link(__('Users', true), array('controller' => 'users', 'action' => 'index'));?></li>
