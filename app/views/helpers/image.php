@@ -325,7 +325,7 @@ class ImageHelper extends Helper {
 	 * @param array $container_data - array widh: -> key for controller data; -> key for additional data
 	 */
 	public function render($data, $width, $height, $img_extra = array(), $container_data = null, $model = self::USER){
-            
+
 		$img_data = $this->getImgPath($data['image'], $model);
 
         if(!is_array($img_data)){
@@ -352,7 +352,7 @@ class ImageHelper extends Helper {
 		}
 		else{
 			$path = $this->resize($img_data, $width, $height, null, false);
-			$img = $this->Html->image($path, $img_extra);
+			$img = $this->Cf->image($path, $img_extra);
 		}
 
 		if($container_data != null &&

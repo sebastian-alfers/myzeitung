@@ -267,6 +267,10 @@ class AppController extends Controller {
             'admin_index'    => $this->user,
             'admin_edit'  => $this->user,
         ),
+         'aws' => array(
+             'admin_ses' => $this->admin,
+             'admin_ec2' => $this->admin,
+         )
 		);
 
 
