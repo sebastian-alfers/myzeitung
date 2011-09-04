@@ -63,7 +63,6 @@ class PostsController extends AppController {
 
 	 */
 	function repost($post_id = null, $topic_id = null){
-        $this->log($this->data);
         if(isset($this->data['Posts']['post_id'])){
             $post_id = $this->data['Posts']['post_id'];
          }
@@ -127,7 +126,6 @@ class PostsController extends AppController {
      * @param $id
      */
     function view($id = null) {
-        $this->log($id);
         if (!$id) {
             $this->Session->setFlash(__('Invalid post', true));
             $this->redirect($this->referer());
@@ -290,7 +288,7 @@ class PostsController extends AppController {
 						//$this->data = array();
 						$this->data = $temp_data;
 						$this->data['Post']['image'] = $this->images;
-                        $this->log($this->data['Post']['image']);
+
 						$this->data["Post"]["user_id"] = $user_id;
 						$this->data['Post']['hash'] = $hash;
 						$this->data['Post']['content'] = $content;
@@ -503,12 +501,10 @@ class PostsController extends AppController {
 			//process links
 			$this->processLinks();
 
-            $this->log('var 1= '.$post['Post']['topic_id']);
-            $this->log('var 2= '.$this->data['Post']['topic_id']);
+
 			if($post['Post']['topic_id'] != $this->data['Post']['topic_id']){
 				$this->Post->topicChanged = true;
-                $this->log('topicchanged true controller');
-			}
+            }
             // temp. necessary until there is a dropdown for allow comments in post add edit view
             if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){
                 $this->data['Post']['allow_comments'] = self::ALLOW_COMMENTS_DEFAULT;
@@ -641,7 +637,6 @@ class PostsController extends AppController {
 	 */
 
 	function ajxImageProcess(){
-        $this->log('hier');
 		if(isset($_FILES['file'])){
 			$file = $_FILES['file'];
 

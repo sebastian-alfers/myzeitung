@@ -5,8 +5,15 @@
 
                         <p class="from-top"><?php echo __('Conversation between you',true);?>
                             <?php foreach($users as $user):?>
+                            <?php if(empty($user['User']['id'])):$user['User']['username'] = __('deleted user', true); endif;?>
                                 <?php if($user['User']['id'] != $session->read('Auth.User.id')):?>
-                                    ,&nbsp;<strong>&nbsp;<?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?></strong>
+                                   , <strong>
+                                        <?php if($user['User']['id']):?>
+                                             <?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?>
+                                        <?php else:?>
+                                              <?php echo $user['User']['username'];?>
+                                        <?php endif;?>
+                                    </strong>
                                 <?php endif; ?>
                             <?php endforeach;?>
                             </p>

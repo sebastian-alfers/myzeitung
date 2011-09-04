@@ -71,12 +71,21 @@
 										<?php // show all participants ?>
                                         <p class="from"><?php echo sprintf(__('between you and', true));?>
                                             <?php foreach($conversation['Conversation']['ConversationUser'] as $user){
+                                                if(empty($user['User']['id'])){
+                                                    //user has been deleted
+                                                    $user['User']['username'] = __('deleted user', true);
+                                                }
                                                 if($user['User']['id'] != $session->read('Auth.User.id')){
                                                     $tipsy_name= $user['User']['username'];
 									                if($user['User']['name']){
 										                $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
 									                }
-                                                    echo '<strong>'.$this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name, 'escape' => false)).'</strong>';
+                                                    if($user['User']['id']){
+                                                        echo $this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name, 'escape' => false));
+                                                    }else{
+                                                         echo '<strong>'.$user['User']['username'].'</strong>';
+                                                    }
+
                                                   
                                                 }
                                             }?>

@@ -126,7 +126,7 @@ Router::connect('/settings/social-media', array('controller' => 'users', 'action
 
 Router::connect('/authors/*', array('controller' => 'users', 'action' => 'index'));
 Router::connect('/articles/*', array('controller' => 'posts', 'action' => 'index'));
-Router::connect('/newspapers/*', array('controller' => 'papers', 'action' => 'index'));
+Router::connect('/papers/*', array('controller' => 'papers', 'action' => 'index'));
 Router::connect('/paper/add', array('controller' => 'papers', 'action' => 'add'));
 Router::connect('/paper/subscribe/*', array('controller' => 'papers', 'action' => 'subscribe'));
 Router::connect('/paper/unsubscribe/*', array('controller' => 'papers', 'action' => 'unsubscribe'));

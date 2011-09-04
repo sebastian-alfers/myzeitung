@@ -119,14 +119,16 @@ class PostUser extends AppModel {
         if(isset($keys['user_id']) && !empty($keys['user_id'])){
             //update user
             $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.user_id' => $keys['user_id'])));
-            $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.user_id' => $keys['user_id'])));
+            //post_count are posts + reposts, if you want just the posts -> post_count - repost-count
+            $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,  'PostUser.user_id' => $keys['user_id'])));
             $this->User->id = $keys['user_id'];
             $this->User->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
         }
         //update topic
         if(isset($keys['topic_id']) && !empty($keys['topic_id'])){
             $count_reposts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,'repost' => true, 'PostUser.topic_id' => $keys['topic_id'])));
-            $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true, 'repost' => false, 'PostUser.topic_id' => $keys['topic_id'])));
+            //post_count are posts + reposts, if you want just the posts -> post_count - repost-count
+            $count_posts = $this->find('count',array('conditions' => array('PostUser.enabled' => true,  'PostUser.topic_id' => $keys['topic_id'])));
             $this->Topic->id = $keys['topic_id'];
             $this->Topic->save(array('repost_count' => $count_reposts, 'post_count' => $count_posts),array('callbacks' => 0, 'validate' => 0, 'fieldList' => array('repost_count', 'post_count')));
 
