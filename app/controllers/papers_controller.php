@@ -4,7 +4,7 @@ class PapersController extends AppController {
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session', 'Papercomp', 'Upload');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('MzText' ,'MzTime', 'Image',  'Javascript', 'Ajax', 'Reposter');
+	var $helpers = array('MzHtml', 'MzText' ,'MzTime', 'Image',  'Javascript', 'Ajax', 'Reposter');
 
 	var $allowedSettingsActions = array('image');
 
@@ -53,7 +53,7 @@ class PapersController extends AppController {
 				}
 			}
 		}
-      
+        $this->set('canonical_for_layout', '/papers');
 		$this->set('papers', $papers);
 	}
 
@@ -163,6 +163,7 @@ class PapersController extends AppController {
         $frontpage_authors = $this->ContentPaper->find('count', array('conditions' => array('ContentPaper.paper_id' => $paper['Paper']['id'], 'ContentPaper.category_id' => NULL)));
         $paper['Paper']['frontpage_authors_count'] = $frontpage_authors;
 
+        $this->set('canonical_for_layout', $paper['Route'][0]['source']);
 		$this->set('hash', $this->Upload->getHash());
 
 		$this->set('paper', $paper);

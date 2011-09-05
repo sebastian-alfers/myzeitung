@@ -45,7 +45,7 @@ class PostsController extends AppController {
 	            'contain' => array('Route', 'User.username','User.id', 'User.name', 'User.image'),
 		)
 		);
-
+        $this->set('canonical_for_layout', '/articles');
 		$this->set('posts', $this->paginate());
 	}
 
@@ -141,7 +141,7 @@ class PostsController extends AppController {
             $this->redirect($this->referer());
         }
 
-        $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
+        $this->Post->contain('Route', 'User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
 
         $post = $this->Post->read(null, $id);
 
@@ -190,6 +190,7 @@ class PostsController extends AppController {
         $this->set('post', $post);
 		$this->set('user', $user);
 		$this->set('comments',$comments);
+        $this->set('canonical_for_layout', $post['Route'][0]['source']);
 
 	}
 

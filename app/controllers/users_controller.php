@@ -92,7 +92,7 @@ class UsersController extends AppController {
             )
         );
 
-
+        $this->set('canonical_for_layout', '/authors');
         $this->set('users', $this->paginate());
 	}
 	/**
@@ -164,7 +164,7 @@ class UsersController extends AppController {
 
 		$this->set('user', $user);
     
-
+        $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
 		$this->set('posts', $this->paginate($this->User->Post));
 
 
@@ -259,6 +259,7 @@ class UsersController extends AppController {
 				}
 			}
 		}
+        $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username'].'/papers'));
 		$this->set('papers', $papers);
 
 

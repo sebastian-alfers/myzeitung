@@ -26,9 +26,12 @@
 		<?php __('myZeitung'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
-	<?php // all scripts and css declarations must be added to the following element?>
-	<?php echo $this->element('scripts_css'); ?>	
-	<?php echo $this->element('tracking/google_analytics/track'); ?>
+    <?php if(isset($canonical_for_layout)):?>
+        <?php echo $this->Html->meta('canonical', $canonical_for_layout, array('rel'=>'canonical', 'type'=>null, 'title'=>null, 'inline' => false));; ?>
+    <?php endif;?>
+    <?php // all scripts and css declarations must be added to the following element?>
+    <?php echo $this->element('scripts_css'); ?>
+    <?php echo $this->element('tracking/google_analytics/track'); ?>
 </head>
 	<body>
     <?php

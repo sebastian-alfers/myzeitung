@@ -27,25 +27,29 @@ class SearchController extends AppController {
 
 		$this->set('start', $start);
 		$this->set('per_page', solr::DEFAULT_LIMIT);
-
+        $this->set('canonical_for_layout','/search');
 		if($this->params['isAjax']){
 			$this->render('more_results', 'ajax');
 		}
+
 				
 	}
 	
 	function users() {
-		$this->getResults(solr::TYPE_USER , solr::QUERY_TYPE_SEARCH_RESULTS);		
+		$this->getResults(solr::TYPE_USER , solr::QUERY_TYPE_SEARCH_RESULTS);
+        $this->set('canonical_for_layout','/search');
 		$this->render('index');
 	}
 	
 	function papers() {
 		$this->getResults(solr::TYPE_PAPER, solr::QUERY_TYPE_SEARCH_RESULTS);
+        $this->set('canonical_for_layout','/search');
 		$this->render('index');		
 	}
 	
 	function posts() {
-		$this->getResults(solr::TYPE_POST, solr::QUERY_TYPE_SEARCH_RESULTS);	
+		$this->getResults(solr::TYPE_POST, solr::QUERY_TYPE_SEARCH_RESULTS);
+        $this->set('canonical_for_layout','/search');
 		$this->render('index');	
 	}
 	
@@ -66,9 +70,7 @@ class SearchController extends AppController {
     function admin_index(){
 
     }
-    function admin_hansmeiser(){
-        $this->Solr->refreshPostsIndex();
-    }
+
     function admin_refreshPostsIndex(){
         $this->Solr->refreshPostsIndex();
         $this->Session->setFlash(__('Posts search index has been refreshed', true));

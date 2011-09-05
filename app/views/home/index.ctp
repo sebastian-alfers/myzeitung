@@ -119,7 +119,7 @@
 						<h2>Meld Dich an und schreib eigene Artikel oder erstell Dir gleich eine eigene Zeitung!</h2>
 						
 						<p><strong>Lorem ipsum</strong> dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit </p>
-						<?php echo $this->Html->link('<span>+</span>'.__('Register', true), array('controller' => 'users',  'action' => 'add'), array('escape' => false, 'class' => 'big btn', ));?>
+						<?php echo $this->Html->link('<span>+</span>'.__('Register', true), array('controller' => 'users',  'action' => 'add'), array('rel' => 'nofollow', 'escape' => false, 'class' => 'big btn', ));?>
 						<hr />
 						
 						
