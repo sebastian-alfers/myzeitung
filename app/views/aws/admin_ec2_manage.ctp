@@ -1,4 +1,4 @@
-<?php if(isset($instances) && count($instances) > 0): ?>
+<?php if(isset($data) && count($data) > 0): ?>
 
 <div class="settings index">
 	<h2><?php __('Settings');?></h2>
@@ -12,9 +12,10 @@
         <th><?php __('Zone'); ?></th>
 	</tr>
 
-    <?php foreach($instances as $instance): ?>
+    <?php $i = 0; ?>
+    <?php foreach($data as $instance): ?>
 	<?php
-	$i = 0;
+        debug($instance);
 	$class = null;
 	if ($i++ % 2 == 0)
 	    $class = ' class="altrow"';

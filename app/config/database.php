@@ -41,11 +41,11 @@ class DATABASE_CONFIG
 	var $live = array(
             'driver' => 'mysql',
             'persistent' => false,
-            'host' => 'localhost',
-            'port' => '',
-            'login' => 'root',
-            'password' => '',
-            'database' => 'myzeitung',
+            'host' => 'db01.cr12ebyckgtr.eu-west-1.rds.amazonaws.com',
+            'port' => '3306',
+            'login' => 'mz_rds',
+            'password' => 'Ymqodfi3',
+            'database' => 'mzdb',
 	);
 
 

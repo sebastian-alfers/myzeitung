@@ -1,3 +1,7 @@
+body{
+    background-color: #AABDE6 !important;
+}
+
 #content table td{
     padding: 10px;
 }

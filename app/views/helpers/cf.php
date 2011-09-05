@@ -13,14 +13,14 @@ class CfHelper extends AppHelper {
 /**
  * Let's load required helpers
  */
-  public $helpers = array('Html');
+  public $helpers = array('Html', 'Javascript');
   
 /**
  * Where are the assets hosted?
  * Possible options: 'assets.example.com', if you only have one host
  * Or: 'assets%d.example.com', if you have multiple hosts. %d gets replaced with host number
  */
-  private $assetHost = 'd224qf9il37feo.cloudfront.net';
+  private $assetHost = '';
   
 /**
  * If above is 'assets%d.example.com' will generate host names from 0 - 3
@@ -48,14 +48,18 @@ class CfHelper extends AppHelper {
 /**
  * Where are the JS files relative to web root (local should mirror remote)
  * Try to stick to cake conventions.
+ *
+ * the asset helper already contains cache dir
  */
-  private $jsDir = 'js';
+  private $jsDir = '';
 
 /**
  * Where are the CSS files relative to web root (local should mirror remote)
  * Try to stick to cake conventions.
+ *
+ * the asset helper already contains cache dir
  */
-  private $cssDir = 'css';
+  private $cssDir = '';
 
 /**
  * Will set asset directory depending on the asset type (css, js, img)
@@ -73,6 +77,8 @@ class CfHelper extends AppHelper {
  public function __construct(){
      if(Configure::read('Cdn.enable')){
         $this->_isLocal = false;
+
+        $this->assetHost = Configure::read('Cdn.url');
      }
  }
 
@@ -94,17 +100,20 @@ class CfHelper extends AppHelper {
         return $this->Html->image($assets, $options);
     }
 
-    $this->setAssetDir($this->imgDir);      
-    return $this->Html->image($this->setAssetPath($assets), $options);
+    $this->setAssetDir($this->imgDir);
+    return $this->Html->image($this->setAssetPath('/img/'.$assets), $options);
   }
  
  /**
  * Return JS link path/URL either remote or local based on the debug level
  */   
   public function script($assets, $inline = true) {
+
     if($this->_isLocal){
+
         return $this->Html->script($assets);
     }
+
 
     $this->setAssetDir($this->jsDir);
     return $this->Javascript->link($this->setAssetPath($assets), $inline);
@@ -114,9 +123,11 @@ class CfHelper extends AppHelper {
  * Return CSS link path/URL either remote or local based on the debug level
  */  
   public function css($assets, $rel = null, $htmlAttributes = array(), $inline = true) {
+
     if($this->_isLocal){
         return $this->Html->css($assets);
     }
+
 
     $this->setAssetDir($this->cssDir);
     return $this->Html->css($this->setAssetPath($assets).'.css', $rel, $htmlAttributes, $inline);
@@ -143,7 +154,7 @@ class CfHelper extends AppHelper {
  * Build asset URL
  */  
   private function pathPrep() {
-    return $this->getProtocol() . $this->getAssetHost($this->assetHost) . $this->assetDir;    
+    return $this->getAssetHost($this->assetHost) . $this->assetDir;
   }
  
  /**
@@ -151,7 +162,8 @@ class CfHelper extends AppHelper {
  */  
   private function setAssetDir($dir = NULL) {
     if($dir) {
-      $this->assetDir = '/' . $dir . '/';  
+      //$this->assetDir = '/' . $dir . '/';
+      $this->assetDir = '';
     }    
   }
  

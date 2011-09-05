@@ -25,26 +25,124 @@
                 <li></li>
 			</ul>
 		</div>
-		
-		<div id="nav">
 
-			<?php if($session->read('Auth.User.id')):?>
-			<div id="user-nav" style="width: 950px; left: 64px;">
-                <?php if($is_superadmin): ?>
-                    <ul>
-                        <li><?php echo $this->Html->link(__('Search', true), array('controller' => 'search', 'action' => 'index'));?></li>
-                        <li><?php echo $this->Html->link(__('Data Associations', true), array('controller' => 'index', 'action' => 'index'));?></li>
+		<div id="nav">
+		<ul class="sf-menu">
+			<li class="current">
+				<a href="#a"><?php __('Data'); ?></a>
+				<ul>
                         <li><?php echo $this->Html->link(__('Comments', true), array('controller' => 'comments', 'action' => 'index'));?></li>
                          <li><?php echo $this->Html->link(__('Papers', true), array('controller' => 'papers', 'action' => 'index'));?></li>
                          <li><?php echo $this->Html->link(__('Posts', true), array('controller' => 'posts', 'action' => 'index'));?></li>
                          <li><?php echo $this->Html->link(__('Users', true), array('controller' => 'users', 'action' => 'index'));?></li>
-				    </ul>
-                <?php endif; ?>
-				<ul>
-                     <li><?php echo $this->Html->link(__('Complaints', true), array('controller' => 'complaints', 'action' => 'index'));?></li>
+					<?php /*
+                    <li class="current">
+						<a href="#ab">menu item</a>
+						<ul>
+							<li class="current"><a href="#">menu item</a></li>
+							<li><a href="#aba">menu item</a></li>
+							<li><a href="#abb">menu item</a></li>
+							<li><a href="#abc">menu item</a></li>
+							<li><a href="#abd">menu item</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu item</a>
+						<ul>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu item</a>
+						<ul>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+						</ul>
+					</li>
+                */ ?>
 				</ul>
-			</div><!-- / #user-nav -->
-			<?php endif;?>
-			
+			</li>
+			<li>
+				<?php echo $this->Html->link(__('Complaints', true), array('controller' => 'complaints', 'action' => 'index'));?>
+			</li>
+            <?php if($is_superadmin): ?>
+			<li>
+				<a href="#"><?php __('Admin'); ?></a>
+				<ul>
+					<li>
+						<a href="#"><?php __('Indeces'); ?></a>
+						<ul>
+							<li><?php echo $this->Html->link(__('Search', true), array('controller' => 'search', 'action' => 'index'));?></li>
+                            <li><?php echo $this->Html->link(__('Data Associations', true), array('controller' => 'index', 'action' => 'index'));?></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu item</a>
+						<ul>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu item</a>
+						<ul>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu item</a>
+						<ul>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+							<li><a href="#">menu item</a></li>
+						</ul>
+					</li>
+				</ul>
+
+			</li>
+            <?php endif;?>
+
+        <li>
+            <a href="#"><?php __('AWS'); ?></a>
+            <ul>
+                <li>
+                    <a href="#"><?php __('Email'); ?></a>
+                    <ul>
+                        <li><?php echo $this->Html->link(__('Statistics (quota)', true), array('controller' => 'aws', 'action' => 'ses', 'quota'));?></li>
+                        <li><?php echo $this->Html->link(__('Adresses', true), array('controller' => 'aws', 'action' => 'ses', 'adresses'));?></li>
+                    </ul>
+                </li>
+                <li><a href="#"><?php __('Server / Instances'); ?></a>
+                    <ul>
+                        <li><?php echo $this->Html->link(__('Manage Instances', true), array('controller' => 'aws', 'action' => 'ec2', 'manage'));?></li>
+                    </ul>
+                </li>
+                <li><a href="#"><?php __('Backups'); ?></a></li>
+                <li><?php echo $this->Html->link(__('Email', true), array('controller' => 'aws', 'action' => 'email', 's'));?></li>
+
+                <li><a href="#"><?php __('Database'); ?></a></li>
+                <li><a href="#"><?php __('Loadbalancer'); ?></a></li>
+                <li><a href="#"><?php __('CDN'); ?></a></li>
+                <li><a href="#"><?php __('Cronjobs'); ?></a></li>
+            </ul>
+        </li>
+            </ul>
+
 		</div><!-- / #nav --> 
 </div><!-- / #header -->

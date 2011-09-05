@@ -21,7 +21,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-
+/*
 Cache::config('default', array(
    'engine' => 'Memcache', //[required]
    'duration'=> 3600, //[optional]
@@ -32,7 +32,16 @@ Cache::config('default', array(
    ), //[optional]
    'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
    ));
-//Cache::config('default', array('engine' => 'File'));
+*/
+
+Configure::write('Cdn.enable', true);
+Configure::write('Cdn.url', 'd1olow24xjv8hb.cloudfront.net');
+
+//         css js cache
+Configure::write('Frontend.disable_combine_js', false);
+Configure::write('Frontend.disable_combine_css', false);
+
+Cache::config('default', array('engine' => 'File'));
 
 //         SOLR
 Configure::write('Solr.enable', true);
@@ -40,13 +49,13 @@ Configure::write('Solr.port', 8080);
 Configure::write('Solr.host', 'localhost');
 
 //         cache
-Configure::write('Cache.disable', false);//true
+Configure::write('Cache.disable', true);//true
 Configure::write('Cache.check', true);//false
-Configure::write('Cache.save_handler', 'memcache');//file
+Configure::write('Cache.save_handler', 'file');//file
 
 
 //         session
-Configure::write('Session.save', 'php');//
+Configure::write('Session.save', 'database');//
 
 //         debug
 Configure::write('debug', 0);

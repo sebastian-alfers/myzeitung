@@ -39,7 +39,7 @@ class AssetHelper extends Helper {
 		'cssCompression' => 'high_compression',
 		
 		//replace relative img paths in css files with full http://...
-		'fixCssImg' => false
+		'fixCssImg' => true
 	);
 	
   //Class for localizing JS files if JS I18N plugin is installed
@@ -52,7 +52,7 @@ class AssetHelper extends Helper {
 
   var $foundFiles = array();
 
-  var $helpers = array('Html', 'Javascript');
+  var $helpers = array('Html', 'Javascript', 'Cf');
   var $viewScriptCount = 0;
   var $initialized = false;
   var $js = array();
@@ -109,7 +109,6 @@ class AssetHelper extends Helper {
 			return join("\n\t", $scripts_for_layout);
 		}
 
-
     $scripts_for_layout = array();
 		foreach($this->assets as $asset) {
 			if(!in_array($asset['type'], $types) ) {
@@ -119,13 +118,16 @@ class AssetHelper extends Helper {
 			switch($asset['type']) {
 				case 'js':
 					$processed = $this->__process($asset['type'], $asset['assets']);
-					$scripts_for_layout[] = $this->Javascript->link('/' . $this->options['cachePaths']['js'] . '/' . $processed);
+					//$scripts_for_layout[] = $this->Javascript->link('/' . $this->options['cachePaths']['js'] . '/' . $processed);
+                    $scripts_for_layout[] = $this->Cf->script('/' . $this->options['cachePaths']['js'] . '/' . $processed);
 					break;
 				case 'css':
 					$processed = $this->__process($asset['type'], $asset['assets']);
-					$scripts_for_layout[] = $this->Html->css('/' . $this->options['cachePaths']['css'] . '/' . $processed);
+					//$scripts_for_layout[] = $this->Html->css('/' . $this->options['cachePaths']['css'] . '/' . $processed);
+                    $scripts_for_layout[] = $this->Cf->css('/' . $this->options['cachePaths']['css'] . '/' . $processed);
 					break;				
 				default:
+
 					$scripts_for_layout[] = $asset['assets']['script'];
 			}
 		}
@@ -210,14 +212,20 @@ class AssetHelper extends Helper {
 			continue;
 		}
 
-		if (substr($match[1], 0, 1) == '/'
-			|| strpos($match[1], 'http://') !== false
+		//if (substr($match[1], 0, 1) == '/'
+        if (strpos($match[1], 'http://') !== false
 			|| strpos($match[1], 'https://') !== false) {
 			continue;
 		}
 
 		$normalized = $this->__normalizeImageUrl($rootPath.'/'.$match[1]);
-		$replacements[$match[1]] = Router::url($normalized);
+
+        $base_path = '';
+        if(Configure::read('Cdn.enable') == true){
+            $base_path = Configure::read('Cdn.url');
+        }
+
+		$replacements[$match[1]] = Router::url($base_path.$match[1]);
 	}
 
 	return str_replace(array_keys($replacements), array_values($replacements), $buffer);
