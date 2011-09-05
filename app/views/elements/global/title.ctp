@@ -55,8 +55,12 @@ if($this->params['controller'] == 'home'){
     //search controller
     }elseif($this->params['controller'] == 'search'){
         $title = __('Searchresults', true);
-
+        
+    //conversations controller
+    }elseif($this->params['controller'] == 'conversations'){
+        $title = __('Messages', true);
     }
+
 
 
 

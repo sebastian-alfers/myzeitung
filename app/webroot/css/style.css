@@ -121,7 +121,7 @@ resize: none;
     background: #fff;
     width: 1038px;
     margin: 0 auto;
-    min-height: 800px;
+    min-height: 400px;
     position: relative;
     overflow: hidden;
 }
@@ -131,6 +131,19 @@ resize: none;
     padding: 5px 19px;
 }
 
+.error-page{
+    text-align: center;
+}
+.error-page h2{
+    font-size: 120px;
+    margin-top: 70px;
+}
+.error-page h3{
+    margin-top: 50px;
+}
+.error-page p{
+
+}
 
 /* Buttons */
 
