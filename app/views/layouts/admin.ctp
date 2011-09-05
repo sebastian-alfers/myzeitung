@@ -23,7 +23,7 @@
 	<?php echo $this->Html->charset(); ?>
 	
 	<title>
-		<?php __('myZeitung - admin'); ?>
+		<?php __('myBackend'); ?>
 	</title>
 	<?php // all scripts and css declarations must be added to the following element?>
 	<?php echo $this->element('admin_scripts_css'); ?>

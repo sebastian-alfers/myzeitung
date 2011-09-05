@@ -64,7 +64,7 @@
 					<span class="round-icon"><?php echo $conversation_count;?></span>
 					<?php endif;?>
 				</li>
-				<li class="big-btn"><?php echo $this->Html->link('<span>+</span>'.__('New Post', true), array('controller' => 'posts', 'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
+				<li class="big-btn"><?php echo $this->Html->link('<span>+</span>'.__('New Article', true), array('controller' => 'posts', 'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
 				</ul>
 			</div><!-- / #user-nav -->
 			<?php endif;?>
@@ -76,7 +76,7 @@
 <div id="signin_menu">
     <div style="float:left;width:117px;">
         <ul>
-            <li><?php echo $this->Html->link(__('New Post', true), array('controller' => 'posts' , 'action' => 'add'));?></li>
+            <li><?php echo $this->Html->link(__('New Article', true), array('controller' => 'posts' , 'action' => 'add'));?></li>
             <li class="spacer"><?php echo $this->Html->link(__('New Paper', true), array('controller' => 'papers' , 'action' => 'add'));?></li>
             <li><?php echo $this->Html->link(__('My Articles',true), array('controller' => 'users' , 'action' => 'view', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
             <li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users' , 'action' => 'viewSubscriptions', 'username' => strtolower($session->read('Auth.User.username'))));?></li>

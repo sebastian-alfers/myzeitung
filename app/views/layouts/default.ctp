@@ -23,8 +23,7 @@
 	<?php echo $this->Html->charset(); ?>
 	
 	<title>
-		<?php __('myZeitung'); ?>
-		<?php echo $title_for_layout; ?>
+	    <?php echo $this->element('global/title');?>
 	</title>
     <?php if(isset($canonical_for_layout)):?>
         <?php echo $this->Html->meta('canonical', $canonical_for_layout, array('rel'=>'canonical', 'type'=>null, 'title'=>null, 'inline' => false));; ?>

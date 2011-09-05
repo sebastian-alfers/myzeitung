@@ -23,7 +23,7 @@ if($has_topics){
 <div id="maincolwrapper" class="post-view">
     <div id="maincol">
         <?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'index'):?>
-              <h2><?php echo __('Browse Posts', true);?></h2>
+              <h2><?php echo __('Browse Articles', true);?></h2>
         <?php endif;?>
         <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
                 <h2><?php echo $paper['Paper']['title'];?></h2>

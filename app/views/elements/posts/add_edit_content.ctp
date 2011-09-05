@@ -9,9 +9,9 @@
 
 <div class="article-nav">
     <?php if($this->params['action'] == 'add'):?>
-      <h1><?php echo __('New Post', true); ?></h1>
+      <h1><?php echo __('New Article', true); ?></h1>
     <?php else:?>
-       <h1><?php echo __('Edit your Post', true); ?></h1>
+       <h1><?php echo __('Edit Article', true); ?></h1>
     <?php endif;?>
 
 
