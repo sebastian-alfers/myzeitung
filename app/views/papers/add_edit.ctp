@@ -12,7 +12,11 @@ $(document).ready(function() {
 
 <div id="maincolwrapper"> 
 	<div id="maincol" class="account">
-			<h4 class="account-title"><?php echo __('New Paper', true);?></h4>
+        <?php if($this->params['action'] == 'add'):?>
+			<h2 class="account-title"><?php echo __('New Paper', true);?></h2>
+        <?php else: ?>
+            <h2 class="account-title"><?php echo __('Edit Paper', true);?></h2>
+        <?php endif;?>
 			
 				<?php echo $this->Form->create('Paper' , array( 'inputDefaults' => array('error' => false, 'div' => false)));?>
 				<?php echo $this->Form->hidden('id');?>
