@@ -33,6 +33,14 @@ Cache::config('default', array(
    'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
    ));
 */
+
+Configure::write('Cdn.enable', true);
+Configure::write('Cdn.url', 'd1olow24xjv8hb.cloudfront.net');
+
+//         css js cache
+Configure::write('Frontend.disable_combine_js', false);
+Configure::write('Frontend.disable_combine_css', false);
+
 Cache::config('default', array('engine' => 'File'));
 
 //         SOLR
