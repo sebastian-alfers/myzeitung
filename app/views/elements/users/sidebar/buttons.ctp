@@ -5,7 +5,7 @@ if($session->read('Auth.User.id')){
 }
 ?>
 <ul>
-<li><a href="<?php echo $link; ?>" class="btn subscribe-user" id="<?php echo $user['User']['id']; ?>"><span>+</span><?php __('Subscribe'); ?></a></li>
+<li><a href="<?php echo $link; ?>" class="btn subscribe-user" id="<?php echo $user['User']['id']; ?>"><span>+</span><?php __('Subscribe Author'); ?></a></li>
 <?php if($user['User']['id'] != $session->read('Auth.User.id')): // - cannot send a message to himself ?>
 	<?php if($user['User']['allow_messages']):?>
 		<li>

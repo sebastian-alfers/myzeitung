@@ -61,7 +61,7 @@ if($paper_belongs_to_user){
             <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
             <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
                <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
-                   <li><?php echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
+                   <li><?php echo $this->Html->link('<span>+</span>'.__('Subscribe Paper', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', ));?></li>
                 <?php endif;?>
                 <?php //unsubscribe-button: if user is logged in  and  paper does not belong to user AND paper is subscribed ?>
                 <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>

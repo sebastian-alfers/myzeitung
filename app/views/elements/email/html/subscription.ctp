@@ -5,7 +5,7 @@ if($topic != null){
     $topicLink = $this->Html->link($topic['Topic']['name'], $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($recipient['User']['username']), $topic['Topic']['id']),true),array('style' => 'color:#232424; font-weight:bold;'));
 }
 if($category != null){
-    $categoryLink = $this->Html->link($category['Category']['name'], $this->Html->url(array($paper['Route'][0]['source'],$category['Category']['id']),true),array('style' => 'color:#232424; font-weight:bold;'));
+    $categoryLink = $this->Html->link($category['Category']['name'], $this->Html->url($paper['Route'][0]['source'].'/'.$category['Category']['id'],true),array('style' => 'color:#232424; font-weight:bold;'));
 }
 ?>
 <p>

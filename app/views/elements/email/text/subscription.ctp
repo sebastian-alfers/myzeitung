@@ -1,11 +1,11 @@
 
-<?php $subscriberLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => $paper['User']['username']),true);
-     $paperLink = $this->Html->url(array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id']),true);
+<?php $subscriberLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username'])),true);
+     $paperLink = $this->Html->url($paper['Route'][0]['source'],true);
 if($topic != null){
-    $topicLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => $recipient['User']['username'], $topic['Topic']['id']),true);
+    $topicLink = $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($recipient['User']['username']), $topic['Topic']['id']),true);
 }
 if($category != null){
-    $categoryLink = $this->Html->url(array('controller' => 'papers', 'action' => 'view', $paper['Paper']['id'], $category['Category']['id']),true);
+    $categoryLink = $this->Html->url($paper['Route'][0]['source'].'/'.$category['Category']['id'],true);
 }
 ?>
 

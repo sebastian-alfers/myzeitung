@@ -22,7 +22,7 @@
 		<?php echo $this->Html->link('<span class="send-icon"></span>'.__('Send Message', true), array('controller' => 'conversations', 'action' => 'add', $user->user_id), array('escape' => false, 'class' => 'btn user-button-1 gray', ));?>
 	<?php endif;?>
 
-       <a href="<?php echo $subscribe_link; ?>" class="btn user-button-2 subscribe-user" id="<?php echo $user->id; ?>"><span>+</span><?php __('Subscribe'); ?></a>
+       <a href="<?php echo $subscribe_link; ?>" class="btn user-button-2 subscribe-user" id="<?php echo $user->id; ?>"><span>+</span><?php __('Subscribe Author'); ?></a>
 	</div>
 	<p class="from"><strong><?php echo __('Author', true);?></strong></p>
 
