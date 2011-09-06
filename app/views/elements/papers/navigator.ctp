@@ -6,7 +6,7 @@
               <h2><?php echo __('Browse Papers', true);?></h2>
         <?php endif;?>
         <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>
-                <h2><?php echo sprintf("%s papers", $this->MzText->possessive($user['User']['username'])) ;?></h2>
+                <h2><?php echo sprintf(__('%1$s Papers',true),$this->MzText->possessive($user['User']['username']));?></h2>
         <?php endif;?>
 			    	<div class="article-nav">
                          <?php echo $paginator ?>

@@ -137,9 +137,12 @@ resize: none;
 .error-page h2{
     font-size: 120px;
     margin-top: 70px;
+    text-shadow: 4px 4px 5px #AAAAAA;
+    color: #FECB36;
 }
 .error-page h3{
     margin-top: 50px;
+    text-shadow: 3px 3px 2px #AAAAAA;
 }
 .error-page p{
 

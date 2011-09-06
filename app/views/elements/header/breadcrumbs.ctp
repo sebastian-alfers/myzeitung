@@ -35,13 +35,17 @@ if($this->params['controller'] == 'posts'){
 	 	$this->Html->addCrumb(__('I forgot my password', true), null , array('escape' => false));
 	 }elseif($this->params['action'] == 'index'){	
 	 	$this->Html->addCrumb(__('Users', true), null , array('escape' => false));
-	 }elseif(in_array($this->params['action'],array('accGeneral', 'accImage', 'accPrivacy', 'accAboutMe'))){
+	 }elseif(in_array($this->params['action'],array('accSocial','accGeneral', 'accImage', 'accPrivacy', 'accAboutMe'))){
 	 	$this->Html->addCrumb(__('Account Settings', true), null , array('escape' => false));	
 	 }elseif($this->params['action'] == 'view'){
-	 	$this->Html->addCrumb($user['User']['username'],  null , array('escape' => false));	
+         if(isset($user['User']['username'])){
+	 	    $this->Html->addCrumb($user['User']['username'],  null , array('escape' => false));
+         }
 	 }elseif($this->params['action'] == 'viewSubscriptions'){
-	 	$this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])) , array('escape' => false));
-	 	$this->Html->addCrumb(__('Papers', true),  null , array('escape' => false));
+         if(isset($user['User']['username'])){
+            $this->Html->addCrumb($user['User']['username'], array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])) , array('escape' => false));
+            $this->Html->addCrumb(__('Papers', true),  null , array('escape' => false));
+         }
 	 }
 
 }elseif($this->params['controller'] == 'papers'){

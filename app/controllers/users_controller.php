@@ -109,10 +109,12 @@ class UsersController extends AppController {
 			//no param from url -> get from Auth
 			$username = strtolower($this->Auth->User("username"));
 			if(!$username){
-				$this->Session->setFlash(__('Invalid user', true));
-				$this->redirect(array('action' => 'index'));
-			}
-		}
+                $this->Session->setFlash(__('Invalid user', true));
+                //$this->redirect(array('action' => 'index'));
+                //404
+                $this->cakeError('error404');
+            }
+        }
         //unbinding irrelevant relations for the query
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
 
@@ -120,8 +122,8 @@ class UsersController extends AppController {
 
         if(!isset($user['User']['id'])){
             $this->Session->setFlash(__('Invalid user', true));
-            //404
-            $this->redirect(array('controller' => 'users', 'action' => 'index'));
+            $this->cakeError('error404');
+         //  $this->redirect(array('controller' => 'users', 'action' => 'index'));
         }
         if($user['User']['enabled'] == false){
             $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
@@ -193,14 +195,22 @@ class UsersController extends AppController {
             $username = $this->Auth->User("id");
             if(!$username){
                 $this->Session->setFlash(__('Invalid user', true));
-                $this->redirect(array('action' => 'index'));
+                $this->cakeError('error404');
+                //$this->redirect(array('action' => 'index'));
             }
         }
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
         $user = $this->getUserForSidebar($username);
+
+        if(!isset($user['User']['id'])){
+            $this->Session->setFlash(__('Invalid user', true));
+            $this->cakeError('error404');
+         //  $this->redirect(array('controller' => 'users', 'action' => 'index'));
+        }
         if($user['User']['enabled'] == false){
             $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
-			$this->redirect($this->referer());
+            //redirect to user index - 307 http statuscode temporary redirect
+            $this->redirect(array('controller' => 'users', 'action' => 'index'),307);
         }
         /*writing all settings for the paginate function.
            important here is, that only the user's paper subscriptions are subject for pagination.*/

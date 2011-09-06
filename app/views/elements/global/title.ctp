@@ -8,13 +8,15 @@ if($this->params['controller'] == 'home'){
     //user controller
     if($this->params['controller'] == 'users'){
         if($this->params['action'] == 'view'){
-            $title = sprintf(__('%s articles',true),$this->MzText->possessive($user['User']['username']));
+            if(isset($user['User']['username'])){
+                $title = sprintf(__('%1$s Articles',true),$this->MzText->possessive($user['User']['username']));
+            }
         }elseif($this->params['action'] == 'viewSubscriptions'){
-            $title = sprintf(__('%s papers',true),$this->MzText->possessive($user['User']['username']));
+            if(isset($user['User']['username'])){
+                $title = sprintf(__('%1$s Papers',true),$this->MzText->possessive($user['User']['username']));
+            }
         }elseif($this->params['action'] == 'index'){
             $title = __('Browse Authors',true);
-        }elseif($this->params['action'] == 'viewSubscriptions'){
-            $title = sprintf(__('%s papers',true),$this->MzText->possessive($user['User']['username']));
         }elseif($this->params['action'] == 'login'){
             $title = __('Login',true);
         }elseif( $this->params['action'] == 'login'){
@@ -62,9 +64,12 @@ if($this->params['controller'] == 'home'){
     }
 
 
+    if(!empty($title)){
+        $title = $title.' | myZeitung';
+    }else{
+        $title = 'myZeitung';
+    }
 
-
-    $title = $title.' | myZeitung';
 
 }
 echo $title;
