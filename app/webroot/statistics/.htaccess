@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "myZeitung - statistics"
+AuthUserFile /Applications/MAMP/htdocs/myzeitung/app/webroot/statistics/.htpasswd
+require valid-user
