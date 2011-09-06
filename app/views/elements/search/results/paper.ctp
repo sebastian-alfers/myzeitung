@@ -27,7 +27,7 @@
 						<?php 
 						//SUBSCRIBE BUTTON - just if user is not the owner of the paper 
 						if(($session->read('Auth.User.id') != $paper->user_id) && ($paper->paper_subscribed == false)){
-								echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper->id), array('escape' => false, 'class' => 'btn', ));
+								echo $this->Html->link('<span>+</span>'.__('Subscribe Paper', true), array('controller' => 'papers', 'action' => 'subscribe', $paper->id), array('escape' => false, 'class' => 'btn', ));
 						}
 					?>
 					<?php 

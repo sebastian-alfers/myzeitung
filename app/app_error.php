@@ -1,11 +1,22 @@
 <?php
 
   class AppError extends ErrorHandler {
-    function error404($params) {
 
 
-      //$this->controller->redirect(array('controller'=>'papers', 'action'=>'view'));
-
+    function missingController($params) {
+        $this->error404($params);
     }
+    function missingAction($params) {
+        $this->error404($params);
+    }
+
+
+    
+
+
+
+
+
+
   }
 

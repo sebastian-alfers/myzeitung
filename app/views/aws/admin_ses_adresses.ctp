@@ -1,5 +1,5 @@
 <h2><?php __('List of verified email adresses'); ?></h2>
-<?php __('This email adresses are allowed to send mail from myZeitung servers as a sender'); ?>
+<?php __('These email addresses are allowed to send emails from myZeitung\'s servers as a sender'); ?>
 
 <?php if(isset($data) && count($data) > 0): ?>
 

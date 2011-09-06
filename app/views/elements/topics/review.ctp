@@ -3,20 +3,27 @@
 
     <?php
     //build plural / singular string
-    $post_posts = sprintf(__n('%s post', '%s posts', $topic['Topic']['post_count'], true), $topic['Topic']['post_count']);
-    $repost_reposts = sprintf(__n('%s repost', '%s reposts', $topic['Topic']['repost_count'], true), $topic['Topic']['repost_count']);
+    $post_count = $topic['Topic']['post_count'] - $topic['Topic']['repost_count'];
+    $repost_count = $topic['Topic']['repost_count'];
+
+    $post_posts = sprintf(__n('%s post', '%s posts', $post_count, true), $post_count);
+    $repost_reposts = sprintf(__n('%s repost', '%s reposts', $repost_count, true), $repost_count);
     ?>
 
-    <?php echo sprintf(__('Your topic %s containts currently', true), $topic['Topic']['name']) . ' ' . $post_posts . ' ' . __('and', true). ' ' . $repost_reposts; ?>.
+    <?php echo sprintf(__('Your topic %1$s contains currently %2$s and %3$s.', true), $topic['Topic']['name'], $post_posts, $repost_reposts); ?>
 
     <?php
     //check, if the the whole user ("no topic") is associated to a paper
-    $additional_noes = '';
+    $additional_notes = '';
     if(isset($whole_user_in_paper_count) && $whole_user_in_paper_count > 0){
-        $additional_noes = __('and will be published in' , true) . ' ' . sprintf(__n("%s paper", "%s papers", $whole_user_in_paper_count, true), $whole_user_in_paper_count);
+        $papers =
+        $additional_notes = sprintf(__('These resetted entries will be published in %s.' , true), sprintf(__n("%s paper", "%s papers", $whole_user_in_paper_count, true), $whole_user_in_paper_count));
     }
     ?>
-    <?php echo __('The topic of these entry are going to be set to "no topic"', true) . ' ' .$additional_noes; ?>
+    <?php echo __('The topic of these entries will resetted to "no topic".', true); ?>
+    <?php if(!empty($additional_notes)):?>
+        <?php echo $additional_notes;?>
+    <?php endif;?>
 </div>
 <div class="modal-buttons">
 <form id="TopicForm" method="post" action="/topics/delete" accept-charset="utf-8">

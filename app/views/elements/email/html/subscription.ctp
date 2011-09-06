@@ -1,11 +1,11 @@
 
 <?php $subscriberLink = $this->Html->link($paper['User']['username'], $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username'])),true), array('style' => 'color:#232424; font-weight:bold;'));
-     $paperLink = $this->Html->link($paper['Paper']['title'], $paper['Route'][0]['source'],array('style' => 'color:#232424; font-weight:bold;'));
+     $paperLink = $this->Html->link($paper['Paper']['title'], $this->Html->url($paper['Route'][0]['source'],true),array('style' => 'color:#232424; font-weight:bold;'));
 if($topic != null){
     $topicLink = $this->Html->link($topic['Topic']['name'], $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($recipient['User']['username']), $topic['Topic']['id']),true),array('style' => 'color:#232424; font-weight:bold;'));
 }
 if($category != null){
-    $categoryLink = $this->Html->link($category['Category']['name'], array($paper['Route'][0]['source'],$category['Category']['id']),array('style' => 'color:#232424; font-weight:bold;'));
+    $categoryLink = $this->Html->link($category['Category']['name'], $this->Html->url($paper['Route'][0]['source'].'/'.$category['Category']['id'],true),array('style' => 'color:#232424; font-weight:bold;'));
 }
 ?>
 <p>

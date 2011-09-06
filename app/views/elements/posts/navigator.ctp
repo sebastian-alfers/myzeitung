@@ -29,7 +29,7 @@ if($has_topics){
                 <h2><?php echo $paper['Paper']['title'];?></h2>
         <?php endif;?>
         <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'):?>
-                <h2><?php echo sprintf("%s articles", $this->MzText->possessive($user['User']['username'])) ;?></h2>
+                <h2><?php echo sprintf(__('%1$s Articles',true),$this->MzText->possessive($user['User']['username']));?></h2>
         <?php endif;?>
 
         <div class="article-nav">
