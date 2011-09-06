@@ -1589,6 +1589,21 @@ a.icon.icon-close {
 	height: 12px;
 }
 
+a.icon.icon-close-help {
+	background: url(/img/assets/maintile.png) no-repeat scroll -83px -228px;
+	text-indent: -9999px;
+	width: 12px;
+	height: 12px;
+}
+
+a.icon.icon-close-help-white {
+	background: url(/img/assets/maintile.png) no-repeat scroll -157px -228px;
+	text-indent: -9999px;
+	width: 12px;
+	height: 12px;
+}
+
+
 a.icon-state{
 width: 5px;
 height: 5px;
@@ -2791,15 +2806,19 @@ a.right{
     background: url(/img/assets/maintile.png) -55px -120px no-repeat;
 }
 
+a.left-arrow-black{
+   margin: 120px 0 0 0;
+    background: url(/img/assets/maintile.png) -127px -317px no-repeat;
+}
+
+a.right-arrow-black{
+    background: url(/img/assets/maintile.png) -6px -278px no-repeat;
+}
+
 a.disabled{
     background: none;
     cursor: default;
 }
-
-
-
-
-
 
 
 /* drop down for user actions in header */
@@ -2883,6 +2902,9 @@ border:0;
   .tipsy-e .tipsy-arrow { top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right; }
   .tipsy-w .tipsy-arrow { top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px; }
 
+.tipsy-inner a{
+    color:#fff;
+}
 
 #new_img_preview{
     height: 100px;
@@ -3267,4 +3289,67 @@ form.onecol div.textarea{
 .modal-buttons li{
     padding:0 20px 0 0;
     float:left
+}
+
+
+#help{
+    height:50px;
+    display: none;
+    position: fixed;
+    top:0;
+    left:0px;
+    z-index: 1001;
+    width:100%
+}
+
+#help a{
+    color:#000;
+    margin-top: 13px;
+}
+
+#help div{
+    margin: 0 auto;
+    width: 1038px;
+    height:50px;
+    background: #EBEBEB;
+    color: #000;
+}
+
+#help h2{
+    margin:0;
+}
+#help li{
+    margin:0px;
+    padding:10px;
+    float:left;
+}
+#help li.last{
+    float:right;
+}
+
+span.arrow-right-white{
+    display: inline-block;
+    background: url(/img/assets/maintile.png) -35px -280px no-repeat transparent;
+    height:15px;
+    width:15px;
+    text-indent: -99999px;
+}
+
+span.arrow-left-white{
+    display: inline-block;
+    background: url(/img/assets/maintile.png) -115px -319px no-repeat transparent;
+    height:15px;
+    width:15px;
+    text-indent: -99999px;
+}
+
+.help-nav li{
+    float:left;
+    margin: 0 10px 0 0;
+}
+.help-nav li.last{
+    float:right;
+}
+.close-text{
+    display:none;
 }

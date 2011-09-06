@@ -2,7 +2,7 @@
 
 class DATABASE_CONFIG
 {
-
+  /*
 	// default
 	var $default = array(
 		'driver' => 'mysql',
@@ -13,6 +13,7 @@ class DATABASE_CONFIG
 		'database' => 'myzeitung',
 		'prefix' => '',
 	);
+  */
 
 	// local
 	var $local = array(
@@ -26,15 +27,15 @@ class DATABASE_CONFIG
 	);
 
 	//currently on my domaingo server
-	var $dev =
+	var $staging =
 		array(
             'driver' => 'mysql',
             'persistent' => false,
-            'host' => 'mysql5.on-line-solutions.de',
+            'host' => 'localhost',
             'port' => '',
-            'login' => 'db214998_8',
-            'password' => 'databa$e',
-            'database' => 'db214998_8',
+            'login' => 'root',
+            'password' => '',
+            'database' => 'myzeitung',
 		);
 
     //amazon
@@ -57,8 +58,8 @@ class DATABASE_CONFIG
             $this->default = $this->local;
         }
 
-        if(Configure::read('Hosting.environment.dev')){
-            $this->default = $this->dev;
+        if(Configure::read('Hosting.environment.staging')){
+            $this->default = $this->staging;
 		}
 
         if(Configure::read('Hosting.environment.live')){

@@ -39,22 +39,21 @@
     }
     ?>
     <div class="popbox shadow" id="subscribe-box"></div>
-    <?php /*
-        <div id="help-menu">
-                <a id="showit">show</a>
-            <script type="text/javascript">
+    <div id="help">
+        <div>
+            <ul>
+                <li><h2>Help Center</h2></li>
+                <li><a class="helpnav next browse left-arrow-black"></a></li>
+                <li><a class="helpnav next browse right-arrow-black"></a></li>
+                <li class="last"><a class="help-link icon icon-close-help tt-title-north" title="<?php __('Quit Help Center'); ?>">close</a></li>
+            </ul>
 
-                $('#showit').click(function(){
-                    var x = $(".subscribe-user").offset().left;
-                    var y = $(".subscribe-user").offset().top;
-                    alert('x:' + x + ' - y:' + y);
-                });
 
-            </script>
         </div>
-            */
-            ?>
+    </div>
+
 		<div id="main-wrapper">
+            <a class="help-link start-help">start help</a>
 
 			<?php echo $this->element('header'); ?>
 			<div id="content" <?php if(isset($content_class)){ echo 'class="'.$content_class.'"';} ?>>

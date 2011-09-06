@@ -20,6 +20,8 @@ $this->MzJavascript->link('global/myzeitung');
 $this->MzJavascript->link('jquery.pop.js');
 $this->MzJavascript->link('jquery.tipsy.js');
 $this->MzJavascript->link('json2.js');
+$this->MzJavascript->link('global/help.js');
+
 //$this->MzJavascript->link('jquery.spinner.js');
 if($session->read('Auth.User.id')){
     //build new js if logged in

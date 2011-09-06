@@ -35,7 +35,7 @@ Cache::config('default', array(
 */
 
 Configure::write('Cdn.enable', true);
-Configure::write('Cdn.url', 'd1olow24xjv8hb.cloudfront.net');
+Configure::write('Cdn.url', 'http://d2sj69od7a1f4n.cloudfront.net');
 
 //         css js cache
 Configure::write('Frontend.disable_combine_js', false);
@@ -64,6 +64,7 @@ Configure::write('debug', 0);
 
 //         env
 Configure::write('Hosting.environment.local', false);
+Configure::write('Hosting.environment.staging', false);
 Configure::write('Hosting.environment.live', true);
 
 

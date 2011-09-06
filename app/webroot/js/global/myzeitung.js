@@ -3,7 +3,8 @@ function AjaxRequest(url, data){
 }
 //validation = new AjaxRequest(base_url+'/ajax/validation/register');
 $(document).ready(function() {
-    $('.tt-title').tipsy({ fade: false, opacity: 1, gravity: 'sw'});
+    $('.tt-title').tipsy({live:true, fade: false, opacity: 1, gravity: 'sw'});
+    $('.tt-title-north').tipsy({live:true, fade: false, opacity: 1, gravity: 'n'});
 });
 
 

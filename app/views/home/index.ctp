@@ -1,4 +1,3 @@
-test
 	<div class="start-header">
 			<div id="header">
 				<h1 id="logo"><a href="/">myZeitung</a></h1>
