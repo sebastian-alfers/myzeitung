@@ -9,6 +9,4 @@
         </div>
     </div>
 
-    adf
-
         <?php echo $this->MzHelpcenter->getHelpElements(); ?>
