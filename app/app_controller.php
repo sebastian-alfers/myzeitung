@@ -41,7 +41,7 @@ class AppController extends Controller {
     /*
      * options for the Asses.asset plugin
      */
-    var $helpers = array('MzHtml', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
+    var $helpers = array('MzHtml','MzHelpcenter', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
 
     //acl groups
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
@@ -406,6 +406,28 @@ class AppController extends Controller {
 
 	function beforeRender()
     {
+        //get the elements for the helpcenter if available
+        $cache_key = '';
+        if(isset($this->params['controller']) && !empty($this->params['controller'])) $cache_key = 'Helpcenter.'.$this->params['controller'];
+        if(isset($this->params['action']) && !empty($this->params['action'])) $cache_key.= '.'.$this->params['action'];
+        $elements = array();
+
+        if($cache_key != ''){
+            $helpcenter_dadta = Cache::read($cache_key);
+            if(empty($helpcenter_dadta)){
+                debug('from cache');
+                $this->User->contain();
+                $helpcenter_dadta = $this->User->find('list');
+                if(!empty($helpcenter_dadta)){
+                    Cache::write($cache_key, $helpcenter_dadta);
+                }
+            }
+            debug(($helpcenter_dadta));
+        }
+
+
+        debug($this->params);
+
         //$this->_setErrorLayout();
 
         //???????????????????????????????

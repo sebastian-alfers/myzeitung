@@ -21,7 +21,7 @@ function isEmailValid(email){
                 result = true;
             }
             else{
-                alert(string.data.msg);
+                //alert(string.data.msg);
                 result = false;
             }
        })

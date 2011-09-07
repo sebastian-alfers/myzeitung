@@ -8,7 +8,7 @@ class TestController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index');
+		$this->Auth->allow('index', 'invite', 'ajax');
 
 	}
 
@@ -21,6 +21,18 @@ class TestController extends AppController {
 		
 		
 	}
+
+    function invite(){
+
+        if(!empty($this->data)){
+            debug($this->data);
+        }
+
+    }
+
+    function ajax(){
+
+    }
 
 }
 ?>

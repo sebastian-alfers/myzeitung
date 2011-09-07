@@ -47,6 +47,7 @@
 				<ul id="search-suggest" style="display:none">
 				</ul><!-- end auto suggest -->
 			</form>
+
 		</div>
 
 		<div id="nav">
