@@ -1463,7 +1463,7 @@ a.btn.big {
 
 .my-account-nav .icon{
     display: inline-block;
-    width: 25px;
+    width: 22px;
     height: 23px;
     position: relative;
     top:5px;
@@ -1492,14 +1492,14 @@ a.btn.big {
 }
 
 .icon-social-media{
-    background: url(/img/assets/maintile.png) -54px -318px no-repeat;
+    background: url(/img/assets/maintile.png) -55px -318px no-repeat;
 }
 
 .icon-mynews{
     background: url(/img/assets/maintile.png) -138px -143px no-repeat;
 }
 
-.icon-mymessages{
+.icon-invitations{
     background: url(/img/assets/maintile.png) -137px -172px no-repeat;
 }
 
@@ -2352,20 +2352,25 @@ margin-right: 65px;
 padding-bottom: 50px;
 }
 
+.account .pagination {
+	margin-right: 26px;
+}
+/* invitation overview */
+
+.invitation-info{
+	width: 530px;
+}
 
 
 /* Message Overview */
 
-.message-overview .pagination {
-	margin-right: 57px;
-}
 
 /*
 .message-overview .account-title {
 width: 731px;
 }*/
 
-.messages {
+.messages, .invitations {
 	margin-top: 5px;
 }
 
@@ -2376,11 +2381,11 @@ width: 731px;
     width: 387px;
 }
 
-.message-overview .messages li{
+.message-overview .messages li, .invitations-overview .invitations li{
 	float: left;
 }
 
-.message-overview .messages li.message{
+.message-overview .messages li.message, .invitations-overview .invitations li.invitation{
 	border-bottom: 1px solid #e4e3e3;
 	padding-bottom: 0px;
 	margin-bottom: 5px;
@@ -2415,7 +2420,7 @@ width: 731px;
 
 }
 
-.message-info h5{
+.message-info h5, .invitation-info h5{
 	font-weight: normal;
 }
 

@@ -95,6 +95,52 @@ class Conversation extends AppModel{
 		)
 	);
 
+    function generateConversationForRegisteredInvitee($invitation, $invitee_id){
+        App::import('model','Conversation');
+        $this->Conversation = new Conversation();
+        $conversationData['Conversation'] = array('user_id' => $invitation['Invitation']['user_id'],
+                                                   'title' => 'Einladung zu myZeitung / Invitation to myZeitung');
+        $this->Conversation->create();
+        if($this->Conversation->save($conversationData)){
+            //add conversation message
+             App::import('model','ConversationMessage');
+            $this->ConversationMessage = new ConversationMessage();
+            $messageData['ConversationMessage']['conversation_id'] = $this->Conversation->id;
+            $messageData['ConversationMessage']['user_id'] = $invitation['Invitation']['user_id'];
+            if(!empty($invitation['Invitation']['text'])){
+                $messageData['ConversationMessage']['message'] = $invitation['Invitation']['text'];
+            }else{
+                $messageData['ConversationMessage']['message'] = Invitation::STANDARD_TEXT;
+            }
+            //saving the (first) message of the conversation
+            if ($this->ConversationMessage->save($messageData)) {
+                //add conversation users
+                App::import('model','ConversationUser');
+                $this->ConversationUser = new ConversationUser();
+
+                $recipients = array($invitation['Invitation']['user_id'],$invitee_id);
+                foreach($recipients as $recipient){
+                    $this->ConversationUser->create();
+                    $userData['ConversationUser']['conversation_id'] = $this->Conversation->id;
+                    $userData['ConversationUser']['user_id'] = $recipient;
+                    if($recipient == $invitation['Invitation']['user_id']){
+                        $userData['ConversationUser']['status'] = Conversation::STATUS_ACTIVE;
+                    } else {
+                        $userData['ConversationUser']['status'] = Conversation::STATUS_NEW;
+                    }
+
+                    $userData['ConversationUser']['last_viewed_message'] = $this->ConversationMessage->id;
+                    $this->ConversationUser->save($userData);
+                }
+                //updating the last message id of the new conversation
+                $this->Conversation->save(array('id' => $this->Conversation->id, 'last_message_id' => $this->ConversationMessage->id));
+
+            }
+
+        }
+    }
+
+
 	
 }
 ?>
