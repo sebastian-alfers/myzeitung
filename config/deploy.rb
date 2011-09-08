@@ -11,7 +11,7 @@ set :user, "ubuntu"
 
 set :deploy_via, :copy
 set :copy_cache, true
-set :copy_exclude, %w(.git)
+set :copy_exclude, [".git/*", ".gitignore", "app/webroot/img*"]
 
 set :keep_releases, 4
 after "deploy:update", "deploy:cleanup"
@@ -29,8 +29,33 @@ ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have th
 
 
 
-task :deploy_web do
-  #run "ls -ls /"
-  run "sudo su mz && cd /home/mz/src/myzeitung && git pull"
-  run "cd /home/mz/deploy && su && ./deploy"
+# This task symlinks the proper .htaccess file to ensure the
+# production server's APPLICATION_ENV var is set to production
+task :create_symlinks, :roles => :web do
+    # link cake core files
+    run "ln -s #{shared_path}/cake/ #{current_release}/cake"
+    # link img folder to already mounted s3 (via s3fs to  /mnt/mzimg), done by /etc/ini.d/mount_media
+    run "ln -s /mnt/mzimg #{current_release}/app/webroot/img"
+    # rename config for live
+    run "mv #{current_release}/app/config/core.php.live #{current_release}/app/config/core.php"
+    # create folder for js and css cache
+    run "mkdir #{current_release}/app/webroot/csscache/"
+    run "mkdir #{current_release}/app/webroot/jscache/"
+    # permission for js and css cache
+    run "sudo chown www-data:www-data #{current_release}/app/webroot/csscache/"
+    run "sudo chown www-data:www-data #{current_release}/app/webroot/jscache/"
+
+    # create tmp/cache folders
+    run "mkdir #{current_release}/app/tmp/"
+    run "mkdir #{current_release}/app/tmp/cache/"
+    run "mkdir #{current_release}/app/tmp/cache/persistent/"
+    run "mkdir #{current_release}/app/tmp/cache/models/"
+    # set owner for cache
+    run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
+
+
 end
+
+# After deployment has successfully completed
+# create the .htaccess symlink
+after "deploy:finalize_update", :create_symlinks

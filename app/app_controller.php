@@ -422,11 +422,11 @@ class AppController extends Controller {
                     Cache::write($cache_key, $helpcenter_dadta);
                 }
             }
-            debug(($helpcenter_dadta));
+            //debug(($helpcenter_dadta));
         }
 
 
-        debug($this->params);
+        //debug($this->params);
 
         //$this->_setErrorLayout();
 

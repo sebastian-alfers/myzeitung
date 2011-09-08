@@ -11,4 +11,4 @@
 
     adf
 
-        <?php echo $this->MzHelpcenter->getHelpElements(); ?>
+        <?php echo $this->MzHelpcenter->getHelpElements();
