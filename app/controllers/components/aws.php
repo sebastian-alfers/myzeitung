@@ -4,6 +4,10 @@ App::import('Lib', 'AwsSkd', array('file' => 'Aws/sdk-1.4.1/sdk.class.php'));
 
 class AwsComponent extends Object {
 
+    var $_amazon_ses = null;
+    var $_amazon_ec2 = null;
+    var $_amazon_cloudfront = null;
+
     /**
      * Returns the user's current sending limits.
      *
@@ -16,7 +20,7 @@ class AwsComponent extends Object {
      *           The number of emails sent during the previous 24 hours.
      */
     function ses_get_send_quota(){
-        $ses = new AmazonSES();
+        $ses = $this->getSes();
         $quota = $ses->get_send_quota();
         $data = array();
         if($quota->status == 200){
@@ -27,7 +31,7 @@ class AwsComponent extends Object {
     }
 
     function list_verified_email_addresses(){
-        $ses = new AmazonSES();
+        $ses = $this->getSes();
         $quota = $ses->list_verified_email_addresses();
         $data = array();
         if($quota->status == 200){
@@ -37,25 +41,8 @@ class AwsComponent extends Object {
         return $data;
     }
 
-    /*
-    delete_verified_email_address
-           verify_email_address
-get_send_statistics
-
-    */
-
-
     function ec2_describe_images(){
-
-
-        //debug($ses->list_verified_email_addresses());
-
-
-
-        $ec2 = new AmazonEC2();
-
-
-
+        $ec2 = $this->getEc2();
         $ec2->set_region(AmazonEC2::REGION_EU_W1);
         // Get the response from a call to the DescribeImages operation.
         $response = $ec2->describe_instances();
@@ -82,6 +69,48 @@ get_send_statistics
 
     }
 
+
+    function cf_list_distributions(){
+        $cloudfront = $this->getCloudfront();
+        return $cloudfront->list_distributions();
+    }
+
+    function cf_list_invalidations($distribudion_id){
+        $cloudfront = $this->getCloudfront();
+        return $cloudfront->list_invalidations($distribudion_id);
+    }
+
+    function cf_create_invalidation($distribution_id, $paths){
+        $cloudfront = $this->getCloudfront();
+        return $cloudfront->create_invalidation($distribution_id, uniqid(), $paths);
+    }
+
+    function cf_get_invalidation($distribution_id, $invalidation_id){
+        $cloudfront = $this->getCloudfront();
+        return $cloudfront->get_invalidation($distribution_id, $invalidation_id);
+    }
+
+
+    function getCloudfront(){
+        if($this->_amazon_cloudfront == NULL){
+            $this->_amazon_cloudfront = new AmazonCloudFront();
+        }
+        return $this->_amazon_cloudfront;
+    }
+
+    function getSes(){
+        if($this->_amazon_ses == NULL){
+            $this->_amazon_ses = new AmazonSES();
+        }
+        return $this->_amazon_ses;
+    }
+
+    function getEc2(){
+        if($this->_amazon_ec2 == NULL){
+            $this->_amazon_ec2 = new AmazonEC2();
+        }
+        return $this->_amazon_ec2;
+    }
 
 
 }

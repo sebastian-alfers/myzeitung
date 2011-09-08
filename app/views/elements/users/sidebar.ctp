@@ -57,6 +57,8 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 			<?php */?>
 
         <hr />
+        <?php echo $this->element('invite/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
+
         <?php if($this->params['controller'] == 'users'): ?>
             <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
         <?php endif; ?>

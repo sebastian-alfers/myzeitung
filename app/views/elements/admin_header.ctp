@@ -138,7 +138,12 @@
 
                 <li><a href="#"><?php __('Database'); ?></a></li>
                 <li><a href="#"><?php __('Loadbalancer'); ?></a></li>
-                <li><a href="#"><?php __('CDN'); ?></a></li>
+                <li>
+                    <a href="#"><?php __('CDN'); ?></a>
+                    <ul>
+                        <li><?php echo $this->Html->link(__('Distributions', true), array('controller' => 'aws', 'action' => 'cf', 'distributions'));?></li>
+                    </ul>
+                </li>
                 <li><a href="#"><?php __('Cronjobs'); ?></a></li>
             </ul>
         </li>

@@ -270,6 +270,7 @@ class AppController extends Controller {
          'aws' => array(
              'admin_ses' => $this->admin,
              'admin_ec2' => $this->admin,
+             'admin_cf' => $this->admin,
          )
 		);
 
@@ -415,7 +416,7 @@ class AppController extends Controller {
         if($cache_key != ''){
             $helpcenter_dadta = Cache::read($cache_key);
             if(empty($helpcenter_dadta)){
-                debug('from cache');
+                //debug('from cache');
                 $this->User->contain();
                 $helpcenter_dadta = $this->User->find('list');
                 if(!empty($helpcenter_dadta)){

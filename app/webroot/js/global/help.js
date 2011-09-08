@@ -19,8 +19,6 @@ $(document).ready(function() {
         for (var i = 0; i < length; i++) {
             $("#"+helper_elements[i]).tipsy("hide");
         }
-        $(".tt-title-north").remove();
-        $(".tt-title").remove();
 
     });
 
