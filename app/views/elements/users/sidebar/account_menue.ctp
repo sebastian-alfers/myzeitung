@@ -33,6 +33,9 @@ echo $this->element('global/modal_upload',
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accSocial'):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-social-media"></span>'.__('Social Media', true), array('controller' => 'users', 'action' => 'accSocial'), array('escape' => false,));?></li>
 
+    <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accInvitations'):?><li class="active"><?php else:?><li><?php endif;?>
+    <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Invitations', true), array('controller' => 'users', 'action' => 'accInvitations'), array('escape' => false,));?></li>
+
 <?php /*?>		<li><a href=""><span class="icon icon-mynews"></span>Meine Zeitungen</a></li>
     <li><a href=""><span class="icon icon-articles"></span>Meine Artikel</a></li>
     <li><a href=""><span class="icon icon-mymessages"></span>Meine Nachrichten</a></li> <?php */?>

@@ -13,10 +13,10 @@ if(isset($id) && !empty($id)){
 <li class="message <?php echo $additional_class; ?>" <?php echo $element_id; ?>>
 
     <ul>
-        <li class="user-image">
+        <li class="user-image" alt="<?php echo $this->MzText->getUserName($message['User']); ?>" rel="<?php echo $this->MzText->getSubscribeUrl(); ?>" id="<?php echo $message['User']['id']; ?>" link="<?php echo $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($message['User']['username']))); ?>">
             <?php
              $image_options = array();
-              $image_options['tag'] = 'div';
+             $image_options['tag'] = 'div';
              echo $image->render($message['User'], 37, 37, array("alt" => $message['User']['username']), $image_options, ImageHelper::USER); ?>
             <?php //echo $this->Html->link($image->render($message['User'], 37, 37, array( "alt" => $message['User']['username'], "class" => 'user-image'), array(), ImageHelper::USER),array('controller' => 'users', 'action' => 'view', 'username' => $message['User']['username']), array('escape' => false));?>
         </li>

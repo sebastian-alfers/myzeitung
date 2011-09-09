@@ -9,7 +9,7 @@ class UsersController extends AppController {
 	var $name = 'Users';
 
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
-	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
+	var $uses = array('Invitation', 'User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript');
 
 
@@ -300,7 +300,11 @@ class UsersController extends AppController {
 
                 //send welcome email to new user
                 $this->_sendWelcomeEmail($this->User->id);
-                //Auto-Login after Register
+
+                //check if someone invited this user
+                $this->_checkForInvitations();
+
+                //Auto-Login after Register,0
                 $userData = array('username' => $this->data['User']['username'], 'password' => $this->Auth->password($this->data['User']['passwd']));
                 $this->Session->setFlash(__('Thank you for registration.', true), 'default', array('class' => 'success'));
                 if($this->Auth->login($userData)){
@@ -1033,7 +1037,32 @@ class UsersController extends AppController {
 		$this->set('hash', $this->Upload->getHash());
 	}
 
+    function accInvitations(){
+      //  App::import('model','Invitation');
+       // $this->Invitation = new Invitation();
+        $user_id = $this->Session->read('Auth.User.id');
 
+		if (!$user_id) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}
+        $this->paginate = array(
+                'Invitation' => array(
+            //limit of records per page
+                    'limit' => 9,
+            //order
+                    'order' => 'Invitation.created DESC',
+            //fields - custom field sum...
+                    'fields' => array(),
+                    'conditions' => array('Invitation.user_id' => $user_id),
+            //contain array: limit the (related) data and models being loaded per post
+                    'contain' => array('Invitee'),
+            )
+        );
+        $this->set('user', $this->getUserForSidebar());
+        $this->set('invitations', $this->paginate());
+        $this->set('hash', $this->Upload->getHash());
+    }
 
 
 
@@ -1145,7 +1174,38 @@ class UsersController extends AppController {
 
             $this->_sendMail($user['User']['email'], __('You have been subscribed', true),'subscription');
         }
+    }
 
+    protected function _checkForInvitations(){
+        App::import('model','Invitee');
+        $this->Invitee = new Invitee();
+
+        $this->Invitee->contain('Invitation', 'Invitation');
+        $invitations = $this->Invitee->findAllByEmail($this->data['User']['email']);
+
+        foreach($invitations as $invitation){
+            $this->_sendMailForInviteeRegistration($invitation, $this->User->id);
+            $this->_generateConversationForRegisteredInvitee($invitation, $this->User->id);
+        }
+    }
+
+    protected function _generateConversationForRegisteredInvitee($invitation, $invitee_id){
+        App::import('model','Conversation');
+        $this->Conversation = new Conversation();
+        $this->Conversation->generateConversationForRegisteredInvitee($invitation, $invitee_id);
+    }
+
+    protected function _sendMailForInviteeRegistration($invitation, $invitee_id){
+        $this->User->contain();
+        $invitee = $this->User->read(null, $invitee_id);
+        $this->User->contain();
+        $recipient = $this->User->read(null, $invitation['Invitation']['user_id']);
+        //setting params for template
+        $this->set('invitee', $invitee );
+        $this->set('recipient', $recipient);
+
+        //send mail
+        $this->_sendMail($recipient['User']['email'], __('An Invitee has just registered',true), 'invitee_registered');
     }
 
 	function admin_index() {
@@ -1258,4 +1318,6 @@ class UsersController extends AppController {
 
         }
     }
+
+
 }

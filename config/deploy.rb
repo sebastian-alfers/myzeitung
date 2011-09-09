@@ -53,9 +53,15 @@ task :create_symlinks, :roles => :web do
     # set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
-
 end
+
+task :upload_maintile, :via=> :scp, :recursive => true, :roles => :web do
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+end
+
 
 # After deployment has successfully completed
 # create the .htaccess symlink
 after "deploy:finalize_update", :create_symlinks
+
+after "deploy:finalize_update", :upload_maintile

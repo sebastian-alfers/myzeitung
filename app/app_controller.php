@@ -32,7 +32,7 @@
  */
 class AppController extends Controller {
 
-    const LOG_LEVEL_SECURITY = 'secutity';
+    const LOG_LEVEL_SECURITY = 'security';
 
 	//load debug toolbar in plugins/debug_toolbar/
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'RequestHandler');
@@ -157,6 +157,7 @@ class AppController extends Controller {
 			'accPrivacy' => $this->user,
             'accSocial' => $this->user,
         	'accDelete' => $this->user,
+            'accInvitations' => $this->user,
             'admin_index' => $this->admin,
             'admin_edit' => $this->superadmin,
             'admin_delete' => $this->superadmin,
@@ -271,8 +272,12 @@ class AppController extends Controller {
              'admin_ses' => $this->admin,
              'admin_ec2' => $this->admin,
              'admin_cf' => $this->admin,
-         )
-		);
+         ),
+        'invitations' => array(
+            'add' => $this->user,
+            ),
+        );
+
 
 
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
@@ -324,7 +329,7 @@ class AppController extends Controller {
             }
         }
         else{
-            $this->log('Model ' . $model . ' not found');
+            $this->log('Model ' . $model_name . ' not found');
             return false;
         }
 
@@ -416,6 +421,7 @@ class AppController extends Controller {
         if($cache_key != ''){
             $helpcenter_dadta = Cache::read($cache_key);
             if(empty($helpcenter_dadta)){
+
                 //debug('from cache');
                 $this->User->contain();
                 $helpcenter_dadta = $this->User->find('list');
@@ -427,7 +433,6 @@ class AppController extends Controller {
         }
 
 
-        //debug($this->params);
 
         //$this->_setErrorLayout();
 

@@ -1,6 +1,6 @@
 function validateAndSubmitInvitation(){
     if(isValidEmails()){
-        $('PostAddForm').submit();
+        $('#InviteAddForm').submit();
     }
     else{
         alert('Please enter a valid email');
@@ -8,6 +8,9 @@ function validateAndSubmitInvitation(){
 }
 
 function isValidEmails(){
+
+    if($('#invite-fields input').length < 2) return false;
+
     var is_valid = true;
     $('#invite-fields input').each(function(){
         if($(this).val() != ''){
@@ -23,7 +26,7 @@ function isValidEmails(){
 $(document).ready(function(){
     $('#invite-fields input').live('focus keyup', function(){
         if($(this).val() != '' && $('#invite-fields li:last-child input').val() != ''){
-            $('#invite-fields').append('<li><input name="data[Post][email][]" type="text" /><span></span></li>');
+            $('#invite-fields').append('<li><input name="data[Invitation][email][]" type="text" class="textinput" /><span></span></li>');
         }
 
     });
@@ -62,8 +65,8 @@ $(document).ready(function(){
 
 	$( "#dialog-invitation" ).dialog({
         resizable: false,
-        height:440,
-        width:740,
+        height:500,
+        width:900,
         left:358,
         draggable:false,
         modal: true,

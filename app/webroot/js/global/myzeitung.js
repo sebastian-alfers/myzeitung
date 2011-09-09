@@ -26,7 +26,7 @@ function isEmailValid(email){
             }
        })
        .error(function(){
-           alert('error');
+           //alert('error');
     });
 
     return result;
@@ -50,7 +50,7 @@ function isValidUrl(url){
             }
        })
        .error(function(){
-           alert('error');
+           //alert('error');
     });
 
     return result;

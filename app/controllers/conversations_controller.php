@@ -79,8 +79,6 @@ class ConversationsController extends AppController {
 	}
 	
 	function reply(){
-
-
 		if($this->_isValidReplyRequest()){
 			$conversation_id = $this->params['form']['conversation_id'];
             $reply_msg = $this->params['form']['reply'];
