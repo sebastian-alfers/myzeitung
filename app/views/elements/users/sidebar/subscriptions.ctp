@@ -1,3 +1,4 @@
+<hr />
 <?php
 if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'){
     $paginator->options(array('url'=> array('controller' => 'users',
@@ -48,7 +49,7 @@ if(isset($this->params['named']) && is_array($this->params['named'])){
              <li class="active"><?php else:?><li><?php endif;?>
              <?php echo $this->Paginator->sort('<span class="icon icon-subscription"></span>'. __('Number of Subscriptions', true), 'subscription_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
 </ul>
-<hr />
+
 <?php endif;?>
 
     <?php $papersLinkText = sprintf(__('%s papers', true),$this->MzText->possessive($user['User']['username']));?>

@@ -1,10 +1,10 @@
-<div id="dialog-invitation" title="<?php __('Invite Other Authors to myZeitung'); ?>" style="display:none">
+<div id="dialog-invitation" title="<?php __('Invite other authors/readers to myZeitung'); ?>" style="display:none">
     <div class="modal-content account">
         <form enctype="multipart/form-data" id="InviteAddForm" method="post" action="/invitations/add" accept-charset="utf-8">
 				<div class="optional info-p textarea">
                     <label for="InvitationText"><?php __('Message'); ?></label>
                     <textarea name="data[Invitation][text]" class="textinput" cols="10" rows="4" id="InvitationText"></textarea>
-                    <span class="info"><?php __('You can attach an optional Message to you invitation'); ?></span>
+                    <span class="info"><?php echo __('(optional)',true).' '.__('Attach an optional message to your invitation', true); ?></span>
                 </div>
                 <div class="optional info-p invitationemails">
                     <label for="InvitationEmail"><?php __('Emails'); ?></label>

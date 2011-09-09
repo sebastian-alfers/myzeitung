@@ -1,3 +1,4 @@
+<hr />
 <?php
 echo $html->script('global/upload');
 echo $this->element('global/modal_upload',
@@ -36,9 +37,11 @@ echo $this->element('global/modal_upload',
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accInvitations'):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Invitations', true), array('controller' => 'users', 'action' => 'accInvitations'), array('escape' => false,));?></li>
 
+    <hr />
+    <?php echo $this->element('invite/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
+
 <?php /*?>		<li><a href=""><span class="icon icon-mynews"></span>Meine Zeitungen</a></li>
     <li><a href=""><span class="icon icon-articles"></span>Meine Artikel</a></li>
     <li><a href=""><span class="icon icon-mymessages"></span>Meine Nachrichten</a></li> <?php */?>
 </ul>
 
-<hr />

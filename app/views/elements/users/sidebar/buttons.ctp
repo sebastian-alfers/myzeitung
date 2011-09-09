@@ -1,11 +1,18 @@
+<hr />
+
 <?php
 $link = '/login';
 if($session->read('Auth.User.id')){
     $link = '#';
 }
+if($user['User']['id'] != $session->read('Auth.User.id')){
+   $subscribe_button_text=  __('Subscribe Author',true);
+}else{
+   $subscribe_button_text=  __('Subscribe me',true);
+}
 ?>
 <ul>
-<li id="user-sidebar-subscribe-btn"><a href="<?php echo $link; ?>" class="btn subscribe-user" id="<?php echo $user['User']['id']; ?>" help-text="<strong>Abonnieren</strong><br />Klicke auf den Button, um den Autor in eine deiner Zeitungen zu abonnieren. Anschließend erscheinen alle seine aktuellen und zukünftigen Artikel in deiner Zeitung.<br />Du hast die möglichkeit, deine Zeitung und eine Kategorie, wenn vorhanden, zu wählen. Hat der der Benutzer ein oder mehrere Themen, kannst du ein spezielles Thema abonnieren."><span>+</span><?php __('Subscribe Author'); ?></a></li>
+<li id="user-sidebar-subscribe-btn"><a href="<?php echo $link; ?>" class="btn subscribe-user" id="<?php echo $user['User']['id']; ?>" help-text="<strong>Abonnieren</strong><br />Klicke auf den Button, um den Autor in eine deiner Zeitungen zu abonnieren. Anschließend erscheinen alle seine aktuellen und zukünftigen Artikel in deiner Zeitung.<br />Du hast die möglichkeit, deine Zeitung und eine Kategorie, wenn vorhanden, zu wählen. Hat der der Benutzer ein oder mehrere Themen, kannst du ein spezielles Thema abonnieren."><span>+</span><?php echo $subscribe_button_text; ?></a></li>
 <?php if($user['User']['id'] != $session->read('Auth.User.id')): // - cannot send a message to himself ?>
 	<?php if($user['User']['allow_messages']):?>
 		<li>
@@ -18,4 +25,3 @@ if($session->read('Auth.User.id')){
 		<?php endif; ?>
 <?php endif; ?>
 </ul>
-<hr />

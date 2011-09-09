@@ -1,3 +1,4 @@
+
 <?php
 $user_is_owner = $user['User']['id'] == $this->Session->read('Auth.User.id');
 if($user_is_owner){
@@ -6,6 +7,7 @@ if($user_is_owner){
 }
 ?>
 <?php if(count($user['Topic']) > 0): ?>
+        <hr />
 <h6><?php echo __('Show Posts by Topic', true);?></h6>
 <ul id="topics-content">
     <li>
@@ -28,5 +30,5 @@ if($user_is_owner){
         </li>
         <?php endforeach;?>
     </ul>
-    <hr />
+
       <?php endif; ?>

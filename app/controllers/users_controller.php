@@ -1059,8 +1059,22 @@ class UsersController extends AppController {
                     'contain' => array('Invitee'),
             )
         );
+        $invitations = $this->paginate();
+       
+        //check if a user is already registered,
+        foreach($invitations as &$invitation){
+            foreach($invitation['Invitee'] as &$invitee){
+                $this->User->contain();
+
+                $user = $this->User->find('first', array('conditions' => array('User.email' => $invitee['email']),'fields' => array('id', 'username','name','email')));
+                $invitee['User'] = $user['User'];
+
+            }
+
+        }
+        
         $this->set('user', $this->getUserForSidebar());
-        $this->set('invitations', $this->paginate());
+        $this->set('invitations', $invitations);
         $this->set('hash', $this->Upload->getHash());
     }
 
@@ -1182,10 +1196,10 @@ class UsersController extends AppController {
 
         $this->Invitee->contain('Invitation', 'Invitation');
         $invitations = $this->Invitee->findAllByEmail($this->data['User']['email']);
-
+        $new_user_id = $this->User->id;
         foreach($invitations as $invitation){
-            $this->_sendMailForInviteeRegistration($invitation, $this->User->id);
-            $this->_generateConversationForRegisteredInvitee($invitation, $this->User->id);
+            $this->_sendMailForInviteeRegistration($invitation, $new_user_id);
+            $this->_generateConversationForRegisteredInvitee($invitation, $new_user_id);
         }
     }
 

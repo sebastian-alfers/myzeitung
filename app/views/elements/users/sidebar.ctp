@@ -28,8 +28,9 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <strong><?php  echo __('Papers', true);?>:</strong>
 				<?php echo $this->element('users/sidebar/subscriptions'); ?>
         <?php else:?>
-            <hr />
-            <?php echo $this->element('users/sidebar/buttons'); ?>
+            <?php if(!(($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations'))):?>
+                <?php echo $this->element('users/sidebar/buttons'); ?>
+             <?php endif;?>
         <?php endif;?>
         <?php //elements shown when being on actions users-viewSubscriptions ?>
         <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>
@@ -56,13 +57,14 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 				</ul>
 			<?php */?>
 
-        <hr />
-        <?php echo $this->element('invite/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
 
-        <?php if($this->params['controller'] == 'users'): ?>
+
+        <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'view' || $this->params['action'] == 'viewSubscriptions') && $session->read('Auth.User.id') != $user['User']['id']): ?>
+            <hr />
             <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
         <?php endif; ?>
         <?php if($this->params['controller'] == 'posts'): ?>
+            <hr />
             <a href="#" class="btn print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
             <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
         <?php endif; ?>

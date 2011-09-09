@@ -96,6 +96,7 @@ class Conversation extends AppModel{
 	);
 
     function generateConversationForRegisteredInvitee($invitation, $invitee_id){
+
         App::import('model','Conversation');
         $this->Conversation = new Conversation();
         $conversationData['Conversation'] = array('user_id' => $invitation['Invitation']['user_id'],
@@ -110,7 +111,7 @@ class Conversation extends AppModel{
             if(!empty($invitation['Invitation']['text'])){
                 $messageData['ConversationMessage']['message'] = $invitation['Invitation']['text'];
             }else{
-                $messageData['ConversationMessage']['message'] = Invitation::STANDARD_TEXT;
+                $messageData['ConversationMessage']['message'] = Invitation::STANDARD_TEXT_DEU.' '.Invitation::STANDARD_TEXT_ENG;
             }
             //saving the (first) message of the conversation
             if ($this->ConversationMessage->save($messageData)) {

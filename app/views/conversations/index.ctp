@@ -96,7 +96,7 @@
 									</li>
 									<li class="actions">
                                         <?php echo $this->Html->link('' ,array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']), array('class' => 'icon icon-answer', 'escape' => false));?>
-									    <?php echo $this->Html->link('',array('controller' => 'conversations', 'action' => 'remove', $conversation['Conversation']['id']), array('class' => 'icon icon-delete', 'escape' => false));?>
+									    <?php echo $this->Html->link('',array('controller' => 'conversations', 'action' => 'remove', $conversation['Conversation']['id']), array('class' => 'icon icon-delete', 'escape' => false),sprintf(__('Are you sure you want to delete this conversation: %s?', true), $conversation['Conversation']['title']));?>
 										
 										<p><?php echo $this->MzTime->timeAgoInWords($conversation['Conversation']['LastMessage']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></p>
 									</li>

@@ -2355,20 +2355,21 @@ padding-bottom: 50px;
 .account .pagination {
 	margin-right: 26px;
 }
-/* invitation overview */
-
-.invitation-info{
-	width: 530px;
-}
 
 
-/* Message Overview */
+
+
+/* Message Overview // invitation overview*/
 
 
 /*
 .message-overview .account-title {
 width: 731px;
 }*/
+
+.message-overview, .invitations-overview{
+    width: 731px;
+}
 
 .messages, .invitations {
 	margin-top: 5px;
@@ -2384,12 +2385,72 @@ width: 731px;
 .message-overview .messages li, .invitations-overview .invitations li{
 	float: left;
 }
-
-.message-overview .messages li.message, .invitations-overview .invitations li.invitation{
-	border-bottom: 1px solid #e4e3e3;
-	padding-bottom: 0px;
-	margin-bottom: 5px;
+.invitations-overview .invitations li.invitee{
+    width: 730px;
 }
+
+.invitations-overview .invitations .invitation .invitee li.single-invitee{
+/*    float: none; */
+/*    margin-botton: 6px; */
+    width: 730px;
+    height: 25px;
+    vertical-align: middle;
+
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee ul.invitee-info{
+    width: 730px;
+
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li{
+    margin-left: 10px;
+    line-height: 22px;
+
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.email{
+    width: 250px;
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.status{
+    border-radius: 3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius: 3px;
+    width: 130px;
+    height: 22px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.status.registered{
+    background: #D2E8B1;
+    color: #527123;
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.status.not-registered{
+   background: #e8b1b1 ;
+    color: #712323;
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.info{
+    width: 150px;
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.buttons{
+    width: 150px;
+    text-align: right;
+    
+}
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info .buttons a.btn{
+    float: none;
+}
+
+.invitations-overview .invitations .invitation .invitee .single-invitee ul{
+    width: 730px;
+}
+.message-overview .messages li.message, .invitations-overview .invitations li.invitation{
+border-bottom: 1px solid #e4e3e3;
+padding-bottom: 0px;
+margin-bottom: 5px;
+}
+.invitations-overview .invitations li.invitation{
+    margin-bottom: 15px;
+}
+
 
 .state{
     height: 37px;
@@ -2407,6 +2468,11 @@ width: 731px;
 	width: 530px;
 }
 
+.invitation-info{
+	width: 616px;
+}
+
+
 .message-info strong {
 	padding-right: 5px;
 }
@@ -2423,7 +2489,9 @@ width: 731px;
 .message-info h5, .invitation-info h5{
 	font-weight: normal;
 }
-
+.invitation-info h5{
+    margin-bottom: 10px;
+}
 .excerpt{
 	clear: both;
 	padding-top: 6px;
@@ -2580,7 +2648,7 @@ z-index: 1000;
 
 .popup-content input.textinput, .labelinput .labels {
 	font-size: 15px;
-	width: 492px !Important;
+	width: 492px !important;
 	height: 123px;
 	height: 30px;
 	margin-left: 5px;

@@ -27,4 +27,3 @@
 <?php if(!empty($user['User']['url'])):?>
 <p class="user-url"><?php echo $this->Html->link($user['User']['url'],$user['User']['url'] , array('rel' => 'nofollow', 'target' => '_blank'))?></p>
 <?php endif;?>
-<hr />

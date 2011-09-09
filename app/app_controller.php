@@ -275,6 +275,9 @@ class AppController extends Controller {
          ),
         'invitations' => array(
             'add' => $this->user,
+            'delete' => $this->user,
+            'remindInvitee' => $this->user,
+
             ),
         );
 

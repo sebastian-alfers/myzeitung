@@ -20,7 +20,7 @@ class Invitation extends AppModel {
 		'Invitee' => array(
 			'className' => 'Invitee',
 			'foreignKey' => 'invitation_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',

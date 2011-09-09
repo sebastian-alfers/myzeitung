@@ -1,10 +1,10 @@
-
 <form id="search-paper" action="search-result.html" class="">
     <input class="searchinput" type="text" onblur="if (this.value == '') {this.value = 'User durchsuchen';}" onfocus="if (this.value == 'User durchsuchen') {this.value = '';}" value="User durchsuchen" />
     <button class="submit" type="submit" value="">Suchen</button>
 </form>
 
 <hr />
+
 Sortieren nach:
 
 <ul class="filter-search">

@@ -1,3 +1,4 @@
+<hr />
 <?php if(isset($user['Paper']) && is_array($user['Paper']) && (count($user['Paper']) > 0)):?>
 			<h6><?php echo __('Top Papers by',true).' '.$user['User']['username']?></h6>
 			<ul class="newslist">

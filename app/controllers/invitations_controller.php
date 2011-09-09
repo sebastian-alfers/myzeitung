@@ -11,7 +11,12 @@ class InvitationsController extends AppController {
 
 
 	function add(){
+/*
+        $this->data = array();
+        $this->data['Invitation']['email'] = array('tim.wiegard@myzeitung.de', 'tim.wiegard@googlemail.com','tim.wiegard@gmail.com');
+        $this->data['Invitation']['text'] = 'hey du typ. geh auf myzeitung und ich sach dir was los ist. hey du typ. geh auf myzeitung und ich sach dir was los ist. hey du typ. geh auf myzeitung und ich sach dir was los ist. hey du typ. geh auf myzeitung und ich sach dir was los ist. ';
 
+*/
        if (!empty($this->data)) {
            //remove empty fields
            $this->data['Invitation']['email'] = array_filter($this->data['Invitation']['email']);
@@ -61,6 +66,45 @@ class InvitationsController extends AppController {
 		}
 	}
 
+	function delete($id = null) {
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for invitation', true));
+			$this->redirect($this->referer());
+		}
+        $this->Invitation->contain();
+        $invitation =  $this->Invitation->read(array('id','user_id'), $id);
+        if($invitation['Invitation']['user_id'] == $this->Session->read('Auth.User.id')){
+            if ($this->Invitation->delete($id, true)) {
+                $this->Session->setFlash(__('Invitation deleted', true), 'default', array('class' => 'success'));
+                $this->redirect(array('controller' => 'users', 'action'=>'accInvitations'));
+            }
+            $this->Session->setFlash(__('Invitation was not deleted', true));
+            $this->redirect($this->referer());
+        } else {
+            $this->Session->setFlash(__('The Invitation does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
+	}
+
+    function remindInvitee($id){
+        if (!$id) {
+			$this->Session->setFlash(__('Invalid id for invitee', true));
+			$this->redirect($this->referer());
+		}
+        $this->Invitee->contain('Invitation');
+        $invitee = $this->Invitee->read(null,$id);
+        if($invitee['Invitation']['user_id'] == $this->Session->read('Auth.User.id')){
+            $this->_sendInvitationEmail($invitee['Invitee']['email'],$invitee['Invitation']['text'], $this->Session->read('Auth.User.id'));
+            $this->Session->setFlash(__('Reminder sent', true), 'default', array('class' => 'success'));
+            $invitee['Invitee']['reminder_count']++;
+            $this->Invitee->save($invitee,false,array('reminder_count'));
+            $this->redirect($this->referer());
+        }else {
+            $this->Session->setFlash(__('The Invitation does not belong to you.', true));
+            $this->redirect($this->referer());
+        }
+
+    }
 
     protected function _sendInvitationEmail($recipient_email, $text, $sender_id) {
 
@@ -72,6 +116,7 @@ class InvitationsController extends AppController {
 
         $this->set('sender', $sender);
         $this->set('recipient', array('User' => array('email' => $recipient_email)));
+        $this->set('text',$text);
 
         $sender_name = $sender['User']['username'];
         if(!empty($sender['User']['name'])){
