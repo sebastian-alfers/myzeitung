@@ -28,7 +28,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <strong><?php  echo __('Papers', true);?>:</strong>
 				<?php echo $this->element('users/sidebar/subscriptions'); ?>
         <?php else:?>
-            <?php if(!(($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations'))):?>
+            <?php if(!(($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations')))):?>
                 <?php echo $this->element('users/sidebar/buttons'); ?>
              <?php endif;?>
         <?php endif;?>
@@ -37,7 +37,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 				<?php echo $this->element('users/sidebar/subscriptions'); ?>
 			<?php endif;?>
 			<?php //elements shown when being on actions in users-account settings ?>
-			<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations')): ?>
+			<?php if(($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations')))): ?>
 				<?php echo $this->element('users/sidebar/account_menue', array('user_id' => $user['User']['id'])); ?>
 			<?php endif;?>
 

@@ -13,18 +13,19 @@ echo $this->element('global/modal_upload',
 
 <ul class="my-account-nav">
 
-    
+
+    <?php if($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view')):?><li class="active"><?php else:?><li><?php endif;?>
+    <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Messages', true), array('controller' => 'conversations', 'action' => 'index'), array('escape' => false,));?></li>
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accAboutMe'):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-about"></span>'.__('About Me', true), array('controller' => 'users', 'action' => 'accAboutMe'), array('escape' => false,));?></li>
 
     <li id="add_image">
-        <span class="icon icon-profilpic"></span><a><?php __('Profile Picture'); ?></a>
+    <span class="icon icon-profilpic"></span><a><?php __('Profile Picture'); ?></a>
     </li>
 
 
 
-		
 	<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accGeneral' || $this->params['action'] == 'accDelete')):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-general"></span>'.__('General Settings', true), array('controller' => 'users', 'action' => 'accGeneral'), array('escape' => false,));?></li>
 	
