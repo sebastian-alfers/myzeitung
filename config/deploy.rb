@@ -16,7 +16,7 @@ set :copy_exclude, [".git/*", ".gitignore", "app/webroot/img*"]
 set :keep_releases, 4
 after "deploy:update", "deploy:cleanup"
 
-role :web, "ec2-46-137-9-184.eu-west-1.compute.amazonaws.com"
+role :web, "ec2-46-137-142-32.eu-west-1.compute.amazonaws.com", "ec2-46-51-139-74.eu-west-1.compute.amazonaws.com"
 
 set :deploy_to,   "/var/www/myzeitung/" #contains symlink "current", contians directory "releases" and "shared"
 set :use_sudo, true
@@ -38,12 +38,17 @@ task :create_symlinks, :roles => :web do
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/img"
     # rename config for live
     run "mv #{current_release}/app/config/core.php.live #{current_release}/app/config/core.php"
+
+    # mount css/js cache
+    run "ln -s /mnt/mzimg #{current_release}/app/webroot/csscache"
+    run "ln -s /mnt/mzimg #{current_release}/app/webroot/jscache"
+
     # create folder for js and css cache
-    run "mkdir #{current_release}/app/webroot/csscache/"
-    run "mkdir #{current_release}/app/webroot/jscache/"
+    #run "mkdir #{current_release}/app/webroot/csscache/"
+    #run "mkdir #{current_release}/app/webroot/jscache/"
     # permission for js and css cache
-    run "sudo chown www-data:www-data #{current_release}/app/webroot/csscache/"
-    run "sudo chown www-data:www-data #{current_release}/app/webroot/jscache/"
+    #run "sudo chown www-data:www-data #{current_release}/app/webroot/csscache/"
+    #run "sudo chown www-data:www-data #{current_release}/app/webroot/jscache/"
 
     # create tmp/cache folders
     run "mkdir #{current_release}/app/tmp/"
@@ -52,6 +57,9 @@ task :create_symlinks, :roles => :web do
     run "mkdir #{current_release}/app/tmp/cache/models/"
     # set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
+
+    # run db upgrade
+    run "#{current_release}/cake/console/cake -app #{current_release}/app/ dbinstall"
 
 end
 
