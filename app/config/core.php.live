@@ -35,7 +35,7 @@ Cache::config('default', array(
 */
 
 Configure::write('Cdn.enable', true);
-Configure::write('Cdn.url', 'http://d2sj69od7a1f4n.cloudfront.net');
+Configure::write('Cdn.url', 'http://d2294tgrn6uep3.cloudfront.net');
 
 //         css js cache
 Configure::write('Frontend.disable_combine_js', false);
