@@ -4,7 +4,7 @@ class ConversationsController extends AppController {
 	var $name = 'Conversations';
 	var $uses = array('User' ,'Conversation','ConversationUser','ConversationMessage', 'JsonResponse');
 
-    var $components = array('Email');
+    var $components = array('Email', 'Upload');
 
     var $helpers = array('MzText', 'Image', 'MzTime');
 
@@ -193,6 +193,7 @@ class ConversationsController extends AppController {
 		$this->set('users', $this->ConversationUser->find('all', array('conditions' => array('conversation_id' => $conversation_id))));
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
         $this->set('user', $this->getUserForSidebar($this->Auth->user('id')));
+        $this->set('hash', $this->Upload->getHash());
 	}
 
 	function index() {
@@ -226,6 +227,7 @@ class ConversationsController extends AppController {
         $this->set('user', $this->getUserForSidebar($user_id));
 
         $this->set('conversations', $conversations);
+        $this->set('hash', $this->Upload->getHash());
 	} 
 	
 	function remove($conversation_id){
