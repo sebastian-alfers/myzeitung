@@ -46,7 +46,7 @@ class DATABASE_CONFIG
             'port' => '3306',
             'login' => 'mz_rds',
             'password' => 'Ymqodfi3',
-            'database' => 'mzdb',
+            'database' => 'myzeitung',
 	);
 
 

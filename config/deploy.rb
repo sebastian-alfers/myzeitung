@@ -58,8 +58,11 @@ task :create_symlinks, :roles => :web do
     # set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
+    # since cake console needs cache we create folders
+    #run  tmp/cache/
+
     # run db upgrade
-    run "#{current_release}/cake/console/cake -app #{current_release}/app/ dbinstall"
+    #run "#{current_release}/cake/console/cake -app #{current_release}/app/ dbinstall"
 
 end
 
