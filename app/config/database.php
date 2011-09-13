@@ -20,7 +20,7 @@ class DATABASE_CONFIG
             'driver' => 'mysql',
             'persistent' => false,
             'host' => '127.0.0.1',
-            'port' => '3306',
+            'port' => '',
             'login' => 'root',
             'password' => 'root',
             'database' => 'myzeitung',
@@ -46,7 +46,7 @@ class DATABASE_CONFIG
             'port' => '3306',
             'login' => 'mz_rds',
             'password' => 'Ymqodfi3',
-            'database' => 'mzdb',
+            'database' => 'myzeitung',
 	);
 
 

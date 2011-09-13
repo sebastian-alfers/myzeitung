@@ -23,19 +23,30 @@ class AwsController extends AppController {
      */
     function admin_ses($method){
 
-        $sshClient = new SshClient();
-
-        $sshClient->connect();
-        //$sshClient->exec('ls -l /');
-        die();
-
-
         $view = $method;
         $data = array();
 
         switch($method){
             case 'quota':
-                $data = $this->Aws->ses_get_send_quota();
+
+                $data = $this->Aws->ses_get_send_statistics();
+                //process data
+                $data = $data->GetSendStatisticsResult->SendDataPoints;
+                $grouped = array();
+                $grouped['DeliveryAttempts'] = 0;
+                $grouped['Rejects'] = 0;
+                $grouped['Bounces'] = 0;
+                $grouped['Complaints'] = 0;
+                foreach($data->member as $statistic){
+                    $grouped['DeliveryAttempts'] += $statistic->DeliveryAttempts;
+                    $grouped['Rejects'] += $statistic->Rejects;
+                    $grouped['Bounces'] += $statistic->Bounces;
+                    $grouped['Complaints'] += $statistic->Complaints;
+                }
+                $data = $grouped;
+
+                $this->set('quota', $this->Aws->ses_get_send_quota());
+
                 break;
             case 'adresses':
                 $data = $this->Aws->list_verified_email_addresses();

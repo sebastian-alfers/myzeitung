@@ -41,6 +41,19 @@ class AwsComponent extends Object {
         return $data;
     }
 
+    function ses_get_send_statistics(){
+        $ses = $this->getSes();
+        $statistics = $ses->get_send_statistics();
+        $data = array();
+        if($statistics->status == 200){
+            $data = $statistics->body;
+        }
+
+        return $data;
+    }
+
+
+
     function ec2_describe_images(){
         $ec2 = $this->getEc2();
         $ec2->set_region(AmazonEC2::REGION_EU_W1);
