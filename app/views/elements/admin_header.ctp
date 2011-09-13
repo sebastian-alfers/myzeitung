@@ -72,6 +72,33 @@
 			<li>
 				<?php echo $this->Html->link(__('Complaints', true), array('controller' => 'complaints', 'action' => 'index'));?>
 			</li>
+
+            <li>
+                <a href="#"><?php __('Helpcenter'); ?></a>
+                <ul>
+                    <li>
+                        <a href="/admin/helppages"><?php __('Pages'); ?></a>
+                        <?php if($is_superadmin): ?>
+                        <ul>
+                            <li><?php echo $this->Html->link(__('Add Page', true), array('controller' => 'helppages', 'action' => 'add'));?></li>
+                        </ul>
+                        <?php endif; ?>
+                    </li>
+
+                    <li>
+                        <a href="/admin/helpelements"><?php __('Elements'); ?></a>
+                        <?php if($is_superadmin): ?>
+                        <ul>
+                            <li><?php echo $this->Html->link(__('Add Element', true), array('controller' => 'helpelements', 'action' => 'add'));?></li>
+                        </ul>
+                        <?php endif; ?>
+                    </li>
+
+
+                </ul>
+            </li>
+
+
             <?php if($is_superadmin): ?>
 			<li>
 				<a href="#"><?php __('Admin'); ?></a>

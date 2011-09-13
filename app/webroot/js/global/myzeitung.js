@@ -62,7 +62,7 @@ function scrollTo(trgt){
     var full_url = this.href;
 
     //get the top offset of the target anchor
-    var target_offset = $("#"+trgt).offset();
+    var target_offset = $(trgt).offset();
     var target_top = target_offset.top - 350;
 
     //goto that anchor by setting the body scroll top to anchor top
