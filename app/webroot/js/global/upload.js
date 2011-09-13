@@ -4,7 +4,7 @@ $(document).ready(function() {
     $( "#dialog-upload" ).dialog({
         resizable: false,
         height:450,
-        width:400,
+        width:500,
         draggable:false,
         modal: true,
         autoOpen: false
@@ -15,6 +15,10 @@ $(document).ready(function() {
         var img = $('#new_img_preview li:first').attr('id');//only one <li> is possible
 		$('#new_image').val(img);
 		$('#NewImageForm').submit();
+	});
+
+    $(".delete-profile-picture").click(function(){
+		document.location = base_url + '/users/deleteProfilePicture';
 	});
 
 

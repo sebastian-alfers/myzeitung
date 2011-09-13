@@ -164,6 +164,7 @@ class AppController extends Controller {
             'admin_view' => $this->admin,
             'admin_disable' => $this->admin,
             'admin_enable' => $this->admin,
+            'deleteProfilePicture' => $this->user,
 			),
 		'topics' => array(
 			'ajax_add' => $this->user,

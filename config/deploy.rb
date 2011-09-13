@@ -11,7 +11,7 @@ set :user, "ubuntu"
 
 set :deploy_via, :copy
 set :copy_cache, true
-set :copy_exclude, [".git/*", ".gitignore", "app/webroot/img*"]
+set :copy_exclude, [".git/*", ".gitignore", "app/webroot/img*", "config/", "Capfile", "cookbooks/", ".gitmodules", "Vagrantfile", ".vagrant", ".git", "cake.tar.bz2"]
 
 set :keep_releases, 4
 after "deploy:update", "deploy:cleanup"

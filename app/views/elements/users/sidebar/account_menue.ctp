@@ -2,7 +2,7 @@
 <?php
 echo $html->script('global/upload');
 echo $this->element('global/modal_upload',
-                     array('title'  => 'Upload new Pofile Picture',
+                     array('title'  => 'Upload new Profile Picture',
                            'hash'   => $hash,
                            'model'  => 'User',
                            'model_id'=> $user_id,
@@ -20,11 +20,10 @@ echo $this->element('global/modal_upload',
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accAboutMe'):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-about"></span>'.__('About Me', true), array('controller' => 'users', 'action' => 'accAboutMe'), array('escape' => false,));?></li>
 
-    <li id="add_image">
+
+    <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'deleteProfilePicture'):?><li id="add_image" class="active"><?php else:?><li id="add_image"><?php endif;?>
     <span class="icon icon-profilpic"></span><a><?php __('Profile Picture'); ?></a>
     </li>
-
-
 
 	<?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accGeneral' || $this->params['action'] == 'accDelete')):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-general"></span>'.__('General Settings', true), array('controller' => 'users', 'action' => 'accGeneral'), array('escape' => false,));?></li>
