@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-09-09 15:54+0200\n"
-"PO-Revision-Date: 2011-09-09 16:03+0100\n"
+"PO-Revision-Date: 2011-09-13 11:26+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2471,7 +2471,7 @@ msgstr "Benutzerkonto löschen"
 
 #: /Applications/MAMP/htdocs/myzeitung/views/users/acc_delete.ctp:21
 msgid "I want to delete my account. All my information, posts, papers and images will be deleted."
-msgstr "Ich möchte mein Benutzerkonto löschen. All meine Informationen, Artikel, Zeitungen und Bilder werden gelöscht."
+msgstr "Ich möchte mein Benutzerkonto löschen. All meine Daten werden gelöscht."
 
 #: /Applications/MAMP/htdocs/myzeitung/views/users/acc_general.ctp:27
 msgid "Old Password"

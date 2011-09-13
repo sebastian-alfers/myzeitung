@@ -42,7 +42,6 @@
 <?php echo $this->Form->hidden('hash',array('value' => $hash)); ?>
 <?php echo $this->Form->hidden('media',array('value' => '')); ?>
 <?php echo $this->Form->hidden('links',array('value' => '')); ?>
-<?php echo $this->Form->hidden('links',array('value' => '')); ?>
 <?php echo $this->Form->hidden('allow_comments',array('value' => $mzform->value($this, 'Post', 'allow_comments'))); ?>
 
     <p>
