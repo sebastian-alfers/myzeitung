@@ -280,6 +280,9 @@ class AppController extends Controller {
             'remindInvitee' => $this->user,
 
             ),
+         'helppages' => array(
+             'admin_index' => $this->admin,
+         ),
         );
 
 
