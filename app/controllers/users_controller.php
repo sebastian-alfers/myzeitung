@@ -9,7 +9,7 @@ class UsersController extends AppController {
 	var $name = 'Users';
 
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
-	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse', 'Invitation');
+	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse', );
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript');
 
 
@@ -1038,8 +1038,8 @@ class UsersController extends AppController {
 	}
 
     function accInvitations(){
-      //  App::import('model','Invitation');
-       // $this->Invitation = new Invitation();
+        App::import('model','Invitation');
+        $this->Invitation = new Invitation();
         $user_id = $this->Session->read('Auth.User.id');
 
 		if (!$user_id) {
@@ -1059,7 +1059,8 @@ class UsersController extends AppController {
                     'contain' => array('Invitee'),
             )
         );
-        $invitations = $this->paginate();
+        $invitations = $this->paginate("Invitation");
+        
        
         //check if a user is already registered,
         foreach($invitations as &$invitation){
