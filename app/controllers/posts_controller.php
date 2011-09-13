@@ -231,6 +231,7 @@ class PostsController extends AppController {
 
 
 			$this->processLinks();
+
 			//add to solr if no pictures must be saved
 			if(!($this->Upload->hasImagesInHashFolder($this->data['Post']['hash']))){
 				$this->Post->updateSolr = true;
@@ -243,6 +244,7 @@ class PostsController extends AppController {
           //  $this->log('direkt vor dem saven');
           //  $this->log($this->data);
             $this->Post->updateSolr = true;
+
 			if ($this->Post->save($this->data)) {
                 $post_url = 'http://myzeitung.de/posts/view/' . $this->Post->id;
                 $social_msg = __('Checkout my latest article as myZeitung: ', true);

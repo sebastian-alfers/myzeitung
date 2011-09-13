@@ -30,7 +30,9 @@ $(function(){
                 paste_strip_class_attributes : "all",
                 paste_remove_spans : true,
                 paste_remove_styles : true,
-
+                paste_preprocessing : true,
+                //this extends the "valid_elements" which we use currently with default value. this specific added entry forces every link within the editor to have rel - nofollow and target: _blank
+                extended_valid_elements : "a[href|target:_blank|rel:nofollow]",
 
                 // Skin options
                 skin : "mz_skin",

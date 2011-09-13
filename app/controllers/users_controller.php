@@ -9,7 +9,7 @@ class UsersController extends AppController {
 	var $name = 'Users';
 
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
-	var $uses = array('Invitation', 'User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
+	var $uses = array('User', 'Category', 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse', 'Invitation');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript');
 
 
