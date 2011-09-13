@@ -211,7 +211,6 @@ class PostsController extends AppController {
             }
 
 
-
 			if(isset($this->data['Post']['topic_id']) && $this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
 				unset($this->data['Post']['topic_id']);
 			}

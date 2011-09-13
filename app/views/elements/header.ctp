@@ -89,7 +89,7 @@
         <ul style="float:left">
             <li><?php echo $this->Html->link(__('Account / Settings', true), array('controller' => 'users' , 'action' => 'accAboutMe'));?></li>
             <li class="spacer"><li><?php echo $this->Html->link(__('Logout', true), array('controller' => 'users' , 'action' => 'logout'));?></li>
-            <?php if($is_admin || $is_superadmin): ?>
+            <?php if((isset($is_admin) && $is_admin) || (isset($is_superadmin) && $is_superadmin)): ?>
                 <li><?php echo $this->Html->link(__('Admin', true), array('controller' => 'admin' , 'action' => 'admin'));?></li>
             <?php endif; ?>
 
