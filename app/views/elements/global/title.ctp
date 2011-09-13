@@ -29,6 +29,8 @@ if($this->params['controller'] == 'home'){
             $title = __('Account', true).' - '.__('Privacy',true);
         }elseif( $this->params['action'] == 'accSocial'){
             $title = __('Account', true).' - '.__('Social Media',true);
+         }elseif( $this->params['action'] == 'accInvitations'){
+            $title = __('Account', true).' - '.__('Invitations',true);
         }elseif( $this->params['action'] == 'accAboutMe'){
             $title = __('Account', true).' - '.__('About Me',true);
         }

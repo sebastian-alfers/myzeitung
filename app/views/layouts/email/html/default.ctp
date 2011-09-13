@@ -10,11 +10,18 @@
 		<table border="0" bgcolor="#FFFFFF" width="600" style="padding: 8px 20px 20px; margin:0;">
 
 		<tr>
-			<td style="padding: 0 0 5px 23px; border-bottom: 1px solid #232424;"><?php echo $this->Html->image($this->Html->url('/img/assets/logo-mail.gif', true), array('alt'  => 'myZeitung.de', 'url' => array('controller' => 'home' ,'action' => 'index'))); ?></td>
+			<td style="padding: 0 0 5px 23px; border-bottom: 1px solid #E4E3E3;"><?php echo $this->Html->image($this->Html->url('/img/assets/logo-mail.gif', true), array('alt'  => 'myZeitung.de', 'url' => array('controller' => 'home' ,'action' => 'index'))); ?></td>
 		</tr>
 
 
 	            <?php echo $content_for_layout;?>
+        <tr>
+            <td style="padding: 0 0 0 0; border-top: 1px solid #E4E3E3;">
+                <p>
+                    myZeitung © 2011 | <a style="color:#6e6e6e;" href="http://www.myzeitung.de">Impressum</a> | <a  style="color:#6e6e6e;" href="http://www.myzeitung.de">AGB</a> | <a  style="color:#6e6e6e;" href="http://www.myzeitung.de">Datenschutzrichtlinien</a> | <a style="color:#6e6e6e;" href="http://www.myzeitung.de">Kontakt</a>
+                </p>
+            </td>
+        </tr>
 
 
  		</table>

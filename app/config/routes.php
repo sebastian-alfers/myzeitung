@@ -118,7 +118,7 @@ Router::connect('/settings', array('controller' => 'users', 'action' => 'accAbou
 Router::connect('/settings/privacy', array('controller' => 'users', 'action' => 'accPrivacy'));
 Router::connect('/settings/general', array('controller' => 'users', 'action' => 'accGeneral'));
 Router::connect('/settings/social-media', array('controller' => 'users', 'action' => 'accSocial'));
-
+Router::connect('/settings/invitations', array('controller' => 'users', 'action' => 'accInvitations'));
 
 /**
  * index actions
