@@ -3,31 +3,37 @@ class HelpelementsController extends AppController {
 
 	var $name = 'Helpelements';
 
-	function admin_index() {
-		$this->Helpelement->recursive = 0;
-		$this->set('helpelements', $this->paginate());
-	}
+    var $uses = array('Helpelement', 'Helppage');
 
-	function admin_view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid helpelement', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('helpelement', $this->Helpelement->read(null, $id));
-	}
 
-	function admin_add() {
+
+	function admin_add($helppage_id = null) {
 		if (!empty($this->data)) {
 			$this->Helpelement->create();
 			if ($this->Helpelement->save($this->data)) {
 				$this->Session->setFlash(__('The helpelement has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller' => 'helppages', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The helpelement could not be saved. Please, try again.', true));
 			}
 		}
-		$pages = $this->Helpelement->Page->find('list');
-		$this->set(compact('pages'));
+
+        if($helppage_id == null){
+            $this->Session->setFlash(__('No help page', true));
+            $this->redirect($this->referer());
+        }
+
+	    //load helppage
+        $this->Helppage->contain();
+        $data = $this->Helppage->read(null, $helppage_id);
+
+        if(!$data['Helppage']['id']){
+            $this->Session->setFlash(__('Wrong help page', true));
+            $this->redirect($this->referer());
+        }
+        $this->set('page_id', $helppage_id);
+        $this->set('helppage', $data);
+
 	}
 
 	function admin_edit($id = null) {
@@ -38,7 +44,7 @@ class HelpelementsController extends AppController {
 		if (!empty($this->data)) {
 			if ($this->Helpelement->save($this->data)) {
 				$this->Session->setFlash(__('The helpelement has been saved', true));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller' => 'helppages', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The helpelement could not be saved. Please, try again.', true));
 			}
@@ -46,8 +52,17 @@ class HelpelementsController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->Helpelement->read(null, $id);
 		}
-		$pages = $this->Helpelement->Page->find('list');
-		$this->set(compact('pages'));
+	    //load helppage
+        $this->Helppage->contain();
+        $data = $this->Helppage->read(null, $this->data['Helppage']['id']);
+
+
+        if(!$data['Helppage']['id']){
+            $this->Session->setFlash(__('Wrong help page', true));
+            $this->redirect($this->referer());
+        }
+        $this->set('page_id', $this->data['Helppage']['id']);
+        $this->set('helppage', $data);
 	}
 
 	function admin_delete($id = null) {
@@ -57,7 +72,7 @@ class HelpelementsController extends AppController {
 		}
 		if ($this->Helpelement->delete($id)) {
 			$this->Session->setFlash(__('Helpelement deleted', true));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect(array('controller' => 'helppages', 'action'=>'index'));
 		}
 		$this->Session->setFlash(__('Helpelement was not deleted', true));
 		$this->redirect(array('action' => 'index'));

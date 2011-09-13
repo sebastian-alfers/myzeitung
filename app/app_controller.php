@@ -36,7 +36,7 @@ class AppController extends Controller {
 
 	//load debug toolbar in plugins/debug_toolbar/
 	var $components = array('AutoLogin', 'Cookie','Auth', 'Session', 'RequestHandler');
-	var $uses = array('User','ConversationUser');
+	var $uses = array('User','ConversationUser', 'Helppage');
 
     /*
      * options for the Asses.asset plugin
@@ -282,6 +282,14 @@ class AppController extends Controller {
             ),
          'helppages' => array(
              'admin_index' => $this->admin,
+             'admin_add' => $this->superadmin,
+             'admin_edit' => $this->superadmin,
+             'admin_delete' => $this->superadmin,
+         ),
+         'helpelements' => array(
+             'admin_add' => $this->superadmin,
+             'admin_edit' => $this->admin,
+             'admin_delete' => $this->superadmin,
          ),
         );
 
@@ -426,17 +434,28 @@ class AppController extends Controller {
         $elements = array();
 
         if($cache_key != ''){
-            $helpcenter_dadta = Cache::read($cache_key);
-            if(empty($helpcenter_dadta)){
+            //add locale
+            $locale = Configure::read('Config.language');
+            $cache_key = $locale.'.'.$cache_key;
+
+            $helpcenter_data = '';//Cache::read($cache_key)
+            if(empty($helpcenter_data)){
 
                 //debug('from cache');
-                $this->User->contain();
-                $helpcenter_dadta = $this->User->find('list');
-                if(!empty($helpcenter_dadta)){
-                    Cache::write($cache_key, $helpcenter_dadta);
+                $this->Helppage->contain('Helpelement');
+                $data = $this->Helppage->find('first', array('conditions' => array('Helppage.controller' => $this->params['controller'], 'Helppage.action' => $this->params['action'])));
+
+                //prepare data
+                foreach($data['Helpelement'] as $help){
+                    $helpcenter_data[] = array('key' => $help['accessor'], 'value' => $help[$locale]);
+                }
+
+
+                if(!empty($helpcenter_data)){
+                    Cache::write($cache_key, $helpcenter_data);
                 }
             }
-            //debug(($helpcenter_dadta));
+            $this->set('helpcenter_data', $helpcenter_data);
         }
 
 
