@@ -325,6 +325,7 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect(array('action' => 'index'));
 		}
+
 		if (!empty($this->data)) {
 			if ($this->User->save($this->data)) {
 				$this->Session->setFlash(__('The user has been saved', true), 'default', array('class' => 'success'));
@@ -1189,6 +1190,27 @@ class UsersController extends AppController {
 
             $this->_sendMail($user['User']['email'], __('You have been subscribed', true),'subscription');
         }
+    }
+
+    function deleteProfilePicture(){
+        if(!empty($this->data)){
+            $user_id = $this->Session->read('Auth.User.id');
+            $this->User->updateSolr = true;
+            $data = array('User' => array('id' => $user_id,
+                                          'image' => NULL,
+                                           'username' => $this->Session->read('Auth.User.username'),
+                                           'name'  => $this->Session->read('Auth.User.name')));
+
+            if($this->User->save($data)){
+                $this->Session->write('Auth.User.image', '');
+                $this->Session->setFlash(__('Your Profile Picture has been removed', true),'default', array('class' => 'success'));
+                $this->redirect('/settings');
+            }
+        }
+		$this->User->contain();
+		$user= $this->getUserForSidebar();
+		$this->set('user', $user);
+        $this->set('hash', $this->Upload->getHash());
     }
 
     protected function _checkForInvitations(){

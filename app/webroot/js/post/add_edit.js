@@ -193,7 +193,7 @@ $(document).ready(function() {
     function addVideoItem(video_item_html){
         $('#sortable').append(video_item_html);
         $( "#dialog-video-url" ).dialog( "close" );
-        scrollTo('sortable');
+        scrollTo('#sortable');
 
     }
 	
@@ -346,7 +346,7 @@ $(document).ready(function() {
 		        },
 		        beforeSend: function (event, files, index, xhr, handler, callBack) {
                     if(!scroll){
-                        scrollTo('sortable');
+                        scrollTo('#sortable');
                         scroll = true;
                     }
 

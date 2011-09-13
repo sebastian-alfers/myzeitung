@@ -4,5 +4,9 @@
 		myZeitung © 2011 | <a href="">Impressum</a> | <a href="">AGB</a> | <a
 			href="">Datenschutzrichtlinien</a> | <a href="">Kontakt</a>
 	</p>
-</div> 
+</div>
+
 <!-- / #footer -->
+<script type="text/javascript">
+    var helpcenter = <?php echo json_encode($helpcenter_data) ?>;
+</script>

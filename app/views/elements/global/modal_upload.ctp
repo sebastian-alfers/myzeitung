@@ -6,10 +6,13 @@
                     method="POST" enctype="multipart/form-data"><input
                     type="file" name="file">
                     <span>+</span><?php __('Choose image'); ?>
-
                 <input type="hidden" name="hash"
                     value="<?php echo $hash; ?>" />
         </form>
+
+        <?php if($this->Session->read('Auth.User.image')):  ?>
+            <ul><li><a class="btn gray delete-profile-picture" href="#" id=""><span>-</span><?php __('Delete Current Profile Picture'); ?></a></li></ul>
+        <?php endif; ?>
         <br /><br />
         <div id="files" style="float: left"></div>
         <ul id="new_img_preview"></ul>
@@ -27,7 +30,7 @@
             <br /><br />
             <hr />
                 <ul>
-                    <li><a class="btn" id="submit_new_image_btn"><span>+</span><?php __('Save Picture');?></a></li>
+                    <li><a class="btn" id="submit_new_image_btn"><span>+</span><?php __('Save New Profile Picture');?></a></li>
                     <li><a href="#" class="btn" onclick="$('#dialog-upload').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
                 </ul>
             </form>
@@ -35,4 +38,3 @@
 
     </div>
 </div>
-
