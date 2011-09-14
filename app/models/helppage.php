@@ -11,7 +11,7 @@ class Helppage extends AppModel {
 			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'order',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
@@ -22,19 +22,19 @@ class Helppage extends AppModel {
 
     function afterSave($created){
 
-        // remove helpcenter cache
-        $this->deleteCache($this->data);
+        $this->deleteCache();
     }
 
     function beforeDelete(){
-        $data = $this->read(null, $this->id);
-        $this->deleteCache($data);
+        $this->deleteCache();
+
         return true;
     }
 
-    function deleteCache($data){
-        $cacheKey = Configure::read('Config.language').'.Helpcenter.'.$data['Helppage']['controller'].'.'.$data['Helppage']['action'];
-        Cache::delete($cacheKey);
+    function deleteCache(){
+        $locale = Configure::read('Config.language');
+        $cache_key = 'Helpcenter'.DS.$locale;
+        Cache::delete($cache_key);
     }
 
 

@@ -5,7 +5,8 @@
 	<?php
 		echo $this->Form->input('controller');
 		echo $this->Form->input('action');
-        echo $this->Form->input('description');
+        echo $this->Form->input('deu');
+        echo $this->Form->input('eng');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

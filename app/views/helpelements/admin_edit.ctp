@@ -11,6 +11,7 @@
 		echo $this->Form->input('accessor');
 		echo $this->Form->input('deu');
 		echo $this->Form->input('eng');
+        echo $this->Form->input('order');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Save Data', true));?>

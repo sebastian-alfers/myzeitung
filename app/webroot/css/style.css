@@ -3392,6 +3392,10 @@ form.onecol div.textarea{
     width:100%
 }
 
+#help #content{
+    width:600px;
+}
+
 #help a{
     color:#000;
     margin-top: 13px;
