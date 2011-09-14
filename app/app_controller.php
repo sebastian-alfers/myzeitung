@@ -433,8 +433,7 @@ class AppController extends Controller {
             $locale = Configure::read('Config.language');
             $cache_key = 'Helpcenter'.DS.$locale;
 
-            debug($cache_key);
-            die();
+
 
             $helpcenter_data = Cache::read($cache_key);
             if($helpcenter_data === false){
