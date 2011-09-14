@@ -77,6 +77,7 @@ $(document).ready(function() {
     var mouse_over = '';
 
     $('.user-image').live('mouseenter', function(e){
+        if($(this).hasClass('nosubscribe')) return;
         if(timeout != '') {
             clearTimeout(timeout);
             if( subscribe_box.is(':visible') ) {

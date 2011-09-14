@@ -52,10 +52,10 @@
                                 ?>
                                 <?php echo $this->Html->link(
 
-                                            $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image'), ImageHelper::USER)
+                                            $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image nosubscribe'), ImageHelper::USER)
                                             .'<strong>'.$paper['User']['username'].'</strong><br />'.$this->MzText->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
                                                 array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($paper['User']['username'])),
-                                                array('escape' => false, 'id' => $paper['User']['id'], 'alt' => $this->MzText->getUserName($paper['User']),'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username']))), 'rel' => $this->MzText->getSubscribeUrl(),'class' => 'user-image'));?>
+                                                array('escape' => false, 'id' => $paper['User']['id'], 'alt' => $this->MzText->getUserName($paper['User']),'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username']))), 'rel' => $this->MzText->getSubscribeUrl(),'class' => 'user-image nosubscribe'));?>
 
 
 								</li>
