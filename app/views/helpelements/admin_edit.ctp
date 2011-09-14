@@ -6,6 +6,7 @@
         echo "<h2>".$helppage['Helppage']['description']."</h2>";
         echo " (".$helppage['Helppage']['controller']."/".$helppage['Helppage']['action'] . ")";
 		echo $this->Form->input('id');
+        echo $this->Form->input('page_id', array('type' => 'hidden', 'value' => $page_id));
 		echo $this->Form->input('description');
 		echo $this->Form->input('accessor');
 		echo $this->Form->input('deu');

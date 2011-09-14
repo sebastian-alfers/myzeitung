@@ -1,4 +1,3 @@
-<?php debug($this->data); ?>
 <div class="helppages form">
 <?php echo $this->Form->create('Helppage');?>
 	<fieldset>

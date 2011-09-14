@@ -59,6 +59,7 @@ class HelppagesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+            $this->Helppage->contain('Helpelement');
 			if ($this->Helppage->save($this->data)) {
 				$this->Session->setFlash(__('The helppage has been saved', true));
 				$this->redirect(array('action' => 'index'));

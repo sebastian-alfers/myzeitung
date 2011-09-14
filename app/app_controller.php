@@ -433,27 +433,25 @@ class AppController extends Controller {
         if(isset($this->params['action']) && !empty($this->params['action'])) $cache_key.= '.'.$this->params['action'];
         $elements = array();
 
-        if($cache_key != ''){
+        if($cache_key != '' && $this->params['controller'] != 'helppages'){
             //add locale
             $locale = Configure::read('Config.language');
             $cache_key = $locale.'.'.$cache_key;
 
-            $helpcenter_data = '';//Cache::read($cache_key)
-            if(empty($helpcenter_data)){
-
-                //debug('from cache');
+            $helpcenter_data = Cache::read($cache_key);
+            if(!is_array($helpcenter_data)){
+                $helpcenter_data = array();
                 $this->Helppage->contain('Helpelement');
                 $data = $this->Helppage->find('first', array('conditions' => array('Helppage.controller' => $this->params['controller'], 'Helppage.action' => $this->params['action'])));
 
-                //prepare data
-                foreach($data['Helpelement'] as $help){
-                    $helpcenter_data[] = array('key' => $help['accessor'], 'value' => $help[$locale]);
+                if(count($data['Helpelement']) > 0){
+                    //prepare data
+                    foreach($data['Helpelement'] as $help){
+                        $helpcenter_data[] = array('key' => $help['accessor'], 'value' => $help[$locale]);
+                    }
                 }
+                Cache::write($cache_key, $helpcenter_data);
 
-
-                if(!empty($helpcenter_data)){
-                    Cache::write($cache_key, $helpcenter_data);
-                }
             }
             $this->set('helpcenter_data', $helpcenter_data);
         }

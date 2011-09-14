@@ -13,4 +13,13 @@ class Helpelement extends AppModel {
 			'order' => ''
 		)
 	);
+
+
+    function afterSave($created){
+
+        // remove helpcenter cache
+        $cacheKey = Configure::read('Config.language').'.Helpcenter.'.$this->data['Helppage']['controller'].'.'.$this->data['Helppage']['action'];
+        Cache::delete($cacheKey);
+    }
+
 }
