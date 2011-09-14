@@ -57,7 +57,6 @@ function isValidUrl(url){
 }
 
 function scrollTo(trgt){
-
     //get the full url - like mysitecom/index.htm#home
     var full_url = this.href;
 

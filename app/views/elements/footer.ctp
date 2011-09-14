@@ -9,4 +9,5 @@
 <!-- / #footer -->
 <script type="text/javascript">
     var helpcenter = <?php echo json_encode($helpcenter_data) ?>;
+    var default_helptext = '<?php echo $default_helptext; ?>';
 </script>

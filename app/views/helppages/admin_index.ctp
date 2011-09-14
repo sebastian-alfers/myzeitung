@@ -3,7 +3,6 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
-            <th><?php __('Desription'); ?></th>
             <th><?php __('Elements'); ?></th>
 			<th><?php echo $this->Paginator->sort('controller');?></th>
 			<th><?php echo $this->Paginator->sort('action');?></th>
@@ -19,7 +18,6 @@
 	?>
 	<tr<?php echo $class;?>>
 		<td><?php echo $helppage['Helppage']['id']; ?>&nbsp;</td>
-        <td><?php echo $helppage['Helppage']['description']; ?>&nbsp;</td>
         <td>
             <ul>
             <?php foreach($helppage['Helpelement'] as $element): ?>

@@ -427,35 +427,45 @@ class AppController extends Controller {
 
 	function beforeRender()
     {
-        //get the elements for the helpcenter if available
-        $cache_key = '';
-        if(isset($this->params['controller']) && !empty($this->params['controller'])) $cache_key = 'Helpcenter.'.$this->params['controller'];
-        if(isset($this->params['action']) && !empty($this->params['action'])) $cache_key.= '.'.$this->params['action'];
-        $elements = array();
 
-        if($cache_key != ''){
-            //add locale
+        if(!in_array($this->params['controller'], array('helpcenter', 'admin'))){
+
             $locale = Configure::read('Config.language');
-            $cache_key = $locale.'.'.$cache_key;
+            $cache_key = 'Helpcenter'.DS.$locale;
 
-            $helpcenter_data = '';//Cache::read($cache_key)
-            if(empty($helpcenter_data)){
+            debug($cache_key);
+            die();
 
-                //debug('from cache');
+            $helpcenter_data = Cache::read($cache_key);
+            if($helpcenter_data === false){
+
+                $helpcenter_data = array();
                 $this->Helppage->contain('Helpelement');
-                $data = $this->Helppage->find('first', array('conditions' => array('Helppage.controller' => $this->params['controller'], 'Helppage.action' => $this->params['action'])));
+                $data = $this->Helppage->find('all');
 
-                //prepare data
-                foreach($data['Helpelement'] as $help){
-                    $helpcenter_data[] = array('key' => $help['accessor'], 'value' => $help[$locale]);
+                if(count($data) > 0){
+                    //prepare data
+                    foreach($data as $page){
+                        if(count($page['Helpelement']) > 0){
+                            $url = $page['Helppage']['controller'].DS.$page['Helppage']['action'];
+                            $helpcenter_data[$url]['default']['deu'] = $page['Helppage']['deu'];
+                            $helpcenter_data[$url]['default']['eng'] = $page['Helppage']['eng'];
+
+                            foreach($page['Helpelement'] as $element){
+                                $helpcenter_data[$url]['elements'][] = array('key' => $element['accessor'], 'value' => $element[$locale]);
+                            }
+                        }
+
+                    }
                 }
-
-
-                if(!empty($helpcenter_data)){
-                    Cache::write($cache_key, $helpcenter_data);
-                }
+                Cache::write($cache_key, $helpcenter_data);
             }
-            $this->set('helpcenter_data', $helpcenter_data);
+            $url = $this->params['controller'].DS.$this->params['action'];
+            if(isset($helpcenter_data[$url])){
+                $this->set('helpcenter_data', $helpcenter_data[$url]['elements']);
+                $this->set('default_helptext', $helpcenter_data[$url]['default'][$locale]);
+            }
+
         }
 
 

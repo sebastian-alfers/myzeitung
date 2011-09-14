@@ -9,6 +9,10 @@ class HelpelementsController extends AppController {
 
 	function admin_add($helppage_id = null) {
 		if (!empty($this->data)) {
+            $this->Helppage->contain();
+            $data = $this->Helppage->read(null, $this->data['Helpelement']['page_id']);
+            $this->data['Helppage'] = $data['Helppage'];
+
 			$this->Helpelement->create();
 			if ($this->Helpelement->save($this->data)) {
 				$this->Session->setFlash(__('The helpelement has been saved', true));
@@ -42,6 +46,11 @@ class HelpelementsController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+
+            $this->Helppage->contain();
+            $data = $this->Helppage->read(null, $this->data['Helpelement']['page_id']);
+            $this->data['Helppage'] = $data['Helppage'];
+
 			if ($this->Helpelement->save($this->data)) {
 				$this->Session->setFlash(__('The helpelement has been saved', true));
 				$this->redirect(array('controller' => 'helppages', 'action' => 'index'));

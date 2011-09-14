@@ -4,7 +4,9 @@
                 <li><h2>Help Center</h2></li>
                 <li><a class="helpnav next browse left-arrow-black"></a></li>
                 <li><a class="helpnav next browse right-arrow-black"></a></li>
+                <li id="content"></li>
                 <li class="last"><a class="help-link icon icon-close-help tt-title-north" title="<?php __('Quit Help Center'); ?>">close</a></li>
+
             </ul>
         </div>
     </div>

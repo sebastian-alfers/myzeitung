@@ -8,10 +8,10 @@ class Helppage extends AppModel {
 		'Helpelement' => array(
 			'className' => 'Helpelement',
 			'foreignKey' => 'page_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'order',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
@@ -19,5 +19,24 @@ class Helppage extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+    function afterSave($created){
+
+        $this->deleteCache();
+    }
+
+    function beforeDelete(){
+        $this->deleteCache();
+
+        return true;
+    }
+
+    function deleteCache(){
+        $locale = Configure::read('Config.language');
+        $cache_key = 'Helpcenter'.DS.$locale;
+        Cache::delete($cache_key);
+    }
+
+
 
 }
