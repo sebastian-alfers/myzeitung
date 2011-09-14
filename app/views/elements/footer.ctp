@@ -8,6 +8,6 @@
 
 <!-- / #footer -->
 <script type="text/javascript">
-    var helpcenter = <?php echo json_encode($helpcenter_data) ?>;
-    var default_helptext = '<?php echo $default_helptext; ?>';
+    var helpcenter = <?php echo isset($helpcenter_data)? json_encode($helpcenter_data) : "''"; ?>;
+    var default_helptext = '<?php echo isset($default_helptext)? $default_helptext : ''; ?>';
 </script>
