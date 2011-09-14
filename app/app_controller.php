@@ -430,9 +430,8 @@ class AppController extends Controller {
 
         if(!in_array($this->params['controller'], array('helpcenter', 'admin'))){
 
-            $locale = Configure::read('Config.language');
+            $locale = $this->Cookie->read('lang');
             $cache_key = 'Helpcenter'.DS.$locale;
-
 
 
             $helpcenter_data = Cache::read($cache_key);
@@ -447,8 +446,7 @@ class AppController extends Controller {
                     foreach($data as $page){
                         if(count($page['Helpelement']) > 0){
                             $url = $page['Helppage']['controller'].DS.$page['Helppage']['action'];
-                            $helpcenter_data[$url]['default']['deu'] = $page['Helppage']['deu'];
-                            $helpcenter_data[$url]['default']['eng'] = $page['Helppage']['eng'];
+                            $helpcenter_data[$url]['default'][$locale] = $page['Helppage'][$locale];
 
                             foreach($page['Helpelement'] as $element){
                                 $helpcenter_data[$url]['elements'][] = array('key' => $element['accessor'], 'value' => $element[$locale]);
@@ -460,6 +458,7 @@ class AppController extends Controller {
                 Cache::write($cache_key, $helpcenter_data);
             }
             $url = $this->params['controller'].DS.$this->params['action'];
+
             if(isset($helpcenter_data[$url])){
                 $this->set('helpcenter_data', $helpcenter_data[$url]['elements']);
                 $this->set('default_helptext', $helpcenter_data[$url]['default'][$locale]);

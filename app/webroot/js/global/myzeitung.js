@@ -1,6 +1,3 @@
-function AjaxRequest(url, data){
-	alert(url);
-}
 //validation = new AjaxRequest(base_url+'/ajax/validation/register');
 $(document).ready(function() {
     $('.tt-title').tipsy({live:true, fade: false, opacity: 1, gravity: 'sw'});
@@ -75,6 +72,11 @@ $(document).ready(function() {
     var subscribe_box = $('#subscribe-box');
     var timeout = '';
     var mouse_over = '';
+
+    //button to submit a form to a users profile to send msg
+    $('.user-new-conversation').click(function(e){
+        $(this).parent('form').submit();
+    });
 
     $('.user-image').live('mouseenter', function(e){
         if($(this).hasClass('nosubscribe')) return;

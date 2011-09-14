@@ -27,7 +27,7 @@ class Helpelement extends AppModel {
     }
 
     function deleteCache(){
-        $locale = Configure::read('Config.language');
+        $locale = $this->Cookie->read('lang');
         $cache_key = 'Helpcenter'.DS.$locale;
         Cache::delete($cache_key);
     }
