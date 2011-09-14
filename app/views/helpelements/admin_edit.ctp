@@ -15,6 +15,7 @@
 	</fieldset>
 <?php echo $this->Form->end(__('Save Data', true));?>
 <?php if($is_superadmin): ?>
-    <?php echo $this->Html->link(__('Delte from this page', true) , array('controller' => 'helpelements', 'action' => 'delete', $this->data['Helpelement']['id'])); ?>
+    <?php     echo $this->Html->link(__('Delte from this page', true) , array('controller' => 'helpelements', 'action' => 'delete', $this->data['Helpelement']['id']), null, sprintf(__('Are you sure you want to delete this element?', true))); ?>
+
 <?php endif; ?>
 </div>

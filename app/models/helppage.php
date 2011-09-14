@@ -8,7 +8,7 @@ class Helppage extends AppModel {
 		'Helpelement' => array(
 			'className' => 'Helpelement',
 			'foreignKey' => 'page_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -23,7 +23,17 @@ class Helppage extends AppModel {
     function afterSave($created){
 
         // remove helpcenter cache
-        $cacheKey = Configure::read('Config.language').'.Helpcenter.'.$this->data['Helppage']['controller'].'.'.$this->data['Helppage']['action'];
+        $this->deleteCache($this->data);
+    }
+
+    function beforeDelete(){
+        $data = $this->read(null, $this->id);
+        $this->deleteCache($data);
+        return true;
+    }
+
+    function deleteCache($data){
+        $cacheKey = Configure::read('Config.language').'.Helpcenter.'.$data['Helppage']['controller'].'.'.$data['Helppage']['action'];
         Cache::delete($cacheKey);
     }
 

@@ -434,12 +434,13 @@ class AppController extends Controller {
         $elements = array();
 
         if($cache_key != '' && $this->params['controller'] != 'helppages'){
+
             //add locale
             $locale = Configure::read('Config.language');
             $cache_key = $locale.'.'.$cache_key;
 
             $helpcenter_data = Cache::read($cache_key);
-            if(!is_array($helpcenter_data)){
+            if($helpcenter_data === false){
                 $helpcenter_data = array();
                 $this->Helppage->contain('Helpelement');
                 $data = $this->Helppage->find('first', array('conditions' => array('Helppage.controller' => $this->params['controller'], 'Helppage.action' => $this->params['action'])));
@@ -451,7 +452,6 @@ class AppController extends Controller {
                     }
                 }
                 Cache::write($cache_key, $helpcenter_data);
-
             }
             $this->set('helpcenter_data', $helpcenter_data);
         }
