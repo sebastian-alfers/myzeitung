@@ -29,15 +29,16 @@
                                         <ul class="invitee-info">
                                             <li class="email"><?php echo $invitee['email'];?></li>
 
-                                                <?php if(isset($invitee['User']['id'])):?>
+                                                <?php /* if(isset($invitee['User']['id'])):?>
                                                  <li class="status registered"><?php echo __('already registered',true);?></li>
                                                  <li class="info"><?php echo __('Username', true).': '.$this->Html->link($invitee['User']['username'], array('controller' => 'users','action' => 'view', 'username' => strtolower($invitee['User']['username'])));?></li>
                                                 <li class="buttons"><a href="#" class="btn subscribe-user" id="<?php echo $invitee['User']['id']; ?>"><span>+</span><?php __('Subscribe Author'); ?></a></li>
-                                                <?php else: ?>
-                                                 <li class="status not-registered"><?php echo __('not yet registered',true);?></li>
+                                                <?php else:  ?>
+                                                 <li class="status not-registered"><?php echo __('not yet registered',true);?></li> <?php */ ?>
+                                                 <li class="status"></li>
                                                  <li class="info"><?php if($invitee['reminder_count'] >0) echo sprintf(__n('%d time reminded','%d times reminded',$invitee['reminder_count'] ,true), $invitee['reminder_count']);?></li>
                                                  <li class="buttons"><?php echo $this->Html->link(__('Send Reminder',true),array('controller' => 'invitations', 'action' => 'remindInvitee', $invitee['id']), null,sprintf(__('Are you sure to send a reminder email to: %s?', true),$invitee['email'])); ?></li>
-                                                <?php endif;?>
+                                                <?php /* endif; */?>
 
 
 

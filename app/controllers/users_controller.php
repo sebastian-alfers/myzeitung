@@ -302,7 +302,7 @@ class UsersController extends AppController {
                 $this->_sendWelcomeEmail($this->User->id);
 
                 //check if someone invited this user
-                $this->_checkForInvitations();
+               // $this->_checkForInvitations();
 
                 //Auto-Login after Register,0
                 $userData = array('username' => $this->data['User']['username'], 'password' => $this->Auth->password($this->data['User']['passwd']));
@@ -1064,7 +1064,7 @@ class UsersController extends AppController {
         
        
         //check if a user is already registered,
-        foreach($invitations as &$invitation){
+        /*foreach($invitations as &$invitation){
             foreach($invitation['Invitee'] as &$invitee){
                 $this->User->contain();
 
@@ -1073,7 +1073,7 @@ class UsersController extends AppController {
 
             }
 
-        }
+        }*/
         
         $this->set('user', $this->getUserForSidebar());
         $this->set('invitations', $invitations);
