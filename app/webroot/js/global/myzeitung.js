@@ -311,6 +311,7 @@ $(document).ready(function() {
         autoOpen: false
     });
 
+    observeRepost();
 
 });
 
