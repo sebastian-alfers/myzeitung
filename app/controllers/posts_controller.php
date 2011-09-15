@@ -195,6 +195,7 @@ class PostsController extends AppController {
 	}
 
 	function add() {
+
 		$error = false;
 
 		$user_id = $this->Auth->User('id');
@@ -366,7 +367,7 @@ class PostsController extends AppController {
         //$this->log('TOPICS');
         //$this->log($topics);
         //$this->log($this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
-		$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
+		//$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
 
 		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
 		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
@@ -419,6 +420,9 @@ class PostsController extends AppController {
         if(isset($this->data['Post']['media'])){
             $this->set('images', $this->data['Post']['media']);
         }
+
+
+
 		//same template for add and edit
 		$this->render('add_edit');
 

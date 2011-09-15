@@ -9,7 +9,8 @@
 	}
 	$link_data = array();
 	$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username));
-	$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername(array('username' => $user->user_username, 'name' => $user->user_name)), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user->id);
+    $extra = ($user->id == $session->read('Auth.User.id'))? 'me' : '';
+	$link_data['custom'] = array('class' => 'user-image ' . $extra, 'alt' => $this->MzText->getUsername(array('username' => $user->user_username, 'name' => $user->user_name)), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user->id);
 	echo $image->render(array('image' => $img), 58, 58,array('title' => $user->user_username), $link_data);
 				 				
 ?>									
@@ -24,7 +25,7 @@
         </form>
 	<?php endif;?>
 
-       <a href="<?php echo $subscribe_link; ?>" class="btn user-button-2 subscribe-user" id="<?php echo $user->id; ?>"><span>+</span><?php __('Subscribe Author'); ?></a>
+       <a href="<?php echo $subscribe_link; ?>" class="btn user-button-2 subscribe-user" id="<?php echo $user->id; ?>"><span>+</span><?php __(($user->id == $session->read('Auth.User.id'))? 'Subscribe me' : 'Subscribe author'); ?></a>
 	</div>
 	<p class="from"><strong><?php echo __('Author', true);?></strong></p>
 

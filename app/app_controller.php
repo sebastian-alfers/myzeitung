@@ -427,7 +427,10 @@ class AppController extends Controller {
 
 	function beforeRender()
     {
+        //publis body class
+        $this->set('body_class', $this->Cookie->read('lang'));
 
+        // helpcenter
         if(!in_array($this->params['controller'], array('helpcenter', 'admin'))){
 
             $locale = $this->Cookie->read('lang');

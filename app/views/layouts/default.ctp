@@ -32,7 +32,7 @@
     <?php echo $this->element('scripts_css'); ?>
     <?php echo $this->element('tracking/google_analytics/track'); ?>
 </head>
-	<body>
+	<body class="<?php echo $body_class; ?>">
     <?php
     if($session->read('Auth.User.id')){
         echo $this->element('users/modal_subscribe');
