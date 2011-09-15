@@ -1,8 +1,14 @@
 <?php echo $this->element('users/sidebar'); ?>
     <div id="maincolwrapper">
-        <div id="maincol" class="account invitations-overview ">
-            <h2 class="account-title"><?php echo __('Invitations', true);?></h2>
+        <div id="maincol" class="account invitations-overview">
+            <div class="account-nav">
+                <h2 class="account-title"><?php echo __('Invitations', true);?></h2>
 
+                <ul class="create-actions">
+
+                    <li class="big-btn"><?php echo $this->element('invite/button'); ?></li>
+                </ul>
+            </div>
 
 
             <ul class="invitations">

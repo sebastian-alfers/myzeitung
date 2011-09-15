@@ -18,6 +18,9 @@
 
 
 						<div class="articlewrapper">
+                            <?php if($paper['Paper']['owner_id'] == $session->read('Auth.User.id')): ?>
+                                <span class="mypaper">mypaper</span>
+                            <?php endif;?>
 							<div class="article">
 							<?php //<span class="round-icon">2</span> ?>
 							<ul class="iconbar">

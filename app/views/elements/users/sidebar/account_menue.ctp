@@ -15,12 +15,12 @@ echo $this->element('global/modal_upload',
     <h6><?php echo __('Communication', true);?></h6>
 
     <?php if($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view')):?><li class="active"><?php else:?><li><?php endif;?>
-    <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Messages', true), array('controller' => 'conversations', 'action' => 'index'), array('escape' => false,));?></li>
+    <?php echo $this->Html->link('<span class="icon icon-messages"></span>'.__('Messages', true), array('controller' => 'conversations', 'action' => 'index'), array('escape' => false,));?></li>
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accInvitations'):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Invitations', true), array('controller' => 'users', 'action' => 'accInvitations'), array('escape' => false,));?></li>
 
-    <?php echo $this->element('invite/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
+    <?php //echo $this->element('invite/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
 
      <hr />
 

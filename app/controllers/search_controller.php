@@ -36,21 +36,61 @@ class SearchController extends AppController {
 	}
 	
 	function users() {
+        if(!isset($this->params['form']['start'])){
+            $start = 0 ;
+        }
+        else{
+            $start = $this->params['form']['start'];
+        }
+
 		$this->getResults(solr::TYPE_USER , solr::QUERY_TYPE_SEARCH_RESULTS);
+
         $this->set('canonical_for_layout','/search');
-		$this->render('index');
-	}
+        $this->set('start', $start);
+        $this->set('per_page', solr::DEFAULT_LIMIT);
+        $this->set('canonical_for_layout','/search');
+        if($this->params['isAjax']){
+            $this->render('more_results', 'ajax');
+        }
+        $this->render('index');
+    }
 	
 	function papers() {
+        if(!isset($this->params['form']['start'])){
+            $start = 0 ;
+        }
+        else{
+            $start = $this->params['form']['start'];
+        }
+
 		$this->getResults(solr::TYPE_PAPER, solr::QUERY_TYPE_SEARCH_RESULTS);
         $this->set('canonical_for_layout','/search');
-		$this->render('index');		
+        $this->set('start', $start);
+        $this->set('per_page', solr::DEFAULT_LIMIT);
+        $this->set('canonical_for_layout','/search');
+        if($this->params['isAjax']){
+            $this->render('more_results', 'ajax');
+        }
+        $this->render('index');
 	}
 	
 	function posts() {
+        if(!isset($this->params['form']['start'])){
+            $start = 0 ;
+        }
+        else{
+            $start = $this->params['form']['start'];
+        }
+
 		$this->getResults(solr::TYPE_POST, solr::QUERY_TYPE_SEARCH_RESULTS);
         $this->set('canonical_for_layout','/search');
-		$this->render('index');	
+        $this->set('start', $start);
+        $this->set('per_page', solr::DEFAULT_LIMIT);
+        $this->set('canonical_for_layout','/search');
+        if($this->params['isAjax']){
+            $this->render('more_results', 'ajax');
+        }
+        $this->render('index');
 	}
 	
 	

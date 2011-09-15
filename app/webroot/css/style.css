@@ -559,12 +559,12 @@ overflow: hidden;
     width: 701px;
 }
 
-#user-nav ul, .article-nav ul {
+#user-nav ul, .article-nav ul, .account .account-nav ul {
     width: auto;
     float: right;
 }
 
-#user-nav li, .article-nav li {
+#user-nav li, .article-nav li , .account .account-nav li{
     float: left;
     margin-top: 5px;
     padding: 0 14px;
@@ -596,14 +596,14 @@ overflow: hidden;
     text-decoration: none;
 }
 
-#user-nav a.btn, .article-nav a.btn{
+#user-nav a.btn, .article-nav a.btn, .account .account-nav a.btn{
     font-size: 14px;
     line-height: 25px;
     padding: 0 16px 0 44px;
     margin-left: 16px;
 }
 
-#user-nav a.btn span, .article-nav a.btn span {
+#user-nav a.btn span, .article-nav a.btn span, .account .account-nav a.btn span{
     font-size: 18px;
     height: 25px;
     width: 30px;
@@ -906,6 +906,16 @@ span.repost {
     width: 50px;
     height: 44px;
     background: url(/img/assets/maintile.png) 0 -88px no-repeat;
+    text-indent: -99999px;
+}
+span.mypaper {
+    position: absolute;
+    bottom: -4px;
+    right: -6px;;
+    display: block;
+    width: 50px;
+    height: 44px;
+    background: url(/img/assets/maintile.png) 0 -345px no-repeat;
     text-indent: -99999px;
 }
 
@@ -1477,7 +1487,7 @@ a.btn.big {
 }
 
 .icon-general{
-    background: url(/img/assets/maintile.png) -31px -151px no-repeat;
+    background: url(/img/assets/maintile.png) -30px -151px no-repeat;
 }
 
 .icon-about{
@@ -1493,7 +1503,7 @@ a.btn.big {
 }
 
 .icon-social-media{
-    background: url(/img/assets/maintile.png) -55px -318px no-repeat;
+    background: url(/img/assets/maintile.png) -53px -315px no-repeat;
 }
 
 .icon-mynews{
@@ -1501,6 +1511,9 @@ a.btn.big {
 }
 
 .icon-invitations{
+    background: url(/img/assets/maintile.png) -53px -341px no-repeat;
+}
+.icon-messages{
     background: url(/img/assets/maintile.png) -137px -172px no-repeat;
 }
 
