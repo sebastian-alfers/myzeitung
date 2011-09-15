@@ -42,7 +42,7 @@ $is_scroling = count($images) > 1;//now, we scroll only two images
                     <a href="<?php echo $href; ?>" class="<?php echo $link_data['custom']['class']; ?>" rel="<?php echo $link_data['custom']['rel']; ?>" rev="<?php echo $link_data['custom']['rev']; ?>" ><span class="post-view video-item">video</span></a>
                  <?php endif; ?>
 				<?php
-                echo $image->render($img_details, 300, 200, array("alt" => 'sub'), $link_data);
+                echo $image->render($img_details, 255, 200, array("alt" => 'sub'), $link_data);
                 ?>
 
                 </div>
