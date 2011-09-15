@@ -513,6 +513,10 @@ class Post extends AppModel {
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
+                if(isset($this->data['Post']['title'])){
+                    $this->data['Post']['title'] = trim($this->data['Post']['title']);
+                }
+
                 /*
                 //redundant because we process content with texthelpers trunate function
 				//generate preview of post

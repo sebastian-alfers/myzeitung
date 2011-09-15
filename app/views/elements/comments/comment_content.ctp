@@ -45,8 +45,14 @@
             <?php endif;?>
             <?php echo $this->MzTime->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
         </p>
+        <?php if($current_comment['User']['id'] == $post['Post']['user_id']):?>
+        <p class="content owner">
+            <span class="info owner">kommentar</span>
+         <?php else:?>
         <p class="content">
             <span class="info">kommentar</span>
+        <?php endif;?>
+
             <?php echo nl2br($current_comment['Comment']['text']); ?>
         </p>
 

@@ -1200,6 +1200,9 @@ text-indent: -9999px;
     position: relative;
     border-color: #cbcbcb;
 }
+.comment .content.owner{
+     border-color: #fecb36;
+}
 
 .comment li{
     padding-left: 98px;
@@ -1226,6 +1229,11 @@ text-indent: -9999px;
     left: -18px;
     background: url(/img/assets/maintile.png) -88px -97px no-repeat;
 }
+.comment span.info.owner {
+    left: -18px;
+    background: url(/img/assets/maintile.png) -107px -97px no-repeat;
+}
+
 
 .comments .btn{
     float: right;
