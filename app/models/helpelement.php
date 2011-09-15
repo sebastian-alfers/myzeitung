@@ -13,4 +13,24 @@ class Helpelement extends AppModel {
 			'order' => ''
 		)
 	);
+
+
+    function afterSave($created){
+
+        $this->deleteCache();
+    }
+
+    function beforeDelete(){
+        $this->deleteCache();
+
+        return true;
+    }
+
+    function deleteCache(){
+        $locale = $this->Cookie->read('lang');
+        $cache_key = 'Helpcenter'.DS.$locale;
+        Cache::delete($cache_key);
+    }
+
+
 }

@@ -1,3 +1,10 @@
+<?php if(isset($newConversation) && $newConversation === true): ?>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#dialog-new-conversation').dialog('open');
+        });
+    </script>
+<?php endif; ?>
 <?php
 $to = $user['User']['username'];
 if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];

@@ -1,6 +1,3 @@
-function AjaxRequest(url, data){
-	alert(url);
-}
 //validation = new AjaxRequest(base_url+'/ajax/validation/register');
 $(document).ready(function() {
     $('.tt-title').tipsy({live:true, fade: false, opacity: 1, gravity: 'sw'});
@@ -57,7 +54,6 @@ function isValidUrl(url){
 }
 
 function scrollTo(trgt){
-
     //get the full url - like mysitecom/index.htm#home
     var full_url = this.href;
 
@@ -77,7 +73,13 @@ $(document).ready(function() {
     var timeout = '';
     var mouse_over = '';
 
+    //button to submit a form to a users profile to send msg
+    $('.user-new-conversation').click(function(e){
+        $(this).parent('form').submit();
+    });
+
     $('.user-image').live('mouseenter', function(e){
+        if($(this).hasClass('nosubscribe')) return;
         if(timeout != '') {
             clearTimeout(timeout);
             if( subscribe_box.is(':visible') ) {
@@ -311,6 +313,7 @@ $(document).ready(function() {
         autoOpen: false
     });
 
+    observeRepost();
 
 });
 

@@ -46,6 +46,7 @@ $(document).ready(function() {
         helper_elements.push(item.key);
         helper_values.push(item.value);
     });
+    $('#help #content').html(default_helptext);
 
     var current_element = 0;
     var length = helper_elements.length;

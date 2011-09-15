@@ -37,9 +37,8 @@ class HelppagesController extends AppController {
 		$this->set('helppage', $this->Helppage->read(null, $id));
 	}
 
-	function admin_add($helppage_id) {
+	function admin_add() {
 		if (!empty($this->data)) {
-
 
 			$this->Helppage->create();
 			if ($this->Helppage->save($this->data)) {
@@ -59,6 +58,7 @@ class HelppagesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
+            $this->Helppage->contain('Helpelement');
 			if ($this->Helppage->save($this->data)) {
 				$this->Session->setFlash(__('The helppage has been saved', true));
 				$this->redirect(array('action' => 'index'));
@@ -76,7 +76,8 @@ class HelppagesController extends AppController {
 			$this->Session->setFlash(__('Invalid id for helppage', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		if ($this->Helppage->delete($id)) {
+
+		if ($this->Helppage->delete($id, true)) {
 			$this->Session->setFlash(__('Helppage deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}

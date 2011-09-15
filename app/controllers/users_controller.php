@@ -169,6 +169,9 @@ class UsersController extends AppController {
         $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
 		$this->set('posts', $this->paginate($this->User->Post));
 
+        //check for post value to display newConversation form
+        $newConversation = (boolean)(isset($this->params['form']['action']) && $this->params['form']['action'] == 'newConversation');
+        $this->set('newConversation', $newConversation);
 
 		//references
 	/*	$wholeUserReferences = $this->User->getWholeUserReferences($user_id);
