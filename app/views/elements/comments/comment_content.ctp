@@ -3,7 +3,8 @@
 		//$info = $image->resize(['image'],65, 65, null, true);
 		//echo $this->Html->link($this->Html->image($info['path']),array('controller' => 'users', 'action' => 'view', 'username' => $current_comment['User']['username']),array('class' => "user-image", 'style' => $info['inline'], 'escape' => false));
 
-
+            $comment_user_id = $current_comment['Comment']['user_id'];
+            $logged_in_user_id = $session->read('Auth.User.id');
 
     // show comment only if it is active OR it is blocked or deleted but has children
 
@@ -45,7 +46,7 @@
             <?php endif;?>
             <?php echo $this->MzTime->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
         </p>
-        <?php if($current_comment['User']['id'] == $post['Post']['user_id']):?>
+        <?php if($comment_user_id == $post_owner):?>
         <p class="content owner">
             <span class="info owner">kommentar</span>
          <?php else:?>
@@ -57,8 +58,7 @@
         </p>
 
         <?php
-            $comment_user_id = $current_comment['Comment']['user_id'];
-            $logged_in_user_id = $session->read('Auth.User.id');
+
 
             if($comment_user_id == $logged_in_user_id || $logged_in_user_id == $post_owner): ?>
                 <?php echo $this->Html->link('<span class="send-icon"></span>'. __('Remove', true), array('controller' => 'comments', 'action' => 'delete', $current_comment['Comment']['id']), array('escape' => false, 'class' => 'btn gray', ));?>

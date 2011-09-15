@@ -33,8 +33,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <?php echo $this->element('users/sidebar/buttons'); ?>
         <?php echo $this->element('users/sidebar/topics'); ?>
         <?php echo $this->element('users/sidebar/activity'); ?>
-        <strong><?php  echo __('Papers', true);?>:</strong>
-				<?php echo $this->element('users/sidebar/subscriptions'); ?>
+       <?php echo $this->element('users/sidebar/subscriptions'); ?>
         <?php else:?>
             <?php if(!(($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations')))):?>
                 <?php echo $this->element('users/sidebar/buttons'); ?>

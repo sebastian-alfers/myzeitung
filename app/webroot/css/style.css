@@ -1039,7 +1039,7 @@ margin-bottom: 20px;
     margin-bottom: 10px;
 }
 
-.articleview p.first-paragraph{
+.articleview .first-paragraph p{
     font-size: 15px;
     line-height: 24px;
     margin-bottom: 15px;
@@ -1088,7 +1088,7 @@ font-size: 13px;
 }
 
 
-.articleview p.first-paragraph:first-letter{
+.articleview .first-paragraph p:first-letter{
     font-size: 50px;
     font-family: "georiga","Times", serif;
     font-weight: 100px;

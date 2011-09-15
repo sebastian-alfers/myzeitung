@@ -48,9 +48,15 @@ if($has_topics){
 <?php
 // extracting the first paragraph and the rest of the post-content
 // important to not copy the <p> </p> tags, because these are already described in the view with a class
-$end = strpos($post['Post']['content'], '</p>', 0);
-$first_paragraph = substr($post['Post']['content'], 3 , $end+3);
-$content_after_first_paragraph = substr($post['Post']['content'], $end+4);
+$first_paragraph = '';
+if(substr($post['Post']['content'],0,2) == "<p"){
+    $end = strpos($post['Post']['content'], '</p>', 0);
+    $first_paragraph = substr($post['Post']['content'],0 , $end+4);
+    $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
+} else{
+    $content_after_first_paragraph = $post['Post']['content'];
+}
+
 ?>
 <div id="maincolwrapper">
 	<div id="maincol">
@@ -94,8 +100,10 @@ $content_after_first_paragraph = substr($post['Post']['content'], $end+4);
 			<div class="articleview">
 			<p><strong><?php echo __('posted', true).' '.$this->MzTime->timeAgoInWords($post['Post']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></strong></p>
 			<h1><?php echo $post['Post']['title'];?></h1>
-			<p class="first-paragraph" ><?php echo $first_paragraph;?></p>
-
+                
+            <?php if(!empty($first_paragraph)):?>
+                <div class="first-paragraph" ><?php echo $first_paragraph;?></div>
+            <?php endif;?>
 
             <?php if($images != false && isset($images) && count($images) > 0):?>
 					<span class="main-article-imgs">
