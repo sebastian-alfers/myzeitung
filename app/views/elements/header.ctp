@@ -10,8 +10,8 @@
 			$link_data = array();
 
 			$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']));
-
-			$link_data['custom'] = array('class' => 'user-image', 'alt' => $this->MzText->getUsername($user), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']))), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user['id']);
+            $extra = ($user['id'] == $session->read('Auth.User.id'))? 'me' : '';
+			$link_data['custom'] = array('class' => 'user-image '. $extra, 'alt' => $this->MzText->getUsername($user), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']))), 'rel' => $this->MzText->getSubscribeUrl(), 'id' => $user['id']);
 
 			echo $image->render($user, 30, 30, array("alt" => $user['username']), $link_data);
 

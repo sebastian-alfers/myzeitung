@@ -32,7 +32,8 @@
       //      $image_options['rel'] = 'nofollow';
 
             $image_options['custom']['alt'] = $this->MzText->getUsername($user['User']);
-            $image_options['custom']['class'] = 'user-image';
+            $extra = ($user['User']['id'] == $session->read('Auth.User.id'))? 'me' : '';
+            $image_options['custom']['class'] = 'user-image '. $extra;
             $image_options['custom']['id'] = $user['User']['id'];
             $image_options['custom']['rel'] = $this->MzText->getSubscribeUrl();
             $image_options['custom']['link'] = $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])));

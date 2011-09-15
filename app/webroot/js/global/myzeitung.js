@@ -119,9 +119,18 @@ $(document).ready(function() {
 
     function showSubscribeDialog(element, event, subscribe_link, subscribe_user_id, subscribe_user_name, link){
 
+        var eng_label = "Subscribe author";
+        var deu_label = "Autor abonnieren";
+        if($(element).hasClass('me')){
+            eng_label = "Subscribe me";
+            deu_label = "Mich abonnieren";
+        }
+        var label = deu_label;
+        if($('body').hasClass('eng')) label = eng_label;
+
         var box = subscribe_box;
 
-        box.html('<a href="'+link+'">'+subscribe_user_name+'</a><br /><br /><a href="' + subscribe_link + '" class="btn subscribe-user" id="' + subscribe_user_id + '"><span>+</span>Abonnieren</a>');
+        box.html('<a href="'+link+'">'+subscribe_user_name+'</a><br /><br /><a href="' + subscribe_link + '" class="btn subscribe-user" id="' + subscribe_user_id + '"><span>+</span>' + label + '</a>');
 
         box.css('top', mouse_top-5);
         box.css('left', mouse_left-5);
