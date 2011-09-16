@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+
 	$('.subscribe-user').live('click', function(e){
         e.preventDefault();
         $('#subscribe-box').hide();
@@ -36,12 +38,20 @@ $(document).ready(function() {
         $( "#dialog:ui-dialog" ).dialog( "destroy" );
         $( "#dialog-subscribe" ).dialog({
             resizable: false,
-            height:340,
-            width:400,
+            height:400,
+            width:500,
             draggable:false,
             modal: true,
             autoOpen: false
         });//end button .dialog
     });
+});
+
+//observe the select box for papers in subscribe modal dialog
+
+$('#UserPaperContentData').live('change', function() {
+    $('.category-choose-content').hide();
+    var id = $(this).val();
+    $(" #choose-category-"+id).toggle("slow");
 });
 

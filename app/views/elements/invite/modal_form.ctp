@@ -15,7 +15,7 @@
             </form>
     </div>
     <hr />
-    <div class="modal-buttons">
+    <div class="modal-buttons" style="position: relative;">
         <ul>
             <li><a href="#" class="btn" onclick="validateAndSubmitInvitation();"><span>+</span><?php __('Submit Invitation'); ?></a></li>
             <li><a href="#" class="btn" onclick="$('#dialog-invitation').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
