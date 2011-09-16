@@ -51,7 +51,10 @@ $(document).ready(function() {
 
 $('#UserPaperContentData').live('change', function() {
     $('.category-choose-content').hide();
+    $('.choose-paper-image').hide();
+
     var id = $(this).val();
     $(" #choose-category-"+id).toggle("slow");
+    $(" #choose-paper-image-"+id).toggle("slow");
 });
 

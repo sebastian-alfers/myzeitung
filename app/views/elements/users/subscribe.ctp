@@ -10,11 +10,21 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
             <span class="icon">
         </div>
         <?php if(isset($data['paper'])): ?>
+            <?php //only one paper -> show image ?>
             <div style="float:left; width:70px;">
                 <?php echo $image->render($data['paper']['Paper'], 50, 50, array("alt" => $data['paper']['Paper']), array('tag' => 'div'), 'paper'); ?>
             </div>
         <?php endif; ?>
-
+        <?php if(isset($data['paper_category_chooser']['categories'])): ?>
+            <?php //different paper -> show images ?>
+            <?php $i = 0; ?>
+            <?php foreach($data['paper_category_chooser']['categories'] as $category): ?>
+                <div class="choose-paper-image" id="choose-paper-image-<?php echo $category['paper']['Paper']['id']; ?>"  <?php if($i > 0) echo 'style="display:none;"'; ?>>
+                    <?php echo $image->render($category['paper']['Paper'], 50, 50, array("alt" => $category['paper']['Paper']), array('tag' => 'div'), 'paper'); ?>
+                    <?php $i++; ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
     </div>
     <div style="float:left; width: 400px">
@@ -71,7 +81,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
             <?php if(isset($data['paper_category_chooser']['categories'])): ?>
                 <?php $i = 0; ?>
                 <div class="choose-text">
-                    <span class="icon"></span><?php __('In you Paper, where you want to subscribe in?'); ?>
+                    <span class="icon"></span><?php __('In your Paper, where you want to subscribe in?'); ?>
                 </div>
                 <?php foreach($data['paper_category_chooser']['categories'] as $category): ?>
 

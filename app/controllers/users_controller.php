@@ -616,7 +616,7 @@ class UsersController extends AppController {
                     $this->log($created);
                     $json_data['created'] = $created;
                     $json_data['paper'] = $papers[0];
-                    $this->log($json_data);
+
 
 				}
 			}
@@ -749,6 +749,7 @@ class UsersController extends AppController {
 				if(isset($paper['Category']) && count(isset($paper['Category']) > 0)){
                     $content_data['categories'][$paper['Paper']['id']]['options']['front_page'] = __('Front Page', true);
                     $content_data['categories'][$paper['Paper']['id']]['paper_id'] = $paper['Paper']['id'];
+                    $content_data['categories'][$paper['Paper']['id']]['paper'] = $paper;
 					foreach ($paper['Category'] as $category){
 						//$content_data['options'][ContentPaper::CATEGORY.ContentPaper::SEPERATOR.$category['id']] = '    '.$category['name'].' (category)';
                         $content_data['categories'][$paper['Paper']['id']]['options'][ContentPaper::CATEGORY.ContentPaper::SEPERATOR.$category['id']] = $category['name'];
