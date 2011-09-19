@@ -58,6 +58,9 @@ task :create_symlinks, :roles => :web do
     # set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
+    #copy htaccess
+    run "cp /home/ubuntu/.htpasswd /var/www/myzeitung/current && cp /home/ubuntu/.htaccess /var/www/myzeitung/current"
+
     # since cake console needs cache we create folders
     #run  tmp/cache/
 

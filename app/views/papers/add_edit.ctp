@@ -29,12 +29,13 @@ $(document).ready(function() {
 				<?php endif; ?>
 				</div>
 			
-				<div class="optional info-p"><?php  echo $this->Form->input('description', array('type' => 'text', 'class' => 'textinput', 'label' => __('Description', true))); ?>
+				<div class="optional info-p textarea"><?php  echo $this->Form->input('description', array('type' => 'textarea', 'class' => 'textinput', 'label' => __('Description', true))); ?>
 					<span class="info"><?php echo __('(optional)', true);?>&nbsp;<?php echo __('If you want to describe the contents of this paper.', true);?></span>
 					<?php if(!is_null($this->Form->error('Paper.description'))): ?>
 						<div class="error-message"><b></b><?php echo $this->Form->error('Paper.description', array('wrap'=> false));?></div>
 					<?php endif; ?>
 				</div>
+
 		         <?php /* setting default value 'http://' if there is nothing typed in yet */
                     if(empty($this->data['Paper']['url'])){
                         $url_value = "http://";

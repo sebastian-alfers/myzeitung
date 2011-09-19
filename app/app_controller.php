@@ -201,6 +201,7 @@ class AppController extends Controller {
 			'unsubscribe' => $this->user,
             'settings' => $this->user,
             'saveImage' => $this->user,
+            'deleteImage' => $this->user,
             'admin_disable' => $this->admin,
             'admin_enable' => $this->admin,
             'admin_index' => $this->admin,

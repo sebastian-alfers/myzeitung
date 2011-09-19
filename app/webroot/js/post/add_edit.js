@@ -1,4 +1,17 @@
 $(document).ready(function() {
+    $('#links-content .link').live('mouseenter', function(){
+        $(this).find('.edit-icon').css('visibility', 'visible');
+    });
+    $('#links-content .link').live('mouseleave', function(){
+        $(this).find('.edit-icon').css('visibility', 'hidden');
+    });
+    $('.edit-icon').live('click', function(){
+        $( "#dialog-url" ).dialog('open');
+        $('#url').val($(this).parent().find('a').attr('href'));
+        $('#orig-url').val($(this).parent().find('a').attr('href'));
+    });
+
+
         var is_paste = false;
 		$( "#dialog:ui-dialog" ).dialog( "destroy" );
 		
@@ -120,11 +133,11 @@ $(document).ready(function() {
 	//
 	function prcoessUrl(url){
 
-		var max = 30;
+		var max = 110;
 		var length = url.length;
 		var text = url;
 		if(length > max){
-			text = url.substring(0, 28);
+			text = url.substring(0, 110);
 			text += '...';
 		}
         //add http:// to url if needed
@@ -138,11 +151,24 @@ $(document).ready(function() {
             if(!isValidUrl(url)){
                 return false;
             }
-		$('#links').append('<li id="' +url+ '"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><a class="remove_li_item"> - remove</a></li>');
+
+        if($('#orig-url').val() != ''){
+            var orig_id = $('#orig-url').val();
+            alert(orig_id);
+            $('#'+orig_id).attr('id', url);
+            alert('#'+orig_id);
+            console.log($('#'+orig_id));
+            alert($('#'+orig_id).attr('id'));
+
+        }
+        else{
+            //$('#links').append('<li id="' +url+ '"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><a class="remove_li_item"> - remove</a></li>');
+            $('#links').append('<li id="' +url+ '" class="link"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><span class="edit-icon" id="???"  style="visibility: hidden; "></span></li>');
+        }
+        $('#orig-url').val('');
         $('#url').val('');
-		//$('#links').after('<li><a>Bild.de/Atompolitik/xyz<span class="icon icon-delete"></span></a></li>');
-		
-		
+
+
 /*
 		var urlregex = new RegExp(
             "^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");

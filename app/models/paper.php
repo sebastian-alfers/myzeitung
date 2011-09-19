@@ -133,8 +133,8 @@ function __construct(){
 			),
 			'description' => array(
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 200),
-					'message'		=> __('Descriptions can only be 200 characters long.', true),
+					'rule'			=> array('maxlength', 1000),
+					'message'		=> __('Descriptions can only be 1000 characters long.', true),
 					'last'			=> true,
 				),
 			),

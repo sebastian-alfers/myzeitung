@@ -46,7 +46,7 @@ Cache::config('default', array('engine' => 'File'));
 //         SOLR
 Configure::write('Solr.enable', true);
 Configure::write('Solr.port', 8080);
-Configure::write('Solr.host', 'localhost');
+Configure::write('Solr.host', 'ip-10-48-243-147.eu-west-1.compute.internal');
 
 //         cache
 Configure::write('Cache.disable', false);//true

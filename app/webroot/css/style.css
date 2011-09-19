@@ -3218,8 +3218,17 @@ a:hover.piro_prev{background:url(/img/assets/prev.png) center left no-repeat;}
 a.close_pirobox{color:#bb0f05;}
 
 span.edit-icon{
-
     background: url(/img/assets/maintile.png) -86px -320px no-repeat transparent;
+    height:20px;
+    width:20px;
+    text-indent: -99999px;
+    visibility: hidden;
+    cursor: pointer;
+    display: inline-block;
+}
+
+span.remove-icon{
+    background: url(/img/assets/maintile.png) -82px -220px no-repeat transparent;
     height:20px;
     width:20px;
     text-indent: -99999px;
@@ -3495,4 +3504,18 @@ span.arrow-left-white{
 
 .invitationemails ul{
     float:left;
+}
+
+#category-content li.category a{
+    display: inline-block;
+    width:135px;
+}
+
+#links li{
+    list-style: circle;
+    float: none;
+}
+
+#links a{
+    display: inline;
 }

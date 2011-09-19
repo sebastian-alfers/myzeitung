@@ -59,6 +59,21 @@
 
 </form>
 
+
+<?php if(isset($links) && !empty($links)): ?>
+<div id="links-content">
+    <label><?php __('Media (images and videos): '); ?></label>
+    <ul class="themes add-article-images" id="links">
+        <?php foreach($links as $link): ?>
+        <li id="<?php echo $link; ?>" class="link">
+            <a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a>
+            <span class="remove-icon" id="???"  style="visibility: hidden; "></span>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<?php endif;?>
+
 <div id="files"></div>
     <label><?php __('Media (images and videos): '); ?></label>
 <span id="main-teaser"><?php __('Preview Picture'); ?></span>

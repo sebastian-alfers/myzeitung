@@ -70,9 +70,7 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('Invalid paper', true));
 			$this->redirect(array('action' => 'index'));
 		}
-        $this->Paper->contain(array('Route', 'User.id', 'User.name', 'User.username', 'User.image',
-                                      'Category' => array('fields' => array('author_count', 'name', 'id', 'post_count'),'order' => array('name asc'))));
-        $paper = $this->Paper->read(null, $paper_id);
+        $paper = $this->_getPaperForSidebar($paper_id);
         if(!isset($paper['Paper']['id'])){
             $this->Session->setFlash(__('invalid paper', true));
 			$this->redirect(array('action' => 'index'));
@@ -158,11 +156,6 @@ class PapersController extends AppController {
 			$paper['Paper']['subscribed'] = false;
 		}
 
-        //get number of authors for frontpage
-        $this->ContentPaper->contain();
-        $frontpage_authors = $this->ContentPaper->find('count', array('conditions' => array('ContentPaper.paper_id' => $paper['Paper']['id'], 'ContentPaper.category_id' => NULL)));
-        $paper['Paper']['frontpage_authors_count'] = $frontpage_authors;
-
         $this->set('canonical_for_layout', $paper['Route'][0]['source']);
 		$this->set('hash', $this->Upload->getHash());
 
@@ -171,6 +164,20 @@ class PapersController extends AppController {
 
 
 	}
+
+    private function _getPaperForSidebar($paper_id){
+        $this->Paper->contain(array('Route', 'User.id', 'User.name', 'User.username', 'User.image',
+            'Category' => array('fields' => array('author_count', 'name', 'id', 'post_count'),'order' => array('name asc'))));
+
+        $paper = $this->Paper->read(null, $paper_id);
+
+        //get number of authors for frontpage
+        $this->ContentPaper->contain();
+        $frontpage_authors = $this->ContentPaper->find('count', array('conditions' => array('ContentPaper.paper_id' => $paper['Paper']['id'], 'ContentPaper.category_id' => NULL)));
+        $paper['Paper']['frontpage_authors_count'] = $frontpage_authors;
+
+        return $paper;
+    }
 
 	function saveImage(){
 
@@ -634,6 +641,56 @@ class PapersController extends AppController {
 
 		return $this->ContentPaper->save($this->data);
 	}
+
+
+    function deleteImage($paper_id = null){
+        if(empty($paper_id) || $paper_id == null){
+            if(isset($this->data['Paper']['paper_id'])){
+                $paper_id = $this->data['Paper']['paper_id'];
+            }
+
+        }
+
+        if(!parent::canEdit('Paper', $paper_id, 'owner_id')){
+			$this->Session->setFlash(__('No permissions', true));
+			$this->redirect($this->referer());
+        }
+
+        if(isset($this->data)){
+            $paper = $this->_getPaperForSidebar($paper_id);
+            $paper['Paper']['image'] = '';
+            if($this->Paper->save($paper)){
+                $this->Session->setFlash(__('The paper picture has been removed', true),'default', array('class' => 'success'));
+            }
+            $this->redirect($paper['Route'][0]['source']);
+        }
+
+        $paper = $this->_getPaperForSidebar($paper_id);
+
+        $this->set('paper_id', $paper_id);
+        $this->set('paper', $paper);
+        $this->set('hash', $this->Upload->getHash());
+
+        /*
+         *         if(!empty($this->data)){
+            $user_id = $this->Session->read('Auth.User.id');
+            $this->User->updateSolr = true;
+            $data = array('User' => array('id' => $user_id,
+                                          'image' => NULL,
+                                           'username' => $this->Session->read('Auth.User.username'),
+                                           'name'  => $this->Session->read('Auth.User.name')));
+
+            if($this->User->save($data)){
+                $this->Session->write('Auth.User.image', '');
+                $this->Session->setFlash(__('Your Profile Picture has been removed', true),'default', array('class' => 'success'));
+                $this->redirect('/settings');
+            }
+        }
+
+         */
+
+    }
+
 
 	function blackHoleCallback(){
 		echo "jo";
