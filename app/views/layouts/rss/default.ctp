@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/xml');
 echo $rss->header();
 
 if (!isset($channel)) {
@@ -13,5 +14,4 @@ echo $rss->document(
 		array(), $channel, $content_for_layout
 	)
 );
-
 ?>

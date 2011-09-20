@@ -35,7 +35,7 @@ class CommentsController extends AppController {
 		$current_comment = array();
 
 		if($this->_isValidRequest()){
-			
+			$this->log($this->data);
 			$this->data['Comment']['user_id'] = $this->Session->read('Auth.User.id');
 
 			$this->data['Comment']['post_id'] = $_POST['post_id'];
@@ -60,15 +60,17 @@ class CommentsController extends AppController {
 				$current_comment['Comment']['reply_id'] = $this->Comment->id;
                 $current_comment['Comment']['user_id'] = $this->Session->read('Auth.User.id');
                 $current_comment['Comment']['enabled'] = true;
-
-                $this->_sendCommentEmail($this->data);
+                if($_POST['post_owner_id'] != $this->Session->read('Auth.User.id')){
+                    $this->_sendCommentEmail($this->data);
+                }
 
 				
 			} else {
 				$this->log('can not save ajax comment for post '. $_POST['post_id'] .' with text: ' . $_POST['text']);
 			}
 		}
-
+        $this->log($_POST);
+        $this->set('post_owner', $_POST['post_owner_id']);
 		$this->set('current_comment', $current_comment);
 
 		$this->render('comment_content', 'ajax');//custom ctp, ajax for blank layout

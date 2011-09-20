@@ -70,7 +70,9 @@ if(in_array($prefix,array('/p/','/a/'))){
     if(!empty($route)){
         //Router::connect($_SERVER['REQUEST_URI'].'/*',array('controller' => $route['Route']['target_controller'] , 'action' => $route['Route']['target_action'], $route['Route']['target_param']));
         if($route['Route']['ref_type'] == Route::TYPE_PAPER){
+            Router::connect('/p/:username/:slug/:category_id/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+', 'category_id' => '[0-9]+') );
             Router::connect('/p/:username/:slug/:category_id/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+', 'category_id' => '[0-9]+') );
+            Router::connect('/p/:username/:slug/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
             Router::connect('/p/:username/:slug/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
         }
         if($route['Route']['ref_type'] == Route::TYPE_POST){
@@ -89,6 +91,7 @@ Router::connect('/', array('controller' => 'home', 'action' => 'index'));
  */
 
 Router::connect('/u/:username/papers/*', array('controller' => 'users','action' =>'viewSubscriptions'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
+Router::connect('/u/:username/feed/*', array('controller' => 'users','action' =>'feed', 'url' => array('ext' => 'rss')),array( 'pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
 Router::connect('/u/:username/:topic_id/*', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username','topic_id'),'username' => '[a-z0-9]+[^/]','topic_id' => '[0-9]+'));
 Router::connect('/u/:username/*', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
 
@@ -149,4 +152,4 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'
 
 
 
-Router::parseExtensions('json');
+Router::parseExtensions('json','rss');

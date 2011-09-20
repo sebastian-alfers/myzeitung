@@ -130,7 +130,7 @@ if(substr($post['Post']['content'],0,2) == "<p"){
 			<div class="comments" style="clear:both">
 				<?php // Comment Input Box?>
 				<?php if($session->read('Auth.User.id')):?>
-					<?php echo $this->element('comments/add', array('post_id' => $post['Post']['id'])); ?>
+					<?php echo $this->element('comments/add', array('post_id' => $post['Post']['id'], 'post_owner_id' => $post['Post']['user_id'])); ?>
 				<?php endif; ?>
 				<?php // Comments Pagination?>
 				<?php echo $this->element('comments/navigator'); ?>

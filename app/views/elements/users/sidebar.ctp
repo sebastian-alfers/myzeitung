@@ -62,20 +62,26 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 					<li><?php echo $reference['Topic']['name']?> (topic) <?php if($reference['Category']['id'] == '') echo " (direct in paper)" ?></li>
 				<?php endforeach; ?>
 				</ul>
-			<?php */?>
+			<?php */
+        ?>
 
 
 
+        <hr />
         <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'view' || $this->params['action'] == 'viewSubscriptions') && $session->read('Auth.User.id') != $user['User']['id']): ?>
-            <hr />
             <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
         <?php endif; ?>
-        <?php if($this->params['controller'] == 'posts'): ?>
-            <hr />
-            <a href="#" class="btn print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
-            <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
-        <?php endif; ?>
-		 </div><!-- /.leftcolcontent -->	
+        <?php if(($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'users' && $this->params['action'] == 'view')): ?>
+     
+            <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),array('controller' => 'users', 'action' => 'feed', 'username' => strtolower($user['User']['username']) ,'url' => array('ext' => 'rss')), array('class'  => 'btn gray', 'escape' => false));?>
+             <?php if($this->params['controller'] == 'posts'): ?>
+                <a href="#" class="btn gray print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
+                <?php if($session->read('Auth.User.id') != $user['User']['id']):?>
+                    <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
+                <?php endif;?>
+            <?php endif; ?>
+        <?php endif;?>
+    </div><!-- /.leftcolcontent -->
 		</div><!-- /.leftcol -->
 		
 </div><!-- / #leftcolwapper -->

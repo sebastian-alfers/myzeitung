@@ -18,6 +18,7 @@ function ajxSubmitComment(pid){
 	else{
 		//get post comment to validate
 		text = $('#comment_text').val();
+        post_owner_id = $('#comment_post_owner_id').val();
 		validation_error = 'Please enter your comment';
 	}
 
@@ -25,7 +26,7 @@ function ajxSubmitComment(pid){
 		alert('please fill the field');
 		return false;
 	}
-	var req = $.post(base_url +'/comments/ajxAdd', {text:text, post_id:pid, parent_id:parent_post_id})
+	var req = $.post(base_url +'/comments/ajxAdd', {text:text, post_id:pid, post_owner_id:post_owner_id, parent_id:parent_post_id})
 	   .success(function( comment ){
 		   $("#comment_list").prepend('<li class="comment" style="display:none" id="replywrapper">' +comment+ '</li>');
 		   var options = {};
