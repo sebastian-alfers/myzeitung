@@ -64,5 +64,23 @@ class MzTextHelper extends TextHelper {
         }
     }
 
+    function preparePostForRSS($data){
+        $author = '';
+        if(!empty($data['User']['name'])){
+            $author = $data['User']['name'].' ('.$data['User']['username'].')';
+        }else{
+            $author = $data['User']['username'];
+        }
+
+        return array('title' => $data['Post']['title'],
+                     'link' => $data['Route'][0]['source'],
+                     'guid' => $data['Route'][0]['source'],
+                     'description' => $this->truncate(strip_tags($data['Post']['content']), 220,array('ending' => '...', 'exact' => false, 'html' => true)),
+                     'author' => $author,
+                     'pubDate' => $data['Post']['created'],
+
+    );
+}
+
 }
 ?>

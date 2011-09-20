@@ -219,7 +219,9 @@ resize: none;
 span.settings-icon{
     background: #ebebeb url(/img/assets/maintile.png) -107px -277px no-repeat;;
 }
-
+span.rss-icon{
+    background: #ebebeb url(/img/assets/maintile.png) -124px -277px no-repeat;;
+}
 /*
 .btn.btn-send:hover span.send-icon{
 background: url(/img/assets/maintile.png) no-repeat scroll -52px -123px #242424;

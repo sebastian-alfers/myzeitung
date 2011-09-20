@@ -2,16 +2,16 @@
 class PapersController extends AppController {
 
 	var $name = 'Papers';
-	var $components = array('Auth', 'Session', 'Papercomp', 'Upload');
+	var $components = array('Auth', 'Session', 'Papercomp', 'Upload', 'RequestHandler');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('MzHtml', 'MzText' ,'MzTime', 'Image',  'Javascript', 'Ajax', 'Reposter');
+	var $helpers = array('MzHtml', 'MzTime','MzText' , 'Image',  'Javascript', 'Ajax', 'Reposter', 'Rss');
 
 	var $allowedSettingsActions = array('image');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index','view', 'references');
+		$this->Auth->allow('index','view', 'references', 'feed');
 
 		//add security
 		//$this->Security->requireAuth('add', 'edit', 'saveImage');
@@ -165,6 +165,75 @@ class PapersController extends AppController {
 
 	}
 
+
+    function feed($paper_id = null, $category_id = null) {
+
+		if (!$paper_id) {
+			$this->Session->setFlash(__('Invalid paper', true));
+			$this->redirect(array('action' => 'index'));
+		}
+        $this->Paper->contain(array('Route', 'User.id', 'User.name', 'User.username', 'User.image',
+                                      'Category' => array('fields' => array('author_count', 'name', 'id', 'post_count'),'order' => array('name asc'))));
+        $paper = $this->Paper->read(null, $paper_id);
+        if(!isset($paper['Paper']['id'])){
+            $this->Session->setFlash(__('invalid paper', true));
+			$this->redirect(array('action' => 'index'));
+        }
+        if($paper['Paper']['enabled'] == false){
+            $this->Session->setFlash(__('This paper has been blocked temporarily due to infringement.', true));
+			$this->redirect(array('action' => 'index'));
+        }
+        if($category_id == null && isset($this->params['category_id'])){
+            $category_id = $this->params['category_id'];
+
+        }
+
+		/*writing all settings for the paginate function.
+		 important here is, that only the paper's posts are subject for pagination.*/
+		// PROBLEM: tried to only show every post once. if a post is reposted, the newest date counts,
+		$this->paginate = array(
+            'Post' => array(
+		//setting up the joins. this conditions describe which posts are gonna be shown
+                'joins' => array(
+                    array(
+                        'table' => 'category_paper_posts',
+                        'alias' => 'CategoryPaperPost',
+                        'type' => 'RIGHT',
+                        'conditions' => array('CategoryPaperPost.post_id = Post.id',
+                        //post.enabled coses bugs. but it shouldnt be shown here anyway
+                            /*'Post.enabled' =>true*/),
+		    ),
+		),
+		//order
+                    'order' => 'last_post_repost_date DESC',
+                    'group' => array('CategoryPaperPost.post_id'),
+    //limit of records per page
+                    'limit' => 20,
+    //the created field last_post_repost_date is important to just get the last entry with the last_Reposter
+                    'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
+                    'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),
+    //contain array: limit the (related) data and models being loaded per post
+                    'contain' => array('Route', 'User.id','User.username','User.name',  'User.image'),
+	    	),
+		);
+
+		//useCustom defines which kind of paginateCount the Post-Model should use. "true" -> counting entries in category_paper_posts
+		$this->Paper->Post->useCustom = true;
+
+		if($category_id != null){
+			//adding the category to the conditions array for the pagination - join
+			$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
+		}
+        $posts = $this->paginate($this->Paper->Post);
+        $this->log($paper);
+        $this->set('paper', $paper);
+        $this->set('posts' , $posts);
+        $this->set('channel', array('title' => 'test','description' => 'testDescription' ));
+    }
+
+
+
+
     private function _getPaperForSidebar($paper_id){
         $this->Paper->contain(array('Route', 'User.id', 'User.name', 'User.username', 'User.image',
             'Category' => array('fields' => array('author_count', 'name', 'id', 'post_count'),'order' => array('name asc'))));
@@ -178,6 +247,7 @@ class PapersController extends AppController {
 
         return $paper;
     }
+
 
 	function saveImage(){
 

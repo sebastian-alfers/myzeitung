@@ -10,12 +10,12 @@ class UsersController extends AppController {
 
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
 	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse', );
-	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript');
+	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','Rss');
 
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references');
+		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references', 'feed');
 
 	}
 
@@ -183,6 +183,69 @@ class UsersController extends AppController {
 
 		$this->set('topicReferences', $topicReferences); */
 	}
+
+    public function feed($username = null) {
+        if (!$username) {
+
+			//no param from url -> get from Auth
+			$username = strtolower($this->Auth->User("username"));
+			if(!$username){
+                $this->Session->setFlash(__('Invalid user', true));
+                //$this->redirect(array('action' => 'index'));
+                //404
+                $this->cakeError('error404');
+            }
+        }
+        //unbinding irrelevant relations for the query
+        $this->User->contain();
+
+        $user = $this->getUserForSidebar($username);
+
+        if(!isset($user['User']['id'])){
+            $this->Session->setFlash(__('Invalid user', true));
+            $this->cakeError('error404');
+         //  $this->redirect(array('controller' => 'users', 'action' => 'index'));
+        }
+        if($user['User']['enabled'] == false){
+            $this->Session->setFlash(__('This user has been blocked temporarily due to infringement.', true));
+            //redirect to user index - 307 http statuscode temporary redirect
+            $this->redirect(array('controller' => 'users', 'action' => 'index'),307);
+        }
+
+
+
+      //  $user['User']['id'] = 239;
+        $this->paginate = $this->paginate = array(
+	        'Post' => array(
+		//setting up the join. this conditions describe which posts are gonna be shown
+	            'joins' => array(
+	            	array(
+                       'table' => 'posts_users',
+	                    'alias' => 'PostUser',
+	                    'type' => 'INNER',
+	                    'conditions' => array(
+	                        'PostUser.post_id = Post.id',
+	                		'PostUser.user_id' => $user['User']['id'],
+                            'Post.enabled' => true,
+                          ),
+                        'contain' => array('Route', 'User'),
+		                ),
+		),
+		//limit of records per page
+	            'limit' => 20,
+		//order
+	            'order' => 'PostUser.created DESC',
+	            'fields' => array('Post.*', 'PostUser.repost','User.username','User.name','User.description','User.image'),
+		//contain array: limit the (related) data and models being loaded per post
+	            'contain' => array('Route', 'User.id','User.username', 'User.name', 'User.image'),
+		    )
+		);
+        $posts = $this->paginate($this->User->Post);
+        $this->set('posts' , $posts);
+        $this->set('user', $user);
+
+    }
+
 
 	/**
 	 * @author Tim
