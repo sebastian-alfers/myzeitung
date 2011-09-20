@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-09-20 16:19+0200\n"
-"PO-Revision-Date: 2011-09-20 16:39+0100\n"
+"PO-Revision-Date: 2011-09-20 17:05+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2173,7 +2173,7 @@ msgstr[1] "%s Zeitungsabos"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/buttons.ctp:11
 msgid "Subscribe me"
-msgstr "Abonniere mich"
+msgstr "Mich abonnieren"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/info.ctp:9
 msgid "more"

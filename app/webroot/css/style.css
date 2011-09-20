@@ -1078,12 +1078,16 @@ overflow: hidden;
     margin-top: 17px;
 }
 
-.articleview ul {
+.articleview ul ,.articleview ol  {
 list-style: disc;
 position: relative;
 left: 25px;
 padding: 10px 25px 15px 0;
 }
+.articleview ol{
+  list-style: decimal;
+}
+
 .articleview li{
 padding-bottom: 2px;
 font-size: 13px;

@@ -22,11 +22,13 @@ class UsersController extends AppController {
 
 	public function login(){
 
+
+
+        $this->log($this->Auth->redirect());
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
-
-            $this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+            $this->redirect($this->Auth->redirect());
 
         }
 
@@ -34,9 +36,6 @@ class UsersController extends AppController {
 		// the following code is just for the case that the combination of user.username(!) and user.password did not work:
 		//	trying the combination of user.email and user.password
 
-
-
-        $this->log('login');
 
 
 		if(
@@ -167,6 +166,7 @@ class UsersController extends AppController {
 		$this->set('user', $user);
     
         $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
+        $this->set('rss_for_layout', '/u/'.strtolower($user['User']['username']).'/feed');
 		$this->set('posts', $this->paginate($this->User->Post));
 
         //check for post value to display newConversation form

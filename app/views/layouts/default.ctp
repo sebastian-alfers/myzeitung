@@ -26,7 +26,11 @@
 	    <?php echo $this->element('global/title');?>
 	</title>
     <?php if(isset($canonical_for_layout)):?>
-        <?php echo $this->Html->meta('canonical', $canonical_for_layout, array('rel'=>'canonical', 'type'=>null, 'title'=>null, 'inline' => false));; ?>
+        <?php echo $this->Html->meta('canonical', $canonical_for_layout, array('rel'=>'canonical', 'type'=>null, 'title'=>null, 'inline' => false)); ?>
+    <?php endif;?>
+    <?php if(isset($rss_for_layout)):?>
+        <?php $this->log($this->Html->meta('rss', $rss_for_layout)); ?>
+          <?php echo $this->Html->meta('rss', $rss_for_layout); ?>
     <?php endif;?>
     <?php // all scripts and css declarations must be added to the following element?>
     <?php echo $this->element('scripts_css'); ?>

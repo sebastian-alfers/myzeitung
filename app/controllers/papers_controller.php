@@ -157,6 +157,7 @@ class PapersController extends AppController {
 		}
 
         $this->set('canonical_for_layout', $paper['Route'][0]['source']);
+        $this->set('rss_for_layout', $paper['Route'][0]['source'].'/feed');
 		$this->set('hash', $this->Upload->getHash());
 
 		$this->set('paper', $paper);
@@ -225,7 +226,7 @@ class PapersController extends AppController {
 			$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
 		}
         $posts = $this->paginate($this->Paper->Post);
-        $this->log($paper);
+
         $this->set('paper', $paper);
         $this->set('posts' , $posts);
         $this->set('channel', array('title' => 'test','description' => 'testDescription' ));
