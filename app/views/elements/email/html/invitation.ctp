@@ -11,8 +11,8 @@
 
 <p style='color:#232424;'><strong><?php echo sprintf(Invitation::STANDARD_TITLE_DEU,$sender_link);?></strong></p>
 <p style='color:#232424;'><strong><?php echo sprintf(Invitation::STANDARD_TITLE_ENG,$sender_link);?></strong></p>
-<?php if(!empty($invitation['Invitation']['text'])):?>
-    <p style='color:#232424;'><?php echo $invitation['Invitation']['text'];?></p>
+<?php if(!empty($text)):?>
+    <p style='color:#232424;'><?php echo $text;?></p>
 <?php else: ?>
      <p style='color:#232424;'><?php echo Invitation::STANDARD_TEXT_DEU;?></p>
     <p style='color:#232424;'><?php echo Invitation::STANDARD_TEXT_ENG;?></p>

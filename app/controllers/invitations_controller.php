@@ -92,7 +92,9 @@ class InvitationsController extends AppController {
 			$this->redirect($this->referer());
 		}
         $this->Invitee->contain('Invitation');
+
         $invitee = $this->Invitee->read(null,$id);
+        $this->log($invitee);
         if($invitee['Invitation']['user_id'] == $this->Session->read('Auth.User.id')){
             $this->_sendInvitationEmail($invitee['Invitee']['email'],$invitee['Invitation']['text'], $this->Session->read('Auth.User.id'));
             $this->Session->setFlash(__('Reminder sent', true), 'default', array('class' => 'success'));

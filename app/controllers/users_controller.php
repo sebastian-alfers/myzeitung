@@ -255,8 +255,7 @@ class UsersController extends AppController {
 	 */
 	function viewSubscriptions($username = null, $own_paper = null) {
 
-
-        if (!$username) {
+       if (!$username) {
             //no param from url -> get from Auth
             $username = $this->Auth->User("id");
             if(!$username){
@@ -315,9 +314,10 @@ class UsersController extends AppController {
                 $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = false;
             }
         }
+      
 
         //unbinding irrelevant relations for the query
-
+        $this->set('own_paper', $own_paper);
         $this->set('user', $user);
 		$papers = $this->paginate($this->User->Paper);
 

@@ -58,7 +58,8 @@
 			<div id="user-nav">
 				<ul>
 				<li><?php echo $this->Html->link(__('My Articles', true), array('controller' => 'users', 'action' => 'view', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
-				<li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username'))));?></li>
+				<li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => Paper::FILTER_OWN));?></li>
+                <li><?php echo $this->Html->link(__('Subscribed Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => Paper::FILTER_SUBSCRIBED));?></li>
 				<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index'));?>
 					<?php if($this->Session->read('Auth.User.allow_messages') && isset($conversation_count) && $conversation_count > 0):?>
 					<span class="round-icon"><?php echo $conversation_count;?></span>
