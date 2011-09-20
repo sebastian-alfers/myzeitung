@@ -34,19 +34,19 @@ Cache::config('default', array(
    ));
 */
 
-Configure::write('Cdn.enable', true);
-Configure::write('Cdn.url', 'http://d3qsgr5vwi690w.cloudfront.net');
+Configure::write('Cdn.enable', false);
+Configure::write('Cdn.url', '');#http://d1khwfplxdl54q.cloudfront.net
 
 //         css js cache
-Configure::write('Frontend.disable_combine_js', false);
-Configure::write('Frontend.disable_combine_css', false);
+Configure::write('Frontend.disable_combine_js', true);
+Configure::write('Frontend.disable_combine_css', true);
 
 Cache::config('default', array('engine' => 'File'));
 
 //         SOLR
 Configure::write('Solr.enable', true);
 Configure::write('Solr.port', 8080);
-Configure::write('Solr.host', 'localhost');
+Configure::write('Solr.host', 'ip-10-48-243-147.eu-west-1.compute.internal');
 
 //         cache
 Configure::write('Cache.disable', false);//true

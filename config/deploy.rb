@@ -16,7 +16,7 @@ set :copy_exclude, [".git/*", ".gitignore", "app/webroot/img*", "config/", "Capf
 set :keep_releases, 4
 after "deploy:update", "deploy:cleanup"
 
-role :web, "ec2-46-137-142-32.eu-west-1.compute.amazonaws.com", "ec2-46-51-139-74.eu-west-1.compute.amazonaws.com"
+role :web, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com"#, "ec2-46-51-139-74.eu-west-1.compute.amazonaws.com"
 
 set :deploy_to,   "/var/www/myzeitung/" #contains symlink "current", contians directory "releases" and "shared"
 set :use_sudo, true
@@ -28,9 +28,6 @@ ssh_options[:user] = "mz"
 ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have the publickey
 
 
-
-# This task symlinks the proper .htaccess file to ensure the
-# production server's APPLICATION_ENV var is set to production
 task :create_symlinks, :roles => :web do
     # link cake core files
     run "ln -s #{shared_path}/cake/ #{current_release}/cake"
@@ -58,16 +55,22 @@ task :create_symlinks, :roles => :web do
     # set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
+    #copy htaccess
+    run "cp /home/ubuntu/.htpasswd /var/www/myzeitung/current && cp /home/ubuntu/.htaccess /var/www/myzeitung/current"
+
     # since cake console needs cache we create folders
     #run  tmp/cache/
-
-    # run db upgrade
-    #run "#{current_release}/cake/console/cake -app #{current_release}/app/ dbinstall"
 
 end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :web do
       upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+end
+
+task :dbinstall, :via=> :scp, :recursive => true, :roles => :web do
+    stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
+    # run db upgrade, do NOT use the #{current_release} since this has no mount to cake core
+    run "sudo /var/www/myzeitung/current/cake/console/cake -app /var/www/myzeitung/current/app/ dbinstall"
 end
 
 
@@ -76,3 +79,6 @@ end
 after "deploy:finalize_update", :create_symlinks
 
 after "deploy:finalize_update", :upload_maintile
+
+#need to run this after symlink have been created
+#after "deploy:finalize_update", :dbinstall

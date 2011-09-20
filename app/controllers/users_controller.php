@@ -464,7 +464,10 @@ class UsersController extends AppController {
 	 * @param $user_id - id of user, who should be associatet to a paper / category
 	 *
 	 */
-	function subscribe($user_id = ''){
+	function subscribe($user_id = '', $created = false){
+
+
+
 
         $email_user_id = null;
         $email_topic_id = null;
@@ -474,6 +477,17 @@ class UsersController extends AppController {
         $logged_in_user_id = $this->Session->read('Auth.User.id');
 
         if(isset($this->data) && !empty($this->data)){
+            //build data
+            $this->data['User']['paper_category_content_data'] = '';
+            $paper_id = $this->data['User']['paper_content_data'];
+            $category = $this->data['User']['category_content_data_'.$paper_id];
+            if($category == 'front_page'){
+                $this->data['User']['paper_category_content_data'] = 'paper_'.$paper_id;
+            }
+            else{
+                $this->data['User']['paper_category_content_data'] = $category;
+            }
+
 			//save subscription and redirect
 
 			//prepare data for association
@@ -590,16 +604,12 @@ class UsersController extends AppController {
 
             $this->Paper->create();
 			if ($this->Paper->save($data)) {
-                $this->set('new_paper', 'jau neu wa');
 
-                return $this->subscribe($user_id);
-            }
-            else{
-
+                //perform recursion
+                return $this->subscribe($user_id, true);
             }
 
 		}
-
 
 
 		//determine to show the user a selection of papers / categories or not
@@ -647,7 +657,8 @@ class UsersController extends AppController {
 
 			//set user id, who will be subscribed, for view
 
-			$json_data['user_id'] = $user_id;
+			//$json_data['user_id'] = $user_id;
+            $json_data['User'] = $user_data['User'];
            //@todo alf bitte username in die formulardaten packen, damit der redirect oben funzen kann
           //   $this->set('username', $user_data['User']['username']);
 
@@ -665,6 +676,11 @@ class UsersController extends AppController {
 				else{
 					//no paper / category options -> just display paper name
 					$json_data['paper_name'] = $papers[0]['Paper']['title'];
+                    $this->log($created);
+                    $json_data['created'] = $created;
+                    $json_data['paper'] = $papers[0];
+
+
 				}
 			}
 
@@ -762,11 +778,11 @@ class UsersController extends AppController {
 			$this->User->contain('Topic');
 			$users = $this->User->find('all', array('conditions' => array('User.id' => $user_id)));
 			foreach($users as $user){
-				$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = $user['User']['username'].' (all topics)';
+				$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = __('All topics', true);
 				$topics = $user['Topic'];
 				if(isset($topics) && count($topics >0)){
 					foreach($topics as $topic){
-						$content_data['options'][ContentPaper::TOPIC.ContentPaper::SEPERATOR.$topic['id']] = '> topic:'.$topic['name'];
+						$content_data['options'][ContentPaper::TOPIC.ContentPaper::SEPERATOR.$topic['id']] = $topic['name'];
 					}
 
 				}//all topics
@@ -789,10 +805,17 @@ class UsersController extends AppController {
 			$paper_data = $this->Paper->find('all', array('conditions' => array('Paper.enabled' => true,  'Paper.owner_id' => $user_id)));
 
 			foreach($paper_data as $paper){
-				$content_data['options'][ContentPaper::PAPER.ContentPaper::SEPERATOR.$paper['Paper']['id']] = $paper['Paper']['title'].' (' .('front page').')';
+                $this->log($paper);
+                $categories = array();
+				//$content_data['options'][ContentPaper::PAPER.ContentPaper::SEPERATOR.$paper['Paper']['id']] = $paper['Paper']['title'];//.' (' .('front page').')'
+                $content_data['options'][$paper['Paper']['id']] = $paper['Paper']['title'];//.' (' .('front page').')'
 				if(isset($paper['Category']) && count(isset($paper['Category']) > 0)){
+                    $content_data['categories'][$paper['Paper']['id']]['options']['front_page'] = __('Front Page', true);
+                    $content_data['categories'][$paper['Paper']['id']]['paper_id'] = $paper['Paper']['id'];
+                    $content_data['categories'][$paper['Paper']['id']]['paper'] = $paper;
 					foreach ($paper['Category'] as $category){
-						$content_data['options'][ContentPaper::CATEGORY.ContentPaper::SEPERATOR.$category['id']] = '    '.$category['name'].' (category)';
+						//$content_data['options'][ContentPaper::CATEGORY.ContentPaper::SEPERATOR.$category['id']] = '    '.$category['name'].' (category)';
+                        $content_data['categories'][$paper['Paper']['id']]['options'][ContentPaper::CATEGORY.ContentPaper::SEPERATOR.$category['id']] = $category['name'];
 					}
 
 				}

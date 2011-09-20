@@ -129,6 +129,7 @@ Router::connect('/settings/invitations', array('controller' => 'users', 'action'
 
 Router::connect('/authors/*', array('controller' => 'users', 'action' => 'index'));
 Router::connect('/articles/*', array('controller' => 'posts', 'action' => 'index'));
+
 Router::connect('/papers/*', array('controller' => 'papers', 'action' => 'index'));
 Router::connect('/paper/add', array('controller' => 'papers', 'action' => 'add'));
 Router::connect('/paper/subscribe/*', array('controller' => 'papers', 'action' => 'subscribe'));
@@ -136,7 +137,9 @@ Router::connect('/paper/unsubscribe/*', array('controller' => 'papers', 'action'
 Router::connect('/paper/edit/*', array('controller' => 'papers', 'action' => 'edit'));
 Router::connect('/paper/delete/*', array('controller' => 'papers', 'action' => 'delete'));
 Router::connect('/paper/saveImage/*', array('controller' => 'papers', 'action' => 'saveImage'));
+Router::connect('/paper/deleteImage/*', array('controller' => 'papers', 'action' => 'deleteImage'));
 Router::connect('/paper/references/*', array('controller' => 'papers', 'action' => 'references'));
+
 Router::connect('/article/add', array('controller' => 'posts', 'action' => 'add'));
 Router::connect('/article/edit/*', array('controller' => 'posts', 'action' => 'edit'));
 

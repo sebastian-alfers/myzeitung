@@ -32,16 +32,7 @@
 					<hr>
 
 					<h5><?php __('Links'); ?></h5>
-					
-					<ul class="themes" id="links">
-					<?php if(isset($links) && !empty($links)): ?>
-
-						<?php foreach($links as $link): ?>
-						<li id="<?php echo $link; ?>"><a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a><br /><a class="remove_li_item"><?php __('remove'); ?></a></li>
-						<?php endforeach; ?>
-					<?php endif;?>
-					</ul>
-                        <a class="btn gray" id="btn-add-link"><span>+</span><?php echo __('Add links', true);?></a>
+                    <a class="btn gray" id="btn-add-link"><span>+</span><?php echo __('Add links', true);?></a>
 
                     <hr>
                     <h5><?php __('Comments'); ?></h5>

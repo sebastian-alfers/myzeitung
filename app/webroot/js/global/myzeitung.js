@@ -119,7 +119,7 @@ $(document).ready(function() {
 
     function showSubscribeDialog(element, event, subscribe_link, subscribe_user_id, subscribe_user_name, link){
 
-        var eng_label = "Subscribe author";
+        var eng_label = "Subscribe Author";
         var deu_label = "Autor abonnieren";
         if($(element).hasClass('me')){
             eng_label = "Subscribe me";

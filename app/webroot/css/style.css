@@ -3156,7 +3156,30 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     padding: 20px 0 0 0;
 }
 
+.modal-buttons{
+    position: absolute;
+    bottom: 10px;
+}
 
+.modal-content .choose-text span.icon{
+    background: url(/img/assets/maintile.png) -160px -115px no-repeat transparent;
+    height:20px;
+    width:20px;
+    text-indent: -99999px;
+    float: left;
+}
+
+.modal-content .arrow{
+    margin: 17px 0 14px 14px;
+    padding: 0 0 12px 0;
+}
+.modal-content .arrow span.icon{
+    background: url(/img/assets/maintile.png) -83px -346px no-repeat transparent;
+    height:20px;
+    width:20px;
+    text-indent: -99999px;
+    float: left;
+}
 
 
 .piro_html {position:absolute; top:0; left:0; padding:0; width:500px; height: 500px; margin:0; display:block; padding:0; z-index:150001; padding:0;  }
@@ -3197,8 +3220,17 @@ a:hover.piro_prev{background:url(/img/assets/prev.png) center left no-repeat;}
 a.close_pirobox{color:#bb0f05;}
 
 span.edit-icon{
-
     background: url(/img/assets/maintile.png) -86px -320px no-repeat transparent;
+    height:20px;
+    width:20px;
+    text-indent: -99999px;
+    visibility: hidden;
+    cursor: pointer;
+    display: inline-block;
+}
+
+span.remove-icon{
+    background: url(/img/assets/maintile.png) -82px -220px no-repeat transparent;
     height:20px;
     width:20px;
     text-indent: -99999px;
@@ -3474,4 +3506,18 @@ span.arrow-left-white{
 
 .invitationemails ul{
     float:left;
+}
+
+#category-content li.category a{
+    display: inline-block;
+    width:135px;
+}
+
+#links li{
+    list-style: circle;
+    float: none;
+}
+
+#links a{
+    display: inline;
 }

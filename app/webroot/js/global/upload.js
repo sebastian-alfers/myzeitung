@@ -17,9 +17,17 @@ $(document).ready(function() {
 		$('#NewImageForm').submit();
 	});
 
+    //link in upload popup to delete user profile picture
     $(".delete-profile-picture").click(function(){
 		document.location = base_url + '/users/deleteProfilePicture';
 	});
+
+    //link in upload popup to delete paper profile picture
+    $(".delete-paper-picture").click(function(){
+        var id = $(this).attr('id');
+		document.location = base_url + '/paper/deleteImage/'+id;
+	});
+
 
 
 

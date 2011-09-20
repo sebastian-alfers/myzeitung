@@ -11,7 +11,12 @@
         </form>
 
         <?php if($this->Session->read('Auth.User.image')):  ?>
-            <ul><li><a class="btn gray delete-profile-picture" href="#" id=""><span>-</span><?php __('Delete Current Profile Picture'); ?></a></li></ul>
+            <?php if($model == 'User'): ?>
+                <ul><li><a class="btn gray delete-profile-picture" href="#" id=""><span>-</span><?php __('Delete Current Profile Picture'); ?></a></li></ul>
+            <?php endif; ?>
+            <?php if($model == 'Paper'): ?>
+                <ul><li><a class="btn gray delete-paper-picture" href="#" id="<?php echo $model_id; ?>"><span>-</span><?php __('Delete Current Paper Picture'); ?></a></li></ul>
+            <?php endif; ?>
         <?php endif; ?>
         <br /><br />
         <div id="files" style="float: left"></div>
@@ -30,7 +35,7 @@
             <br /><br />
             <hr />
                 <ul>
-                    <li><a class="btn" id="submit_new_image_btn"><span>+</span><?php __('Save New Profile Picture');?></a></li>
+                    <li><a class="btn" id="submit_new_image_btn"><span>+</span><?php __('Save Picture');?></a></li>
                     <li><a href="#" class="btn" onclick="$('#dialog-upload').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
                 </ul>
             </form>
