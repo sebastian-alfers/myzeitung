@@ -400,8 +400,8 @@ class AppController extends Controller {
         $this->Email->delivery = 'mail';
 
         //do be changed on live
-        $this->Email->additionalParams = '-fsebastian.alfers@gmail.com';
-        $this->Email->from = 'Sebastian Alfers <sebastian.alfers@gmail.com>';
+        $this->Email->additionalParams = '-fno-reply@myzeitung.de';
+        $this->Email->from = 'myZeitung <no-reply@myzeitung.de>';
 
         $this->Email->send();
 

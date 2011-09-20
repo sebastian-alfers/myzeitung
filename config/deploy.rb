@@ -16,7 +16,6 @@ set :copy_exclude, [".git/*", ".gitignore", "app/webroot/img*", "config/", "Capf
 set :keep_releases, 4
 after "deploy:update", "deploy:cleanup"
 
-role :web, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com"#, "ec2-46-51-139-74.eu-west-1.compute.amazonaws.com"
 
 set :deploy_to,   "/var/www/myzeitung/" #contains symlink "current", contians directory "releases" and "shared"
 set :use_sudo, true
@@ -28,13 +27,24 @@ ssh_options[:user] = "mz"
 ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have the publickey
 
 
-task :create_symlinks, :roles => :web do
+# set live server
+task :live do
+    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com"#, "ec2-46-51-139-74.eu-west-1.compute.amazonaws.com"
+    set :config, 'live'
+end
+# set staging server
+task :staging do
+    role :target, "ec2-46-137-186-12.eu-west-1.compute.amazonaws.com"
+    set :config, 'staging'
+end
+
+task :create_symlinks, :roles => :target do
     # link cake core files
     run "ln -s #{shared_path}/cake/ #{current_release}/cake"
     # link img folder to already mounted s3 (via s3fs to  /mnt/mzimg), done by /etc/ini.d/mount_media
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/img"
     # rename config for live
-    run "mv #{current_release}/app/config/core.php.live #{current_release}/app/config/core.php"
+    run "mv #{current_release}/app/config/core.php.#{config} #{current_release}/app/config/core.php"
 
     # mount css/js cache
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/csscache"
@@ -56,20 +66,18 @@ task :create_symlinks, :roles => :web do
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
     #copy htaccess
-    run "cp /home/ubuntu/.htpasswd /var/www/myzeitung/current && cp /home/ubuntu/.htaccess /var/www/myzeitung/current"
+    run "cp /home/ubuntu/.htpasswd #{current_release}/.htpasswd && cp /home/ubuntu/.htaccess #{current_release}/.htaccess"
 
     # since cake console needs cache we create folders
     #run  tmp/cache/
 
 end
 
-task :upload_maintile, :via=> :scp, :recursive => true, :roles => :web do
+task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
       upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
 end
 
-task :dbinstall, :via=> :scp, :recursive => true, :roles => :web do
-    stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
-    # run db upgrade, do NOT use the #{current_release} since this has no mount to cake core
+task :dbinstall, :via=> :scp, :recursive => true, :roles => :target do
     run "sudo /var/www/myzeitung/current/cake/console/cake -app /var/www/myzeitung/current/app/ dbinstall"
 end
 
