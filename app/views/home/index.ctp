@@ -4,6 +4,12 @@
 				<p class="slogan">Mit <span>myZeitung</span> bist du immer gut Informiert.</p>
 			
 			<?php  echo $this->Form->create('User', array('id' => 'login-form', 'controller' => 'users', 'action' => 'login')); ?>
+                <?php
+                $locale = 'eng';
+                if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu') $locale = 'deu'; ?>
+                <div style="float:left;height:40px;">
+                    <?php echo $this->element('locale/switch', array('locale' => $locale)); ?>
+                </div>
 			<?php  echo $this->Form->input('username', array('class' => 'textinput-login', 'div' => false,'label' => false)); ?>
 			<?php  echo $this->Form->input('password', array('class' => 'textinput-login', 'div' => false, 'label' => false)); ?>
 			<?php  echo $this->Form->button('Login', array('type' => 'submit' ,'class' => 'submit btn', 'div' => false, 'label' => false)); ?>

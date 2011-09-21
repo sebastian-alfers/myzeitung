@@ -503,6 +503,22 @@ class User extends AppModel {
             $this->addToOrUpdateSolr();
         }
 
+
+        if($created){
+            //create initial settings
+            $this->setting['Setting']['model_type'] = Setting::MODEL_TYPE_USER;
+            $this->setting['Setting']['model_id'] = $this->data['User']['id'];
+            $this->setting['Setting']['namespace'] = Setting::NAMESPACE_DEFAULT;
+            $this->setting['Setting']['key'] = Setting::KEY_LOCALE;
+            $this->setting['Setting']['value_data_type'] = 'locale_chooser';
+            $this->setting['Setting']['value'] = $this->data['Setting']['value'];
+
+            unset($this->data['Setting']);
+
+            $this->Setting->save($this->setting);
+        }
+
+
     }
     function addToOrUpdateSolr(){
         $this->Solr->add(array($this->generateSolrData()));

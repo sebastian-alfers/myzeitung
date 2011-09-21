@@ -3,6 +3,10 @@ class Setting extends AppModel {
 	var $name = 'Setting';
 	var $displayField = 'value';
 
+    const MODEL_TYPE_USER = 'user';
+    const NAMESPACE_DEFAULT = 'default';
+    const KEY_LOCALE = 'locale';
+
 
     const TW_OAUTH_TOKEN = 'tw_oauth_token';
     const TW_OAUTH_TOKEN_SECRET = 'tw_oauth_token_secret';

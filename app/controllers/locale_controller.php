@@ -3,6 +3,8 @@ class LocaleController extends AppController {
 
     var $name = 'Locale';
 
+    var $components = array('MzSession');
+
     var $uses = array();
 
 	public function beforeFilter(){
@@ -12,16 +14,17 @@ class LocaleController extends AppController {
 	}
 
     function eng(){
-        $this->Session->write('Config.language', 'eng');
-        $this->Cookie->write('lang', 'eng', false, '20 days');
+        $this->MzSession->setLocale('eng');
 
         $this->redirect($this->referer());
     }
 
     function deu(){
-        $this->Session->write('Config.language', 'deu');
-        $this->Cookie->write('lang', 'deu', false, '20 days');
+
+        $this->MzSession->setLocale('deu');
 
         $this->redirect($this->referer());
     }
+
+
 }

@@ -11,6 +11,10 @@ echo $this->element('global/modal_upload',
 
 ?>
 
+<ul>
+    <li><?php echo $this->element('locale/switch', array('locale' => $settings['default']['locale'])); ?></li>
+</ul>
+
 <ul class="my-account-nav">
     <h6><?php echo __('Communication', true);?></h6>
 

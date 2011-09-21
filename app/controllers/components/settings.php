@@ -24,6 +24,7 @@ class SettingsComponent extends Object {
 
     function save($model, $namespace, $values, $model_id = ''){
 
+
         if($model_id == ''){
             $model_id = $this->Session->read('Auth.User.id');
         }
@@ -42,18 +43,20 @@ class SettingsComponent extends Object {
 
             $data = $settings->find('all', array('conditions' => $conditions));
 
-            if(!isset($data['Setting']['id'])){
+
+
+            if(!isset($data[0]['Setting']['id'])){
                 $settings->create();
-                $data['Setting'] = array('model_type' => $model,
+                $data['Settings'] = array('model_type' => $model,
                                          'model_id' => $model_id,
                                          'namespace' => $namespace,
-                                         'key' => $key);
+                                         'key' => $key,
+                                         'value' => $value);
             }
-
-            $data['Setting']['value'] = $value;
-
-
-
+            else{
+                $data = $settings->read(null, $data[0]['Setting']['id']);
+                $data['Setting']['value'] = $value;
+            }
             $settings->save($data);
         }
 

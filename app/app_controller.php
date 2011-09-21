@@ -56,6 +56,7 @@ class AppController extends Controller {
 
 	public function beforeFilter(){
 
+
         $this->_setLanguage();
 
         //App::import('Core', 'I18n');
@@ -416,6 +417,8 @@ class AppController extends Controller {
      */
     function _setLanguage() {
 
+
+
         if ($this->Cookie->read('lang') && !$this->Session->check('Config.language')) {
             $this->Session->write('Config.language', $this->Cookie->read('lang'));
         }
@@ -437,7 +440,6 @@ class AppController extends Controller {
 
             $locale = $this->Cookie->read('lang');
             $cache_key = 'Helpcenter'.DS.$locale;
-
 
             $helpcenter_data = Cache::read($cache_key);
             if($helpcenter_data === false){

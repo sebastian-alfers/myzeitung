@@ -8,12 +8,17 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
 
-	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet');
+	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet', 'MzSession');
 	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse', );
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','Rss');
 
 
 	public function beforeFilter(){
+
+
+
+        $this->set('settings', $this->MzSession->getUserSettings());
+
 		parent::beforeFilter();
 		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references', 'feed');
 
@@ -33,11 +38,6 @@ class UsersController extends AppController {
 		// login with username or email
 		// the following code is just for the case that the combination of user.username(!) and user.password did not work:
 		//	trying the combination of user.email and user.password
-
-
-
-        $this->log('login');
-
 
 		if(
 		!empty($this->data) &&
@@ -351,6 +351,16 @@ class UsersController extends AppController {
 
 
 		if (!empty($this->data)) {
+
+            $locale = Configure::read('Config.language');
+            if($this->Session->read('Config.language')){
+                $locale = $this->Session->read('Config.language');
+            }
+            else if($this->Cookie->read('lang')){
+                $locale = $this->Cookie->read('lang');
+            }
+            $this->data['Setting']['value'] = $locale;
+
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
 			$this->User->updateSolr = true;
