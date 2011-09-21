@@ -87,6 +87,7 @@ class AppController extends Controller {
 		if(isset($this->Auth)) {
 			// this makes the Auth-component use the isAuthorized()-method below
 			$this->Auth->authorize = 'controller';
+
 			// only enabled users are able to log in
 			$this->Auth->userScope = array('User.enabled' => 1);
 			$this->Auth->logoutRedirect = array('controller' => 'home', 'action' => 'index');

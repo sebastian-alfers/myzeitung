@@ -18,7 +18,8 @@ class HomeController extends AppController {
 	public function index(){
 		
 		if($this->Session->read('Auth.User.id')){
-			$this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+			$this->redirect(array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username')),'own_paper' => Paper::FILTER_OWN));
+
 		}
 		
 		

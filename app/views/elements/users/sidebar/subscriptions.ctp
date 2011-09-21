@@ -2,12 +2,17 @@
 
 <?php
 if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'){
-    $paginator->options(array('url'=> array('controller' => 'users',
-                                            'action' => 'viewSubscriptions',
-                                            'username' => strtolower($this->params['username'])) ,
-                                                                                )
+    $url = array('controller' => 'users',
+                 'action' => 'viewSubscriptions',
+                 'username' => strtolower($this->params['username']));
+    if($own_paper == Paper::FILTER_SUBSCRIBED){
+        $url['own_paper'] = Paper::FILTER_SUBSCRIBED;
+    }elseif($own_paper == Paper::FILTER_OWN){
+        $url['own_paper'] = Paper::FILTER_OWN;
+    }
+    $paginator->options(array('url'=> $url ));
 
-    );
+
 } ?>
 
 <?php
@@ -50,9 +55,10 @@ if(isset($this->params['named']) && is_array($this->params['named'])){
              <li class="active"><?php else:?><li><?php endif;?>
              <?php echo $this->Paginator->sort('<span class="icon icon-subscription"></span>'. __('Number of Subscriptions', true), 'subscription_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
 </ul>
-<hr />
 <?php endif;?>
+<?php /* ?>
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions' ):?>
+<hr />
         <strong><?php  echo __('filter by', true);?>:</strong>
     <?php else:?>
          <strong><?php  echo __('Papers', true);?>:</strong>
@@ -79,4 +85,4 @@ if(isset($this->params['named']) && is_array($this->params['named'])){
             <li><?php echo $this->Html->link('<span class="icon icon-newsresults"></span>'.$subscriptionsLinkText, array('controller' => 'users',  'action' => 'viewSubscriptions', 'username' => strtolower($user['User']['username']),  Paper::FILTER_SUBSCRIBED , $filter_string),array('escape' => false));?></li>
         <?php endif;?>
     </ul>
-
+<?php */ ?>

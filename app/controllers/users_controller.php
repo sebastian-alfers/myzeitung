@@ -10,7 +10,7 @@ class UsersController extends AppController {
 
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet', 'MzSession');
 	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse', );
-	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','Rss');
+	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','MzRss');
 
 
 	public function beforeFilter(){
@@ -27,11 +27,13 @@ class UsersController extends AppController {
 
 	public function login(){
 
+
+
+        $this->log($this->Auth->redirect());
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
-
-            $this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+            $this->redirect($this->Auth->redirect());
 
         }
 
@@ -167,6 +169,7 @@ class UsersController extends AppController {
 		$this->set('user', $user);
     
         $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
+        $this->set('rss_for_layout', '/u/'.strtolower($user['User']['username']).'/feed');
 		$this->set('posts', $this->paginate($this->User->Post));
 
         //check for post value to display newConversation form
@@ -255,8 +258,7 @@ class UsersController extends AppController {
 	 */
 	function viewSubscriptions($username = null, $own_paper = null) {
 
-
-        if (!$username) {
+       if (!$username) {
             //no param from url -> get from Auth
             $username = $this->Auth->User("id");
             if(!$username){
@@ -315,9 +317,10 @@ class UsersController extends AppController {
                 $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = false;
             }
         }
+      
 
         //unbinding irrelevant relations for the query
-
+        $this->set('own_paper', $own_paper);
         $this->set('user', $user);
 		$papers = $this->paginate($this->User->Paper);
 

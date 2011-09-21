@@ -12,8 +12,8 @@
 
 <?php echo sprintf(Invitation::STANDARD_TITLE_DEU,$sender_name)."\n";?>
 <?php echo sprintf(Invitation::STANDARD_TITLE_ENG,$sender_name)."\n\n";?>
-<?php if(!empty($invitation['Invitation']['text'])):?>
-<?php echo $invitation['Invitation']['text']."\n\n";?>
+<?php if(!empty($text)):?>
+<?php echo $text."\n\n";?>
 <?php else: ?>
 <?php echo Invitation::STANDARD_TEXT_DEU."\n";?>
 <?php echo Invitation::STANDARD_TEXT_ENG."\n\n";?>

@@ -33,7 +33,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <?php echo $this->element('users/sidebar/buttons'); ?>
         <?php echo $this->element('users/sidebar/topics'); ?>
         <?php echo $this->element('users/sidebar/activity'); ?>
-       <?php echo $this->element('users/sidebar/subscriptions'); ?>
+       <?php // echo $this->element('users/sidebar/subscriptions'); ?>
         <?php else:?>
             <?php if(!(($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations')))):?>
                 <?php echo $this->element('users/sidebar/buttons'); ?>
@@ -47,25 +47,6 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 			<?php if(($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations' || $this->params['action'] == 'deleteProfilePicture')))): ?>
 				<?php echo $this->element('users/sidebar/account_menue', array('user_id' => $user['User']['id'])); ?>
 			<?php endif;?>
-
-
-<?php /*?>
-	<hr />
-		<h6><?php __('Writes for'); ?></h6>
-				<ul>
-				<?php foreach($wholeUserReferences as $reference): ?>
-					<li><?php echo $reference['Paper']['title']?> <?php if($reference['Category']['id'] == '') echo " (direct in paper)" ?></li>
-				<?php endforeach; ?>
-				</ul>
-				<ul>
-				<?php foreach($topicReferences as $reference): ?>
-					<li><?php echo $reference['Topic']['name']?> (topic) <?php if($reference['Category']['id'] == '') echo " (direct in paper)" ?></li>
-				<?php endforeach; ?>
-				</ul>
-			<?php */
-        ?>
-
-
 
         <hr />
         <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'view' || $this->params['action'] == 'viewSubscriptions') && $session->read('Auth.User.id') != $user['User']['id']): ?>

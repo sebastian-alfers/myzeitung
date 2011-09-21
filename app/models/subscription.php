@@ -11,7 +11,8 @@ class Subscription extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
-			'counterCache' => true 
+			'counterCache' => true,
+            'counterScope' => array('own_paper' => '0'),
 		),
 		'User' => array(
 			'className' => 'User',
@@ -20,7 +21,7 @@ class Subscription extends AppModel {
 			'fields' => '',
 			'order' => '',
 			'counterCache' => true,
-			'counterScope' => array('own_paper' => false),
+			'counterScope' => array('own_paper' => '0'),
 				)
 	);
     function __construct(){

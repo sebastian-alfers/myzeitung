@@ -6,7 +6,11 @@
               <h2><?php echo __('Browse Papers', true);?></h2>
         <?php endif;?>
         <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'):?>
+            <?php if($own_paper == Paper::FILTER_OWN):?>
                 <h2><?php echo sprintf(__('%1$s Papers',true),$this->MzText->possessive($user['User']['username']));?></h2>
+            <?php elseif($own_paper == Paper::FILTER_SUBSCRIBED):?>
+                <h2><?php echo sprintf(__('%1$s Paper Subscriptions',true),$this->MzText->possessive($user['User']['username']));?></h2>
+            <?php endif;?>
         <?php endif;?>
 			    	<div class="article-nav">
                          <?php echo $paginator ?>

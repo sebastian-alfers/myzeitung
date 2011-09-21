@@ -90,7 +90,8 @@ Router::connect('/', array('controller' => 'home', 'action' => 'index'));
  * user profile etc
  */
 
-Router::connect('/u/:username/papers/*', array('controller' => 'users','action' =>'viewSubscriptions'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
+Router::connect('/u/:username/papers/*', array('controller' => 'users','action' =>'viewSubscriptions','own_paper' => 'own'),array('pass' => array('username','own_paper'), 'username' => '[a-z0-9]+[^/]'));
+Router::connect('/u/:username/subscriptions/*', array('controller' => 'users','action' =>'viewSubscriptions' , 'own_paper' => 'subscriptions'),array('pass' => array('username', 'own_paper'), 'username' => '[a-z0-9]+[^/]'));
 Router::connect('/u/:username/feed/*', array('controller' => 'users','action' =>'feed', 'url' => array('ext' => 'rss')),array( 'pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));
 Router::connect('/u/:username/:topic_id/*', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username','topic_id'),'username' => '[a-z0-9]+[^/]','topic_id' => '[0-9]+'));
 Router::connect('/u/:username/*', array('controller' => 'users', 'action' => 'view'),array('pass' => array('username'), 'username' => '[a-z0-9]+[^/]'));

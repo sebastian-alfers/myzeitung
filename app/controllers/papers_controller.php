@@ -4,7 +4,7 @@ class PapersController extends AppController {
 	var $name = 'Papers';
 	var $components = array('Auth', 'Session', 'Papercomp', 'Upload', 'RequestHandler');
 	var $uses = array('Paper', 'Subscription', 'Category', 'Route', 'User', 'ContentPaper', 'Topic', 'CategoryPaperPost');
-	var $helpers = array('MzHtml', 'MzTime','MzText' , 'Image',  'Javascript', 'Ajax', 'Reposter', 'Rss');
+	var $helpers = array('MzHtml', 'MzTime','MzText' , 'Image',  'Javascript', 'Ajax', 'Reposter', 'MzRss');
 
 	var $allowedSettingsActions = array('image');
 
@@ -157,6 +157,7 @@ class PapersController extends AppController {
 		}
 
         $this->set('canonical_for_layout', $paper['Route'][0]['source']);
+        $this->set('rss_for_layout', $paper['Route'][0]['source'].'/feed');
 		$this->set('hash', $this->Upload->getHash());
 
 		$this->set('paper', $paper);
@@ -225,7 +226,7 @@ class PapersController extends AppController {
 			$this->paginate['Post']['conditions']['CategoryPaperPost.category_id'] = $category_id;
 		}
         $posts = $this->paginate($this->Paper->Post);
-        $this->log($paper);
+
         $this->set('paper', $paper);
         $this->set('posts' , $posts);
         $this->set('channel', array('title' => 'test','description' => 'testDescription' ));
@@ -632,7 +633,7 @@ class PapersController extends AppController {
         if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
             if ($this->Paper->delete($id, true)) {
                 $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
-                $this->redirect(array('controller' => 'users', 'action'=>'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+                $this->redirect(array('controller' => 'users', 'action'=>'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username')),'own_paper' => Paper::F));
             }
             $this->Session->setFlash(__('Paper was not deleted', true));
             $this->redirect($this->referer());
