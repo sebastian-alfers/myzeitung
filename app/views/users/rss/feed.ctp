@@ -1,7 +1,7 @@
 <?php
 
 foreach($posts as $post){
-    echo $this->Rss->item(array(),$this->MzText->preparePostForRSS($post));
+    echo $this->MzRss->item(array(),$this->MzRss->preparePostForRSS($post));
 }
 
 $channelTitle = "myZeitung - ";
