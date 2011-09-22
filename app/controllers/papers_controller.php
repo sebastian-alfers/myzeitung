@@ -633,7 +633,7 @@ class PapersController extends AppController {
         if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
             if ($this->Paper->delete($id, true)) {
                 $this->Session->setFlash(__('Paper deleted', true), 'default', array('class' => 'success'));
-                $this->redirect(array('controller' => 'users', 'action'=>'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username')),'own_paper' => Paper::F));
+                $this->redirect(array('controller' => 'users', 'action'=>'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username')),'own_paper' => Paper::FILTER_OWN));
             }
             $this->Session->setFlash(__('Paper was not deleted', true));
             $this->redirect($this->referer());

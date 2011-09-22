@@ -1,8 +1,11 @@
 
 <div id="footer">
 	<p>
-		myZeitung © 2011 | <a href="">Impressum</a> | <a href="">AGB</a> | <a
-			href="">Datenschutzrichtlinien</a> | <a href="">Kontakt</a>
+		myZeitung © 2011 |
+        <?php echo $this->Html->link(__('Impressum',true), array('controller' => 'pages', 'action' => 'display', 'impressum'), array('rel' => 'nofollow'));?> |
+        <?php echo $this->Html->link(__('AGB',true), array('controller' => 'pages', 'action' => 'display', 'agb'), array('rel' => 'nofollow'));?> |
+        <?php echo $this->Html->link(__('Datenschutzrichtlinien',true), array('controller' => 'pages', 'action' => 'display', 'dsr'), array('rel' => 'nofollow'));?> |
+         <?php echo $this->Html->link(__('Kontakt',true), array('controller' => 'pages', 'action' => 'display', 'kontakt'), array('rel' => 'nofollow'));?>
 	</p>
 </div>
 
