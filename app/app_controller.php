@@ -478,11 +478,17 @@ class AppController extends Controller {
             }
 
             $action = $this->params['action'];
+            $controller = $this->params['controller'];
             //special cases for routes
+            if($controller == 'posts'){
+                if($action == 'edit' || $action == 'add'){
+                    $action = 'add_edit';
+                }
+            }
             if($action == 'viewSubscriptions'){
                 $action.= DS.$this->params['own_paper'];
             }
-            $url = $this->params['controller'].DS.$action;
+            $url = $controller.DS.$action;
 
             if(isset($helpcenter_data[$url])){
 
