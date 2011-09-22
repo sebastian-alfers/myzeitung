@@ -3,8 +3,7 @@
 
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-25370457-1']);
-  _gaq.push(['_setDomainName', 'myzeitung.de']);
-  _gaq.push(['_setAllowHash', false]);
+  _gaq.push(['_setDomainName', '.']);
   _gaq.push(['_trackPageview']);
 
   (function() {

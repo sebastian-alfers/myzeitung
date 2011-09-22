@@ -27,7 +27,8 @@
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php // all scripts and css declarations must be added to the following element?>
-	<?php echo $this->element('scripts_css'); ?>	
+	<?php echo $this->element('scripts_css'); ?>
+    <?php echo $this->element('tracking/google_analytics/track'); ?>
 	
 </head>
 	<body>
