@@ -21,7 +21,11 @@
         <td>
             <ul>
             <?php foreach($helppage['Helpelement'] as $element): ?>
-                <li><?php echo $this->Html->link($element['description'], array('controller' => 'helpelements', 'action' => 'edit', $element['id'])); ?></li>
+                <?php if($element['description'] != ''): ?>
+                    <li><?php echo $this->Html->link($element['description'], array('controller' => 'helpelements', 'action' => 'edit', $element['id'])); ?></li>
+                <?php else: ?>
+                    <li><?php echo $this->Html->link(__('No Description', true), array('controller' => 'helpelements', 'action' => 'edit', $element['id'])); ?></li>
+                <?php endif; ?>
             <?php endforeach; ?>
             </ul>
         </td>

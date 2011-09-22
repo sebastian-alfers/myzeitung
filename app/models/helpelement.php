@@ -2,6 +2,8 @@
 class Helpelement extends AppModel {
 	var $name = 'Helpelement';
 
+
+
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
@@ -27,9 +29,8 @@ class Helpelement extends AppModel {
     }
 
     function deleteCache(){
-        $locale = $this->Cookie->read('lang');
-        $cache_key = 'Helpcenter'.DS.$locale;
-        Cache::delete($cache_key);
+
+        Cache::clear();
     }
 
 
