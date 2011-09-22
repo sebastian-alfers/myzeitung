@@ -1800,7 +1800,7 @@ line-height: 22px;
 
 .start-header #login-form{
     position: absolute;
-    left: 653px;
+    left: 621px;
     top: 13px;
     width: 400px;
 }
@@ -3532,7 +3532,7 @@ span.arrow-left-white{
 
 .flagdeu{
     display: inline-block;
-    background: url(/img/assets/maintile.png) -109px -340px no-repeat transparent;
+    background: url(/img/assets/maintile.png) -110px -340px no-repeat transparent;
     height:21px;
     width:18px;
     text-indent: -99999px;

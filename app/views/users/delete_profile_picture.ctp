@@ -14,10 +14,8 @@ $(document).ready(function() {
         <div>
             <div>
                 <h2><?php __('Are you sure?'); ?></h2>
-                <?php __('A profile picture will help'); ?>
-                <ul>
-                    <li><?php __('other authors find your profile, papers and posts more easily'); ?></li>
-                </ul>
+                <?php __('A profile picture will help other authors, readers or paper administrators to find your profile more easily.'); ?>
+
              </div>
             <?php echo $this->Form->create('User', array('id' => 'delete-profile-picture-form', 'controller' => 'users', 'action' => 'deleteProfilePicture',
                                                         'inputDefaults' => array('error' => false, 'div' => false)));?>

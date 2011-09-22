@@ -34,10 +34,10 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
             <?php if($me): ?>
                 <?php __('You have one or more topics.'); ?>
             <?php else: ?>
-                <?php __('The user has one or more topics. What do you want do subscribe?'); ?>
+                <?php __('The user has one or more topics.'); ?>
             <?php endif; ?>
             <div class="choose-text">
-                <span class="icon"></span><?php __('Please choose, what you want to subscribe:'); ?>
+                <span class="icon"></span><?php __('Choose the topic that you want to subscribe:'); ?>
             </div>
 
             <?php //echo $this->Form->input('user_topic_content_data', array('options' =>$data['user_topic_chooser'], 'label' => '')); ?>
@@ -72,7 +72,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
         <?php if(isset($data['paper_category_chooser'])): ?>
             <?php __('You have one ore more papers.'); ?>
             <div class="choose-text">
-                <span class="icon"></span><?php __('Please choose your paper, you want the user to subscribe in:'); ?>
+                <span class="icon"></span><?php __('Choose the paper that you want to subscribe the user to:'); ?>
             </div>
 
             <?php echo $this->Form->input('paper_content_data' , array('type'=>'select','options'=> $data['paper_category_chooser']['options'], 'label' => false)); ?>
@@ -81,7 +81,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
             <?php if(isset($data['paper_category_chooser']['categories'])): ?>
                 <?php $i = 0; ?>
                 <div class="choose-text">
-                    <span class="icon"></span><?php __('In your Paper, where you want to subscribe in?'); ?>
+                    <span class="icon"></span><?php __('Choose the category that you want to subscribe the user to:'); ?>
                 </div>
                 <?php foreach($data['paper_category_chooser']['categories'] as $category): ?>
 
@@ -104,9 +104,9 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
             <?php endif; ?>
             <div class="choose-text">
                 <?php if(isset($data['paper_name']) && $data['paper_name'] == true): ?>
-                    <span class="icon"></span><?php echo sprintf(__('The subscription will be saved in your just created paper %s. You can always rename this paper in the settings of you paper.', true), $data['paper_name']); ?>
+                    <span class="icon"></span><?php echo sprintf(__('The subscription will be saved to your just created paper %s. You can always rename this paper in the settings.', true), $data['paper_name']); ?>
                 <?php else: ?>
-                    <span class="icon"></span><?php echo sprintf(__('The subscription will be saved in your paper %s.', true), $data['paper_name']); ?>
+                    <span class="icon"></span><?php echo sprintf(__('The subscription will be saved to your paper %s.', true), $data['paper_name']); ?>
                 <?php endif; ?>
 
             </div>
