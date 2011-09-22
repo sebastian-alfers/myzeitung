@@ -3525,3 +3525,23 @@ span.arrow-left-white{
 #links a{
     display: inline;
 }
+
+.flag{
+
+}
+
+.flagdeu{
+    display: inline-block;
+    background: url(/img/assets/maintile.png) -109px -340px no-repeat transparent;
+    height:21px;
+    width:18px;
+    text-indent: -99999px;
+}
+
+.flageng{
+    display: inline-block;
+    background: url(/img/assets/maintile.png) -133px -340px no-repeat transparent;
+    height:21px;
+    width:18px;
+    text-indent: -99999px;
+}

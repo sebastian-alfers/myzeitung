@@ -1,5 +1,9 @@
 <?php if(!isset($locale) || $locale == 'deu'): ?>
-    <a href="/locale/eng"><?php __('English'); ?></a>
+    <a href="/locale/eng">
+        <span class="flageng"></span>
+    </a>
 <?php else: ?>
-    <a href="/locale/deu"><?php __('Deutsch'); ?></a>
+    <a href="/locale/deu">
+        <span class="flagdeu"></span>
+    </a>
 <?php endif; ?>

@@ -418,7 +418,9 @@ class AppController extends Controller {
      */
     function _setLanguage() {
 
-
+        if(!$this->Cookie->read('lang')){
+            $this->Cookie->write('lang', Configure::read('Config.language'), false, '20 days');
+        }
 
         if ($this->Cookie->read('lang') && !$this->Session->check('Config.language')) {
             $this->Session->write('Config.language', $this->Cookie->read('lang'));
@@ -436,7 +438,7 @@ class AppController extends Controller {
         //publis body class
         $this->set('body_class', $this->Cookie->read('lang'));
 
-        // helpcenter
+        // no helpcenter in admin
         if(!in_array($this->params['controller'], array('helpcenter', 'admin'))){
 
             $locale = $this->Cookie->read('lang');
@@ -449,13 +451,19 @@ class AppController extends Controller {
                 $this->Helppage->contain('Helpelement');
                 $data = $this->Helppage->find('all');
 
+
                 if(count($data) > 0){
                     //prepare data
                     foreach($data as $page){
+
                         if(count($page['Helpelement']) > 0){
                             $url = $page['Helppage']['controller'].DS.$page['Helppage']['action'];
-                            $helpcenter_data[$url]['default'][$locale] = $page['Helppage'][$locale];
 
+
+                            //set default string in header of helpcenter
+                            $page[$url]['default'][$locale] = $page['Helppage'][$locale];
+
+                            //prepare data for js
                             foreach($page['Helpelement'] as $element){
                                 $helpcenter_data[$url]['elements'][] = array('key' => $element['accessor'], 'value' => $element[$locale]);
                             }

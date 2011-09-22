@@ -31,6 +31,11 @@ class MzSessionComponent extends Object {
         $user_id = $this->Session->read('Auth.User.id');
         $data = $this->_setting->find('all', array('conditions' => array('Setting.model_type' => 'user', 'Setting.model_id = '. $user_id)));
 
+        if(empty($data)){
+            //only for old accounts -> new registered users have default settings
+            return array(Setting::NAMESPACE_DEFAULT => array(Setting::KEY_LOCALE => $this->Cookie->read('lang')));
+        }
+
         $settings = array();
         //prepare settings
         foreach($data as $sett){
