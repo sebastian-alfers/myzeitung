@@ -18,8 +18,12 @@
         <tr>
             <td style="padding: 0 0 0 0; border-top: 1px solid #E4E3E3;">
                 <p>
-                    myZeitung © 2011 | <a style="color:#6e6e6e;" href="http://www.myzeitung.de">Impressum</a> | <a  style="color:#6e6e6e;" href="http://www.myzeitung.de">AGB</a> | <a  style="color:#6e6e6e;" href="http://www.myzeitung.de">Datenschutzrichtlinien</a> | <a style="color:#6e6e6e;" href="http://www.myzeitung.de">Kontakt</a>
-                </p>
+                    myZeitung © 2011 |
+                    <?php echo $this->Html->link(__('Impressum',true), $this->Html->url(array('controller' => 'pages', 'action' => 'display', 'impressum'), true), array('style' => 'color:#6e6e6e;'));?> |
+                    <?php echo $this->Html->link(__('AGB',true), $this->Html->url(array('controller' => 'pages', 'action' => 'display', 'agb'), true), array('style' => 'color:#6e6e6e;'));?> |
+                    <?php echo $this->Html->link(__('Datenschutzrichtlinien',true), $this->Html->url(array('controller' => 'pages', 'action' => 'display', 'dsr'), true), array('style' => 'color:#6e6e6e;'));?> |
+                    <?php echo $this->Html->link(__('Kontakt',true), $this->Html->url(array('controller' => 'pages', 'action' => 'display', 'kontakt'), true), array('style' => 'color:#6e6e6e;'));?>
+            	</p>
             </td>
         </tr>
 

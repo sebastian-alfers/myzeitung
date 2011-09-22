@@ -29,6 +29,11 @@
  * @subpackage    cake.cake.libs.controller
  */
 class PagesController extends AppController {
+    public function beforeFilter(){
+		parent::beforeFilter();
+		//declaration which actions can be accessed without being logged in
+		$this->Auth->allow('display');
+    }
 
 /**
  * Controller name

@@ -58,7 +58,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 								</p>
 
                             <div class="accept">
-                                <div><?php  echo $this->Form->input('tos_accept', array('type' => 'checkbox', 'class' => 'textinput', 'label' => false)); ?><strong><?php echo __('I accept the',true )?>&nbsp;<a href="" target="_blank"><?php echo __('TOS', true);?></a>&nbsp;<?php echo __('and', true)?> <a href="" target="_blank"><?php echo __('Privacy Policy', true);?></a></strong>
+                                <div><?php  echo $this->Form->input('tos_accept', array('type' => 'checkbox', 'class' => 'textinput', 'label' => false)); ?><strong><?php echo __('I accept the',true )?>&nbsp;<?php echo $this->Html->link(__('TOS', true), array('controller' => 'pages', 'action' => 'display', 'agb'), array('rel' => 'nofollow', 'target' => '_blank'));?>&nbsp;<?php echo __('and', true)?> <?php echo $this->Html->link(__('Privacy Policy', true), array('controller' => 'pages', 'action' => 'display', 'dsr'), array('rel' => 'nofollow', 'target' => '_blank'));?></strong>
                                     <?php if(!is_null($this->Form->error('User.tos_accept'))): ?>
                                         <div class="error-message"><b></b><?php echo $this->Form->error('User.tos_accept', array('wrap'=> false));?></div>
                                         <?php endif; ?>

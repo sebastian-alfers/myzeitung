@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-09-22 13:08+0200\n"
-"PO-Revision-Date: 2011-09-22 13:17+0100\n"
+"PO-Revision-Date: 2011-09-22 14:56+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1922,7 +1922,7 @@ msgstr "entfernen"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:11
 msgid "Media"
-msgstr ""
+msgstr "Medien"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:18
 msgid "Add Images"
