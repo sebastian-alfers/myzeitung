@@ -20,13 +20,19 @@
 			<?php else: //not logged in?>
 				<div id="user-info" class="not-loggedin">
 				<?php
-				echo __("You already have an account?", true);
+                
+				//echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
-				array('controller' => 'users', 'action' => 'login'), array('class' => 'btn'));
-				echo __("No?", true);
+                                       array('controller' => 'users', 'action' => 'login'), array('class' => 'btn'));
+				echo __("or", true);
 				echo $this->Html->link(__("Register", true),
-				array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register'));
-				?>
+                                       array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register'));
+
+                $locale = 'eng';
+                if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu') $locale = 'deu'; ?>
+                <div style="float:right;margin-left:10px;height:20px;">
+                    <?php echo $this->element('locale/switch', array('locale' => $locale)); ?>
+                </div>
 			<?php endif; //end not logged in? ?>
 		</div> <!-- /#user-info -->
 
