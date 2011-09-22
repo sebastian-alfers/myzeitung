@@ -12,8 +12,15 @@ if($this->params['controller'] == 'home'){
                 $title = sprintf(__('%1$s Articles',true),$this->MzText->possessive($user['User']['username']));
             }
         }elseif($this->params['action'] == 'viewSubscriptions'){
-            if(isset($user['User']['username'])){
-                $title = sprintf(__('%1$s Papers',true),$this->MzText->possessive($user['User']['username']));
+                $this->log($this->params);
+            if($this->params['own_paper'] == Paper::FILTER_OWN){
+                if(isset($user['User']['username'])){
+                    $title = sprintf(__('%1$s Papers',true),$this->MzText->possessive($user['User']['username']));
+                }
+            }elseif($this->params['own_paper'] == Paper::FILTER_SUBSCRIBED){
+                if(isset($user['User']['username'])){
+                    $title = sprintf(__('%1$s Paper Subscriptions ',true),$this->MzText->possessive($user['User']['username']));
+                }
             }
         }elseif($this->params['action'] == 'index'){
             $title = __('Browse Authors',true);

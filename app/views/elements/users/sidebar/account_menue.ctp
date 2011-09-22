@@ -11,9 +11,6 @@ echo $this->element('global/modal_upload',
 
 ?>
 
-<ul>
-    <li><?php echo $this->element('locale/switch', array('locale' => $settings['default']['locale'])); ?></li>
-</ul>
 
 <ul class="my-account-nav">
     <h6><?php echo __('Communication', true);?></h6>
@@ -26,9 +23,9 @@ echo $this->element('global/modal_upload',
 
     <?php //echo $this->element('invite/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
 
-     <hr />
-
+    <hr />
     <h6><?php echo __('Account Settings', true);?></h6>
+
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accAboutMe'):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-about"></span>'.__('About Me', true), array('controller' => 'users', 'action' => 'accAboutMe'), array('escape' => false,));?></li>
 
@@ -46,13 +43,11 @@ echo $this->element('global/modal_upload',
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accSocial'):?><li class="active" id="acc-social"><?php else:?><li id="acc-social"><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-social-media"></span>'.__('Social Media', true), array('controller' => 'users', 'action' => 'accSocial'), array('escape' => false,));?></li>
 
+    <hr />
+        <h6><?php echo __('Language', true);?></h6>
+    <ul>
+        <li><?php echo $this->element('locale/switch', array('locale' => $settings['default']['locale'])); ?></li>
+    </ul>
 
-
-
-
-
-<?php /*?>		<li><a href=""><span class="icon icon-mynews"></span>Meine Zeitungen</a></li>
-    <li><a href=""><span class="icon icon-articles"></span>Meine Artikel</a></li>
-    <li><a href=""><span class="icon icon-mymessages"></span>Meine Nachrichten</a></li> <?php */?>
 </ul>
 

@@ -28,6 +28,12 @@
     <?php if(isset($canonical_for_layout)):?>
         <?php echo $this->Html->meta('canonical', $canonical_for_layout, array('rel'=>'canonical', 'type'=>null, 'title'=>null, 'inline' => false)); ?>
     <?php endif;?>
+    <?php if(isset($paginator_prev_for_layout)):?>
+      <link rel="prev" href="<?php echo $paginator_prev_for_layout;?>" />
+    <?php endif;?>
+    <?php if(isset($paginator_next_for_layout)):?>
+      <link rel="next" href="<?php echo $paginator_next_for_layout;?>" />
+    <?php endif;?>
     <?php if(isset($rss_for_layout)):?>
           <?php echo $this->Html->meta('rss', $rss_for_layout); ?>
     <?php endif;?>

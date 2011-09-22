@@ -37,10 +37,12 @@ if($this->params['controller'] == 'papers' && $this->params['action'] == 'view')
 
     <div class="pagination">
         <?php if($this->Paginator->hasPrev()): ?>
-        <?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->prev(__('Previous', true), null, null, array('class' => 'disabled')); ?>
+            <?php $this->set('paginator_prev_for_layout', $this->Html->url($this->Paginator->url(array('page' => $this->Paginator->current()-1)),true));?>
         <?php endif;?>
         <?php echo $this->Paginator->numbers(array('separator' => '')); ?>
         <?php if($this->Paginator->hasNext()): ?>
-        <?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?>
+             <?php echo $this->Paginator->next(__('Next', true), null, null, array('class' => 'disabled')); ?>
+             <?php $this->set('paginator_next_for_layout', $this->Html->url($this->Paginator->url(array('page' => $this->Paginator->current()+1)),true));?>
         <?php endif; ?>
     </div>
