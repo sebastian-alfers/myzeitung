@@ -7,7 +7,7 @@
                 <?php
                 $locale = 'eng';
                 if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu') $locale = 'deu'; ?>
-                <div style="float:left;height:40px;">
+                <div style="float:left;margin-right:10px;height:40px;">
                     <?php echo $this->element('locale/switch', array('locale' => $locale)); ?>
                 </div>
 			<?php  echo $this->Form->input('username', array('class' => 'textinput-login', 'div' => false,'label' => false)); ?>
