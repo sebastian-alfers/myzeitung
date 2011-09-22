@@ -27,10 +27,8 @@ if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session-
         <div>
             <div>
                 <h2><?php __('Are you sure?'); ?></h2>
-                <?php __('A paper picture will help'); ?>
-                <ul>
-                    <li><?php __('other authors find your paper more easily'); ?></li>
-                </ul>
+                <?php __('A paper picture will help other authors and reads to find your paper more easily'); ?>
+   
              </div>
             <?php echo $this->Form->create('Paper', array('id' => 'delete-paper-picture-form', 'controller' => 'paper', 'action' => 'deleteImage',
                                                         'inputDefaults' => array('error' => false, 'div' => false)));?>

@@ -8,7 +8,7 @@
 					<a class="btn"><span class="icon-tick-mini"></span>Speichern</a>
                     <hr />
                         */?>
-                    <h5>Media</h5>
+                    <h5><?php echo __('Media', true);?></h5>
 
                     <form id="file_upload"
                         action="<?php echo FULL_BASE_URL.DS.'posts/ajxImageProcess'; ?>"
@@ -31,11 +31,11 @@
 						<a class="btn gray" onclick="topicDialog()"><span>+</span><?php __('Add Topic'); ?></a>
 					<hr>
 
-					<h5><?php __('Links'); ?></h5>
+					<h5><?php __('Links/References'); ?></h5>
                     <a class="btn gray" id="btn-add-link"><span>+</span><?php echo __('Add links', true);?></a>
 
                     <hr>
-                    <h5><?php __('Comments'); ?></h5>
+                    <h5><?php __('Comments allowed?'); ?></h5>
                           <?php echo $this->Form->input('allow_comments', array('type' => 'select', 'label' => false, 'id' => 'SelectPostAllowComments' , 'options' => $allow_comments)); ?>
 
 						 </div><!-- /.leftcolcontent -->	

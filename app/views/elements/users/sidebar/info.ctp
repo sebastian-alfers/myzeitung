@@ -6,8 +6,8 @@
 <p class="aboutme"><i><?php echo $about; ?></i>
 </p>
 <?php if(strlen($about) > 120): ?>
-    <a href="#" onclick="$('.aboutme-large').html($('.aboutme').html());$('#dialog-aboutme').dialog('open');"><?php echo "... " . __('more', true); ?></a>
-    <div id="dialog-aboutme" title="<?php echo __('About', true) . ' '. $user['User']['username']; ?>" style="display:none;">
+    <a href="#" onclick="$('.aboutme-large').html($('.aboutme').html());$('#dialog-aboutme').dialog('open');"><?php echo "... " . __('read more', true); ?></a>
+    <div id="dialog-aboutme" title="<?php echo sprintf(__('About %s', true),$user['User']['username']); ?>" style="display:none;">
         <div class="modal-content aboutme-large">
 
         </div>
