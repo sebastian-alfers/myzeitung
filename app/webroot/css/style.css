@@ -2965,10 +2965,10 @@ a.signin.menu-open span {
 	display:none;
 	background-color:#fff;
 	position:absolute;
-	width:250px;
+	width:80px;
 	z-index:100;
 	border:1px solid #000;
-	text-align:left;
+	text-align:right;
 	padding:30px 50px 10px 0px;
 	top: 1px;
 	right: 18px;

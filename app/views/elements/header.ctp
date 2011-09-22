@@ -2,8 +2,8 @@
 	<h1 id="logo"><?php echo $this->Html->link('myZeitung', array('controller' => 'home', 'action' => 'index'));?></h1>
 			<?php if($session->read('Auth.User.id')): ?>
 			<div id="user-info">
-			<?php echo __("logged in as", true)." "; ?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username ')))."</strong> ";?>
-                        <a href="login" class="signin"><span><strong><?php echo $session->read('Auth.User.username'); ?></strong></span></a>
+			<?php /*echo __("logged in as", true)." "; */?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username ')))."</strong> ";?>
+                        <a href="login" class="signin"><span><strong><?php echo /*$session->read('Auth.User.username');*/ __("Account",true); ?></strong></span></a>
 			<?php
 			//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', 'username' => $session->read('Auth.User.username')), array('class' => "user-image", 'escape' => false));
 			$user = $session->read('Auth.User');
@@ -81,19 +81,19 @@
 
 
 <div id="signin_menu">
-    <div style="float:left;width:117px;">
+   <?php /* <div style="float:left;width:117px;">
         <ul>
             <li><?php echo $this->Html->link(__('New Article', true), array('controller' => 'posts' , 'action' => 'add'));?></li>
             <li class="spacer"><?php echo $this->Html->link(__('New Paper', true), array('controller' => 'papers' , 'action' => 'add'));?></li>
             <li><?php echo $this->Html->link(__('My Articles',true), array('controller' => 'users' , 'action' => 'view', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
             <li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users' , 'action' => 'viewSubscriptions', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
             <li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations' , 'action' => 'index' ));?></li>
-            <?php /*<li><a href="/posts/add"><?php __('my Comments', true); ?></a></li> */ ?>
+
         </ul>
-    </div>
+    </div> */ ?>
     <div>
-        <ul style="float:left">
-            <li><?php echo $this->Html->link(__('Account / Settings', true), array('controller' => 'users' , 'action' => 'accAboutMe'));?></li>
+        <ul style="float:right">
+            <li><?php echo $this->Html->link(__('Settings', true), array('controller' => 'users' , 'action' => 'accAboutMe'));?></li>
             <li class="spacer"><li><?php echo $this->Html->link(__('Logout', true), array('controller' => 'users' , 'action' => 'logout'));?></li>
             <?php if((isset($is_admin) && $is_admin) || (isset($is_superadmin) && $is_superadmin)): ?>
                 <li><?php echo $this->Html->link(__('Admin', true), array('controller' => 'admin' , 'action' => 'admin'));?></li>
