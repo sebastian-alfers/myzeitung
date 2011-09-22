@@ -43,8 +43,10 @@ $(document).ready(function() {
     var helper_elements = new Array();
     var helper_values = new Array();
     $.each(helpcenter, function(i, item) {
-        helper_elements.push(item.key);
-        helper_values.push(item.value);
+        if($(item.key).length){
+            helper_elements.push(item.key);
+            helper_values.push(item.value);
+        }
     });
     $('#help #content').html(default_helptext);
 

@@ -32,9 +32,8 @@ class Helppage extends AppModel {
     }
 
     function deleteCache(){
-        $locale = $this->Cookie->read('lang');
-        $cache_key = 'Helpcenter'.DS.$locale;
-        Cache::delete($cache_key);
+
+        Cache::clear();
     }
 
 

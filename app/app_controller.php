@@ -445,12 +445,13 @@ class AppController extends Controller {
             $cache_key = 'Helpcenter'.DS.$locale;
 
             $helpcenter_data = Cache::read($cache_key);
-            if($helpcenter_data === false){
+
+            if(!$helpcenter_data || $helpcenter_data === false){
+
 
                 $helpcenter_data = array();
                 $this->Helppage->contain('Helpelement');
                 $data = $this->Helppage->find('all');
-
 
                 if(count($data) > 0){
                     //prepare data
@@ -461,7 +462,7 @@ class AppController extends Controller {
 
 
                             //set default string in header of helpcenter
-                            $page[$url]['default'][$locale] = $page['Helppage'][$locale];
+                            $helpcenter_data[$url]['default'][$locale] = $page['Helppage'][$locale];
 
                             //prepare data for js
                             foreach($page['Helpelement'] as $element){
@@ -473,13 +474,21 @@ class AppController extends Controller {
                 }
                 Cache::write($cache_key, $helpcenter_data);
             }
-            $url = $this->params['controller'].DS.$this->params['action'];
+
+            $action = $this->params['action'];
+            //special cases for routes
+            if($action == 'viewSubscriptions'){
+                $action.= DS.$this->params['own_paper'];
+            }
+            $url = $this->params['controller'].DS.$action;
+
+
 
             if(isset($helpcenter_data[$url])){
+
                 $this->set('helpcenter_data', $helpcenter_data[$url]['elements']);
                 $this->set('default_helptext', $helpcenter_data[$url]['default'][$locale]);
             }
-
         }
 
 

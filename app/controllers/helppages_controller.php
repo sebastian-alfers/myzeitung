@@ -4,7 +4,7 @@ class HelppagesController extends AppController {
 	var $name = 'Helppages';
 
     var $controllers = array('posts' => 'posts',
-                             'papers' => 'posts',
+                             'papers' => 'papers',
                              'users' => 'users',
                              'conversations' => 'conversations');
 
@@ -12,7 +12,8 @@ class HelppagesController extends AppController {
                          'edit' => 'edit',
                          'index' => 'index',
                          'view' => 'view',
-                         'viewSubscriptions' => 'viewSubscriptions',
+                         'viewSubscriptions/own' => 'viewSubscriptions/own',
+                         'viewSubscriptions/subscriptions' => 'viewSubscriptions/subscriptions',
                          'accAboutMe' => 'accAboutMe',
                          'accPrivacy' => 'accPrivacy',
                          'accSocial' => 'accSocial');

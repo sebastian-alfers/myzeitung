@@ -23,7 +23,7 @@ if($user['User']['id'] != $session->read('Auth.User.id')){
 	<?php endif;?>
 	<?php else:?>
 		<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'): ?>
-			<li><?php echo $this->Html->link('<span>+</span>'.__('New Paper', true), array('controller' => 'papers',  'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
+			<li><?php echo $this->Html->link('<span>+</span>'.__('New Paper', true), array('controller' => 'papers',  'action' => 'add'), array('escape' => false, 'class' => 'btn', 'id' => 'new-paper'));?></li>
 		<?php endif; ?>
 <?php endif; ?>
 </ul>
