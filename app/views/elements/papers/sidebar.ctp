@@ -54,7 +54,7 @@ if($paper_belongs_to_user){
         <?php ?>
         <ul>
             <?php if($paper_belongs_to_user):?>
-              <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'escape' => false));?></li>
+              <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'id' => 'edit-paper-btn', 'escape' => false));?></li>
               <li><a class="btn gray" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
             <li><a href="#" class="btn gray" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
             <?php endif;?>
