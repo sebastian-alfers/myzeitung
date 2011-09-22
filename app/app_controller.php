@@ -438,6 +438,8 @@ class AppController extends Controller {
         //publis body class
         $this->set('body_class', $this->Cookie->read('lang'));
 
+
+
         // no helpcenter in admin
         if(!in_array($this->params['controller'], array('helpcenter', 'admin'))){
 
@@ -476,13 +478,17 @@ class AppController extends Controller {
             }
 
             $action = $this->params['action'];
+            $controller = $this->params['controller'];
             //special cases for routes
+            if($controller == 'posts'){
+                if($action == 'edit' || $action == 'add'){
+                    $action = 'add_edit';
+                }
+            }
             if($action == 'viewSubscriptions'){
                 $action.= DS.$this->params['own_paper'];
             }
-            $url = $this->params['controller'].DS.$action;
-
-
+            $url = $controller.DS.$action;
 
             if(isset($helpcenter_data[$url])){
 

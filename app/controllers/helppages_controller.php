@@ -10,6 +10,7 @@ class HelppagesController extends AppController {
 
     var $actions = array('add' => 'add',
                          'edit' => 'edit',
+                         'add_edit' => 'add/edit',
                          'index' => 'index',
                          'view' => 'view',
                          'viewSubscriptions/own' => 'viewSubscriptions/own',
