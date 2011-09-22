@@ -1800,9 +1800,9 @@ line-height: 22px;
 
 .start-header #login-form{
     position: absolute;
-    left: 621px;
+    right: 0px;
     top: 13px;
-    width: 400px;
+    width: 418px;
 }
 .start-header #login-form input.textinput-login{
 border: 1px solid #d4d4d4;
@@ -3532,7 +3532,7 @@ span.arrow-left-white{
 
 .flagdeu{
     display: inline-block;
-    background: url(/img/assets/maintile.png) -110px -340px no-repeat transparent;
+    background: url(/img/assets/maintile.png) -133px -340px no-repeat transparent;
     height:21px;
     width:18px;
     text-indent: -99999px;
@@ -3540,7 +3540,7 @@ span.arrow-left-white{
 
 .flageng{
     display: inline-block;
-    background: url(/img/assets/maintile.png) -133px -340px no-repeat transparent;
+    background: url(/img/assets/maintile.png) -110px -340px no-repeat transparent;
     height:21px;
     width:18px;
     text-indent: -99999px;
