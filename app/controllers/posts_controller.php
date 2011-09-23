@@ -201,6 +201,7 @@ class PostsController extends AppController {
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
 
+
 			//save new sorted images
             $images = '';
             $this->data['Post']['media'] = $this->_processMediaData(json_decode($this->data['Post']['media']));
@@ -208,7 +209,7 @@ class PostsController extends AppController {
 
 
             foreach($this->data['Post']['media'] as $item){
-                $images .= $item['img_name'] . ',';
+                $images .= $item['name'] . ',';
             }
 
 
@@ -226,17 +227,13 @@ class PostsController extends AppController {
 			//	$this->Post->updateSolr = false;
 				$temp_data = $this->data;
 				unset($temp_data['Post']['id']);
+
 			}
 
 
 
 			$this->processLinks();
 
-			//add to solr if no pictures must be saved
-			if(!($this->Upload->hasImagesInHashFolder($this->data['Post']['hash']))){
-				$this->Post->updateSolr = true;
-
-			}
             // temp. necessary until there is a dropdown for allow comments in post add edit view
             if(isset($this->data['Post']['allow_comments']) && !in_array($this->data['Post']['allow_comments'], array(self::ALLOW_COMMENTS_DEFAULT, self::ALLOW_COMMENTS_FALSE, self::ALLOW_COMMENTS_TRUE))){
                 $this->data['Post']['allow_comments'] = self::ALLOW_COMMENTS_DEFAULT;
@@ -272,6 +269,7 @@ class PostsController extends AppController {
                     try{
                       $response = $facebook->api('/me/feed',"POST",$request);
 
+
                   } catch (FacebookApiException $e) {
                       $this->log($e);
                   }
@@ -305,7 +303,7 @@ class PostsController extends AppController {
                                 $file_name =  $item['file_name'];
 
                                 foreach($this->data['Post']['media'] as $data){
-                                    if($file_name == $data['img_name'] && $data['item_type'] == 'video'){
+                                    if($file_name == $data['name'] && $data['item_type'] == 'video'){
                                         $item['item_type'] = $data['item_type'];
                                         unset($data['item_type']);
                                         $item['video'] = $data;
@@ -327,7 +325,7 @@ class PostsController extends AppController {
 
 							//remove tmp hash folder
 							$this->Upload->removeTmpHashFolder($this->data['Post']['hash']);
-								
+
 						}
 						else{
 							$this->Session->setFlash(__('Not able to copy images for post', true));
@@ -362,7 +360,7 @@ class PostsController extends AppController {
         $topics = $topics2 + $topics;
         //BUG: array merge results in an array beginning with index 0,1,2 and not the topic ids!
         // see: http://php.net/manual/de/function.array-merge.php
-        
+
         //$topics = array_merge($topics, $this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
         //$this->log('TOPICS');
         //$this->log($topics);
@@ -376,16 +374,26 @@ class PostsController extends AppController {
 		if($error){
 			$this->set('hash', $this->data['Post']['hash']);
 
-			if(isset($this->data['Post']['images']) && !empty($this->data['Post']['images'])){
-				$tmp_images = explode(',', $this->data['Post']['images']);
+
+
+			if(isset($this->data['Post']['media']) && !empty($this->data['Post']['media'])){
+
 				$return_imgs = array();
 
 				$webroot = $this->Upload->getWebrootUrl();
 				$path_to_tmp_folder = $webroot.$this->Upload->getPathToTmpHashFolder($this->data['Post']['hash']);
-				foreach ($tmp_images as $img){
+				foreach ($this->data['Post']['media'] as $img){
 
-					$return_imgs[] = array('path' => 'tmp'.DS.$this->data['Post']['hash'].DS.$img, 'name' => $img);
+
+
+                    $data = array('item_type' => $img['item_type'], 'path' => 'tmp'.DS.$this->data['Post']['hash'].DS.$img['name'], 'name' => $img['name']);
+                    if($img['item_type'] == 'video'){
+                        $data['video'] = $img;
+                    }
+					$return_imgs[] = $data;
+
 				}
+
 				if(count($return_imgs) > 0){
 					$this->set('images', $return_imgs);
 				}
@@ -416,10 +424,6 @@ class PostsController extends AppController {
 
 		$this->set('user_id',$user_id);
 		$this->set('content_class', 'create-article');//for css in main layout file
-
-        if(isset($this->data['Post']['media'])){
-            $this->set('images', $this->data['Post']['media']);
-        }
 
 
 
@@ -467,7 +471,7 @@ class PostsController extends AppController {
             $this->data['Post']['media'] = $this->_processMediaData(json_decode($this->data['Post']['media']));
 
             foreach($this->data['Post']['media'] as $item){
-                $images .= $item['img_name'] . ',';
+                $images .= $item['name'] . ',';
             }
 
 			if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
@@ -478,7 +482,7 @@ class PostsController extends AppController {
 				if(is_array($this->images)){
 				}
 			}
-				
+
 			if($images != ''){
 				$tranf_images = $this->_transformImages($images, $id, $created);
 
@@ -487,7 +491,7 @@ class PostsController extends AppController {
                     $file_name =  $item['file_name'];
 
                     foreach($this->data['Post']['media'] as $data){
-                        if($file_name == $data['img_name'] && $data['item_type'] == 'video'){
+                        if($file_name == $data['name'] && $data['item_type'] == 'video'){
                             $item['item_type'] = $data['item_type'];
                             unset($data['item_type']);
                             $item['video'] = $data;
@@ -503,7 +507,7 @@ class PostsController extends AppController {
 				//noe images
 				$this->data['Post']['image'] = '';
 			}
-				
+
 			//process links
 			$this->processLinks();
 
@@ -555,7 +559,7 @@ class PostsController extends AppController {
 
 			if(empty($this->data['Post']['topic_id']))$this->data['Post']['topic_id'] = 'null';
 		}
-        
+
 		$topics = array();
         $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
         $topics2[self::NO_TOPIC_ID] = __('No Topic', true);
@@ -590,11 +594,11 @@ class PostsController extends AppController {
 				$this->set('images', $return_imgs);
 			}
 		}//end images
-		
+
 		if(isset($this->data['Post']['links']) && !empty($this->data['Post']['links'])){
-			$this->set('links', unserialize($this->data['Post']['links']));			
+			$this->set('links', unserialize($this->data['Post']['links']));
 		}
-		
+
 		$this->set('allow_comments', $allow_comments);
 		$this->set(compact('topics', 'users'));
 

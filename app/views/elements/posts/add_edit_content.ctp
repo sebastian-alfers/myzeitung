@@ -80,9 +80,10 @@
 <ul id="sortable" class="add-article-images">
 <?php if(isset($images)): ?>
 <?php foreach($images as $img): ?>
+
 	<li id="<?php echo $img['name']; ?>"
 		class="ui-state-default teaser-sort video">
-        <?php if($img['item_type'] == 'video'): ?>
+        <?php if(isset($img['item_type']) && $img['item_type'] == 'video'): ?>
             <span class="video-item">video</span>
         <?php endif; ?>
 		<a class="remove_li_item" name="img/<?php echo $img['path']; ?>" id="<?php echo $this->data['Post']['id']; ?>" style="cursor: pointer; vertical-align: top;"><?php __('remove'); ?></a>
@@ -90,7 +91,7 @@
 
         <div class="item_data" style="display: none;">
             <input type="hidden" name="item_type" value="<?php echo $img['item_type']; ?>" />
-            <input type="hidden" name="img_name" value="<?php echo $img['name']; ?>" />
+            <input type="hidden" name="name" value="<?php echo $img['name']; ?>" />
 
             <?php if($img['item_type'] == 'video'): ?>
                 <?php foreach($img['video'] as $key => $value): ?>

@@ -368,7 +368,7 @@ $(document).ready(function() {
 		                    '<\/tr></table></li>');
 		        },
 		        buildDownloadRow: function (file) {
-		            return $('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + '" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="img_name" value="'+file.name+'"></div></li>');
+		            return $('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + '" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
 		        },
 		        beforeSend: function (event, files, index, xhr, handler, callBack) {
                     if(!scroll){
@@ -396,7 +396,8 @@ $(document).ready(function() {
 			            return;
 			        }
 
-			        if (files[index].size > 1000000) {
+			        if (files[index].size > 10000000) {
+                        alert('file too big');
 			            handler.uploadRow.find('.file_upload_progress').html('FILE TOO BIG!');
 			            setTimeout(function () {
 			                handler.removeNode(handler.uploadRow);

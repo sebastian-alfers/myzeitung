@@ -5,7 +5,8 @@
     <img src="<?php echo $response['data']['open_graph_data']['image']; ?>" />
         <div class="item_data" style="display: none;">
         <input type="hidden" name="item_type" value="video" />
-        <input type="hidden" name="img_name" value="<?php echo $response['data']['file_name']; ?>" />
+        <input type="hidden" name="name" value="<?php echo $response['data']['file_name']; ?>" />
+            <?php debug($response); ?>
         <?php foreach($response['data']['open_graph_data'] as $key => $value): ?>
             <input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>" />
         <?php endforeach; ?>
