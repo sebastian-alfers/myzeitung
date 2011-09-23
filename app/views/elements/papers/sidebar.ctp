@@ -110,7 +110,7 @@ if($paper_belongs_to_user){
                  <li><?php echo sprintf(__n('%s Subscriber', '%s Subscribers', $paper['Paper']['subscription_count'],true), $this->MzNumber->format($paper['Paper']['subscription_count'],'.'));?></li>
             </ul>
             <hr />
-          <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),$paper['Route'][0]['source'].'/feed', array('class'  => 'btn gray', 'escape' => false));?>
+          <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),$paper['Route'][0]['source'].'/feed', array('class'  => 'btn gray', 'target'  => '_blank', 'rel' => 'nofollow', 'escape' => false));?>
             <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
 
 
