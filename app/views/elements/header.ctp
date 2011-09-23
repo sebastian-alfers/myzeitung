@@ -1,9 +1,10 @@
 <div id="header">
 	<h1 id="logo"><?php echo $this->Html->link('myZeitung', array('controller' => 'home', 'action' => 'index'));?></h1>
-			<?php if($session->read('Auth.User.id')): ?>
-			<div id="user-info">
+    <?php $helpLink = '<a class="help-link start-help" rel="nofollow" style="padding-right:50px;">Help Center</a>' ?>
+    <?php if($session->read('Auth.User.id')): ?>
+    <div id="user-info">
+            <?php echo $helpLink; ?>
 			<?php /*echo __("logged in as", true)." "; */?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username ')))."</strong> ";?>
-    <a class="help-link start-help" style="padding-right:50px;">Help Center</a>
     <a href="login" class="signin"><span><strong><?php echo /*$session->read('Auth.User.username');*/ __("Account",true); ?></strong></span></a>
 			<?php
 
@@ -20,8 +21,9 @@
 
 			<?php   //end logged in?>
 			<?php else: //not logged in?>
-				<div id="user-info" class="not-loggedin">
-               <a class="help-link start-help" style="padding-right:50px;"></a>
+
+					<div id="user-info" class="not-loggedin">
+            <?php echo $helpLink; ?>
             <?php
     				//echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
