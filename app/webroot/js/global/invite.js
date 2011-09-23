@@ -53,7 +53,7 @@ $(document).ready(function(){
                 }
            })
            .error(function(){
-               alert('error');
+               ////alert('error');
         });
 
     });

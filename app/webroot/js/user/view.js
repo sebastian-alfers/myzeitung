@@ -98,7 +98,7 @@ $(document).ready(function() {
 	   		$('#content-activity').html(string);
    		})
    		.error(function(){
-	   		alert('error');
+	   		//alert('error');
 		});
 
 

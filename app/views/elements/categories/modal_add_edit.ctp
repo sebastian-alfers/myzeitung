@@ -11,7 +11,7 @@
     </div>
     <div class="modal-buttons">
         <ul>
-            <li><a href="#" class="btn" onclick="$('#CategoryForm').submit();"><span>+</span><?php __('Save Topic'); ?></a></li>
+            <li><a href="#" class="btn" onclick="$('#CategoryForm').submit();"><span>+</span><?php __('Save Category'); ?></a></li>
             <li><a href="#" class="btn" onclick="$('#dialog-category').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
 		</ul>
     </div>

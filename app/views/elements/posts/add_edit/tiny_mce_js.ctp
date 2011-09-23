@@ -36,10 +36,10 @@ $(function(){
 
                 // Skin options
                 skin : "mz_skin",
-                skin_variant : "silver",
+                //skin_variant : "silver",
 
                 // Example content CSS (should be your site CSS)
-                content_css : "css/example.css",
+                //content_css : "css/example.css",
 
                 // Drop lists for link/image/media/template dialogs
                 template_external_list_url : "js/template_list.js",

@@ -23,7 +23,7 @@ function isEmailValid(email){
             }
        })
        .error(function(){
-           //alert('error');
+           ////alert('error');
     });
 
     return result;
@@ -47,7 +47,7 @@ function isValidUrl(url){
             }
        })
        .error(function(){
-           //alert('error');
+           ////alert('error');
     });
 
     return result;
@@ -257,7 +257,7 @@ $(document).ready(function() {
                $('#dialog-complain').html(string);
            })
            .error(function(){
-               alert('error');
+               ////alert('error');
         });
     }
 
@@ -342,7 +342,7 @@ $(document).ready(function() {
                         }
                    })
                    .error(function(){
-                       //alert('error');
+                       ////alert('error');
                 });
 
                 $( "#dialog-repost-chosse-topic").dialog('open');

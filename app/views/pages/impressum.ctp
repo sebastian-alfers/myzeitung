@@ -17,7 +17,7 @@
 <p class="p2">&nbsp;</p>
 <p class="p1">F&uuml;r jegliche Inhalte, die von Nutzern auf myZeitung.de ver&ouml;ffentlicht oder verlinkt wurden, &uuml;bernimmt der Betreiber keine Haftung. Die Nutzer sind f&uuml;r die von ihnen ver&ouml;ffentlichten Inhalte selbst verantwortlich. Auch f&uuml;r jegliche auf myZeitung gesetzten Links zu anderen Webseiten &uuml;bernimmt der Betreiber keine Haftung, weil er keinen Einfluss auf deren Inhalte hat.</p>
 <p class="p2">&nbsp;</p>
-<p class="p1">Weitere Hinweise und Regelungen finden Sie in den Allgemeinen Gesch&auml;ftsbedingungen (AGB) und den Datenschutzrichtlinien (DSR).</p>
+<p class="p1">Weitere Hinweise und Regelungen finden Sie in den <?php echo $this->Html->link(__('Allgemeinen Geschäftsbedingungen (AGB)', true), '/pages/agb'); ?> und den <?php echo $this->Html->link(__('Datenschutzrichtlinien (DSR)', true), '/pages/dsr'); ?>.</p>
     </div><!-- / #maincol -->
 
 </div><!-- / #maincolwrapper -->

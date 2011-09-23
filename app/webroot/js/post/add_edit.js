@@ -89,7 +89,7 @@ $(document).ready(function() {
 					//$('#url_content').html(string);
 		   		})		   
 		   		.error(function(){
-			   		alert('error');
+			   		//alert('error');
 			});					
 			//remove image from list
 		    $(this).closest('li').remove();
@@ -234,7 +234,7 @@ $(document).ready(function() {
 				$('#url_content').html(string);
 		   })		   
 		   .error(function(){
-			   alert('error');
+			   //alert('error');
 		});		
 	}
 
@@ -254,7 +254,7 @@ $(document).ready(function() {
 
 		   })
 		   .error(function(){
-			   alert('error');
+			   //alert('error');
 		});		
 	}
 

@@ -63,7 +63,7 @@ $(document).ready(function() {
                $('#contente-show-references').html(string);
            })
            .error(function(){
-               alert('error');
+               //alert('error');
         });
     }
 

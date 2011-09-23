@@ -2746,6 +2746,7 @@ z-index: 1000;
     border-top: 1px solid #DFDDDD;
     padding-top: 10px;
     padding-bottom: 20px;
+    text-align: center;
 }
 
 #footer p {

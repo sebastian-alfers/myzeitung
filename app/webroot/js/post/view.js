@@ -42,7 +42,7 @@ function ajxSubmitComment(pid){
 			//$('#url_content').html(string);
 	   })
 	   .error(function(){
-		   alert('error');
+		   //alert('error');
 	});
 
 	return false;
@@ -71,7 +71,7 @@ $(document).ready(function() {
 				$('#reply_first').toggle( 'blind', options, 500 );
 		   })
 		   .error(function(){
-			   alert('error');
+			   //alert('error');
 		   });
 
 	 });
