@@ -51,9 +51,7 @@
     <?php echo $this->element('helpcenter/main'); ?>
 
 		<div id="main-wrapper">
-            <a class="help-link start-help">start help</a>
-
-			<?php echo $this->element('header'); ?>
+           			<?php echo $this->element('header'); ?>
 			<div id="content" <?php if(isset($content_class)){ echo 'class="'.$content_class.'"';} ?>>
 
 			<?php echo $this->Session->flash(); ?>

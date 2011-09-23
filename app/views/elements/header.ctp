@@ -3,12 +3,14 @@
 			<?php if($session->read('Auth.User.id')): ?>
 			<div id="user-info">
 			<?php /*echo __("logged in as", true)." "; */?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username ')))."</strong> ";?>
-                        <a href="login" class="signin"><span><strong><?php echo /*$session->read('Auth.User.username');*/ __("Account",true); ?></strong></span></a>
+    <a class="help-link start-help" style="padding-right:50px;">Help Center</a>
+    <a href="login" class="signin"><span><strong><?php echo /*$session->read('Auth.User.username');*/ __("Account",true); ?></strong></span></a>
 			<?php
+
 			//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', 'username' => $session->read('Auth.User.username')), array('class' => "user-image", 'escape' => false));
 			$user = $session->read('Auth.User');
 			$link_data = array();
-
+            
 			$link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']));
 			$link_data['custom'] = array('class' => 'user-image nosubscribe', 'alt' => $this->MzText->getUsername($user));
 
@@ -19,9 +21,9 @@
 			<?php   //end logged in?>
 			<?php else: //not logged in?>
 				<div id="user-info" class="not-loggedin">
-				<?php
-                
-				//echo __("You already have an account?", true);
+               <a class="help-link start-help" style="padding-right:50px;"></a>
+            <?php
+    				//echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
                                        array('controller' => 'users', 'action' => 'login'), array('class' => 'btn'));
 				echo __("or", true);
