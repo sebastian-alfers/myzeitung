@@ -1191,8 +1191,8 @@ text-indent: -9999px;
 .comment{
     position: relative;
     clear: both;
-    padding-top: 33px;
-    border-top: 1px solid #dddcdc;
+  /*   padding-top: 33px; */
+  /*  border-top: 1px solid #dddcdc;  */
     overflow: hidden;
     margin-top: 27px;
 }
@@ -1237,7 +1237,7 @@ text-indent: -9999px;
 }
 .comment span.info.owner {
     left: -18px;
-    background: url(/img/assets/maintile.png) -107px -97px no-repeat;
+    background: url(/img/assets/maintile.png) -127px -62px no-repeat;
 }
 
 
