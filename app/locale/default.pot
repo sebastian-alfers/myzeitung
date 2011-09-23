@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-09-23 14:07+0200\n"
+"POT-Creation-Date: 2011-09-23 15:31+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -600,7 +600,7 @@ msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1395
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:104
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:103
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:106
 msgid "Admin"
 msgstr ""
 
@@ -779,7 +779,7 @@ msgid "Submit Invalidation Request"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/aws/admin_ec2_manage.ctp:4
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:100
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:102
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_index.ctp:2
 msgid "Settings"
 msgstr ""
@@ -1152,9 +1152,9 @@ msgid "Modified"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/conversations/index.ctp:4
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:73
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:75
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:72
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:71;73;76
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:73;75;78
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:19
 msgid "Messages"
 msgstr ""
@@ -1195,7 +1195,7 @@ msgid "You already have an account?"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:14
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:29
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:31
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:28;30
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:33
 #: /Applications/MAMP/htdocs/myzeitung//views/users/login.ctp:15;25
@@ -1207,7 +1207,7 @@ msgid "No?"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:17
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:32
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:34
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:31
 #: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:128
 msgid "Register"
@@ -1218,8 +1218,8 @@ msgid "Data"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:35
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:50
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:47;53
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:52
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:49;55
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/sidebar.ctp:21
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:2
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:12
@@ -1228,7 +1228,7 @@ msgid "Papers"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:36
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:46
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:48
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/sidebar.ctp:24
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:2
 #: /Applications/MAMP/htdocs/myzeitung//views/search/auto_complete.ctp:6
@@ -1236,7 +1236,7 @@ msgid "Posts"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:37
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:37
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:39
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/sidebar.ctp:18
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:2
 msgid "Users"
@@ -1344,53 +1344,60 @@ msgstr ""
 msgid "FAQ"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:8
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/footer.ctp:11
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:7
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/helpcenter/link.ctp:2
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/invite/link.ctp:2
+msgid "Invite Friends"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:9
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:34;36;38;40;42
 msgid "Account"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:31
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:33
 msgid "or"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:48
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:50
 #: /Applications/MAMP/htdocs/myzeitung//views/search/auto_complete.ctp:16
 msgid "Authors"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:53;53;53;54
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:55;55;55;56
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/search/autocomplete/script.ctp:24
 #: /Applications/MAMP/htdocs/myzeitung//views/home/index.ctp:26;26;26
 msgid "Find"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:70
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:72
 msgid "My Articles"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:71
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:73
 msgid "My Papers"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:72
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:74
 msgid "Subscribed Papers"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:78
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:80
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:64
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:12
 msgid "New Article"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:101
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:103
 msgid "Logout"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:107
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:110
 msgid "English"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:109
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:112
 msgid "Deutsch"
 msgstr ""
 
@@ -1399,9 +1406,7 @@ msgid "Paper Category"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/categories/modal_add_edit.ctp:14
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/modal_add.ctp:9
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/modal_edit.ctp:18
-msgid "Save Topic"
+msgid "Save Category"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/comments/comment_content.ctp:16
@@ -1642,37 +1647,38 @@ msgid "%1$s Paper Subscriptions "
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:32
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:35
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:37
 #: /Applications/MAMP/htdocs/myzeitung//views/users/forgot_password.ctp:18
 #: /Applications/MAMP/htdocs/myzeitung//views/users/login.ctp:21
 msgid "I forgot my password"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:34
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:38
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:37
 #: /Applications/MAMP/htdocs/myzeitung//views/users/acc_general.ctp:15
 msgid "General Settings"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:36
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:40
 msgid "Privacy"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:38
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:44
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:43
 #: /Applications/MAMP/htdocs/myzeitung//views/users/acc_social.ctp:28
 msgid "Social Media"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:35
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:22
 #: /Applications/MAMP/htdocs/myzeitung//views/users/acc_invitations.ctp:5
 msgid "Invitations"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/title.ctp:42
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:30
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:29
 #: /Applications/MAMP/htdocs/myzeitung//views/users/acc_about_me.ctp:14;29
 msgid "About Me"
 msgstr ""
@@ -1710,22 +1716,17 @@ msgstr ""
 msgid "Edit Post"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:39
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:27
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:26
 msgid "Account Settings"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:67
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:69
 msgid "Search Results"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:74
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/header/breadcrumbs.ctp:76
 msgid "New Message"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/helpcenter/link.ctp:2
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/invite/link.ctp:2
-msgid "Invite Friends"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/helpcenter/main.ctp:7
@@ -2057,6 +2058,11 @@ msgstr ""
 msgid "All Results"
 msgstr ""
 
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/modal_add.ctp:9
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/modal_edit.ctp:18
+msgid "Save Topic"
+msgstr ""
+
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/modal_edit.ctp:1
 #: /Applications/MAMP/htdocs/myzeitung//views/topics/edit.ctp:4
 msgid "Edit Topic"
@@ -2187,12 +2193,12 @@ msgstr ""
 msgid "Communication"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:34
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:33
 msgid "Profile Picture"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:47
-msgid "Language"
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:46
+msgid "Change Language"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/activity.ctp:8
@@ -2554,6 +2560,14 @@ msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/pages/home.ctp:77
 msgid "To change the content of this page, edit: %s\n\t\tTo change its layout, edit: %s\n\t\tYou can also add some CSS styles for your pages at: %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/impressum.ctp:20
+msgid "Allgemeinen Geschäftsbedingungen (AGB)"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/pages/impressum.ctp:20
+msgid "Datenschutzrichtlinien (DSR)"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/add_edit.ctp:33

@@ -31,6 +31,8 @@ if($this->params['controller'] == 'posts'){
 	 	$this->Html->addCrumb(__('Register', true), null , array('escape' => false));
      }elseif($this->params['action'] == 'login'){
 	 	$this->Html->addCrumb(__('Login', true), null , array('escape' => false));
+     }elseif($this->params['action'] == 'accInvitations'){
+	 	$this->Html->addCrumb(__('Invitations', true), null , array('escape' => false));
      }elseif($this->params['action'] == 'forgotPassword'){
 	 	$this->Html->addCrumb(__('I forgot my password', true), null , array('escape' => false));
 	 }elseif($this->params['action'] == 'index'){	

@@ -7,6 +7,9 @@
         <?php echo $this->Html->link(__('Datenschutzrichtlinien',true), array('controller' => 'pages', 'action' => 'display', 'dsr'), array('rel' => 'nofollow'));?> |
         <?php echo $this->Html->link(__('Kontakt',true), array('controller' => 'pages', 'action' => 'display', 'kontakt'), array('rel' => 'nofollow'));?> |
         <?php echo $this->Html->link(__('FAQ',true), '/p/myzeitung/faq-zeitung-deutsche-sprache', array('rel' => 'nofollow'));?>
+        <?php if($this->Session->read('Auth.User.id') ): ?>
+           | <?php echo $this->Html->link(__('Invite Friends', true), array('controller' => 'users' , 'action' => 'accInvitations'));?>
+        <?php endif; ?>
 	</p>
 </div>
 

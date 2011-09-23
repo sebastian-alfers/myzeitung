@@ -4,6 +4,7 @@
     <?php if($session->read('Auth.User.id')): ?>
     <div id="user-info">
             <?php echo $helpLink; ?>
+            <?php echo $this->Html->link(__('Invite Friends', true), array('controller' => 'users' , 'action' => 'accInvitations'), array('style' => 'padding-right:50px;text-decoration:none;'));?>
 			<?php /*echo __("logged in as", true)." "; */?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username ')))."</strong> ";?>
     <a href="login" class="signin"><span><strong><?php echo /*$session->read('Auth.User.username');*/ __("Account",true); ?></strong></span></a>
 			<?php
@@ -24,6 +25,7 @@
 
 					<div id="user-info" class="not-loggedin">
             <?php echo $helpLink; ?>
+
             <?php
     				//echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
@@ -99,6 +101,7 @@
         <ul style="float:right">
             <li><?php echo $this->Html->link(__('Settings', true), array('controller' => 'users' , 'action' => 'accAboutMe'));?></li>
             <li class="spacer"><li><?php echo $this->Html->link(__('Logout', true), array('controller' => 'users' , 'action' => 'logout'));?></li>
+
             <?php if((isset($is_admin) && $is_admin) || (isset($is_superadmin) && $is_superadmin)): ?>
                 <li><?php echo $this->Html->link(__('Admin', true), array('controller' => 'admin' , 'action' => 'admin'));?></li>
             <?php endif; ?>
