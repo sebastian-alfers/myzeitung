@@ -54,14 +54,14 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <?php endif; ?>
         <?php if(($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'users' && $this->params['action'] == 'view')): ?>
      
-            <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),array('controller' => 'users', 'action' => 'feed', 'username' => strtolower($user['User']['username']) ,'url' => array('ext' => 'rss')), array('class'  => 'btn gray', 'escape' => false));?>
+            <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),array('controller' => 'users', 'action' => 'feed', 'username' => strtolower($user['User']['username']) ,'url' => array('ext' => 'rss')), array('class'  => 'btn gray','target'  => '_blank', 'rel' => 'nofollow', 'escape' => false));?>
              <?php if($this->params['controller'] == 'posts'): ?>
-                <a href="#" class="btn gray print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
+                <a href="#" rel='nofollow' class="btn gray print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
                 <?php if($session->read('Auth.User.id') != $user['User']['id']):?>
                     <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
-                <?php endif;?>
+                <?php endif; ?>
             <?php endif; ?>
-        <?php endif;?>
+        <?php endif; ?>
     </div><!-- /.leftcolcontent -->
 		</div><!-- /.leftcol -->
 		
