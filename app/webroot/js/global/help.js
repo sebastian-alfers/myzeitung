@@ -5,7 +5,7 @@ $(document).ready(function() {
         $(".start-help").slideToggle("slow");
         e.preventDefault();
 
-        var margin = '50px';
+        var margin = '70px';
         if($('#main-wrapper').css('margin-top') != '0px'){
             margin = '0px';
         }
@@ -48,7 +48,7 @@ $(document).ready(function() {
             helper_values.push(item.value);
         }
     });
-    $('#help #content').html(default_helptext);
+    $('#help #content').prepend(default_helptext);
 
     var current_element = 0;
     var length = helper_elements.length;

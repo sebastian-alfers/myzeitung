@@ -4,7 +4,7 @@
                 <li><h2>Help Center</h2></li>
                 <li><a class="helpnav next browse left-arrow-black"></a></li>
                 <li><a class="helpnav next browse right-arrow-black"></a></li>
-                <li id="content"></li>
+                <li id="content"> <?php echo $this->Html->link(__('The myZeitung FAQs provide more information.', true), 'p/myzeitung/faq-zeitung-deutsche-sprache'); ?></li>
                 <li class="last"><a class="help-link icon icon-close-help tt-title-north" title="<?php __('Quit Help Center'); ?>">close</a></li>
 
             </ul>

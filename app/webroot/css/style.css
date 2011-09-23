@@ -2901,7 +2901,7 @@ a.jqTransformChecked {
 a.browse {
 
     width:30px;
-    height:30px;
+    height:27px;
     display:block;
     float:left;
     margin:108px 10px 0 5px;
@@ -3453,12 +3453,13 @@ form.onecol div.textarea{
 }
 
 #help #content{
-    width:600px;
+    width:700px;
+    padding-top: 15px;
 }
 
 #help a{
     color:#000;
-    margin-top: 13px;
+    margin-top: 4px;
 }
 
 #help div{
