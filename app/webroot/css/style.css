@@ -3117,9 +3117,6 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     opacity: 0.2;
 }
 
-.ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-titlebar-close:hover{
-    border:0;
-}
 
 .ui-button{
     border:0;

@@ -33,7 +33,29 @@ if($paper_belongs_to_user){
 
         <?php /*<h4><?php echo $paper['Paper']['title'];?></h4> */?>
         <?php if(!empty($paper['Paper']['description'])): ?>
-            <p><?php echo strip_tags($paper['Paper']['description']);?></p>
+
+            <?php $about = strip_tags($paper['Paper']['description']); ?>
+            <p class="aboutme"><i><?php echo $about; ?></i>
+            </p>
+            <?php if(strlen($about) > 120): ?>
+                <a href="#" onclick="$('.aboutme-large').html($('.aboutme').html());$('#dialog-aboutme').dialog('open');"><?php echo "... " . __('read more', true); ?></a>
+                <div id="dialog-aboutme" title="<?php echo sprintf(__('About %s', true),$paper['Paper']['title']); ?>" style="display:none;">
+                    <div class="modal-content aboutme-large">
+
+                    </div>
+                </div>
+                <script type="text/javascript">
+                $( "#dialog-aboutme" ).dialog({
+                    resizable: false,
+                    height:340,
+                    width:400,
+                    draggable:false,
+                    modal: true,
+                    autoOpen: false
+                });
+                </script>
+            <?php endif; ?>
+
         <?php endif;?>
 
 
