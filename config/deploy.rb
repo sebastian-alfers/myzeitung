@@ -58,12 +58,12 @@ task :create_symlinks, :roles => :target do
     #run "sudo chown www-data:www-data #{current_release}/app/webroot/jscache/"
 
     # create tmp/cache folders
-    #run "mkdir #{current_release}/app/tmp/"
-    #run "mkdir #{current_release}/app/tmp/cache/"
-    #run "mkdir #{current_release}/app/tmp/cache/persistent/"
-    #run "mkdir #{current_release}/app/tmp/cache/models/"
+    run "mkdir #{current_release}/app/tmp/"
+    run "mkdir #{current_release}/app/tmp/cache/"
+    run "mkdir #{current_release}/app/tmp/cache/persistent/"
+    run "mkdir #{current_release}/app/tmp/cache/models/"
     ## set owner for cache
-    #run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
+    run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
     #copy htaccess
     run "cp /home/ubuntu/.htpasswd #{current_release}/.htpasswd && cp /home/ubuntu/.htaccess #{current_release}/.htaccess"
