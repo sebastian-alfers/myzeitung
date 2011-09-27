@@ -1,3 +1,4 @@
+
 <div id="header">
 	<h1 id="logo"><?php echo $this->Html->link('myZeitung', array('controller' => 'home', 'action' => 'index'));?></h1>
     <?php $helpLink = '<a class="help-link start-help" rel="nofollow" style="padding-right:50px;">Help Center</a>' ?>
@@ -73,7 +74,7 @@
 				<li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => Paper::FILTER_OWN));?></li>
                 <li><?php echo $this->Html->link(__('Subscribed Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => Paper::FILTER_SUBSCRIBED));?></li>
 				<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index'));?>
-					<?php if($this->Session->read('Auth.User.allow_messages') && isset($conversation_count) && $conversation_count > 0):?>
+					<?php if(isset($conversation_count) && $conversation_count > 0):?>
 					<span class="round-icon"><?php echo $conversation_count;?></span>
 					<?php endif;?>
 				</li>

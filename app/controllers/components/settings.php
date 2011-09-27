@@ -1,9 +1,10 @@
 <?php
 
 /**
- * provides different helper methods for uploadging
+ * provides different helper methods for settings
  *
  * @author sebastianalfers
+ *          timwiegard
  *
  */
 class SettingsComponent extends Object {
@@ -13,16 +14,16 @@ class SettingsComponent extends Object {
 
     function get($model_id = '', $namespace = ''){
 
-        $ses = $this->Session->read('Auth.User');
+        $ses = $this->Session->read('Auth' /*'Auth.User'*/);
 
         if(!isset($ses['Settings']) || empty($ses['Settings'])){
             $this->loadSettings($model_id);
         }
 
-        return $this->Session->read('Auth.User.Settings');
+        return $this->Session->read('Auth.Settings');
     }
 
-    function save($model, $namespace, $values, $model_id = ''){
+    /* function save($model, $namespace, $values, $model_id = ''){
 
 
         if($model_id == ''){
@@ -60,6 +61,34 @@ class SettingsComponent extends Object {
             $settings->save($data);
         }
 
+    } */
+
+    function save($settingData = null, $model_id = null){
+
+        if(($settingData == null || !is_array($settingData)) || $model_id == null){
+            return false;
+        }
+
+        App::Import('Model', 'Setting');
+        $this->Setting = new Setting();
+
+
+        foreach($settingData as $modelType => $modelTypeValue){
+            foreach($modelTypeValue as $namespace => $namespaceValue){
+                foreach($namespaceValue as $key => $keyValue){
+                    if($keyValue['specific_id'] != null){
+                        $this->Setting->save(array('id' => $keyValue['specific_id'], 'value' => $keyValue['value']), false, array('value'));
+                    }else{
+                        $this->Setting->create();
+                        $settingData = array('model_type' => $modelType, 'model_id' => $model_id, 'namespace' => $namespace, 'key' => $key, 'value' => $keyValue['value'], 'value_data_type' => $keyValue['value_data_type']);
+                        $this->Setting->save($settingData);
+                    }
+                    $this->Session->write('Auth.Setting.'.$modelType.'.'.$namespace.'.'.$key, $keyValue);
+                }
+            }
+        }
+
+
     }
 
     function loadSettings($id = ''){
@@ -70,11 +99,11 @@ class SettingsComponent extends Object {
 
         App::import('Model', 'User');
         $user = new User();
-        $user->contain('Setting');
-        $data = $user->read(array(), $id);
+        $user->contain();
+        $data = $user->getSettings($id);
 
         //transform to key=>value list
-        $settings = array();
+     /*   $settings = array();
 
         if(isset($data['Setting']) && count($data['Setting']) > 0){
             foreach($data['Setting'] as $setting){
@@ -87,8 +116,8 @@ class SettingsComponent extends Object {
 
             }
         }
-
-        $this->Session->write('Auth.User.Settings', $settings);
+     */
+        $this->Session->write('Auth.Settings', /*$settings*/ $data);
     }
 
     /**

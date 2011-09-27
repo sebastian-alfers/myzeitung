@@ -10,13 +10,13 @@ class MzSessionComponent extends Object {
 
     var $components = array('Session', 'Cookie', 'Settings');
 
-    var $_setting = null;
+   // var $_setting = null;
 
     function __construct(){
         parent::__construct();
 
-        App::import('Model', 'Setting');
-        $this->_setting = new Setting();
+     //   App::import('Model', 'Setting');
+     //   $this->_setting = new Setting();
     }
 
 
@@ -24,12 +24,22 @@ class MzSessionComponent extends Object {
 
         if(!$this->Session->read('Auth.User.id')) return array();
 
-        if($this->Session->read('Auth.User.Setting')){
-            return $this->Session->read('Auth.User.Setting');
+        if($this->Session->read('Auth.Setting')){
+            return $this->Session->read('Auth.Setting');
         }
 
         $user_id = $this->Session->read('Auth.User.id');
-        $data = $this->_setting->find('all', array('conditions' => array('Setting.model_type' => 'user', 'Setting.model_id = '. $user_id)));
+
+        App::Import('Model', 'User');
+        $this->User = new User();
+
+        $settings = $this->User->getSettings($user_id);
+        $this->Session->write('Auth.Setting', $settings);
+
+        return $settings;
+
+
+      /*  $data = $this->_setting->find('all', array('conditions' => array('Setting.model_type' => 'user', 'Setting.model_id = '. $user_id)));
 
         if(empty($data)){
             //only for old accounts -> new registered users have default settings
@@ -52,22 +62,25 @@ class MzSessionComponent extends Object {
             $this->Cookie->write('lang', $locale, false, '20 days');
         }
 
-        return $settings;
+        return $settings;*/
     }
 
 
     function setLocale($locale){
 
-
         $this->Session->write('Config.language', $locale);
         $this->Cookie->write('lang', $locale, false, '20 days');
+       
+        if($this->Session->read('Auth.User.id')){
+            App::import('Model', 'Setting');
+            $this->_setting = new Setting();
 
-
-        if($this->Session->read('Auth.User.id') && $this->Session->read('Auth.User.Setting')){
             $user_id = $this->Session->read('Auth.User.id');
-            $this->Settings->save(Setting::MODEL_TYPE_USER, Setting::NAMESPACE_DEFAULT, array(Setting::KEY_LOCALE => $locale), $user_id);
+            $localeSetting= $this->_setting->get(Setting::MODEL_TYPE_USER,$user_id ,Setting::NAMESPACE_DEFAULT,Setting::KEY_LOCALE);
+            $localeSetting[Setting::MODEL_TYPE_USER][Setting::NAMESPACE_DEFAULT][Setting::KEY_LOCALE]['value'] = $locale;
 
-            $this->Session->write('Auth.User.Setting.'.Setting::NAMESPACE_DEFAULT.'.'.Setting::KEY_LOCALE, $locale);
+            $this->Settings->save($localeSetting, $user_id);
+
         }
 
     }

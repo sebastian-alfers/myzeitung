@@ -17,7 +17,7 @@ class UsersController extends AppController {
 
 
 
-        $this->set('settings', $this->MzSession->getUserSettings());
+       // $this->set('settings', $this->MzSession->getUserSettings());
 
 		parent::beforeFilter();
 		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references', 'feed');
@@ -29,7 +29,7 @@ class UsersController extends AppController {
 
 
 
-        $this->log($this->Auth->redirect());
+
         //check, if the user is already logged in
         if($this->Session->read('Auth.User.id')){
             //redirct to his profile
@@ -64,7 +64,7 @@ class UsersController extends AppController {
 
 	function logout()
 	{
-
+        $this->Auth->sessionKey = 'Auth';
 		$this->redirect($this->Auth->logout());
 	}
 
@@ -118,7 +118,7 @@ class UsersController extends AppController {
             }
         }
         //unbinding irrelevant relations for the query
-        $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
+        $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count');
 
         $user = $this->getUserForSidebar($username);
 
@@ -165,12 +165,12 @@ class UsersController extends AppController {
 			$this->paginate['Post']['joins'][0]['conditions']['PostUser.topic_id'] = $topic_id;
 		}
 
-
 		$this->set('user', $user);
     
         $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
         $this->set('rss_for_layout', '/u/'.strtolower($user['User']['username']).'/feed');
 		$this->set('posts', $this->paginate($this->User->Post));
+
 
         //check for post value to display newConversation form
         $newConversation = (boolean)(isset($this->params['form']['action']) && $this->params['form']['action'] == 'newConversation');
@@ -216,8 +216,6 @@ class UsersController extends AppController {
         }
 
 
-
-      //  $user['User']['id'] = 239;
         $this->paginate = $this->paginate = array(
 	        'Post' => array(
 		//setting up the join. this conditions describe which posts are gonna be shown
@@ -1032,29 +1030,43 @@ class UsersController extends AppController {
 
 		$id = $this->Session->read('Auth.User.id');
 
-
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid user', true));
 			$this->redirect($this->referer());
 		}
 
+        $this->User->contain();
+        $user= $this->getUserForSidebar($this->Session->read('Auth.User.username'));
+
 		if (!empty($this->data)) {
-			if ($this->User->save($this->data, true, array('allow_comments', 'allow_messages'))) {
-				$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
-				//update session variables:
-				$this->Session->write("Auth.User.allow_messages", $this->data['User']['allow_messages']);
-				$this->Session->write("Auth.User.allow_comments", $this->data['User']['allow_comments']);
-			} else {
-				$this->Session->setFlash(__('The changes could not be saved. Please, try again.', true));
-			}
-		}
-		if (empty($this->data)) {
-			$this->User->contain();
-			$this->data = $this->User->read(null, $id);
+
+            /* saving each entry - creating new entry if no specific id is set.
+                                - just saving if id is set
+            */
+            App::import('model','Setting');
+            $this->Setting = new Setting();
+
+            $user['Setting']['user']['default']['allow_comments']['value'] = $this->data['User']['allow_comments'];
+            $user['Setting']['user']['default']['allow_messages']['value'] = $this->data['User']['allow_messages'];
+            $user['Setting']['user']['email']['new_comment']['value'] = $this->data['User']['email_new_comment'];
+            //$user['Setting']['user']['email']['invitee_registered']['value'] = $this->data['User']['email_invitee_registered'];
+            $user['Setting']['user']['email']['new_message']['value'] = $this->data['User']['email_new_message'];
+            $user['Setting']['user']['email']['subscription']['value'] = $this->data['User']['email_subscription'];
+
+            $this->Settings->save($user['Setting'], $user['User']['id']);
+
+            $this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
 		}
 
-		$this->User->contain();
-		$user= $this->getUserForSidebar();
+		if(empty($this->data)) {
+            $this->data['User']['allow_messages']               = $user['Setting']['user']['default']['allow_messages']['value'];
+            $this->data['User']['allow_comments']               = $user['Setting']['user']['default']['allow_comments']['value'];
+            $this->data['User']['email_new_comment']            = $user['Setting']['user']['email']['new_comment']['value'];
+            $this->data['User']['email_invitee_registered']     = $user['Setting']['user']['email']['invitee_registered']['value'];
+            $this->data['User']['email_new_message']            = $user['Setting']['user']['email']['new_message']['value'];
+            $this->data['User']['email_subscription']           = $user['Setting']['user']['email']['subscription']['value'];
+        }
+
 		$this->set('user', $user);
         $this->set('hash', $this->Upload->getHash());
 	}
@@ -1231,12 +1243,18 @@ class UsersController extends AppController {
 		$user = array();
         if($username == null){
 		//reading logged in user from session
-			$user['User'] = $this->Session->read('Auth.User');
+			$user = $this->Session->read('Auth');
+            if(!isset($user['Setting'])){
+                $settings = $this->User->getSettings($this->Session->read('Auth.User.id'));
+                $this->Session->write('Auth.Setting', $settings);
+                $user['Setting'] = $settings;
+            }
+
 		} else {
 		//reading user
-            $user = $this->User->find('first',array('conditions' => array('LOWER(User.username)' => strtolower($username))));
-			//$user = $this->User->read(array('id','url', 'enabled','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $user_id);
+            $user = $this->User->getUserForSidebar(strtolower($username));
 		}
+        
         return $user;
 	}
 
@@ -1252,45 +1270,64 @@ class UsersController extends AppController {
     protected function _sendPasswordEmail($user_id, $password) {
         $this->User->contain();
         $user = $this->User->read(null, $user_id);
+        $userSettings = $this->User->getSettings($user_id);
+
+
+        $tempLocale = $this->Session->read('Config.language');
+
+        $this->Session->write('Config.language', $userSettings['user']['default']['locale']['value']);
 
       $this->set('recipient', $user);
       $this->set('password', $password);
       $this->_sendMail($user['User']['email'], __('Password change request', true),'forgot_password');
-      $this->Session->setFlash('A new password has been sent to your supplied email address.');
+      $this->Session->write('Config.language', $tempLocale);
+
+      $this->Session->setFlash(__('A new password has been sent to your supplied email address.',true));
     }
 
     /**
      * send an email to a user that got subscribed by another user.
      */
     protected function _sendSubscriptionEmail($user_id, $topic_id, $paper_id, $category_id) {
-        $user = array();
-        $topic = null;
-        $paper = array();
-        $category = null;
+        $userSettings = $this->User->getSettings($user_id);
 
-        $this->Paper->contain('Route', 'User.id','User.name', 'User.username');
-        $paper = $this->Paper->read(array('id', 'title', 'owner_id'), $paper_id);
-        //send only an email if the user did not subscribe himself
-        if($paper['Paper']['owner_id'] != $user_id){
-            $this->User->contain();
-            $user = $this->User->read(array('id', 'username', 'name', 'email'), $user_id);
+        if($userSettings['user']['email']['subscription']['value'] == true){
 
-            if($topic_id != null){
-                $this->Topic->contain();
-                $topic = $this->Topic->read(array('id', 'name'), $topic_id);
+
+
+             $tempLocale = $this->Session->read('Config.language');
+
+            $this->Session->write('Config.language', $userSettings['user']['default']['locale']['value']);
+            $user = array();
+            $topic = null;
+            $paper = array();
+            $category = null;
+
+            $this->Paper->contain('Route', 'User.id','User.name', 'User.username');
+            $paper = $this->Paper->read(array('id', 'title', 'owner_id'), $paper_id);
+            //send only an email if the user did not subscribe himself
+            if($paper['Paper']['owner_id'] != $user_id){
+                $this->User->contain();
+                $user = $this->User->read(array('id', 'username', 'name', 'email'), $user_id);
+
+                if($topic_id != null){
+                    $this->Topic->contain();
+                    $topic = $this->Topic->read(array('id', 'name'), $topic_id);
+                }
+                if($category_id != null){
+                    $this->Category->contain();
+                    $category = $this->Category->read(array('id', 'name'), $category_id);
+                }
+
+
+                $this->set('recipient', $user);
+                $this->set('paper', $paper);
+                $this->set('category', $category);
+                $this->set('topic', $topic);
+
+                $this->_sendMail($user['User']['email'], __('You have been subscribed', true),'subscription');
+                $this->Session->write('Config.language', $tempLocale);
             }
-            if($category_id != null){
-                $this->Category->contain();
-                $category = $this->Category->read(array('id', 'name'), $category_id);
-            }
-
-            
-            $this->set('recipient', $user);
-            $this->set('paper', $paper);
-            $this->set('category', $category);
-            $this->set('topic', $topic);
-
-            $this->_sendMail($user['User']['email'], __('You have been subscribed', true),'subscription');
         }
     }
 
@@ -1336,15 +1373,25 @@ class UsersController extends AppController {
 
     protected function _sendMailForInviteeRegistration($invitation, $invitee_id){
         $this->User->contain();
-        $invitee = $this->User->read(null, $invitee_id);
-        $this->User->contain();
-        $recipient = $this->User->read(null, $invitation['Invitation']['user_id']);
-        //setting params for template
-        $this->set('invitee', $invitee );
-        $this->set('recipient', $recipient);
 
-        //send mail
-        $this->_sendMail($recipient['User']['email'], __('An Invitee has just registered',true), 'invitee_registered');
+        $invitee = $this->User->read(null, $invitee_id);
+        $userSettings = $this->User->getSettings($invitee_id);
+
+        if($userSettings['user']['email']['invitee_registered']['value'] == true){
+             $tempLocale = $this->Session->read('Config.language');
+
+             $this->Session->write('Config.language', $userSettings['user']['default']['locale']['value']);
+            $this->User->contain();
+            $recipient = $this->User->read(null, $invitation['Invitation']['user_id']);
+            //setting params for template
+            $this->set('invitee', $invitee );
+            $this->set('recipient', $recipient);
+
+            //send mail
+            $this->_sendMail($recipient['User']['email'], __('An Invitee has just registered',true), 'invitee_registered');
+
+            $this->Session->write('Config.language', $tempLocale);
+        }
     }
 
 	function admin_index() {

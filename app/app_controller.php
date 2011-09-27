@@ -56,6 +56,13 @@ class AppController extends Controller {
 
 	public function beforeFilter(){
 
+        //getting settings of logged in user if not already in session
+        if($this->Session->read('Auth.User.id') && !$this->Session->read('Auth.Setting')){
+            App::import('model', 'User');
+            $user = new User();
+            $this->Session->write('Auth.Setting', $user->getSettings($this->Session->read('Auth.User.id')));
+        }
+
 
         $this->_setLanguage();
 
@@ -102,9 +109,7 @@ class AppController extends Controller {
 		//load unread-message-count for logged in users with enabled messaging
 		// called again in conversations/view action, cos the counter might have been updated (if a -new- conversations has been clicked)
 		if($this->Session->read('Auth.User.id')){
-			if($this->Session->read('Auth.User.allow_messages')){
 				$this->setConversationCount();
-			}
 		}
 
         //change layout if admin
@@ -417,7 +422,11 @@ class AppController extends Controller {
      * @return void
      */
     function _setLanguage() {
+        $this->log($this->Session->read('Auth'));
+        if($this->Session->read('Auth.Setting.user.default.locale.value')){
+            $this->Session->write('Config.language', $this->Session->read('Auth.Setting.user.default.locale.value'));
 
+        }
         if(!$this->Cookie->read('lang')){
             $this->Cookie->write('lang', Configure::read('Config.language'), false, '20 days');
         }
@@ -426,11 +435,12 @@ class AppController extends Controller {
             $this->Session->write('Config.language', $this->Cookie->read('lang'));
         }
         else if (isset($this->params['language']) && ($this->params['language']
-                 !=  $this->Session->read('Config.language'))) {
+                                                      !=  $this->Session->read('Config.language'))) {
 
             $this->Session->write('Config.language', $this->params['language']);
             $this->Cookie->write('lang', $this->params['language'], false, '20 days');
         }
+
     }
 
 	function beforeRender()

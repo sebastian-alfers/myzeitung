@@ -127,24 +127,32 @@ class CommentsController extends AppController {
         * send an email to the owner of a post
         */
     protected function _sendCommentEmail($comment) {
-      $owner = array();
-      $commentator = array();
-      $post = array();
+        $post = array();
 
-      $this->Post->contain('Route');
-      $post = $this->Post->read(array('id', 'title', 'user_id'), $comment['Comment']['post_id']);
-      $this->User->contain();
-      $owner = $this->User->read(array('id', 'username', 'name', 'email'), $post['Post']['user_id']);
-      $this->User->contain();
-      $commentator = $this->User->read(array('id', 'username', 'name'), $comment['Comment']['user_id']);
+        $this->Post->contain('Route');
+        $post = $this->Post->read(array('id', 'title', 'user_id'), $comment['Comment']['post_id']);
+        $userSettings = $this->User->getSettings($post['Post']['user_id']);
 
-      $this->set('recipient', $owner);
-      $this->set('commentator', $commentator);
-      $this->set('comment', $comment);
-      $this->set('post', $post);
+        if($userSettings['user']['email']['new_comment']['value'] == true){
+             $tempLocale = $this->Session->read('Config.language');
 
-      $this->_sendMail($owner['User']['email'], sprintf(__('%s wrote a new comment to your post: %s', true), $commentator['User']['username'], $post['Post']['title']),'new_comment');
+              $this->Session->write('Config.language', $userSettings['user']['default']['locale']['value']);
+                $owner = array();
+                $commentator = array();
+                $this->User->contain();
+              $owner = $this->User->read(array('id', 'username', 'name', 'email'), $post['Post']['user_id']);
+              $this->User->contain();
+              $commentator = $this->User->read(array('id', 'username', 'name'), $comment['Comment']['user_id']);
 
+              $this->set('recipient', $owner);
+              $this->set('commentator', $commentator);
+              $this->set('comment', $comment);
+              $this->set('post', $post);
+
+              $this->_sendMail($owner['User']['email'], sprintf(__('%s wrote a new comment to your post: %s', true), $commentator['User']['username'], $post['Post']['title']),'new_comment');
+
+                  $this->Session->write('Config.language', $tempLocale);
+          }
 
      }
     function admin_index() {
