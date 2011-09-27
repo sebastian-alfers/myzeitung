@@ -125,8 +125,8 @@ if(substr($post['Post']['content'],0,2) == "<p"){
             <?php endif;?>
 
 			</div><!-- /. articleview -->
-			
-			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['User']['allow_comments'] == true)):?>
+
+			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['Setting']['user']['default']['allow_comments'] == true)):?>
 			<div class="comments" style="clear:both">
 				<?php // Comment Input Box?>
 				<?php if($session->read('Auth.User.id')):?>

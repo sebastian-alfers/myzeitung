@@ -21,8 +21,9 @@ class ConversationsController extends AppController {
 				$recipient_id = $this->data['Conversation']['recipients'];
 			}
 			$this->User->contain();
-			$recipient = $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipient_id);
-			if($recipient['User']['allow_messages'] == false){
+			$recipient = $this->User->read(array('id', 'username', 'name'), $recipient_id);
+            $recipient['Setting'] = $this->User->getSettings($recipient['User']['id']);
+			if($recipient['Setting']['user']['default']['allow_messages'] == false){
 				$this->Session->setFlash(__('This user does not acceppt messages.', true));
 				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
 			}
@@ -44,6 +45,8 @@ class ConversationsController extends AppController {
 				//saving the (first) message of the conversation
 				if ($this->ConversationMessage->save($messageData)) {
 					//saving all recipients + the sender as conversationusers
+
+
 					foreach($recipients as $recipient){
 						$this->ConversationUser->create();
 						$userData['ConversationUser']['conversation_id'] = $this->Conversation->id;
@@ -59,6 +62,7 @@ class ConversationsController extends AppController {
 						$userData['ConversationUser']['last_viewed_message'] = $this->ConversationMessage->id;		
 						$this->ConversationUser->save($userData);	
 					}
+
 					//updating the last message id of the new conversation
 					$this->Conversation->save(array('id' => $this->Conversation->id, 'last_message_id' => $this->ConversationMessage->id));
 					$this->Session->setFlash(__('The Message has been sent', true), 'default', array('class' => 'success'));
@@ -74,7 +78,7 @@ class ConversationsController extends AppController {
 		}
 		
 		
-		$this->set('recipient', $this->User->read(array('id', 'username', 'name', 'allow_messages'), $recipient_id));
+		$this->set('recipient', $this->User->read(array('id', 'username', 'name'), $recipient_id));
 		$this->set('user_id', $this->Auth->user('id'));	
 	}
 	
@@ -257,7 +261,8 @@ class ConversationsController extends AppController {
 			$user['User'] = $this->Session->read('Auth.User');
 		} else {
 		//reading user
-			$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $user_id);
+			$user = $this->User->read(array('id','name','username','created','image' , 'description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $user_id);
+            $user['Setting'] = $this->User->getSettings($user['User']['id']);
 		}
 
 		return $user;
@@ -268,30 +273,42 @@ class ConversationsController extends AppController {
        * send an email to a user that got subscribed by another user.
        */
       protected function _sendNewMessageEmail($recipient_id, $sender_id ,$conversation_id) {
-          $recipient = array();
-          $sender = array();
-          $conversation = array();
 
-          $this->User->contain();
-          $recipient = $this->User->read(array('id', 'username', 'name', 'email'), $recipient_id);
-          $this->User->contain();
-          $sender = $this->User->read(array('id', 'username', 'name'), $sender_id);
-          $this->Conversation->contain(array('ConversationMessage' =>
-                                        array('order' => 'ConversationMessage.id desc',
-                                               'limit' => 6,
-                                            'User' => array('fields' => array('id', 'name', 'username', 'image')))));
-
-          $conversation = $this->Conversation->read(null, $conversation_id);
-
-        
-
+          $userSettings = $this->User->getSettings($recipient_id);
+         // $this->log($userSettings);
           
-          $this->set('sender', $sender);
-          $this->set('recipient', $recipient);
-          $this->set('conversation', $conversation);
+          if($userSettings['user']['email']['new_message']['value'] == true){
+              $tempLocale = $this->Session->read('Config.language');
 
-          $this->_sendMail($recipient['User']['email'], __('New Message from', true).' '.$sender['User']['username'].' in Conversation '.$conversation['Conversation']['title'],'new_message');
+              $this->Session->write('Config.language', $userSettings['user']['default']['locale']['value']);
 
+              $recipient = array();
+              $sender = array();
+              $conversation = array();
+
+              $this->User->contain();
+              $recipient = $this->User->read(array('id', 'username', 'name', 'email'), $recipient_id);
+              $this->User->contain();
+              $sender = $this->User->read(array('id', 'username', 'name'), $sender_id);
+              $this->Conversation->contain(array('ConversationMessage' =>
+                                            array('order' => 'ConversationMessage.id desc',
+                                                  'limit' => 6,
+                                                  'User' => array('fields' => array('id', 'name', 'username', 'image')))));
+
+              $conversation = $this->Conversation->read(null, $conversation_id);
+
+
+
+
+              $this->set('sender', $sender);
+              $this->set('recipient', $recipient);
+              $this->set('conversation', $conversation);
+
+              $this->_sendMail($recipient['User']['email'], __('New Message from', true).' '.$sender['User']['username'].' in Conversation '.$conversation['Conversation']['title'],'new_message');
+
+              $this->Session->write('Config.language', $tempLocale);
+
+          }
 
       }
 

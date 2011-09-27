@@ -185,7 +185,9 @@ class PostsController extends AppController {
 
 
 		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$user = $this->User->read(array('id','name','username','created','image' , 'allow_messages', 'allow_comments','description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
+        $user = $this->User->getUserForSidebar($post['Post']['user_id']);
+
+		//$user = $this->User->read(array('id','name','username','created','image' ,'description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
 		//$this->log('vor dem set');die();
         $this->set('post', $post);
 		$this->set('user', $user);

@@ -569,11 +569,11 @@ class PapersController extends AppController {
 
 
 		}
-        $this->log('no data');
+
 		//unbinding irrelevant relations for the query
-		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
-		$papers = $this->paginate($this->User->Paper);
+		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count');
+		$this->set('user', $this->User->getUserForSidebar($this->Session->read('Auth.User.id')));
+		//$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
         $this->set('edit', false);
 		$this->render('add_edit');
@@ -611,9 +611,9 @@ class PapersController extends AppController {
             $this->redirect($this->referer());
         }
 
-		//unbinding irrelevant relations for the query
-		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
-		$this->set('user', $this->User->read(array('id','name','username','created','image' ,'repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count', 'allow_messages'), $this->Session->read('Auth.User.id')));
+        //unbinding irrelevant relations for the query
+		$this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count');
+		$this->set('user', $this->User->getUserForSidebar($this->Session->read('Auth.User.id')));
 		//$papers = $this->paginate($this->User->Paper);
 		//same template for add and edit
 

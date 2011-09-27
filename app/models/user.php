@@ -99,7 +99,7 @@ class User extends AppModel {
 		'className' => 'Setting',
 		'foreignKey' => 'model_id',
 		'dependent' => true,
-		'conditions' => "Setting.model_type = 'User'",
+		'conditions' => "Setting.model_type = 'user'",
 		'fields' => 'Setting.namespace, Setting.key, Setting.value',
 		'order' => '',
 		'limit' => '',
@@ -718,6 +718,42 @@ class User extends AppModel {
         return true;
     }
 
+
+
+    function getSettings($id = null){
+        if($id == null){
+            $id = $this->id;
+        }
+        if($id == null){
+            return false;
+        }
+        App::import('model','Setting');
+        $this->Setting = new Setting();
+        
+        return $this->Setting->get('user', $id,null,null);
+
+     
+    }
+
+    function getUserForSidebar($user_id){
+        $user = array();
+        if(is_numeric($user_id)){
+            // param is user id
+            $user = $this->read(null, $user_id);
+        }else{
+            //param is username
+            $user = $this->find('first',array('conditions' => array('LOWER(User.username)' => strtolower($user_id))));
+        }
+       //user found
+        //read settings
+        if(isset($user['User']['id'])){
+
+            $user['Setting'] = $this->getSettings($user['User']['id']);
+
+        }
+
+        return $user;
+    }
 
 }
 ?>
