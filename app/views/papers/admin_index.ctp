@@ -36,6 +36,8 @@
 		<td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['modified']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), $paper['Route'][0]['source'], array('target' => 'blank')); ?>
+            <?php $label = $paper['Paper']['visible']? 'Hide': 'Show'; ?>
+            <?php echo $this->Html->link(__($label, true), array('action' => 'toggleVisible', $paper['Paper']['id'])); ?>
             <?php if($is_superadmin): ?>
                 <?php if($paper['Paper']['enabled']):?>
 			        <?php echo $this->Html->link(__('Disable', true), array('action' => 'disable', $paper['Paper']['id']),null, sprintf(__('Are you sure you want to disable this paper?: %s', true), $paper['Paper']['title'])); ?>

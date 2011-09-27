@@ -9,25 +9,67 @@ $(document).ready(function() {
     });
 
     $('#add_category').bind('click', function(){
-        $( "#dialog-category" ).dialog('open');
+        $( "#dialog-category-add" ).dialog('open');
     });
 
     $('.edit-icon').bind('click', function(){
-        $( "#dialog-category" ).dialog('open');
-        $('#category').val($(this).parent().find('a').html());
-        $('#CategoryId').val($(this).attr('category-id'));
 
+        var category_id = $(this).attr('category-id');
+
+        $( "#dialog-category-edit" ).dialog('open');
+        if($(this).parent().find('a').length){
+            $('.categoryvalue').val($(this).parent().find('a').html());
+        }
+        else{
+            $('.categoryvalue').val($(this).parent().find('i').html());
+        }
+        $('.CategoryId').val(category_id);
+
+        $('.deletebox').live('click', function(event){
+
+            event.preventDefault();
+            //load conform and review dialog
+            var req = $.post(base_url + '/categories/delete/'+category_id+'.json')
+               .success(function( response ){
+                   console.log(response);
+
+                   if(response.status == 'failure'){
+                       $( "#dialog-category-edit" ).dialog('close');
+                   }
+                   else if(response.status == 'success'){
+                       //save old view
+                       $('#dialog-category-edit').html(response.view);
+                   }
+               })
+               .error(function(){
+
+            });
+            //goTo(base_url+'/topics/delete/'+topic_id);
+        });
     });
 
 
 
-    $( "#dialog-category" ).dialog({
+
+    $( "#dialog-category-add" ).dialog({
 			resizable: false,
 			height:240,
 			width:400,
 			draggable:false,
 			modal: true,
 			autoOpen: false
+	});
+    $( "#dialog-category-edit" ).dialog({
+			resizable: false,
+			height:240,
+			width:400,
+			draggable:false,
+			modal: true,
+			autoOpen: false,
+            beforeClose: function(event, ui) {
+                //reload if associations have been deleted
+                window.location.reload();
+            }
 	});
 
 

@@ -25,7 +25,7 @@ class HomeController extends AppController {
 		
 		//loading papers
 		$this->Paper->contain('Route');
-		$paper_options = array('conditions' => array('Paper.enabled' => true), 'limit' => 9, 'order' => array('created DESC'), 'fields' => array('id', 'image', 'title', 'description'));
+		$paper_options = array('conditions' => array('Paper.enabled' => true, 'Paper.visible' => true), 'limit' => 9, 'order' => array('created DESC'), 'fields' => array('id', 'image', 'title', 'description'));
 		$this->set('papers', $this->Paper->find('all', $paper_options));
 		//loading users
 		$this->User->contain();

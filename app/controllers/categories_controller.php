@@ -4,7 +4,7 @@ class CategoriesController extends AppController {
 
 	var $name = 'Categories';
 	
-	var $uses = array('Paper', 'Category', 'ContentPaper');
+	var $uses = array('Paper', 'Category', 'ContentPaper', 'JsonResponse');
 	var $helpers = array('MzTime', 'Image', 'Html', 'Javascript', 'Ajax');
     var $components = array('Upload');
 
@@ -149,16 +149,62 @@ class CategoriesController extends AppController {
 	}
 
 	function delete($id = null) {
+
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for category', true));
-			$this->redirect($this->referer());
+            if(isset($this->data['Category']['id']) && !empty($this->data['Category']['id'])){
+                $id = $this->data['Category']['id'];
+            }
+            else{
+                $this->Session->setFlash(__('Invalid Category-id', true));
+                $this->redirect($this->referer());
+            }
 		}
+        $this->Category->contain(array('ContentPaper', 'Paper.owner_id'));
+        $category =  $this->Category->read(null, $id);
+
+
+        if($category['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
+            //permission ok
+
+
+
+            //check, if user really wants to delte
+            if(empty($this->data)){
+                //read, how often a user is subscribe with all of his posts
+                //$this->Category->contain('ContentPaper');
+               // $count = $this->ContentPaper->find('count',array('conditions' => array('ContentPaper.enabled' => true, 'ContentPaper.user_id' => $topic['Topic']['user_id']),'fields' => 'distinct ContentPaper.paper_id'));
+
+                //show comprehension and confirm page
+                $resp = array('Category' => $category['Category']);
+                $this->log($resp);
+                $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($resp));
+            }
+            else{
+                // second param = cascade -> delete associated records from hasmany , hasone relations
+                if ($this->Category->delete($id, true)) {
+
+                    $this->Session->setFlash(__('Category deleted', true), 'default', array('class' => 'success'));
+                    $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+                }
+
+                $this->Session->setFlash(__('Category was not deleted', true));
+            }
+
+            //$this->redirect($this->referer());
+        } else {
+            $this->Session->setFlash(__('No permission', true));
+            $this->redirect($this->referer());
+        }
+        $this->render('delete');
+        /*
+
 		if ($this->Category->delete($id, true)) {
 			$this->Session->setFlash(__('Category deleted', true), 'default', array('class' => 'success'));
 			$this->redirect($this->referer());
 		}
 		$this->Session->setFlash(__('Category was not deleted', true));
 		$this->redirect($this->referer());
+        **/
 	}
 }
 ?>

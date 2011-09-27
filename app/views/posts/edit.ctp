@@ -8,6 +8,7 @@
 		echo $this->Form->input('topic_id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('content');
+        echo $this->Form->input('visible');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

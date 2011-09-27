@@ -62,11 +62,15 @@ task :create_symlinks, :roles => :target do
     run "mkdir #{current_release}/app/tmp/cache/"
     run "mkdir #{current_release}/app/tmp/cache/persistent/"
     run "mkdir #{current_release}/app/tmp/cache/models/"
-    # set owner for cache
+    ## set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
     #copy htaccess
     run "cp /home/ubuntu/.htpasswd #{current_release}/.htpasswd && cp /home/ubuntu/.htaccess #{current_release}/.htaccess"
+
+    # remove js / css cache
+    #run "sudo rm /mnt/mzimg/*.js"
+    #run "sudo rm /mnt/mzimg/*.css"
 
     # since cake console needs cache we create folders
     #run  tmp/cache/
