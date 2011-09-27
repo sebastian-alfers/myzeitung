@@ -32,7 +32,7 @@ class PapersController extends AppController {
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
 			             'contain' => array('Route','User.id', 'User.image', 'User.username', 'User.name'),
-                          'conditions' => array('Paper.enabled' => true),
+                          'conditions' => array('Paper.enabled' => true, 'Paper.visible' => true),
 		)
 		);
 
@@ -844,6 +844,30 @@ class PapersController extends AppController {
             $this->redirect($this->referer());
 
         }
+    }
+
+
+    function admin_toggleVisible($id = null){
+		if (!$id) {
+			$this->Session->setFlash(__('Invalid id for paper', true));
+			$this->redirect($this->referer());
+		}
+        $this->Paper->contain();
+        $paper = $this->Paper->read('visible', $id);
+
+        $paper['Paper']['visible'] = !((boolean)$paper['Paper']['visible']);
+
+        if($this->Paper->save($paper)){
+            $this->Session->setFlash(__('Paper saved', true), 'default', array('class' => 'success'));
+            $this->redirect($this->referer());
+        }
+        else{
+            $this->Session->setFlash(__('Could not save paper, please try again.', true));
+            $this->redirect($this->referer());
+        }
+
+        // second param = cascade -> delete associated records from hasmany , hasone relations
+
     }
 
 }
