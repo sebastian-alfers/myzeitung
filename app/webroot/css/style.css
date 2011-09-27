@@ -3167,7 +3167,7 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
 }
 
 .modal-content .choose-text span.icon{
-    background: url(/img/assets/maintile.png) -160px -115px no-repeat transparent;
+    background: url(/img/assets/maintile.png) -60px -86px no-repeat transparent;
     height:20px;
     width:20px;
     text-indent: -99999px;

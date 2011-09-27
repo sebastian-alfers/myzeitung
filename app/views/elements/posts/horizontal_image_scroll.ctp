@@ -5,7 +5,7 @@ if(!isset($images)) {
 	return;
 }
 
-
+debug($images);
 
 $is_scroling = count($images) > 1;//now, we scroll only two images
 ?>

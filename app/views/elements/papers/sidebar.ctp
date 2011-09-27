@@ -3,7 +3,9 @@
 <?php
 
 if($paper_belongs_to_user){
-    echo $this->element('categories/modal_add_edit', array('paper_id' => $paper['Paper']['id']));
+    echo $this->element('categories/modal_edit', array('paper_id' => $paper['Paper']['id']));
+    echo $this->element('categories/modal_add', array('paper_id' => $paper['Paper']['id']));
+
     echo $html->script('global/upload');
     echo $this->element('global/modal_upload',
                          array('title'  => 'upload paper picture',
