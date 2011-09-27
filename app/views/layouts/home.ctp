@@ -16,6 +16,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
 ?>
 <?php echo $this->Html->docType('xhtml-trans'); ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -29,10 +30,12 @@
 	<?php // all scripts and css declarations must be added to the following element?>
 	<?php echo $this->element('scripts_css'); ?>
     <?php echo $this->element('tracking/google_analytics/track'); ?>
+
+
 	
 </head>
 	<body>
-			
+            <?php echo $this->element('global/mzslides/main'); ?>
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $content_for_layout; ?>
