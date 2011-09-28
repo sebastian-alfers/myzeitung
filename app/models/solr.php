@@ -21,7 +21,7 @@ class Solr extends AppModel {
 	const SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST = 'search_field_auto_suggest';
 
 	var $_host = '';
-	var $_port = 8080; //default port # -alf 8080  -tim 8983
+	var $_port = 8983; //default port # -alf 8080  -tim 8983
 	var $_path = '/solr';
 
 

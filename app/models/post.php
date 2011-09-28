@@ -646,20 +646,54 @@ class Post extends AppModel {
 
 
     }
-    function addToOrUpdateSolr(){
-            $this->Solr->add(array($this->generateSolrData()));
+
+     /**
+     * add or update solr records. if no param is given, it takes this->id.
+     * param can be single id or array with ids
+     * @param null $posts
+     * @return bool
+     */
+    function addToOrUpdateSolr($posts = null){
+        //no param and not id
+        if($posts == null && $this->id == null){
+            return false;
+        }
+        //param is single id -> form array
+        if($posts != null && !is_array($posts)){
+            $posts = array($posts);
+        }
+        //no param but id -> form array
+        if($posts == null){
+            $posts = array($this->id);
+        }
+
+        $solrRecords = array();
+        foreach($posts as $post_id){
+            $this->id = $post_id;
+            $solrRecords[] = $this->generateSolrData();
+        }
+
+        if($this->Solr->add($solrRecords)){
+            return true;
+        }
+        return false;
+
     }
+
+
+
+
 
 
 
 
     function generateSolrData(){
 
-        if(!isset($this->data['Post']) || !isset($this->data['Route']) || !isset($this->data['User'])){
+    //    if(!isset($this->data['Post']) || !isset($this->data['Route']) || !isset($this->data['User'])){
             $this->contain('Route', 'User');
             $this->data = $this->read(null, $this->id);
 
-        }
+    //    }
 
         $solrFields = array();
         $solrFields['id'] = $this->data['Post']['id'];
