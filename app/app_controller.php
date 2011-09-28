@@ -53,8 +53,15 @@ class AppController extends Controller {
     const ROLE_ADMIN = 2; //normal, logged in user
     const ROLE_SUPERADMIN = 3; //
 
+    var $_open_graph_data = array();
 
 	public function beforeFilter(){
+        $this->_open_graph_data = array('title'    => 'myZeitung',
+                             'type'     => 'website',
+                             'url'      => Router::url($this->here, true),
+                             'image'    => '',
+                             'site_name'=> 'myZeitung',
+                             'admins'   => 123123231);
 
         //getting settings of logged in user if not already in session
         if($this->Session->read('Auth.User.id') && !$this->Session->read('Auth.Setting')){
@@ -171,6 +178,7 @@ class AppController extends Controller {
             'admin_view' => $this->admin,
             'admin_disable' => $this->admin,
             'admin_enable' => $this->admin,
+            'admin_toggleVisible' => $this->admin,
             'deleteProfilePicture' => $this->user,
             'feed' => $this->user,
 			),
@@ -446,6 +454,8 @@ class AppController extends Controller {
 
 	function beforeRender()
     {
+        $this->set('open_graph', $this->_open_graph_data);
+
         //publis body class
         $this->set('body_class', $this->Cookie->read('lang'));
 

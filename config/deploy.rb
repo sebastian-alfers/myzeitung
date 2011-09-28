@@ -50,13 +50,6 @@ task :create_symlinks, :roles => :target do
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/csscache"
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/jscache"
 
-    # create folder for js and css cache
-    #run "mkdir #{current_release}/app/webroot/csscache/"
-    #run "mkdir #{current_release}/app/webroot/jscache/"
-    # permission for js and css cache
-    #run "sudo chown www-data:www-data #{current_release}/app/webroot/csscache/"
-    #run "sudo chown www-data:www-data #{current_release}/app/webroot/jscache/"
-
     # create tmp/cache folders
     run "mkdir #{current_release}/app/tmp/"
     run "mkdir #{current_release}/app/tmp/cache/"
@@ -68,9 +61,6 @@ task :create_symlinks, :roles => :target do
     #copy htaccess
     run "cp /home/ubuntu/.htpasswd #{current_release}/.htpasswd && cp /home/ubuntu/.htaccess #{current_release}/.htaccess"
 
-    # remove js / css cache
-    #run "sudo rm /mnt/mzimg/*.js"
-    #run "sudo rm /mnt/mzimg/*.css"
 
     # since cake console needs cache we create folders
     #run  tmp/cache/
@@ -87,9 +77,23 @@ end
 
 
 
-
 task :dbinstall, :via=> :scp, :recursive => true, :roles => :target do
     run "sudo /var/www/myzeitung/current/cake/console/cake -app /var/www/myzeitung/current/app/ dbinstall"
+end
+
+task :deletecache, :via=> :scp, :recursive => true, :roles => :target do
+
+    # remove js / css cache
+    run "sudo rm /mnt/mzimg/*.js"
+    run "sudo rm /mnt/mzimg/*.css"
+
+    # create folder for js and css cache
+    #run "mkdir #{current_release}/app/webroot/csscache/"
+    #run "mkdir #{current_release}/app/webroot/jscache/"
+
+    # permission for js and css cache
+    #run "sudo chown www-data:www-data #{current_release}/app/webroot/csscache/"
+    #run "sudo chown www-data:www-data #{current_release}/app/webroot/jscache/"
 end
 
 

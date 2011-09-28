@@ -1095,19 +1095,19 @@ font-size: 13px;
 
 
 .articleview .first-paragraph p:first-letter{
-    font-size: 50px;
+    font-size: 56px;
     font-family: "georiga","Times", serif;
     font-weight: 100px;
     display: block;
     float: left;
-    height: 38px;
+    /*height: 78px;*/
     margin-right: 7px;
-    line-height: 35px;
+    line-height: 33px;
     color: #a1a1a1;
     text-transform: uppercase;
-    padding-top: 8px;
+    padding-top: 7px;
     font-weight: 100;
-    height: 23px;
+    /*height: 43px;*/
 }
 
 /* Comments */
@@ -3547,4 +3547,8 @@ span.arrow-left-white{
 
 .mzslides{
     cursor: pointer;
+}
+
+#social ul li{
+    float:left;
 }

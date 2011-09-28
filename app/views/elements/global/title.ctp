@@ -71,6 +71,24 @@ if($this->params['controller'] == 'home'){
     }elseif($this->params['controller'] == 'conversations'){
         $title = __('Messages', true);
     }
+    elseif($this->params['controller'] == 'pages'){
+
+        switch($this->params['pass'][0]){
+            case "impressum":
+                $title = __('Imprint', true);
+            case "agb":
+                $title = __('Terms and Conditions', true);
+            case "dsr":
+                $title = __('Privacy Policy', true);
+            case "kontakt":
+                $title = __('Contact', true);
+            case "kontakt":
+                $title = __('Contact', true);
+
+        }
+
+    }
+
 
 
     if(!empty($title)){

@@ -31,6 +31,8 @@
 		<td><?php echo $this->MzTime->format('d.m.y',$user['User']['modified']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', 'username' => strtolower($user['User']['username']),'admin' => false),  array('target' => 'blank')); ?>
+            <?php $label = $user['User']['visible_home']? 'Hide (index)': 'Show (index)'; ?>
+            <?php echo $this->Html->link(__($label, true), array('action' => 'toggleVisible', 'home/'.$user['User']['id'])); ?>
             <?php if($is_superadmin): ?>
 			    <?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $user['User']['id'])); ?>
                 <?php if($user['User']['enabled']):?>

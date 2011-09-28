@@ -9,20 +9,37 @@ class UsersController extends AppController {
 	var $name = 'Users';
 
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet', 'MzSession');
-	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse', );
+	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','MzRss');
 
 
 	public function beforeFilter(){
-
-
+        //App::import('Helper', 'MzOpengraph');
+        //$og = new MzOpengraphHelper();
+        //$og->set('type', 'lala');
 
        // $this->set('settings', $this->MzSession->getUserSettings());
-
 		parent::beforeFilter();
 		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references', 'feed');
-
 	}
+
+    public function beforeRender(){
+        $this->_open_graph_data['type'] = 'blog';
+
+        $user = $this->getUserForSidebar();
+        if(!empty($user['User']['image'])){
+            $img = $user['User']['image'];
+            if(!is_array($user['User']['image'])){
+                $img = unserialize($user['User']['image']);
+            }
+            $this->_open_graph_data['image'] = $img[0]['path'];
+        }
+
+
+        //need to be called after setting open_graph
+        parent::beforeRender();
+    }
+
 
 
 	public function login(){
@@ -1503,6 +1520,35 @@ class UsersController extends AppController {
             $this->redirect($this->referer());
 
         }
+    }
+
+    function admin_toggleVisible($type, $id = null){
+
+		if (!$type || (!in_array($type, array('home', 'index'))) ||!$id) {
+			$this->Session->setFlash(__('Invalid id for user', true));
+			$this->redirect($this->referer());
+		}
+        $field = 'visible_home';
+        if($type == 'index'){
+            $field = 'visible_index';
+        }
+
+        $this->User->contain();
+        $user = $this->User->read(null, $id);
+
+        $this->User->set($field, !((boolean)$user['User'][$field]));
+
+        if($this->User->save()){
+            $this->Session->setFlash(__('User saved', true), 'default', array('class' => 'success'));
+            $this->redirect($this->referer());
+        }
+        else{
+            $this->Session->setFlash(__('Could not save user, please try again.', true));
+            $this->redirect($this->referer());
+        }
+
+        // second param = cascade -> delete associated records from hasmany , hasone relations
+
     }
 
 

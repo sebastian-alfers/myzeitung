@@ -29,6 +29,13 @@ class PostsController extends AppController {
 	}
 
 
+    public function beforeRender(){
+        $this->_open_graph_data['type'] = 'article';
+
+        //need to be called after setting open_graph
+        parent::beforeRender();
+    }
+
 
 	function index() {
 
@@ -126,6 +133,7 @@ class PostsController extends AppController {
      * @param $id
      */
     function view($id = null) {
+
         if (!$id) {
             $this->Session->setFlash(__('Invalid post', true));
             $this->redirect($this->referer());
@@ -193,6 +201,16 @@ class PostsController extends AppController {
 		$this->set('user', $user);
 		$this->set('comments',$comments);
         $this->set('canonical_for_layout', $post['Route'][0]['source']);
+
+        if(isset($post['Post']['image']) && !empty($post['Post']['image'])){
+            if(!is_array($post['Post']['image'])){
+                $img_data = unserialize($post['Post']['image']);
+
+                if(isset($img_data[0]) && !empty($img_data[0])){
+                    $this->_open_graph_data['image'] = $img_data[0]['path'];
+                }
+            }
+        }
 
 	}
 

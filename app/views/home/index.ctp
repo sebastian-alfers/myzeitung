@@ -95,6 +95,7 @@
 						<h3><?php echo __('Newest Articles',true);?></h3>
 							
 							<?php foreach($posts as $post):?>
+
 								<div class="article"> 
 									<?php // post headline
                                         $headline = substr($post['Post']['title'],0,50);
@@ -102,13 +103,13 @@
                                             $headline .='...';
                                         }
                                     ?>
-                                    <h5><?php echo $this->Html->link($headline, $post['Route'][0]['source']);?></h5>
+                                    <h5><?php echo $this->Html->link($headline, $post['Post']['Route'][0]['source']);?></h5>
 									<?php // user container?>
-									
+                                                                                                 <?php //debug($post); die(); ?>
                                      <?php echo $this->Html->link(
-                                            $image->render($post['User'], 26, 26, array( "alt" => $post['User']['username'], "class" => 'user-image'), array("tag" => "div"), ImageHelper::USER)
-                                            .'<span>'.$post['User']['username'].'<br />'.$post['User']['name'].'</span>',
-                                                array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username'])),
+                                            $image->render($post['Post']['User'], 26, 26, array( "alt" => $post['Post']['User']['username'], "class" => 'user-image'), array("tag" => "div"), ImageHelper::USER)
+                                            .'<span>'.$post['Post']['User']['username'].'<br />'.$post['Post']['User']['name'].'</span>',
+                                                array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['Post']['User']['username'])),
                                                 array('class' => "user",'escape' => false));?>
 
                                 

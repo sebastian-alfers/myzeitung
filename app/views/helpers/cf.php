@@ -82,6 +82,11 @@ class CfHelper extends AppHelper {
      }
  }
 
+ public function url($path, $options = array()){
+    $this->setAssetDir($this->imgDir);
+    return $this->Html->url($this->setAssetPath('/img/'.$path), $options);
+ }
+
  /**
  * Are we forcing the timestamp (based on core.php setting)?
  * (We really, really should)
