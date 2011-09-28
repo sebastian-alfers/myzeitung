@@ -789,7 +789,7 @@ class UsersController extends AppController {
 			$this->User->contain('Topic');
 			$users = $this->User->find('all', array('conditions' => array('User.id' => $user_id)));
 			foreach($users as $user){
-				$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = __('All topics', true);
+				$content_data['options'][ContentPaper::USER.ContentPaper::SEPERATOR.$user['User']['id']] = __('All articles', true);
 				$topics = $user['Topic'];
 				if(isset($topics) && count($topics >0)){
 					foreach($topics as $topic){

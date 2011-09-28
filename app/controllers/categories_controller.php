@@ -159,7 +159,7 @@ class CategoriesController extends AppController {
                 $this->redirect($this->referer());
             }
 		}
-        $this->Category->contain(array('ContentPaper', 'Paper.owner_id'));
+        $this->Category->contain(array('ContentPaper', 'Paper.owner_id', 'Paper.Route'));
         $category =  $this->Category->read(null, $id);
 
 
@@ -176,7 +176,7 @@ class CategoriesController extends AppController {
 
                 //show comprehension and confirm page
                 $resp = array('Category' => $category['Category']);
-                $this->log($resp);
+
                 $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($resp));
             }
             else{
@@ -184,7 +184,13 @@ class CategoriesController extends AppController {
                 if ($this->Category->delete($id, true)) {
 
                     $this->Session->setFlash(__('Category deleted', true), 'default', array('class' => 'success'));
-                    $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+
+                    if(isset($category['Paper']['Route'][0]['source']) && !empty($category['Paper']['Route'][0]['source'])){
+                        $this->redirect($category['Paper']['Route'][0]['source']);
+                    }
+                    else{
+                        $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
+                    }
                 }
 
                 $this->Session->setFlash(__('Category was not deleted', true));
