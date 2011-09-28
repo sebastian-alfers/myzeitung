@@ -93,7 +93,7 @@ $(document).ready(function() {
 		$( "#dialog-activity" ).dialog('open');
 		var url = $(this).attr('rel');
 
-
+        alert(url);
 		var req = $.post(base_url + "/"+ url)
    		.success(function( string ){
 	   		$('#content-activity').html(string);
