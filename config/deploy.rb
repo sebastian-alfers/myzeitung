@@ -81,6 +81,13 @@ task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
       upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
 end
 
+task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+end
+
+
+
+
 task :dbinstall, :via=> :scp, :recursive => true, :roles => :target do
     run "sudo /var/www/myzeitung/current/cake/console/cake -app /var/www/myzeitung/current/app/ dbinstall"
 end

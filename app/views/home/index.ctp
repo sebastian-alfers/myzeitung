@@ -131,7 +131,7 @@
 						
 						<h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</h3>
 						
-						<?php echo $this->Html->image('../img/assets/video.jpg');?>
+						<?php echo $this->Html->image('../img/assets/video.jpg', array('class' => 'mzslides'));?>
 						
 					
 					</div><!-- /.col3 -->

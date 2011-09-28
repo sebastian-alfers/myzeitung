@@ -857,7 +857,7 @@ class PapersController extends AppController {
 
         $this->Paper->set('visible', !((boolean)$paper['Paper']['visible']));
 
-        if($this->Paper->save($paper)){
+        if($this->Paper->save()){
             $this->Session->setFlash(__('Paper saved', true), 'default', array('class' => 'success'));
             $this->redirect($this->referer());
         }

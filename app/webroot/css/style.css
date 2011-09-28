@@ -3544,3 +3544,7 @@ span.arrow-left-white{
     width:18px;
     text-indent: -99999px;
 }
+
+.mzslides{
+    cursor: pointer;
+}
