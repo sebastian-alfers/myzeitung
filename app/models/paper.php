@@ -542,16 +542,36 @@ function __construct(){
             $this->log('Error while adding paper to solr! No paper id in afterSave()');
         }
     }
+    /**
+     * add or update solr records. if no param is given, it takes this->id.
+     * param can be single id or array with ids
+     * @param null $papers
+     * @return bool
+     */
+    function addToOrUpdateSolr($papers = null){
+        //no param and not id
+        if($papers == null && $this->id == null){
+            return false;
+        }
+        //param is single id -> form array
+        if($papers != null && !is_array($papers)){
+            $papers = array($papers);
+        }
+        //no param but id -> form array
+        if($papers == null){
+            $papers = array($this->id);
+        }
 
-    function addToOrUpdateSolr(){
-    //get User information
+        $solrRecords = array();
+        foreach($papers as $paper_id){
+            $this->id = $paper_id;
+            $solrRecords[] = $this->generateSolrData();
+        }
 
-
-    //	App::import('model','Subscription');
-
-
-        $this->Solr->add(array($this->generateSolrData()));
-
+        if($this->Solr->add($solrRecords)){
+            return true;
+        }
+        return false;
 
     }
 
@@ -873,10 +893,10 @@ function __construct(){
 
     function generateSolrData(){
 
-        if(!isset($this->data['User']) ||  !isset($this->data['Route']) || !isset($this->data['Paper'])){
+      //  if(!isset($this->data['User']) ||  !isset($this->data['Route']) || !isset($this->data['Paper'])){
             $this->contain('User', 'Route');
             $this->data = $this->read(null, $this->id);
-        }
+        // }
 
         $solrFields = array();
         $solrFields['id']					= $this->data['Paper']['id'];

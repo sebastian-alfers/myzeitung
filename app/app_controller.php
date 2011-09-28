@@ -423,7 +423,6 @@ class AppController extends Controller {
      * @return void
      */
     function _setLanguage() {
-        $this->log($this->Session->read('Auth'));
         if($this->Session->read('Auth.Setting.user.default.locale.value')){
             $this->Session->write('Config.language', $this->Session->read('Auth.Setting.user.default.locale.value'));
 
