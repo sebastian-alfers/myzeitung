@@ -202,7 +202,7 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-
+           
 
 			//save new sorted images
             $images = '';
