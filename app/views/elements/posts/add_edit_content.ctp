@@ -7,12 +7,12 @@
 <?php echo $this->element('posts/modal_add_url'); ?>
 <?php echo $this->element('posts/modal_add_video_url'); ?>
 
+<?php if($this->params['action'] == 'add'):?>
+<h2><?php echo __('New Article', true); ?></h2>
+<?php else:?>
+<h2><?php echo __('Edit Article', true); ?></h2>
+<?php endif;?>
 <div class="article-nav">
-    <?php if($this->params['action'] == 'add'):?>
-      <h1><?php echo __('New Article', true); ?></h1>
-    <?php else:?>
-       <h1><?php echo __('Edit Article', true); ?></h1>
-    <?php endif;?>
 
 
     <ul class="create-actions">

@@ -17,11 +17,24 @@ $(document).ready(function() {
         <?php else: ?>
             <h2 class="account-title"><?php echo __('Edit Paper', true);?></h2>
         <?php endif;?>
-			
+  <div class="article-nav">
+
+
+
+    <ul class="create-actions">
+        <?php if($this->params['action'] == 'edit'):?>
+        <li><?php echo $this->Html->link(__('Delete Paper', true), array('controller' => 'papers', 'action' => 'delete', $this->data['Paper']['id']) ,array('escape' => false, 'rel' => 'nofollow'), sprintf(__('Are you sure you want to delete your paper: %s?', true), $this->data['Paper']['title'])); ?></li>
+        <?php endif;?>
+        <?php // <li class="big-btn"><a href="create-article.html" class="btn"><span class="icon icon-circle"></span>Vorschau</a></li> */ ?>
+        <li> <a class="btn" id="link_save_changes"><span>+</span><?php echo __('Save paper', true);?></a></li>
+    </ul>
+</div>
+			    <p>
 				<?php echo $this->Form->create('Paper' , array( 'inputDefaults' => array('error' => false, 'div' => false)));?>
 				<?php echo $this->Form->hidden('id');?>
 				<?php echo $this->Form->hidden('owner_id'); ?>
                 <?php echo $this->Form->hidden('route_source'); ?>
+                    </p>
 				
 				<div><?php  echo $this->Form->input('title', array('maxlength' => 55 ,'type' => 'text', 'class' => 'textinput', 'label' => __('Title', true))); ?>
 				<?php if(!is_null($this->Form->error('Paper.title'))): ?>
@@ -52,11 +65,12 @@ $(document).ready(function() {
 			
 			
 				<div class="accept">	
-					<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save paper', true);?></a>
+				<?php /*	<a class="btn big" id="link_save_changes"><span>+</span><?php echo __('Save paper', true);?></a> */ ?>
 				</div>
 
 				<?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>
-
+     
+<?php /*
                 <?php if($edit): ?>
 
                 <hr />
@@ -65,7 +79,7 @@ $(document).ready(function() {
 				</div>
                 <?php endif; ?>
 
-		
+		        */ ?>
 	</div><!-- / #maincol -->
 
 </div><!-- / #maincolwrapper -->
