@@ -526,6 +526,7 @@ class User extends AppModel {
 
 
         //update his posts and papers in case he changed his profile picture and or real name (its shown in some cases for papers and posts)
+            //papers
         App::import('model','Paper');
         $this->Paper = new Paper();
         $this->Paper->contain();
@@ -534,9 +535,10 @@ class User extends AppModel {
         foreach($papers as $paper){
             $paperList[] = $paper['Paper']['id'];
         }
-        //$this->log($paperList);
+
         $this->Paper->Solr = new Solr();
         $this->Paper->addToOrUpdateSolr($paperList);
+            //posts
         App::import('model','Post');
         $this->Post = new Post();
         $this->Post->contain();
@@ -545,7 +547,7 @@ class User extends AppModel {
         foreach($posts as $post){
             $postList[] = $post['Post']['id'];
         }
-       // $this->log($postList);
+
         $this->Post->Solr = new Solr();
         $this->Post->addToOrUpdateSolr($postList);
 

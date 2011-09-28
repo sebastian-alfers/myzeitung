@@ -39,13 +39,24 @@ caption, th, td {
     text-align: left;
     font-weight: normal;
 }
-blockquote:before, blockquote:after,
+blockquote {
+  quotes: "\201C" "\201D";
+  font-style: italic;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 50px;
+  padding-left: 15px;
+  border-left: 3px solid #ccc;
+}
+
+
+/*blockquote:before, blockquote:after,
 q:before, q:after {
     content: "";
 }
 blockquote, q {
     quotes: "" "";
-}
+}*/
 
 
 /* basic styles */
