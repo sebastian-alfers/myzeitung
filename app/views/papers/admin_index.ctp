@@ -7,9 +7,6 @@
         <th><?php echo $this->Paginator->sort('User-ID' ,'owner_id');?></th>
         <th><?php echo $this->Paginator->sort('Username', 'User.username');?></th>
         <th><?php echo $this->Paginator->sort('title');?></th>
-        <th><?php echo $this->Paginator->sort('subscription_count');?></th>
-        <th><?php echo $this->Paginator->sort('subscriber_count');?></th>
-        <th><?php echo $this->Paginator->sort('post_count');?></th>
         <th><?php echo $this->Paginator->sort('created');?></th>
         <th><?php echo $this->Paginator->sort('modified');?></th>
         <th class="actions"><?php __('Actions');?></th>
@@ -29,18 +26,17 @@
         <td><?php echo $paper['Paper']['owner_id']; ?>&nbsp;</td>
         <td><?php echo $paper['User']['username']; ?>&nbsp;</td>
         <td><?php echo $this->MzText->truncate($paper['Paper']['title'], 40,array('ending' => '...', 'exact' => true, 'html' => false)); ?>&nbsp;</td>
-        <td><?php echo $this->MzNumber->format($paper['Paper']['subscription_count'],'.'); ?></td>
-        <td><?php echo $this->MzNumber->format($paper['Paper']['author_count'],'.'); ?></td>
-        <td><?php echo $this->MzNumber->format($paper['Paper']['post_count'],'.'); ?></td>
-		<td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['created']); ?>&nbsp;</td>
+        <td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['created']); ?>&nbsp;</td>
 		<td><?php echo $this->MzTime->format('d.m.y',$paper['Paper']['modified']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), $paper['Route'][0]['source'], array('target' => 'blank')); ?>
-            <?php $label = $paper['Paper']['visible']? 'Hide': 'Show'; ?>
-            <?php echo $this->Html->link(__($label, true), array('action' => 'toggleVisible', $paper['Paper']['id'])); ?>
+            <?php $label = $paper['Paper']['visible_home']? 'Hide (home)': 'Show  (home)'; ?>
+            <?php echo $this->Html->link(__($label, true), array('action' => 'toggleVisible', 'home/'.$paper['Paper']['id'])); ?>
+            <?php $label = $paper['Paper']['visible_index']? 'Hide (index)': 'Show (index)'; ?>
+            <?php echo $this->Html->link(__($label, true), array('action' => 'toggleVisible', 'index/'.$paper['Paper']['id'])); ?>
             <?php if($is_superadmin): ?>
                 <?php if($paper['Paper']['enabled']):?>
-			        <?php echo $this->Html->link(__('Disable', true), array('action' => 'disable', $paper['Paper']['id']),null, sprintf(__('Are you sure you want to disable this paper?: %s', true), $paper['Paper']['title'])); ?>
+			        <?php echo $this->Html->link(__('Disable', true), array('action' => 'disable', 'home/'.$paper['Paper']['id']),null, sprintf(__('Are you sure you want to disable this paper?: %s', true), $paper['Paper']['title'])); ?>
                 <?php else:?>
                     <?php echo $this->Html->link(__('Enable', true), array('action' => 'enable', $paper['Paper']['id']),null, sprintf(__('Are you sure you want to enable this paper?: %s', true), $paper['Paper']['title'])); ?>
                 <?php endif;?>

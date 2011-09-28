@@ -25,6 +25,9 @@
 	<title>
 	    <?php echo $this->element('global/title');?>
 	</title>
+
+    <?php echo $this->element('global/open_graph'); ?>
+
     <?php if(isset($canonical_for_layout)):?>
         <?php echo $this->Html->meta('canonical', $canonical_for_layout, array('rel'=>'canonical', 'type'=>null, 'title'=>null, 'inline' => false)); ?>
     <?php endif;?>
@@ -42,6 +45,7 @@
     <?php echo $this->element('tracking/google_analytics/track'); ?>
 </head>
 	<body class="<?php echo $body_class; ?>">
+
     <?php
     if($session->read('Auth.User.id')){
         echo $this->element('users/modal_subscribe');
@@ -64,5 +68,9 @@
 			</div><!-- / #content -->
 		</div> <!-- / #main-wapper -->
 		<?php echo $this->element('sql_dump'); ?>
+            <!-- Dieses Tag in den Head-Bereich oder direkt vor dem schließenden Body-Tag einfügen -->
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+          {lang: 'de'}
+        </script>
 	</body>
 </html>

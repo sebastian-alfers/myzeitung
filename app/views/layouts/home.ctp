@@ -27,12 +27,12 @@
 		<?php __('myZeitung'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
+    <?php echo $this->element('global/open_graph'); ?>
+
 	<?php // all scripts and css declarations must be added to the following element?>
 	<?php echo $this->element('scripts_css'); ?>
     <?php echo $this->element('tracking/google_analytics/track'); ?>
 
-
-	
 </head>
 	<body>
             <?php echo $this->element('global/mzslides/main'); ?>
@@ -46,5 +46,9 @@
 			</div><!-- / #content -->
 		</div> <!-- / #main-wapper -->
 		<?php echo $this->element('sql_dump'); ?>
+        <!-- Dieses Tag in den Head-Bereich oder direkt vor dem schließenden Body-Tag einfügen -->
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+      {lang: 'de'}
+    </script>
 	</body>
 </html>

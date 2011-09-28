@@ -20,6 +20,13 @@ class PapersController extends AppController {
 
 	}
 
+    public function beforeRender(){
+        $this->_open_graph_data['type'] = 'article';
+
+        //need to be called after setting open_graph
+        parent::beforeRender();
+    }
+
 	function index() {
 
 		$this->paginate = array(
@@ -32,7 +39,7 @@ class PapersController extends AppController {
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
 			             'contain' => array('Route','User.id', 'User.image', 'User.username', 'User.name'),
-                          'conditions' => array('Paper.enabled' => true, 'Paper.visible' => true),
+                          'conditions' => array('Paper.enabled' => true, 'Paper.visible_index' => true),
 		)
 		);
 
@@ -847,15 +854,21 @@ class PapersController extends AppController {
     }
 
 
-    function admin_toggleVisible($id = null){
-		if (!$id) {
+    function admin_toggleVisible($type, $id = null){
+
+		if (!$type || (!in_array($type, array('home', 'index'))) ||!$id) {
 			$this->Session->setFlash(__('Invalid id for paper', true));
 			$this->redirect($this->referer());
 		}
+        $field = 'visible_home';
+        if($type == 'index'){
+            $field = 'visible_index';
+        }
+
         $this->Paper->contain();
         $paper = $this->Paper->read(null, $id);
 
-        $this->Paper->set('visible', !((boolean)$paper['Paper']['visible']));
+        $this->Paper->set($field, !((boolean)$paper['Paper'][$field]));
 
         if($this->Paper->save()){
             $this->Session->setFlash(__('Paper saved', true), 'default', array('class' => 'success'));
