@@ -99,7 +99,7 @@ h2 {
 font-size: 23px;
 line-height: 28px;
 margin-bottom: 12px;
-margin-top: 26px;
+/*margin-top: 26px;*/
 }
 
 h3 {
@@ -1679,6 +1679,8 @@ span.icon{
 display: inline-block;
 width: 19px;
 height: 19px;
+vertical-align: top;
+padding: 0;
 }
 
 .account .validation-info, .account .advice , .account .error-message{
@@ -2373,6 +2375,7 @@ border-radius: 11px;
 padding: 20px;
 width: 693px;
 overflow: hidden;
+min-height: 50px;
 }
 
 .add-article-images li{
@@ -2394,7 +2397,7 @@ margin-right: 65px;
 }
 
 .create-article #maincol{
-padding-bottom: 50px;
+/*padding-bottom: 50px;*/
 }
 
 .account .pagination {
@@ -3054,7 +3057,7 @@ border:0;
 #main-teaser{
     position: relative;
     top: 22px;
-    left: -115px;
+    left: 33px;
     background: url(/img/assets/maintile.png) no-repeat scroll right -118px transparent;
     padding-right: 19px;
     z-index:1000;
@@ -3199,6 +3202,10 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     float: left;
 }
 
+.modal-content input{
+    width: 320px;
+}
+
 
 .piro_html {position:absolute; top:0; left:0; padding:0; width:500px; height: 500px; margin:0; display:block; padding:0; z-index:150001; padding:0;  }
 .piro_html table,.piro_html tbody,.piro_html tr,.piro_html th,.piro_html td{margin:0;padding:0;border:none;}
@@ -3276,6 +3283,7 @@ span.post.video-item{
 span.post-view.video-item{
     top:85px;
     left:105px;
+    cursor: pointer;
 }
 
 .popbox{
@@ -3567,4 +3575,5 @@ span.arrow-left-white{
 
 #social ul li{
     float:left;
+    list-style-type: none;
 }

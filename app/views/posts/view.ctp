@@ -1,11 +1,8 @@
 <?php $this->MzJavascript->link('post/view.js'); ?>
-<?php $this->MzJavascript->link('pirobox_extended_min.js'); ?>
+<?php $this->MzJavascript->link('pirobox_extended.js'); ?>
 
 
 <?php
-
-debug($session->read('Auth.User'));
-
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;

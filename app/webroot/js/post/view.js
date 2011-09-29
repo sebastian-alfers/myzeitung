@@ -83,6 +83,11 @@ $(document).ready(function() {
         $("#btn_comment_complain_"+id).toggle();
     });
 
+    //workarround to make the video-play-item open the popup
+    $('.main-article-imgs .video-item').live('click', function() {
+        $(this).parent().find('a').trigger('click');
+    });
+
 
 
 });

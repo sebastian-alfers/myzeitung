@@ -57,14 +57,14 @@
         </textarea>
     </div>
 
-</form>
 
 
 
-<div id="links-content">
+<?php $has_links = (isset($links) && !empty($links)); ?>
+<div id="links-content" <?php if(!$has_links) echo 'style="display:none;"'; ?>>
     <label><?php __('Links: '); ?></label>
     <ul class="themes add-article-images" id="links">
-        <?php if(isset($links) && !empty($links)): ?>
+        <?php if($has_links): ?>
             <?php foreach($links as $link): ?>
             <li id="<?php echo $link; ?>" class="link">
                 <a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a>
@@ -76,6 +76,7 @@
 </div>
 
 
+<div id="media-content"<?php if(!isset($images)) echo 'style="display:none;"'; ?>>
 <div id="files"></div>
     <label><?php __('Media (images and videos): '); ?></label>
 <span id="main-teaser"><?php __('Preview Picture'); ?></span>
@@ -105,6 +106,9 @@
 		<?php endforeach; ?>
 		<?php endif;?>
 </ul>
+</div><!-- end media content -->
+
+</form>
 
 </div>
 
