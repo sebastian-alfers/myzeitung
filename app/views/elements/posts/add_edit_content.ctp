@@ -60,19 +60,21 @@
 </form>
 
 
-<?php if(isset($links) && !empty($links)): ?>
+
 <div id="links-content">
-    <label><?php __('Media (images and videos): '); ?></label>
+    <label><?php __('Links: '); ?></label>
     <ul class="themes add-article-images" id="links">
-        <?php foreach($links as $link): ?>
-        <li id="<?php echo $link; ?>" class="link">
-            <a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a>
-            <span class="remove-icon" id="???"  style="visibility: hidden; "></span>
-        </li>
-        <?php endforeach; ?>
+        <?php if(isset($links) && !empty($links)): ?>
+            <?php foreach($links as $link): ?>
+            <li id="<?php echo $link; ?>" class="link">
+                <a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a>
+                <span class="link-delete-icon" style="visibility: hidden; "></span>
+            </li>
+            <?php endforeach; ?>
+        <?php endif;?>
     </ul>
 </div>
-<?php endif;?>
+
 
 <div id="files"></div>
     <label><?php __('Media (images and videos): '); ?></label>

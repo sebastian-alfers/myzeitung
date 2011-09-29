@@ -1041,6 +1041,10 @@ float: right;
 margin-top: 10px;
 }
 
+.articleview-wrapper #links li{
+    margin: 5px 0 0 15px;
+}
+
 .articleview{
 /*padding-bottom: 15px;*/
 margin-bottom: 20px;
@@ -2345,7 +2349,7 @@ color: #000;
 }
 
 ul.themes .link{
-color:#ff0000;
+color:black;
 }
 
 ul.themes a span.icon.icon-delete{
@@ -3243,7 +3247,7 @@ span.edit-icon{
     display: inline-block;
 }
 
-span.remove-icon{
+span.remove-icon, span.link-delete-icon{
     background: url(/img/assets/maintile.png) -82px -220px no-repeat transparent;
     height:20px;
     width:20px;

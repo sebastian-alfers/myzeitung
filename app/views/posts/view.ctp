@@ -3,6 +3,9 @@
 
 
 <?php
+
+debug($session->read('Auth.User'));
+
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;
@@ -113,10 +116,12 @@ if(substr($post['Post']['content'],0,2) == "<p"){
 
 
 			<?php echo $content_after_first_paragraph;?>
+
             <?php if(isset($post['Post']['links']) && !empty($post['Post']['links'])):?>
+                <div style="clear:both;"></div>
                 <?php $links = unserialize($post['Post']['links'])?>
                     <h6><?php echo __n('Reference', 'References', count($links, true)); ?></h6>
-                    <ul>
+                    <ul id="links">
                         <?php foreach($links as $link):?>
                           <li><?php echo $this->Html->link($link, $link, array('target'  =>'blank','rel' => 'nofollow'));?></li>
                         <?php endforeach;?>
@@ -124,7 +129,7 @@ if(substr($post['Post']['content'],0,2) == "<p"){
                     </ul>
             <?php endif;?>
 
-			</div><!-- /. articleview -->
+
 
             <hr />
 
@@ -147,6 +152,8 @@ if(substr($post['Post']['content'],0,2) == "<p"){
                         <g:plusone size="medium"></g:plusone>
                     </li>
             </div>
+
+            </div><!-- /. articleview -->
 
 			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['Setting']['user']['default']['allow_comments'] == true)):?>
 			<div class="comments" style="clear:both">

@@ -1,14 +1,16 @@
 $(document).ready(function() {
     $('#links-content .link').live('mouseenter', function(){
-        $(this).find('.edit-icon').css('visibility', 'visible');
+        $(this).find('.link-delete-icon').css('visibility', 'visible');
     });
     $('#links-content .link').live('mouseleave', function(){
-        $(this).find('.edit-icon').css('visibility', 'hidden');
+        $(this).find('.link-delete-icon').css('visibility', 'hidden');
     });
-    $('.edit-icon').live('click', function(){
-        $( "#dialog-url" ).dialog('open');
-        $('#url').val($(this).parent().find('a').attr('href'));
-        $('#orig-url').val($(this).parent().find('a').attr('href'));
+
+    $('.link-delete-icon').live('click', function(){
+        $(this).parent().remove();
+        //$( "#dialog-url" ).dialog('open');
+        //$('#url').val($(this).parent().find('a').attr('href'));
+        //$('#orig-url').val($(this).parent().find('a').attr('href'));
     });
 
 
@@ -163,7 +165,7 @@ $(document).ready(function() {
         }
         else{
             //$('#links').append('<li id="' +url+ '"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><a class="remove_li_item"> - remove</a></li>');
-            $('#links').append('<li id="' +url+ '" class="link"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><span class="edit-icon" id="???"  style="visibility: hidden; "></span></li>');
+            $('#links').append('<li id="' +url+ '" class="link"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><span class="link-delete-icon" style="visibility: hidden; "></span></li>');
         }
         $('#orig-url').val('');
         $('#url').val('');
