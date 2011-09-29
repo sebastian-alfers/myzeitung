@@ -47,14 +47,14 @@ $is_scroling = count($images) > 1;//now, we scroll only two images
 
                 </div>
 			<?php endfor; //images to be scrolled ?>
-			</div><?php //divs for scrolling ?>	
-		</div><?php //end items ?>
+        </div><?php //dend items ?>
+</div><?php //end scrollable ?>
+<?php if($is_scroling): ?>
+<a class="next browse right"></a>
+<?php endif; ?>
 
-	
-	<?php if($is_scroling): ?>
-		<a class="next browse right"></a>
-	<?php endif; ?>
-    </div><?php //end scrollable ?>
+
+<?php //</div> //end scrollable ?>
 	<script> 
 	// execute your scripts when the DOM is ready. this is mostly a good habit
 	$(function() {

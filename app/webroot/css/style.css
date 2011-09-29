@@ -936,22 +936,22 @@ span.repost-ico {
     width: 11px;
     height: 12px;
     display: inline-block;
-    background: url(/img/assets/maintile.png) -155px -90px no-repeat;
+    background: url(/img/assets/maintile.png) -154px -91px no-repeat;
 
 }
 .article span.repost-ico{
     background: url(/img/assets/maintile.png) -164px -97px no-repeat;
 }
 a:hover span.repost-ico{
-    background: url(/img/assets/maintile.png) -124px -90px no-repeat;
+    background: url(/img/assets/maintile.png) -155px -282px no-repeat;
 }
 
 .search-result span.repost-ico {
-    background: url(/img/assets/maintile.png) -158px -93px no-repeat  #FECB36;
+    background: url(/img/assets/maintile.png) -159px -92px no-repeat  #FECB36;
 }
 
 .search-result a.btn:hover span.repost-ico {
-    background: url(/img/assets/maintile.png) -129px -93px no-repeat #000000;
+    background: url(/img/assets/maintile.png) -160px -283px no-repeat #000000;
 }
 
 .pagination a, .article a{
@@ -1081,7 +1081,7 @@ margin-bottom: 20px;
 }
 
 .main-article-imgs{
-float: left;
+float: right;
 padding: 0 0 19px 0;
 height:210px;
 width:330px;
@@ -1177,14 +1177,9 @@ font-size: 13px;
     top: 14px;
     left: -13px;
     text-indent: -9999px;
-display: block;
-position: absolute;
-width: 20px;
-height: 30px;
-background: url(/img/assets/maintile.png) -88px -66px no-repeat;
-top: 14px;
-left: -16px;
-text-indent: -9999px;
+}
+.comment .info{
+    height: 25px;
 }
 
 .comments textarea, .comment .content {
@@ -1252,7 +1247,7 @@ text-indent: -9999px;
 }
 .comment span.info.owner {
     left: -18px;
-    background: url(/img/assets/maintile.png) -127px -62px no-repeat;
+    background: url(/img/assets/maintile.png) -87px -119px no-repeat;
 }
 
 
@@ -3159,7 +3154,7 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
 /*end override jquery-ui styles*/
 
 .comments{
-    border-top: 1px solid #DFDDDD;
+    border-top: 1px solid #C8C8C8;
     padding: 20px 0 0  0;
 }
 
