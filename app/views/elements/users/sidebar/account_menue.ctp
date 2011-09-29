@@ -45,7 +45,7 @@ echo $this->element('global/modal_upload',
     <hr />
     <h6><?php echo __('Change Language', true);?></h6>
     <ul>
-        <li><?php echo $this->element('locale/switch', array('locale' => $settings['default']['locale'])); ?></li>
+        <li><?php echo $this->element('locale/switch', array('locale' => $this->Session->read('Auth.Setting.user.default.locale.value'))); ?></li>
     </ul>
     <?php /* <hr />
     <?php echo $this->element('invite/button');  */?>
