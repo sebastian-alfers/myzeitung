@@ -3147,7 +3147,7 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
 /*end override jquery-ui styles*/
 
 .comments{
-    border-top: 1px solid #DFDDDD;
+    border-top: 1px solid #C8C8C8;
     padding: 20px 0 0  0;
 }
 
