@@ -444,7 +444,6 @@ class AppController extends Controller {
         }
         else if (isset($this->params['language']) && ($this->params['language']
                                                       !=  $this->Session->read('Config.language'))) {
-
             $this->Session->write('Config.language', $this->params['language']);
             $this->Cookie->write('lang', $this->params['language'], false, '20 days');
         }
@@ -456,7 +455,11 @@ class AppController extends Controller {
         $this->set('open_graph', $this->_open_graph_data);
 
         //publis body class
-        $this->set('body_class', $this->Cookie->read('lang'));
+        if($this->Session->read('Auth.Setting.user.default.locale.value')){
+            $this->set('body_class', $this->Session->read('Auth.Setting.user.default.locale.value'));
+        }else{
+            $this->set('body_class', $this->Cookie->read('lang'));
+        }
 
 
 

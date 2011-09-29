@@ -110,7 +110,7 @@ class TopicsController extends AppController {
             else{
                 // second param = cascade -> delete associated records from hasmany , hasone relations
                 if ($this->Topic->delete($id, true)) {
-
+                    $this->Session->write("Auth.User.topic_count", $this->Session->read("Auth.User.topic_count") -1);
                     $this->Session->setFlash(__('Topic deleted', true), 'default', array('class' => 'success'));
                     $this->redirect(array('controller' => 'users',  'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
                 }

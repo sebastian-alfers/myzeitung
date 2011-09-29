@@ -184,9 +184,9 @@ if($has_topics){
                                     if($has_topics){
 
                                         $link = '#';
-                                    $class = 'class="repost"';
+                                    $class = 'repost';
                                     }?>
-                                    <?php echo $this->Html->link(__('Repost', true), $link, array('id' => $post['Post']['id'], 'class' => 'repost', 'rel' => 'nofollow'));?>
+                                    <?php echo $this->Html->link(__('Repost', true), $link, array('id' => $post['Post']['id'], 'class' => $class, 'rel' => 'nofollow'));?>
                                     
                                    
 
