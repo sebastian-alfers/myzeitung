@@ -447,12 +447,12 @@ left:520px;
 
 
 
-#maincolwrapper.paper-view h2, #maincolwrapper.user-view h2, #maincolwrapper.post-view h2, #maincol.account h2, #maincol.create-article h2{
+/*#maincolwrapper.paper-view h2, #maincolwrapper.user-view h2, #maincolwrapper.post-view h2, #maincol.account h2, */ #maincolwrapper h2{
 	margin-top:0;
     border-top: 1px solid #DFDDDD;
     margin-bottom:0;
     padding: 0;
-    width: 737px;
+    width: 747px;
 }
 
 .paper-view .article ul .user-image, .user-image-container{
