@@ -1,4 +1,5 @@
 <?php
+
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;

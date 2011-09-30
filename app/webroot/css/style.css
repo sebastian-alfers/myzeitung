@@ -99,7 +99,7 @@ h2 {
 font-size: 23px;
 line-height: 28px;
 margin-bottom: 12px;
-margin-top: 26px;
+/*margin-top: 26px;*/
 }
 
 h3 {
@@ -1041,6 +1041,10 @@ float: right;
 margin-top: 10px;
 }
 
+.articleview-wrapper #links li{
+    margin: 5px 0 0 15px;
+}
+
 .articleview{
 /*padding-bottom: 15px;*/
 margin-bottom: 20px;
@@ -1670,6 +1674,8 @@ span.icon{
 display: inline-block;
 width: 19px;
 height: 19px;
+vertical-align: top;
+padding: 0;
 }
 
 .account .validation-info, .account .advice , .account .error-message{
@@ -2340,7 +2346,7 @@ color: #000;
 }
 
 ul.themes .link{
-color:#ff0000;
+color:black;
 }
 
 ul.themes a span.icon.icon-delete{
@@ -2364,6 +2370,7 @@ border-radius: 11px;
 padding: 20px;
 width: 693px;
 overflow: hidden;
+min-height: 50px;
 }
 
 .add-article-images li{
@@ -2385,7 +2392,7 @@ margin-right: 65px;
 }
 
 .create-article #maincol{
-padding-bottom: 50px;
+/*padding-bottom: 50px;*/
 }
 
 .account .pagination {
@@ -3045,7 +3052,7 @@ border:0;
 #main-teaser{
     position: relative;
     top: 22px;
-    left: -115px;
+    left: 33px;
     background: url(/img/assets/maintile.png) no-repeat scroll right -118px transparent;
     padding-right: 19px;
     z-index:1000;
@@ -3190,6 +3197,10 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     float: left;
 }
 
+.modal-content input{
+    width: 320px;
+}
+
 
 .piro_html {position:absolute; top:0; left:0; padding:0; width:500px; height: 500px; margin:0; display:block; padding:0; z-index:150001; padding:0;  }
 .piro_html table,.piro_html tbody,.piro_html tr,.piro_html th,.piro_html td{margin:0;padding:0;border:none;}
@@ -3238,7 +3249,7 @@ span.edit-icon{
     display: inline-block;
 }
 
-span.remove-icon{
+span.remove-icon, span.link-delete-icon{
     background: url(/img/assets/maintile.png) -82px -220px no-repeat transparent;
     height:20px;
     width:20px;
@@ -3267,6 +3278,7 @@ span.post.video-item{
 span.post-view.video-item{
     top:85px;
     left:105px;
+    cursor: pointer;
 }
 
 .popbox{
@@ -3558,4 +3570,5 @@ span.arrow-left-white{
 
 #social ul li{
     float:left;
+    list-style-type: none;
 }

@@ -43,6 +43,7 @@ class ImageHelper extends Helper {
 		}
 
 		if($height != null && $width != null){
+
 			$planned_aspect_ratio = $width / $height;
 
 			//both values are set -> check if landscape or portrait

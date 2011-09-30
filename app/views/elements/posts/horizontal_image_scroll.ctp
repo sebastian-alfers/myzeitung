@@ -26,22 +26,24 @@ $is_scroling = count($images) > 1;//now, we scroll only two images
                     $rel = 'iframe-640-505';
                 }
                 else{
-                    $href = '/img/'.$img_details['image']['path'];
+                    $href = $img_details['image']['path'];
+                    $href = $this->Cf->url($this->Image->resize($href, 800, null));
                     $rel = 'gallery';
 
                 }
-				$link_data['url'] = $href;
-				$link_data['custom'] = array('class' => 'pirobox_gall', 'rel' => $rel, 'rev' => $i+1);
 
+
+				$link_data['url'] = $href;
+
+				$link_data['custom'] = array('class' => 'pirobox_gall', 'rel' => $rel, 'rev' => $i+1);
                 ?>
 
 	            <div>
                  <?php if(isset($img_details['image']['item_type']) && $img_details['image']['item_type'] == 'video'): ?>
-                    <a href="<?php echo $href; ?>" class="<?php echo $link_data['custom']['class']; ?>" rel="<?php echo $link_data['custom']['rel']; ?>" rev="<?php echo $link_data['custom']['rev']; ?>" ><span class="post-view video-item">video</span></a>
+                        <span class="post-view video-item">video</span>
                  <?php endif; ?>
-				<?php
-                echo $image->render($img_details, 255, 200, array("alt" => 'sub'), $link_data);
-                ?>
+				 <?php echo $image->render($img_details, 255, 200, array("alt" => 'sub'), $link_data);?>
+
 
                 </div>
 			<?php endfor; //images to be scrolled ?>

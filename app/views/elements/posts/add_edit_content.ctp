@@ -57,23 +57,26 @@
         </textarea>
     </div>
 
-</form>
 
 
-<?php if(isset($links) && !empty($links)): ?>
-<div id="links-content">
-    <label><?php __('Media (images and videos): '); ?></label>
+
+<?php $has_links = (isset($links) && !empty($links)); ?>
+<div id="links-content" <?php if(!$has_links) echo 'style="display:none;"'; ?>>
+    <label><?php __('Links: '); ?></label>
     <ul class="themes add-article-images" id="links">
-        <?php foreach($links as $link): ?>
-        <li id="<?php echo $link; ?>" class="link">
-            <a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a>
-            <span class="remove-icon" id="???"  style="visibility: hidden; "></span>
-        </li>
-        <?php endforeach; ?>
+        <?php if($has_links): ?>
+            <?php foreach($links as $link): ?>
+            <li id="<?php echo $link; ?>" class="link">
+                <a href="<?php echo $link; ?>" title="<?php echo $link; ?>" target="blank"><?php echo $link; ?></a>
+                <span class="link-delete-icon" style="visibility: hidden; "></span>
+            </li>
+            <?php endforeach; ?>
+        <?php endif;?>
     </ul>
 </div>
-<?php endif;?>
 
+
+<div id="media-content"<?php if(!isset($images)) echo 'style="display:none;"'; ?>>
 <div id="files"></div>
     <label><?php __('Media (images and videos): '); ?></label>
 <span id="main-teaser"><?php __('Preview Picture'); ?></span>
@@ -103,6 +106,9 @@
 		<?php endforeach; ?>
 		<?php endif;?>
 </ul>
+</div><!-- end media content -->
+
+</form>
 
 </div>
 

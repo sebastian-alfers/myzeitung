@@ -1,27 +1,32 @@
 $(document).ready(function() {
     $('#links-content .link').live('mouseenter', function(){
-        $(this).find('.edit-icon').css('visibility', 'visible');
+        $(this).find('.link-delete-icon').css('visibility', 'visible');
     });
     $('#links-content .link').live('mouseleave', function(){
-        $(this).find('.edit-icon').css('visibility', 'hidden');
+        $(this).find('.link-delete-icon').css('visibility', 'hidden');
     });
-    $('.edit-icon').live('click', function(){
-        $( "#dialog-url" ).dialog('open');
-        $('#url').val($(this).parent().find('a').attr('href'));
-        $('#orig-url').val($(this).parent().find('a').attr('href'));
+
+    $('.link-delete-icon').live('click', function(){
+        $(this).parent().remove();
+        if($('#links li').length == 0){
+            $('#links-content').toggle('slow');
+        }
+        //$( "#dialog-url" ).dialog('open');
+        //$('#url').val($(this).parent().find('a').attr('href'));
+        //$('#orig-url').val($(this).parent().find('a').attr('href'));
     });
 
 
-        var is_paste = false;
-		$( "#dialog:ui-dialog" ).dialog( "destroy" );
-		
-		$( "#dialog-topic" ).dialog({
-			resizable: false,
-			height:240,
-			width:400,
-			draggable:false,
-			modal: true,
-			autoOpen: false
+    var is_paste = false;
+    $( "#dialog:ui-dialog" ).dialog( "destroy" );
+
+    $( "#dialog-topic" ).dialog({
+        resizable: false,
+        height:240,
+        width:400,
+        draggable:false,
+        modal: true,
+        autoOpen: false
 	});
 
 		$( "#dialog-url" ).dialog({
@@ -30,15 +35,7 @@ $(document).ready(function() {
 			width:400,
 			draggable:false,
 			modal: true,
-			autoOpen: false,
-			buttons: {
-				"Add new URL": function() {
-                        prcoessUrl($('#url').val());
-				},
-				Cancel: function() {
-					$( this ).dialog( "close" );
-				}
-			}
+			autoOpen: false
 		});
 		
 		//dialod to add video url
@@ -93,6 +90,9 @@ $(document).ready(function() {
 			});					
 			//remove image from list
 		    $(this).closest('li').remove();
+            if($('#sortable li').length == 0){
+                $('#media-content').toggle('slow');
+            }
 		});		
 		
 		//now show sidebar
@@ -153,17 +153,24 @@ $(document).ready(function() {
             }
 
         if($('#orig-url').val() != ''){
+            /*
             var orig_id = $('#orig-url').val();
             alert(orig_id);
             $('#'+orig_id).attr('id', url);
             alert('#'+orig_id);
             console.log($('#'+orig_id));
             alert($('#'+orig_id).attr('id'));
-
+            */
         }
         else{
             //$('#links').append('<li id="' +url+ '"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><a class="remove_li_item"> - remove</a></li>');
-            $('#links').append('<li id="' +url+ '" class="link"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><span class="edit-icon" id="???"  style="visibility: hidden; "></span></li>');
+            $('#links').append('<li id="' +url+ '" class="link"><a href="' +url+ '" title="' +url+ '" target="blank">' +text+ '</a><span class="link-delete-icon" style="visibility: hidden; "></span></li>');
+
+            scrollTo('#files');
+            if(!$('#links').is(":visible")){
+                $('#links-content').toggle('slow');
+            }
+
         }
         $('#orig-url').val('');
         $('#url').val('');
@@ -257,6 +264,10 @@ $(document).ready(function() {
 			   //alert('error');
 		});		
 	}
+
+
+
+
 
     function preSubmitActions(form){
         var len = $('#tmp_upload_stuff').children().length;
@@ -368,6 +379,9 @@ $(document).ready(function() {
 		                    '<\/tr></table></li>');
 		        },
 		        buildDownloadRow: function (file) {
+                    if(!$('#media-content').is(":visible")){
+                        $('#media-content').toggle('slow');
+                    }
 		            return $('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + '" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
 		        },
 		        beforeSend: function (event, files, index, xhr, handler, callBack) {
@@ -441,6 +455,20 @@ $(document).ready(function() {
 
 });//end domready
 
+
+//prevent form to submit
+$(function()
+    {
+       var input = $('#PostTitle');
+        var code =null;
+        input.keypress(function(e)
+        {
+            code= (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) e.preventDefault();
+
+        });
+
+});
 
 
 
