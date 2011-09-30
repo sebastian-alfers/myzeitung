@@ -447,7 +447,7 @@ left:520px;
 
 
 
-/*#maincolwrapper.paper-view h2, #maincolwrapper.user-view h2, #maincolwrapper.post-view h2, #maincol.account h2, */ #maincolwrapper h2{
+#maincolwrapper.paper-view h2, #maincolwrapper.user-view h2, #maincolwrapper.post-view h2, #maincol.account h2,  #maincolwrapper #maincol.create-article h2{
 	margin-top:0;
     border-top: 1px solid #DFDDDD;
     margin-bottom:0;

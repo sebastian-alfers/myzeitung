@@ -18,4 +18,3 @@
 	<p>
 		<div id="url_content"></div>
 	</p>
-</div>
