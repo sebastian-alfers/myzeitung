@@ -27,6 +27,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 			</div>
 
 			<h4><?php echo $user['User']['username'];?></h4>
+
         <?php //elements shown when being on actions users-view, posts-view ?>
         <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'topics' && $this->params['action'] == 'delete')):?>
         <?php echo $this->element('users/sidebar/info'); ?>
@@ -34,8 +35,9 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <?php echo $this->element('users/sidebar/topics'); ?>
         <?php echo $this->element('users/sidebar/activity'); ?>
        <?php // echo $this->element('users/sidebar/subscriptions'); ?>
+
         <?php else:?>
-            <?php if(!(($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations')))):?>
+            <?php if(!(($this->params['controller'] == 'papers' && ($this->params['action'] == 'add' || $this->params['action'] == 'edit')) || ($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations')))):?>
                 <?php echo $this->element('users/sidebar/buttons'); ?>
              <?php endif;?>
         <?php endif;?>
@@ -48,17 +50,20 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 				<?php echo $this->element('users/sidebar/account_menue', array('user_id' => $user['User']['id'])); ?>
 			<?php endif;?>
 
+
+        <?php if(($this->params['controller'] == 'users' && ($this->params['action'] =='view' || ($this->params['action'] =='viewSubscriptions' && $session->read('Auth.User.id') != $user['User']['id']) )) || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view' && $session->read('Auth.User.id') != $user['User']['id'])):?>
         <hr />
-        <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'view' || $this->params['action'] == 'viewSubscriptions') && $session->read('Auth.User.id') != $user['User']['id']): ?>
-            <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
-        <?php endif; ?>
-        <?php if(($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'users' && $this->params['action'] == 'view')): ?>
-     
-            <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),array('controller' => 'users', 'action' => 'feed', 'username' => strtolower($user['User']['username']) ,'url' => array('ext' => 'rss')), array('class'  => 'btn gray','target'  => '_blank', 'rel' => 'nofollow', 'escape' => false));?>
-             <?php if($this->params['controller'] == 'posts'): ?>
-                <a href="#" rel='nofollow' class="btn gray print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
-                <?php if($session->read('Auth.User.id') != $user['User']['id']):?>
-                    <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
+            <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'view' || $this->params['action'] == 'viewSubscriptions') && $session->read('Auth.User.id') != $user['User']['id']): ?>
+                <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>
+            <?php endif; ?>
+            <?php if(($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'users' && $this->params['action'] == 'view')): ?>
+
+                <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),array('controller' => 'users', 'action' => 'feed', 'username' => strtolower($user['User']['username']) ,'url' => array('ext' => 'rss')), array('class'  => 'btn gray','target'  => '_blank', 'rel' => 'nofollow', 'escape' => false));?>
+                 <?php if($this->params['controller'] == 'posts'): ?>
+                    <a href="#" rel='nofollow' class="btn gray print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
+                    <?php if($session->read('Auth.User.id') != $user['User']['id']):?>
+                        <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>

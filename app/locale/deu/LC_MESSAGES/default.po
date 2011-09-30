@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-09-28 11:19+0200\n"
-"PO-Revision-Date: 2011-09-28 13:37+0100\n"
+"PO-Revision-Date: 2011-09-29 18:16+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2900,7 +2900,7 @@ msgstr "Ich erlaube Benutzern mir Nachrichten zu senden"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/users/acc_privacy.ctp:22
 msgid "I want to receive emails when"
-msgstr "I möchte Emails erhalten, wenn"
+msgstr "Ich möchte Emails erhalten, wenn"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/users/acc_privacy.ctp:25
 msgid "someone sent me a new message"

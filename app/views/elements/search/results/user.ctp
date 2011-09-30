@@ -21,11 +21,11 @@
 	<div class="actions">
 	<?php if($user->id != $session->read('Auth.User.id') && $user->user_allow_messages == true):?>
         <form action="<?php echo $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))); ?>" method="post" accept-charset="utf-8"><div><input type="hidden" name="_method" value="POST"></div><input type="hidden" name="action" value="newConversation" />
-            <a href="#" class="btn user-button-1 gray user-new-conversation"><span class="send-icon"></span>Send Message</a>
+            <a href="#" class="btn user-button-1 gray user-new-conversation"><span class="send-icon"></span><?php echo __('Send Message', true);?></a>
         </form>
 	<?php endif;?>
 
-       <a href="<?php echo $subscribe_link; ?>" class="btn user-button-2 subscribe-user" id="<?php echo $user->id; ?>"><span>+</span><?php __(($user->id == $session->read('Auth.User.id'))? 'Subscribe me' : 'Subscribe author'); ?></a>
+       <a href="<?php echo $subscribe_link; ?>" class="btn user-button-2 subscribe-user" id="<?php echo $user->id; ?>"><span>+</span><?php if($user->id == $session->read('Auth.User.id')){__('Subscribe me'); }else{ __('Subscribe Author');} ?></a>
 	</div>
 	<p class="from"><strong><?php echo __('Author', true);?></strong></p>
 
