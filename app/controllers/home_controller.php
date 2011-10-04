@@ -2,26 +2,31 @@
 class HomeController extends AppController {
 
 
-
 	var $name = 'Home';
 	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
 	var $uses = array('Paper', 'User', 'CategoryPaperPost');
-	var $helpers = array('MzTime', 'Image', 'Js' => array('Jquery'));
+	var $helpers = array('MzTime', 'Image', 'Js' => array('Jquery'), 'Cache');
+
+    //callback-param is important!
+    var $cacheAction = array(
+        'index'  => array('callbacks' => true, 'duration' => '+1 month')
+    );
 
 
 	public function beforeFilter(){
+
 		parent::beforeFilter();
+
+
+
 		$this->Auth->allow('index');
 
 	}
 
 	public function index(){
-		
 		if($this->Session->read('Auth.User.id')){
 			$this->redirect(array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username')),'own_paper' => Paper::FILTER_OWN));
-
 		}
-		
 		
 		//loading papers
 		$this->Paper->contain('Route');

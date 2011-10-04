@@ -8,6 +8,11 @@ class PapersController extends AppController {
 
 	var $allowedSettingsActions = array('image');
 
+    //callback-param is important!
+    var $cacheAction = array(
+        'view'  => array('callbacks' => true, 'duration' => '+1 month')
+    );
+
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
@@ -871,6 +876,9 @@ class PapersController extends AppController {
         $this->Paper->set($field, !((boolean)$paper['Paper'][$field]));
 
         if($this->Paper->save()){
+
+            clearCache('element_my_cached_element_home_index');
+
             $this->Session->setFlash(__('Paper saved', true), 'default', array('class' => 'success'));
             $this->redirect($this->referer());
         }

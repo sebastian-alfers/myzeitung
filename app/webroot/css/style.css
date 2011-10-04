@@ -447,7 +447,7 @@ left:520px;
 
 
 
-#maincolwrapper.paper-view h2, #maincolwrapper.user-view h2, #maincolwrapper.post-view h2, #maincol.account h2, #maincol.create-article h2{
+#maincolwrapper.paper-view h2, #maincolwrapper.user-view h2, #maincolwrapper.post-view h2, #maincol.account h2{
 	margin-top:0;
     border-top: 1px solid #DFDDDD;
     margin-bottom:0;
@@ -1674,8 +1674,6 @@ span.icon{
 display: inline-block;
 width: 19px;
 height: 19px;
-vertical-align: top;
-padding: 0;
 }
 
 .account .validation-info, .account .advice , .account .error-message{

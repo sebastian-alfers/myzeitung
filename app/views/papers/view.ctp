@@ -1,16 +1,6 @@
-<?php
-if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session->read('Auth.User.id')){
-    $paper_belongs_to_user = false;
-}elseif($paper['Paper']['owner_id'] == $session->read('Auth.User.id')){
-    $paper_belongs_to_user = true;
-}
-
-
-?>
-
 <?php $this->MzJavascript->link('paper/view'); ?>
 
-<?php echo $this->element('papers/sidebar', array('paper_belongs_to_user' => $paper_belongs_to_user)); ?>
+<?php echo $this->element('papers/sidebar'); ?>
 <?php echo $this->element('posts/navigator'); ?>
 
 

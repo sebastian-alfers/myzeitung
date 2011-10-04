@@ -8,9 +8,9 @@
 <?php echo $this->element('posts/modal_add_video_url'); ?>
 
 <?php if($this->params['action'] == 'add'):?>
-<h2><?php echo __('New Article', true); ?></h2>
+<h2 class="account-title"><?php echo __('New Article', true); ?></h2>
 <?php else:?>
-<h2><?php echo __('Edit Article', true); ?></h2>
+<h2 class="account-title"><?php echo __('Edit Article', true); ?></h2>
 <?php endif;?>
 <div class="article-nav">
 

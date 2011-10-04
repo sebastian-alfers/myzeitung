@@ -511,6 +511,8 @@ function __construct(){
      * update solr index with saved data
      */
     function afterSave($created){
+        clearCache('home');
+
         App::import('model','Route');
         $this->Route = new Route();
         App::import('model','User');

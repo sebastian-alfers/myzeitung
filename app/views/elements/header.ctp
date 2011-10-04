@@ -1,13 +1,15 @@
 
 <div id="header">
 	<h1 id="logo"><?php echo $this->Html->link('myZeitung', array('controller' => 'home', 'action' => 'index'));?></h1>
+
+    <cake:nocache>
     <?php $helpLink = '<a class="help-link start-help" rel="nofollow" style="padding-right:50px;">Help Center</a>' ?>
     <?php if($session->read('Auth.User.id')): ?>
-    <div id="user-info">
+        <div id="user-info">
             <?php echo $helpLink; ?>
             <?php echo $this->Html->link(__('Invite Friends', true), array('controller' => 'users' , 'action' => 'accInvitations'), array('style' => 'padding-right:50px;text-decoration:none;'));?>
 			<?php /*echo __("logged in as", true)." "; */?><?php //echo "<strong>".$this->Html->link($session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view','username' => $session->read('Auth.User.username ')))."</strong> ";?>
-    <a href="login" class="signin"><span><strong><?php echo /*$session->read('Auth.User.username');*/ __("Account",true); ?></strong></span></a>
+            <a href="login" class="signin"><span><strong><?php echo /*$session->read('Auth.User.username');*/ __("Account",true); ?></strong></span></a>
 			<?php
 
 			//echo $this->Html->link($this->Html->image($session->read('Auth.User.image'), array("alt" => $session->read('Auth.User.username')."-image")), array('controller' => 'users', 'action' => 'view', 'username' => $session->read('Auth.User.username')), array('class' => "user-image", 'escape' => false));
@@ -22,7 +24,7 @@
 			?>
 
 			<?php   //end logged in?>
-			<?php else: //not logged in?>
+    <?php else: //not logged in?>
 
 					<div id="user-info" class="not-loggedin">
             <?php echo $helpLink; ?>
@@ -42,6 +44,7 @@
                 </div>
 			<?php endif; //end not logged in? ?>
 		</div> <!-- /#user-info -->
+      </cake:nocache>
 
 		<div id="mainnav">
 			<ul>
@@ -67,22 +70,23 @@
 			<div id="breadcrumb">
 			 	<?php echo $this->element('header/breadcrumbs'); ?>
 			</div><!-- / #breadcrumb -->
-			<?php if($session->read('Auth.User.id')):?>
-			<div id="user-nav">
-				<ul>
-				<li><?php echo $this->Html->link(__('My Articles', true), array('controller' => 'users', 'action' => 'view', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
-				<li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => Paper::FILTER_OWN));?></li>
-                <li><?php echo $this->Html->link(__('Subscribed Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => Paper::FILTER_SUBSCRIBED));?></li>
-				<li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index'));?>
-					<?php if(isset($conversation_count) && $conversation_count > 0):?>
-					<span class="round-icon"><?php echo $conversation_count;?></span>
-					<?php endif;?>
-				</li>
-				<li class="big-btn"><?php echo $this->Html->link('<span>+</span>'.__('New Article', true), array('controller' => 'posts', 'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
-				</ul>
-			</div><!-- / #user-nav -->
-			<?php endif;?>
-
+            <cake:nocache>
+                <?php if($session->read('Auth.User.id')):?>
+                <div id="user-nav">
+                    <ul>
+                    <li><?php echo $this->Html->link(__('My Articles', true), array('controller' => 'users', 'action' => 'view', 'username' => strtolower($session->read('Auth.User.username'))));?></li>
+                    <li><?php echo $this->Html->link(__('My Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => 'own'));?></li>
+                    <li><?php echo $this->Html->link(__('Subscribed Papers', true), array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' =>strtolower($session->read('Auth.User.username')),'own_paper' => 'subscriptions'));?></li>
+                    <li><?php echo $this->Html->link(__('Messages', true), array('controller' => 'conversations', 'action' => 'index'));?>
+                            <?php if($this->Session->read('Auth.User.conversation_count') && $this->Session->read('Auth.User.conversation_count') > 0):?>
+                                <span class="round-icon"><?php echo $this->Session->read('Auth.User.conversation_count');?></span>
+                            <?php endif;?>
+                    </li>
+                    <li class="big-btn"><?php echo $this->Html->link('<span>+</span>'.__('New Article', true), array('controller' => 'posts', 'action' => 'add'), array('escape' => false, 'class' => 'btn', ));?></li>
+                    </ul>
+                </div><!-- / #user-nav -->
+                <?php endif;?>
+            </cake:nocache>
 		</div><!-- / #nav -->
 </div><!-- / #header -->
 
