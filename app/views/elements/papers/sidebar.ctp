@@ -1,6 +1,13 @@
 <?php echo $this->element('papers/modal_references'); ?>
 
+<cake:nocache>
 <?php
+
+if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session->read('Auth.User.id')){
+    $paper_belongs_to_user = false;
+}elseif($paper['Paper']['owner_id'] == $session->read('Auth.User.id')){
+    $paper_belongs_to_user = true;
+}
 
 if($paper_belongs_to_user){
     echo $this->element('categories/modal_edit', array('paper_id' => $paper['Paper']['id']));
@@ -14,8 +21,8 @@ if($paper_belongs_to_user){
                                'model_id'=> $paper['Paper']['id'],
                                'submit' => array('controller' => 'paper', 'action' => 'saveImage')));
 }//end paper_belongs_to_user
-
 ?>
+</cake:nocache>
 
 <div id="leftcolwapper">
 <div class="leftcol">
@@ -77,6 +84,7 @@ if($paper_belongs_to_user){
         <hr />
         <?php ?>
         <ul>
+            <cake:nocache>
             <?php if($paper_belongs_to_user):?>
               <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'id' => 'edit-paper-btn', 'escape' => false));?></li>
               <li><a class="btn gray" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
@@ -92,8 +100,9 @@ if($paper_belongs_to_user){
                     <li><?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', 'id' => 'unsubscribe-paper' ));?></li>
                 <?php endif;?>
             <?php endif;?>
+            </cake:nocache>
         </ul>
-            <hr />
+        <hr />
 
         <?php $category_id = null;?>
         <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>

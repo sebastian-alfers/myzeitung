@@ -1,12 +1,20 @@
 <?php
 class ConversationsController extends AppController {
 
+    const CONVERSATION_USER_COUNT = 'conv_count_'; #will be enhanced with user id
+
 	var $name = 'Conversations';
 	var $uses = array('User' ,'Conversation','ConversationUser','ConversationMessage', 'JsonResponse');
 
     var $components = array('Email', 'Upload');
 
     var $helpers = array('MzText', 'Image', 'MzTime');
+
+
+    function beforeFilter(){
+        //die('adf');
+        parent::beforeFilter();
+    }
 
 	function add($recipient_id = null){
 
@@ -60,7 +68,10 @@ class ConversationsController extends AppController {
 						}	
 						
 						$userData['ConversationUser']['last_viewed_message'] = $this->ConversationMessage->id;		
-						$this->ConversationUser->save($userData);	
+						$this->ConversationUser->save($userData);
+
+                        //delete conversation count cache
+                        Cache::delete(self::CONVERSATION_USER_COUNT.$recipient);
 					}
 
 					//updating the last message id of the new conversation
@@ -128,6 +139,10 @@ class ConversationsController extends AppController {
                         $data = $this->ConversationMessage->read(null, $this->ConversationMessage->id);
                         $this->set('message', $data);
                         $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
+
+                        $this->log(self::CONVERSATION_USER_COUNT.$recipient['ConversationUser']['user_id']);
+                        //delete conversation count cache
+                        Cache::delete(self::CONVERSATION_USER_COUNT.$recipient['ConversationUser']['user_id']);
 					}
 					
 				} else {
@@ -187,9 +202,9 @@ class ConversationsController extends AppController {
 			$this->redirect($this->referer());
 		}
 		$this->set('messages', $messages);
-		
-		// setting the messagecount (again) because: if you view an conversation which has had the status "new", the message_count must be reset, because this specific conversation is not new anymore (updated above)
-		parent::setConversationCount();
+
+        //delete conversation count cache
+        Cache::delete(self::CONVERSATION_USER_COUNT.$this->Auth->user('id'));
 		
 		$this->Conversation->contain();
 		$this->set('conversation', $this->Conversation->read(array('id', 'title','created'),$conversation_id));
@@ -198,6 +213,9 @@ class ConversationsController extends AppController {
         $this->User->contain('Topic.id', 'Topic.name', 'Topic.post_count', 'Paper.id' , 'Paper.title', 'Paper.image');
         $this->set('user', $this->getUserForSidebar($this->Auth->user('id')));
         $this->set('hash', $this->Upload->getHash());
+
+		// setting the messagecount (again) because: if you view an conversation which has had the status "new", the message_count must be reset, because this specific conversation is not new anymore (updated above)
+		parent::setConversationCount();
 	}
 
 	function index() {
