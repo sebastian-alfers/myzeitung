@@ -8,6 +8,13 @@
 					<a class="btn"><span class="icon-tick-mini"></span>Speichern</a>
                     <hr />
                         */?>
+                    <h5><?php __('Topic'); ?></h5>
+                        <?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data", 'id' => 'tmp_form_topic'));?>
+                            <?php echo $this->Form->input('topic_id', array('label' => false, 'id' => 'SelectPostTopicId')); ?>
+						</form>
+                        <br /><br />
+						<a class="btn gray" onclick="topicDialog()"><span>+</span><?php __('Add Topic'); ?></a>
+					<hr>
                     <h5><?php echo __('Media', true);?></h5>
 
                     <form id="file_upload"
@@ -23,13 +30,7 @@
 
 					<hr>
 					
-					<h5><?php __('Topic'); ?></h5>
-                        <?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data", 'id' => 'tmp_form_topic'));?>
-                            <?php echo $this->Form->input('topic_id', array('label' => false, 'id' => 'SelectPostTopicId')); ?>
-						</form>
-                        <br /><br />
-						<a class="btn gray" onclick="topicDialog()"><span>+</span><?php __('Add Topic'); ?></a>
-					<hr>
+
 
 					<h5><?php __('Links/References'); ?></h5>
                     <a class="btn gray" id="btn-add-link"><span>+</span><?php echo __('Add links', true);?></a>

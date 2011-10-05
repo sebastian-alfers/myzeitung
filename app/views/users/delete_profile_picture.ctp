@@ -20,7 +20,9 @@ $(document).ready(function() {
             <?php echo $this->Form->create('User', array('id' => 'delete-profile-picture-form', 'controller' => 'users', 'action' => 'deleteProfilePicture',
                                                         'inputDefaults' => array('error' => false, 'div' => false)));?>
 
-                <input type="hidden" value="delete" name="data" />
+
+              <?php //  <input type="hidden" value="delete" name="data" /> ?>
+                <?php echo $this->Form->hidden('data',array('id' => false, 'value' => 'delete', 'name' => 'data')); ?>
 
                 <div class="accept">
                     <a class="btn big" id="link_send_delete_picture"><span>+</span><?php echo __('Yes, Delete Profile Picture', true);?></a><a class="btn big" href="/settings"><span>-</span><?php echo __('No, keep current profile picture', true);?></a>

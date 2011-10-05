@@ -584,7 +584,9 @@ overflow: hidden;
     position: relative;
 }
 
-
+.article-nav li, .account .account-nav li {
+    padding: 0;
+}
 
 .round-icon{
     background: none repeat scroll 0 0 #FECB36;
@@ -2411,7 +2413,7 @@ width: 731px;
 }*/
 
 .message-overview, .invitations-overview{
-    width: 731px;
+    width: 747px;
 }
 
 .messages, .invitations {

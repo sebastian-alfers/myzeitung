@@ -113,10 +113,11 @@ if(substr($post['Post']['content'],0,2) == "<p"){
 
 
             <?php echo $content_after_first_paragraph;?>
-
+            <?php //debug($post); ?>
             <?php if(isset($post['Post']['links']) && !empty($post['Post']['links'])):?>
                 <div style="clear:both;"></div>
-                <?php $links = unserialize($post['Post']['links'])?>
+                <?php $links = explode(",", $post['Post']['links']);?>
+                <?php // $links = unserialize($post['Post']['links'])?>
                 <h6><?php echo __n('Reference', 'References', count($links, true)); ?></h6>
                 <ul id="links">
                         <?php foreach($links as $link):?>

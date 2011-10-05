@@ -84,7 +84,7 @@ class AppController extends Controller {
 
 
 
-        //$this->Security->blackHoleCallback = 'blackHole';
+        $this->Security->blackHoleCallback = 'blackHole';
 
 	    $this->RequestHandler->setContent('json', 'text/x-json');
 
@@ -401,9 +401,9 @@ class AppController extends Controller {
      * is triggered, when user manipulates the security hash
      */
     function blackHole() {
-      $this->log("blackHole()", self::LOG_LEVEL_SECURITY);
-      $this->log($_SERVER, self::LOG_LEVEL_SECURITY);
-      $this->log($_REQUEST, self::LOG_LEVEL_SECURITY);
+      $this->log("blackHole()"/*, self::LOG_LEVEL_SECURITY */);
+      $this->log($_SERVER /*, self::LOG_LEVEL_SECURITY */);
+      $this->log($_REQUEST /*, self::LOG_LEVEL_SECURITY*/);
       die("Your IP has been saved!");
     }
     function _sendMail($to,$subject,$template) {

@@ -75,13 +75,8 @@ if($paper_belongs_to_user){
         <?php endif;?>
 
         <hr />
-        <?php ?>
+        <?php if(!$paper_belongs_to_user): ?>
         <ul>
-            <?php if($paper_belongs_to_user):?>
-              <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'id' => 'edit-paper-btn', 'escape' => false));?></li>
-              <li><a class="btn gray" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
-            <li><a href="#" class="btn gray" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
-            <?php endif;?>
             <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
             <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
                <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
@@ -93,7 +88,8 @@ if($paper_belongs_to_user){
                 <?php endif;?>
             <?php endif;?>
         </ul>
-            <hr />
+        <hr />
+    <?php endif; ?>
 
         <?php $category_id = null;?>
         <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>
@@ -125,7 +121,18 @@ if($paper_belongs_to_user){
                 <?php endforeach;?>
             </ul>
         </div>
-            <hr />
+                <hr />
+
+        <?php if($paper_belongs_to_user):?>
+            <ul>
+                <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'id' => 'edit-paper-btn', 'escape' => false));?></li>
+                <li><a class="btn gray" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
+                <li><a href="#" class="btn gray" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
+                <hr />
+           </ul>
+        <?php endif;?>
+
+
 
             <h6><?php echo __('Activity', true);?></h6>
               <ul>
