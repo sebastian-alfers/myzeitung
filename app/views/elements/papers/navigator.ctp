@@ -45,25 +45,23 @@
                                 ?>
 
 							<ul class="footer">
-								<li><?php echo __('created by', true).':';?></li>
-
-
-                               <?php  //debug( $image->render($paper['User'], 30, 30, array("class" => 'user-image'), array())); die();?>
-
                                 <li>
-                                    <?php
-                                   // $image_options = array();
-                                   // $image_options['url'] = array('controller' => 'users', 'action' => 'view', $paper['User']['id']);
-                                   // $image_options['class'] ='user-image';
-                                    //echo $image->render($paper['User'], 30, 30, array(), $image_options, ImageHelper::USER);
-                                ?>
-                                <?php echo $this->Html->link(
-
+                                <?php
+                                    if(!empty($paper['User']['name'])){
+                                        $name = $paper['User']['name'];
+                                    }
+                                    else{
+                                        $name = $paper['User']['username'];
+                                    }
+                                    echo $this->Html->link(
                                             $image->render($paper['User'], 30, 30, array(), array('tag' => 'div', 'tag-class' => 'user-image nosubscribe'), ImageHelper::USER)
-                                            .'<strong>'.$paper['User']['username'].'</strong><br />'.$this->MzText->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
-                                                array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($paper['User']['username'])),
-                                                array('escape' => false, 'id' => $paper['User']['id'], 'alt' => $this->MzText->getUserName($paper['User']),'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username']))), 'rel' => $this->MzText->getSubscribeUrl(),'class' => 'user-image nosubscribe'));?>
-
+                                            .$name,
+                                            array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($paper['User']['username'])),
+                                            array('escape' => false, 'id' => $paper['User']['id'], 'alt' => $this->MzText->getUserName($paper['User']),'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username']))), 'rel' => $this->MzText->getSubscribeUrl(),'class' => 'user-image nosubscribe'));
+                                    /*
+                                     * .'<strong>'.$paper['User']['name'].'</strong><br />'.$this->MzText->truncate($paper['User']['name'], 15,array('ending' => '...', 'exact' => true, 'html' => false)),
+                                     */
+                                    ?>
 
 								</li>
 							</ul>

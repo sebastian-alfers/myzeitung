@@ -75,10 +75,16 @@ if($paper_belongs_to_user){
                 if($paper['User']['name']){
                     $tipsy_name = $paper['User']['username'].' - '.$paper['User']['name'];
                 }
-                 $linktext = $paper['User']['username']; ?>
+                if(!empty($paper['User']['name'])){
+                    $name = $paper['User']['name'];
+                }
+                else{
+                    $name = $paper['User']['username'];
+                }
+         ?>
                 
 
-                <p class="user-url"><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
+                <p class="user-url"><?php echo $this->Html->link("<h4>".$name."</h4>",array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
         <?php endif;?>
 
         <hr />
