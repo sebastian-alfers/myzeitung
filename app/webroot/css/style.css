@@ -1999,7 +1999,13 @@ width: 748px;
 padding: 15px 20px 15px;
 border-bottom: 1px solid #e4e3e3;
 overflow: hidden;
-position: relative;x
+position: relative;
+margin-bottom: 0px;
+}
+
+.search-result li:hover{
+    cursor: pointer;
+    background-color: #ECECEC;
 }
 /*
 .type-article .actions .btn{
@@ -2075,8 +2081,9 @@ margin-top: 10px;
 
 .nav-title span{ font-weight: normal;}
 
-.filter-search li.active {
+.filter-search li.active a {
 font-weight: bold;
+color: #f5bd12;
 }
 .filter-search li a{
 height: 20px;
@@ -2155,7 +2162,7 @@ width: 240px;
 #mainnav ul#search-suggest li.art {
 display: block;
 clear: both;
-padding-right: 0;
+padding:5px;
 }
 
 .art div{
@@ -2172,11 +2179,12 @@ height:58px;
 }
 
 #mainnav ul#search-suggest  ul li{
-    padding-right: 0;
+    width: 250px;
 }
 
 #mainnav ul#search-suggest  ul li:hover{
     background-color: #ECECEC;
+    cursor: pointer;
 }
 
 

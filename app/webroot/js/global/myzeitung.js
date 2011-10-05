@@ -230,6 +230,16 @@ $(function() {
 
 
 $(document).ready(function() {
+    //auto suggest
+    $('.autoresult').live('click', function(e){
+        goTo($(this).find('h6 a').attr('href'));
+    });
+    //normal serach
+    $('.search-result li').live('click', function(){
+        goTo($(this).find('h3 a').attr('href'));
+    });
+
+
     $('.complain-btn').click(function(e){
         e.preventDefault();
         var target_id = $(this).attr('id');

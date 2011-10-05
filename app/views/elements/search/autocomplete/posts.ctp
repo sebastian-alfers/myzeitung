@@ -9,7 +9,7 @@
 	<?php foreach($post_documents as $post): ?>
 		<?php if($post instanceof Apache_Solr_Document): ?>
 			
-			<li class="art">
+			<li class="art autoresult">
 				<?php 
 				if(isset($post->post_image)){
 					$img = unserialize($post->post_image);

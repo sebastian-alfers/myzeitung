@@ -9,7 +9,7 @@
 		<?php foreach($paper_documents as $paper): ?>
 			<?php if($paper instanceof Apache_Solr_Document): ?>
 			<?php //debug($paper); die(); ?>
-				<li class="art">
+				<li class="art autoresult">
 					<?php 
 			
 					if(isset($paper->paper_image)){
