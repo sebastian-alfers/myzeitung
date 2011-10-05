@@ -40,9 +40,9 @@
             }
             echo $image->render($current_comment['User'], 65, 65, array("alt" => $current_comment['User']['username']), $link_data); ?>
             <?php if($showLinks):?>
-                <?php echo $this->Html->link($current_comment['User']['username'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username'])));?>
+                <?php echo $this->Html->link($this->MzText->generateDisplayname($current_comment['User']) ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username'])));?>
             <?php else:?>
-            <a>  <?php echo $current_comment['User']['username']?></a>
+            <a>  <?php echo $this->MzText->generateDisplayname($current_comment['User']); ?></a>
             <?php endif;?>
             <?php echo $this->MzTime->timeAgoInWords($current_comment['Comment']['created'], array('end' => '+1 Year'));?><br />
         </p>

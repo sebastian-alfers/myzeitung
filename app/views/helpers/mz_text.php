@@ -24,18 +24,10 @@ class MzTextHelper extends TextHelper {
      */
     function getUsername($user){
 
-        $name = '';
-
-        if(isset($user['username']) && !empty($user['username'])){
-            $name = '<h3>'.$user['username'].'</h3>';
-        }
-
-
-        if(isset($user['name']) && !empty($user['name'])){
-           $name .= $user['name'];
-        }
-        return $name;
+        return "<h3>" . $this->generateDisplayname($user, true). "</h3>";
     }
+
+
     function generateDisplayname($user, $both = false){
 
         if(isset($user['name']) && !empty($user['name'])){

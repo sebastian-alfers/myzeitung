@@ -1,3 +1,4 @@
+<?php $this->MzJavascript->link('conversations/all'); ?>
 <?php echo $this->element('users/sidebar'); ?>
 				<div id="maincolwrapper">
 					<div id="maincol" class="account message-overview">
@@ -16,7 +17,7 @@
 						<ul class="messages">
 
                             <?php foreach($conversations as $conversation):?>
-							<li class="message">
+							<li class="message" id="<?php echo $conversation['Conversation']['id']; ?>">
 								<ul>
 									<li class="state">
                                         <?php if($conversation['ConversationUser']['status'] == conversation::STATUS_NEW):?>

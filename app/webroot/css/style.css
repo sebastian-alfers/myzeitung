@@ -2433,6 +2433,7 @@ width: 731px;
 
 .message-overview .messages li, .invitations-overview .invitations li{
 	float: left;
+    cursor: pointer;
 }
 .invitations-overview .invitations li.invitee{
     width: 730px;
@@ -2986,13 +2987,13 @@ a.signin.menu-open span {
 	display:none;
 	background-color:#fff;
 	position:absolute;
-	width:80px;
+	width:130px;
 	z-index:100;
 	border:1px solid #000;
 	text-align:right;
 	padding:30px 50px 10px 0px;
 	top: 1px;
-	right: 18px;
+	right: 53px;
 	margin:5px;
 	margin-right: 0px;
 	margin-right: -1px;
@@ -3003,10 +3004,17 @@ a.signin.menu-open span {
 #signin_menu li{
     padding: 0 0 0 10px;
     margin: 0px;
+    text-align: left;
+    float: left;
+}
+
+#signin_menu li a{
+    size:15;
+    text-decoration: none;
 }
 
 #signin_menu li.spacer{
-    margin: 0 0 10px 0;
+    margin: 0 0 25px 0;
 }
 
 #signin_submit {

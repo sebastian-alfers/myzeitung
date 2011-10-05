@@ -84,7 +84,7 @@ if($paper_belongs_to_user){
          ?>
                 
 
-                <p class="user-url"><?php echo $this->Html->link("<h4>".$name."</h4>",array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
+                <p class="user-url"><?php echo $this->Html->link("<h4>".$name."</h4>",array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('escape' => false, 'class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
         <?php endif;?>
 
         <hr />
