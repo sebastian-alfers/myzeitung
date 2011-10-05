@@ -117,11 +117,14 @@ if($has_topics){
                                            $linktext = $this->MzText->truncate($post['User']['username'], 12,array('ending' => '...', 'exact' => true, 'html' => false));
 
                                         }?>
-                                <?php $tipsy_name= $post['User']['username'];
-                                        if($post['User']['name']){
-                                            $tipsy_name = $post['User']['username'].' - '.$post['User']['name'];
-                                        }?>
-								<li><?php echo __("by", true)." "; echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+                                <?php
+
+                                            $tipsy_name = $this->MzText->generateDisplayname($post['User'],true);
+                                            $display_name = $this->MzText->generateDisplayname($post['User'],false);
+                                          $this->log($tipsy_name);
+                                           $this->log($display_name);
+                                ?>
+								<li><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
 										<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'): ?> 
 											<?php /* blog view - controller users action view */ ?> 
@@ -143,7 +146,10 @@ if($has_topics){
                                                 <?php $tipsy_name= $post['lastReposter']['username'];
                                                 if($post['lastReposter']['name']){
                                                     $tipsy_name = $post['lastReposter']['username'].' - '.$post['lastReposter']['name'];
-                                                }?>
+                                                }
+                                            $tipsy_name = $this->MzText->generateDisplayname($post['lastReposter'],true);
+                                            $display_name = $this->MzText->generateDisplayname($post['lastReposter'],false);
+                                            ?>
 
                                                 <?php $linktext = $this->MzText->truncate($post['lastReposter']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view',  'username' => strtolower($post['lastReposter']['username'])),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>

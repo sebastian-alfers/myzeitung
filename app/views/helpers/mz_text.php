@@ -36,6 +36,20 @@ class MzTextHelper extends TextHelper {
         }
         return $name;
     }
+    function generateDisplayname($user, $both = false){
+
+        if(isset($user['name']) && !empty($user['name'])){
+            if($both){
+                return $user['name'].' ('.$user['username'].')';
+            }else{
+                return $user['name'];
+            }
+        }else{
+            return $user['username'];
+        }
+
+
+    }
 
     /**
      * @param  $string
@@ -63,6 +77,7 @@ class MzTextHelper extends TextHelper {
             return  $string.(substr($string, -1) == 's' ? "'" : "'s");
         }
     }
+
 
 
 }
