@@ -33,7 +33,7 @@ if($has_topics){
             <?php
               $post_count = $user['User']['post_count'] - $user['User']['repost_count'];
             ?>
-            <h2><?php echo sprintf(__('%1$s Articles',true),$this->MzText->possessive($user['User']['username']));?> (<?php echo $this->MzNumber->format( $post_count,'.'); ?>)</h2>
+            <h2><?php echo sprintf(__('%1$s Articles',true),$this->MzText->possessive($this->MzText->generateDisplayname($user['User'],false)));?></h2>
         <?php endif;?>
 
         <div class="article-nav">
@@ -105,43 +105,84 @@ if($has_topics){
 							<?php endif;  ?>
 							<ul class="footer">
 
-
-                                <?php // shorten the username depending of: post is shown as repost? -> short names? post regular -> longer names?>
-                                  <?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true) ||
+                            <?php /**
+                             *  The following area just generates the display names of the creator of the post and maybe (if it is a repost) of the reposter.
+                             *  a maxLength is defined. and both names will try to use it as efficient as possible.
+                             */ ?>
+                                <?php $maxLen = 20;
+                                    $isRepost = false;
+                                    $tipsy_name = $this->MzText->generateDisplayname($post['User'],true);
+                                    $display_name = $this->MzText->generateDisplayname($post['User'],false);
+                                 // shorten the username depending of: post is shown as repost? -> short names? post regular -> longer names
+                                   if(($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true) ||
                                            ($this->params['controller'] == 'papers' && $this->params['action'] == 'view' && !empty($post['lastReposter']['id']))){
+                                       //get reposters generated names
+                                       $isRepost = true;
+                                       //repost and blog view
+                                       if($this->params['controller'] == 'users' && $this->params['action'] == 'view' && $post['PostUser']['repost'] == true){
+                                          $tipsy_name_reposter = $this->MzText->generateDisplayname($user['User'],true);
+                                          $display_name_reposter = $this->MzText->generateDisplayname($user['User'],false);
+                                          $reposterUsername = $user['User']['username'];
+                                       //repost and paper view
+                                       }elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view' && !empty($post['lastReposter']['id'])){
+                                           $tipsy_name_reposter = $this->MzText->generateDisplayname($post['lastReposter'],true);
+                                          $display_name_reposter = $this->MzText->generateDisplayname($post['lastReposter'],false);
+                                           $reposterUsername = $post['lastReposter']['username'];
+                                       }
+                                       $maxLenCreator = $maxLen / 2;
+                                       $maxLenReposter = $maxLenCreator;
+                                       $difference = strlen($display_name) - strlen($display_name_reposter);
+                                       $this->log('differece:'.$difference);
+                                       if($difference > 0){
+                                           $dif2 = $maxLenReposter - strlen($display_name_reposter);
+                                           $this->log('dif2:'.$dif2);
+                                           if($dif2 > 0){
+                                               $maxLenCreator += $dif2;
+                                               $maxLenReposter -= $dif2;
+                                           }
+                                       }elseif($difference < 0){
+                                            $dif2 = $maxLenCreator - strlen($display_name);
+                                           if($dif2 > 0){
+                                               $maxLenReposter += $dif2;
+                                               $maxLenCreator -= $dif2;
+                                           }
+                                       }
 
-                                           $linktext = $this->MzText->truncate($post['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false));
+                                    //not paper-view or user-view OR not a repost
+                                     }else{
+                                            $maxLenCreator = $maxLen;
+                                     }
+                                 // generate linktexts with calculated max lenght
 
-                                        //not paper-view or user-view OR not a repost
-                                        }else{
-                                           $linktext = $this->MzText->truncate($post['User']['username'], 12,array('ending' => '...', 'exact' => true, 'html' => false));
-
-                                        }?>
+                                $linktextCreator = $this->MzText->truncate($display_name, $maxLenCreator,array('ending' => '...', 'exact' => true, 'html' => false));
+                                if(isset($display_name_reposter) && !empty($display_name_reposter)){
+                                    $linktextReposter = $this->MzText->truncate($display_name_reposter, $maxLenReposter,array('ending' => '...', 'exact' => true, 'html' => false));
+                                }
+                                ?>
                                 <?php
 
-                                            $tipsy_name = $this->MzText->generateDisplayname($post['User'],true);
-                                            $display_name = $this->MzText->generateDisplayname($post['User'],false);
-                                          $this->log($tipsy_name);
-                                           $this->log($display_name);
-                                ?>
-								<li><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
-									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
-										<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'): ?> 
-											<?php /* blog view - controller users action view */ ?> 
-											<?php if($post['PostUser']['repost'] == true): ?>
-												<span class="repost-ico"></span>
-                                                 <?php $tipsy_name= $user['User']['username'];
-                                                if($user['User']['name']){
-                                                    $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
-                                                }?>
 
-                                                <?php $linktext = $this->MzText->truncate($user['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
-                                                <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+
+                                ?>
+								<li><?php echo $this->Html->link($linktextCreator,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
+									<?php /* start showing (last) reposter: showing the reposter depending on wether the user is in a blog view or a paper */?> 
+										<?php if(($this->params['controller'] == 'users' && $this->params['action'] == 'view') || ($this->params['controller'] == 'papers' && $this->params['action'] == 'view')): ?>
+											<?php /* blog view - controller users action view */ ?> 
+											<?php if($isRepost): ?>
+												<span class="repost-ico"></span>
+                                                 <?php /* $tipsy_name= $user['User']['username'];
+                                                if($user['User']['name']){
+                                                    $tipsy_name = $user['User']['username'].' - '.$user['User']['name']; 
+                                                } */?>
+
+                                                <?php // $linktext = $this->MzText->truncate($user['User']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
+
+                                                <?php echo $this->Html->link($linktextReposter,array('controller' => 'users', 'action' => 'view', 'username' =>  strtolower($reposterUsername)), array('class' => 'tt-title', 'title' => $tipsy_name_reposter)); ?>
 
 											<?php endif;?> 
-										<?php elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?> 
+										<?php  //elseif($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
 										<?php /* paper view - controller papers action view */ ?> 
-											<?php if(!empty($post['lastReposter']['id'])):?>
+											<?php /* if(!empty($post['lastReposter']['id'])):?>
 												<span class="repost-ico"></span>
                                                 <?php $tipsy_name= $post['lastReposter']['username'];
                                                 if($post['lastReposter']['name']){
@@ -154,7 +195,7 @@ if($has_topics){
                                                 <?php $linktext = $this->MzText->truncate($post['lastReposter']['username'], 7,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
                                                 <?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view',  'username' => strtolower($post['lastReposter']['username'])),array('class' => 'tt-title', 'title' => $tipsy_name)); ?>
 
-											<?php endif;?>
+											<?php endif; */ ?>
 										<?php endif;?>
 									<?php /* END showing last reposter */?>
 								</li>

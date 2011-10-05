@@ -25,7 +25,7 @@
 					?>
 
 					<h6><?php echo $this->Html->link($this->MzText->truncate($paper->paper_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)), $paper->route_source);?></h6>
-					<p class="discr"><?php __('by'); echo ' '.$this->Html->link($paper->user_username, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper->user_username)));?></p>
+					<p class="discr"><?php __('by'); echo ' '.$this->Html->link($this->MzText->generateDisplayname(array('username' =>$paper->user_username, 'name' => $paper->user_name),false), array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper->user_username)));?></p>
 
 				</p></li>				
 			<?php endif; ?>			

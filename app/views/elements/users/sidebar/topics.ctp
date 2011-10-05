@@ -7,8 +7,9 @@ if($user_is_owner){
 }
 ?>
 <?php if(count($user['Topic']) > 0): ?>
-        <hr />
-<h6><?php echo __('Show Posts by Topic', true);?></h6>
+<fieldset>
+<legend><?php echo __('Show Posts by Topic', true);?></legend>
+
 <ul id="topics-content">
     <li>
     <?php //show only links for not selected items when being in blog overview?>
@@ -30,5 +31,5 @@ if($user_is_owner){
         </li>
         <?php endforeach;?>
     </ul>
-
+</fieldset>
       <?php endif; ?>

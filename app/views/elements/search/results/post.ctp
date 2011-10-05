@@ -40,11 +40,9 @@
 <div class="left">
 	<h3><?php echo $this->Html->link($headline, $post->route_source);?></h3>
 	<p><?php echo $this->Html->link($content_preview,$post->route_source);?></p>
-    <?php $userLinkText = '<strong>'.$post->user_username.'</strong>';?>
-    <?php if(!empty($post->user_name)){
-                $userLinkText.='&#8212'.$post->user_name;
-        }?>
-	<p class="from"><strong><?php echo __('Post', true);?></strong> <?php echo __('from', true);?> <?php echo $this->Html->link( $userLinkText,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post->user_username)),array('escape' => false));?></p>
+    <?php $userLinkText = $this->MzText->generateDisplayname(array('username' => $post->user_username, 'name' => $post->user_name) ,true);?>
+  
+	<p class="from"><strong><?php echo __('Post', true);?></strong> <?php echo __('by', true);?> <?php echo $this->Html->link( $userLinkText,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post->user_username)),array('escape' => false));?></p>
 	
 
 	<div class="actions">	
