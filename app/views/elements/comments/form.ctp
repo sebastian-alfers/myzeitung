@@ -10,6 +10,11 @@ if(isset($class)){
 	$inline_textarea = 'style="width:474px"';
 	$textarea_class = 'class="reply_text"';
 }
+
+$me = '';
+if($user['User']['id'] == $session->read('Auth.User.id')){
+    $me = 'me';
+}
 ?>
 
 <div class="your-comment">
@@ -24,7 +29,7 @@ if(isset($class)){
 		<?php
 		$user = $session->read('Auth.User');
         $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']));
-        $link_data['custom'] = array('class' => 'user-image', 'rel' => $this->MzText->getSubscribeUrl(), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']))), 'id' => $user['id'], 'alt' => $this->MzText->getUsername($user));
+        $link_data['custom'] = array('class' => 'user-image '.$me, 'rel' => $this->MzText->getSubscribeUrl(), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['username']))), 'id' => $user['id'], 'alt' => $this->MzText->getUsername($user));
         echo $image->render($user, 65, 65, array("alt" => $user['username']), $link_data);
 		?>
 	</p>
