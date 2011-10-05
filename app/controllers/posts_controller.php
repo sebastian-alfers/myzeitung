@@ -13,7 +13,7 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
 
-	var $components = array('JqImgcrop', 'Upload', 'Settings', 'Tweet');
+	var $components = array(/* 'Security', */ 'JqImgcrop', 'Upload', 'Settings', 'Tweet');
 	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
 
 
@@ -26,6 +26,9 @@ class PostsController extends AppController {
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
 		$this->Auth->allow('index','view');
+        // $this->Security->requireAuth('add');
+      //  $this->Security->disabledFields = array('id', 'user_id', 'title', 'content' , 'content_preview', 'reposters', 'topic_id','media','allow_comments','links','images','image', 'hash','file','file_upload');
+      //  $this->Security->disabledFields = array('id', 'user_id', 'title', 'content' , 'content_preview', 'reposters', 'topic_id','media','allow_comments','links','images','image', 'hash','file','file_upload');
 	}
 
 
@@ -374,7 +377,6 @@ class PostsController extends AppController {
 				$error = true;
 			}
 		}
-
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = array();
         $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));
@@ -456,6 +458,8 @@ class PostsController extends AppController {
 
 	function edit($id = null) {
 
+        $this->log('edit'.$id);
+
 		$user_id = $this->Session->read('Auth.User.id');
 		if($user_id == null || empty($user_id)){
 			$this->Session->setFlash(__('No permission', true));
@@ -477,18 +481,18 @@ class PostsController extends AppController {
 		//jepp, he is the owner!
 
 
-		if($this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
-			//if no topic -> remote value to make NULL in db
-			$this->data['Post']['topic_id'] = NULL;
-		}
 
-		$user_id = $this->Auth->User('id');
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid post', true));
-			$this->redirect($this->referer());
-		}
-		if (!empty($this->data)) {
-			//save new sorted images
+        $user_id = $this->Auth->User('id');
+        if (!$id && empty($this->data)) {
+            $this->Session->setFlash(__('Invalid post', true));
+            $this->redirect($this->referer());
+        }
+        if (!empty($this->data)) {
+            if($this->data['Post']['topic_id'] == self::NO_TOPIC_ID){
+                //if no topic -> remote value to make NULL in db
+                $this->data['Post']['topic_id'] = NULL;
+            }
+            //save new sorted images
             $images = '';
             $this->data['Post']['media'] = $this->_processMediaData(json_decode($this->data['Post']['media']));
 

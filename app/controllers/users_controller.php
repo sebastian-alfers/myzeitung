@@ -8,7 +8,7 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
 
-	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet', 'MzSession');
+	var $components = array('Security', 'ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload', 'Email', 'Settings', 'Tweet', 'MzSession');
 	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','MzRss');
 
@@ -27,6 +27,14 @@ class UsersController extends AppController {
        // $this->set('settings', $this->MzSession->getUserSettings());
 		parent::beforeFilter();
 		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references', 'feed');
+
+        $this->Security->disabledFields = array('image', 'User.image', 'data');
+        $this->log($this->params['action']);
+        if(in_array($this->params['action'],array('deleteProfilePicture', 'accImage', 'subscribe'))) {
+            $this->log('hier');
+            $this->Security->validatePost = false;
+
+        }
 	}
 
     public function beforeRender(){
@@ -388,7 +396,8 @@ class UsersController extends AppController {
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
 			$this->User->updateSolr = true;
-			if ($this->User->save($this->data)) {
+            $this->log($this->data);
+			if ($this->User->save($this->data, true, array('username', 'name' ,'password' ,'email','group_id', 'tos_accept'))) {
 
 				//after adding user -> add new topic
 				//		$newUserId = $this->User->id;
@@ -418,7 +427,7 @@ class UsersController extends AppController {
 			}
 		}
 	}
-
+/*
 	function edit($id = null) {
 
 		if (!$id && empty($this->data)) {
@@ -440,7 +449,7 @@ class UsersController extends AppController {
 		}
 		$groups = $this->Group->find('list');
 		$this->set('groups',$groups);
-	}
+	} */
 /*
 	function delete($id = null) {
 		if (!$id) {
@@ -891,7 +900,7 @@ class UsersController extends AppController {
         if($user) {
           $user['User']['tmp_password'] = $this->User->createTempPassword(7);
           $user['User']['password'] = $this->Auth->password($user['User']['tmp_password']);
-          if($this->User->save($user, false)) {
+          if($this->User->save($user, false, array('password'))) {
             $this->_sendPasswordEmail($user['User']['id'], $user['User']['tmp_password']);
             $this->Session->setFlash('An email has been sent with your new password.','default', array('class' => 'success'));
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
@@ -912,7 +921,7 @@ class UsersController extends AppController {
 		}
 
 		if (!empty($this->data)) {
-
+            $this->data['User']['id'] = $this->Session->read('Auth.User.id');
 			//save/validate email AND password
 			if(!empty($this->data['User']['old_password']) || !empty($this->data['User']['passwd']) || !empty($this->data['User']['passwd_confirm']) ){
 
@@ -964,6 +973,7 @@ class UsersController extends AppController {
 		}
 
 		if (!empty($this->data)) {
+            $this->data['User']['id'] = $this->Session->read('Auth.User.id');
 			$this->User->updateSolr = true;
 			if ($this->User->save($this->data, true, array('name', 'description', 'url'))) {
 				$this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
@@ -1076,7 +1086,7 @@ class UsersController extends AppController {
             $user['Setting']['user']['email']['new_message']['value'] = $this->data['User']['email_new_message'];
             $user['Setting']['user']['email']['subscription']['value'] = $this->data['User']['email_subscription'];
 
-            $this->Settings->save($user['Setting'], $user['User']['id']);
+            $this->Settings->save($user['Setting'], $this->Session->read('Auth.User.id'));
 
             $this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
 		}
@@ -1363,7 +1373,7 @@ class UsersController extends AppController {
                                            'username' => $this->Session->read('Auth.User.username'),
                                            'name'  => $this->Session->read('Auth.User.name')));
 
-            if($this->User->save($data)){
+            if($this->User->save($data, true, array('id','image','username','name'))){
                 $this->Session->write('Auth.User.image', '');
                 $this->Session->setFlash(__('Your Profile Picture has been removed', true),'default', array('class' => 'success'));
                 $this->redirect('/settings');

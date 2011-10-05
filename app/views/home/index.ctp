@@ -32,6 +32,7 @@
         <?php  echo $this->Form->input('auto_login', array('type' => 'checkbox', 'class' => 'checkbox' , 'div' => false, 'label' => false, 'checked' => true)); ?>
                 <span class="stay"><?php echo __('Remember Me', true);?>	</span>
                 </div>
+
                 <?php 	echo $this->Form->end(); ?>
 
 
@@ -137,25 +138,29 @@
                 </div><!-- /.col2 -->
 
 
-                <div class="col3">
-                    <h2>Meld Dich an und schreib eigene Artikel oder erstell Dir gleich eine eigene Zeitung!</h2>
+ 					<div class="col3">
+                        <h3> Du willst Nachrichten selbst veröffentlichen? Du willst deine eigene Onlinezeitung, eventuell mit deinen Bekannten erstellen?</h3>
 
-                    <p><strong>Lorem ipsum</strong> dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit </p>
-                    <?php echo $this->Html->link('<span>+</span>'.__('Register', true), array('controller' => 'users',  'action' => 'add'), array('rel' => 'nofollow', 'escape' => false, 'class' => 'big btn', ));?>
-                    <hr />
+                                                <p>…und suchst nach einem Netzwerk, dass dir all das bietet? Dann bist du hier richtig! Finde Artikel, Autoren und Zeitungen über die Suche oder schreibe deinen ersten Artikel. Du kannst dich kostenlos und unverbindlich bei uns registrieren.</p>
+                                                <?php echo $this->Html->link('<span>+</span>'.__('Register', true), array('controller' => 'users',  'action' => 'add'), array('rel' => 'nofollow', 'escape' => false, 'class' => 'big btn', ));?>
+                         <hr />
+                        <h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</h3>
 
-
-                    <h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</h3>
-
-                    <?php echo $this->Html->image('../img/assets/video.jpg', array('class' => 'mzslides'));?>
+						<?php echo $this->Html->image('../img/assets/video.jpg', array('class' => 'mzslides'));?>
 
 
-                </div><!-- /.col3 -->
+
+
+
+
+
+					</div><!-- /.col3 -->
 
 
 
                 </div><!-- / #maincol -->
 
             </div><!-- / #maincolwrapper -->
+
 
 <?php echo $this->element('search/autocomplete/script'); ?>

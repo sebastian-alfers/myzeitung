@@ -75,7 +75,7 @@ if($this->params['controller'] == 'home'){
 
         switch($this->params['pass'][0]){
             case "impressum":
-                $title = __('Imprint', true);
+                $title = __('Legal Notice', true);
             case "agb":
                 $title = __('Terms and Conditions', true);
             case "dsr":

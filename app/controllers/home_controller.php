@@ -3,7 +3,7 @@ class HomeController extends AppController {
 
 
 	var $name = 'Home';
-	var $components = array('ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
+	var $components = array('Security' ,'ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
 	var $uses = array('Paper', 'User', 'CategoryPaperPost');
 	var $helpers = array('MzTime', 'Image', 'Js' => array('Jquery'), 'Cache');
 

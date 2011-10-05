@@ -5,7 +5,7 @@ class InvitationsController extends AppController {
 
 	var $name = 'Invitations';
 
-	var $components = array('RequestHandler', 'JqImgcrop', 'Email',);
+	var $components = array('Security', 'RequestHandler', 'JqImgcrop', 'Email',);
 	var $uses = array('Invitation', 'Invitee');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Javascript');
 

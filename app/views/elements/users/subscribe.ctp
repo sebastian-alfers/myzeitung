@@ -70,7 +70,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
         <?php endif; //isset paper_id?>
 
         <?php if(isset($data['paper_category_chooser'])): ?>
-            <?php __('You have one ore more papers.'); ?>
+            <?php __('You have one or more papers.'); ?>
             <div class="choose-text">
                 <span class="icon"></span><?php __('Choose the paper that you want to subscribe the user to:'); ?>
             </div>
@@ -82,8 +82,9 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
                 <?php $i = 0; ?>
                 <div class="choose-text">
                     <span class="icon"></span><?php __('Choose the category that you want to subscribe the user to:'); ?>
-                </div>
-                <?php foreach($data['paper_category_chooser']['categories'] as $category): ?>
+                     <?php __('(All articles of a category are also shown on the front page)'); ?>
+                                    </div>
+                  <?php foreach($data['paper_category_chooser']['categories'] as $category): ?>
 
                     <div id="choose-category-<?php echo $category['paper_id']; ?>" class="category-choose-content" <?php if($i > 0) echo 'style="display:none;"'; ?>>
                         <?php echo $this->Form->input('category_content_data_'.$category['paper_id'] , array('type'=>'select','options'=> $category['options'], 'label' => false)); ?>

@@ -262,7 +262,7 @@ background: url(/img/assets/maintile.png) no-repeat scroll -52px -123px #242424;
     z-index: 16;
 }
 #breadcrumb {
-    margin-top: 10px;
+    margin-top: 6px;
 }
 
 #breadcrumb a {
@@ -585,6 +585,14 @@ overflow: hidden;
     position: relative;
 }
 
+.article-nav li, .account .account-nav li {
+    padding: 0;
+
+}
+.article-nav li, .account .account-nav.post-view li {
+    padding: 0 0 0 14px;
+
+}
 
 
 .round-icon{
@@ -2409,7 +2417,7 @@ width: 731px;
 }*/
 
 .message-overview, .invitations-overview{
-    width: 731px;
+    width: 747px;
 }
 
 .messages, .invitations {
@@ -3181,6 +3189,7 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     width:20px;
     text-indent: -99999px;
     float: left;
+    margin-bottom:16px;
 }
 
 .modal-content .arrow{
