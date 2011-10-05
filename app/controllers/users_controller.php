@@ -395,7 +395,8 @@ class UsersController extends AppController {
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
 			$this->User->updateSolr = true;
-			if ($this->User->save($this->data, true, array('username', 'name' ,'password' ,'email','tos_accept'))) {
+            $this->log($this->data);
+			if ($this->User->save($this->data, true, array('username', 'name' ,'password' ,'email','group_id', 'tos_accept'))) {
 
 				//after adding user -> add new topic
 				//		$newUserId = $this->User->id;

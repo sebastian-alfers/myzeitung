@@ -375,7 +375,6 @@ class PostsController extends AppController {
 				$error = true;
 			}
 		}
-
 		//for 'list' is no contain() needed. just selects the displayfield of the specific model.
 		$topics = array();
         $topics=$this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));

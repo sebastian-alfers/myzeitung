@@ -27,7 +27,7 @@
 				foreach($paper['references']['user_topic_in_category'] as $ref_user_topic_in_category){
 					$topic_name = $ref_user_topic_in_category['Topic']['name'];
 					$category_name = $ref_user_topic_in_category['Category']['name'];
-					$whole_user_in_paper = sprintf(__('Posts of the topic %1$s appear for the category %2$s', true), $topic_name, $category_name);
+					$whole_user_in_paper = sprintf(__('Posts of the topic %1$s appear in the category %2$s', true), $topic_name, $category_name);
 					$hover[] = $whole_user_in_paper;
 				}
 			}

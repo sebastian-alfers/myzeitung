@@ -262,7 +262,7 @@ background: url(/img/assets/maintile.png) no-repeat scroll -52px -123px #242424;
     z-index: 16;
 }
 #breadcrumb {
-    margin-top: 10px;
+    margin-top: 6px;
 }
 
 #breadcrumb a {
@@ -3190,6 +3190,7 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     width:20px;
     text-indent: -99999px;
     float: left;
+    margin-bottom:16px;
 }
 
 .modal-content .arrow{
