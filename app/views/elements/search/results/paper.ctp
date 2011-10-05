@@ -16,11 +16,9 @@
 <div class="left">
 	<h3><?php echo $this->Html->link($paper->paper_title,  $paper->route_source);?></h3>
 	<p><?php echo $paper_description;?></p>
-	    <?php $userLinkText = '<strong>'.$paper->user_username.'</strong>';?>
-    <?php if(!empty($paper->user_name)){
-                $userLinkText.='&#8212'.$paper->user_name;
-        }?>
-	<p class="from"><strong><?php echo __('Paper', true);?></strong> <?php echo __('from', true);?> <?php echo $this->Html->link( $userLinkText,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper->user_username)),array('escape' => false));?></p>
+	    <?php $userLinkText  = $this->MzText->generateDisplayname(array('username' => $paper->user_username, 'name' => $paper->user_name) ,true);?>
+  
+	<p class="from"><strong><?php echo __('Paper', true);?></strong> <?php echo __('by', true);?> <?php echo $this->Html->link( $userLinkText,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper->user_username)),array('escape' => false));?></p>
 	<div class="actions">	
 		<?php /*?><strong>20320 Leser</strong><?php */?>
 		<?php //echo $this->Html->link('<span>+</span>'.__('Subscribe', true), array('controller' => 'papers', 'action' => 'subscribe', $paper->id), array('escape' => false, 'class' => 'btn', ));?>

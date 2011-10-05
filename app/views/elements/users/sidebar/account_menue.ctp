@@ -1,4 +1,3 @@
-<hr />
 <?php
 echo $html->script('global/upload');
 echo $this->element('global/modal_upload',
@@ -13,7 +12,8 @@ echo $this->element('global/modal_upload',
 
 
 <ul class="my-account-nav">
-    <h6><?php echo __('Communication', true);?></h6>
+<fieldset>
+<legend><?php echo __('Communication', true);?></legend>
 
     <?php if($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view')):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-messages"></span>'.__('Messages', true), array('controller' => 'conversations', 'action' => 'index'), array('escape' => false,));?></li>
@@ -22,8 +22,9 @@ echo $this->element('global/modal_upload',
     <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Invitations', true), array('controller' => 'users', 'action' => 'accInvitations'), array('escape' => false,));?></li>
 
 
-    <hr />
-    <h6><?php echo __('Account Settings', true);?></h6>
+</fieldset>
+<fieldset>
+<legend><?php echo __('Account Settings', true);?></legend>
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accAboutMe'):?><li class="active"><?php else:?><li><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-about"></span>'.__('About Me', true), array('controller' => 'users', 'action' => 'accAboutMe'), array('escape' => false,));?></li>
@@ -41,12 +42,13 @@ echo $this->element('global/modal_upload',
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accSocial'):?><li class="active" id="acc-social"><?php else:?><li id="acc-social"><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-social-media"></span>'.__('Social Media', true), array('controller' => 'users', 'action' => 'accSocial'), array('escape' => false,));?></li>
-
-    <hr />
-    <h6><?php echo __('Change Language', true);?></h6>
+</fieldset>
+  <fieldset>
+<legend><?php echo __('Change Language', true);?></legend>
     <ul>
         <li><?php echo $this->element('locale/switch', array('locale' => $this->Session->read('Auth.Setting.user.default.locale.value'))); ?></li>
     </ul>
+    </fieldset>
     <?php /* <hr />
     <?php echo $this->element('invite/button');  */?>
 </ul>

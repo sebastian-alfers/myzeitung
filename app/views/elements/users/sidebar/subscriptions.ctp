@@ -1,4 +1,3 @@
-<hr />
 
 <?php
 if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions'){
@@ -35,7 +34,9 @@ if(isset($this->params['named']) && is_array($this->params['named'])){
 
 ?>
 <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions' ):?>
-<strong><?php  echo __('order by', true);?>:</strong>
+<fieldset>
+<legend><?php echo __('order by', true);?></legend>
+
 
 <ul class="filter-search">
 
@@ -55,6 +56,7 @@ if(isset($this->params['named']) && is_array($this->params['named'])){
              <li class="active"><?php else:?><li><?php endif;?>
              <?php echo $this->Paginator->sort('<span class="icon icon-subscription"></span>'. __('Number of Subscriptions', true), 'subscription_count', array('escape' => false,  'direction' => 'DESC')); ?></li>
 </ul>
+</fieldset>
 <?php endif;?>
 <?php /* ?>
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'viewSubscriptions' ):?>

@@ -26,11 +26,16 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 				echo $image->render($user['User'], 185, 185, array("alt" => $user['User']['username']), $link_data); ?>
 			</div>
 
-			<h4><?php echo $user['User']['username'];?></h4>
+        <h4><?php echo $this->MzText->generateDisplayname($user['User'],false);?></h4>
+        <?php if($user['User']['name']):?>
+          <p><strong><?php echo $user['User']['username'];?></strong></p>
+        <?php endif;?>
 
         <?php //elements shown when being on actions users-view, posts-view ?>
         <?php if(($this->params['controller'] == 'users' &&  in_array($this->params['action'], array('view','viewSubscriptions'))) || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'topics' && $this->params['action'] == 'delete')):?>
         <?php echo $this->element('users/sidebar/info'); ?>
+         <?php endif; ?>
+        <?php if(($this->params['controller'] == 'users' &&  in_array($this->params['action'], array('view'))) || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'topics' && $this->params['action'] == 'delete')):?>
         <?php echo $this->element('users/sidebar/buttons'); ?>
         <?php echo $this->element('users/sidebar/topics'); ?>
         <?php echo $this->element('users/sidebar/activity'); ?>

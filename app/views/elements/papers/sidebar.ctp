@@ -70,24 +70,13 @@ if($paper_belongs_to_user){
             <p class="user-url"><?php echo $this->Html->link($paper['Paper']['url'], $paper['Paper']['url'], array('rel' => 'nofollow', 'target' => '_blank'));?></p>
         <?php endif;?>
 
-        <?php if(!empty($paper['User']['username'])): ?>
-               <?php $tipsy_name= $paper['User']['username'];
-                if($paper['User']['name']){
-                    $tipsy_name = $paper['User']['username'].' - '.$paper['User']['name'];
-                }
-                if(!empty($paper['User']['name'])){
-                    $name = $paper['User']['name'];
-                }
-                else{
-                    $name = $paper['User']['username'];
-                }
-         ?>
-                
+        <?php //if(!empty($paper['User']['username'])): ?>
+               <?php $tipsy_name= $this->MzText->generateDisplayname($paper['User'], true); ?>
+               <?php $display_name = $this->MzText->generateDisplayname($paper['User'], false); ?>
 
-                <p class="user-url"><?php echo $this->Html->link("<h4>".$name."</h4>",array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('escape' => false, 'class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
-        <?php endif;?>
+           <p class="user-url"><?php echo $this->Html->link($display_name,array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('escape' => false, 'class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
+        <?php // endif;?>
 
-        <hr />
         <?php if(!$paper_belongs_to_user): ?>
         <ul>
 
@@ -116,7 +105,7 @@ if($paper_belongs_to_user){
 
         <?php $category_id = null;?>
         <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>
-        <div id="category-content">
+       <?php // <div id="category-content"> ?>
             <fieldset>
             <legend><?php echo __('Filter by Category', true);?></legend>
                <ul>
@@ -145,16 +134,19 @@ if($paper_belongs_to_user){
                 <?php endforeach;?>
             </ul>
             </fieldset>
-        </div>
-                <hr />
+        <?php // </div> ?>
+
 
         <?php if($paper_belongs_to_user):?>
+             <fieldset>
+            <legend><?php echo __('Options', true);?></legend>
             <ul>
                 <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'id' => 'edit-paper-btn', 'escape' => false));?></li>
                 <li><a class="btn gray" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
                 <li><a href="#" class="btn gray" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
-                <hr />
+
            </ul>
+         </fieldset>
         <?php endif;?>
 
 
@@ -166,15 +158,15 @@ if($paper_belongs_to_user){
                  <li><?php echo sprintf(__n('%s Subscriber', '%s Subscribers', $paper['Paper']['subscription_count'],true), $this->MzNumber->format($paper['Paper']['subscription_count'],'.'));?></li>
             </ul>
           </fieldset>
-          <hr />
-          <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),$paper['Route'][0]['source'].'/feed', array('class'  => 'btn gray', 'target'  => '_blank', 'rel' => 'nofollow', 'escape' => false));?>
-          <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
 
         <fieldset>
             <legend><?php __('Share'); ?></legend>
             <?php echo $this->element('global/social/icons', array('url' => $this->Html->url($canonical_for_layout, true))); ?>
         </fieldset>
 
+        <hr />
+     <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),$paper['Route'][0]['source'].'/feed', array('class'  => 'btn gray', 'target'  => '_blank', 'rel' => 'nofollow', 'escape' => false));?>
+     <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
 
 
 

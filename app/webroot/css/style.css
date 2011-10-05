@@ -535,14 +535,14 @@ margin-right: 13px;
 }
 
 .user-view .articlewrapper h4{
-	font-size: 14px;
+	font-size: 12px;
 	margin-bottom: 12px;
 	margin-top: 0;
 }
 
 .user-view .articlewrapper h5{
 	font-weight: normal;
-	font-size: 14px;
+	font-size: 12px;
 	margin-bottom: 0;
 }
 
@@ -702,7 +702,7 @@ padding-bottom: 30px;
 .leftcol h4 {
     font-weight: normal;
     clear: both;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .leftcol p {
@@ -3595,7 +3595,7 @@ span.arrow-left-white{
 
 fieldset{
     border-top: 1px solid #C8C8C8;
-    margin-top: 10px;
+    margin-top: 15px;
     padding-top: 10px;
 }
 legend{

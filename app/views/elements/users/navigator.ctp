@@ -18,12 +18,13 @@
                 <?php $tipsy_title = sprintf(__n('published in %s paper', 'published in %s papers', $user['User']['subscriber_count'],true), $this->MzNumber->counterToReadableSize($user['User']['subscriber_count']));?>
                 <li class="authors tt-title" title="<?php echo $tipsy_title;?>"><?php echo $this->MzNumber->counterToReadableSize($user['User']['subscriber_count']); ?></li>
             </ul>
-            
 
-            <h4><?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?></h4>
-             <?php $linktext = $this->MzText->truncate($user['User']['name'], 18,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
-            <h5><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view','username' =>  $user['User']['username']), array('rel' => 'nofollow'));?></h5>
 
+            <?php $linktext = $this->MzText->truncate($this->MzText->generateDisplayname($user['User'],false), 18,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
+            <h4><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?></h4>
+            <h5><?php if(isset($user['User']['name']) && !empty($user['User']['name'])): ?>
+                <?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view','username' =>  $user['User']['username']), array('rel' => 'nofollow'));?>
+            <?php endif; ?></h5>
            <?php
             $image_options = array();
             $image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
