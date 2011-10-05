@@ -69,7 +69,7 @@
 			</div><!-- / #content -->
 		</div> <!-- / #main-wapper -->
 		<?php echo $this->element('sql_dump'); ?>
-        <?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'view'): ?>
+        <?php if(($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'papers')): ?>
             <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
               {lang: 'de'}
             </script>

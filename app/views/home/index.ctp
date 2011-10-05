@@ -118,7 +118,7 @@
                                         $headline .='...';
                                     }
                                 ?>
-                                <h5><?php echo $this->Html->link($headline, $post['Post']['Route'][0]['source']);?></h5>
+                                <?php echo $this->Html->link($headline, $post['Post']['Route'][0]['source']);?>
                                 <?php // user container?>
                                                                                              <?php //debug($post); die(); ?>
                                  <?php echo $this->Html->link(

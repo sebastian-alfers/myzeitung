@@ -102,12 +102,13 @@ if($paper_belongs_to_user){
             <?php endif;?>
             </cake:nocache>
         </ul>
-        <hr />
+
 
         <?php $category_id = null;?>
         <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>
         <div id="category-content">
-            <h6><?php echo __('Filter by Category', true);?></h6>
+            <fieldset>
+            <legend><?php echo __('Filter by Category', true);?></legend>
                <ul>
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['frontpage_authors_count'] , true), $paper['Paper']['frontpage_authors_count']); ?>"></span>
                 <?php //show only links for not selected items?>
@@ -133,18 +134,25 @@ if($paper_belongs_to_user){
                 </li>
                 <?php endforeach;?>
             </ul>
+            </fieldset>
         </div>
-            <hr />
 
-            <h6><?php echo __('Activity', true);?></h6>
+            <fieldset>
+            <legend><?php echo __('Activity', true);?></legend>
               <ul>
                  <li><?php echo sprintf(__n('%s Post', '%s Posts', $paper['Paper']['post_count'],true), $this->MzNumber->format($paper['Paper']['post_count'],'.'));?></li>
                  <li><?php echo sprintf(__n('%s Subscribed User/Topic', '%s Subscribed Users/Topics', $paper['Paper']['author_count'],true), $this->MzNumber->format($paper['Paper']['author_count'],'.'));?></li>
                  <li><?php echo sprintf(__n('%s Subscriber', '%s Subscribers', $paper['Paper']['subscription_count'],true), $this->MzNumber->format($paper['Paper']['subscription_count'],'.'));?></li>
             </ul>
-            <hr />
+          </fieldset>
+          <hr />
           <?php echo $this->Html->link('<span class="icon rss-icon"></span>'.__('RSS-Feed', true),$paper['Route'][0]['source'].'/feed', array('class'  => 'btn gray', 'target'  => '_blank', 'rel' => 'nofollow', 'escape' => false));?>
-            <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
+          <?php echo $this->element('complaints/button', array('model' => 'paper', 'complain_target_id' => $paper['Paper']['id'])); ?>
+
+        <fieldset>
+            <legend><?php __('Share'); ?></legend>
+            <?php echo $this->element('global/social/icons', array('url' => $this->Html->url($canonical_for_layout, true))); ?>
+        </fieldset>
 
 
 

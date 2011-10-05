@@ -10,7 +10,7 @@ set :branch, "master"
 set :user, "ubuntu"
 
 set :deploy_via, :copy
-set :copy_cache, true
+set :copy_cache, "/Applications/MAMP/htdocs/myzeitung/deploy/"
 set :copy_exclude, [".git/*", ".gitignore", "app/webroot/img*", "config/", "Capfile", "cookbooks/", ".gitmodules", "Vagrantfile", ".vagrant", ".git", "cake.tar.bz2"]
 
 set :keep_releases, 4
@@ -69,11 +69,12 @@ end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
       upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/logo-icon.png", "#{current_release}/app/webroot/img/assets/logo-icon.png")
 end
 
-task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
-end
+#task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+#end
 
 
 

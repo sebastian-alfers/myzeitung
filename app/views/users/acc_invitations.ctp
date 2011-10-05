@@ -10,6 +10,16 @@
                 </ul>
             </div>
 
+            <?php if(count($invitations) < 1): ?>
+                <script type="text/javascript">
+                    $(document).ready(
+                            function(){
+                                $('#dialog-invitation').dialog('open');
+                            }
+                    );
+                </script>
+            <?php endif; ?>
+
 
             <ul class="invitations">
 

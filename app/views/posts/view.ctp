@@ -131,25 +131,7 @@ if(substr($post['Post']['content'],0,2) == "<p"){
             <hr />
             </div><!-- /. articleview -->
 
-            <div id="social">
-                <ul>
-                <li><a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="myzeitung" data-lang="de">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></li>
-                <li>
-                <div id="fb-root"></div>
-                <script>(function(d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) {return;}
-                                    js = d.createElement(s); js.id = id;
-                                    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));</script>
-
-                <div class="fb-like" data-send="false" data-width="50" data-show-faces="false" layout="button_count"></div>
-                </li>
-                <li>
-                <g:plusone size="medium"></g:plusone>
-                </li>
-            </div>
+            <?php echo $this->element('global/social/icons'); ?>
 
 
 			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['Setting']['user']['default']['allow_comments'] == true)):?>

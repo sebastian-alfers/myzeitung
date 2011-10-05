@@ -39,10 +39,12 @@ class PostsController extends AppController {
 
 	function index() {
 
+
+
 		$this->paginate = array(
 	        'Post' => array(
 		//limit of records per page
-	            'limit' => 9,
+	            'limit' => 12,
 		//order
 	            'order' => 'Post.created DESC',
 		//fields - custom field sum...

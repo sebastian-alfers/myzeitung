@@ -642,6 +642,8 @@ class Post extends AppModel {
 
         }
 
+        $this->deleteCache();
+
 
 
 
@@ -770,6 +772,28 @@ class Post extends AppModel {
 
     function afterDelete(){
         $this->deleteFromSolr();
+        return true;
+    }
+
+    function deleteCache(){
+        //delete rss feed cache
+        $this->contain('User.username');
+        $post = $this->read(null, $this->id);
+
+
+        $this->_deleteRssCache($post['User']['username']);
+    }
+
+    function deleteRssCache($username){
+        //rss view key
+        $key = 'u_'.$username.'_feed';
+        clearCache($key);
+
+    }
+
+    function beforeDelete(){
+        $this->deleteCache();
+        //importanta to return true to continue delete
         return true;
     }
 

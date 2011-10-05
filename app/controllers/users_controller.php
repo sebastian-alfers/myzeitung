@@ -14,7 +14,8 @@ class UsersController extends AppController {
 
 
     var $cacheAction = array(
-        'viewSubscriptions'  => array('callbacks' => true, 'duration' => '+1 month')
+        //'viewSubscriptions'  => array('callbacks' => true, 'duration' => '+1 month')
+        'feed'  => array('callbacks' => true, 'duration' => '+1 month')
     );
 
 
@@ -174,7 +175,7 @@ class UsersController extends AppController {
 		                ),
 		),
 		//limit of records per page
-	            'limit' => 9,
+	            'limit' => 12,
 		//order
 	            'order' => 'PostUser.created DESC',
 	            'fields' => array('Post.*', 'PostUser.repost'),
@@ -320,7 +321,7 @@ class UsersController extends AppController {
         //fields
 	            'fields' =>  array('id', 'image', 'owner_id','title','description','created','subscription_count', 'author_count', 'post_count'),
         //limit of records per page
-	            'limit' => 12,
+	            'limit' => 16,
         //order
 	            'order' => 'Paper.title ASC',
         //contain array: limit the (related) data and models being loaded per post

@@ -96,12 +96,12 @@ class CategoryPaperPost extends AppModel {
 
 
     function afterSAve(){
-        $this->log('after');
-        $this->log(debug($this->data));
+        //$this->log('after');
+        //$this->log(debug($this->data));
 
 
 
-        clearCache('p_schnuff_test_category');
+        //clearCache('p_schnuff_test_category');
     }
 
 

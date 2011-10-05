@@ -1,4 +1,3 @@
-<div id="dialog-activity" title="Activity" style="display:none;">
-    <h4><?php __('Activity');?></h4>
+<div id="dialog-activity" title="<?php __('Subscribers'); ?>" style="display:none;">
 	<div id="content-activity"></div>
 </div>

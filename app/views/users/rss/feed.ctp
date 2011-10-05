@@ -11,7 +11,7 @@ if(!empty($user['User']['name'])){
     $channelTitle .= $user['User']['username'];
 }
 //this 'set' sets back data to the layout
-$this->set('channel', array('title' => $channelTitle,'description' => $user['User']['description'], 'image' => array('url' => $this->Html->url('/img/assets/logo-mail.gif', true),'title' => 'myZeitung', 'link' => $this->Html->url('/',true))));
+$this->set('channel', array('title' => $channelTitle,'description' => $user['User']['description'], 'image' => array('url' => $this->Cf->url('assets/logo-mail.gif', true),'title' => 'myZeitung', 'link' => $this->Html->url('/',true))));
 
 
 

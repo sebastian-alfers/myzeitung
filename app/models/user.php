@@ -449,6 +449,7 @@ class User extends AppModel {
     }
 
     function beforeDelete(){
+
         App::import('model','Comment');
         $this->Comment = new Comment();
 
@@ -517,6 +518,10 @@ class User extends AppModel {
 
             $this->Setting->save($this->setting);
         }
+
+        App::import('model','Post');
+        $username = $this->data['User']['username'];
+        $this->Post->deleteRssCache($username);
 
 
     }

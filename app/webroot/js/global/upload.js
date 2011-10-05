@@ -80,7 +80,7 @@ $(document).ready(function() {
                 //$('#file_upload').hide();
 
                 if(file.status == 'success'){
-                    return $('<li id="' + file.data.name + '" class="ui-state-default"><a class="remove_li_item" name="'+file.data.path+'" style="cursor:pointer;vertical-align:top;color:#000">remove</a> <img src="' + base_url + '/' +file.data.path + '" width=100 \/></li>');
+                    return $('<li id="' + file.data.name + '" class="ui-state-default"><a class="remove_li_item" name="'+file.data.path+'" style="cursor:pointer;vertical-align:top;color:#000">entfernen</a> <img src="' + base_url + '/' +file.data.path + '" width=100 \/></li>');
                 }
 	        },
 	        beforeSend: function (event, files, index, xhr, handler, callBack) {

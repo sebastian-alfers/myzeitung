@@ -4,7 +4,7 @@ App::import('Helper', 'Rss');
 
 class MzRssHelper extends RssHelper {
 
-    public $helpers = array('MzHtml', 'Image','MzText', 'Time');
+    public $helpers = array('MzHtml', 'Image','MzText', 'Time', 'Cf');
 
     function preparePostForRSS($data){
         $author = '';
@@ -18,7 +18,7 @@ class MzRssHelper extends RssHelper {
             $imagedata = unserialize($data['Post']['image']);
             $imagedata = $imagedata[0];
 
-            $imagepath = '/img/'.$this->Image->resize($imagedata['path'], null, 100);
+            $imagepath = $this->Cf->url($this->Image->resize($imagedata['path'], null, 100), false);
             $imagetype = $imagedata['size']['mime'];
         }
 
@@ -30,7 +30,7 @@ class MzRssHelper extends RssHelper {
                      'pubDate' => $data['Post']['created'],
         );
         if(isset($imagepath) && isset($imagetype)){
-            $rssItem['enclosure'] = array('url' => $this->MzHtml->url($imagepath, false),'type' => $imagetype);
+            $rssItem['enclosure'] = array('url' => $imagepath,'type' => $imagetype);
         }
 
 
