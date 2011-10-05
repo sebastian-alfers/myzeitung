@@ -13,6 +13,11 @@ class UsersController extends AppController {
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','MzRss');
 
 
+    var $cacheAction = array(
+        'viewSubscriptions'  => array('callbacks' => true, 'duration' => '+1 month')
+    );
+
+
 	public function beforeFilter(){
         //App::import('Helper', 'MzOpengraph');
         //$og = new MzOpengraphHelper();

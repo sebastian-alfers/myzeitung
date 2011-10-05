@@ -36,8 +36,9 @@
 </head>
 	<body>
             <?php echo $this->element('global/mzslides/main'); ?>
-			<?php echo $this->Session->flash(); ?>
-
+            <cake:nocache>
+			    <?php echo $this->Session->flash(); ?>
+            </cake:nocache>
 			<?php echo $content_for_layout; ?>
 			
 			<?php echo $this->element('footer'); ?>
@@ -46,9 +47,9 @@
 			</div><!-- / #content -->
 		</div> <!-- / #main-wapper -->
 		<?php echo $this->element('sql_dump'); ?>
-        <!-- Dieses Tag in den Head-Bereich oder direkt vor dem schließenden Body-Tag einfügen -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-      {lang: 'de'}
-    </script>
+
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+            {lang: 'de'}
+        </script>
 	</body>
 </html>

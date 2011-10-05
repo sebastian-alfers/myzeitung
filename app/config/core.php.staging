@@ -48,7 +48,7 @@ Configure::write('Solr.port', 8080);
 Configure::write('Solr.host', 'localhost');
 
 //         cache
-Configure::write('Cache.disable', false);//true
+Configure::write('Cache.disable', true);//true
 Configure::write('Cache.check', true);//false
 Configure::write('Cache.save_handler', 'file');//file
 

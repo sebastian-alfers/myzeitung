@@ -57,8 +57,9 @@
 		<div id="main-wrapper">
            			<?php echo $this->element('header'); ?>
 			<div id="content" <?php if(isset($content_class)){ echo 'class="'.$content_class.'"';} ?>>
-
-			<?php echo $this->Session->flash(); ?>
+            <cake:nocache>
+			    <?php echo $this->Session->flash(); ?>
+            </cake:nocache>
 
 			<?php echo $content_for_layout; ?>
 			
@@ -68,9 +69,10 @@
 			</div><!-- / #content -->
 		</div> <!-- / #main-wapper -->
 		<?php echo $this->element('sql_dump'); ?>
-            <!-- Dieses Tag in den Head-Bereich oder direkt vor dem schließenden Body-Tag einfügen -->
-        <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-          {lang: 'de'}
-        </script>
+        <?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'view'): ?>
+            <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+              {lang: 'de'}
+            </script>
+        <?php endif; ?>
 	</body>
 </html>

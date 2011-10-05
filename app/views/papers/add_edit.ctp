@@ -24,9 +24,10 @@ $(document).ready(function() {
     <ul class="create-actions">
         <?php if($this->params['action'] == 'edit'):?>
         <li><?php echo $this->Html->link(__('Delete Paper', true), array('controller' => 'papers', 'action' => 'delete', $this->data['Paper']['id']) ,array('escape' => false, 'rel' => 'nofollow'), sprintf(__('Are you sure you want to delete your paper: %s?', true), $this->data['Paper']['title'])); ?></li>
+        <li> <a class="btn" id="link_save_changes"><span>+</span><?php echo __('Save Changes', true);?></a></li>
+        <?php else: ?>
+            <li> <a class="btn" id="link_save_changes"><span>+</span><?php echo __('Save paper', true);?></a></li>
         <?php endif;?>
-        <?php // <li class="big-btn"><a href="create-article.html" class="btn"><span class="icon icon-circle"></span>Vorschau</a></li> */ ?>
-        <li> <a class="btn" id="link_save_changes"><span>+</span><?php echo __('Save paper', true);?></a></li>
     </ul>
 </div>
 			    <p>

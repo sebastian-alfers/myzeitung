@@ -41,7 +41,7 @@ class AppController extends Controller {
     /*
      * options for the Asses.asset plugin
      */
-    var $helpers = array('MzHtml','MzHelpcenter', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
+    var $helpers = array('Cache', 'MzHtml','MzHelpcenter', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
 
     //acl groups
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
@@ -56,6 +56,7 @@ class AppController extends Controller {
     var $_open_graph_data = array();
 
 	public function beforeFilter(){
+
         $this->_open_graph_data = array('title'    => 'myZeitung',
                              'type'     => 'website',
                              'url'      => Router::url($this->here, true),
@@ -126,6 +127,7 @@ class AppController extends Controller {
 		    $this->layout='admin';
 		}
 
+
 	}
 
 
@@ -133,9 +135,16 @@ class AppController extends Controller {
 
 	protected function setConversationCount(){
 		$this->ConversationUser->contain();
-		$this->set('conversation_count', $this->ConversationUser->find('count',
+
+        $key = 'conv_count_'.$this->Session->read('Auth.User.id');
+        $conversation_count = Cache::read($key);
+        if($conversation_count === false){
+            $conversation_count = $this->ConversationUser->find('count',
 											array('conditions' => array('user_id' => $this->Session->read('Auth.User.id'),
-												 'status' => Conversation::STATUS_NEW))));
+												 'status' => Conversation::STATUS_NEW)));
+            Cache::write($key, $conversation_count);
+        }
+        $this->set('conversation_count', $conversation_count);
 	}
 
 
