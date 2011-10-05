@@ -28,7 +28,11 @@
 
             $link_data = array();
             $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username']));
-            $link_data['custom'] = array('class' => 'user-image',
+            $me = '';
+            if($comment_user_id == $logged_in_user_id){
+                $me = ' me ';
+            }
+            $link_data['custom'] = array('class' => 'user-image'.$me,
                                          'alt' => $this->MzText->getUsername($current_comment['User']));
                                         // 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($current_comment['User']['username']))),
                                        //  'rel' => $this->MzText->getSubscribeUrl(),

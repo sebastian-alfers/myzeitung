@@ -1,5 +1,8 @@
 var reply = false;
 function ajxSubmitComment(pid){
+
+    scrollTo('#add_comment');
+
 	var parent_post_id = 0;
 	var text = '';
 	var validation_error = '';

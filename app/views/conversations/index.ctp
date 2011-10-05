@@ -68,7 +68,7 @@
                                         <?php endif;?>
 									</li>
 									<li class="message-info">
-										<h5><?php echo $this->Html->link($conversation['Conversation']['title'],array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']));?></h5>
+										<h5><?php echo $this->Html->link($conversation['Conversation']['title'],array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']), array('id' => 'conv'.$conversation['Conversation']['id']));?></h5>
 										<?php // show all participants ?>
                                         <p class="from"><?php echo sprintf(__('between you and', true));?>
                                             <?php foreach($conversation['Conversation']['ConversationUser'] as $user){
@@ -77,12 +77,9 @@
                                                     $user['User']['username'] = __('deleted user', true);
                                                 }
                                                 if($user['User']['id'] != $session->read('Auth.User.id')){
-                                                    $tipsy_name= $user['User']['username'];
-									                if($user['User']['name']){
-										                $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
-									                }
+                                                    $tipsy_name = $this->MzText->generateDisplayName($user['User'], true);
                                                     if($user['User']['id']){
-                                                        echo $this->Html->link('<strong>'.$user['User']['username'].'</strong>' ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name, 'escape' => false));
+                                                        echo $this->Html->link('<strong>'.$this->MzText->generateDisplayName($user['User']).'</strong>' ,array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name, 'escape' => false));
                                                     }else{
                                                          echo '<strong>'.$user['User']['username'].'</strong>';
                                                     }
@@ -96,8 +93,8 @@
                                 		<p class="excerpt"><?php echo $this->Html->link($this->MzText->truncate($conversation['Conversation']['LastMessage']['message'], 160 ,array('ending' => '...', 'exact' => false, 'html' => false)),array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']));?></p>
 									</li>
 									<li class="actions">
-                                        <?php echo $this->Html->link('' ,array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']), array('class' => 'icon icon-answer', 'escape' => false));?>
-									    <?php echo $this->Html->link('',array('controller' => 'conversations', 'action' => 'remove', $conversation['Conversation']['id']), array('class' => 'icon icon-delete', 'escape' => false),sprintf(__('Are you sure you want to delete this conversation: %s?', true), $conversation['Conversation']['title']));?>
+                                        <?php echo $this->Html->link('' ,array('controller' => 'conversations', 'action' => 'view', $conversation['Conversation']['id']), array('class' => 'icon icon-answer tt-title', 'title' => __('View Conversation', true), 'escape' => false));?>
+									    <?php echo $this->Html->link('',array('controller' => 'conversations', 'action' => 'remove', $conversation['Conversation']['id']), array('class' => 'icon icon-delete tt-title', 'title' => __('Remove Conversation', true), 'escape' => false),sprintf(__('Are you sure you want to delete this conversation: %s?', true), $conversation['Conversation']['title']));?>
 										
 										<p><?php echo $this->MzTime->timeAgoInWords($conversation['Conversation']['LastMessage']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></p>
 									</li>

@@ -2171,6 +2171,15 @@ padding-right: 0;
 height:58px;
 }
 
+#mainnav ul#search-suggest  ul li{
+    padding-right: 0;
+}
+
+#mainnav ul#search-suggest  ul li:hover{
+    background-color: #ECECEC;
+}
+
+
 #mainnav ul#search-suggest .type-article, #mainnav ul#search-suggest .type-user, #mainnav ul#search-suggest .type-newspaper {
 display: block;
 }
@@ -2435,6 +2444,11 @@ width: 731px;
 	float: left;
     cursor: pointer;
 }
+
+.message:hover h5 a{
+    text-decoration: underline;
+}
+
 .invitations-overview .invitations li.invitee{
     width: 730px;
 }
@@ -2494,7 +2508,7 @@ width: 731px;
 }
 .message-overview .messages li.message, .invitations-overview .invitations li.invitation{
 border-bottom: 1px solid #e4e3e3;
-padding-bottom: 0px;
+padding:12px 28px 0 5px;
 margin-bottom: 5px;
 }
 .invitations-overview .invitations li.invitation{
