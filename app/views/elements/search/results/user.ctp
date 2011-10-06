@@ -20,10 +20,11 @@
      $displayName = $this->MzText->generateDisplayname(array('username' => $user->user_username, 'name' => $user->user_name) ,false);
     ?>
 	<h3><?php echo  $this->Html->link($displayName, array('controller' => 'users', 'action' => 'view',  'username' => strtolower($user->user_username)));?></h3>
-
+        <p>
 	<?php if(!empty($user->user_name)): ?>
-        <p><?php echo $this->Html->link($user->user_username, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username)));?></p>
+        <?php echo $this->Html->link($user->user_username, array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username)));?>
     <?php endif; ?>
+        </p>
 	<div class="actions">
 	<?php if($user->id != $session->read('Auth.User.id') && $user->user_allow_messages == true):?>
         <form action="<?php echo $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user->user_username))); ?>" method="post" accept-charset="utf-8"><div><input type="hidden" name="_method" value="POST"></div><input type="hidden" name="action" value="newConversation" />
