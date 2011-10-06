@@ -10,11 +10,10 @@
     ?>
 </cake:nocache>
 
-
 <div class="start-header">
         <div id="header">
             <h1 id="logo"><a href="/">myZeitung</a></h1>
-            <p class="slogan">Mit <span>myZeitung</span> bist du immer gut Informiert.</p>
+            <p class="slogan">Gemeinsam veröffentlichen. Gemeinsam mehr erreichen.</p>
 
 
 
@@ -51,7 +50,6 @@
 
     <div id="main-wrapper">
 
-
         <div id="content">
 
             <div id="maincolwrapper" class="onecol start">
@@ -86,12 +84,7 @@
                         <?php foreach($users as $user):?>
                             <li>
                                 <?php
-                                $tipsy_name= $user['User']['username'];
-                                if($user['User']['name']){
-                                    $tipsy_name = $user['User']['username'].' - '.$user['User']['name'];
-                                }
-
-
+                                $tipsy_name= $this->MzText->generateDisplayname($user['User']);
                                 $link_data = array();
                                 $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
                                 $link_data['custom'] = array('class' => 'user-image tt-title', 'title' => $tipsy_name);
@@ -108,7 +101,7 @@
                 </div><!-- /.col1 -->
 
                 <div class="col2">
-                    <h3><?php echo __('Newest Articles',true);?></h3>
+                    <h3><?php echo __('New Articles',true);?></h3>
 
                         <?php foreach($posts as $post):?>
 
@@ -121,10 +114,16 @@
                                 ?>
                                 <?php echo $this->Html->link($headline, $post['Post']['Route'][0]['source']);?>
                                 <?php // user container?>
-                                                                                             <?php //debug($post); die(); ?>
+                                 <?php //debug($post); die(); ?>
+                                <?php $authorName1 = $this->MzText->generateDisplayname($post['Post']['User'],false);
+                                      $authorName2 = '';
+                                      if(isset($post['Post']['User']['name']) && !empty($post['Post']['User']['name'])){
+                                         $authorName2 = $post['Post']['User']['username'];
+                                      }
+                                ?>
                                  <?php echo $this->Html->link(
                                         $image->render($post['Post']['User'], 26, 26, array( "alt" => $post['Post']['User']['username'], "class" => 'user-image'), array("tag" => "div"), ImageHelper::USER)
-                                        .'<span>'.$post['Post']['User']['username'].'<br />'.$post['Post']['User']['name'].'</span>',
+                                        .'<span>'.$authorName1.'<br />'.$authorName2.'</span>',
                                             array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['Post']['User']['username'])),
                                             array('class' => "user",'escape' => false));?>
 
@@ -137,26 +136,17 @@
                     </div>
                 </div><!-- /.col2 -->
 
-
  					<div class="col3">
-                        <h3> Du willst Nachrichten selbst veröffentlichen? Du willst deine eigene Onlinezeitung, eventuell mit deinen Bekannten erstellen?</h3>
+                        <h3> Du willst Nachrichten selbst veröffentlichen? Du willst deine eigene Onlinezeitung erstellen - eventuell mit deinen Bekannten?</h3>
 
-                                                <p>…und suchst nach einem Netzwerk, dass dir all das bietet? Dann bist du hier richtig! Finde Artikel, Autoren und Zeitungen über die Suche oder schreibe deinen ersten Artikel. Du kannst dich kostenlos und unverbindlich bei uns registrieren.</p>
-                                                <?php echo $this->Html->link('<span>+</span>'.__('Register', true), array('controller' => 'users',  'action' => 'add'), array('rel' => 'nofollow', 'escape' => false, 'class' => 'big btn', ));?>
+                            <p>…und du suchst nach einem Netzwerk, dass dir all das bietet? Dann bist du hier richtig! Erstelle Artikel oder Zeitungen selbst, oder lies einfach die Inhalte anderer Autoren. Du kannst dich kostenlos und unverbindlich bei uns registrieren.</p>
+                        <?php echo $this->Html->link('<span>+</span>'.__('Register', true), array('controller' => 'users',  'action' => 'add'), array('rel' => 'nofollow', 'escape' => false, 'class' => 'big btn', ));?>
                          <hr />
                         <h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</h3>
 
-						<?php echo $this->Html->image('../img/assets/video.jpg', array('class' => 'mzslides'));?>
-
-
-
-
-
-
+						<?php echo $this->Html->image('../img/assets/pres_prev.jpg', array('class' => 'mzslides'));?>
 
 					</div><!-- /.col3 -->
-
-
 
                 </div><!-- / #maincol -->
 
