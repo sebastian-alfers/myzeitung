@@ -45,6 +45,7 @@
     <?php echo $this->element('tracking/google_analytics/track'); ?>
 </head>
 	<body class="<?php echo $body_class; ?>">
+    <?php echo $this->element('global/mzslides/main'); ?>
 
     <?php
     if($session->read('Auth.User.id')){

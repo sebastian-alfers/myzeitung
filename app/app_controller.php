@@ -41,7 +41,7 @@ class AppController extends Controller {
     /*
      * options for the Asses.asset plugin
      */
-    var $helpers = array('Cache', 'MzHtml','MzHelpcenter', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
+    var $helpers = array('MzHtml','MzHelpcenter', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
 
     //acl groups
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
