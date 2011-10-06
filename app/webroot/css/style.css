@@ -1811,7 +1811,7 @@ position: relative;
 position: absolute;
 top: 97px;
 left: 44px;
-font-size: 18px;
+font-size: 16px;
 line-height: 22px;
 }
 
@@ -1942,7 +1942,8 @@ line-height: 23px;
 
 .start .article{
     margin: 0;
-    padding-bottom: 36px;
+    padding-bottom: 11px;
+    padding-top: 11px;
     width: 195px;
     border-bottom: 1px solid #e4e3e3;
 }

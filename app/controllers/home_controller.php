@@ -38,7 +38,7 @@ class HomeController extends AppController {
 
 
 		//$post_options = array('conditions' => array('Post.enabled' => true, 'Post.Paper.visible_home' => true),'limit' => 7, 'order' => array('Post.created DESC'), 'fields' => array('id','title'));
-        $post_options = array('conditions' => array('Post.enabled' => true, 'Paper.visible_home' => true),'limit' => 7, 'order' => array('Post.created DESC'), 'group' => array('CategoryPaperPost.post_id'));
+        $post_options = array('conditions' => array('Post.enabled' => true, 'Paper.visible_home' => true),'limit' => 6, 'order' => array('Post.created DESC'), 'group' => array('CategoryPaperPost.post_id'));
 
                                                                                     //$count = $this->CategoryPaperPost->find('count', array('conditions' => $conditions, 'fields' => 'distinct CategoryPaperPost.post_id'));
         //debug($this->CategoryPaperPost->find('all', $post_options));
