@@ -67,7 +67,7 @@ if($has_topics){
                                 <li class="comments tt-title" title="<?php echo $tipsy_title;?>"><?php echo $this->MzNumber->counterToReadableSize($post['Post']['comment_count']);?><span>.</span></li>
 							</ul>
 
-                                <?php $headline = $this->MzText->truncate($post['Post']['title'], 50,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
+                                <?php $headline = $this->MzText->truncate($post['Post']['title'], 55,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
                                 <?php // post headline
                                /* $headline = substr($post['Post']['title'],0,50);
                                 if(strlen($post['Post']['title']) > 50){
