@@ -196,15 +196,13 @@ $(document).ready(function() {
     function parseAndAddVideo(url){
 
         var hash = $('#hash').val();
-
         if(url == '') url = 'empty';//for validation purpose
-
         var req = $.post(base_url + '/ajax/getVideoPreview.json', {url:url, hash:hash})
 		   .success(function( response ){
 
                if(response.status == 'failure'){
                    if(response.data.msg != ''){
-                        alert(response.data.msg);
+                       //alert(response.data.msg);
                    }
                }
                else if(response.status == 'valid_url_no_video'){
@@ -212,6 +210,9 @@ $(document).ready(function() {
                    $( "#dialog-video-url" ).dialog( "close" );
                }
                else{
+                    if(!$('#media-content').is(":visible")){
+                        $('#media-content').toggle('slow');
+                    }
                    addVideoItem(response.data.video_item_html);
                }
                is_paste = false;
