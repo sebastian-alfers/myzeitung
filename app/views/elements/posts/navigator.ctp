@@ -221,7 +221,11 @@ if($has_topics){
 									<?php // posts belongs to user - show edit and delete?>
 									<?php echo $this->Html->link(__('Edit Post', true), array('controller' => 'posts', 'action' => 'edit', $post['Post']['id']),array('rel' => 'nofollow'));?>
 									&nbsp;&nbsp;
-									<?php echo $this->Html->link(__('Delete Post', true), array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']), null, sprintf(__('Are you sure you want to delete your post: %s?', true), $post['Post']['title']),array('rel' => 'nofollow')); ?>
+									<?php echo $this->Html->link(__('Delete Post', true),
+                                                                 array('controller' => 'posts', 'action' => 'delete', $post['Post']['id']),
+                                                                 null,
+                                                                 sprintf(__('Are you sure you want to delete your post: %s?', true),
+                                                                 $post['Post']['title']),array('rel' => 'nofollow')); ?>
 								<?php elseif($article_reposted_by_user):?>
 									<?php // post does not belong to user - user has already reposted post - show undo repost button?>
 									<?php echo $this->Html->link(__('Undo Repost', true), array('controller' => 'posts','action' => 'undoRepost', $post['Post']['id']),array('rel' => 'nofollow'));?>

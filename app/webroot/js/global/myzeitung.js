@@ -66,7 +66,9 @@ function scrollTo(trgt){
 }
 
 $(document).ready(function() {
-
+    $('.articlewrapper').click(function(e){
+        goTo($(this).find('a:first').attr('href'));
+    });
 
 
     var subscribe_box = $('#subscribe-box');

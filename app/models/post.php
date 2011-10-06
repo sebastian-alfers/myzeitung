@@ -781,7 +781,7 @@ class Post extends AppModel {
         $post = $this->read(null, $this->id);
 
 
-        $this->_deleteRssCache($post['User']['username']);
+        $this->deleteRssCache($post['User']['username']);
     }
 
     function deleteRssCache($username){
