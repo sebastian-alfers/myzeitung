@@ -149,7 +149,12 @@ class CommentsController extends AppController {
               $this->set('comment', $comment);
               $this->set('post', $post);
 
-              $this->_sendMail($owner['User']['email'], sprintf(__('%s wrote a new comment to your post: %s', true), $commentator['User']['username'], $post['Post']['title']),'new_comment');
+              App::Import('Helper','MzText');
+              $this->MzText = new MzTextHelper();
+              $commentator_name = $this->MzText->generateDisplayName($commentator['User'], true);
+
+
+              $this->_sendMail($owner['User']['email'], sprintf(__('%s wrote a new comment to your post: %s', true), $commentator_name, $post['Post']['title']),'new_comment');
 
                   $this->Session->write('Config.language', $tempLocale);
           }

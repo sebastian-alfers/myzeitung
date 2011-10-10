@@ -425,7 +425,7 @@ class AppController extends Controller {
         $this->Email->sendAs = 'both'; //Send as 'html', 'text' or 'both' (default is 'text')
         $this->Email->delivery = 'mail';
 
-        //do be changed on live
+        //to be changed on live
         $this->Email->additionalParams = '-fno-reply@myzeitung.de';
         $this->Email->from = 'myZeitung <no-reply@myzeitung.de>';
 

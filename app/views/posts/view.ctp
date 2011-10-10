@@ -134,7 +134,7 @@ if(substr($post['Post']['content'],0,2) == "<p"){
             <?php echo $this->element('global/social/icons'); ?>
 
 
-			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['Setting']['user']['default']['allow_comments'] == true)):?>
+			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['Setting']['user']['default']['allow_comments']['value'] == true)):?>
 			<div class="comments" style="clear:both">
 				<?php // Comment Input Box?>
 				<?php if($session->read('Auth.User.id')):?>

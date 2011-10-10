@@ -5,7 +5,7 @@
 </p>
 <p style='color:#232424;'>
 <?php echo $this->MzTime->format('d.m.y G:i', $comment['Comment']['created']);?>
- &nbsp;<?php echo $this->Html->link($commentator['User']['username'], $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($commentator['User']['username'])),true),array('style' => 'color:#232424; font-weight:bold;')); ?>
+ &nbsp;<?php echo $this->Html->link($this->MzText->generateDisplayName($commentator['User'], true), $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($commentator['User']['username'])),true),array('style' => 'color:#232424; font-weight:bold;')); ?>
 <br />
 <?php echo $comment['Comment']['text'];?>
 </p>    

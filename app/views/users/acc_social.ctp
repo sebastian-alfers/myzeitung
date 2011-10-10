@@ -26,6 +26,7 @@ $(document).ready(function() {
 <div id="maincolwrapper">
 	<div id="maincol" class="account">
 		<h2 class="account-title"><?php echo __('Social Media', true);?></h2>
+        <p><strong><?php echo __('Connect with your social media profiles, to spread your message even more. Your new articles will be promoted automatically on the connected networks.',true); ?></strong> </p>
 
         <?php echo $this->Form->create('User', array('class' => 'jqtransform',  'inputDefaults' => array('error' => false, 'div' => false)));?>
         <?php echo $this->Form->hidden('id' , array('value' => $user['User']['id']));?>

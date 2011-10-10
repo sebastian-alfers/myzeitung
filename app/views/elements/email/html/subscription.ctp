@@ -1,5 +1,5 @@
 
-<?php $subscriberLink = $this->Html->link($paper['User']['username'], $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username'])),true), array('style' => 'color:#232424; font-weight:bold;'));
+<?php $subscriberLink = $this->Html->link($this->MzText->generateDisplayName($paper['User'], false), $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($paper['User']['username'])),true), array('style' => 'color:#232424; font-weight:bold;'));
      $paperLink = $this->Html->link($paper['Paper']['title'], $this->Html->url($paper['Route'][0]['source'],true),array('style' => 'color:#232424; font-weight:bold;'));
 if($topic != null){
     $topicLink = $this->Html->link($topic['Topic']['name'], $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($recipient['User']['username']), $topic['Topic']['id']),true),array('style' => 'color:#232424; font-weight:bold;'));

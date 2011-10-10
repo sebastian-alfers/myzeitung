@@ -791,6 +791,7 @@ padding-bottom: 30px;
     left: 0;
     height: 184px;
     width:200px;
+    overflow: hidden;
 }
 
 .article h4 {
@@ -800,6 +801,8 @@ padding-bottom: 30px;
 .article p {
     /*border-bottom: 1px solid #DFDDDD;*/
     height: 140px;
+    overflow: hidden;
+
 }
 
 .article ul.iconbar {
@@ -1452,10 +1455,13 @@ form p, form div{
     position: relative;
 /*     height: 63px; */
 }
-
+.account p{
+    width: 700px;
+}
 .account form p, .account form div{
 height:63px;
 }
+
 
 .account form div.accept p{
 height:auto;

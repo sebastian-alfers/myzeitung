@@ -5,7 +5,7 @@ class InvitationsController extends AppController {
 
 	var $name = 'Invitations';
 
-	var $components = array('Security', 'RequestHandler', 'JqImgcrop', 'Email',);
+	var $components = array('RequestHandler', 'JqImgcrop', 'Email',);
 	var $uses = array('Invitation', 'Invitee');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Javascript');
 
@@ -120,10 +120,10 @@ class InvitationsController extends AppController {
         $this->set('recipient', array('User' => array('email' => $recipient_email)));
         $this->set('text',$text);
 
-        $sender_name = $sender['User']['username'];
-        if(!empty($sender['User']['name'])){
-            $sender_name .= ' - '.$sender['User']['name'];
-        }
+        App::Import('Helper','MzText');
+        $this->MzText = new MzTextHelper();
+        $sender_name = $this->MzText->generateDisplayName($sender['User'], true);
+
         $this->_sendMail($recipient_email, sprintf(__('Invitation to myZeitung from %s',true),$sender_name), 'invitation');
 
 

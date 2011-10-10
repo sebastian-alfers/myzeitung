@@ -1,8 +1,5 @@
 <?php
-    $sender_name = $sender['User']['username'];
-    if(!empty($sender['User']['name'])){
-        $sender_name .= ' - '.$sender['User']['name'];
-    }
+    $sender_name = $this->MzText->generateDisplayName($sender['User'], true);
 
     $sender_link = $this->Html->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($sender['User']['username'])),true);
 

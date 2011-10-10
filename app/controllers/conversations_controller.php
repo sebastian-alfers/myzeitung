@@ -31,7 +31,7 @@ class ConversationsController extends AppController {
 			$this->User->contain();
 			$recipient = $this->User->read(array('id', 'username', 'name'), $recipient_id);
             $recipient['Setting'] = $this->User->getSettings($recipient['User']['id']);
-			if($recipient['Setting']['user']['default']['allow_messages'] == false){
+			if($recipient['Setting']['user']['default']['allow_messages']['value'] == false){
 				$this->Session->setFlash(__('This user does not acceppt messages.', true));
 				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
 			}
@@ -315,14 +315,15 @@ class ConversationsController extends AppController {
 
               $conversation = $this->Conversation->read(null, $conversation_id);
 
-
-
+              App::Import('Helper','MzText');
+              $this->MzText = new MzTextHelper();
+              $sender_name = $this->MzText->generateDisplayName($sender['User'], true);
 
               $this->set('sender', $sender);
               $this->set('recipient', $recipient);
               $this->set('conversation', $conversation);
 
-              $this->_sendMail($recipient['User']['email'], __('New Message from', true).' '.$sender['User']['username'].' in Conversation '.$conversation['Conversation']['title'],'new_message');
+              $this->_sendMail($recipient['User']['email'], __('New Message from', true).' '.$sender_name.' in Conversation '.$conversation['Conversation']['title'],'new_message');
 
               $this->Session->write('Config.language', $tempLocale);
 

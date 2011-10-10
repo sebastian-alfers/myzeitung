@@ -9,7 +9,8 @@
                                 <?php if($user['User']['id'] != $session->read('Auth.User.id')):?>
                                    , <strong>
                                         <?php if($user['User']['id']):?>
-                                             <?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?>
+                                             <?php $tipsy_name = $this->MzText->generateDisplayName($user['User'], true); ?>
+                                             <?php echo $this->Html->link($this->MzText->generateDisplayName($user['User']), array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])),array('class' => 'tt-title', 'title' => $tipsy_name, 'escape' => false));?>
                                         <?php else:?>
                                               <?php echo $user['User']['username'];?>
                                         <?php endif;?>
