@@ -57,7 +57,7 @@ Configure::write('Cache.save_handler', 'file');//file
 Configure::write('Session.save', 'database');//
 
 //         debug
-Configure::write('debug', 2);
+Configure::write('debug', 0);
 
 
 
