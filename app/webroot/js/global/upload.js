@@ -1,4 +1,61 @@
 $(document).ready(function() {
+
+    $( "#dialog-upload" ).dialog({
+        resizable: false,
+        height:450,
+        width:650,
+        draggable:false,
+        modal: true,
+        autoOpen: false,
+        live: true
+    });
+
+	$("#add_image").click(function(){
+        $('#dialog-upload').dialog('open');
+        return false;
+	});
+     /*
+    $.widget('blueimpUIX.fileupload', $.blueimpUI.fileupload, {
+    options: {
+        errorMessages: {
+            maxFileSize: 'File is too big',
+            minFileSize: 'File is too small',
+            acceptFileTypes: 'Filetype not allowed',
+            maxNumberOfFiles: 'Max number of files exceeded'
+        }
+    },
+    _renderDownloadTemplate: function (files) {
+        var that = this,
+            rows = $();
+        $.each(files, function (index, file) {
+            file = that._downloadTemplateHelper(file);
+
+            if(!$('#media-content').is(":visible")){
+                $('#media-content').toggle('slow');
+            }
+            if(file.error){
+                console.log(file);
+            }
+            else{
+                $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
+
+                //$('#fileupload form').attr('action', 'http://localhost:8180/users/accImage');
+                //$('#hash').append('<input type="hidden" value="asdfasdf" name="new-profile-pic" />');
+                //$('#fileupload form').submit();
+            }
+
+
+        });
+        return rows;
+        }
+    });
+    */
+    $('#fileupload').fileupload();//{maxNumberOfFiles: 1}
+
+
+});
+/*
+$(document).ready(function() {
     var up = false;
     var upload = '';
     $( "#dialog-upload" ).dialog({
@@ -153,6 +210,6 @@ $(document).ready(function() {
 
 	
 });
-
+*/
 
 

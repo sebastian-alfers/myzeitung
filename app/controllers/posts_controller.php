@@ -225,7 +225,7 @@ class PostsController extends AppController {
 
 		$user_id = $this->Auth->User('id');
 		if (!empty($this->data)) {
-           
+
 
 			//save new sorted images
             $images = '';
@@ -644,7 +644,7 @@ class PostsController extends AppController {
 
 
 	function delete($id = null) {
-  
+
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for post', true));
 			$this->redirect($this->referer());
@@ -656,14 +656,14 @@ class PostsController extends AppController {
             if ($this->Post->delete($id, true)) {
                 $this->Session->setFlash(__('Post deleted', true), 'default', array('class' => 'success'));
                 $this->redirect(array('controller' => 'users',  'action' => 'view',  'username' => strtolower($this->Session->read('Auth.User.username'))));
-                
+
             $this->redirect($this->referer());
             }
             $this->Session->setFlash(__('Post was not deleted', true));
             $this->redirect($this->referer());
         } else {
             $this->Session->setFlash(__('The Post does not belong to you.', true));
-       
+
             $this->redirect($this->referer());
         }
     }
@@ -673,18 +673,24 @@ class PostsController extends AppController {
 	 */
 
 	function ajxImageProcess(){
-		if(isset($_FILES['file'])){
-			$file = $_FILES['file'];
 
-			if(!isset($_POST['hash']) || empty($_POST['hash'])){
+        $this->log($_FILES);
+
+        $this->log(json_encode($this->params));
+        $this->params = json_decode('{"controller":"posts","action":"ajxImageProcess","named":[],"pass":[],"plugin":null,"url":{"ext":"html","url":"posts\/ajxImageProcess"},"form":{"hash":"518fbb1dda97ad7e641461f8b4557a67","files":{"name":["Bildschirmfoto 2011-08-05 um 20.22.28.png"],"type":["image\/png"],"tmp_name":["\/tmp\/phpMRjvYU"],"error":[0],"size":[254506]}},"isAjax":true}', true);
+
+		if(isset($this->params['form']['files'])){
+			$file = $this->params['form']['files'];
+
+			if(!isset($this->params['form']['hash']) || empty($this->params['form']['hash'])){
 				$this->log('error. hash value not available. can not upload picture');
 				return '{"name":"error"}';
 			}
 
-			$hash = $_POST['hash'];
+			$hash = $this->params['form']['hash'];
 
 
-			$img = $file['name'];
+			$img = $file['name'][0];
 			if(!$img){
 				return '{"name":"error"}';
 			}
@@ -693,15 +699,29 @@ class PostsController extends AppController {
 			//******************************************
 
 			//remove whitespace etc from img name
-			$file['name'] = $this->Upload->transformFileName($file['name']);
+            //$this->log($file);
+			$file['name'][0] = $this->Upload->transformFileName($img);
+            //$this->log($file);
 
-			//$this->log('****** ' . $file['name']);
 
 			$uploaded = $this->JqImgcrop->uploadImage($file, $imgPath, '');
 
-			$ret = '{"name":"'.$file['name'].'","path":"' . $imgPath.$file['name'] . '","type":"'.$file['type'].'","size":"'.$file['size'].'"}';
+
+
+			//$ret = '{"name":"'.$file['name'].'","path":"' . $imgPath.$file['path'] . '","type":"'.$file['type'][0].'","size":"'.$file['size'][0].'"}';
+
+
+            $ret = array();
+            $ret['name'] = $file['name'][0];
+            $ret['path'] = $imgPath;
+            $ret['type'] = $file['type'][0];
+            $ret['size'] = $file['size'][0];
+
+            $this->log($ret);
+            #$this->log(json_decode($ret, true));
+
 			//$this->log($ret);
-			$this->set('files', $ret);
+			$this->set('files', json_encode(array($ret)));
 		}
 
 		$this->render('ajxImageProcess', 'ajax');//custom ctp, ajax for blank layout

@@ -29,15 +29,16 @@
             // allowed to be uploaded using this widget:
             maxNumberOfFiles: undefined,
             // The maximum allowed file size:
-            maxFileSize: 500000,
+            maxFileSize: 8020318, /* 6215747 = 6,2MB */
             // The minimum allowed file size:
             minFileSize: 1,
             // The regular expression for allowed file types, matches
             // against either file type or file name:
             acceptFileTypes:  /.+$/i,
+            //acceptFileTypes: /(.|\/)(gif|jpeg|jpg|png)$/i,
             // The regular expression to define for which files a preview
             // image is shown, matched against the file type:
-            previewFileTypes: /^image\/(gif|jpeg|png)$/,
+            previewFileTypes: /^image\/(gif|jpeg|jpg|png)$/,
             // The maximum width of the preview images:
             previewMaxWidth: 80,
             // The maximum height of the preview images:
@@ -98,10 +99,10 @@
             },
             // Callback for successful uploads:
             done: function (e, data) {
-
                 var that = $(this).data('fileupload');
                 if (data.context) {
                     data.context.each(function (index) {
+
                         var file = ($.isArray(data.result) &&
                                 data.result[index]) || {error: 'emptyResult'};
                         if (file.error) {

@@ -83,7 +83,7 @@ class UsersController extends AppController {
      												'recursive' => -1
 			));
 			if(!empty($user) && $this->Auth->login($user)) {
-               
+
 				if($this->Auth->autoRedirect){
 					$this->redirect($this->Auth->redirect());
 				}
@@ -197,7 +197,7 @@ class UsersController extends AppController {
 		}
 
 		$this->set('user', $user);
-    
+
         $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
         $this->set('rss_for_layout', '/u/'.strtolower($user['User']['username']).'/feed');
 		$this->set('posts', $this->paginate($this->User->Post));
@@ -346,7 +346,7 @@ class UsersController extends AppController {
                 $this->paginate['Paper']['joins'][0]['conditions']['Subscription.own_paper'] = false;
             }
         }
-      
+
 
         //unbinding irrelevant relations for the query
         $this->set('own_paper', $own_paper);
@@ -1139,7 +1139,11 @@ class UsersController extends AppController {
 	 *
 	 */
 	function accImage(){
-		if(!empty($this->data)){
+
+		if(isset($this->params['form']['hash']) && !empty($this->params['form']['hash'])){
+
+            debug($this->params);
+            die();
 
 			//check, if user exists
 			$this->User->contain();
@@ -1148,12 +1152,13 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('Error while loading user', true));
 				$this->redirect($this->referer());
 			}
+            $hash = $this->params['form']['hash'];
 
-			if($this->Upload->hasImagesInHashFolder($this->data['User']['hash'])){
+			if($this->Upload->hasImagesInHashFolder($hash)){
 				$image = array();
 				$user_id = $this->Session->read('Auth.User.id');
 				$user_created = $user_data['User']['created'];
-				$image = $this->Upload->copyImagesFromHash($this->data['User']['hash'], $user_id, $user_created, $this->data['User']['new_image'], 'user');
+				$image = $this->Upload->copyImagesFromHash($hash, $user_id, $user_created, $this->data['User']['new_image'], 'user');
 
 				if(is_array($image)){
 					$this->User->contain();
@@ -1208,8 +1213,8 @@ class UsersController extends AppController {
             )
         );
         $invitations = $this->paginate("Invitation");
-        
-       
+
+
         //check if a user is already registered,
         /*foreach($invitations as &$invitation){
             foreach($invitation['Invitee'] as &$invitee){
@@ -1221,7 +1226,7 @@ class UsersController extends AppController {
             }
 
         }*/
-        
+
         $this->set('user', $this->getUserForSidebar());
         $this->set('invitations', $invitations);
         $this->set('hash', $this->Upload->getHash());
@@ -1287,7 +1292,7 @@ class UsersController extends AppController {
 		//reading user
             $user = $this->User->getUserForSidebar(strtolower($username));
 		}
-        
+
         return $user;
 	}
 

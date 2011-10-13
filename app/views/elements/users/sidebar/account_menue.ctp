@@ -1,15 +1,6 @@
-<?php
-echo $html->script('global/upload');
-echo $this->element('global/modal_upload',
-                     array('title'  => 'Upload new Profile Picture',
-                           'hash'   => $hash,
-                           'model'  => 'User',
-                           'model_id'=> $user_id,
-                           'submit' => array('controller' => 'users', 'action' => 'accImage')));
+<?php $this->MzJavascript->link('global/upload.js'); ?>
 
-
-?>
-
+<?php echo $this->element('global/upload/modal', array('action' => FULL_BASE_URL.DS.'posts/ajxImageProcess')); ?>
 
 <ul class="my-account-nav">
 <fieldset>

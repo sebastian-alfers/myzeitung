@@ -366,96 +366,44 @@ $(document).ready(function() {
     }    
 
 
-$(document).ready(function() {
-    var scroll = false;
-		$('#PostImage').hide();	
+$(function () {
+    'use strict';
 
-		$(function () {
-		    $('#file_upload').fileUploadUI({
-		        uploadTable: $('#sortable'),
-		        downloadTable: $('#sortable'),
-		        buildUploadRow: function (files, index) {
-		        		        
-		            return $('<li id="tmp_upload_stuff"><table><tr><td class="file_upload_preview"><img style="position:relative; top:0px; left:10px;height:16px;width:16px;" src="'+base_url +'/img/assets/loader.gif" /><\/td>' +
-		                    '<\/tr></table></li>');
-		        },
-		        buildDownloadRow: function (file) {
-                    if(!$('#media-content').is(":visible")){
-                        $('#media-content').toggle('slow');
-                    }
-		            return $('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + '" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
-		        },
-		        beforeSend: function (event, files, index, xhr, handler, callBack) {
-                    if(!scroll){
-                        scrollTo('#sortable');
-                        scroll = true;
-                    }
+    // Initialize the jQuery File Upload widget:
 
-					//check for empty files or folders
-					if (files[index].size === 0) {
-	            			handler.uploadRow.find('.file_upload_progress').html('FILE IS EMPTY!');
-	            			setTimeout(function () {
-	                			handler.removeNode(handler.uploadRow);
-            				}, 10000);
-            			return;
-        			}	
-        			//check file types				
-					var regexp = /\.(png)|(jpg)|(jpeg)|(gif)$/i;
-			        // Using the filename extension for our test,
-			        // as legacy browsers don't report the mime type
-			        if (!regexp.test(files[index].name)) {
-			            handler.uploadRow.find('.file_upload_progress').html('ONLY IMAGES ALLOWED!');
-			            setTimeout(function () {
-			                handler.removeNode(handler.uploadRow);
-			            }, 10000);
-			            return;
-			        }
-
-			        if (files[index].size > 10000000) {
-                        alert('file too big');
-			            handler.uploadRow.find('.file_upload_progress').html('FILE TOO BIG!');
-			            setTimeout(function () {
-			                handler.removeNode(handler.uploadRow);
-			            }, 10000);
-			            return;
-			        }
-			        
-		            if (index === 0) {
-		                // The files array is a shared object between the instances of an upload selection.
-		                // We extend it with a custom array to coordinate the upload sequence:
-		                files.uploadSequence = [];
-		                files.uploadSequence.start = function (index) {
-		                    var next = this[index];
-		                    if (next) {
-		                        // Call the callback with any given additional arguments:
-		                        next.apply(null, Array.prototype.slice.call(arguments, 1));
-		                        this[index] = null;
-		                    }
-		                };
-		            }
-		            files.uploadSequence.push(callBack);
-		            if (index + 1 === files.length) {
-		                files.uploadSequence.start(0);
-		            }
-		        },
-		        onComplete: function (event, files, index, xhr, handler) {
-		            files.uploadSequence.start(index + 1);
-		        },
-		        onAbort: function (event, files, index, xhr, handler) {
-		            handler.removeNode(handler.uploadRow);
-		            files.uploadSequence[index] = null;
-		            files.uploadSequence.start(index + 1);
-		        }
-		    });
-		});
+    //$('#fileupload')
+    //    .bind('fileuploaddone', function (e, data) {
+            //alert('jipp');
+    //    });
 
 
 
+    /*
+    // Load existing files:
+    $.getJSON($('#fileupload form').prop('action'), function (files) {
+        var fu = $('#fileupload').data('fileupload');
+        fu._adjustMaxNumberOfFiles(-files.length);
+        fu._renderDownload(files)
+            .appendTo($('#fileupload .files'))
+            .fadeIn(function () {
+                // Fix for IE7 and lower:
+                $(this).show();
+            });
+    });
+    */
 
+    // Open download dialogs via iframes,
+    // to prevent aborting current uploads:
+    /*
+    $('#fileupload .files a:not([target^=_blank])').live('click', function (e) {
+        e.preventDefault();
+        $('<iframe style="display:none;"></iframe>')
+            .prop('src', this.href)
+            .appendTo('body');
+    });
+    */
 
-
-});//end domready
-
+});
 
 //prevent form to submit
 $(function()
