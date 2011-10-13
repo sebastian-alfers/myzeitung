@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $('#fileupload').fileupload({maxNumberOfFiles: 1});
+
     $('#category-content .category').bind('mouseenter', function(){
         $(this).find('.edit-icon').css('visibility', 'visible');
     });

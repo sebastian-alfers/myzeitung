@@ -1,6 +1,7 @@
 <?php $this->MzJavascript->link('global/upload.js'); ?>
+<?php $this->MzJavascript->link('user/account.js'); ?>
 
-<?php echo $this->element('global/upload/modal', array('action' => FULL_BASE_URL.DS.'posts/ajxImageProcess')); ?>
+<?php echo $this->element('global/upload/modal'); ?>
 
 <ul class="my-account-nav">
 <fieldset>

@@ -1,6 +1,9 @@
 <div id="fileupload">
     <form action="<?php echo FULL_BASE_URL.DS.'posts/ajxImageProcess'; ?>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="hash" id="hash" value="<?php echo $hash; ?>" />
+        <?php if(isset($paper_id) && !empty($paper_id)): ?>
+            <input type="hidden" name="paper_id" id="paper_id" value="<?php echo $paper_id; ?>" />
+        <?php endif; ?>
         <div class="fileupload-buttonbar">
             <label class="fileinput-button">
                 <span>Add files...</span>
@@ -8,6 +11,8 @@
             </label>
             <button type="submit" class="start">Start upload</button>
             <button type="reset" class="cancel">Cancel upload</button>
+            <button type="delete" class="cancel delete-profile-picture"><?php __('Delete profile picture'); ?></button>
+            <button type="delete" class="cancel delete-paper-picture" id="<?php echo $paper_id; ?>"><?php __('Delete paper picture'); ?></button>
         </div>
     </form>
     <div class="fileupload-content">

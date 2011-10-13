@@ -1142,9 +1142,6 @@ class UsersController extends AppController {
 
 		if(isset($this->params['form']['hash']) && !empty($this->params['form']['hash'])){
 
-            debug($this->params);
-            die();
-
 			//check, if user exists
 			$this->User->contain();
 			$user_data = $this->User->read(null, $this->Session->read('Auth.User.id'));
@@ -1158,7 +1155,7 @@ class UsersController extends AppController {
 				$image = array();
 				$user_id = $this->Session->read('Auth.User.id');
 				$user_created = $user_data['User']['created'];
-				$image = $this->Upload->copyImagesFromHash($hash, $user_id, $user_created, $this->data['User']['new_image'], 'user');
+				$image = $this->Upload->copyImagesFromHash($hash, $user_id, $user_created, $this->params['form']['new_image'], 'user');
 
 				if(is_array($image)){
 					$this->User->contain();
@@ -1171,6 +1168,10 @@ class UsersController extends AppController {
    						$this->Session->setFlash(__('Your new profile picture has been saved.', true), 'default', array('class' => 'success'));
 
 						$this->Session->write("Auth.User.image", $user_data['User']['image']);
+
+                        //remove tmp hash folder
+                        $this->Upload->removeTmpHashFolder($hash);
+
 						$this->redirect($this->referer());
 					}
 					else{
@@ -1185,9 +1186,7 @@ class UsersController extends AppController {
 				$this->redirect($this->referer());
 			}
 		}
-		$this->User->contain();
-		$this->set('user', $this->getUserForSidebar());
-		$this->set('hash', $this->Upload->getHash());
+		$this->redirect($this->referer());
 	}
 
     function accInvitations(){
@@ -1370,20 +1369,20 @@ class UsersController extends AppController {
     }
 
     function deleteProfilePicture(){
-        if(!empty($this->data)){
-            $user_id = $this->Session->read('Auth.User.id');
-            $this->User->updateSolr = true;
-            $data = array('User' => array('id' => $user_id,
-                                          'image' => NULL,
-                                           'username' => $this->Session->read('Auth.User.username'),
-                                           'name'  => $this->Session->read('Auth.User.name')));
 
-            if($this->User->save($data, true, array('id','image','username','name'))){
-                $this->Session->write('Auth.User.image', '');
-                $this->Session->setFlash(__('Your Profile Picture has been removed', true),'default', array('class' => 'success'));
-                $this->redirect('/settings');
-            }
+        $user_id = $this->Session->read('Auth.User.id');
+        $this->User->updateSolr = true;
+        $data = array('User' => array('id' => $user_id,
+                                      'image' => NULL,
+                                       'username' => $this->Session->read('Auth.User.username'),
+                                       'name'  => $this->Session->read('Auth.User.name')));
+
+        if($this->User->save($data, true, array('id','image','username','name'))){
+            $this->Session->write('Auth.User.image', '');
+            $this->Session->setFlash(__('Your Profile Picture has been removed', true),'default', array('class' => 'success'));
+            $this->redirect('/settings');
         }
+
 		$this->User->contain();
 		$user= $this->getUserForSidebar();
 		$this->set('user', $user);

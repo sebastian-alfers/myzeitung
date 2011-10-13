@@ -1,5 +1,17 @@
 $(document).ready(function() {
 
+    //link in upload popup to delete user profile picture
+    $(".delete-profile-picture").click(function(){
+		document.location = base_url + '/users/deleteProfilePicture';
+        return;
+	});
+
+    //link in upload popup to delete paper profile picture
+    $(".delete-paper-picture").click(function(){
+        var id = $(this).attr('id');
+		document.location = base_url + '/paper/deleteImage/'+id;
+	});
+
     $( "#dialog-upload" ).dialog({
         resizable: false,
         height:450,
@@ -14,16 +26,8 @@ $(document).ready(function() {
         $('#dialog-upload').dialog('open');
         return false;
 	});
-     /*
-    $.widget('blueimpUIX.fileupload', $.blueimpUI.fileupload, {
-    options: {
-        errorMessages: {
-            maxFileSize: 'File is too big',
-            minFileSize: 'File is too small',
-            acceptFileTypes: 'Filetype not allowed',
-            maxNumberOfFiles: 'Max number of files exceeded'
-        }
-    },
+
+     $.widget('blueimpUIX.fileupload', $.blueimpUI.fileupload, {
     _renderDownloadTemplate: function (files) {
         var that = this,
             rows = $();
@@ -34,23 +38,34 @@ $(document).ready(function() {
                 $('#media-content').toggle('slow');
             }
             if(file.error){
-                console.log(file);
+
             }
             else{
-                $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
+                /*
+                if($('#sortable').length){
+                    //post add_edit
+                    $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
+                }
+                else if($('#fileupload form').length){
+                    //account
+                    console.log(file);
 
-                //$('#fileupload form').attr('action', 'http://localhost:8180/users/accImage');
-                //$('#hash').append('<input type="hidden" value="asdfasdf" name="new-profile-pic" />');
-                //$('#fileupload form').submit();
+                    $('#fileupload form').attr('action', 'http://localhost:8180/users/accImage');
+                    $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new-profile-pic" />');
+                    $('#fileupload form').submit();
+                }
+                */
+
+                $('#fileupload form').attr('action', 'http://localhost:8180/paper/saveImage');
+                $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new_image" />');
+                $('#fileupload form').submit();
             }
-
 
         });
         return rows;
         }
     });
-    */
-    $('#fileupload').fileupload();//{maxNumberOfFiles: 1}
+
 
 
 });
@@ -73,20 +88,6 @@ $(document).ready(function() {
 		$('#new_image').val(img);
 		$('#NewImageForm').submit();
 	});
-
-    //link in upload popup to delete user profile picture
-    $(".delete-profile-picture").click(function(){
-		document.location = base_url + '/users/deleteProfilePicture';
-	});
-
-    //link in upload popup to delete paper profile picture
-    $(".delete-paper-picture").click(function(){
-        var id = $(this).attr('id');
-		document.location = base_url + '/paper/deleteImage/'+id;
-	});
-
-
-
 
 	$("#add_image").click(function(){
         //$('#submit_new_image').hide();

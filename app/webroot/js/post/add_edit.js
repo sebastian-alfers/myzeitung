@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $('#fileupload').fileupload();
+
     $('#links-content .link').live('mouseenter', function(){
         $(this).find('.link-delete-icon').css('visibility', 'visible');
     });
@@ -15,7 +17,6 @@ $(document).ready(function() {
         //$('#url').val($(this).parent().find('a').attr('href'));
         //$('#orig-url').val($(this).parent().find('a').attr('href'));
     });
-
 
     var is_paste = false;
     $( "#dialog:ui-dialog" ).dialog( "destroy" );

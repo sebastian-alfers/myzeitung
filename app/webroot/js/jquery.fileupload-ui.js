@@ -29,7 +29,7 @@
             // allowed to be uploaded using this widget:
             maxNumberOfFiles: undefined,
             // The maximum allowed file size:
-            maxFileSize: 500000,
+            maxFileSize: 8020318,
             // The minimum allowed file size:
             minFileSize: 1,
             // The regular expression for allowed file types, matches

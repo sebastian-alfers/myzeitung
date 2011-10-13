@@ -674,13 +674,10 @@ class PostsController extends AppController {
 
 	function ajxImageProcess(){
 
-        $this->log($_FILES);
-
-        $this->log(json_encode($this->params));
-        $this->params = json_decode('{"controller":"posts","action":"ajxImageProcess","named":[],"pass":[],"plugin":null,"url":{"ext":"html","url":"posts\/ajxImageProcess"},"form":{"hash":"518fbb1dda97ad7e641461f8b4557a67","files":{"name":["Bildschirmfoto 2011-08-05 um 20.22.28.png"],"type":["image\/png"],"tmp_name":["\/tmp\/phpMRjvYU"],"error":[0],"size":[254506]}},"isAjax":true}', true);
-
 		if(isset($this->params['form']['files'])){
 			$file = $this->params['form']['files'];
+
+            $this->log($file);
 
 			if(!isset($this->params['form']['hash']) || empty($this->params['form']['hash'])){
 				$this->log('error. hash value not available. can not upload picture');
@@ -688,15 +685,21 @@ class PostsController extends AppController {
 			}
 
 			$hash = $this->params['form']['hash'];
-
+            $this->log($hash);
 
 			$img = $file['name'][0];
 			if(!$img){
 				return '{"name":"error"}';
 			}
-
+            $this->log($img);
 			$imgPath = 'img'.DS.'tmp'.DS.$hash.DS;
 			//******************************************
+
+
+            $this->log($imgPath);
+
+            $this->log('---------------');
+
 
 			//remove whitespace etc from img name
             //$this->log($file);
