@@ -55,7 +55,6 @@ $(document).ready(function() {
                     $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
                     break;
                   case "paper":
-                          alert('paper');
                     $('#fileupload form').attr('action', base_url+'/paper/saveImage');
                     $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new_image" />');
                     $('#fileupload form').submit();

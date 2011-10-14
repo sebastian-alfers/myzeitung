@@ -29,16 +29,15 @@ if($session->read('Auth.User.id')){
     //build new js if logged in
     $this->MzJavascript->link('user/subscribe');
 
-    $this->MzJavascript->link('jquery.tmpl.min');
     $this->MzJavascript->link('jquery.iframe-transport');
     $this->MzJavascript->link('jquery.fileupload');
     $this->MzJavascript->link('jquery.fileupload-ui');
+    $this->MzJavascript->link('jquery.tmpl.min');
 }
 
 //the order of the scrips is important!
 $this->MzHtml->css('style');
 $this->MzHtml->css('jquery-ui-1.8.11');
-$this->MzHtml->css('jquery.fileupload-ui');
 $this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
 //$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
 
