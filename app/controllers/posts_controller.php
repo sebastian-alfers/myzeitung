@@ -677,42 +677,28 @@ class PostsController extends AppController {
 		if(isset($this->params['form']['files'])){
 			$file = $this->params['form']['files'];
 
-            $this->log($file);
-
 			if(!isset($this->params['form']['hash']) || empty($this->params['form']['hash'])){
 				$this->log('error. hash value not available. can not upload picture');
 				return '{"name":"error"}';
 			}
 
 			$hash = $this->params['form']['hash'];
-            $this->log($hash);
 
 			$img = $file['name'][0];
 			if(!$img){
 				return '{"name":"error"}';
 			}
-            $this->log($img);
 			$imgPath = 'img'.DS.'tmp'.DS.$hash.DS;
 			//******************************************
-
-
-            $this->log($imgPath);
-
-            $this->log('---------------');
-
 
 			//remove whitespace etc from img name
             //$this->log($file);
 			$file['name'][0] = $this->Upload->transformFileName($img);
             //$this->log($file);
 
-
 			$uploaded = $this->JqImgcrop->uploadImage($file, $imgPath, '');
 
-
-
 			//$ret = '{"name":"'.$file['name'].'","path":"' . $imgPath.$file['path'] . '","type":"'.$file['type'][0].'","size":"'.$file['size'][0].'"}';
-
 
             $ret = array();
             $ret['name'] = $file['name'][0];
@@ -720,13 +706,18 @@ class PostsController extends AppController {
             $ret['type'] = $file['type'][0];
             $ret['size'] = $file['size'][0];
 
-            $this->log($ret);
-            #$this->log(json_decode($ret, true));
-
-			//$this->log($ret);
 			$this->set('files', json_encode(array($ret)));
 		}
 
+
+        if (isset($_SERVER['HTTP_ACCEPT']) &&
+            (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false)) {
+            $header = 'Content-type: application/json';
+        } else {
+            $header = 'Content-type: text/plain';
+        }
+
+        $this->set('header', $header);
 		$this->render('ajxImageProcess', 'ajax');//custom ctp, ajax for blank layout
 	}
 

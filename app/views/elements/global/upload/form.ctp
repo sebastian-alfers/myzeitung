@@ -11,8 +11,8 @@
             </label>
             <button type="submit" class="start">Start upload</button>
             <button type="reset" class="cancel">Cancel upload</button>
-            <button type="delete" class="cancel delete-profile-picture"><?php __('Delete profile picture'); ?></button>
-            <button type="delete" class="cancel delete-paper-picture" id="<?php echo $paper_id; ?>"><?php __('Delete paper picture'); ?></button>
+            <button type="delete" class="cancel delete-profile-picture" style="display:none;"><?php __('Delete profile picture'); ?></button>
+            <button type="delete" class="cancel delete-paper-picture" style="display:none;" id="<?php echo $paper_id; ?>"><?php __('Delete paper picture'); ?></button>
         </div>
     </form>
     <div class="fileupload-content">

@@ -31,7 +31,10 @@ $(document).ready(function() {
     _renderDownloadTemplate: function (files) {
         var that = this,
             rows = $();
+        console.log(files);
         $.each(files, function (index, file) {
+
+
             file = that._downloadTemplateHelper(file);
 
             if(!$('#media-content').is(":visible")){
@@ -41,24 +44,25 @@ $(document).ready(function() {
 
             }
             else{
-                /*
-                if($('#sortable').length){
+                switch (pageType) {
+                  case "user":
+                    $('#fileupload form').attr('action', base_url+'/users/accImage');
+                    $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new_image" />');
+                    $('#fileupload form').submit();
+                    break;
+                  case "post":
                     //post add_edit
                     $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
-                }
-                else if($('#fileupload form').length){
-                    //account
-                    console.log(file);
-
-                    $('#fileupload form').attr('action', 'http://localhost:8180/users/accImage');
-                    $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new-profile-pic" />');
+                    break;
+                  case "paper":
+                          alert('paper');
+                    $('#fileupload form').attr('action', base_url+'/paper/saveImage');
+                    $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new_image" />');
                     $('#fileupload form').submit();
+                    break;
                 }
-                */
 
-                $('#fileupload form').attr('action', 'http://localhost:8180/paper/saveImage');
-                $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new_image" />');
-                $('#fileupload form').submit();
+
             }
 
         });

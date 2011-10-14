@@ -1,5 +1,14 @@
+var pageType = 'post';
 $(document).ready(function() {
-    $('#fileupload').fileupload();
+    $('#fileupload').fileupload().bind('fileuploadstop', function(e, data){
+
+        setTimeout(function(){
+            scrollTo('#media-content');
+            $('#dialog-upload').dialog( "close" );
+        }, 900);
+
+    });
+
 
     $('#links-content .link').live('mouseenter', function(){
         $(this).find('.link-delete-icon').css('visibility', 'visible');
