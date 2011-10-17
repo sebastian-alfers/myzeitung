@@ -31,7 +31,7 @@ $(document).ready(function() {
     _renderDownloadTemplate: function (files) {
         var that = this,
             rows = $();
-        console.log(files);
+
         $.each(files, function (index, file) {
 
 
@@ -47,7 +47,7 @@ $(document).ready(function() {
                 switch (pageType) {
                   case "user":
                     $('#fileupload form').attr('action', base_url+'/users/accImage');
-                    $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new_image" />');
+                    $( "#new_image" ).val(file.name);
                     $('#fileupload form').submit();
                     break;
                   case "post":
@@ -56,7 +56,7 @@ $(document).ready(function() {
                     break;
                   case "paper":
                     $('#fileupload form').attr('action', base_url+'/paper/saveImage');
-                    $('#hash').append('<input type="hidden" value="'+ file.name +'" name="new_image" />');
+                    $( "#new_image" ).val(file.name);
                     $('#fileupload form').submit();
                     break;
                 }

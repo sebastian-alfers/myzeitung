@@ -4,10 +4,12 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
 ?>
 <div class="modal-content">
     <?php //debug($data); ?>
-    <div style="float:left; width:70px;">
+    <div style="float:left; width:70px; display:block; height:200px; ">
+
         <?php echo $image->render($data['User'], 50, 50, array("alt" => $data['User']['username']), array('tag' => 'div')); ?>
+
         <div class="arrow">
-            <span class="icon">
+            <span class="icon icon-arrow-bottom"></span>
         </div>
         <?php if(isset($data['paper'])): ?>
             <?php //only one paper -> show image ?>
@@ -37,7 +39,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
                 <?php __('The user has one or more topics.'); ?>
             <?php endif; ?>
             <div class="choose-text">
-                <span class="icon"></span><?php __('Choose the topic that you want to subscribe:'); ?>
+                <span class="icon icon-choose-text"></span><?php __('Choose the topic that you want to subscribe:'); ?>
             </div>
 
             <?php //echo $this->Form->input('user_topic_content_data', array('options' =>$data['user_topic_chooser'], 'label' => '')); ?>
@@ -54,7 +56,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
                 </select></div>
         <?php else: ?>
             <div class="choose-text">
-                <span class="icon"></span><?php __('You are about to subscribe to all Posts of the user.'); ?>
+                <span class="icon icon-choose-text"></span><?php __('You are about to subscribe to all Posts of the user.'); ?>
             </div>
             <br /><br />
         <?php endif; //drop down for paper / category?>
@@ -72,7 +74,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
         <?php if(isset($data['paper_category_chooser'])): ?>
             <?php __('You have one or more papers.'); ?>
             <div class="choose-text">
-                <span class="icon"></span><?php __('Choose the paper that you want to subscribe the user to:'); ?>
+                <span class="icon icon-choose-text"></span><?php __('Choose the paper that you want to subscribe the user to:'); ?>
             </div>
 
             <?php echo $this->Form->input('paper_content_data' , array('type'=>'select','options'=> $data['paper_category_chooser']['options'], 'label' => false)); ?>
@@ -81,7 +83,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
             <?php if(isset($data['paper_category_chooser']['categories'])): ?>
                 <?php $i = 0; ?>
                 <div class="choose-text">
-                    <span class="icon"></span><?php __('Choose the category that you want to subscribe the user to:'); ?>
+                    <span class="icon icon-choose-text"></span><?php __('Choose the category that you want to subscribe the user to:'); ?>
                      <?php __('(All articles of a category are also shown on the front page)'); ?>
                                     </div>
                   <?php foreach($data['paper_category_chooser']['categories'] as $category): ?>
@@ -105,9 +107,9 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
             <?php endif; ?>
             <div class="choose-text">
                 <?php if(isset($data['paper_name']) && $data['paper_name'] == true): ?>
-                    <span class="icon"></span><?php echo sprintf(__('The subscription will be saved to your just created paper %s. You can always rename this paper in the settings.', true), $data['paper_name']); ?>
+                    <span class="icon icon-choose-text"></span><?php echo sprintf(__('The subscription will be saved to your just created paper %s. You can always rename this paper in the settings.', true), $data['paper_name']); ?>
                 <?php else: ?>
-                    <span class="icon"></span><?php echo sprintf(__('The subscription will be saved to your paper %s.', true), $data['paper_name']); ?>
+                    <span class="icon icon-choose-text"></span><?php echo sprintf(__('The subscription will be saved to your paper %s.', true), $data['paper_name']); ?>
                 <?php endif; ?>
 
             </div>
@@ -117,6 +119,7 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
         </form>
     </div>
 </div>
+<div style="clear:both;"></div>
 <div class="modal-buttons">
     <ul>
         <li><a class="btn" id="btn-submit-subscription" onclick="$('#UserSubscribeForm').submit();"><span>+</span><?php __('Save Subscription'); ?></a></li>

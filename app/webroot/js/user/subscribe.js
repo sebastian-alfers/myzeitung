@@ -33,13 +33,14 @@ $(document).ready(function() {
         });
     }
 
+
     $(function() {
 
         $( "#dialog:ui-dialog" ).dialog( "destroy" );
         $( "#dialog-subscribe" ).dialog({
             resizable: false,
             height:400,
-            width:500,
+            width:600,
             draggable:false,
             modal: true,
             autoOpen: false

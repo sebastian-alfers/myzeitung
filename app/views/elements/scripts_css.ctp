@@ -48,3 +48,8 @@ echo $asset->scripts_for_layout();
     <?php //the init of tinymce has to be in the header ?>
     <?php echo $this->element('posts/add_edit/tiny_mce_js'); ?>
 <?php endif; ?>
+
+
+<!--[if lte IE 8]>
+<?php $this->MzHtml->css('mz-ie-custom'); ?>
+<![endif]-->

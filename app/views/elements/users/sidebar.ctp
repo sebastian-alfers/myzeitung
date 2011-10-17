@@ -71,6 +71,8 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
+        <?php else: ?>
+	        <?php echo $this->element('complaints/script'); //for complain in comments not "my post" ?>
         <?php endif; ?>
     </div><!-- /.leftcolcontent -->
 		</div><!-- /.leftcol -->

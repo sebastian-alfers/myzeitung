@@ -374,7 +374,7 @@ left:520px;
     position: absolute;
     top: -2px;
     left: 452px;
-    width: 231px;
+    width: 270px;
 }
 
 #search .jqTransformInputWrapper{ float: right;}
@@ -1344,6 +1344,7 @@ font-size: 13px;
     -webkit-border-radius: 5px;
     padding: 5px 15px;
     height: auto;
+    width: 153px;
 }
 
 .register .accept .error-message{
@@ -1549,6 +1550,15 @@ a.btn.big {
 .icon-messages{
     background: url(/img/assets/maintile.png) -137px -172px no-repeat;
 }
+
+.icon-choose-text{
+    background: url(/img/assets/maintile.png) -60px -86px no-repeat transparent;
+}
+
+.icon-arrow-bottom{
+    background: url(/img/assets/maintile.png) -83px -346px no-repeat transparent;
+}
+
 
 .icon-articles{
     background: url(/img/assets/maintile.png) -110px -172px no-repeat;
@@ -2664,7 +2674,7 @@ margin: 20px 0 5px 35px;
 .account .write-anwer .btn{
     left: 465px;
     position: absolute;
-    top: 189px;
+    margin:0;
 }
 
 /* new message */
@@ -2996,7 +3006,7 @@ a.disabled{
 a.signin span {
     background: url(/img/assets/maintile.png) no-repeat scroll right -118px transparent;
     padding-right: 19px;
-    z-index:1000;
+    z-index:10000;
 }
 
 a.signin:hover{
@@ -3018,7 +3028,7 @@ a.signin.menu-open span {
 	border:1px solid #000;
 	text-align:right;
 	padding:30px 50px 10px 0px;
-	top: 1px;
+	top: 20px;
 	right: 53px;
 	margin:5px;
 	margin-right: 0px;
@@ -3031,7 +3041,6 @@ a.signin.menu-open span {
     padding: 0 0 0 10px;
     margin: 0px;
     text-align: left;
-    float: left;
 }
 
 #signin_menu li a{
@@ -3217,6 +3226,7 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     bottom: 10px;
 }
 
+/*
 .modal-content .choose-text span.icon{
     background: url(/img/assets/maintile.png) -60px -86px no-repeat transparent;
     height:20px;
@@ -3224,12 +3234,17 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     text-indent: -99999px;
     float: left;
     margin-bottom:16px;
+    display: inline-block;
+    position: relative;
+    
 }
+*/
 
 .modal-content .arrow{
     margin: 17px 0 14px 14px;
     padding: 0 0 12px 0;
 }
+/*
 .modal-content .arrow span.icon{
     background: url(/img/assets/maintile.png) -83px -346px no-repeat transparent;
     height:20px;
@@ -3237,9 +3252,10 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     text-indent: -99999px;
     float: left;
 }
+*/
 
 .modal-content input{
-    width: 320px;
+    width: 390px;
 }
 
 

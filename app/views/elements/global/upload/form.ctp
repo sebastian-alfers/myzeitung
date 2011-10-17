@@ -1,6 +1,7 @@
 <div id="fileupload">
     <form action="<?php echo FULL_BASE_URL.DS.'posts/ajxImageProcess'; ?>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="hash" id="hash" value="<?php echo $hash; ?>" />
+        <input type="hidden" value="" name="new_image" id="new_image" />
         <?php if(isset($paper_id) && !empty($paper_id)): ?>
             <input type="hidden" name="paper_id" id="paper_id" value="<?php echo $paper_id; ?>" />
         <?php endif; ?>
