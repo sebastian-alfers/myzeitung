@@ -391,7 +391,7 @@ class PostsController extends AppController {
         //$this->log($this->Post->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id))));
 		//$this->data['Post']['topic_id'] = self::NO_TOPIC_ID;
 
-		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('default value',true);
+		$allow_comments[self::ALLOW_COMMENTS_DEFAULT] = __('use privacy settings',true);
 		$allow_comments[self::ALLOW_COMMENTS_TRUE] = __('Yes',true);
 		$allow_comments[self::ALLOW_COMMENTS_FALSE] = __('No',true);
 

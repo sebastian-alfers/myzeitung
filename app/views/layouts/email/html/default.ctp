@@ -16,7 +16,7 @@
 
 	            <?php echo $content_for_layout;?>
         <tr>
-            <td style="padding: 0 0 0 0; border-top: 1px solid #E4E3E3;">
+            <td style="padding: 0 0 0 0; border-top: 1px solid #E4E3E3; text-align: center;">
                 <p>
                     myZeitung © 2011 |
                     <?php echo $this->Html->link(__('Impressum',true), $this->Html->url(array('controller' => 'pages', 'action' => 'display', 'impressum'), true), array('style' => 'color:#6e6e6e;'));?> |

@@ -6,7 +6,7 @@
 			$('#search-suggest').hide();
 		} else {
 			inputString = $.trim(inputString);
-			$.post("<?php echo FULL_BASE_URL.DS.'search/ajxSearch/'?>", {query: ""+inputString+""}, function(data){
+			$.post("<?php echo FULL_BASE_URL.DS.'search/ajxSearch/'?>", {query: ""+inputString+"", home: true}, function(data){
 				$('#search-suggest').show();
 				$('#search-suggest').html(data);
 			});

@@ -16,11 +16,13 @@
         if($this->params['action'] == 'edit') $form = 'PostEditForm';
         ?>
 
-
+        <?php $saveText = __('Save Article', true); ?>
         <?php if($this->params['action'] == 'edit'):?>
+            <?php $saveText = __('Save Changes', true); ?>
          <li><?php echo $this->Html->link(__('Delete', true), array('controller' => 'posts',  'action' => 'delete', $this->data['Post']['id']), null, sprintf(__('Are you sure you want to delete your post: %s?', true), $this->data['Post']['title'])); ?></li>
         <?php endif;?>
-       <li class="big-btn" id="submit-post" onclick="preSubmitActions($('#<?php echo $form; ?>'));"><a class="btn"><span class="icon icon-tick"></span><?php __('Save Post'); ?></a></li>
+      
+       <li class="big-btn" id="submit-post" onclick="preSubmitActions($('#<?php echo $form; ?>'));"><a class="btn"><span class="icon icon-tick"></span><?php echo $saveText ?></a></li>
 
 
 

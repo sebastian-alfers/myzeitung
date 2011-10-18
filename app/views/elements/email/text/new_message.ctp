@@ -1,6 +1,6 @@
 <?php $conversation_link = $this->Html->url(array('controller' => 'conversations', 'action' =>  'view',$conversation['Conversation']['id'], '#' => 'answer'), true); ?>
 
-<?php  echo $sender['User']['username']; ?>
+<?php echo $this->MzText->generateDisplayName($sender['User'], true); ?>
 <?php echo __(' wrote a new message in the conversation: ');?>
 <?php echo $conversation['Conversation']['title']."\n\n";?>
 
@@ -11,13 +11,13 @@
 <?php if($new_message):?>
 <?php $new_message = false;?>
 <?php echo $this->MzTime->format('d.m.y G:i', $message['created'])."\n";?>
-<?php echo $message['User']['username'];?>: <?php echo $message['message']."\n\n"?>
+<?php echo $this->MzText->generateDisplayName($message['User'], false);?>: <?php echo $message['message']."\n\n"?>
 <?php if($messageCount > 1):?>
 <?php echo __('Conversation History', true)."\n";?>
 <?php endif;?>
 <?php else:?>
 <?php echo $this->MzTime->format('d.m.y G:i', $message['created'])."\n";?>
-<?php echo $message['User']['username']; ?>: <?php echo $message['message']."\n\n"?>
+<?php echo $this->MzText->generateDisplayName($message['User'], false); ?>: <?php echo $message['message']."\n\n"?>
 
 <?php endif;?>
 <?php endforeach;?>

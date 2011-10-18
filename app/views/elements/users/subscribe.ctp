@@ -1,5 +1,5 @@
 <?php
-
+$this->log($data);
 $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
 ?>
 <div class="modal-content">
@@ -100,13 +100,14 @@ $me = (boolean)($data['User']['id'] == $session->read('Auth.User.id'));
 
         <?php if(isset($data['paper_name'])): ?>
 
-            <?php if(isset($data['paper_name']) && $data['paper_name'] == true): ?>
+            <?php if(isset($data['paper_name']) && $data['created'] == true): ?>
                 <?php __('We created a new paper for you.'); ?>
             <?php else: ?>
                 <?php __('You have only one paper without categories.'); ?>
             <?php endif; ?>
             <div class="choose-text">
-                <?php if(isset($data['paper_name']) && $data['paper_name'] == true): ?>
+
+                <?php if(isset($data['paper_name']) && $data['created'] == true): ?>
                     <span class="icon icon-choose-text"></span><?php echo sprintf(__('The subscription will be saved to your just created paper %s. You can always rename this paper in the settings.', true), $data['paper_name']); ?>
                 <?php else: ?>
                     <span class="icon icon-choose-text"></span><?php echo sprintf(__('The subscription will be saved to your paper %s.', true), $data['paper_name']); ?>

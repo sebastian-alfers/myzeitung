@@ -26,14 +26,15 @@ if(isset($id) && !empty($id)){
             <?php if(empty($message['User']['id'])):$message['User']['username'] = __('deleted user', true); endif;?>
             <p class="from"><?php echo __("from", true);?>&nbsp;
                 <?php if($message['User']['id']):?>
-                    <?php echo $this->Html->link('<strong>'.$message['User']['username'].'</strong>'.$message['User']['name'],array('controller' => 'users', 'action' => 'view', 'username' => strtolower($message['User']['username'])), array('escape' => false));?>
-                <?php else:?>
+                    <?php   $tipsy_name = $this->MzText->generateDisplayName($message['User'], true); ?>
+                    <?php echo $this->Html->link('<strong>'.$this->MzText->generateDisplayName($message['User']).'</strong>',array('controller' => 'users', 'action' => 'view', 'username' => strtolower($message['User']['username'])), array('class' => 'tt-title', 'title' => $tipsy_name, 'escape' => false));?>
+                <?php else: ?>
                     <?php echo '<strong>'.$message['User']['username'].'</strong>';?>
                 <?php endif;?>
 
             <p class="message-content"><?php echo $message['ConversationMessage']['message'];?></p>
         </li>
-        <li class="actions">
+        <li class="actions time">
             <p><?php echo $this->MzTime->timeAgoInWords($message['ConversationMessage']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></p>
         </li>
     </ul>

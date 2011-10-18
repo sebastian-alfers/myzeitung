@@ -132,10 +132,10 @@ if($has_topics){
                                        $maxLenCreator = $maxLen / 2;
                                        $maxLenReposter = $maxLenCreator;
                                        $difference = strlen($display_name) - strlen($display_name_reposter);
-                                       $this->log('differece:'.$difference);
+
                                        if($difference > 0){
                                            $dif2 = $maxLenReposter - strlen($display_name_reposter);
-                                           $this->log('dif2:'.$dif2);
+
                                            if($dif2 > 0){
                                                $maxLenCreator += $dif2;
                                                $maxLenReposter -= $dif2;

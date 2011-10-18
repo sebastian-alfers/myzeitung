@@ -2,7 +2,7 @@
 <tr>
     <td style="padding:15px 23px 2px; border-bottom: 1px solid #e4e3e3">
         <p style="font-size: 13px;">
-           <?php  echo $this->Html->link($sender['User']['username'], $this->Html->url(array('controller' => 'users', 'action' =>  'view','username' => strtolower($sender['User']['username'])),true), array('style' => 'color:#232424; font-weight:bold;')); ?>
+           <?php  echo $this->Html->link($this->MzText->generateDisplayName($sender['User'], false), $this->Html->url(array('controller' => 'users', 'action' =>  'view','username' => strtolower($sender['User']['username'])),true), array('style' => 'color:#232424; font-weight:bold;')); ?>
            <?php echo __(' wrote a new message in the conversation ');?>
            <?php echo $this->Html->link($conversation['Conversation']['title'], $conversation_link, array('style' => 'color:#232424; font-weight:bold'));?>
         </p>
@@ -17,7 +17,7 @@
             <tr><!-- new message -->
                 <td style="padding:2px 23px 2px 23px; border-bottom: 1px solid #e4e3e3">
                     <p style="text-align: right; line-height: 15px; margin:0; padding:0 0 5px 0; font-size:11px; "><?php echo $this->MzTime->format('d.m.y G:i', $message['created']);?></p>
-                    <p><strong><?php echo $message['User']['username'];?></strong> <?php echo $message['message']?></p>
+                    <p><strong><?php echo $this->MzText->generateDisplayName($message['User'], false);?></strong> <?php echo $message['message']?></p>
                     <?php if($messageCount > 1):?>
                         <p style=" text-align:left; padding-top: 10px"><strong><?php echo __('Conversation History', true);?></strong></p>
                     <?php endif;?>
@@ -27,7 +27,7 @@
          <tr><!-- old message -->
 			<td style="padding:2px 23px 2px 23px; border-bottom: 1px solid #e4e3e3">
                 <p style="text-align: right; line-height: 15px; margin:0; padding:0 0 5px 0; font-size:11px; color:#a7a7a7;"><?php echo $this->MzTime->format('d.m.y G:i', $message['created']);?></p>
-                <p style="color:#a7a7a7;"><strong><?php echo $message['User']['username']; ?></strong> <?php echo $message['message']?></p>
+                <p style="color:#a7a7a7;"><strong><?php echo $this->MzText->generateDisplayName($message['User'], false); ?></strong> <?php echo $message['message']?></p>
                 <?php if($message['id'] == $lastShownMessageId): ?>
                     <p style=" text-align:right; padding-top: 10px; ;"><strong><?php echo $this->Html->link(__('View complete Conversation on myZeitung ', true), $conversation_link, array('style' => 'color:#232424; font-weight:bold;'));?></strong></p>
                 <?php endif;?>

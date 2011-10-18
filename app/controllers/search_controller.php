@@ -96,7 +96,9 @@ class SearchController extends AppController {
 	
 	function ajxSearch(){
 		$this->getResults(null, solr::QUERY_TYPE_AUTO_SUGGEST);
-		$this->render('autoComplete', 'ajax');//custom ctp, ajax for blank layout
+		$this->set('home', $this->params['form']['home']);
+        $this->render('autoComplete', 'ajax');//custom ctp, ajax for blank layout
+
 	}
 	
 	
@@ -132,7 +134,7 @@ class SearchController extends AppController {
     }
 
 	private function getResults($type = null, $queryType = solr::QUERY_TYPE_SEARCH_RESULTS, $start = 0){
-		$params = array();
+        $params = array();
 		if($queryType == solr::QUERY_TYPE_SEARCH_RESULTS){
 			//search results
 			
@@ -151,7 +153,8 @@ class SearchController extends AppController {
 			//$params[''];
 		} else {
 			//auto suggest
-			$query = $_POST['query'];
+
+			$query = $this->params['form']['query'];
 			$grouped = true;
 			$limit = solr::SUGGEST_LIMIT;
 		}
@@ -240,7 +243,7 @@ class SearchController extends AppController {
 	
 						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$i]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$i].")" . " AND ";
 					}
-						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$length-1]."))) OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":\'".$_POST['query']."\' OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":\'".$_POST['query']."\' OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":\'".$_POST['query']."\')";
+						$search_string .= "(".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]."* OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":".$query[$length-1]." OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":".$query[$length-1]."))) OR (".solr::SEARCH_RESULT_SEARCH_FIELD_AUTO_SUGGEST.":\'".$this->params['form']['query']."\' OR ".solr::SEARCH_RESULT_SEARCH_FIELD_PHONETIC.":\'".$this->params['form']['query']."\' OR ".solr::SEARCH_RESULT_SEARCH_FIELD_NGRM.":\'".$this->params['form']['query']."\')";
 				}
             }
 		}
@@ -277,7 +280,7 @@ class SearchController extends AppController {
 							$result->user_allow_messages = false;
 							$this->User->contain();
 							$settings = $this->User->getSettings($result->id);
-							$result->user_allow_messages = $settings['user']['default']['allow_messages'];
+							$result->user_allow_messages = $settings['user']['default']['allow_messages']['value'];
 						}
 						//reading post counters and reposters array
 						if($result->type == 'post'){

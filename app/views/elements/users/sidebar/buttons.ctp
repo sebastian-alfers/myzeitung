@@ -19,7 +19,7 @@ if($user['User']['id'] != $session->read('Auth.User.id')){
 
 <?php if($user['User']['id'] != $session->read('Auth.User.id')): // - cannot send a message to himself ?>
 
-	<?php if(isset($user['Setting']['user']['default']['allow_messages']) && $user['Setting']['user']['default']['allow_messages']): ?>
+	<?php if(isset($user['Setting']['user']['default']['allow_messages']) && $user['Setting']['user']['default']['allow_messages']['value'] == true): ?>
 		<li>
             <a href="#" class="btn gray new-conversation"><span class="send-icon"></span><?php __('Send Message'); ?></a>
         </li>

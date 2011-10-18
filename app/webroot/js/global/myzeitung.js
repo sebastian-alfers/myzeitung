@@ -186,7 +186,7 @@ $(function() {
 			$('#search-suggest').hide();
 		} else {
 			inputString = $.trim(inputString);
-			$.post(base_url+"/search/ajxSearch/", {query: ""+inputString+""}, function(data){
+			$.post(base_url+"/search/ajxSearch/", {query: ""+inputString+"", home: home}, function(data){
 				$('#search-suggest').show();
 				$('#search-suggest').html(data);
 			});

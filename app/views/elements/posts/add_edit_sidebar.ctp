@@ -1,3 +1,15 @@
+<?php $this->log($topics); ?>
+<?php
+//truncate topic names if too long
+foreach($topics as &$topic){
+    $topic = $this->MzText->truncate($topic, 10,array('ending' => '...', 'exact' => true, 'html' => false));
+    $this->log($topic);
+}
+
+?>
+<?php $this->log($topics); ?>
+
+
 <div id="leftcolwapper">
     <div class="leftcol">
         <div class="leftcolcontent">

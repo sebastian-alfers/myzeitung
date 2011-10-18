@@ -2,6 +2,7 @@
 <script type="text/javascript">
 
 	var  base_url = '<?php echo FULL_BASE_URL; ?>';
+    var home=  <?php echo ($this->params['controller'] == 'home')? 'true' : 'false';?>;
 </script>
 <?php
 echo $this->Html->meta('icon');
