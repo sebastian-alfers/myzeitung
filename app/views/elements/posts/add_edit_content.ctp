@@ -1,8 +1,3 @@
-<?php // we use the src of tinymce since we changed it in line 9332 ?>
-<?php $this->MzJavascript->link('tiny_mce/tiny_mce_src.js'); ?>
-<?php $this->MzJavascript->link('post/add_edit.js'); ?>
-
-
 <?php echo $this->element('topics/modal_add'); ?>
 <?php echo $this->element('posts/modal_add_url'); ?>
 <?php echo $this->element('posts/modal_add_video_url'); ?>
@@ -108,6 +103,9 @@
 		<?php endforeach; ?>
 		<?php endif;?>
 </ul>
+
+
+
 </div><!-- end media content -->
 
 </form>
@@ -127,3 +125,5 @@
 
 </div>
 <!-- / sortable -->
+
+

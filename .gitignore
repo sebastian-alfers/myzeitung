@@ -14,3 +14,4 @@ app/webroot/img/tmp/*
 app/webroot/img/post/*
 app/webroot/img/user/*
 app/webroot/img/paper/*
+app/webroot/jQuery-File-Upload/*

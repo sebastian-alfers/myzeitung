@@ -14,8 +14,8 @@ echo $this->Html->meta('icon');
  * set options in app_controller
  *
  */
-$this->MzJavascript->link('jquery-1.5.1.min');
-$this->MzJavascript->link('jquery-ui-1.8.11.min');
+$this->MzJavascript->link('jquery.1.6.4.min');
+$this->MzJavascript->link('jquery-ui-1.8.16.min');
 $this->MzJavascript->link('jquery.jqtransform');
 $this->MzJavascript->link('global/myzeitung');
 $this->MzJavascript->link('jquery.pop.js');
@@ -29,8 +29,11 @@ $this->MzJavascript->link('global/mzslides.js');
 if($session->read('Auth.User.id')){
     //build new js if logged in
     $this->MzJavascript->link('user/subscribe');
+
+    $this->MzJavascript->link('jquery.iframe-transport');
     $this->MzJavascript->link('jquery.fileupload');
     $this->MzJavascript->link('jquery.fileupload-ui');
+    $this->MzJavascript->link('jquery.tmpl.min');
 }
 
 //the order of the scrips is important!

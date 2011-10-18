@@ -1,4 +1,79 @@
 $(document).ready(function() {
+
+    //link in upload popup to delete user profile picture
+    $(".delete-profile-picture").click(function(){
+		document.location = base_url + '/users/deleteProfilePicture';
+        return;
+	});
+
+    //link in upload popup to delete paper profile picture
+    $(".delete-paper-picture").click(function(){
+        var id = $(this).attr('id');
+		document.location = base_url + '/paper/deleteImage/'+id;
+	});
+
+    $( "#dialog-upload" ).dialog({
+        resizable: false,
+        height:450,
+        width:650,
+        draggable:false,
+        modal: true,
+        autoOpen: false,
+        live: true
+    });
+
+	$("#add_image").click(function(){
+        $('#dialog-upload').dialog('open');
+        return false;
+	});
+
+     $.widget('blueimpUIX.fileupload', $.blueimpUI.fileupload, {
+    _renderDownloadTemplate: function (files) {
+        var that = this,
+            rows = $();
+
+        $.each(files, function (index, file) {
+
+
+            file = that._downloadTemplateHelper(file);
+
+            if(!$('#media-content').is(":visible")){
+                $('#media-content').toggle('slow');
+            }
+            if(file.error){
+
+            }
+            else{
+                switch (pageType) {
+                  case "user":
+                    $('#fileupload form').attr('action', base_url+'/users/accImage');
+                    $( "#new_image" ).val(file.name);
+                    $('#fileupload form').submit();
+                    break;
+                  case "post":
+                    //post add_edit
+                    $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
+                    break;
+                  case "paper":
+                    $('#fileupload form').attr('action', base_url+'/paper/saveImage');
+                    $( "#new_image" ).val(file.name);
+                    $('#fileupload form').submit();
+                    break;
+                }
+
+
+            }
+
+        });
+        return rows;
+        }
+    });
+
+
+
+});
+/*
+$(document).ready(function() {
     var up = false;
     var upload = '';
     $( "#dialog-upload" ).dialog({
@@ -16,20 +91,6 @@ $(document).ready(function() {
 		$('#new_image').val(img);
 		$('#NewImageForm').submit();
 	});
-
-    //link in upload popup to delete user profile picture
-    $(".delete-profile-picture").click(function(){
-		document.location = base_url + '/users/deleteProfilePicture';
-	});
-
-    //link in upload popup to delete paper profile picture
-    $(".delete-paper-picture").click(function(){
-        var id = $(this).attr('id');
-		document.location = base_url + '/paper/deleteImage/'+id;
-	});
-
-
-
 
 	$("#add_image").click(function(){
         //$('#submit_new_image').hide();
@@ -153,6 +214,6 @@ $(document).ready(function() {
 
 	
 });
-
+*/
 
 

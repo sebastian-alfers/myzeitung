@@ -13,13 +13,11 @@ if($paper_belongs_to_user){
     echo $this->element('categories/modal_edit', array('paper_id' => $paper['Paper']['id']));
     echo $this->element('categories/modal_add', array('paper_id' => $paper['Paper']['id']));
 
-    echo $html->script('global/upload');
-    echo $this->element('global/modal_upload',
-                         array('title'  => 'upload paper picture',
-                               'hash'   => $hash,
-                               'model'  => 'Paper',
-                               'model_id'=> $paper['Paper']['id'],
-                               'submit' => array('controller' => 'paper', 'action' => 'saveImage')));
+    $this->MzJavascript->link('global/upload.js');
+    $this->MzJavascript->link('paper/view');
+    echo $this->element('global/upload/modal', array('paper_id' => $paper['Paper']['id']));
+
+
 }//end paper_belongs_to_user
 ?>
 </cake:nocache>
@@ -76,32 +74,6 @@ if($paper_belongs_to_user){
 
            <p class="user-url"><?php echo $this->Html->link($display_name,array('controller' => 'users', 'action' => 'view','username' =>  strtolower($paper['User']['username'])), array('escape' => false, 'class' => 'tt-title', 'title' => $tipsy_name)); ?></p>
         <?php // endif;?>
-
-        <?php if(!$paper_belongs_to_user): ?>
-        <ul>
-
-            <cake:nocache>
-            <?php if($paper_belongs_to_user):?>
-              <li> <?php echo $this->Html->link('<span class="icon settings-icon"></span>'.__('Edit Paper', true),array('controller' => 'papers', 'action' => 'edit',$paper['Paper']['id']), array('class'  => 'btn gray', 'id' => 'edit-paper-btn', 'escape' => false));?></li>
-              <li><a class="btn gray" id="add_image"><span>+</span><?php echo __('Upload Image', true); ?></a></li>
-            <li><a href="#" class="btn gray" id="add_category"><span>+</span><?php __('New Category'); ?></a></li>
-            <?php endif;?>
-
-            <?php //subscribe-button: if user is NOT logged in  !OR! paper does not belong to user AND is not subscribed yet?>
-            <?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'):?>
-               <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == false):?>
-                   <li><?php echo $this->Html->link('<span>+</span>'.__('Subscribe Paper', true), array('controller' => 'papers', 'action' => 'subscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', 'id' => 'subscribe-paper' ));?></li>
-                <?php endif;?>
-                <?php //unsubscribe-button: if user is logged in  and  paper does not belong to user AND paper is subscribed ?>
-                <?php if($paper_belongs_to_user == false && $paper['Paper']['subscribed'] == true):?>
-                    <li><?php echo $this->Html->link('<span>-</span>'.__('Unsubscribe', true), array('controller' => 'papers', 'action' => 'unsubscribe', $paper['Paper']['id']), array('escape' => false, 'class' => 'btn', 'id' => 'unsubscribe-paper' ));?></li>
-                <?php endif;?>
-            <?php endif;?>
-            </cake:nocache>
-        </ul>
-
-
-    <?php endif; ?>
 
         <?php $category_id = null;?>
         <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>

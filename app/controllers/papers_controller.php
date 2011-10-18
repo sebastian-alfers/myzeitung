@@ -10,7 +10,7 @@ class PapersController extends AppController {
 
     //callback-param is important!
     var $cacheAction = array(
-        'view'  => array('callbacks' => true, 'duration' => '+1 month')
+        //'view'  => array('callbacks' => true, 'duration' => '+1 month')
     );
 
 	public function beforeFilter(){
@@ -263,36 +263,40 @@ class PapersController extends AppController {
 
 
 	function saveImage(){
-
-		if (empty($this->data)) {
+		if (empty($this->params['form'])) {
 			$this->Session->setFlash(__('Error during photo upload', true));
 			$this->redirect($this->referer());
             
 		}
 
-
-
-		$paper_id = $this->data['Paper']['id'];
+		$paper_id = $this->params['form']['paper_id'];
 
 		//check is user owns this paper id
 		if(parent::canEdit('Paper', $paper_id, 'owner_id')){
 			$this->log('can edit');
-			$hash = $this->data['Paper']['hash'];
+			$hash = $this->params['form']['hash'];
 			if($this->Upload->hasImagesInHashFolder($hash)){
 				$this->log('has in hash');
 				$image = array();
 				$this->Paper->contain('Route');
 				$paper_data = $this->Paper->read(null, $paper_id);
 				$paper_created = $paper_data['Paper']['created'];
-				$image = $this->Upload->copyImagesFromHash($hash, $paper_id, $paper_created, $this->data['Paper']['new_image'], 'paper');
+
+				$image = $this->Upload->copyImagesFromHash($hash, $paper_id, $paper_created, $this->params['form']['new_image'], 'paper');
 
 				if(is_array($image)){
 
+
 					$paper_data['Paper']['image'] = $image;
 					$this->Paper->updateSolr = true;
+
 					if($this->Paper->save($paper_data, true, array('image'))){
 						$this->Session->setFlash(__('Image has been saved', true), 'default', array('class' => 'success'));
 						$this->User->updateSolr = true;
+
+                        //remove tmp hash folder
+                        $this->Upload->removeTmpHashFolder($hash);
+
 						$this->redirect($this->referer());
 					}
 					else{
@@ -311,11 +315,6 @@ class PapersController extends AppController {
 			$this->Session->setFlash(__('You do not have permissions', true));
 			$this->redirect($this->referer());
 		}
-
-
-
-
-
 
 	}
 

@@ -5,7 +5,7 @@ class JqImgcropComponent extends Object {
 		
 		$webpath = $uploadTo;
 		$upload_dir = WWW_ROOT.str_replace("/", DS, $uploadTo);
-		$upload_path = $upload_dir.DS;
+		$upload_path = $upload_dir;
 		$max_file = "34457280";                         // Approx 30MB
 		$max_width = 800;
 
@@ -19,11 +19,13 @@ class JqImgcropComponent extends Object {
 		$userfile_name = $uploadedInfo['name'];
 		$userfile_tmp =  $uploadedInfo["tmp_name"];
 		$userfile_size = $uploadedInfo["size"];
-		$filename = $prefix.basename($uploadedInfo["name"]);
+		$filename = $uploadedInfo["name"][0];
+
 		$file_ext = substr($filename, strrpos($filename, ".") + 1);
 		// $this->log($upload_path);
 		//$this->log($filename);
 		//die();
+
 		$uploadTarget = $upload_path.$filename;
 
 
@@ -32,8 +34,13 @@ class JqImgcropComponent extends Object {
 		}
 
 		if (isset($uploadedInfo['name'])){
-			
-			move_uploaded_file($userfile_tmp, $uploadTarget );
+
+			if(move_uploaded_file($userfile_tmp[0], $uploadTarget )){
+                $this->log('adf');
+            }
+            else{
+                $this->log('neee');
+            }
 			
 			//$this->log($uploadTarget);
 			/*

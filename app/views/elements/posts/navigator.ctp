@@ -200,21 +200,6 @@ if($has_topics){
 									<?php /* END showing last reposter */?>
 								</li>
                                 <li><?php echo $this->MzTime->timeAgoInWords($post['Post']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></li>
-								<li>
-								<?php 
-								$image_options = array();
-
-								$image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']));
-                                $extra = ($post['User']['id'] == $session->read('Auth.User.id'))? 'me' : '';
-								$image_options['custom'] = array('class' => 'user-image '.$extra, 'rel' => $this->MzText->getSubscribeUrl(), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']))), 'id' => $post['User']['id'], 'alt' => $this->MzText->getUsername($post['User']));
-                                $image_options['rel'] = 'nofollow';
-
-								echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);
-
-//								}
-								?>
-														
-								</li>
 								<?php /* start of options: edit delete if user is logged in, and it is a post from the user itself // repost - undoRepost if it's another user */?>
 								<li>						
 								<?php if($article_belongs_to_user):?>
@@ -247,6 +232,16 @@ if($has_topics){
 								<?php endif;?>
 								
 								</li>
+								<li>
+								<?php 
+									$image_options = array();
+									$image_options['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']));
+    	                            $extra = ($post['User']['id'] == $session->read('Auth.User.id'))? 'me' : '';
+									$image_options['custom'] = array('class' => 'user-image '.$extra, 'rel' => $this->MzText->getSubscribeUrl(), 'link' => $this->MzHtml->url(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['User']['username']))), 'id' => $post['User']['id'], 'alt' => $this->MzText->getUsername($post['User']));
+            	                    $image_options['rel'] = 'nofollow';
+									echo $image->render($post['User'], 50, 50, array("alt" => $post['User']['username']), $image_options);
+								?>														
+								</li>								
 							</ul>							
 							</div><!-- /.article -->
 						</div><!-- / .articlewrapper -->

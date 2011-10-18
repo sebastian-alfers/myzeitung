@@ -18,7 +18,11 @@
  */
 ?>
 <?php echo $this->Html->docType('xhtml-trans'); ?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> 
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml"> <!--<![endif]-->
 <head>
 	<?php echo $this->Html->charset(); ?>
 	
@@ -45,6 +49,7 @@
     <?php echo $this->element('tracking/google_analytics/track'); ?>
 </head>
 	<body class="<?php echo $body_class; ?>">
+    <?php echo $this->element('global/mzslides/main'); ?>
 
     <?php
     if($session->read('Auth.User.id')){

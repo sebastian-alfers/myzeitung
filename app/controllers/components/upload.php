@@ -175,6 +175,7 @@ class UploadComponent extends Object {
 					unlink($tmp_path);
 				}
 			}
+            rmdir($path_to_tmp_folder);
 		}
 			
 	}
