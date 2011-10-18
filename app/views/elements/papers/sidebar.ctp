@@ -78,7 +78,7 @@ if($paper_belongs_to_user){
         <?php $category_id = null;?>
         <?php if(isset($this->params['category_id'])): $category_id = $this->params['category_id']; endif;?>
        <?php // <div id="category-content"> ?>
-            <fieldset>
+            <fieldset id="category-content">
             <legend><?php echo __('Filter by Category', true);?></legend>
                <ul>
                 <li><span class="icon icon-userresults show-associations tt-title" id="paper/<?php echo $paper['Paper']['id']?>" title="<?php printf(__n('%1$s person is published in this paper','%1$s persons are published in this paper',$paper['Paper']['frontpage_authors_count'] , true), $paper['Paper']['frontpage_authors_count']); ?>"></span>

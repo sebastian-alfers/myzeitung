@@ -71,7 +71,7 @@ $(document).ready(function(){
 	$( "#dialog-topic" ).dialog({
         resizable: false,
         height:300,
-        width:400,
+        width:500,
         draggable:false,
         modal: true,
         autoOpen: false,

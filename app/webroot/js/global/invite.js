@@ -33,7 +33,6 @@ $(document).ready(function(){
             var height = $('#dialog-invitation .modal-content').height();
             alert('edit');
             $('#dialog-invitation .modal-content').css('height', height + 50 +'px');
-
         }
 
     });

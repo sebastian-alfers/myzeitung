@@ -7,6 +7,7 @@ $(document).ready(function() {
     $('#category-content .category').bind('mouseenter', function(){
         $(this).find('.edit-icon').css('visibility', 'visible');
     });
+
     $('#category-content .category').bind('mouseleave', function(){
         $(this).find('.edit-icon').css('visibility', 'hidden');
     });

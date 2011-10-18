@@ -59,7 +59,8 @@ $(document).ready(function() {
 			buttons: {
 				"Add new Video": function() {
                     if(!is_paste){
-                        parseAndAddVideo($('#video-url').val());
+			            var url = $('#video-url').val();                    
+                        parseAndAddVideo(url);
                     }
 				},
 				Cancel: function() {
@@ -75,10 +76,12 @@ $(document).ready(function() {
          */
 
         $("#video-url").live('paste',function(e){
+
             is_paste = true;
             //timeout since val has to be populated
             setTimeout(function() {
-                parseAndAddVideo($('#video-url').val());
+	            var url = $('#video-url').val();
+                parseAndAddVideo(url);
             }, 100);
 
 
@@ -204,6 +207,8 @@ $(document).ready(function() {
 	}
 
     function parseAndAddVideo(url){
+    	
+       	url = jQuery.trim(url);
 
         var hash = $('#hash').val();
         if(url == '') url = 'empty';//for validation purpose

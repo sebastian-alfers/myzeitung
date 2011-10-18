@@ -386,6 +386,7 @@ left:520px;
     width: 240px !important;
     padding: 0 10px;
     position: absolute;
+    right:-12px;/*ie fix*/
 }
 
 .leftcolcontent #search-paper input.searchinput{
@@ -2160,7 +2161,7 @@ width: 260px;
 border: 1px solid #313;
 font-size: 12px;
 text-align: left;
-z-index: 150;
+z-index: 1550;
 padding: 10px 0 0;
 }
 
