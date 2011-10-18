@@ -29,9 +29,9 @@ class UsersController extends AppController {
 		$this->Auth->allow('forgotPassword', 'add','login','logout', 'view', 'index', 'viewSubscriptions', 'references', 'feed');
 
         $this->Security->disabledFields = array('image', 'User.image', 'data');
-        $this->log($this->params['action']);
+
         if(in_array($this->params['action'],array('deleteProfilePicture', 'accImage', 'subscribe'))) {
-            $this->log('hier');
+
             $this->Security->validatePost = false;
 
         }
@@ -396,7 +396,7 @@ class UsersController extends AppController {
 			$this->data['User']['group_id'] = 1;
 			$this->User->create();
 			$this->User->updateSolr = true;
-            $this->log($this->data);
+
 			if ($this->User->save($this->data, true, array('username', 'name' ,'password' , 'passwd','email','group_id', 'tos_accept'))) {
 
 				//after adding user -> add new topic
@@ -481,7 +481,7 @@ class UsersController extends AppController {
 		$user_id = $this->params['pass'][0];
 
 		$references = $this->User->getAllUserContentReferences($user_id);
-        $this->log($references);
+
 		//debug($references);
 		$this->set('references', $references);
 
@@ -719,7 +719,6 @@ class UsersController extends AppController {
 				else{
 					//no paper / category options -> just display paper name
 					$json_data['paper_name'] = $papers[0]['Paper']['title'];
-                    $this->log($created);
                     $json_data['created'] = $created;
                     $json_data['paper'] = $papers[0];
 
@@ -739,7 +738,6 @@ class UsersController extends AppController {
 				$user_topic_drop_down = $this->_generateUserSelectData($user_id);
 				$json_data['user_topic_chooser'] = $user_topic_drop_down;
 			}
-
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success($json_data));
 
 
@@ -848,7 +846,7 @@ class UsersController extends AppController {
 			$paper_data = $this->Paper->find('all', array('conditions' => array('Paper.enabled' => true,  'Paper.owner_id' => $user_id)));
 
 			foreach($paper_data as $paper){
-                $this->log($paper);
+
                 $categories = array();
 				//$content_data['options'][ContentPaper::PAPER.ContentPaper::SEPERATOR.$paper['Paper']['id']] = $paper['Paper']['title'];//.' (' .('front page').')'
                 $content_data['options'][$paper['Paper']['id']] = $paper['Paper']['title'];//.' (' .('front page').')'
@@ -893,7 +891,8 @@ class UsersController extends AppController {
             //redirct to his profile
             $this->redirect(array('controller' => 'users', 'action' => 'view', 'username' => strtolower($this->Session->read('Auth.User.username'))));
         }
-
+        $flashMessage = __('An email has been sent with your new password, if a user with that address was found.', true);
+        
       if(!empty($this->data)) {
         $this->User->contain();
         $user = $this->User->findByEmail($this->data['User']['email']);
@@ -902,11 +901,11 @@ class UsersController extends AppController {
           $user['User']['password'] = $this->Auth->password($user['User']['tmp_password']);
           if($this->User->save($user, false, array('password'))) {
             $this->_sendPasswordEmail($user['User']['id'], $user['User']['tmp_password']);
-            $this->Session->setFlash('An email has been sent with your new password.','default', array('class' => 'success'));
+            $this->Session->setFlash($flashMessage,'default', array('class' => 'success'));
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
           }
         } else {
-          $this->Session->setFlash('No user was found with the submitted email address.');
+          $this->Session->setFlash($flashMessage,'default', array('class' => 'success'));
         }
       }
     }
@@ -1125,7 +1124,9 @@ class UsersController extends AppController {
 					$this->Session->setFlash(__('Your account could not be deleted.', true));
 					$this->log('User/accDelete: user '.$id.' could not delete his/her account');
 				}
-			}
+			}else{
+                	$this->Session->setFlash(__('Please confirm to delete your account by clicking on the checkbox', true));
+            }
 		}
 
 		$this->User->contain();

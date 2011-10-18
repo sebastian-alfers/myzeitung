@@ -2,6 +2,15 @@
 /**
  * @param $post_documents - array of type Apache_Solr_Document Object
  */
+
+if($home == 'true'){
+    $maxTitleLen= 48;
+    $maxNameLen = 40;
+}else{
+    $maxTitleLen= 25;
+    $maxNameLen = 25;
+}
+
 ?>
 
 <?php if(isset($post_documents)): ?>
@@ -26,10 +35,15 @@
                 // post headline
                                     ?>
 
-				<h6><a href="<?php echo $post->route_source?>"><?php echo $this->MzText->truncate($post->post_title, 25,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></h6>
+				<h6><a href="<?php echo $post->route_source; ?>"><?php echo $this->MzText->truncate($post->post_title, $maxTitleLen,array('ending' => '...', 'exact' => true, 'html' => false)); ?></a></h6>
 
 				<br />
-				<span class="from"><?php __('by');?><?php echo ' '.$this->Html->link($this->MzText->generateDisplayname(array('username' =>$post->user_username, 'name' => $post->user_name),false) ,array('controller' => 'users','action' => 'view', 'username' => strtolower($post->user_username)));?><?php /*echo $this->MzTime->timeAgoInWords($post->timestamp);*/ ?></span>
+				<span class="from"><?php __('by');?><?php echo ' '.$this->Html->link(
+                                                                                $this->MzText->truncate(
+                                                                                                $this->MzText->generateDisplayname(array('username' =>$post->user_username, 'name' => $post->user_name),false),
+                                                                                                 $maxNameLen,array('ending' => '...', 'exact' => true, 'html' => false)) ,
+                                                                                array('controller' => 'users','action' => 'view', 'username' => strtolower($post->user_username)));?><?php /*echo $this->MzTime->timeAgoInWords($post->timestamp);*/ ?>
+                                                                                </span>
 				<?php /*
 				<ul class="iconbar">
 					<li class="reposts tt-title" title="1 repost">1</li>
@@ -42,3 +56,5 @@
 	<?php endforeach; ?>
 	</ul>
 <?php endif; ?>
+
+

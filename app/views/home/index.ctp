@@ -13,7 +13,7 @@
 <div class="start-header">
         <div id="header">
             <h1 id="logo"><a href="/">myZeitung</a></h1>
-            <p class="slogan">Gemeinsam veröffentlichen. Gemeinsam mehr erreichen.</p>
+            <p class="slogan"><?php echo __('publish news together',true); ?> </p>
 
 
 
@@ -153,4 +153,4 @@
             </div><!-- / #maincolwrapper -->
 
 
-<?php echo $this->element('search/autocomplete/script'); ?>
+<?php  // echo $this->element('search/autocomplete/script'); ?>

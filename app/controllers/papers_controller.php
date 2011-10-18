@@ -267,6 +267,7 @@ class PapersController extends AppController {
 		if (empty($this->data)) {
 			$this->Session->setFlash(__('Error during photo upload', true));
 			$this->redirect($this->referer());
+            
 		}
 
 
@@ -331,12 +332,12 @@ class PapersController extends AppController {
 			if($this->data['Paper']['id']){
                 if($this->data['Paper']['owner_id'] != $this->Auth->user('id')){
                     if($this->Paper->subscribe($this->Auth->user('id'))){
-                        $this->Session->setFlash(sprintf(__('You successfully subscribed to the paper: %s', true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
+                        $this->Session->setFlash(sprintf(__("You successfully subscribed to the paper: %s. You can find it under 'Subscribed Papers'", true),$this->Paper->data['Paper']['title']), 'default', array('class' => 'success'));
                     } else {
-                        $this->Session->setFlash(__('Could not subscribe this paper.', true));
+                        $this->Session->setFlash(__('Could not subscribe to this paper.', true));
                     }
                 }else {
-                      $this->Session->setFlash(__('This is your own paper. Your own papers are always subscribed automatically.', true));
+                      $this->Session->setFlash(__("This is your own paper. Your papers can be found under 'My Papers'.", true));
                 }
             } else {
                 $this->Session->setFlash(__('Invalid paper id.', true));

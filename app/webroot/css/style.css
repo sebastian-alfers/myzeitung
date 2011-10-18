@@ -1458,6 +1458,10 @@ form p, form div{
 .account p{
     width: 700px;
 }
+
+.account .time p{
+    width: 100px;
+}
 .account form p, .account form div{
 height:63px;
 }
@@ -2191,6 +2195,9 @@ height:58px;
 #mainnav ul#search-suggest  ul li{
     width: 250px;
 }
+.start-header #mainnav ul#search-suggest  ul li{
+    width: 405px;
+}
 
 #mainnav ul#search-suggest  ul li:hover{
     background-color: #ECECEC;
@@ -2336,8 +2343,11 @@ margin-bottom: 15px;
     width: 147px;
     text-align: left;
     	margin-bottom: 10px;
-    margin-right:10px;
+    margin-right:0px;
 	clear: both;
+}
+.leftcolcontent select{
+    width: 184px;
 }
 /*.create-article .leftcolcontent .btn {
 background: #c3c1c1;
@@ -2576,7 +2586,8 @@ margin-bottom: 5px;
 }
 .excerpt{
 	clear: both;
-	padding-top: 6px;
+    width: 658px !important;
+    padding-top: 6px;
 }
 .excerpt a{
 	color: #6E6E6E;
@@ -2660,6 +2671,9 @@ width: 637px !important;
     -moz-border-radius:11px;
     -webkit-border-radius:11px;
     resize: none;
+    font-family: "georgia",serif;
+    color: #8f8f8f;
+    font-size: 16px;
 }
 
 .write-anwer h4{

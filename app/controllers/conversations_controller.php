@@ -261,7 +261,11 @@ class ConversationsController extends AppController {
 			$this->ConversationUser->contain();
 			$userData = $this->ConversationUser->find('first', array('fields' =>array('id', 'status', 'last_viewed_message'), 'conditions' => array('user_id' =>  $this->Auth->user('id'), 'conversation_id' => $conversation_id)));
 			$userData['ConversationUser']['status'] = conversation::STATUS_REMOVED;
-			$this->ConversationUser->save($userData);
+			if($this->ConversationUser->save($userData)){
+                   $this->Session->setFlash(__('The conversation has been removed successfully.', true), 'default', array('class' => 'success'));
+            }else{
+                $this->Session->setFlash(__('The conversation could not be removed, please try again.', true));
+            }
 		} else {
 			$this->Session->setFlash(__('You do not participate in this particular conversation.', true));
 		}
