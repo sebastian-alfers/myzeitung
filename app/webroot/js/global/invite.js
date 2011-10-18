@@ -24,9 +24,16 @@ function isValidEmails(){
 }
 
 $(document).ready(function(){
+
     $('#invite-fields input').live('focus keyup', function(){
         if($(this).val() != '' && $('#invite-fields li:last-child input').val() != ''){
             $('#invite-fields').append('<li><input name="data[Invitation][email][]" type="text" class="textinput" /><span></span></li>');
+            
+            //hack for IE to make the div grow
+            var height = $('#dialog-invitation .modal-content').height();
+            alert('edit');
+            $('#dialog-invitation .modal-content').css('height', height + 50 +'px');
+
         }
 
     });
@@ -38,6 +45,11 @@ $(document).ready(function(){
         if(email == '' && $('#invite-fields input').length > 1){
             $(element).next("span").html('');
             $(element).remove();
+            
+            //hack for IE to make the div shrink
+            var height = $('#dialog-invitation .modal-content').height();
+            $('#dialog-invitation .modal-content').css('height', height - 50 +'px');            
+            
             return;
         }
 
