@@ -183,6 +183,13 @@ class Solr extends AppModel {
             //this will be the "last record id" for the NEXT record.
             $lastFoundId = $post['Post']['id'];
         }
+
+        //deleting all entries from the lowest found id to id-1 to assure that no old entries are left.
+        for($i = $lastFoundId-1; $i > 0; $i--){
+            $delete[] = self::TYPE_POST.'_'.$i;
+        }
+
+
         //add or delete records
         $this->add($update);
         $this->delete($delete);
@@ -240,6 +247,12 @@ class Solr extends AppModel {
             //this will be the "last record id" for the NEXT record.
             $lastFoundId = $user['User']['id'];
         }
+
+        //deleting all entries from the lowest found id to id-1 to assure that no old entries are left.
+        for($i = $lastFoundId-1; $i > 0; $i--){
+            $delete[] = self::TYPE_USER.'_'.$i;
+        }
+
         //add or delete records
         $this->add($update);
         $this->delete($delete);
@@ -296,6 +309,13 @@ class Solr extends AppModel {
             //this will be the "last record id" for the NEXT record.
             $lastFoundId = $paper['Paper']['id'];
         }
+
+        //deleting all entries from the lowest found id to id-1 to assure that no old entries are left.
+        for($i = $lastFoundId-1; $i > 0; $i--){
+            $delete[] = self::TYPE_PAPER.'_'.$i;
+        }
+
+
         //add or delete records
         $this->add($update);
         $this->delete($delete);
