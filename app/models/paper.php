@@ -6,6 +6,7 @@ class Paper extends AppModel {
     const FILTER_OWN = 'own';
     const FILTER_ALL = 'all';
     const FILTER_SUBSCRIBED = 'subscriptions';
+    const RETURN_CODE_SUCCESS_CREATED_PAPER = 0;
     const RETURN_CODE_SUCCESS = 1;
     const RETURN_CODE_SUCCESS_DELETED_TOPICS = 2;
     const RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION = 3;
@@ -17,7 +18,10 @@ class Paper extends AppModel {
     
     var $return_codes_success =
                 array(self::RETURN_CODE_SUCCESS,
-                      self::RETURN_CODE_SUCCESS_DELETED_TOPICS);
+                      self::RETURN_CODE_SUCCESS_DELETED_TOPICS,
+                      self::RETURN_CODE_SUCCESS_CREATED_PAPER
+                );
+
 
     var $return_code_messages = array();
 
@@ -149,6 +153,7 @@ function __construct(){
 		);
 
         $this->return_code_messages = array(
+            self::RETURN_CODE_SUCCESS_CREATED_PAPER =>  __('We created a new paper for you.',true).' '.__('The subscription has been saved to your just created paper.', true),
             self::RETURN_CODE_SUCCESS => __('User/Topic successfully subscribed to your Paper/Category', true),
             self::RETURN_CODE_SUCCESS_DELETED_TOPICS => __('Subscription successfully saved. There was at least one topic of this user subscribed to your Paper/Category which has been replaced to allow this new Subscription.', true),
             self::RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION => __('This exact Subscription already exists', true),
@@ -287,8 +292,6 @@ function __construct(){
 			 */
 			function getTopicReferencesToOnlyThisPaper(){
 				$allReferences = $this->getContentReferences();
-                $this->log('all ref paper only');
-                $this->log($allReferences);
 				$topicReferences = array();
 				if(count($allReferences) > 0){
 					foreach($allReferences as $reference){
@@ -309,8 +312,6 @@ function __construct(){
 			function getTopicReferencesToOnlyThisCategory($category_id = null){
 				$allReferences = $this->getContentReferences($category_id);
 				$categoryReferences = array();
-                $this->log('all ref');
-                $this->log($allReferences);
 				if(count($allReferences) > 0){
 					foreach($allReferences as $reference){
 						//only topics that are not associated to a category -> direkt in paper
@@ -679,8 +680,13 @@ function __construct(){
      * @param int $userId
      * @param int $topicId
      */
-    private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId){
+    private function _canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId, $created){
 
+        if($created){
+            $returnCodeSucess = self::RETURN_CODE_SUCCESS_CREATED_PAPER;
+        }else{
+             $returnCodeSucess = self::RETURN_CODE_SUCCESS;
+        }
         //check if there is already a subscription for exactly this constellation
         $conditions = array('conditions' => array(
                                     'ContentPaper.paper_id' => $paperId,
@@ -696,7 +702,7 @@ function __construct(){
             return self::RETURN_CODE_ERROR_DUPLICATE_EXACT_ASSOCIATION;
         }
 
-        if(!$topicId){
+       if(!$topicId){
             //get user topics
             $this->User->contain('Topic.id');
             $user = $this->User->read(null, $userId);
@@ -706,7 +712,7 @@ function __construct(){
             $this->log('user topics');
             $this->log($userTopics);
             //if user has no topcis (should not be possible...)
-            if(count($userTopics) == 0) return self::RETURN_CODE_SUCCESS;
+            if(count($userTopics) == 0) return $returnCodeSucess;
 
             $this->contain();
             $paper = $this->read(null, $this->id);
@@ -717,7 +723,7 @@ function __construct(){
                 //reading all topics of the category.
                 $categoryTopics = $this->getTopicReferencesToOnlyThisCategory($categoryId);
                 //if category has no topics referenced
-                if(count($categoryTopics) == 0) return self::RETURN_CODE_SUCCESS;
+                if(count($categoryTopics) == 0) return $returnCodeSucess;
             }
 
             //whole user to paper
@@ -726,7 +732,7 @@ function __construct(){
             $paperTopics = $this->getTopicReferencesToOnlyThisPaper();
            // debug(count($paperTopics && !$categoryId));
             //if paper has no topics referenced and there is no category referenced
-            if(count($paperTopics) == 0  && !$categoryId) return self::RETURN_CODE_SUCCESS;
+            if(count($paperTopics) == 0  && !$categoryId) return $returnCodeSucess;
 
             //"overwrite" all topic associations of the user with the "whole user association" by deleting all topics of this user
             // in the specific category or paper-frontpage
@@ -826,9 +832,9 @@ function __construct(){
      *
      * @return boolean
      */
-    public function newContentForPaper($paperId, $categoryId, $userId, $topicId){
+    public function newContentForPaper($paperId, $categoryId, $userId, $topicId, $created){
 
-        $return_code = $this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId);
+        $return_code = $this->_canAssociateDataToPaper($paperId, $categoryId, $userId, $topicId, $created);
         if(!in_array($return_code, $this->return_codes_success)){
             return $return_code;
         }
@@ -863,7 +869,8 @@ function __construct(){
     private function _associateContentForPaper($data, $user_id, $topic_id){
 
         $paper_id = $data['Paper']['target_id'];
-        return  $this->newContentForPaper($paper_id, null, $user_id, $topic_id);
+        $created = $data['Paper']['created'];
+        return  $this->newContentForPaper($paper_id, null, $user_id, $topic_id,$created);
 
     }
 

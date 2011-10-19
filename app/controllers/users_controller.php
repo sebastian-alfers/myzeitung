@@ -760,6 +760,7 @@ class UsersController extends AppController {
 				$data['Paper'][ContentPaper::CONTENT_DATA] = ContentPaper::USER.ContentPaper::SEPERATOR.$user_id;
 				$data['Paper']['target_type'] = ContentPaper::PAPER;
 				$data['Paper']['target_id'] = $paper_id;
+                $data['Paper']['created'] = $created;
               /*
                     debug($data);
                     debug($email_user_id);
@@ -770,7 +771,9 @@ class UsersController extends AppController {
                      $email_user_id = $user_id;
 
 				    $return_code =$this->Paper->associateContent($data);
+                    $this->log('controller_return_code'.$return_code);
                     if(in_array($return_code,$this->Paper->return_codes_success)){
+                        $this->log('in success array');
 					$msg = $this->Paper->return_code_messages[$return_code];
 
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);
@@ -1125,7 +1128,7 @@ class UsersController extends AppController {
 					$this->log('User/accDelete: user '.$id.' could not delete his/her account');
 				}
 			}else{
-                	$this->Session->setFlash(__('Please confirm to delete your account by clicking on the checkbox', true));
+                $this->Session->setFlash(__('Please confirm to delete your account by clicking on the checkbox', true));
             }
 		}
 
