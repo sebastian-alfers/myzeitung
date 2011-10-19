@@ -5,7 +5,7 @@ class AjaxController extends AppController {
     var $components = array('RequestHandler', 'JqImgcrop', 'Upload');
 
     var $name = 'Ajax';
-    var $uses = array('JsonResponse', 'Complaint', 'Paper', 'UrlContentExtract', 'Conversation', 'ConversationMessage');
+    var $uses = array('JsonResponse', 'Complaint', 'Paper', 'UrlContentExtract', 'Conversation', 'ConversationMessage', 'Category');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -79,29 +79,35 @@ class AjaxController extends AppController {
     }
     
     function validateNewMessage(){
-    	//$this->log($this->params);
-    	
-    	
     	
         $this->Conversation->set(array('title' => $this->params['form']['title']));
         $this->ConversationMessage->set(array('message' => $this->params['form']['message']));
     	
     	if(!$this->Conversation->validates(array('fieldList' => array('title')))){
-	    	$this->log('failure a');
+
 			$messages = $this->Conversation->invalidFields();
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['title'])));    		
     	}
     	elseif(!$this->ConversationMessage->validates(array('fieldList' => array('message')))){
-	    	$this->log('failure b');
+
 			$messages = $this->ConversationMessage->invalidFields();
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['message'])));    		    	
     	}
     	else{
-    		$this->log('all ok');
-    		            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
     	}
-
+    }
+    
+    function validateNewCategory(){
+        $this->Category->set(array('name' => $this->params['form']['name']));
     	
+    	if(!$this->Category->validates(array('fieldList' => array('name')))){
+			$messages = $this->Category->invalidFields();
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['name'])));
+    	}
+    	else{
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
+    	}    
     }
 
         /**

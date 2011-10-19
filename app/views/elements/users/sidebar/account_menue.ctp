@@ -37,9 +37,10 @@
 </fieldset>
   <fieldset>
 <legend><?php echo __('Change Language', true);?></legend>
-    <ul>
+a    <ul>
         <li><?php echo $this->element('locale/switch', array('locale' => $this->Session->read('Auth.Setting.user.default.locale.value'))); ?></li>
     </ul>
+    b
     </fieldset>
     <?php /* <hr />
     <?php echo $this->element('invite/button');  */?>

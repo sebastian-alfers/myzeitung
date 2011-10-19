@@ -66,7 +66,7 @@ class TweetComponent extends Object {
      * @return void
      */
     public function connect(){
-
+		debug('jo?');
         if(!$this->isTokenAvailable()){
 
             $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET);
@@ -107,8 +107,30 @@ class TweetComponent extends Object {
 
         if(is_array($this->_request_token) && isset($this->_request_token[self::OAUTH_TOKEN]) && isset($this->_request_token[self::OAUTH_TOKEN_SECRET])){
 
-            $this->Session->write($this->_getOAuthTokenPath(), $this->_request_token[self::OAUTH_TOKEN]);
-            $this->Session->write($this->_getOAuthTokenSecretPath(), $this->_request_token[self::OAUTH_TOKEN_SECRET]);
+			debug($this->Session->read());
+			debug($this->_request_token);
+
+			$data = $this->Session->read('Auth');
+			debug($data);
+            $data['Setting']['user']['social']['twitter.oauth_token']['value'] = $this->_request_token[self::OAUTH_TOKEN];
+            $data['Setting']['user']['social']['twitter.oauth_token_secret']['value'] = $this->_request_token[self::OAUTH_TOKEN_SECRET];            
+
+            if($this->Settings->save($data['Setting'], $this->Session->read('Auth.User.id'))){            
+            	echo 'jo';
+        	}
+        	else{
+        		echo 'no';
+        	}
+            
+            
+			debug($this->Session->read());
+			die();
+			
+			
+//			    function save($settingData = null, $model_id = null){
+
+            //$this->Session->write($this->_getOAuthTokenPath(), $this->_request_token[self::OAUTH_TOKEN]);
+            //$this->Session->write($this->_getOAuthTokenSecretPath(), $this->_request_token[self::OAUTH_TOKEN_SECRET]);
 
             return true;
         }
@@ -141,7 +163,6 @@ class TweetComponent extends Object {
      * @return void
      */
     public function getUserProfile(){
-
 
         if($this->useTwitter()){
             $this->_connection = $this->getConnection();
@@ -177,16 +198,15 @@ class TweetComponent extends Object {
 
     }
 
-
-
     public function isTokenAvailable(){
-        $settings = $this->Settings->get($this->Session->read('Auth.User.id'), 'twitter');
-        return (isset($settings['twitter']['oauth_token']) &&
-               isset($settings['twitter']['oauth_token_secret']));
+	    if($this->Session->check('Auth.Setting.user.social')){
+    		$ses = $this->Session->read('Auth.Setting.user.social');
+    		return isset($ses['twitter.oauth_token']['value']) && !empty($ses['twitter.oauth_token']['value']);
+	    }
+    
+    return false;
+    
     }
-
-
-
 
     function checkConfig(){
         if (TW_CONSUMER_KEY === '' || TW_CONSUMER_SECRET === '') {

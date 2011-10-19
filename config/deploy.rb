@@ -71,7 +71,7 @@ task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/logo-icon.png", "#{current_release}/app/webroot/img/assets/logo-icon.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p1.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p1.png")      
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p1.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p1.png")      
 end
 
 #task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
