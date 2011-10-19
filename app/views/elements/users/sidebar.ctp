@@ -56,7 +56,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 			<?php endif;?>
 
 
-        <?php if(($this->params['controller'] == 'users' && ($this->params['action'] =='view' || ($this->params['action'] =='viewSubscriptions' && $session->read('Auth.User.id') != $user['User']['id']) )) || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view' && $session->read('Auth.User.id') != $user['User']['id'])):?>
+        <?php if(($this->params['controller'] == 'users' && ($this->params['action'] =='view' || ($this->params['action'] =='viewSubscriptions' && $session->read('Auth.User.id') != $user['User']['id']) )) || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view' /* && $session->read('Auth.User.id') != $user['User']['id'] */)):?>
         <hr />
             <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'view' || $this->params['action'] == 'viewSubscriptions') && $session->read('Auth.User.id') != $user['User']['id']): ?>
                 <?php echo $this->element('complaints/button', array('model' => 'user', 'complain_target_id' => $user['User']['id'])); ?>

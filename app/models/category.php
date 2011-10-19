@@ -44,7 +44,7 @@ class Category extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-			),
+        ),
 		'ContentPaper' => array(
 			'className' => 'ContentPaper',
 			'foreignKey' => 'category_id',
@@ -57,16 +57,53 @@ class Category extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-			)
+        )
 			
-			);
+    );
+  /*
+    var $validate = array(
+			'name' => array(
+				'empty' => array(
+					'rule'			=> 'notEmpty',
+					'message' 		=> 'Please enter a name for the category',
+					'last' 			=> true,
+                ),
+				'maxlength' => array(
+					'rule'			=> array('maxlength', 100),
+					'message'		=> 'Category names can only be 100 characters long.',
+					'last' 			=> true,
+                ),
+            ),
+        );
+*/
 
+/*
+    function __construct(){
+        parent::__construct();
+        $this->validate = array(
+			'name' => array(
+				'empty' => array(
+					'rule'			=> 'notEmpty',
+					'message' 		=> __('Please enter a name for the category', true),
+					'last' 			=> true,
+                ),
+				'maxlength' => array(
+					'rule'			=> array('maxlength', 100),
+					'message'		=> __('Category names can only be 100 characters long.', true),
+					'last' 			=> true,
+                ),
+            ),
+        );
+    }
 
-			/**
-			 * 1)
-			 * update solr index with saved data
-			 */
-			function afterSave(){
+    */
+
+    
+    /**
+     * 1)
+     * update solr index with saved data
+     */
+    function afterSave(){
 
 			/*	App::import('model','Solr');
 				App::import('model','User');
@@ -117,7 +154,7 @@ class Category extends AppModel {
 			}
 
 			function delete($id){
-				$this->removeCategoryFromSolr($id);
+			//	$this->removeCategoryFromSolr($id);
 				return parent::delete($id);
 			}
 
@@ -131,6 +168,9 @@ class Category extends AppModel {
 				$solr = new Solr();
 				$solr->delete(Solr::TYPE_CATEGORY . '_' . $id);
 			}
+
+
+
 				
 }
 ?>
