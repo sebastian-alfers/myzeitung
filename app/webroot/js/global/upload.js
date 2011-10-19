@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+
+
     //link in upload popup to delete user profile picture
     $(".delete-profile-picture").click(function(){
 		document.location = base_url + '/users/deleteProfilePicture';

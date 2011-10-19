@@ -38,8 +38,8 @@ Configure::write('Cdn.enable', false);
 Configure::write('Cdn.url', '');
 
 //         css js cache
-Configure::write('Frontend.disable_combine_js', false);
-Configure::write('Frontend.disable_combine_css', false);
+Configure::write('Frontend.disable_combine_js', true);
+Configure::write('Frontend.disable_combine_css', true);
 Cache::config('default', array('engine' => 'File'));
 
 //         SOLR

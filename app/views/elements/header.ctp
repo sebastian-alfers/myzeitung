@@ -58,7 +58,7 @@
 				<input name="q" id="inputString" autocomplete="off" class="searchinput" type="text" onblur="if (this.value == '') {this.value = '<?php echo __('Find', true);?>';}" onfocus="if (this.value == '<?php echo __('Find', true);?>') {this.value = '';}" value="<?php  echo isset($query)? $query:  __('Find', true);?>" />
 				<button class="submit" type="submit" value=""><?php echo __('Find', true);?></button>
 
-				<ul id="search-suggest" style="display:none">
+				<ul id="search-suggest" style="display:none;z-index:5000;">
 				</ul><!-- end auto suggest -->
 			</form>
 

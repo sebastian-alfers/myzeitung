@@ -1,3 +1,4 @@
+<?php echo $this->MzJavascript->link('user/view'); //for the user sidebar?>
 <?php $this->MzJavascript->link('post/view.js'); ?>
 <?php $this->MzJavascript->link('pirobox_extended.js'); ?>
 

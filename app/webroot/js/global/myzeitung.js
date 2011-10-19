@@ -231,15 +231,24 @@ $(function() {
 });
 
 
-$(document).ready(function() {
+$(document).ready(function() 	{
     //auto suggest
-    $('.autoresult').live('click', function(e){
-        goTo($(this).find('h6 a').attr('href'));
+    
+    $('.autoresult').live('click', function(event){
+    	if(event.target.nodeName != 'A'){
+    		goTo($(this).find('h6 a').attr('href'));
+    	}
     });
+    
+    
     //normal serach
-    $('.search-result li').live('click', function(){
-        goTo($(this).find('h3 a').attr('href'));
+    $('.search-result li div').live('click', function(event){    
+    	alert('test');
+    	if(event.target.nodeName != 'A'){
+    		goTo($(this).find('h3 a').attr('href'));
+    	}
     });
+
 
 
     $('.complain-btn').click(function(e){
