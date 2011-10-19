@@ -2030,7 +2030,7 @@ margin-bottom: 0px;
 }
 
 .search-result li:hover{
-    cursor: pointer;
+/*    cursor: pointer; */
     background-color: #ECECEC;
 }
 /*
@@ -2481,7 +2481,7 @@ width: 731px;
 
 .message-overview .messages li, .invitations-overview .invitations li{
 	float: left;
-    cursor: pointer;
+/*    cursor: pointer; */
 }
 
 .message:hover h5 a{

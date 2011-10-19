@@ -68,10 +68,11 @@
                 $class = 'btn';
                 if($has_topics){
                     $link = '/#';
+                    $class = 'btn repost';
                 }
                 ?>
 
-                <a href="<?php echo $link; ?>" class="btn repost" id="<?php echo $post->id; ?>"><span class="repost-ico icon"></span><?php __('Repost'); ?></a>
+                <a href="<?php echo $link; ?>" class="<?php echo $class; ?>" id="<?php echo $post->id; ?>"><span class="repost-ico icon"></span><?php __('Repost'); ?></a>
 			<?php //repost button?>
 			<?php endif;?>
 		<?php endif;?>

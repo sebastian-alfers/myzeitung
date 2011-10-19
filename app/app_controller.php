@@ -165,6 +165,7 @@ class AppController extends Controller {
             'validateEmail' => $this->user,
             'validateUrl' => $this->user,
             'getVideoPreview' => $this->user,
+            'validateNewMessage' => $this->user,
         ),
 		'users' => array(
 			'index' => $this->user,

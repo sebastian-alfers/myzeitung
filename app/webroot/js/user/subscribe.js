@@ -11,7 +11,6 @@ $(document).ready(function() {
     function subscribeDialog(element){
         var user_subscribe_id = $(element).attr('id');
         loadForm(user_subscribe_id);
-
         return false;
     }
 
@@ -19,7 +18,6 @@ $(document).ready(function() {
         $('#dialog-subscribe-content').html("");
         var req = $.post(base_url + '/users/subscribe/'+user_subscribe_id+'.json')
            .success(function( response ){
-
                if(response.status == 'success'){
                    $('#dialog-subscribe-content').html(response.view);
                    $('#dialog-subscribe').dialog('open');
