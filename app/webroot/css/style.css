@@ -1444,7 +1444,7 @@ input.modal{
 
 form textarea{
     font-size: 12px;
-    height: 150px;
+    height: 140px;
     width: 390px !important;
     /*padding: 0 0 0 15px;*/
     border-radius: 11px 0 0 11px;
@@ -1534,6 +1534,14 @@ a.btn.big {
 
 .icon-general{
     background: url(/img/assets/maintile.png) -30px -151px no-repeat;
+}
+
+.icon-flag-en{
+    background: url(/img/assets/maintile.png) -110px -340px no-repeat transparent;
+}
+
+.icon-flag-de{
+    background: url(/img/assets/maintile.png) -130px -340px no-repeat transparent;
 }
 
 .icon-about{
@@ -1733,6 +1741,11 @@ height: 19px;
     width: 360px !important;
 }
 
+.account textarea{
+	padding: 12px 0 0 10px;
+}
+
+
 .account label{
 font-size: 17px;
     float: left;
@@ -1750,6 +1763,12 @@ font-size: 17px;
 
 .account .info-p{
 height: 75px;
+}
+
+.info-p p{
+	color:#A2A2A2;
+	font-size:17px;
+	padding: 12px 0 0 0;
 }
 
 .account .textarea{
@@ -3636,13 +3655,6 @@ span.arrow-left-white{
     text-indent: -99999px;
 }
 
-.flageng{
-    display: inline-block;
-    background: url(/img/assets/maintile.png) -110px -340px no-repeat transparent;
-    height:21px;
-    width:18px;
-    text-indent: -99999px;
-}
 
 .mzslides{
     cursor: pointer;

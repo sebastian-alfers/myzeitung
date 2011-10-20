@@ -1,7 +1,8 @@
 $(document).ready(function() {
     $('.mzslides').click(function(e){
         e.preventDefault();
-        $('#modal-slides-content').html('<iframe src="'+base_url+'/deck.js/introduction/" height="600" width="920"></iframe>');
+
+        $('#modal-slides-content').html('<iframe src="'+base_url+'/mzslides/main/" height="600" width="920"></iframe>');
         $('#modal-slides').dialog('open');
     });
 

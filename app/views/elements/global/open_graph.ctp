@@ -1,7 +1,7 @@
 <?php if(isset($open_graph) && !empty($open_graph)):
 
     if($open_graph['image'] == ''){
-        $open_graph['image'] = $this->Cf->url($this->Image->resize('assets/logo-icon.png', 200, 200));
+        $open_graph['image'] = $this->Cf->url($this->Image->resize('assets/logo-icon.png', 200, 200), true);
     }
     else{
         $open_graph['image'] = $this->Cf->url($this->Image->resize($open_graph['image'], 200, 200));
