@@ -7,35 +7,35 @@
 </section>
 
 <section class="slide" id="how-to-overview-2">
-	<img src="http://localhost:8180/img/assets/mzslides/home/p2.png" />
+	<img src="<?php echo $this->Cf->url('assets/mzslides/home/p2.png', true); ?>" />
 </section>
 
 <section class="slide" id="how-to-overview-3">
-	<img src="http://localhost:8180/img/assets/mzslides/home/p3.png" />
+	<img src="<?php echo $this->Cf->url('assets/mzslides/home/p3.png', true); ?>" />
 </section>
 
 <section class="slide" id="how-to-overview-4">
-	<img src="http://localhost:8180/img/assets/mzslides/home/p4.png" />
+	<img src="<?php echo $this->Cf->url('assets/mzslides/home/p4.png', true); ?>" />
 </section>
 
 <section class="slide" id="how-to-overview-5">
-    <img src="http://localhost:8180/img/assets/mzslides/home/p5.png" />
+    <img src="<?php echo $this->Cf->url('assets/mzslides/home/p5.png', true); ?>" />
 </section>
 
 <section class="slide" id="how-to-overview-6">
-    <img src="http://localhost:8180/img/assets/mzslides/home/p6.png" />
+    <img src="<?php echo $this->Cf->url('assets/mzslides/home/p6.png', true); ?>" />
 </section>
 
 <section class="slide" id="how-to-overview-7">
-    <img src="http://localhost:8180/img/assets/mzslides/home/p7.png" />
+    <img src="<?php echo $this->Cf->url('assets/mzslides/home/p7.png', true); ?>" />
 </section>
 
 <section class="slide" id="how-to-overview-8">
-    <img src="http://localhost:8180/img/assets/mzslides/home/p8.png" />
+    <img src="<?php echo $this->Cf->url('assets/mzslides/home/p8.png', true); ?>" />
 </section>
 
 <section class="slide" id="how-to-overview-9">
-    <img src="http://localhost:8180/img/assets/mzslides/home/p9.png" />
+    <img src="<?php echo $this->Cf->url('assets/mzslides/home/p9.png', true); ?>" />
 </section>
 
 
