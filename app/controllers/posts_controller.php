@@ -13,7 +13,7 @@ class PostsController extends AppController {
 
 	var $name = 'Posts';
 
-	var $components = array(/* 'Security', */ 'JqImgcrop', 'Upload', 'Settings', 'Tweet');
+	var $components = array(/* 'Security', */ 'JqImgcrop', 'Upload', 'Settings', 'Tweet' );
 	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
 
 

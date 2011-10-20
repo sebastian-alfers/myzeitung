@@ -499,17 +499,10 @@ class Post extends AppModel {
 				return $results;
 			}
 
-			/**
-			 * @author: tim
-			 * serializing the reposters-array before being written to the db.
-			 *
-			 */
+
 			function beforeSave() {
 
-				/*if(!empty($this->data['Post']['reposters']) && is_array($this->data['Post']['reposters']) && !empty($this->data['Post']['reposters'])){
-					$this->data['Post']['reposters'] = serialize($this->data['Post']['reposters']);
-				}*/
-				
+
 				if(!empty($this->data['Post']['image']) && is_array($this->data['Post']['image']) && !empty($this->data['Post']['image'])){
 					$this->data['Post']['image'] = serialize($this->data['Post']['image']);
 				}
@@ -517,33 +510,21 @@ class Post extends AppModel {
                     $this->data['Post']['title'] = trim($this->data['Post']['title']);
                 }
 
-                /*
-                //redundant because we process content with texthelpers trunate function
-				//generate preview of post
-				$content = explode(' ', strip_tags($this->data['Post']['content']));
-				for($i = 0; $i < count($content); $i++){
-					$content[$i] = trim($content[$i]);
-					$content[$i] = preg_replace('/\s\s+/', ' ', $content[$i]);
-				}
-
-				$prev = '';
-                $max_chars = 175;
-                $chars = 0;
-                for($i = 0; $i < count($content); $i++){
-                    $word = $content[$i];
-					if(($chars+strlen($word)) < $max_chars){
-						$chars += strlen($word);
-						$prev .= ' ' . $word;
-					}else{
-                        break;
-                    }
-
-				}
-				$this->data['Post']['content_preview'] = $prev;
-                */
-             
+                //$this->log($this->_cleanUpText($this->data['Post']['content']));
+                 $this->data['Post']['content'] = $this->_cleanUpText($this->data['Post']['content']);
+               // $this->log($this->data['Post']['content']);
 				return true;
 			}
+
+            private function _cleanUpText($text){
+                $text = preg_replace('#<p[^>]*>(\s|&nbsp;?)*</p>#', '', $text);
+
+                $text = preg_replace('/\s\s+/', ' ', $text);
+                $text= trim($text);
+                return $text;
+          //      return preg_replace("/<(?!input¦br¦img¦meta¦hr¦\/)[^>]*>\s*<\/[^>]*>/", '', $text);
+               //  return preg_replace("/<[^\/>]*>([\s]?)*<\/[^>]*>/", '', $text);
+            }
 
 
 			// OVERRIDES the standard paginationCount

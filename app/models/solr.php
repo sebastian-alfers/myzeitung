@@ -146,7 +146,7 @@ class Solr extends AppModel {
         //just in case there are still search entries, with an higher id, than the highest
         //record from database
         if(isset($posts[0]['Post']['id'])){
-            $lastFoundId = $posts[0]['Post']['id'] + 25;
+            $lastFoundId = $posts[0]['Post']['id'] + 100;
         }
 
         $delete = array();
@@ -209,7 +209,7 @@ class Solr extends AppModel {
         //just in case there are still search entries, with an higher id, than the highest
         //record from database
         if(isset($users[0]['User']['id'])){
-            $lastFoundId = $users[0]['User']['id'] + 25;
+            $lastFoundId = $users[0]['User']['id'] + 100;
         }
 
         $delete = array();
@@ -271,10 +271,10 @@ class Solr extends AppModel {
         //just in case there are still search entries, with an higher id, than the highest
         //record from database
         if(isset($papers[0]['Paper']['id'])){
-            $lastFoundId = $papers[0]['Paper']['id'] + 25;
+            $lastFoundId = $papers[0]['Paper']['id'] + 100;
 
         }
-
+        
         $delete = array();
         $update = array();
 
@@ -304,7 +304,6 @@ class Solr extends AppModel {
                     $delete[] = self::TYPE_PAPER.'_'.$i;
                 }
             }
-
             //keep the id of the active record
             //this will be the "last record id" for the NEXT record.
             $lastFoundId = $paper['Paper']['id'];

@@ -444,10 +444,6 @@ class AppController extends Controller {
             $this->Session->write('Config.language', $this->Session->read('Auth.Setting.user.default.locale.value'));
 
         }
-        if(!$this->Cookie->read('lang')){
-            $this->Cookie->write('lang', Configure::read('Config.language'), false, '20 days');
-        }
-
         if ($this->Cookie->read('lang') && !$this->Session->check('Config.language')) {
             $this->Session->write('Config.language', $this->Cookie->read('lang'));
         }
@@ -455,6 +451,9 @@ class AppController extends Controller {
                                                       !=  $this->Session->read('Config.language'))) {
             $this->Session->write('Config.language', $this->params['language']);
             $this->Cookie->write('lang', $this->params['language'], false, '20 days');
+        }
+        if(!$this->Cookie->read('lang')){
+            $this->Cookie->write('lang', Configure::read('Config.language'), false, '20 days');
         }
 
     }

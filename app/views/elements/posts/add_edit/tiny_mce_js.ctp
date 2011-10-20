@@ -14,7 +14,7 @@ $(function(){
                 theme_advanced_resizing_min_width: 728,
 
                 plugins : "autolink,lists,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-                entity_encoding : "raw",
+                entity_encoding : "named",
                 // Theme options
                 theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|formatselect, bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,cleanup,code,|,forecolor,backcolor",
                 theme_advanced_buttons2 : "",
@@ -33,6 +33,11 @@ $(function(){
                 paste_preprocessing : true,
                 //this extends the "valid_elements" which we use currently with default value. this specific added entry forces every link within the editor to have rel - nofollow and target: _blank
                 extended_valid_elements : "a[href|target:_blank|rel:nofollow]",
+
+
+                //CLEANUP / OUTPUT params
+                convert_newlines_to_brs : true,
+                verify_html : true,
 
                 // Skin options
                 skin : "mz_skin",

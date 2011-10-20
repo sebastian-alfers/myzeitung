@@ -13,7 +13,7 @@
 <div class="start-header">
         <div id="header">
             <h1 id="logo"><a href="/">myZeitung</a></h1>
-            <p class="slogan"><?php echo __('publish news together',true); ?> </p>
+            <p class="slogan"><?php echo __('publishing together',true); ?> </p>
 
 
 

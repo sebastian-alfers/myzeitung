@@ -31,7 +31,7 @@
 </div>
 
 
-<?php echo $this->Form->create('Post', array("enctype" => "multipart/form-data"));?>
+<?php echo $this->Form->create('Post' /* , array("enctype" => "multipart/form-data")*/);?>
 <?php echo $this->Form->input('id'); ?>
 <?php //echo $this->Form->input('topic_id'); ?>
 <?php echo $this->Form->hidden('topic_id',array('value' => $mzform->value($this, 'Post', 'topic_id'))); ?>
