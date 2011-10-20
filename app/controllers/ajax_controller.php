@@ -5,7 +5,7 @@ class AjaxController extends AppController {
     var $components = array('RequestHandler', 'JqImgcrop', 'Upload');
 
     var $name = 'Ajax';
-    var $uses = array('JsonResponse', 'Complaint', 'Paper', 'UrlContentExtract');
+    var $uses = array('JsonResponse', 'Complaint', 'Paper', 'UrlContentExtract', 'Conversation', 'ConversationMessage', 'Category');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -13,11 +13,13 @@ class AjaxController extends AppController {
 		$this->Auth->allow('validateEmail');
 	}
 
+
     /**
      * action to be called with json suffix
      * like /upload/picture.json
      * @return void
      */
+/*
     function uploadPicture(){
 
         $this->log('enter upload');
@@ -48,9 +50,8 @@ class AjaxController extends AppController {
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure());
             //return error json
         }
-
-
     }
+    */
 
     /**
      * we use the Complaint model to validate a string to be an email
@@ -75,6 +76,38 @@ class AjaxController extends AppController {
             $messages = $this->Complaint->invalidFields();
             $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['reporter_email'])));
         }
+    }
+    
+    function validateNewMessage(){
+    	
+        $this->Conversation->set(array('title' => $this->params['form']['title']));
+        $this->ConversationMessage->set(array('message' => $this->params['form']['message']));
+    	
+    	if(!$this->Conversation->validates(array('fieldList' => array('title')))){
+
+			$messages = $this->Conversation->invalidFields();
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['title'])));    		
+    	}
+    	elseif(!$this->ConversationMessage->validates(array('fieldList' => array('message')))){
+
+			$messages = $this->ConversationMessage->invalidFields();
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['message'])));    		    	
+    	}
+    	else{
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
+    	}
+    }
+    
+    function validateNewCategory(){
+        $this->Category->set(array('name' => $this->params['form']['name']));
+    	
+    	if(!$this->Category->validates(array('fieldList' => array('name')))){
+			$messages = $this->Category->invalidFields();
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->failure(array('msg' => $messages['name'])));
+    	}
+    	else{
+            $this->set(JsonResponse::RESPONSE, $this->JsonResponse->success());
+    	}    
     }
 
         /**

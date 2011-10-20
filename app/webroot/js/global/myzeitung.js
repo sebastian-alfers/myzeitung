@@ -233,21 +233,20 @@ $(function() {
 
 $(document).ready(function() 	{
     //auto suggest
-    
     $('.autoresult').live('click', function(event){
     	if(event.target.nodeName != 'A'){
     		goTo($(this).find('h6 a').attr('href'));
     	}
     });
     
-    
+    /*
     //normal serach
     $('.search-result li div').live('click', function(event){    
-    	alert('test');
     	if(event.target.nodeName != 'A'){
     		goTo($(this).find('h3 a').attr('href'));
     	}
     });
+	*/
 
 
 

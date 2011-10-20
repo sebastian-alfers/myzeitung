@@ -15,10 +15,10 @@ class Category extends AppModel {
 			'fields' => '',
 			'order' => ''
 			),
-		'Parent' => array(
+/*		'Parent' => array(
 			'className' => 'Category',
 			'foreignKey' => 'parent_id'
-			)
+			)*/
 			);
 
 			var $hasOne = array(
@@ -31,7 +31,7 @@ class Category extends AppModel {
 			)
 			);
 
-	var $hasMany = array(
+	var $hasMany = array(/*
 		'Children' => array(
 			'className' => 'Category',
 			'foreignKey' => 'parent_id',
@@ -44,7 +44,7 @@ class Category extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-        ),
+        ),*/
 		'ContentPaper' => array(
 			'className' => 'ContentPaper',
 			'foreignKey' => 'category_id',
@@ -60,24 +60,7 @@ class Category extends AppModel {
         )
 			
     );
-  /*
-    var $validate = array(
-			'name' => array(
-				'empty' => array(
-					'rule'			=> 'notEmpty',
-					'message' 		=> 'Please enter a name for the category',
-					'last' 			=> true,
-                ),
-				'maxlength' => array(
-					'rule'			=> array('maxlength', 100),
-					'message'		=> 'Category names can only be 100 characters long.',
-					'last' 			=> true,
-                ),
-            ),
-        );
-*/
 
-/*
     function __construct(){
         parent::__construct();
         $this->validate = array(
@@ -95,9 +78,6 @@ class Category extends AppModel {
             ),
         );
     }
-
-    */
-
     
     /**
      * 1)

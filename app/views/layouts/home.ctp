@@ -35,7 +35,7 @@
 
 </head>
 	<body>
-            <?php echo $this->element('global/mzslides/main'); ?>
+            <?php echo $this->element('global/mzslides/main_modal'); ?>
             <cake:nocache>
 			    <?php echo $this->Session->flash(); ?>
             </cake:nocache>

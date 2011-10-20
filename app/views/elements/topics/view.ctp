@@ -5,9 +5,9 @@
         <?php echo $this->Form->hidden('post_id', array('value' => $post_id)); ?>
     <?php endif; ?>
     <?php echo $this->Form->input('topic_id', array('type' => 'select', 'options' => $topics)); ?>
-</div>
-    </form>
 
+    </form>
+</div>
 <div>
     <div class="modal-buttons">
         <ul>

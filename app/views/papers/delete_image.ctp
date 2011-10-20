@@ -36,7 +36,7 @@ if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session-
                 <?php echo $this->Form->input('paper_id', array('type' => 'hidden', 'value' => $paper_id)); ?>
 
                 <div class="accept">
-                    <a class="btn big" id="link_send_delete_paper_picture"><span>+</span><?php echo __('Yes, Delete Paper Picture', true);?></a><a class="btn big" href="/settings"><span>-</span><?php echo __('No, keep current picture', true);?></a>
+                    <a class="btn big" id="link_send_delete_paper_picture"><span>+</span><?php echo __('Yes, Delete Paper Picture', true);?></a><a class="btn big" onclick="history.go(-1)"><span>-</span><?php echo __('No, keep current picture', true);?></a>
                 </div>
 
                 <?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>

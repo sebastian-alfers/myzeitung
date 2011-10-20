@@ -15,8 +15,8 @@
     </div>
     <div class="modal-buttons">
         <ul>
-            <li><a href="#" class="btn" onclick="$('#ConversationAddForm').submit();"><span>+</span><?php __('Send Message'); ?></a></li>
-            <li><a href="#" class="btn" onclick="$('#dialog-repost-chosse-topic').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
+            <li><a href="#" class="btn" id="btm-new-conversation"><span>+</span><?php __('Send Message'); ?></a></li>
+            <li><a href="#" class="btn" onclick="$('#dialog-new-conversation').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
 		</ul>
     </div>
 

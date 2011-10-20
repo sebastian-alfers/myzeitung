@@ -54,7 +54,11 @@ $(document).ready(function() {
                     break;
                   case "post":
                     //post add_edit
-                    $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">remove</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
+                    var text = 'remove';
+                    if($('body').hasClass('deu')){
+                    	text = 'entfernen';
+                    }
+                    $('#sortable').append('<li class="ui-state-default teaser-sort"><a class="remove_li_item" name="'+file.path+'" style="cursor:pointer;vertical-align:top;">'+text+'</a><img src="/' + file.path + file.name +'" width="100" \/><div class="item_data" style="display: none;"><input type="hidden" name="item_type" value="image" /><input type="hidden" name="name" value="'+file.name+'"></div></li>');
                     break;
                   case "paper":
                     $('#fileupload form').attr('action', base_url+'/paper/saveImage');

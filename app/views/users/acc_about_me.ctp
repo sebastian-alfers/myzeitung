@@ -18,6 +18,10 @@ $(document).ready(function() {
 				<?php echo $this->Form->hidden('username' , array('value' => $user['User']['username']));?>
 				<?php echo $this->Form->hidden('image' , array('value' => $user['User']['image']));?>
 				
+				<div class="optional info-p">
+					<label>Username</label>
+					<p><?php echo $user['User']['username']; ?></p>
+				</div>
 				
 				<div class="optional info-p"><?php  echo $this->Form->input('name', array('maxlength' => 40,'type' => 'text', 'class' => 'textinput', 'label' => __('Name', true))); ?>
 					<span class="info"><?php echo __('(optional)', true);?>&nbsp;<?php echo __('If you want to be found by your name', true);?></span>

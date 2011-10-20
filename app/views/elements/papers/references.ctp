@@ -60,13 +60,13 @@ function removeListenHover(element){
 }
 
 //show link to delte user
-$('.img-paper-user').live('hover', function(){
+$('.img-paper-user').live('mouseenter', function(){
     listenHover(this);
 
 });
 
 //hide link to delte user
-$('.img-paper-user').live('mouseout', function(){
+$('.img-paper-user').live('mouseleave', function(){
     removeListenHover(this);
 });
 

@@ -53,12 +53,7 @@ class TopicsController extends AppController {
      * @return void
      */
     function getTopics(){
-
-
-
         $user_id = $this->Session->read('Auth.User.id');
-
-
 
         $topics = array();
         $topics=$this->Topic->find('list', array('conditions' => array('Topic.user_id' => $user_id)));

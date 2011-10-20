@@ -998,6 +998,7 @@ class UsersController extends AppController {
 	}
 
     function accSocial(){
+    	
         $id = $this->Session->read('Auth.User.id');
 
 		if (!$id && empty($this->data)) {

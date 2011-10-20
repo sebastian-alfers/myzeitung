@@ -23,6 +23,7 @@ $(document).ready(function() {
 	    
 	});		
 
+/*
 	$(function () {
 
 	    $('#file_upload').fileUploadUI({
@@ -114,6 +115,7 @@ $(document).ready(function() {
 	        }
 	    });
 	});
+	*/
 	
 });
 

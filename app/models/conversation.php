@@ -11,8 +11,10 @@ class Conversation extends AppModel{
 	const STATUS_REPLIED = 3;
 	// removed means = hidden -> will be set back to status_new after a new reply
 	const STATUS_REMOVED = 4;
-	
-	var $validate = array(
+
+	function __construct(){
+		parent::__construct();
+		$this->validate = array(
 		'user_id' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
@@ -26,7 +28,7 @@ class Conversation extends AppModel{
 		'title' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
+				'message' => __('Please enter a title for the conversatoin', true),
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -65,6 +67,8 @@ class Conversation extends AppModel{
 		),
 	);
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
+		
+	}	
 
 	var $hasMany = array(
 		'ConversationMessage' => array(
