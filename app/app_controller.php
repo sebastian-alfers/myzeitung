@@ -56,6 +56,7 @@ class AppController extends Controller {
     var $_open_graph_data = array();
 
 	public function beforeFilter(){
+	
         $this->Auth->loginError = __('Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort.', true);
 
 

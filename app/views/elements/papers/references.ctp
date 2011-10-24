@@ -1,3 +1,14 @@
+<?php if($owner): ?>
+	<script>
+		$( "#dialog-show-references" ).dialog({
+        beforeClose: function(event, ui) {
+            //reload if associations have been deleted
+            window.location.reload();
+        }
+    });
+	</script>
+<?php endif; ?>
+
 <?php
 if(count($references) > 0):
 	for($i = 0; $i < count($references); $i++): ?>
@@ -8,7 +19,7 @@ if(count($references) > 0):
         <?php if($owner && !$all): ?>
 	    	<div style="float:left;margin:0 5px 5px 0;"><div id="link-del<?php echo $reference['ContentPaper']['id']; ?>" class="tt-title link-delete">x</div>
         <?php else: ?>
-            <div style="float:left;margin:0 5px 5px 0;"><div class="tt-title link-delete"></div>
+            <div style="float:left;margin:0 5px 5px 0;"><div class="tt-title"></div>
         <?php endif; ?>
 
         <?php

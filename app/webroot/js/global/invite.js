@@ -31,7 +31,7 @@ $(document).ready(function(){
             
             //hack for IE to make the div grow
             var height = $('#dialog-invitation .modal-content').height();
-            alert('edit');
+
             $('#dialog-invitation .modal-content').css('height', height + 50 +'px');
         }
 

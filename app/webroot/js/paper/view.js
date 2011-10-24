@@ -119,11 +119,7 @@ $(document).ready(function() {
         width:400,
         draggable:false,
         modal: true,
-        autoOpen: false,
-        beforeClose: function(event, ui) {
-            //reload if associations have been deleted
-            window.location.reload();
-        }
+        autoOpen: false
     });
 
     //link hover the user img - from popup

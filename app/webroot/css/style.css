@@ -1564,6 +1564,38 @@ a.btn.big {
     background: url(/img/assets/maintile.png) -138px -143px no-repeat;
 }
 
+.icon-close-help {
+	background: url(/img/assets/maintile.png) no-repeat scroll -83px -228px;
+	cursor: pointer;
+}
+
+.icon-close-help-white {
+	background: url(/img/assets/maintile.png) no-repeat scroll -157px -228px;
+	cursor: pointer;
+}
+
+.icon-arrow-right-white{
+    background: url(/img/assets/maintile.png) -35px -280px no-repeat transparent;
+	cursor: pointer;    
+}
+
+.icon-arrow-left-white{
+    background: url(/img/assets/maintile.png) -115px -319px no-repeat transparent;
+	cursor: pointer;    
+}
+
+.icon-arrow-left-black{
+	width:30px !important;
+    background: url(/img/assets/maintile.png) -127px -317px no-repeat;
+	cursor: pointer;    
+}
+
+.icon-arrow-right-black{
+    background: url(/img/assets/maintile.png) -6px -278px no-repeat;
+   	cursor: pointer;
+}
+
+
 .icon-invitations{
     background: url(/img/assets/maintile.png) -53px -341px no-repeat;
 }
@@ -1677,20 +1709,6 @@ a:hover .icon-send{
 
 a.icon.icon-close {
 	background: url(/img/assets/maintile.png) no-repeat scroll -70px -282px;
-	text-indent: -9999px;
-	width: 12px;
-	height: 12px;
-}
-
-a.icon.icon-close-help {
-	background: url(/img/assets/maintile.png) no-repeat scroll -83px -228px;
-	text-indent: -9999px;
-	width: 12px;
-	height: 12px;
-}
-
-a.icon.icon-close-help-white {
-	background: url(/img/assets/maintile.png) no-repeat scroll -157px -228px;
 	text-indent: -9999px;
 	width: 12px;
 	height: 12px;
@@ -3024,14 +3042,6 @@ a.right{
     background: url(/img/assets/maintile.png) -55px -120px no-repeat;
 }
 
-a.left-arrow-black{
-   margin: 120px 0 0 0;
-    background: url(/img/assets/maintile.png) -127px -317px no-repeat;
-}
-
-a.right-arrow-black{
-    background: url(/img/assets/maintile.png) -6px -278px no-repeat;
-}
 
 a.disabled{
     background: none;
@@ -3598,21 +3608,7 @@ form.onecol div.textarea{
     float:right;
 }
 
-span.arrow-right-white{
-    display: inline-block;
-    background: url(/img/assets/maintile.png) -35px -280px no-repeat transparent;
-    height:15px;
-    width:15px;
-    text-indent: -99999px;
-}
 
-span.arrow-left-white{
-    display: inline-block;
-    background: url(/img/assets/maintile.png) -115px -319px no-repeat transparent;
-    height:15px;
-    width:15px;
-    text-indent: -99999px;
-}
 
 .help-nav li{
     float:left;

@@ -2,11 +2,10 @@
         <div>
             <ul>
                 <li><h2>Help Center</h2></li>
-                <li><a class="helpnav next browse left-arrow-black"></a></li>
-                <li><a class="helpnav next browse right-arrow-black"></a></li>
+                <li><span class="helpnav next browse icon icon-arrow-left-black"></span></li>
+                <li><span class="helpnav next browse icon icon-arrow-right-black"></span></li>
                 <li id="content"> <?php echo $this->Html->link(__('The myZeitung FAQs provide more information.', true), '/p/myzeitung/faq-zeitung-deutsche-sprache'); ?></li>
-                <li class="last"><a class="help-link icon icon-close-help tt-title-north" title="<?php __('Quit Help Center'); ?>">close</a></li>
-
+                <li class="last"><span class="help-link icon icon-close-help tt-title-north" title="<?php __('Quit Help Center'); ?>"></span></li>
             </ul>
         </div>
     </div>
