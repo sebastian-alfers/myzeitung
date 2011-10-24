@@ -12,7 +12,7 @@ function validateAndSubmit(){
 	var msg = $('#ConversationMessage').val();	
     var req = $.post(base_url + '/ajax/validateNewMessage.json', {title: title , message: msg})
        .success(function( string ){
-       		console.log(string);
+
             if(string.status == 'success'){
             	$('#ConversationAddForm').submit();
             }

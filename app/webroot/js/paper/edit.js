@@ -18,7 +18,7 @@ function validateAndSubmitCategory(){
 	var category = $('#category').val();
     var req = $.post(base_url + '/ajax/validateNewCategory.json', {name: category})
        .success(function( string ){
-       		console.log(string);
+       		//console.log(string);
             if(string.status == 'success'){
 			    $('#CategoryFormAdd').submit();
             }

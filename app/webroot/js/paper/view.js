@@ -31,7 +31,7 @@ $(document).ready(function() {
             //load conform and review dialog
             var req = $.post(base_url + '/categories/delete/'+category_id+'.json')
                .success(function( response ){
-                   console.log(response);
+                   //console.log(response);
 
                    if(response.status == 'failure'){
                        $( "#dialog-category-edit" ).dialog('close');
