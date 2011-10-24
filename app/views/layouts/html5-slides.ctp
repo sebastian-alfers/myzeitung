@@ -18,7 +18,6 @@
 
 $this->MzJavascript->link('jquery.1.6.4.min');
 $this->MzJavascript->link('slides/core/deck.core.js');
-$this->MzJavascript->link('slides/core/deck.core.js');
 $this->MzJavascript->link('slides/extensions/menu/deck.menu.js');
 $this->MzJavascript->link('slides/extensions/goto/deck.goto.js');
 $this->MzJavascript->link('slides/extensions/status/deck.status.js');
@@ -37,6 +36,7 @@ $this->MzHtml->css('slides/main/main.css');
 $this->MzHtml->css('slides/themes/transition/fade.css');
 
 echo $asset->scripts_for_layout();
+
 ?>
 </head>
 <body class="deck-container">

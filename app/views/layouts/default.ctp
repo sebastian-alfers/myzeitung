@@ -79,5 +79,6 @@
               {lang: 'de'}
             </script>
         <?php endif; ?>
+    <div id="modal-spinner"><img src="<?php echo $this->Cf->url('assets/spinner.gif', true) ?>" /></div>
 	</body>
 </html>

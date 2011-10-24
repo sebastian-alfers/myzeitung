@@ -3,6 +3,5 @@
         <?php $paper_id = (isset($paper_id))? $paper_id : ''; ?>
         <?php echo $this->element('global/upload/form', array('paper_id' => $paper_id)); ?>
     </div>
-
 </div>
 

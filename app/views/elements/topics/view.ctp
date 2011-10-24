@@ -12,7 +12,7 @@
     <div class="modal-buttons">
         <ul>
             <li><a href="#" class="btn" onclick="$('#PostsRepostForm').submit();"><span>+</span><?php __('Submit Repost'); ?></a></li>
-            <li><a href="#" class="btn" onclick="$('#dialog-new-conversation').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
+            <li><a href="#" class="btn" onclick="$('#dialog-repost-chosse-topic').dialog('close');"><span>-</span><?php __('Cancel'); ?></a></li>
 		</ul>
     </div>
 

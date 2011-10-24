@@ -24,8 +24,8 @@ $this->MzJavascript->link('json2.js');
 $this->MzJavascript->link('global/help.js');
 $this->MzJavascript->link('global/invite.js');
 $this->MzJavascript->link('global/mzslides.js');
+$this->MzJavascript->link('jquery.spinner.js');
 
-//$this->MzJavascript->link('jquery.spinner.js');
 if($session->read('Auth.User.id')){
     //build new js if logged in
     $this->MzJavascript->link('user/subscribe');

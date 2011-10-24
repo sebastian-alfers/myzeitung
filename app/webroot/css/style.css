@@ -3781,3 +3781,17 @@ legend{
 .ui-state-disabled input {
   cursor: default;
 }
+
+#modal-spinner{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color:transparent;
+	height:100%;
+	width:100%;
+	text-align: center;
+}
+
+#modal-spinner img{
+	margin-top:150px;
+}

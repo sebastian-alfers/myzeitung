@@ -1,10 +1,15 @@
 //validation = new AjaxRequest(base_url+'/ajax/validation/register');
 $(document).ready(function() {
+	//hide the spinner
+	$('#modal-spinner').hide();
     $('.tt-title').tipsy({live:true, fade: false, opacity: 1, gravity: 'sw'});
     $('.tt-title-north').tipsy({live:true, fade: false, opacity: 1, gravity: 'n'});
 });
 
 
+function appendSpinner(element){
+   $(element).append('<div id="modal-spinner">'+$('#modal-spinner').html()+'</div>');                    
+}
 
 function isEmailValid(email){
 

@@ -51,3 +51,12 @@
 
 
 //define('DEFAULT_LANGUAGE', 'deu');
+
+
+//need to read the cookie here to make model-translations work
+if(isset($_COOKIE['CakeCookie']['lang']) && !empty($_COOKIE['CakeCookie']['lang'])){
+    Configure::write('Config.language', $_COOKIE['CakeCookie']['lang']);
+}
+else{
+    Configure::write('Config.language', 'deu');
+}

@@ -50,6 +50,9 @@ $(document).ready(function() {
                   case "user":
                     $('#fileupload form').attr('action', base_url+'/users/accImage');
                     $( "#new_image" ).val(file.name);
+                    
+                    appendSpinner('#dialog-upload');
+
                     $('#fileupload form').submit();
                     break;
                   case "post":
@@ -63,6 +66,9 @@ $(document).ready(function() {
                   case "paper":
                     $('#fileupload form').attr('action', base_url+'/paper/saveImage');
                     $( "#new_image" ).val(file.name);
+                    
+                    appendSpinner('#dialog-upload');                    
+                    
                     $('#fileupload form').submit();
                     break;
                 }
