@@ -68,11 +68,14 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
                     <a href="#" rel='nofollow' class="btn gray print" onclick="window.print();" id="21"><span></span><?php __('Print'); ?></a>
                     <?php if($session->read('Auth.User.id') != $user['User']['id']):?>
                         <?php echo $this->element('complaints/button', array('model' => 'post', 'complain_target_id' => $post['Post']['id'])); ?>
+                    <?php else: ?>
+                        <?php echo $this->element('complaints/script'); //for complain in comments not "my post" ?>
                     <?php endif; ?>
+                    
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
-        <?php echo $this->element('complaints/script'); //for complain in comments not "my post" ?>
+
     </div><!-- /.leftcolcontent -->
 		</div><!-- /.leftcol -->
 		
