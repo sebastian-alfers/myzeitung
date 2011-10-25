@@ -1,9 +1,10 @@
 Vagrant::Config.run do |config|
-  config.vm.box = "lucid32"
+  config.vm.box = "lucid64"
 
-  config.vm.forward_port "myzeitung", 80, 8180
-  config.vm.forward_port "solr", 8080, 8181
-  config.vm.forward_port "phpmyadmin", 8182, 8182
+  config.vm.forward_port "myzeitung", 80, 8182
+  config.vm.forward_port "solr", 8080, 8183
+  config.vm.forward_port "phpmyadmin", 8182, 8185
+
   config.ssh.max_tries = 50
 
   config.vm.boot_mode = :gui

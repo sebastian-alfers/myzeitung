@@ -115,15 +115,9 @@
                                 <?php echo $this->Html->link($headline, $post['Post']['Route'][0]['source']);?>
                                 <?php // user container?>
                                  <?php //debug($post); die(); ?>
-                                <?php $authorName1 = $this->MzText->generateDisplayname($post['Post']['User'],false);
-                                      $authorName2 = '';
-                                      if(isset($post['Post']['User']['name']) && !empty($post['Post']['User']['name'])){
-                                         $authorName2 = $post['Post']['User']['username'];
-                                      }
-                                ?>
                                  <?php echo $this->Html->link(
                                         $image->render($post['Post']['User'], 26, 26, array( "alt" => $post['Post']['User']['username'], "class" => 'user-image'), array("tag" => "div"), ImageHelper::USER)
-                                        .'<span>'.$authorName1.'<br />'.$authorName2.'</span>',
+                                        .'<span>'.$this->MzText->generateDisplayname($post['Post']['User']).'</span>',
                                             array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['Post']['User']['username'])),
                                             array('class' => "user",'escape' => false));?>
 
@@ -144,7 +138,7 @@
                          <hr />
                         <h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</h3>
 
-						<?php echo $this->Html->image('../img/assets/pres_prev.jpg', array('class' => 'mzslides'));?>
+						<?php echo $this->Html->image($cf->url('assets/pres_prev.jpg'), array('class' => 'mzslides'));?>
 
 					</div><!-- /.col3 -->
 
