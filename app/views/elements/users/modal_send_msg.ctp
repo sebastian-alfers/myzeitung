@@ -1,4 +1,4 @@
-<div id="dialog-new-conversation" title="<?php echo __('New Message to ', true) . $to; ?>" style="display:none;">
+<div id="dialog-new-conversation" title="<?php echo __('New Message to ', true) . ' ' . $to; ?>" style="display:none;">
     <div class="modal-content">
     <?php echo $this->Form->create('Conversation', array('action' => 'add', 'class' => 'onecol'));?>
 
