@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-10-24 11:17+0200\n"
+"POT-Creation-Date: 2011-10-25 14:56+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /Applications/MAMP/htdocs/myzeitung//_controller.php:59
+#: /Applications/MAMP/htdocs/myzeitung//_controller.php:60
 msgid "Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort."
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//_controller.php:337
+#: /Applications/MAMP/htdocs/myzeitung//_controller.php:338
 #: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:122
 #: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:171
 msgid "No Permission"
@@ -757,6 +757,54 @@ msgstr ""
 msgid "Please provide additional content: a picture, a video, a message or a link."
 msgstr ""
 
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:40
+msgid "It is a picture of my person"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:41
+msgid "Other reason"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:42
+msgid "The picture of the user profile is inappropriate"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:43
+msgid "I am molested by this user"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:44
+msgid "Posts/Comments by this user do not match with the terms of service (extremism/glorification of violence/pornography)"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:45
+msgid "The user sends spam"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:46
+msgid "It is a hacked user profile"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:47
+msgid "Contents in this article do not match with the terms of service (extremism/glorification of violence/pornography)"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:48
+msgid "Comments on this article do not match with the terms of service (extremism/glorification of violence/pornography)"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:49
+msgid "Contents of this paper do not match with the terms of service (extremism/glorification of violence/pornography)"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:50
+msgid "The description of the paper is inappropriate"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//models/reason.php:51
+msgid "The image of the paper is inappropriate"
+msgstr ""
+
 #: /Applications/MAMP/htdocs/myzeitung//models/user.php:130
 msgid "Names can only be 40 characters long."
 msgstr ""
@@ -1073,7 +1121,7 @@ msgstr ""
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/categories/modal_add.ctp:15
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/categories/modal_edit.ctp:21
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/categories/review.ctp:25
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/upload/form.ctp:42
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/upload/form.ctp:14;42
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/invite/modal_form.ctp:21
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/modal_add_url.ctp:9
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/topics/modal_add.ctp:8
@@ -1794,12 +1842,12 @@ msgstr ""
 msgid "Contact"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/upload/form.ctp:13
-msgid "Start upload"
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/upload/form.ctp:10
+msgid "Add files..."
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/upload/form.ctp:14
-msgid "Cancel upload"
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/upload/form.ctp:13
+msgid "Start upload"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/global/upload/form.ctp:15
@@ -1946,12 +1994,12 @@ msgid_plural "%s authors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/references.ctp:25
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/references.ctp:36
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_sidebar.ctp:24
 msgid "Topic"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/references.ctp:28
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/papers/references.ctp:39
 msgid "All Posts"
 msgstr ""
 
@@ -2150,7 +2198,7 @@ msgid "Comments allowed?"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/modal_add_url.ctp:1
-msgid "Add Website / Url as a reference to you post"
+msgid "Add a Website / Link as a reference to your post"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/modal_add_url.ctp:8
