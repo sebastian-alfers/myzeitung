@@ -1,4 +1,4 @@
-<div id="dialog-url" title="<?php __('Add Website / Url as a reference to you post'); ?>" style="display:none" class="modal-content">
+<div id="dialog-url" title="<?php __('Add a Website / Link as a reference to your post'); ?>" style="display:none" class="modal-content">
 	 <div class="modal-content">
          <input type="text" id="url" class="textinput">
           <input id="orig-url" value="" type="hidden">
