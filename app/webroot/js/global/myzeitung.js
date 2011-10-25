@@ -228,7 +228,6 @@ $(function() {
 	$(document).bind('keyup', function(e){
 		  if (e.keyCode == 27) { // esc btn
 			  hideSuggestion();
-			  alert('hide b');
 			  $('#inputString').val('');
 		   }
 		});
