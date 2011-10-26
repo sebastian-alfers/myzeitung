@@ -31,9 +31,10 @@
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accPrivacy'):?><li class="active" id="acc-privacy"><?php else:?><li id="acc-privacy"><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-privacy"></span>'.__('Privacy', true), array('controller' => 'users', 'action' => 'accPrivacy'), array('escape' => false,));?></li>
-
+<?php /*
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accSocial'):?><li class="active" id="acc-social"><?php else:?><li id="acc-social"><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-social-media"></span>'.__('Social Media', true), array('controller' => 'users', 'action' => 'accSocial'), array('escape' => false,));?></li>
+    */ ?>	
 </fieldset>
   <fieldset>
 <legend><?php echo __('Change Language', true);?></legend>
@@ -44,4 +45,9 @@
     <?php /* <hr />
     <?php echo $this->element('invite/button');  */?>
 </ul>
+
+<?php
+//debug($_SESSION);
+//die();
+?>
 
