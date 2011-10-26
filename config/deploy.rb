@@ -69,15 +69,18 @@ task :create_symlinks, :roles => :target do
 end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")      
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")
-      
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/arrows-ffffff.png", "#{current_release}/app/webroot/img/assets/ui/arrows-ffffff.png")      
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/shadow.png", "#{current_release}/app/webroot/img/assets/ui/shadow.png")            
 
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/shadow.png", "#{current_release}/app/webroot/img/assets/ui/shadow.png")            
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/loadinfo.gif", "#{current_release}/app/webroot/img/assets/loadinfo.gif")
+
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")
       
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/pres_prev.jpg", "#{current_release}/app/webroot/img/assets/pres_prev.jpg")                  
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/arrows-ffffff.png", "#{current_release}/app/webroot/img/assets/ui/arrows-ffffff.png")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/shadow.png", "#{current_release}/app/webroot/img/assets/ui/shadow.png")
+
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/shadow.png", "#{current_release}/app/webroot/img/assets/ui/shadow.png")
+      
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/pres_prev.jpg", "#{current_release}/app/webroot/img/assets/pres_prev.jpg")
 
 
 #      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p1.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p1.png")                  
