@@ -422,8 +422,8 @@ $GLOBALS['csstidy']['predefined_templates']['default'][] = "\n\n"; //space betwe
 $GLOBALS['csstidy']['predefined_templates']['default'][] = "\n".'<span class="format">}</span>'. "\n\n"; //closing bracket @-rule
 $GLOBALS['csstidy']['predefined_templates']['default'][] = ''; //indent in @-rule
 $GLOBALS['csstidy']['predefined_templates']['default'][] = '<span class="comment">'; // before comment
-$GLOBALS['csstidy']['predefined_templates']['default'][] = '</span>'."\n"; // after comment
-$GLOBALS['csstidy']['predefined_templates']['default'][] = "\n"; // after last line @-rule
+$GLOBALS['csstidy']['predefined_templates']['privacy'][] = '</span>'."\n"; // after comment
+$GLOBALS['csstidy']['predefined_templates']['privacy'][] = "\n"; // after last line @-rule
 
 $GLOBALS['csstidy']['predefined_templates']['high_compression'][] = '<span class="at">';
 $GLOBALS['csstidy']['predefined_templates']['high_compression'][] = '</span> <span class="format">{</span>'."\n";
