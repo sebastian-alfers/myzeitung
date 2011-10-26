@@ -29,7 +29,7 @@ ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have th
 
 # set live server
 task :live do
-    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com"#, "ec2-46-51-139-74.eu-west-1.compute.amazonaws.com"
+    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-143-102.eu-west-1.compute.amazonaws.com"
     set :config, 'live'
 end
 # set staging server
@@ -70,7 +70,8 @@ end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
 
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/loadinfo.gif", "#{current_release}/app/webroot/img/assets/loadinfo.gif")
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/logo-icon.png", "/var/www/myzeitung/current/app/webroot/img/assets/logo-icon.png")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/loadinfo.gif", "#{current_release}/app/webroot/img/assets/loadinfo.gif")
 
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")

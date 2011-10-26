@@ -16,7 +16,7 @@ class MzHtmlHelper extends HtmlHelper {
 			echo $this->Cf->css('/css/'.$path);		
 		}
 		else{
-	        echo parent::css($this->Cf->css($path), $disable_combine, array('inline' => $disable_combine));		
+	        echo parent::css($path, $disable_combine, array('inline' => $disable_combine));
 		}
 	
 
