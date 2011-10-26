@@ -108,13 +108,14 @@ class Setting extends AppModel {
 
 
         $values = $this->find('all', $options);
+        $this->log($values);
         //take specific values and put them to the value field of the default value.
         $results = array();
 
             foreach($values as $value){
                 //overriding default values if specifics are found
                 if($model_id != null){
-                    if($value['SpecificValue']['value'] != null){
+                    if(isset($value['SpecificValue']['value'])){
                         $value['Setting']['value'] = $value['SpecificValue']['value'];
                         $value['Setting']['specific_id'] = $value['SpecificValue']['id'];
                     }else{
@@ -129,7 +130,7 @@ class Setting extends AppModel {
                 $results[$value['Setting']['model_type']][$value['Setting']['namespace']][$value['Setting']['key']]['default_id'] = $value['Setting']['default_id'];
                 $results[$value['Setting']['model_type']][$value['Setting']['namespace']][$value['Setting']['key']]['specific_id'] = $value['Setting']['specific_id'];
             }
-        
+        $this->log($results);
         return $results;
     }
 }

@@ -1082,23 +1082,25 @@ class UsersController extends AppController {
             App::import('model','Setting');
             $this->Setting = new Setting();
 
-            $user['Setting']['user']['default']['allow_comments']['value'] = $this->data['User']['allow_comments'];
-            $user['Setting']['user']['default']['allow_messages']['value'] = $this->data['User']['allow_messages'];
+            $user['Setting']['user']['privacy']['allow_comments']['value'] = $this->data['User']['allow_comments'];
+            $user['Setting']['user']['privacy']['allow_messages']['value'] = $this->data['User']['allow_messages'];
             $user['Setting']['user']['email']['new_comment']['value'] = $this->data['User']['email_new_comment'];
             //$user['Setting']['user']['email']['invitee_registered']['value'] = $this->data['User']['email_invitee_registered'];
             $user['Setting']['user']['email']['new_message']['value'] = $this->data['User']['email_new_message'];
             $user['Setting']['user']['email']['subscription']['value'] = $this->data['User']['email_subscription'];
-
-            $this->Settings->save($user['Setting'], $this->Session->read('Auth.User.id'));
+            $saveData = array();
+            $saveData['user']['privacy'] = $user['Setting']['user']['privacy'];
+            $saveData['user']['email'] = $user['Setting']['user']['email'];
+            $this->Settings->save($saveData, $this->Session->read('Auth.User.id'));
 
             $this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
 		}
 
 		if(empty($this->data)) {
-            $this->data['User']['allow_messages']               = $user['Setting']['user']['default']['allow_messages']['value'];
-            $this->data['User']['allow_comments']               = $user['Setting']['user']['default']['allow_comments']['value'];
+            $this->data['User']['allow_messages']               = $user['Setting']['user']['privacy']['allow_messages']['value'];
+            $this->data['User']['allow_comments']               = $user['Setting']['user']['privacy']['allow_comments']['value'];
             $this->data['User']['email_new_comment']            = $user['Setting']['user']['email']['new_comment']['value'];
-            $this->data['User']['email_invitee_registered']     = $user['Setting']['user']['email']['invitee_registered']['value'];
+          //  $this->data['User']['email_invitee_registered']     = $user['Setting']['user']['email']['invitee_registered']['value'];
             $this->data['User']['email_new_message']            = $user['Setting']['user']['email']['new_message']['value'];
             $this->data['User']['email_subscription']           = $user['Setting']['user']['email']['subscription']['value'];
         }

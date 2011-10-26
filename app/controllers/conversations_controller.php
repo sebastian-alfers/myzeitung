@@ -31,7 +31,7 @@ class ConversationsController extends AppController {
 			$this->User->contain();
 			$recipient = $this->User->read(array('id', 'username', 'name'), $recipient_id);
             $recipient['Setting'] = $this->User->getSettings($recipient['User']['id']);
-			if($recipient['Setting']['user']['default']['allow_messages']['value'] == false){
+			if($recipient['Setting']['user']['privacy']['allow_messages']['value'] == false){
 				$this->Session->setFlash(__('This user does not acceppt messages.', true));
 				$this->redirect(array('controller' => 'conversations', 'action' => 'index'));
 			}

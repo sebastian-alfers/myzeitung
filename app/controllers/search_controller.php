@@ -280,7 +280,7 @@ class SearchController extends AppController {
 							$result->user_allow_messages = false;
 							$this->User->contain();
 							$settings = $this->User->getSettings($result->id);
-							$result->user_allow_messages = $settings['user']['default']['allow_messages']['value'];
+							$result->user_allow_messages = $settings['user']['privacy']['allow_messages']['value'];
 						}
 						//reading post counters and reposters array
 						if($result->type == 'post'){

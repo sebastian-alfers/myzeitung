@@ -64,7 +64,8 @@ class SettingsComponent extends Object {
     } */
 
     function save($settingData = null, $model_id = null){
-
+        //$this->log($settingData);
+        //$this->log($this->Session->read('Auth'));
         if(($settingData == null || !is_array($settingData)) || $model_id == null){
             return false;
         }
@@ -78,11 +79,17 @@ class SettingsComponent extends Object {
                 foreach($namespaceValue as $key => $keyValue){
                     if($keyValue['specific_id'] != null){
                         $this->Setting->save(array('id' => $keyValue['specific_id'], 'value' => $keyValue['value']), false, array('value'));
+                        $this->log('UPDATE');
+
                     }else{
+                        $this->log('CREATE');
                         $this->Setting->create();
+
                         $settingData = array('model_type' => $modelType, 'model_id' => $model_id, 'namespace' => $namespace, 'key' => $key, 'value' => $keyValue['value'], 'value_data_type' => $keyValue['value_data_type']);
                         $this->Setting->save($settingData);
                     }
+                    $this->log('sessionwrite:  '.'Auth.Setting.'.$modelType.'.'.$namespace.'.'.$key);
+                    $this->log($keyValue);
                     $this->Session->write('Auth.Setting.'.$modelType.'.'.$namespace.'.'.$key, $keyValue);
                 }
             }
