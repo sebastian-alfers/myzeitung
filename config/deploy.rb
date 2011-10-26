@@ -29,7 +29,7 @@ ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have th
 
 # set live server
 task :live do
-    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com"#, "ec2-46-51-139-74.eu-west-1.compute.amazonaws.com"
+    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-143-102.eu-west-1.compute.amazonaws.com"
     set :config, 'live'
 end
 # set staging server
@@ -58,9 +58,10 @@ task :create_symlinks, :roles => :target do
     ## set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
-    #copy htaccess
-    run "cp /home/ubuntu/.htpasswd #{current_release}/.htpasswd && cp /home/ubuntu/.htaccess #{current_release}/.htaccess"
-
+	if config == 'staging'
+	    #copy htaccess
+    	run "cp /home/ubuntu/.htpasswd #{current_release}/.htpasswd && cp /home/ubuntu/.htaccess #{current_release}/.htaccess"
+	end
 
     # since cake console needs cache we create folders
     #run  tmp/cache/
@@ -68,18 +69,36 @@ task :create_symlinks, :roles => :target do
 end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
+
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/logo-icon.png", "/var/www/myzeitung/current/app/webroot/img/assets/logo-icon.png")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/loadinfo.gif", "#{current_release}/app/webroot/img/assets/loadinfo.gif")
+
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
-      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/logo-icon.png", "#{current_release}/app/webroot/img/assets/logo-icon.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")
-      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p1.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p1.png")
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")
+      
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/arrows-ffffff.png", "#{current_release}/app/webroot/img/assets/ui/arrows-ffffff.png")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/shadow.png", "#{current_release}/app/webroot/img/assets/ui/shadow.png")
+
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/shadow.png", "#{current_release}/app/webroot/img/assets/ui/shadow.png")
+      
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/pres_prev.jpg", "#{current_release}/app/webroot/img/assets/pres_prev.jpg")
+
+
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p1.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p1.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p2.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p2.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p3.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p3.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p4.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p4.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p5.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p5.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p6.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p6.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p7.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p7.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p8.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p8.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p9.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p9.png")                  
+
 end
 
 #task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
 #      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
 #end
-
-
 
 task :dbinstall, :via=> :scp, :recursive => true, :roles => :target do
     run "sudo /var/www/myzeitung/current/cake/console/cake -app /var/www/myzeitung/current/app/ dbinstall"
@@ -100,6 +119,9 @@ task :deletecache, :via=> :scp, :recursive => true, :roles => :target do
     #run "sudo chown www-data:www-data #{current_release}/app/webroot/jscache/"
 end
 
+task :sync_time, :via=> :scp, :recursive => true, :roles => :target do
+   run "sudo ntpdate ntp.ubuntulinux.org"
+end
 
 # After deployment has successfully completed
 # create the .htaccess symlink

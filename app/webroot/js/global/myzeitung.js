@@ -198,12 +198,16 @@ $(function() {
 		}
 	} // lookup
 
+	//hide auto suggest if click outside
 	$(document).bind('click', function(){
 		if($('#search-suggest').is(":visible")){
 			hideSuggestion();
 		}
-
 	});
+	//do not hide auto suggest when click inside
+	$('#search-suggest').click(function(event){
+    	event.stopPropagation();
+    });
 
 	$('#inputString').focus(function(e){
 		if($('#inputString').val() != 'Find') {
@@ -213,7 +217,7 @@ $(function() {
 
 	$('#inputString').keyup(function(e){
 		if (e.keyCode == 27) { // esc btn
-			hideSuggestion('');
+			hideSuggestion();
 			$('#inputString').val('');
 		}
 		else{
@@ -227,8 +231,9 @@ $(function() {
 			  $('#inputString').val('');
 		   }
 		});
+		
 
-	function hideSuggestion(value){
+	function hideSuggestion(){
 		$('#search-suggest').hide();
 		lookup('');
 		$('#search-suggest').html('');
@@ -238,11 +243,13 @@ $(function() {
 
 $(document).ready(function() 	{
     //auto suggest
+    /*
     $('.autoresult').live('click', function(event){
     	if(event.target.nodeName != 'A'){
     		goTo($(this).find('h6 a').attr('href'));
     	}
     });
+    */
     
     /*
     //normal serach
@@ -261,8 +268,6 @@ $(document).ready(function() 	{
         var target_type = $(this).attr('title');
         //load form
         loadForm(target_id, target_type);
-
-		$( "#dialog-complain" ).dialog('open');
 	});
 
 	$( "#dialog-complain" ).dialog({
@@ -275,20 +280,22 @@ $(document).ready(function() 	{
         autoOpen: false
     });
 
-    function loadForm(target_id, target_type){
-        $('#dialog-complain').html("");
-        var req = $.post(base_url + '/complaints/add', {type:target_type , id:target_id})
-           .success(function( string ){
-               $('#dialog-complain').html(string);
-           })
-           .error(function(){
-               ////alert('error');
-        });
-    }
+
 
 
 
 });
+
+    function loadForm(target_id, target_type){
+        $('#dialog-complain').html("");
+        var req = $.post(base_url + '/complaints/add', {type:target_type , id:target_id})
+           .success(function( string ){
+               $( "#dialog-complain" ).dialog('open');
+               $('#dialog-complain').html(string);               
+           })
+           .error(function(){
+        });
+    }
 
 function goTo(url){
     window.location = url;

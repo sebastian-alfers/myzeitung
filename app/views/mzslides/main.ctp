@@ -3,14 +3,10 @@
 </section>
 
 <section class="slide" id="erste">
-		<h2>How to Make a Deck</h2>
-
     <img src="<?php echo $this->Cf->url('assets/mzslides/home/p1.png', true); ?>" />
 </section>
 
 <section class="slide" id="zweite">
-		<h2>How to Make a Deck</h2>
-
 	<img src="<?php echo $this->Cf->url('assets/mzslides/home/p2.png', true); ?>" />
 </section>
 

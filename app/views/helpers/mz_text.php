@@ -6,21 +6,18 @@ class MzTextHelper extends TextHelper {
     public $helpers = array('Session');
 
     function getSubscribeUrl(){
-
         $subscribe_link = '/login';
         if($this->Session->read('Auth.User.id')){
             $subscribe_link = '#';
         }
-
         return $subscribe_link;
-
     }
 
 
 
     /**
      * @param  $user - array
-     * @return void
+     * @return string
      */
     function getUsername($user){
 

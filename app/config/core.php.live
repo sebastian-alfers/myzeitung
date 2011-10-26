@@ -34,8 +34,8 @@ Cache::config('default', array(
    ));
 */
 
-Configure::write('Cdn.enable', false);
-Configure::write('Cdn.url', '');#http://d1khwfplxdl54q.cloudfront.net
+Configure::write('Cdn.enable', true);
+Configure::write('Cdn.url', 'http://static.myzeitung.de');#http://d1khwfplxdl54q.cloudfront.net
 
 //         css js cache
 Configure::write('Frontend.disable_combine_js', true); 
@@ -49,9 +49,9 @@ Configure::write('Solr.port', 8080);
 Configure::write('Solr.host', 'ip-10-48-243-147.eu-west-1.compute.internal');
 
 //         cache
-Configure::write('Cache.disable', true);//true
-#Configure::write('Cache.check', true);//false
-Configure::write('Cache.save_handler', 'file');//file
+Configure::write('Cache.disable', false);//true
+Configure::write('Cache.check', true);//false
+#Configure::write('Cache.save_handler', 'file');//file
 
 
 //         session

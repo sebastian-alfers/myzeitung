@@ -66,7 +66,7 @@ class TweetComponent extends Object {
      * @return void
      */
     public function connect(){
-		debug('jo?');
+
         if(!$this->isTokenAvailable()){
 
             $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET);
@@ -107,25 +107,14 @@ class TweetComponent extends Object {
 
         if(is_array($this->_request_token) && isset($this->_request_token[self::OAUTH_TOKEN]) && isset($this->_request_token[self::OAUTH_TOKEN_SECRET])){
 
-			debug($this->Session->read());
-			debug($this->_request_token);
 
 			$data = $this->Session->read('Auth');
-			debug($data);
+
             $data['Setting']['user']['social']['twitter.oauth_token']['value'] = $this->_request_token[self::OAUTH_TOKEN];
             $data['Setting']['user']['social']['twitter.oauth_token_secret']['value'] = $this->_request_token[self::OAUTH_TOKEN_SECRET];            
 
-            if($this->Settings->save($data['Setting'], $this->Session->read('Auth.User.id'))){            
-            	echo 'jo';
-        	}
-        	else{
-        		echo 'no';
-        	}
+            $this->Settings->save($data['Setting'], $this->Session->read('Auth.User.id'));
             
-            
-			debug($this->Session->read());
-			die();
-			
 			
 //			    function save($settingData = null, $model_id = null){
 

@@ -1760,7 +1760,7 @@ height: 19px;
 }
 
 .account textarea{
-	padding: 12px 0 0 10px;
+	padding: 12px 0 0 30px;
 }
 
 
@@ -2033,7 +2033,7 @@ position: absolute;
     left: 35px;
     position: absolute;
     text-decoration: none;
-    width: 120px;
+    width: 160px;
     font-size: 11px;
     line-height: 13px;
 }

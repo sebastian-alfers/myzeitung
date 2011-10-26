@@ -1,0 +1,15 @@
+.account textarea{
+        margin-top: 10px;
+        height:153px;
+        width: 500px;
+                padding: 12px 0 0 30px;
+}
+
+.account .textarea span.info{
+   padding:155px 0 0 0;
+}
+
+
+.account .link span.info{
+   padding:555px 0 0 0;
+}

@@ -39,11 +39,17 @@ if($session->read('Auth.User.id')){
 //the order of the scrips is important!
 $this->MzHtml->css('style');
 $this->MzHtml->css('jquery-ui-1.8.11');
-$this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
+$this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui');
 //$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
 
 echo $asset->scripts_for_layout();
 ?>
+
+
+<!--[if IE 9 ]>
+<?php echo $this->Cf->css('/css/fixes/ie/ie8-fix.css'); ?>
+<![endif]-->
+
 
 <?php if($this->params['controller'] == 'posts' && in_array($this->params['action'], array('add', 'edit'))): ?>
     <?php //the init of tinymce has to be in the header ?>
