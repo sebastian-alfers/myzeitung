@@ -10,7 +10,7 @@
     <div class="modal-buttons">
         <p>
             <?php echo $this->Form->create('User', array('class' => 'jqtransform', 'inputDefaults' => array('error' => false, 'div' => false)));?>
-            <?php echo $this->Form->input('delete', array('type' => 'checkbox', 'class' => 'textinput','label' => false, 'class' => 'deletebox')); ?><strong><?php echo __('Delete Topic', true);?></strong>
+            <?php echo $this->Form->input('delete', array('type' => 'checkbox', 'label' => false, 'class' => 'deletebox', 'style' => 'width:15px')); ?><strong><?php echo __('Delete Topic', true);?></strong>
         </form>
         </p>
         <br />
