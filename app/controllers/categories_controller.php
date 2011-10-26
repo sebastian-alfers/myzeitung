@@ -107,12 +107,6 @@ class CategoriesController extends AppController {
 
 	function edit($id = null) {
 
-var_dump( $id);
-debug($id);
-var_dump($this->data);
-die();
-
-
         if($id == null && isset($this->data['Category']['post_id']) && !empty($this->data['Category']['post_id'])){
             $id = $this->data['Category']['post_id'];
         }
