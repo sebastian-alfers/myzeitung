@@ -39,7 +39,7 @@ if($session->read('Auth.User.id')){
 //the order of the scrips is important!
 $this->MzHtml->css('style');
 $this->MzHtml->css('jquery-ui-1.8.11');
-$this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
+$this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui');
 //$html->css('/js/tiny_mce/themes/advanced/skins/default/ui.css', false, array('inline' => false));
 
 echo $asset->scripts_for_layout();
