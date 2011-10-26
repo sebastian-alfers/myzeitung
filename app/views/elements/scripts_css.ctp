@@ -45,6 +45,12 @@ $this->MzHtml->css('tiny_mce/themes/advanced/skins/default/ui.css');
 echo $asset->scripts_for_layout();
 ?>
 
+
+<!--[if IE 9 ]>
+<?php echo $this->Cf->css('/css/fixes/ie/ie8-fix.css'); ?>); ?>
+<![endif]-->
+
+
 <?php if($this->params['controller'] == 'posts' && in_array($this->params['action'], array('add', 'edit'))): ?>
     <?php //the init of tinymce has to be in the header ?>
     <?php echo $this->element('posts/add_edit/tiny_mce_js'); ?>

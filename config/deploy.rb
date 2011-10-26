@@ -76,16 +76,18 @@ task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
 
       upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/shadow.png", "#{current_release}/app/webroot/img/assets/ui/shadow.png")            
       
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p1.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p1.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p2.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p2.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p3.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p3.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p4.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p4.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p5.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p5.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p6.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p6.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p7.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p7.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p8.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p8.png")                  
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p9.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p9.png")                  
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/pres_prev.jpg", "#{current_release}/app/webroot/img/assets/pres_prev.jpg")                  
 
+
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p1.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p1.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p2.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p2.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p3.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p3.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p4.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p4.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p5.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p5.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p6.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p6.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p7.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p7.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p8.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p8.png")                  
+#      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/mzslides/home/p9.png", "#{current_release}/app/webroot/img/assets/mzslides/home/p9.png")                  
 
 end
 

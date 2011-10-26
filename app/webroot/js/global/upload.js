@@ -17,7 +17,7 @@ $(document).ready(function() {
     $( "#dialog-upload" ).dialog({
         resizable: false,
         height:450,
-        width:650,
+        width:750,
         draggable:false,
         modal: true,
         autoOpen: false,
