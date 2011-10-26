@@ -57,7 +57,7 @@ $(document).ready(function() {
                         $url_value = $this->data['Paper']['url'];
                     } ?>
 
-				<div class="optional info-p"><?php  echo $this->Form->input('url', array('value' => $url_value , 'type' => 'text', 'class' => 'textinput', 'label' => __('URL / Link', true))); ?>
+				<div class="optional info-p link"><?php  echo $this->Form->input('url', array('value' => $url_value , 'type' => 'text', 'class' => 'textinput', 'label' => __('URL / Link', true))); ?>
 					<span class="info"><?php echo __('(optional)', true);?>&nbsp;<?php echo __('If you want to specify a link of which this paper is about.', true);?></span>
 					<?php if(!is_null($this->Form->error('Paper.url'))): ?>
 						<div class="error-message"><b></b><?php echo $this->Form->error('Paper.url', array('wrap'=> false));?></div>
