@@ -35,7 +35,7 @@ Cache::config('default', array(
 */
 
 Configure::write('Cdn.enable', true);
-Configure::write('Cdn.url', 'http://static.myzeitung.de');#http://d1khwfplxdl54q.cloudfront.net
+Configure::write('Cdn.url', 'http://static01.myzeitung.de');#http://d1khwfplxdl54q.cloudfront.net
 
 //         css js cache
 Configure::write('Frontend.disable_combine_js', true); 

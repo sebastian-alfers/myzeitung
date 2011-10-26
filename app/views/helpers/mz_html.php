@@ -18,8 +18,6 @@ class MzHtmlHelper extends HtmlHelper {
 		else{
 	        echo parent::css($path, $disable_combine, array('inline' => $disable_combine));
 		}
-	
-
     }
 
 
