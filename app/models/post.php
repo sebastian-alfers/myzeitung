@@ -310,6 +310,7 @@ class Post extends AppModel {
 			 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts
 			 */
 			function repost($user_id, $topic_id = null){
+                $postData = $this->data;
 
 				App::import('model','PostUser');
 				$this->PostUser = new PostUser();
@@ -321,7 +322,6 @@ class Post extends AppModel {
 				// if there are no reposts for this post/user combination yet
 				if($repostCount == 0)
                 {
-
 					if($this->data['Post']['user_id'] != $user_id){
 						//post is not from reposting user
 						$this->PostUser->create();
@@ -330,10 +330,12 @@ class Post extends AppModel {
 										'post_id' => $this->id,
 										'topic_id' =>  $topic_id,
 									   	'user_id' => $user_id));
+
 						if($this->PostUser->save($PostUserData)){
 							//repost was saved
 							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
-							$this->addUserToReposters($user_id);
+                            $this->data = $postData;
+							$this->_addUserToReposters($user_id);
 							return true;
 						}
 					} else {
@@ -343,7 +345,8 @@ class Post extends AppModel {
 				}else{
 					// already reposted
 					// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
-                    $this->addUserToReposters($user_id);
+                    $this->data = $postData;
+                    $this->_addUserToReposters($user_id);
 					$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
 				}
 				return false;
@@ -358,6 +361,7 @@ class Post extends AppModel {
 			 * @param $user_id - id of the user, that wants to delete the repost of this paper
 			 */
 			function undoRepost($user_id){
+                $postData = $this->data;
 				App::import('model','PostUser');
 				$this->PostUser = new PostUser();
 				// just in case there are several reposts (PostUser.repost => true) for the combination post/user - all will be deleted.
@@ -382,15 +386,17 @@ class Post extends AppModel {
 
 				if($delete_counter >= 1){
 					//deleting user-id entry from reposters-array in post-model
-                    $this->removeUserFromReposters($user_id);
+                    $this->data = $postData;
+                    $this->_removeUserFromReposters($user_id);
 					return true;
 				}
 				return false;
 			}
 
-            function removeUserFromReposters($user_id){
+            private function _removeUserFromReposters($user_id){
 
                 if(!is_null($this->data['Post']['reposters'])){
+
                     //if not null: check if filled and not already an array
                     if(!empty($this->data['Post']['reposters']) && !is_array($this->data['Post']['reposters'])){
                       $reposters = unserialize($this->data['Post']['reposters']);
@@ -410,20 +416,16 @@ class Post extends AppModel {
                 $this->save($this->data, false);
             }
     
-            function addUserToReposters($user_id){
-
+            private function _addUserToReposters($user_id){
                 if(!is_null($this->data['Post']['reposters'])){
                     //if not null: check if filled and not already an array
                     if(!empty($this->data['Post']['reposters']) && !is_array($this->data['Post']['reposters'])){
-
                         $reposters = unserialize($this->data['Post']['reposters']);
                     }
-
                 }else{
                     $reposters = array();
                 }
-
-
+                
                 //adding user-id entry to reposters-array in post-model
                 if(!in_array($user_id,$reposters)){
                             $reposters[] = $user_id;
@@ -432,7 +434,6 @@ class Post extends AppModel {
                             //save without validation, otherwise we have validation error while update the post
                             $this->save($this->data, false);
                 }
-
             }
 
 
@@ -510,9 +511,11 @@ class Post extends AppModel {
                     $this->data['Post']['title'] = trim($this->data['Post']['title']);
                 }
 
-                //$this->log($this->_cleanUpText($this->data['Post']['content']));
-                 $this->data['Post']['content'] = $this->_cleanUpText($this->data['Post']['content']);
-               // $this->log($this->data['Post']['content']);
+
+                if(isset($this->data['Post']['content'])){
+                    $this->data['Post']['content'] = $this->_cleanUpText($this->data['Post']['content']);
+                }
+               
 				return true;
 			}
 
