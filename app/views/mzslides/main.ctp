@@ -1,8 +1,4 @@
-﻿<section class="slide" id="title-slide">
-	<h1>myZeitung</h1>
-</section>
-
-<section class="slide" id="erste">
+﻿<section class="slide" id="erste">
     <img src="<?php echo $this->Cf->url('assets/mzslides/home/p1.png', true); ?>" />
 </section>
 

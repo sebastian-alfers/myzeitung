@@ -27,13 +27,13 @@ $this->MzJavascript->link('slides/modernizr.custom.js');
 $this->MzJavascript->link('slides/main/main.js');
 
 $this->MzHtml->css('slides/core/deck.core');
-$this->MzHtml->css('slides/extensions/goto/deck.goto.css');
-$this->MzHtml->css('slides/extensions/menu/deck.menu.css');
-$this->MzHtml->css('slides/extensions/navigation/deck.navigation.css');
-$this->MzHtml->css('slides/extensions/status/deck.status.css');
-$this->MzHtml->css('slides/extensions/hash/deck.hash.css');
-$this->MzHtml->css('slides/main/main.css');
-$this->MzHtml->css('slides/themes/transition/fade.css');
+$this->MzHtml->css('slides/extensions/goto/deck.goto');
+$this->MzHtml->css('slides/extensions/menu/deck.menu');
+$this->MzHtml->css('slides/extensions/navigation/deck.navigation');
+$this->MzHtml->css('slides/extensions/status/deck.status');
+$this->MzHtml->css('slides/extensions/hash/deck.hash');
+$this->MzHtml->css('slides/main/main');
+$this->MzHtml->css('slides/themes/transition/fade');
 
 echo $asset->scripts_for_layout();
 
