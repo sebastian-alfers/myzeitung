@@ -136,7 +136,7 @@
                             <p>…und du suchst nach einem Netzwerk, dass dir all das bietet? Dann bist du hier richtig! Erstelle Artikel oder Zeitungen selbst, oder lies einfach die Inhalte anderer Autoren. Du kannst dich kostenlos und unverbindlich bei uns registrieren.</p>
                         <?php echo $this->Html->link('<span>+</span>'.__('Register', true), array('controller' => 'users',  'action' => 'add'), array('rel' => 'nofollow', 'escape' => false, 'class' => 'big btn', ));?>
                          <hr />
-                        <h3>Lorem ipsum dolor sit amet, consetetur sadipscing elitr</h3>
+                        <h3>Wobei dir myZeitung helfen wird</h3>
 
 						<?php echo $this->Html->image($cf->url('assets/pres_prev.jpg'), array('class' => 'mzslides'));?>
 
