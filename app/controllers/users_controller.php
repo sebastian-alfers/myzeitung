@@ -1006,7 +1006,8 @@ class UsersController extends AppController {
 			$this->redirect($this->referer());
 		}
 
-        $settings = $this->Settings->get($id);
+
+
         $this->data['User']['use_twitter'] = false;
 
         //always the same url
@@ -1091,6 +1092,7 @@ class UsersController extends AppController {
             $saveData = array();
             $saveData['user']['privacy'] = $user['Setting']['user']['privacy'];
             $saveData['user']['email'] = $user['Setting']['user']['email'];
+
             $this->Settings->save($saveData, $this->Session->read('Auth.User.id'));
 
             $this->Session->setFlash(__('The changes have been saved', true), 'default', array('class' => 'success'));
