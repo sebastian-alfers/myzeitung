@@ -773,7 +773,7 @@ class UsersController extends AppController {
 				    $return_code =$this->Paper->associateContent($data);
                     $this->log('controller_return_code'.$return_code);
                     if(in_array($return_code,$this->Paper->return_codes_success)){
-                        $this->log('in success array');
+
 					$msg = $this->Paper->return_code_messages[$return_code];
 
                     $this->_sendSubscriptionEmail($email_user_id, $email_topic_id, $email_paper_id, $email_category_id);

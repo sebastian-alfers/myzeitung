@@ -1,4 +1,4 @@
-<div id="dialog-category-add" title="<?php __('asdfPaper Category'); ?>" style="display:none">
+<div id="dialog-category-add" title="<?php __('Paper Category'); ?>" style="display:none">
     <div class="modal-content">
         <form id="CategoryFormAdd" method="post" action="/categories/edit" accept-charset="utf-8">
             <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>

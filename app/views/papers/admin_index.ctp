@@ -35,12 +35,13 @@
             <?php $label = $paper['Paper']['visible_index']? 'Hide (index)': 'Show (index)'; ?>
             <?php echo $this->Html->link(__($label, true), array('action' => 'toggleVisible', 'index/'.$paper['Paper']['id'])); ?>
             <?php if($is_superadmin): ?>
+                <?php echo $this->Html->link(__('Edit Premium', true), array('action' => 'editPremium', $paper['Paper']['id'])); ?>
                 <?php if($paper['Paper']['enabled']):?>
-			        <?php echo $this->Html->link(__('Disable', true), array('action' => 'disable', 'home/'.$paper['Paper']['id']),null, sprintf(__('Are you sure you want to disable this paper?: %s', true), $paper['Paper']['title'])); ?>
+                    <?php echo $this->Html->link(__('Disable', true), array('action' => 'disable', 'home/'.$paper['Paper']['id']),null, sprintf(__('Are you sure you want to disable this paper?: %s', true), $paper['Paper']['title'])); ?>
                 <?php else:?>
                     <?php echo $this->Html->link(__('Enable', true), array('action' => 'enable', $paper['Paper']['id']),null, sprintf(__('Are you sure you want to enable this paper?: %s', true), $paper['Paper']['title'])); ?>
                 <?php endif;?>
-			    <?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $paper['Paper']['id']), null, sprintf(__('Are you sure you want to delete this paper?: %s', true), $paper['Paper']['title'])); ?>
+                <?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $paper['Paper']['id']), null, sprintf(__('Are you sure you want to delete this paper?: %s', true), $paper['Paper']['title'])); ?>
             <?php endif; ?>
 		</td>
 	</tr>

@@ -236,6 +236,7 @@ class AppController extends Controller {
             'admin_enable' => $this->admin,
             'admin_index' => $this->admin,
             'admin_delete' => $this->superadmin,
+            'admin_editPremium' => $this->superadmin,
             'admin_toggleVisible' => $this->admin,
 			),
 		'categories' => array(
