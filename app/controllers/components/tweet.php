@@ -13,7 +13,7 @@ class TweetComponent extends Object {
 
     const AUTH = 'Auth';
     const USER = 'User';
-    const SETTINGS = 'Settings';
+    const SETTING = 'Setting';
     const TWITTER = 'twitter';
     const OAUTH_TOKEN = 'oauth_token';
     const OAUTH_TOKEN_SECRET = 'oauth_token_secret';
@@ -107,19 +107,16 @@ class TweetComponent extends Object {
 
         if(is_array($this->_request_token) && isset($this->_request_token[self::OAUTH_TOKEN]) && isset($this->_request_token[self::OAUTH_TOKEN_SECRET])){
 
+            $settings = $this->Session->read('Auth.Setting.user.twitter');
 
-			$data = $this->Session->read('Auth');
+            $settings['oauth_token']['value'] = $this->_request_token[self::OAUTH_TOKEN];
+            $settings['oauth_token_secret']['value'] = $this->_request_token[self::OAUTH_TOKEN_SECRET];
 
-            $data['Setting']['user']['social']['twitter.oauth_token']['value'] = $this->_request_token[self::OAUTH_TOKEN];
-            $data['Setting']['user']['social']['twitter.oauth_token_secret']['value'] = $this->_request_token[self::OAUTH_TOKEN_SECRET];            
+            $id = $this->Session->read('Auth.User');
 
-            $this->Settings->save($data['Setting'], $this->Session->read('Auth.User.id'));
-            
-			
-//			    function save($settingData = null, $model_id = null){
+            if($this->Settings->save(array('user' => array('twitter' =>$settings)), $id)){
 
-            //$this->Session->write($this->_getOAuthTokenPath(), $this->_request_token[self::OAUTH_TOKEN]);
-            //$this->Session->write($this->_getOAuthTokenSecretPath(), $this->_request_token[self::OAUTH_TOKEN_SECRET]);
+            }
 
             return true;
         }
@@ -133,7 +130,7 @@ class TweetComponent extends Object {
      * @return string
      */
     private function _getOAuthTokenPath(){
-        return self::AUTH.'.'.self::USER.'.'.self::SETTINGS.'.'.self::TWITTER.'.'.self::OAUTH_TOKEN;
+        return "Auth.Setting.user.twitter.oauth_token.value";
     }
 
     /**
@@ -142,7 +139,7 @@ class TweetComponent extends Object {
      * @return string
      */
     private function _getOAuthTokenSecretPath(){
-        return self::AUTH.'.'.self::USER.'.'.self::SETTINGS.'.'.self::TWITTER.'.'.self::OAUTH_TOKEN_SECRET;
+        return "Auth.Setting.user.twitter.oauth_token_secret.value";
     }
 
 
@@ -188,12 +185,13 @@ class TweetComponent extends Object {
     }
 
     public function isTokenAvailable(){
-	    if($this->Session->check('Auth.Setting.user.social')){
-    		$ses = $this->Session->read('Auth.Setting.user.social');
-    		return isset($ses['twitter.oauth_token']['value']) && !empty($ses['twitter.oauth_token']['value']);
+
+	    if($this->Session->check('Auth.Setting.user.twitter.oauth_token')){
+            $token = $this->Session->read('Auth.Setting.user.twitter.oauth_token.value');
+            return !empty($token);
 	    }
     
-    return false;
+        return false;
     
     }
 
@@ -205,7 +203,8 @@ class TweetComponent extends Object {
     }
 
     function clearSessions(){
-        $this->Session->write("Auth.User.Settings.twitter", NULL);
+        $this->Session->write("Auth.Setting.user.twitter.oauth_token.value", '');
+        $this->Session->write("Auth.Setting.user.twitter.oauth_token_secret.value", '');
     }
 
 

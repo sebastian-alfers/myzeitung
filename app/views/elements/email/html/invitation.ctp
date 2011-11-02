@@ -7,7 +7,7 @@
 
 
 <p style='color:#232424;'><strong><?php echo sprintf(Invitation::STANDARD_TITLE_DEU,$sender_link);?></strong></p>
-<p style='color:#232424;'><strong><?php echo sprintf(Invitation::STANDARD_TITLE_ENG,$sender_link);?></strong></p>
+<?php /*<p style='color:#232424;'><strong><?php echo sprintf(Invitation::STANDARD_TITLE_ENG,$sender_link);?></strong></p> */ ?>
 <?php if(!empty($text)):?>
     <p style='color:#232424;'><?php echo $text;?></p>
 <?php else: ?>

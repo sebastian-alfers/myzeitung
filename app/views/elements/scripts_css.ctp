@@ -28,7 +28,7 @@ $this->MzJavascript->link('jquery.spinner.js');
 
 if($session->read('Auth.User.id')){
     //build new js if logged in
-    $this->MzJavascript->link('user/subscribe');
+    $this->MzJavascript->link('user/subscribe.js');
 
     $this->MzJavascript->link('jquery.iframe-transport');
     $this->MzJavascript->link('jquery.fileupload');
@@ -47,7 +47,7 @@ echo $asset->scripts_for_layout();
 
 
 <!--[if IE 9 ]>
-<?php echo $this->Cf->css('/css/fixes/ie/ie8-fix.css'); ?>
+<?php echo $this->Cf->css('/css/fixes/ie/ie9-fix'); ?>
 <![endif]-->
 
 

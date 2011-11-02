@@ -12,9 +12,10 @@ class SettingsComponent extends Object {
 	var $components = array('Session');
 
 
+    /*
     function get($model_id = '', $namespace = ''){
 
-        $ses = $this->Session->read('Auth' /*'Auth.User'*/);
+        $ses = $this->Session->read('Auth');
 
         if(!isset($ses['Settings']) || empty($ses['Settings'])){
             $this->loadSettings($model_id);
@@ -22,6 +23,7 @@ class SettingsComponent extends Object {
 
         return $this->Session->read('Auth.Settings');
     }
+*/
 
     /* function save($model, $namespace, $values, $model_id = ''){
 
@@ -72,7 +74,6 @@ class SettingsComponent extends Object {
 
         App::Import('Model', 'Setting');
         $this->Setting = new Setting();
-
 
         foreach($settingData as $modelType => $modelTypeValue){
             foreach($modelTypeValue as $namespace => $namespaceValue){
@@ -133,16 +134,16 @@ class SettingsComponent extends Object {
      * @return void
      */
     function removeTwitter(){
-        $this->Session->delete('Auth.User.Settings.twitter');
+        $settings = $this->Session->read('Auth.Setting.user.twitter');
 
-        App::Import('Model', 'Setting');
-        $settings = new Setting();
-        $settings->contain();
+        $settings['oauth_token']['value'] = '';
+        $settings['oauth_token_secret']['value'] = '';
 
-        $conditions = array('Setting.model_type' => 'User', 'Setting.model_id' => $this->Session->read('Auth.User.id'),
-                           'Setting.namespace' => 'twitter');
+        $id = $this->Session->read('Auth.User');
 
-        $settings->deleteAll($conditions);
+        if($this->save(array('user' => array('twitter' =>$settings)), $id)){
+
+        }
 
     }
 }

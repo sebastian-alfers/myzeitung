@@ -8,7 +8,7 @@
 
 
 <?php echo sprintf(Invitation::STANDARD_TITLE_DEU,$sender_name)."\n";?>
-<?php echo sprintf(Invitation::STANDARD_TITLE_ENG,$sender_name)."\n\n";?>
+<?php /* echo sprintf(Invitation::STANDARD_TITLE_ENG,$sender_name)."\n\n"; */ ?>
 <?php if(!empty($text)):?>
 <?php echo $text."\n\n";?>
 <?php else: ?>

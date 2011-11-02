@@ -1,10 +1,4 @@
 <?php
-if($session->read('Auth.User.id')){
-    echo $this->element('users/modal_subscribe');
-    e($cf->script('user/subscribe.js'));
-}
-?>
-<?php
 $subscribe_link = '/login';
 if($session->read('Auth.User.id')){
     $subscribe_link = '#';
