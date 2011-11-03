@@ -15,12 +15,19 @@ if($this->params['controller'] == 'users' && $this->params['action'] == 'view'){
 }
 //  paper view
 if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'){
-    $options = array('url'=> array('controller' => 'papers',
+    $options = array();
+    if($paper['Paper']['premium_route'] != null){
+        $options['url'] = array('controller' => 'papers',
+                                            'action' => 'view',
+                                            $paper['Paper']['id']);
+    }else{
+        $options['url'] = array('controller' => 'papers',
                                             'action' => 'view',
                                             $paper['Paper']['id'],
                                             'username' => $this->params['username'],
-                                            'slug' => $this->params['slug']) ,
-                                                                                );
+                                            'slug' => $this->params['slug']);
+    }
+   
     if(isset($this->params['category_id'])){
         $options['url']['category_id'] = $this->params['category_id'];
     }

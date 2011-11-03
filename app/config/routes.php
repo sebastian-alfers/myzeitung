@@ -22,27 +22,71 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-/**
- * Here, we are connecting '/' (base path) to controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/views/pages/home.ctp)...
- */
+
+//array with all premium paper urls
 
 
+//
+// LOADING PREMIUM ROUTES OF PREMIUM PAPERS (from cache or db)
+//
+$premiumPapers = Cache::read('premium_papers');
+
+if(empty($premiumPapers)){
+    App::import('Model', 'Route');
+    $this->Route = new Route();
+    $this->Route->contain();
+    $routes = $this->Route->find('all', array('conditions' => array('premium' => true)));
+    foreach($routes as $route){
+        $premiumPapers[] = $route['Route']['source'];
+    }
+    Cache::write('premium_papers', $premiumPapers);
+}
 
 $prefix = substr($_SERVER['REQUEST_URI'],0,3);
-if(in_array($prefix,array('/p/','/a/'))){
+
+//extract potential premium url vom request to check with array later
+$posSlash = strpos($_SERVER['REQUEST_URI'], '/', 1);
+if(!empty($posSlash)){
+    $premiumSubstr = substr($_SERVER['REQUEST_URI'],0,$posSlash);
+}else{
+    $premiumSubstr = $_SERVER['REQUEST_URI'];
+}
+
+$isPremiumPaper = false;
+//check if extracted substring matches premium array
+if(in_array($premiumSubstr,$premiumPapers)){
+    $isPremiumPaper = true;
+}
+
+
+
+
+// use DB-Routes just if route matches a premium_route or is a standard paper or article (prefixes)
+if(in_array($prefix,array('/p/','/a/')) || $isPremiumPaper){
+
+    
     $temp_url = $_SERVER['REQUEST_URI'];
     $temp_url_extra = '';
     //filter pagination params to find the correct routing in cache or database
-    // '/p/username/paper_title/page:2/sort:asc ....' ---> '/p/username/paper_title'
-    if(substr_count($_SERVER['REQUEST_URI'], '/') > 3){
-        $pos = strpos($_SERVER['REQUEST_URI'], '/', 4);
-        $pos = strpos($_SERVER['REQUEST_URI'], '/', $pos+1);
-        $temp_url = substr($_SERVER['REQUEST_URI'], 0, $pos);
-        //save extra parameters in case we have to 301 redirect -> so we can forward the params
-        $temp_url_extra = substr($_SERVER['REQUEST_URI'], $pos);
-       
+
+    if($isPremiumPaper){
+        // '/premium_paper/page:2/sort:desc ...' '/premium_paper'
+        $temp_url = $premiumSubstr;
+        if(substr_count($_SERVER['REQUEST_URI'], '/') > 1){
+            $pos = strpos($_SERVER['REQUEST_URI'], '/', 2);
+            //save extra parameters in case we have to 301 redirect -> so we can forward the params
+            $temp_url_extra = substr($_SERVER['REQUEST_URI'], $pos);
+        }
+    }else{
+        // '/p/username/paper_title/page:2/sort:asc ....' ---> '/p/username/paper_title'
+        if(substr_count($_SERVER['REQUEST_URI'], '/') > 3){
+            $pos = strpos($_SERVER['REQUEST_URI'], '/', 4);
+            $pos = strpos($_SERVER['REQUEST_URI'], '/', $pos+1);
+            $temp_url = substr($_SERVER['REQUEST_URI'], 0, $pos);
+            //save extra parameters in case we have to 301 redirect -> so we can forward the params
+            $temp_url_extra = substr($_SERVER['REQUEST_URI'], $pos);
+
+        }
     }
 
     $route = Cache::read('url_'.$temp_url);
@@ -66,23 +110,37 @@ if(in_array($prefix,array('/p/','/a/'))){
             header ('HTTP/1.1 301 Moved Permanently');
             header ('Location: '.$route['ParentRoute']['source'].$temp_url_extra);
     }
-
-    if(!empty($route)){
-        //Router::connect($_SERVER['REQUEST_URI'].'/*',array('controller' => $route['Route']['target_controller'] , 'action' => $route['Route']['target_action'], $route['Route']['target_param']));
-        if($route['Route']['ref_type'] == Route::TYPE_PAPER){
-            Router::connect('/p/:username/:slug/:category_id/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+', 'category_id' => '[0-9]+') );
-            Router::connect('/p/:username/:slug/:category_id/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+', 'category_id' => '[0-9]+') );
-            Router::connect('/p/:username/:slug/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
-            Router::connect('/p/:username/:slug/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
-        }
-        if($route['Route']['ref_type'] == Route::TYPE_POST){
-            //if at some point we use a pagination system WITHIN an article , we need to add '/*' at the end of the url
-            Router::connect('/a/:username/:slug/*',array('controller' => 'posts' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
-        }
+    if($isPremiumPaper){
+        Router::connect($temp_url.'/:category_id/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array('category_id' => '[0-9]+') );
+        Router::connect($temp_url.'/:category_id/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('category_id' => '[0-9]+') );
+        Router::connect($temp_url.'/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array() );
+        Router::connect($temp_url.'/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array() );
+    }else{
+        if(!empty($route)){
+            //Router::connect($_SERVER['REQUEST_URI'].'/*',array('controller' => $route['Route']['target_controller'] , 'action' => $route['Route']['target_action'], $route['Route']['target_param']));
+            if($route['Route']['ref_type'] == Route::TYPE_PAPER){
+                Router::connect('/p/:username/:slug/:category_id/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+', 'category_id' => '[0-9]+') );
+                Router::connect('/p/:username/:slug/:category_id/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+', 'category_id' => '[0-9]+') );
+                Router::connect('/p/:username/:slug/feed',array('controller' => 'papers' , 'action' => 'feed','url' => array('ext' => 'rss'), $route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
+                Router::connect('/p/:username/:slug/*',array('controller' => 'papers' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
+            }
+            if($route['Route']['ref_type'] == Route::TYPE_POST){
+                //if at some point we use a pagination system WITHIN an article , we need to add '/*' at the end of the url
+                Router::connect('/a/:username/:slug/*',array('controller' => 'posts' , 'action' => 'view',$route['Route']['target_param']),array('username' => '[a-z0-9]+[^/]', 'slug' => '[^/]+') );
+            }
+         }
     }
+
 
 }
 
+
+
+/*
+ * ---------------------------
+ * STANDARD ROUTES
+ * ---------------------------
+ */
 
 Router::connect('/', array('controller' => 'home', 'action' => 'index'));
 

@@ -552,6 +552,7 @@ class PapersController extends AppController {
 			$this->Paper->create();
 			$this->data['Paper']['owner_id'] = $this->Auth->User("id");
 			$this->Paper->updateSolr = true;
+            $this->Paper->updateRoute = true;
 			if ($this->Paper->save($this->data)) {
 		/*		$routeData = array('Route' => array(
 									'source' => $this->data['Paper']['title'],
@@ -602,6 +603,9 @@ class PapersController extends AppController {
         if($paper['Paper']['owner_id'] == $this->Session->read('Auth.User.id')){
             if (!empty($this->data)) {
                 $this->Paper->updateSolr = true;
+
+                $this->Paper->updateRoute = true;
+
                 if ($this->Paper->save($this->data)) {
                     $this->Session->setFlash(__('The paper has been saved', true), 'default', array('class' => 'success'));
 
@@ -890,6 +894,27 @@ class PapersController extends AppController {
         // second param = cascade -> delete associated records from hasmany , hasone relations
 
     }
+
+    function admin_editPremium($id = null) {
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash(__('Invalid paper', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		if (!empty($this->data)) {
+            $this->Paper->updateRoute = true;
+			if ($this->Paper->save($this->data)) {
+				$this->Session->setFlash(__('The paper has been saved', true));
+                Cache::delete('premium_papers');
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The paper could not be saved. Please, try again.', true));
+			}
+		}
+		if (empty($this->data)) {
+			$this->data = $this->Paper->read(null, $id);
+
+		}
+	}
 
 }
 ?>

@@ -18,7 +18,7 @@ msgstr ""
 msgid "Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort."
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//_controller.php:338
+#: /Applications/MAMP/htdocs/myzeitung//_controller.php:339
 #: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:122
 #: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:171
 msgid "No Permission"
@@ -246,7 +246,7 @@ msgstr "Erinnerungs-Mail versendet"
 msgid "Invitation to myZeitung from %s"
 msgstr "Einladung zu myZeitung von %s"
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:82;185;597;666
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:82;185;598;670;900
 msgid "Invalid paper"
 msgstr "Ungültige Zeitung"
 
@@ -330,47 +330,47 @@ msgstr "Keine Zeitungs-ID übergeben"
 msgid "Invalid parameter for the target passed."
 msgstr "Ungültiger Parameter für das Abonnementziel übergeben."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:568;606
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:569;610;906
 msgid "The paper has been saved"
 msgstr "Die Zeitung wurde gespeichert."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:574
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:575
 msgid "Paper saved, error while saving the paper route"
 msgstr "Zeitung gespeichert, jedoch ist ein Fehler beim Speichervorgang der Zeitungs-Route aufgetreten."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:577;612
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:578;616;910
 msgid "The paper could not be saved. Please, try again."
 msgstr "Die Zeitung konnte nicht gespeichert werden. Versuch es bitte noch einmal."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:622;653
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:626;657
 msgid "The Paper does not belong to you."
 msgstr "Diese Zeitung gehört Ihnen nicht."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:640;798;865
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:644;802;869
 msgid "Invalid id for paper"
 msgstr "Ungültige Zeitungs-ID"
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:647;803
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:651;807
 msgid "Paper deleted"
 msgstr "Die Zeitung wurde gelöscht."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:650;807
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:654;811
 msgid "Paper was not deleted"
 msgstr "Die Zeitung konnte nicht gelöscht werden. Versuch es bitte noch einmal."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:671;738
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:675;742
 msgid "No permissions"
 msgstr "Keine Berechtigung für diesen Vorgang."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:746
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:750
 msgid "The paper picture has been removed"
 msgstr "Die Zeitungbild wurde gespeichert."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:882
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:886
 msgid "Paper saved"
 msgstr "Zeitung gespeichert"
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:886
+#: /Applications/MAMP/htdocs/myzeitung//controllers/papers_controller.php:890
 msgid "Could not save paper, please try again."
 msgstr "Zeitung konnte nicht gespeichert werden. Versuch es bitte noch einmal."
 
@@ -509,7 +509,11 @@ msgstr "Das Thema konnte nicht gespeichert werden. Versuch es bitte noch einmal.
 msgid "Your twitter profile has been removed. You can always activate it. We do not store any of your twitter data."
 msgstr "Dein Twitter-Profil wurde entfernt. Du kannst es jederzeit reaktivieren. myZeitung speichert zu keiner Zeit deine Twitter-Daten."
 
+<<<<<<< HEAD
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:145;157;227;239;294;303;921;973;1005;1071;1120;1207;1450;1472
+=======
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:145;157;227;239;294;303;921;973;1005;1070;1118;1205;1448;1470
+>>>>>>> 3ff8802d1617d403c7cdd4da31b9d1ad88146a69
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
@@ -521,7 +525,11 @@ msgstr "Dieser Autor wurde wegen eines Verstoßes temporär gesperrt."
 msgid "Thank you for registration."
 msgstr "Danke für deine Registrierung."
 
+<<<<<<< HEAD
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:425;1463;1480
+=======
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:425;1461;1478
+>>>>>>> 3ff8802d1617d403c7cdd4da31b9d1ad88146a69
 msgid "The user could not be saved. Please, try again."
 msgstr "Der Benutzer konnte nicht gespeichert werden. Versuch es bitte noch einmal."
 
@@ -562,7 +570,11 @@ msgstr "Titelseite"
 msgid "An email has been sent with your new password, if a user with that address was found."
 msgstr "Es wurde dir eine Email mit deinem neuen Passwort zugesendet, sofern ein Benutzer mit dieser Adresse gefunden wurde."
 
+<<<<<<< HEAD
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:933;946;981;1098
+=======
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:933;946;981;1096
+>>>>>>> 3ff8802d1617d403c7cdd4da31b9d1ad88146a69
 msgid "The changes have been saved"
 msgstr "Die Änderungen wurden gespeichert."
 
@@ -570,6 +582,7 @@ msgstr "Die Änderungen wurden gespeichert."
 msgid "The changes could not be saved. Please, try again."
 msgstr "Die Änderungen konnten nicht gespeichert werden. Versuch es bitte noch einmal."
 
+<<<<<<< HEAD
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1129
 msgid "Your account has been deleted."
 msgstr "Dein Benutzerkonto wurde gelöscht."
@@ -623,16 +636,76 @@ msgid "The user has been saved"
 msgstr "Der Benutzer wurde gespeichert."
 
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1487
+=======
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1127
+msgid "Your account has been deleted."
+msgstr "Dein Benutzerkonto wurde gelöscht."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1130
+msgid "Your account could not be deleted."
+msgstr "Dein Benutzerkonto konnte nicht gelöscht werden. Versuch es bitte noch einmal."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1134
+msgid "Please confirm to delete your account by clicking on the checkbox"
+msgstr "Bitte bestätige im Kontrollkästchen, dass dein Account gelöscht werden soll."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1156
+msgid "Error while loading user"
+msgstr "Während des Ladevorgangs des Benutzers ist ein Fehler aufgetreten."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1175
+msgid "Your new profile picture has been saved."
+msgstr "Dein neues Profilbild wurde gespeichert."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1185;1192
+msgid "Could not save profile picture, please try again."
+msgstr "Das Profilbild konnte nicht gespeichert werden. Versuch es bitte noch einmal."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1312
+msgid "Welcome to myZeitung"
+msgstr "Willkommen zu myZeitung"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1326
+msgid "Password change request"
+msgstr "Deine Anfrage zur Passwortänderung"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1329
+msgid "A new password has been sent to your supplied email address."
+msgstr "An neues Passwort wurde dir per Email zugesandt."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1372
+msgid "You have been subscribed"
+msgstr "Du wurdest abonniert"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1389
+msgid "Your Profile Picture has been removed"
+msgstr "Dein Profilbild wurde gelöscht"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1435
+msgid "An Invitee has just registered"
+msgstr "Ein eingeladener Benutzer hat sich soeben registriert."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1458;1475
+msgid "The user has been saved"
+msgstr "Der Benutzer wurde gespeichert."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1485
+>>>>>>> 3ff8802d1617d403c7cdd4da31b9d1ad88146a69
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results/user.ctp:37
 msgid "Author"
 msgstr "Autor"
 
+<<<<<<< HEAD
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1488
+=======
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1486
+>>>>>>> 3ff8802d1617d403c7cdd4da31b9d1ad88146a69
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:104
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/header.ctp:117
 msgid "Admin"
 msgstr "Admin"
 
+<<<<<<< HEAD
 #: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1489
 msgid "Superadmin"
 msgstr "Superadmin"
@@ -658,6 +731,33 @@ msgid "Could not save user, please try again."
 msgstr "Benutzer konnte nicht gespeichert werden. Bitte versuche es noch einmal."
 
 #: /Applications/MAMP/htdocs/myzeitung//controllers/components/tweet.php:191;259
+=======
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1487
+msgid "Superadmin"
+msgstr "Superadmin"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1494;1555
+msgid "Invalid id for user"
+msgstr "Ungültige User-ID"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1498
+msgid "User deleted"
+msgstr "Der Benutzer wurde gelöscht."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1501
+msgid "User was not deleted"
+msgstr "Der Benutzer konnte nicht gelöscht werden."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1569
+msgid "User saved"
+msgstr "Benutzer gespeichert"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/users_controller.php:1573
+msgid "Could not save user, please try again."
+msgstr "Benutzer konnte nicht gespeichert werden. Bitte versuche es noch einmal."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/components/tweet.php:184;241
+>>>>>>> 3ff8802d1617d403c7cdd4da31b9d1ad88146a69
 msgid "You are not connected to twitter"
 msgstr "Du bist nicht mit Twitter verbunden"
 
@@ -687,61 +787,69 @@ msgstr "Bitte trage einen Titeln ein"
 msgid "Please provide a valid content for the message."
 msgstr "Bitte füge noch gültigen Inhalt zu der Nachricht hinzu."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:129
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:130
 msgid "Please enter a title for your paper"
 msgstr "Bitte trage einen Titel für deine Zeitung ein."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:134
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:135
 msgid "Paper titles can only be 55 characters long."
 msgstr "Zeitungstitel können maximal 55 Zeichen lang sein."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:141
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:142
 msgid "Descriptions can only be 1000 characters long."
 msgstr "Beschreibungen können maximal 1000 Zeichen lang sein."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:148
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:149
 #: /Applications/MAMP/htdocs/myzeitung//models/user.php:216
 msgid "Please provide a valid URL. http://your-link.domain"
 msgstr "Bitte trage eine gültige URL ein. Bsp.: http://dein-link.de"
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:156
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:157
+msgid "The premium route must be at least 3 letters long and must only contain letters and numbers"
+msgstr "Die Premiumroute muss mindestens 3 Zeichen enthalten. Es dürfen nur Buchstaben und Zahlen verwendet werden."
+
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:162
+msgid "This Route does already belong to another paper. (even if it might not be still in use)"
+msgstr "Diese Route wird bereits durch eine andere Zeitung verwendet. (diese muss aber nicht unbedingt aktiv sein)"
+
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:169
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/users/subscribe.ctp:104
 msgid "We created a new paper for you."
 msgstr "Wir haben dir eine Zeitung angelegt."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:156
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:169
 msgid "The subscription has been saved to your just created paper."
 msgstr "Das Abonnement wurde deiner soeben erzeugten Zeitung hinzugefügt."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:157
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:170
 msgid "User/Topic successfully subscribed to your Paper/Category"
 msgstr "Autor/Thema wurde erfolgreich in deine Zeitung/Kategorie abonniert"
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:158
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:171
 msgid "Subscription successfully saved. There was at least one topic of this user subscribed to your Paper/Category which has been replaced to allow this new Subscription."
 msgstr "Das Abonnement wurde erfolgreicht gespeichert. Mindestens ein Thema des abonnierten Autors wurde in deiner Zeitung/Kategorie ersetzt, um dieses neue Abonnement zu ermöglichen."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:159
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:172
 msgid "This exact Subscription already exists"
 msgstr "Genau dieses Abonnement besteht bereits."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:160
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:173
 msgid "You already subscribed this User (with all topics) to this Paper/Category"
 msgstr "Du hast diesen Autor (mit all seinen Themen) bereits in diese Zeitung/Kategorie abonniert."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:161
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:174
 msgid "Invalid Topic chosen"
 msgstr "Ungültiges Thema ausgewählt"
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:162
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:175
 msgid "The Subscription could not be saved, please try again"
 msgstr "Das Abonnenment konnte nicht gespeichert werden. Versuch es bitte noch einmal."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:163
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:176
 msgid "The Paper of the your chosen Category could not be found."
 msgstr "Die Zeitung zur ausgewählten Kategorie konnte nicht gefunden werden."
 
-#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:164
+#: /Applications/MAMP/htdocs/myzeitung//models/paper.php:177
 msgid "No valid User/Topic or Paper/Category chosen"
 msgstr "Ungültiger Autor(/Thema) oder Zeitung(/Kategorie) ausgewählt"
 
@@ -984,6 +1092,7 @@ msgstr "Kommentar hinzufügen"
 #: /Applications/MAMP/htdocs/myzeitung//views/helppages/admin_add.ctp:12
 #: /Applications/MAMP/htdocs/myzeitung//views/helppages/admin_edit.ctp:13
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/addcontent.ctp:15
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_edit_premium.ctp:16
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:15
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/edit.ctp:14
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_add.ctp:12
@@ -1007,7 +1116,7 @@ msgstr "Artikel ansehen"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/comments/admin_index.ctp:33
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/settings/view/value/enable_disable.ctp:5
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:40
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:40
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:39
 msgid "Disable"
@@ -1019,7 +1128,7 @@ msgstr "Bist du sicher, dass du diesen Kommentar sperren willst?: %s"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/comments/admin_index.ctp:35
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/settings/view/value/enable_disable.ctp:2
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:42
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:42
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:41
 msgid "Enable"
@@ -1034,7 +1143,7 @@ msgstr "Bist du sicher, dass du diesen Kommentar entsperren willst?: %s"
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/posts/add_edit_content.ctp:22
 #: /Applications/MAMP/htdocs/myzeitung//views/helppages/admin_index.ctp:39
 #: /Applications/MAMP/htdocs/myzeitung//views/helppages/admin_view.ctp:67
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:43
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:44
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:21
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:60
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:44
@@ -1050,7 +1159,7 @@ msgstr "Bist du sicher, dass du diesen Kommentar löschen willst?: %s"
 #: /Applications/MAMP/htdocs/myzeitung//views/comments/admin_index.ctp:46
 #: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:92
 #: /Applications/MAMP/htdocs/myzeitung//views/helppages/admin_index.ctp:48
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:52
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:53
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:68
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:53
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_index.ctp:42
@@ -1061,7 +1170,7 @@ msgstr "Seite %page% von %pages%, zeige %current% Einträge von %count% insg., a
 #: /Applications/MAMP/htdocs/myzeitung//views/comments/admin_index.ctp:51
 #: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:97
 #: /Applications/MAMP/htdocs/myzeitung//views/helppages/admin_index.ctp:53
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:57
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:58
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:73
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:58
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_index.ctp:47
@@ -1072,7 +1181,7 @@ msgstr "zurück"
 #: /Applications/MAMP/htdocs/myzeitung//views/comments/admin_index.ctp:54
 #: /Applications/MAMP/htdocs/myzeitung//views/complaints/admin_index.ctp:100
 #: /Applications/MAMP/htdocs/myzeitung//views/helppages/admin_index.ctp:56
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:60
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:61
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:76
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:61
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_index.ctp:50
@@ -1748,11 +1857,11 @@ msgstr "Schau dir die Zeitung an, in die du abonniert wurdest: %s"
 msgid "Have a look at the paper category you have been subscribed to: %s"
 msgstr "Schau dir die Zeitungskategorie an, in die du abonniert wurdest: %s"
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/paginate.ctp:40
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/paginate.ctp:47
 msgid "Previous"
 msgstr "zurück"
 
-#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/paginate.ctp:45
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/global/paginate.ctp:52
 msgid "Next"
 msgstr "weiter"
 
@@ -2445,7 +2554,11 @@ msgstr "Kommunikation"
 msgid "Profile Picture"
 msgstr "Profilbild"
 
+<<<<<<< HEAD
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:42
+=======
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/users/sidebar/account_menue.ctp:40
+>>>>>>> 3ff8802d1617d403c7cdd4da31b9d1ad88146a69
 msgid "Change Language"
 msgstr "Sprache ändern"
 
@@ -2490,7 +2603,7 @@ msgstr "Seite nicht gefunden"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/errors/error404.ctp:9
 msgid "Unfortunately the page you have requested cannot be found."
-msgstr "Leider konnte die von Ihnen angeforderte Seite nicht gefunden werden."
+msgstr "Leider konnte die dir angeforderte Seite nicht gefunden werden."
 
 #: /Applications/MAMP/htdocs/myzeitung//views/errors/error404.ctp:10
 msgid "Click on the links on top of this page to discover other contents of myZeitung."
@@ -2849,15 +2962,25 @@ msgstr "Falls du einen externen Link angeben willst, der zu dieser Zeitung passt
 msgid "Add Content to your Paper"
 msgstr "Füge deiner Zeitung Inhalt hinzu"
 
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:39
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_edit_premium.ctp:4
+#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_edit.ctp:4
+msgid "Admin Edit User"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:38
+#, fuzzy
+msgid "Edit Premium"
+msgstr "Zeitung editieren"
+
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:40
 msgid "Are you sure you want to disable this paper?: %s"
 msgstr "Bist du sicher, dass du diese Zeitung sperren willst?: %s"
 
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:42
 msgid "Are you sure you want to enable this paper?: %s"
 msgstr "Bist du sicher, dass du diese Zeitung entsperren willst?: %s"
 
-#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:43
+#: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:44
 msgid "Are you sure you want to delete this paper?: %s"
 msgstr "Bist du sicher, dass du diese Zeitung löschen willst?: %s"
 
@@ -3225,10 +3348,6 @@ msgstr ""
 msgid "New Content Paper"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//views/users/admin_edit.ctp:4
-msgid "Admin Edit User"
-msgstr ""
-
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:39;41
 msgid "Are you sure you want to disable this user: %s?"
 msgstr "Bist du sicher, dass du diesen Benutzer/Autor sperren willst?: %s"
@@ -3337,129 +3456,34 @@ msgstr "in:"
 msgid "Debug setting does not allow access to this url."
 msgstr "Die Debugeinstellung erlaubt keinen Zugriff auf diese URL."
 
-#: /Applications/MAMP/htdocs/myzeitung//controller.php:366
-msgid "Controller::__construct() : Can not get or parse my own class name, exiting."
-msgstr ""
+#~ msgid "No id set for %s::view()"
+#~ msgstr "Keine id für %s::view() gesetzt"
 
-#: /Applications/MAMP/htdocs/myzeitung//controller.php:803
-msgid "%sController::isAuthorized() is not defined."
-msgstr ""
+#~ msgid "updated"
+#~ msgstr "aktualisiert"
 
-#: /Applications/MAMP/htdocs/myzeitung//controller.php:1099
-msgid "Controller::paginate() - can't find model %1$s in controller %2$sController"
-msgstr ""
+#~ msgid "saved"
+#~ msgstr "gespeichert"
 
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:180
-msgid "Scaffold :: "
-msgstr ""
+#~ msgid "Invalid id for %s::edit()"
+#~ msgstr "Ungültige id für %s::edit()"
 
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:226
-msgid "No id set for %s::view()"
-msgstr "Keine id für %s::view() gesetzt"
+#~ msgid "The %1$s has been %2$s"
+#~ msgstr "Die %1$s wurde %2$s"
 
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:293
-msgid "updated"
-msgstr "aktualisiert"
+#~ msgid "No id set for %s::delete()"
+#~ msgstr "Keine id für %s::edit() gesetzt"
 
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:296
-msgid "saved"
-msgstr "gespeichert"
+#~ msgid "Could not find %s."
+#~ msgstr "$s konnte nicht gefunden werden."
 
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:306
-msgid "Invalid id for %s::edit()"
-msgstr "Ungültige id für %s::edit()"
+#~ msgid "Login failed. Invalid username or password."
+#~ msgstr ""
+#~ "Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges "
+#~ "Passwort."
 
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:325
-msgid "The %1$s has been %2$s"
-msgstr "Die %1$s wurde %2$s"
-
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:341
-msgid "Please correct errors below."
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:381
-msgid "No id set for %s::delete()"
-msgstr "Keine id für %s::edit() gesetzt"
-
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:396
-msgid "The %1$s with id: %2$d has been deleted."
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//scaffold.php:408
-msgid "There was an error deleting the %1$s with id: %2$d"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/acl.php:55
-msgid "Could not find %s."
-msgstr "$s konnte nicht gefunden werden."
-
-#: /Applications/MAMP/htdocs/myzeitung//components/acl.php:180
-msgid "[acl_base] The AclBase class constructor has been called, or the class was instantiated. This class must remain abstract. Please refer to the Cake docs for ACL configuration."
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/acl.php:273
-msgid ""
-"DbAcl::check() - Failed ARO/ACO node lookup in permissions check.  Node references:\n"
-"Aro: "
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/acl.php:278
-msgid ""
-"DbAcl::check() - Failed ACO node lookup in permissions check.  Node references:\n"
-"Aro: "
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/acl.php:286
-msgid "ACO permissions key %s does not exist in DbAcl::check()"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/acl.php:361
-msgid "DbAcl::allow() - Invalid node"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:422
-msgid "Could not find AclComponent. Please include Acl in Controller::$components."
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:465
-msgid "Could not find $userModel. Please set AuthComponent::$userModel in beforeFilter()."
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:477
-msgid "Login failed. Invalid username or password."
-msgstr "Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort."
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:478
-msgid "You are not authorized to access that location."
-msgstr "Du hast nicht die Berechtigung für diesen Bereich."
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:533
-msgid "Auth::startup() - Attempted access of un-mapped action \"%1$s\" in controller \"%2$s\""
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:557
-msgid "Could not find %s. Set AuthComponent::$object in beforeFilter() or pass a valid object"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:563
-msgid "%s::isAuthorized() is not defined."
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:571
-msgid "Auth::isAuthorized() - $authorize is set to an incorrect value.  Allowed settings are: \"actions\", \"crud\", \"model\" or null."
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/auth.php:826
-msgid "Auth::getModel() - Model is not set or could not be found"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/email.php:723
-msgid "_lineLength cannot be accessed please use lineLength"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//components/security.php:337
-msgid "SecurityComponent::loginCredentials() - Server does not support digest authentication"
-msgstr ""
+#~ msgid "You are not authorized to access that location."
+#~ msgstr "Du hast nicht die Berechtigung für diesen Bereich."
 
 #~ msgid "Cancel upload"
 #~ msgstr "Upload abbrechen"

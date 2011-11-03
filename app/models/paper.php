@@ -31,6 +31,7 @@ class Paper extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $updateSolr = true;
+    var $updateRoute = false;
 	
 	private  $_contentReferences = null;
 
@@ -149,9 +150,21 @@ function __construct(){
 					'allowEmpty'    => true,
                     'last'			=> true,
 				),
-			), 
-		);
+			),
+            'premium_route' => array(
+				'minLength_alphaNumeric' => array(
+					'rule'			=> 'premiumRouteFormat',
+					'message'		=> __('The premium route must be at least 3 letters long and must only contain letters and numbers', true),
+					'last' 			=> true,
+				),
+				'availability' => array(
+					'rule'			=> 'premiumRouteAvailability',
+					'message'		=> __('This Route does already belong to another paper. (even if it might not be still in use)', true),
+					'last' 			=> true,
+				),
 
+			),
+		);
         $this->return_code_messages = array(
             self::RETURN_CODE_SUCCESS_CREATED_PAPER =>  __('We created a new paper for you.',true).' '.__('The subscription has been saved to your just created paper.', true),
             self::RETURN_CODE_SUCCESS => __('User/Topic successfully subscribed to your Paper/Category', true),
@@ -163,10 +176,32 @@ function __construct(){
             self::RETURN_CODE_ERROR_NO_PAPER_TO_CATEGORY => __('The Paper of the your chosen Category could not be found.', true),
             self::RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE => __('No valid User/Topic or Paper/Category chosen', true),
         );
-
-
-				
 	}
+
+
+    function premiumRouteFormat($data) {
+        if($data['premium_route'] != NULL && !empty($data['premium_route'])){
+            if(strlen($data['premium_route']) < 3){
+                return false;
+            }
+            if(!ctype_alnum($data['premium_route'])){
+                return false;
+            }
+        }
+        return true;
+    }
+   function premiumRouteAvailability($data) {
+       if($data['premium_route'] != NULL && !empty($data['premium_route'])){
+           //dryrun of route string generation to check availability
+            $routeString = $this->generateRouteString(true);
+           $this->log($routeString);
+           $this->log('/'.$data['premium_route']);
+            if($routeString != '/'.$data['premium_route']){
+                return false;
+            }
+       }
+        return true;
+    }
 
 			/**
 			 * @author tim
@@ -363,6 +398,9 @@ function __construct(){
      */
     function addRoute(){
 
+        $this->contain();
+        $this->data = $this->read(null,$this->id);
+
         $routeString = $this->generateRouteString();
         //if NOT the exact route was currently active
         if($routeString != ''){
@@ -374,6 +412,9 @@ function __construct(){
                                         'target_param'		=> $this->id,
                                         'ref_type'          => Route::TYPE_PAPER,
                                         'ref_id'            => $this->id);
+                if($this->data['Paper']['premium_route'] != NULL){
+                    $routeData['Route']['premium'] = true;
+                }
                 $this->Route->create();
                 if($this->Route->save($routeData,false)){
                     $currentRouteId = $this->Route->id;
@@ -385,15 +426,8 @@ function __construct(){
             }
 
             // update children
-            $this->Route->contain();
-            $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_PAPER,  'ref_id' => $this->id)));
-            foreach($oldRoutes as $oldRoute){
-                 if($oldRoute['Route']['id'] !=  $currentRouteId){
-                     $oldRoute['Route']['parent_id'] = $currentRouteId;
-                     $this->Route->save($oldRoute);
-                 }
-                 $this->Route->deleteRouteCache($oldRoute['Route']['source']);
-            }
+            $this->updateRouteChildren($currentRouteId);
+
             return true;
         }else{
             return false;
@@ -401,25 +435,42 @@ function __construct(){
 
         return false;
     }
-
-    private function generateRouteString(){
-
-        $this->User->contain();
-        $user = $this->User->read(array('id','username'),$this->data['Paper']['owner_id']);
-
-        //generate the theoretically needed route
-        $this->Inflector = ClassRegistry::init('Inflector');
-        $routeUsername = strtolower($user['User']['username']);
-        $routeTitle= strtolower($this->Inflector->slug($this->data['Paper']['title'],'-'));
-        if(empty($routeTitle)){
-            $routeTitle = 'paper';
+    private function updateRouteChildren($newParentId){
+        $this->Route->contain();
+        $oldRoutes =$this->Route->find('all',array('conditions' => array('ref_type' => Route::TYPE_PAPER,  'ref_id' => $this->id)));
+        foreach($oldRoutes as $oldRoute){
+             if($oldRoute['Route']['id'] !=  $newParentId){
+                 $oldRoute['Route']['parent_id'] = $newParentId;
+                 $this->Route->save($oldRoute);
+             }
+             $this->Route->deleteRouteCache($oldRoute['Route']['source']);
         }
-        $routeString = '/p/'.$routeUsername.'/'.$routeTitle;
+    }
+
+    private function generateRouteString($dryRun = false){
+
+        if(!empty($this->data['Paper']['premium_route'])){
+            // TAKE PREMIUM ROUTE
+            $routeString = '/'.$this->data['Paper']['premium_route'];
+        }else{
+            // GENERATE STRING
+            $this->User->contain();
+            $user = $this->User->read(array('id','username'),$this->data['Paper']['owner_id']);
+
+            //generate the theoretically needed route
+            $this->Inflector = ClassRegistry::init('Inflector');
+            $routeUsername = strtolower($user['User']['username']);
+            $routeTitle= strtolower($this->Inflector->slug($this->data['Paper']['title'],'-'));
+            if(empty($routeTitle)){
+                $routeTitle = 'paper';
+            }
+            $routeString = '/p/'.$routeUsername.'/'.$routeTitle;
+        }
 
         //check if such a route does already exist
         $this->Route->contain();
         $existingRoutes = $this->Route->findAllBySource($routeString);
-
+        $this->log($existingRoutes);
         if(count($existingRoutes) >0){
             //the route is already used
             $sameTarget = true;
@@ -430,27 +481,37 @@ function __construct(){
                     $sameTarget = false;
                 }else{
                     //old route has the same target. if it is a child it needs to be made parent and the children being updated to new parent
-                    if($existingRoute['Route']['parent_id'] != null){
-
-                        $sameTargetId = Route::TYPE_OLD_ROUTE_ID.$existingRoute['Route']['id'];
-                        $existingRoute['Route']['parent_id'] = null;
-                        $this->Route->save($existingRoute);
+                    if(!$dryRun){
+                        if($existingRoute['Route']['parent_id'] != null){
+                            $sameTargetId = Route::TYPE_OLD_ROUTE_ID.$existingRoute['Route']['id'];
+                            $existingRoute['Route']['parent_id'] = null;
+                            $this->Route->save($existingRoute);
+                        }
                     }
                 }
             }
             if($sameTarget){
                 if($sameTargetId == null){
                     //route already exists - nothing needed
-                    return '';
+                    if(!$dryRun){
+                        return '';
+                    }else{
+                        return $routeString;
+                    }
                 }else{
                     //old route reactivated -> needs to be parent again. children need to be updated to new parent
-                    return $sameTargetId;
+                    if(!$dryRun){
+                        return $sameTargetId;
+                    }else{
+                        return $routeString;
+                    }
 
                 }
             }else{
                 //desired route did already exist. it was not directing to the same target - so it cant be taken.
                 //generate new routestring with added id
-                $routeString = '/p/'.$routeUsername.'/'.$routeTitle.'-p'.$this->id;
+               // $routeString = '/p/'.$routeUsername.'/'.$routeTitle.'-p'.$this->id;
+                $routeString = $routeString.'-p'.$this->id;
                 $this->Route->contain();
                 $existingRoutes = $this->Route->findAllBySource($routeString);
                 //if this specific routestring does exist, it must direct to the same target
@@ -462,7 +523,11 @@ function __construct(){
 
         }else{
             //the route is not used yet
-            return Route::TYPE_NEW_ROUTE.$routeString;
+            if(!$dryRun){
+                return Route::TYPE_NEW_ROUTE.$routeString;
+            }else{
+                return $routeString;
+            }
 
         }
         return $route_title;
@@ -519,7 +584,9 @@ function __construct(){
         App::import('model','User');
         $this->User = new User();
 
-        $this->addRoute();
+        if($this->updateRoute){
+            $this->addRoute();
+        }
 
         if(!$this->updateSolr)return;
 
@@ -936,6 +1003,9 @@ function __construct(){
     function beforeSave(){
         if(!empty($this->data['Paper']['image']) && is_array($this->data['Paper']['image']) && !empty($this->data['Paper']['image'])){
             $this->data['Paper']['image'] = serialize($this->data['Paper']['image']);
+        }
+         if(isset($this->data['Paper']['premium_route']) && !empty($this->data['Paper']['premium_route'])){
+            $this->data['Paper']['premium_route'] = strtolower($this->data['Paper']['premium_route']);
         }
 
         return true;
