@@ -151,6 +151,9 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'
 //Router::connect('/(.*).htm', array('controller' => 'pages', 'action' => 'display'));
 
 
+//landing pages
+Router::connect('/beispiel-bundestag/*', array('controller' => 'landing', 'action' => 'bundestag'));
+
 
 
 
