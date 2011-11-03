@@ -38,7 +38,7 @@ if($this->params['controller'] == 'home'){
         }elseif( $this->params['action'] == 'accAboutMe'){
 */
         }elseif($this->params['action'] == 'add'){
-            __('Register to start publishing articles or to create your own papers.',true);
+            $desc = __('Register to start publishing articles or to create your own papers.',true);
         }
     //papers controller
     }elseif($this->params['controller'] == 'papers'){
