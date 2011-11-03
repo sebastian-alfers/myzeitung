@@ -33,6 +33,8 @@ $(document).ready(function() {
         <?php echo $this->Form->hidden('username' , array('value' => $user['User']['username']));?>
         <?php echo $this->Form->hidden('image' , array('value' => $user['User']['image']));?>
         <div class="accept">
+
+
             <p><?php  echo $this->Form->input('use_twitter', array('type' => 'checkbox', 'class' => 'toggle_twitter textinput','label' => false)); ?><strong><?php echo __('Twitter', true);?></strong></p>
             <?php if($this->data['User']['use_twitter'] && isset($this->data['User']['twitter_account_data'])): ?>
                 <div class="social-account twitter">

@@ -65,6 +65,11 @@ class SettingsComponent extends Object {
 
     } */
 
+    /**
+     * @param null $settingData
+     * @param null $model_id
+     * @return bool
+     */
     function save($settingData = null, $model_id = null){
         //$this->log($settingData);
         //$this->log($this->Session->read('Auth'));
@@ -74,6 +79,8 @@ class SettingsComponent extends Object {
 
         App::Import('Model', 'Setting');
         $this->Setting = new Setting();
+
+
 
         foreach($settingData as $modelType => $modelTypeValue){
             foreach($modelTypeValue as $namespace => $namespaceValue){
@@ -139,7 +146,7 @@ class SettingsComponent extends Object {
         $settings['oauth_token']['value'] = '';
         $settings['oauth_token_secret']['value'] = '';
 
-        $id = $this->Session->read('Auth.User');
+        $id = $this->Session->read('Auth.User.id');
 
         if($this->save(array('user' => array('twitter' =>$settings)), $id)){
 

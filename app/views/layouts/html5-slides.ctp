@@ -17,14 +17,14 @@
 <?php
 
 $this->MzJavascript->link('jquery.1.6.4.min');
-$this->MzJavascript->link('slides/core/deck.core.js');
-$this->MzJavascript->link('slides/extensions/menu/deck.menu.js');
-$this->MzJavascript->link('slides/extensions/goto/deck.goto.js');
-$this->MzJavascript->link('slides/extensions/status/deck.status.js');
-$this->MzJavascript->link('slides/extensions/navigation/deck.navigation.js');
-$this->MzJavascript->link('slides/extensions/hash/deck.hash.js');
-$this->MzJavascript->link('slides/modernizr.custom.js');
-$this->MzJavascript->link('slides/main/main.js');
+$this->MzJavascript->link('slides/core/deck.core');
+$this->MzJavascript->link('slides/extensions/menu/deck.menu');
+$this->MzJavascript->link('slides/extensions/goto/deck.goto');
+$this->MzJavascript->link('slides/extensions/status/deck.status');
+$this->MzJavascript->link('slides/extensions/navigation/deck.navigation');
+$this->MzJavascript->link('slides/extensions/hash/deck.hash');
+$this->MzJavascript->link('slides/modernizr.custom');
+$this->MzJavascript->link('slides/main/main');
 
 $this->MzHtml->css('slides/core/deck.core');
 $this->MzHtml->css('slides/extensions/goto/deck.goto');

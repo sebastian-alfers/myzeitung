@@ -29,7 +29,7 @@ ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have th
 
 # set live server
 task :live do
-    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com"#, "ec2-46-137-146-70.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
+    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-146-70.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
     set :config, 'live'
 end
 # set staging server
@@ -69,6 +69,8 @@ task :create_symlinks, :roles => :target do
 end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
+
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/landing/bundestag-myzeitung.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/landing/bundestag-myzeitung.jpg")
 
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/default.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/default.jpg")
 

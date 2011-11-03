@@ -34,30 +34,46 @@ class TweetComponent extends Object {
 
 
     public function processCallback(){
-        if($this->isValidCallback()){
+
+        if($this->isValidCallback() && $this->isTemporaryTokenAvailable()){
+
             /* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
-            $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $this->Session->read($this->_getOAuthTokenPath()), $this->Session->read($this->_getOAuthTokenSecretPath()));
+            $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET, $this->Session->read('tmp.'.self::OAUTH_TOKEN), $this->Session->read('tmp.'.self::OAUTH_TOKEN_SECRET));
 
             /* Request access tokens from twitter */
             $access_token = $this->_connection->getAccessToken($_REQUEST['oauth_verifier']);
 
-            $this->Session->write($this->_getOAuthTokenPath(), $access_token['oauth_token']);
-            $this->Session->write($this->_getOAuthTokenSecretPath(), $access_token['oauth_token_secret']);
 
-            //write new values to user and session
-            unset($access_token['user_id']);
-            unset($access_token['screen_name']);
-            $this->Settings->save('User', 'twitter', $access_token);
-            //'User', session user id,
+            if($this->isValidAccessToken($access_token)){
 
-            /* Save the access tokens. Normally these would be saved in a database for future use. */
-            //$_SESSION['access_token'] = $access_token;
+                $settings = $this->Session->read('Auth.Setting.user.twitter');
+                $settings['oauth_token']['value'] = $access_token['oauth_token'];
+                $settings['oauth_token_secret']['value'] = $access_token['oauth_token_secret'];
 
+                $this->Settings->save(array('user' => array('twitter' =>$settings)), $this->Session->read('Auth.User.id'));
+
+                $this->Session->delete('tmp.'.self::OAUTH_TOKEN);
+                $this->Session->delete('tmp.'.self::OAUTH_TOKEN_SECRET);
+            }
         }
     }
 
+    public function isValidAccessToken($access_token){
+        if(!is_array($access_token)) return false;
+        if(empty($access_token)) return false;
+
+        if(!isset($access_token['oauth_token'])) return false;
+        if(!isset($access_token['oauth_token_secret'])) return false;
+
+        if(empty($access_token['oauth_token'])) return false;
+        if(empty($access_token['oauth_token_secret'])) return false;
+
+        return true;
+    }
+
     public function isValidCallback(){
-        return (isset($_REQUEST['oauth_token']) && $this->Session->read($this->_getOAuthTokenPath()) === $_REQUEST['oauth_token']);
+
+        return (isset($_REQUEST['oauth_token']) && $this->Session->read('tmp.'.self::OAUTH_TOKEN) == $_REQUEST['oauth_token']);
     }
 
     /**
@@ -67,7 +83,8 @@ class TweetComponent extends Object {
      */
     public function connect(){
 
-        if(!$this->isTokenAvailable()){
+
+        if(!$this->isTemporaryTokenAvailable()){
 
             $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET);
 
@@ -76,6 +93,7 @@ class TweetComponent extends Object {
             $this->_request_token = $this->_connection->getRequestToken($callback_url);
 
             if($this->_saveTemporaryCredentials()){
+
                 switch ($this->_connection->http_code) {
                     case 200:
                         /* Build authorize URL and redirect user to Twitter. */
@@ -107,16 +125,8 @@ class TweetComponent extends Object {
 
         if(is_array($this->_request_token) && isset($this->_request_token[self::OAUTH_TOKEN]) && isset($this->_request_token[self::OAUTH_TOKEN_SECRET])){
 
-            $settings = $this->Session->read('Auth.Setting.user.twitter');
-
-            $settings['oauth_token']['value'] = $this->_request_token[self::OAUTH_TOKEN];
-            $settings['oauth_token_secret']['value'] = $this->_request_token[self::OAUTH_TOKEN_SECRET];
-
-            $id = $this->Session->read('Auth.User');
-
-            if($this->Settings->save(array('user' => array('twitter' =>$settings)), $id)){
-
-            }
+            $this->Session->write('tmp.'.self::OAUTH_TOKEN, $this->_request_token[self::OAUTH_TOKEN]);
+            $this->Session->write('tmp.'.self::OAUTH_TOKEN_SECRET, $this->_request_token[self::OAUTH_TOKEN_SECRET]);
 
             return true;
         }
@@ -184,6 +194,15 @@ class TweetComponent extends Object {
 
     }
 
+    public function isTemporaryTokenAvailable(){
+	    if($this->Session->check('tmp.'.self::OAUTH_TOKEN) && $this->Session->check('tmp.'.self::OAUTH_TOKEN_SECRET)){
+            $token = $this->Session->read('tmp.'.self::OAUTH_TOKEN);
+            $secret = $this->Session->read('tmp.'.self::OAUTH_TOKEN_SECRET);
+            return !empty($token) && !empty($secret);
+	    }
+        return false;
+    }
+
     public function isTokenAvailable(){
 
 	    if($this->Session->check('Auth.Setting.user.twitter.oauth_token')){
@@ -203,8 +222,8 @@ class TweetComponent extends Object {
     }
 
     function clearSessions(){
-        $this->Session->write("Auth.Setting.user.twitter.oauth_token.value", '');
-        $this->Session->write("Auth.Setting.user.twitter.oauth_token_secret.value", '');
+        $this->Session->write("tmp.".self::OAUTH_TOKEN, '');
+        $this->Session->write("tmp.".self::OAUTH_TOKEN_SECRET, '');
     }
 
 

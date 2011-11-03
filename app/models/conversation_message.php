@@ -46,7 +46,7 @@ class ConversationMessage extends AppModel {
 		'message' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				'message' => __('Please provide a valid content for the message.', true),
+				'message' => __('Please enter a message.', true),
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule

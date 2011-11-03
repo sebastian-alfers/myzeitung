@@ -18,17 +18,17 @@ $this->MzJavascript->link('jquery.1.6.4.min');
 $this->MzJavascript->link('jquery-ui-1.8.16.min');
 $this->MzJavascript->link('jquery.jqtransform');
 $this->MzJavascript->link('global/myzeitung');
-$this->MzJavascript->link('jquery.pop.js');
-$this->MzJavascript->link('jquery.tipsy.js');
-$this->MzJavascript->link('json2.js');
-$this->MzJavascript->link('global/help.js');
-$this->MzJavascript->link('global/invite.js');
-$this->MzJavascript->link('global/mzslides.js');
-$this->MzJavascript->link('jquery.spinner.js');
+$this->MzJavascript->link('jquery.pop');
+$this->MzJavascript->link('jquery.tipsy');
+$this->MzJavascript->link('json2');
+$this->MzJavascript->link('global/help');
+$this->MzJavascript->link('global/invite');
+$this->MzJavascript->link('global/mzslides');
+$this->MzJavascript->link('jquery.spinner');
 
 if($session->read('Auth.User.id')){
     //build new js if logged in
-    $this->MzJavascript->link('user/subscribe.js');
+    $this->MzJavascript->link('user/subscribe');
 
     $this->MzJavascript->link('jquery.iframe-transport');
     $this->MzJavascript->link('jquery.fileupload');

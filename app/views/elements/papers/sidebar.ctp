@@ -14,7 +14,7 @@ if($paper_belongs_to_user){
     echo $this->element('categories/modal_edit', array('paper_id' => $paper['Paper']['id']));
     echo $this->element('categories/modal_add', array('paper_id' => $paper['Paper']['id']));
 
-    $this->MzJavascript->link('global/upload.js');
+    $this->MzJavascript->link('global/upload');
     $this->MzJavascript->link('paper/edit');
     
     echo $this->element('global/upload/modal', array('paper_id' => $paper['Paper']['id']));
