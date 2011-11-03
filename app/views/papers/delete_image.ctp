@@ -42,4 +42,4 @@ if(!($session->read('Auth.User.id')) || $paper['Paper']['owner_id'] != $session-
                 <?php echo $this->Form->end(array('div' => false,'class' => 'hidden')); ?>
         </div> <!-- /register -->
     </div><!-- / #maincol -->
-</div><!-- / #maincolwra
+</div><!-- / #maincolwra -->

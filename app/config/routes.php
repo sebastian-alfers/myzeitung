@@ -36,10 +36,13 @@ if(empty($premiumPapers)){
     $this->Route = new Route();
     $this->Route->contain();
     $routes = $this->Route->find('all', array('conditions' => array('premium' => true)));
-    foreach($routes as $route){
-        $premiumPapers[] = $route['Route']['source'];
+    if(!empty($route)){
+        foreach($routes as $route){
+            $premiumPapers[] = $route['Route']['source'];
+        }
+        Cache::write('premium_papers', $premiumPapers);
+
     }
-    Cache::write('premium_papers', $premiumPapers);
 }
 
 $prefix = substr($_SERVER['REQUEST_URI'],0,3);
@@ -54,7 +57,7 @@ if(!empty($posSlash)){
 
 $isPremiumPaper = false;
 //check if extracted substring matches premium array
-if(in_array($premiumSubstr,$premiumPapers)){
+if(is_array($premiumPapers) && in_array($premiumSubstr,$premiumPapers)){
     $isPremiumPaper = true;
 }
 
@@ -210,7 +213,7 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'
 
 
 //landing pages
-Router::connect('/beispiel-bundestag/*', array('controller' => 'landing', 'action' => 'bundestag'));
+Router::connect('/c/beispiel-bundestag/*', array('controller' => 'landing', 'action' => 'bundestag'));
 
 
 

@@ -42,10 +42,7 @@ class InstallController extends AppController {
 	 * Enter description here ...
 	 */
 	function index(){
-
         $this->Installer->index();
-
-
 	}
 
 

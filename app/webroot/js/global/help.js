@@ -13,7 +13,6 @@ $(document).ready(function() {
             helper_values.push(item.value);
         }
     });
-    $('#help #content').prepend(default_helptext);
 
     var current_element = 0;
     var length = helper_elements.length;

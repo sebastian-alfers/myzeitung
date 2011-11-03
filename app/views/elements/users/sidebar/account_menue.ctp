@@ -1,6 +1,12 @@
 <?php $this->MzJavascript->link('global/upload'); ?>
 <?php $this->MzJavascript->link('user/account'); ?>
 
+
+<?php
+  debug()
+?>
+?>
+
 <?php echo $this->element('global/upload/modal'); ?>
 
 <ul class="my-account-nav">
