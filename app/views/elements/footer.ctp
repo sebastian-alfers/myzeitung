@@ -2,7 +2,7 @@
 <div id="footer">
 	<p>
 		myZeitung © 2011 |
-        <a href="#" class="mzslides"><?php __('Über uns'); ?></a> |
+        <a href="#" rel="nofollow" class="mzslides"><?php __('Über uns'); ?></a> |
         <?php echo $this->Html->link(__('Impressum',true), array('controller' => 'pages', 'action' => 'display', 'impressum'), array('rel' => 'nofollow'));?> |
         <?php echo $this->Html->link(__('AGB',true), array('controller' => 'pages', 'action' => 'display', 'agb'), array('rel' => 'nofollow'));?> |
         <?php echo $this->Html->link(__('Datenschutzrichtlinien',true), array('controller' => 'pages', 'action' => 'display', 'dsr'), array('rel' => 'nofollow'));?> |

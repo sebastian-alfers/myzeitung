@@ -35,6 +35,16 @@
     <?php if(isset($canonical_for_layout)):?>
         <?php echo $this->Html->meta('canonical', $canonical_for_layout, array('rel'=>'canonical', 'type'=>null, 'title'=>null, 'inline' => false)); ?>
     <?php endif;?>
+    <?php if(isset($noindex) and $noindex == true):?>
+        <?php echo $this->Html->meta('robots', null, array('name' => 'robots', 'content' => 'noindex') ,false); ?>
+    <?php endif;?>
+
+     <?php echo $this->element('global/meta_description');?>
+
+
+
+
+
     <?php if(isset($paginator_prev_for_layout)):?>
       <link rel="prev" href="<?php echo $paginator_prev_for_layout;?>" />
     <?php endif;?>

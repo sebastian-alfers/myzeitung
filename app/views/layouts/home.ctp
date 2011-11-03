@@ -24,9 +24,9 @@
 	<?php echo $this->Html->charset(); ?>
 	
 	<title>
-		<?php __('myZeitung'); ?>
-		<?php echo $title_for_layout; ?>
+	    <?php echo $this->element('global/title');?>
 	</title>
+    <?php echo $this->element('global/meta_description');?>
     <?php echo $this->element('global/open_graph'); ?>
 
 	<?php // all scripts and css declarations must be added to the following element?>

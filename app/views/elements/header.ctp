@@ -31,10 +31,10 @@
             <?php
     				//echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
-                                       array('controller' => 'users', 'action' => 'login'), array('class' => 'btn'));
+                                       array('controller' => 'users', 'action' => 'login'), array('class' => 'btn', 'rel' => 'nofollow'));
 				echo __("or", true);
 				echo $this->Html->link(__("Register", true),
-                                       array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register'));
+                                       array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register', 'rel' => 'nofollow'));
 
                 $locale = 'eng';
                 if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu') $locale = 'deu'; ?>

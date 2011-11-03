@@ -1,3 +1,7 @@
+<?php
+$this->set('noindex', true);
+?>
+
 <h2>Sweet, "Myapp" got Baked by CakePHP!</h2>
 
 <?php

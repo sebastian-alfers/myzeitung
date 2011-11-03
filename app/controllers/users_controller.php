@@ -91,6 +91,8 @@ class UsersController extends AppController {
 				$this->Session->setFlash($this->Auth->loginError);
 			}
 		}
+        
+        $this->set('noindex', true);
 	}
 
 	function logout()
@@ -201,6 +203,8 @@ class UsersController extends AppController {
         $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
         $this->set('rss_for_layout', '/u/'.strtolower($user['User']['username']).'/feed');
 		$this->set('posts', $this->paginate($this->User->Post));
+
+
 
 
         //check for post value to display newConversation form
@@ -382,6 +386,7 @@ class UsersController extends AppController {
         }
 
 
+        
 		if (!empty($this->data)) {
 
             $locale = Configure::read('Config.language');
@@ -398,13 +403,6 @@ class UsersController extends AppController {
 			$this->User->updateSolr = true;
 
 			if ($this->User->save($this->data, true, array('username', 'name' ,'password' , 'passwd','email','group_id', 'tos_accept'))) {
-
-				//after adding user -> add new topic
-				//		$newUserId = $this->User->id;
-				//	$topicData = array('name' => 'first_automatic_topic', 'user_id' => $newUserId);
-				//$this->Topic->create();
-				//$this->Topic->save($topicData);
-
 
 
                 //send welcome email to new user
@@ -426,7 +424,7 @@ class UsersController extends AppController {
 
 			}
 		}
-	}
+    }
 /*
 	function edit($id = null) {
 
