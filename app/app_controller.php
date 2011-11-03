@@ -57,7 +57,6 @@ class AppController extends Controller {
 
 	public function beforeFilter(){
 
-        debug($this->params);
 
         $this->Auth->loginError = __('Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort.', true);
 
@@ -502,8 +501,6 @@ class AppController extends Controller {
                         if(count($page['Helpelement']) > 0){
                             $url = $page['Helppage']['controller'].DS.$page['Helppage']['action'];
 
-                            debug($url);
-
                             //set default string in header of helpcenter
                             $helpcenter_data[$url]['default'][$locale] = $page['Helppage'][$locale];
 
@@ -531,15 +528,7 @@ class AppController extends Controller {
             }
             $url = $controller.DS.$action;
 
-
-            debug($helpcenter_data);
-
-            die($url);
-
             if(isset($helpcenter_data[$url])){
-
-
-
                 $this->set('helpcenter_data', $helpcenter_data[$url]['elements']);
                 $this->set('default_helptext', $helpcenter_data[$url]['default'][$locale]);
             }
