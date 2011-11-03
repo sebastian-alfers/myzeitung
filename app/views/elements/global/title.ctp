@@ -3,30 +3,27 @@ $title = '';
 
 //frontpage
 if($this->params['controller'] == 'home'){
-    $title = 'myZeitung';
+    $title = __('myZeitung - publishing together',true);
 }else{
     //user controller
     if($this->params['controller'] == 'users'){
         if($this->params['action'] == 'view'){
             if(isset($user['User']['username'])){
-                $title = sprintf(__('%1$s Articles',true),$this->MzText->possessive($user['User']['username']));
+                $title = sprintf(__('%1$s Articles',true),$this->MzText->possessive($this->MzText->generateDisplayname($user['User'],false)));
             }
         }elseif($this->params['action'] == 'viewSubscriptions'){
-                $this->log($this->params);
             if($this->params['own_paper'] == Paper::FILTER_OWN){
                 if(isset($user['User']['username'])){
-                    $title = sprintf(__('%1$s Papers',true),$this->MzText->possessive($user['User']['username']));
+                    $title = sprintf(__('%1$s Papers',true),$this->MzText->possessive($this->MzText->generateDisplayname($user['User'],false)));
                 }
             }elseif($this->params['own_paper'] == Paper::FILTER_SUBSCRIBED){
                 if(isset($user['User']['username'])){
-                    $title = sprintf(__('%1$s Paper Subscriptions ',true),$this->MzText->possessive($user['User']['username']));
+                    $title = sprintf(__('%1$s Paper Subscriptions',true),$this->MzText->possessive($this->MzText->generateDisplayname($user['User'],false)));
                 }
             }
         }elseif($this->params['action'] == 'index'){
             $title = __('Browse Authors',true);
         }elseif($this->params['action'] == 'login'){
-            $title = __('Login',true);
-        }elseif( $this->params['action'] == 'login'){
             $title = __('Login',true);
         }elseif( $this->params['action'] == 'forgotPassword'){
             $title = __('I forgot my password',true);
@@ -40,6 +37,8 @@ if($this->params['controller'] == 'home'){
             $title = __('Account', true).' - '.__('Invitations',true);
         }elseif( $this->params['action'] == 'accAboutMe'){
             $title = __('Account', true).' - '.__('About Me',true);
+        }elseif($this->params['action'] == 'add'){
+            $title = __('Register', true);
         }
     //papers controller
     }elseif($this->params['controller'] == 'papers'){

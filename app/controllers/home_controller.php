@@ -46,6 +46,7 @@ class HomeController extends AppController {
 		$this->set('posts', $this->CategoryPaperPost->find('all', $post_options));
 		
 		$this->layout = 'home';
+
 	}
 	
 }

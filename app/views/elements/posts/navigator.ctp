@@ -76,7 +76,7 @@ if($has_topics){
                             }*/
                             /*<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>   */?>
 
-							<h5><?php echo $this->Html->link($headline, $post['Route'][0]['source']);?></h5>
+							<h3><?php echo $this->Html->link($headline, $post['Route'][0]['source']);?></h3>
 							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
                                 <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
                                  <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>

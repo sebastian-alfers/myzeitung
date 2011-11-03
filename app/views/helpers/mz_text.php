@@ -21,7 +21,8 @@ class MzTextHelper extends TextHelper {
      */
     function getUsername($user){
 
-        return "<h3>" . $this->generateDisplayname($user, true). "</h3>";
+        return "<p><strong>" . $this->generateDisplayname($user, true). "</strong></p>";
+
     }
 
 

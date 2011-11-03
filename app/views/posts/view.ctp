@@ -100,7 +100,7 @@ if(substr($post['Post']['content'],0,2) == "<p"){
 		<div class="articleview-wrapper">
 			<div class="articleview">
 			<p><strong><?php echo __('posted', true).' '.$this->MzTime->timeAgoInWords($post['Post']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></strong></p>
-			<h1><?php echo $post['Post']['title'];?></h1>
+			<h2><?php echo $post['Post']['title'];?></h2>
                 
             <?php if(!empty($first_paragraph)):?>
                 <div class="first-paragraph" ><?php echo $first_paragraph;?></div>

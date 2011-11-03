@@ -31,10 +31,10 @@
             <?php
     				//echo __("You already have an account?", true);
 				echo $this->Html->link(__("Login", true),
-                                       array('controller' => 'users', 'action' => 'login'), array('class' => 'btn'));
+                                       array('controller' => 'users', 'action' => 'login'), array('class' => 'btn', 'rel' => 'nofollow'));
 				echo __("or", true);
 				echo $this->Html->link(__("Register", true),
-                                       array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register'));
+                                       array('controller' => 'users', 'action' => 'add'), array('class' => 'btn btn-register', 'rel' => 'nofollow'));
 
                 $locale = 'eng';
                 if(!$this->Session->read('Config.language') || $this->Session->read('Config.language') == '' || $this->Session->read('Config.language') == 'deu') $locale = 'deu'; ?>
@@ -48,7 +48,7 @@
 		<div id="mainnav">
 			<ul>
 				<?php if($this->params['controller'] == 'posts' && $this->params['action'] == 'index'):?><li class="current"><?php else:?><li><?php endif;?>
-				<?php echo $this->Html->link(__('Posts', true), array('controller' => 'posts', 'action' => 'index'));?></li>
+				<?php echo $this->Html->link(__('Articles', true), array('controller' => 'posts', 'action' => 'index'));?></li>
 				<?php if($this->params['controller'] == 'users' && $this->params['action'] == 'index'):?><li class="current"><?php else:?><li><?php endif;?>
 				<?php echo $this->Html->link(__('Authors', true), array('controller' => 'users', 'action' => 'index'));?></li>
 				<?php if($this->params['controller'] == 'papers' && $this->params['action'] == 'index'):?><li class="current"><?php else:?><li><?php endif;?>

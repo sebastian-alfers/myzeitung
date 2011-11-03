@@ -13,10 +13,11 @@ if($this->params['controller'] == 'users' && $this->params['action'] == 'view'){
     }
     $paginator->options($options);
 }
+
 //  paper view
 if($this->params['controller'] == 'papers' && $this->params['action'] == 'view'){
     $options = array();
-    if($paper['Paper']['premium_route'] != null){
+    if($paper['Paper']['premium_route'] != null && !empty($paper['Paper']['premium_route'] ) ){
         $options['url'] = array('controller' => 'papers',
                                             'action' => 'view',
                                             $paper['Paper']['id']);
