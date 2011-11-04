@@ -1610,8 +1610,8 @@ a.btn.big {
 
 .icon-arrow-left-black{
 	width:30px !important;
-    background: url(/img/assets/maintile.png) -128px -317px no-repeat;
-	cursor: pointer;    
+    background: url(/img/assets/maintile.png) -127px -317px no-repeat;
+	cursor: pointer;
 }
 
 .icon-arrow-right-black{
@@ -2599,7 +2599,7 @@ width: 731px;
 .invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.buttons{
     width: 150px;
     text-align: right;
-    
+
 }
 .invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info .buttons a.btn{
     float: none;
@@ -2912,9 +2912,10 @@ z-index: 1000;
     height: auto;
     margin: 3px 20px 15px;
 }
-
+#flashMessage a{color: #712323; }
 .error#flashMessage{ }
 .success#flashMessage{background: #D2E8B1; color: #527123;}
+.success#flashMessage a{color: #527123;}
 
 /* form */
 
@@ -3312,7 +3313,7 @@ ui-dialog-titlebar-close ui-corner-all ui-state-hover{
     margin-bottom:16px;
     display: inline-block;
     position: relative;
-    
+
 }
 */
 
@@ -3616,8 +3617,8 @@ form.onecol div.textarea{
 #help div{
     margin: 0 auto;
     width: 1038px;
-    height:70px;
-    background: silver;
+    height:50px;
+    background: #EBEBEB;
     color: #000;
 }
 

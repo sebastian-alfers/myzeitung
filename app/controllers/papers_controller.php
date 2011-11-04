@@ -158,7 +158,13 @@ class PapersController extends AppController {
 		}
 		// END - last relevant reposter
 
-
+        if(count($posts) == 0 ){
+            if($paper['Paper']['owner_id'] == $this->Auth->User("id")){
+                    $this->Session->setFlash(sprintf(__('This paper does not contain any posts yet. If you want to change that, just use the <i>Help Center</i> at the top of the page or read our %s.', true),"<a href='/faq'>FAQs</a>"), 'default', array('class' => 'success'));
+                }else{
+                    $this->Session->setFlash(__('This paper does not contain any posts yet.', true), 'default', array('class' => 'success'));
+            }
+        }
 
 		//add information if the user (if logged in) has already subscribed the paper
 		$this->Subscription->contain();
