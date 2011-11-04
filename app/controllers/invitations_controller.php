@@ -57,11 +57,11 @@ class InvitationsController extends AppController {
                     $flashMessage .= ' '.sprintf(__n('%d of them is already registered','%d of them are already registered.',$registeredCount,true),$registeredCount);
                 } */
                 $this->Session->setFlash($flashMessage, 'default', array('class' => 'success'));
-                $this->redirect('/');
+                $this->redirect($this->referer());
 
 			} else {
 				$this->Session->setFlash(__('The Invitation could not be saved. Please, try again.', true));
-                $this->redirect('/');
+                $this->redirect($this->referer());
 			}
 		}
 	}
