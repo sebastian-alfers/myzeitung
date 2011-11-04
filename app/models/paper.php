@@ -194,8 +194,7 @@ function __construct(){
        if($data['premium_route'] != NULL && !empty($data['premium_route'])){
            //dryrun of route string generation to check availability
             $routeString = $this->generateRouteString(true);
-           $this->log($routeString);
-           $this->log('/'.$data['premium_route']);
+
             if($routeString != '/'.$data['premium_route']){
                 return false;
             }
@@ -470,7 +469,7 @@ function __construct(){
         //check if such a route does already exist
         $this->Route->contain();
         $existingRoutes = $this->Route->findAllBySource($routeString);
-        $this->log($existingRoutes);
+
         if(count($existingRoutes) >0){
             //the route is already used
             $sameTarget = true;
@@ -584,8 +583,7 @@ function __construct(){
         App::import('model','User');
         $this->User = new User();
 
-        $this->log('updateroute?');
-        $this->log($this->updateRoute);
+
         if($this->updateRoute){
 
             $this->addRoute();
@@ -663,8 +661,7 @@ function __construct(){
 
         if(isset($data['Paper'][ContentPaper::CONTENT_DATA]) && !empty($data['Paper'][ContentPaper::CONTENT_DATA])){
             //validate if hidden field is paper or category
-            $this->log('ASSOCIATE');
-            $this->log($data['Paper']);
+
             //add content for
             $source = $data['Paper'][ContentPaper::CONTENT_DATA];
             //split
@@ -701,7 +698,7 @@ function __construct(){
 
                             if($category['Paper']['id']){
                                 $paper_id = $category['Paper']['id'];
-                                $return_code = $this->newContentForPaper($paper_id, $category_id, $user_id, $topic_id);
+                                $return_code = $this->newContentForPaper($paper_id, $category_id, $user_id, $topic_id, false);
                                 if(in_array($return_code, $this->return_codes_success)){
                                     // todo: save data here
                                     return $return_code;
@@ -780,8 +777,7 @@ function __construct(){
 
 
             $userTopics = $user['Topic'];
-            $this->log('user topics');
-            $this->log($userTopics);
+
             //if user has no topcis (should not be possible...)
             if(count($userTopics) == 0) return $returnCodeSucess;
 
