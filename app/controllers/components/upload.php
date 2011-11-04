@@ -8,12 +8,18 @@
  */
 class UploadComponent extends Object {
 
+
 	var $components = array('Session');
 
 	public function transformFileName($file_name){
+
 		if($file_name == ''){
 			return '';
 		}
+
+
+        $this->Inflector = ClassRegistry::init('Inflector');
+        $file_name = $this->Inflector->slug($file_name, '');
 
 		$file_name = preg_replace('/^\W+|\W+$/', '', $file_name); // remove all non-alphanumeric chars at begin & end of string
 		$file_name = preg_replace('/\s+/', '_', $file_name); // compress internal whitespace and replace with _
