@@ -13,8 +13,11 @@
 			<td style="padding: 0 0 5px 23px; border-bottom: 1px solid #E4E3E3;"><?php echo $this->Html->image($this->Cf->url($this->Image->resize('assets/logo-mail.gif', 103, null), true), array('alt'  => 'myZeitung.de', 'url' => array('controller' => 'home' ,'action' => 'index'))); ?></td>
 		</tr>
 
-
-	            <?php echo $content_for_layout;?>
+            <tr>
+                <td>
+                    <?php echo $content_for_layout;?>
+                </td>
+            </tr>
         <tr>
             <td style="padding: 0 0 0 0; border-top: 1px solid #E4E3E3; text-align: center;">
                 <p>

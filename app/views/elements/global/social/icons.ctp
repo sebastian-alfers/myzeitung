@@ -27,7 +27,7 @@ if(isset($url) && !empty($url)){
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));</script>
 
-    <div class="fb-like" <?php echo $fb_url; ?> data-send="false" data-width="50" data-show-faces="false" layout="button_count"></div>
+    <div class="fb-like" <?php echo $fb_url; ?> data-send="false" data-width="50" data-show-faces="false" layout="button_count" style="z-index: 4000;"></div>
     </li>
     <!-- facebook end -->
 
