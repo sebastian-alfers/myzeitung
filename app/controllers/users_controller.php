@@ -644,6 +644,7 @@ class UsersController extends AppController {
                                             ));
 
             $this->Paper->create();
+            $this->Paper->updateRoute = true;
 			if ($this->Paper->save($data)) {
 
                 //perform recursion

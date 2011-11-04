@@ -31,12 +31,12 @@
 //
 $premiumPapers = Cache::read('premium_papers');
 
-if(empty($premiumPapers)){
+if($premiumPapers === false){
     App::import('Model', 'Route');
     $this->Route = new Route();
     $this->Route->contain();
     $routes = $this->Route->find('all', array('conditions' => array('premium' => true)));
-    if(!empty($route)){
+    if(!empty($routes)){
         foreach($routes as $route){
             $premiumPapers[] = $route['Route']['source'];
         }

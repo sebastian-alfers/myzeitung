@@ -15,7 +15,7 @@ class Paper extends AppModel {
     const RETURN_CODE_ERROR_ASSO_NOT_SAVED = 6;
     const RETURN_CODE_ERROR_NO_PAPER_TO_CATEGORY = 7;
     const RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE = 8;
-    
+
     var $return_codes_success =
                 array(self::RETURN_CODE_SUCCESS,
                       self::RETURN_CODE_SUCCESS_DELETED_TOPICS,
@@ -32,7 +32,7 @@ class Paper extends AppModel {
 
 	var $updateSolr = true;
     var $updateRoute = false;
-	
+
 	private  $_contentReferences = null;
 
 
@@ -121,7 +121,7 @@ class Paper extends AppModel {
 
 function __construct(){
 		parent::__construct();
-			
+
 		$this->validate = array(
 
 			'title' => array(
@@ -154,7 +154,7 @@ function __construct(){
             'premium_route' => array(
 				'minLength_alphaNumeric' => array(
 					'rule'			=> 'premiumRouteFormat',
-					'message'		=> __('The premium route must be at least 3 letters long and must only contain letters and numbers', true),
+					'message'		=> __('The premium route must be at least 3 letters long and must only contain letters and numbers and "-"', true),
 					'last' 			=> true,
 				),
 				'availability' => array(
@@ -184,7 +184,7 @@ function __construct(){
             if(strlen($data['premium_route']) < 3){
                 return false;
             }
-            if(!ctype_alnum($data['premium_route'])){
+            if(!preg_match('/^[A-Za-z0-9-]+$/',$data['premium_route'])){
                 return false;
             }
         }
@@ -213,18 +213,18 @@ function __construct(){
 				$subscriptionData = array(
 							'paper_id' => $this->id,
 						   	'user_id' => $user_id);
-				
+
 				if(($this->Subscription->find('count',array('conditions' => $subscriptionData))) == 0){
-				
+
 					if($this->data['Paper']['owner_id'] != $user_id){
 						//paper is not from subscribing user
 						//creating subscription
 						$this->Subscription->create();
-						
+
 						if($this->Subscription->save($subscriptionData)){
-							
+
 							//subscription was saved
-						
+
 							return true;
 						}	else {
 							// subscription couldn't be saved
@@ -357,9 +357,9 @@ function __construct(){
 				}
 				return $categoryReferences;
 			}
-			
+
 			/**
-			 * 
+			 *
 			 * 1) adding default image to the paper
 			 */
 /*		function afterFind($results){
@@ -564,7 +564,7 @@ function __construct(){
                 $solrEntries[] =  $solrFields;
             }
         }
-       
+
 
         if(count($solrEntries) > 0){
             $this->Solr->add($solrEntries);
@@ -584,7 +584,10 @@ function __construct(){
         App::import('model','User');
         $this->User = new User();
 
+        $this->log('updateroute?');
+        $this->log($this->updateRoute);
         if($this->updateRoute){
+
             $this->addRoute();
         }
 
@@ -660,7 +663,8 @@ function __construct(){
 
         if(isset($data['Paper'][ContentPaper::CONTENT_DATA]) && !empty($data['Paper'][ContentPaper::CONTENT_DATA])){
             //validate if hidden field is paper or category
-
+            $this->log('ASSOCIATE');
+            $this->log($data['Paper']);
             //add content for
             $source = $data['Paper'][ContentPaper::CONTENT_DATA];
             //split
@@ -668,7 +672,7 @@ function __construct(){
             $sourceType = $source[0];
             $sourceId   = $source[1];
             $targetType = $data['Paper']['target_type'];
-            $this->log($data);
+           // $this->log($data);
             if($this->isValidTargetType($targetType) &&
             $this->isValidSourceType($sourceType) &&
             isset($data['Paper']['target_id']))
@@ -715,7 +719,7 @@ function __construct(){
                 }
             }else{
                 //no valid source or target type
-                $this->log('numero uno');
+             //   $this->log('numero uno');
                 return self::RETURN_CODE_ERROR_NO_VALID_TARGET_OR_SOURCE;
 
             }
