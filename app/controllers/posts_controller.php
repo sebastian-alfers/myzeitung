@@ -138,7 +138,7 @@ class PostsController extends AppController {
      * @param $id
      */
     function view($id = null) {
-
+        $this->log($this->httpCodes());
         if (!$id) {
             $this->Session->setFlash(__('Invalid post', true));
             $this->redirect($this->referer());
@@ -147,11 +147,11 @@ class PostsController extends AppController {
         $post = $this->Post->read(null, $id);
         if(!isset($post['Post']['id']) || empty($post['Post']['id'])){
             $this->Session->setFlash(__('Invalid post', true));
-            $this->redirect($this->referer());
+            $this->cakeError('error404');
         }
         if($post['Post']['enabled'] == false){
             $this->Session->setFlash(__('This post has been blocked temporarily due to infringement.', true));
-            $this->redirect($this->referer());
+            $this->redirect(array('action' => 'index'), 307);
         }
 
         $this->Post->contain('Route', 'User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
@@ -206,6 +206,7 @@ class PostsController extends AppController {
 		$this->set('user', $user);
 		$this->set('comments',$comments);
         $this->set('canonical_for_layout', $post['Route'][0]['source']);
+        $this->set('meta_desc_for_layout', substr(strip_tags($post['Post']['content']),0,180));
 
         if(isset($post['Post']['image']) && !empty($post['Post']['image'])){
             if(!is_array($post['Post']['image'])){

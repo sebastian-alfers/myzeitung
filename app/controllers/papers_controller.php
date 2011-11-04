@@ -46,7 +46,7 @@ class PapersController extends AppController {
 			            'contain' => array('Route','User.id', 'User.image', 'User.username', 'User.name'),
                         'conditions' => array('Paper.enabled' => true, 'Paper.visible_index' => true, 'Paper.title <>' => 'myZeitung'),
 		)
-		);
+    );
 
 
 
@@ -85,11 +85,11 @@ class PapersController extends AppController {
         $paper = $this->_getPaperForSidebar($paper_id);
         if(!isset($paper['Paper']['id'])){
             $this->Session->setFlash(__('invalid paper', true));
-			$this->redirect(array('action' => 'index'));
+			$this->cakeError('error404');
         }
         if($paper['Paper']['enabled'] == false){
             $this->Session->setFlash(__('This paper has been blocked temporarily due to infringement.', true));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect(array('action' => 'index'), '307');
         }
         if($category_id == null && isset($this->params['category_id'])){
             $category_id = $this->params['category_id'];

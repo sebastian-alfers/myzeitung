@@ -9,14 +9,6 @@
     function missingAction($params) {
         $this->error404($params);
     }
-
-
     
-
-
-
-
-
-
   }
 

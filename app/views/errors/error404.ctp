@@ -1,4 +1,4 @@
-
+<?php $this->log($this->params);?>
 <div id="main-wrapper">
     <div id="content">
         <div id="maincolwrapper" class="onecol">
