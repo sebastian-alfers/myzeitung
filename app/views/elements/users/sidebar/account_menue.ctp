@@ -2,10 +2,6 @@
 <?php $this->MzJavascript->link('user/account'); ?>
 
 
-<?php
-  debug()
-?>
-?>
 
 <?php echo $this->element('global/upload/modal'); ?>
 
@@ -32,7 +28,7 @@
     <span class="icon icon-profilpic"></span><a><?php __('Profile Picture'); ?></a>
 </li>
 
-    <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accGeneral' || $this->params['action'] == 'accDelete')):?><li id="acc-privacy" class="active" id="acc-general"><?php else:?><li id="acc-privacy" id="acc-general"><?php endif;?>
+    <?php if($this->params['controller'] == 'users' && ($this->params['action'] == 'accGeneral' || $this->params['action'] == 'accDelete')):?><li class="active" id="acc-general"><?php else:?><li id="acc-general"><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-general"></span>'.__('General Settings', true), array('controller' => 'users', 'action' => 'accGeneral'), array('escape' => false,));?></li>
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accPrivacy'):?><li class="active" id="acc-privacy"><?php else:?><li id="acc-privacy"><?php endif;?>
