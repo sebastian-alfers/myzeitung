@@ -53,10 +53,10 @@ task :create_symlinks, :roles => :target do
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/jscache"
 
     # create tmp/cache folders
-    run "mkdir #{current_release}/app/tmp/"
-    run "mkdir #{current_release}/app/tmp/cache/"
-    run "mkdir #{current_release}/app/tmp/cache/persistent/"
-    run "mkdir #{current_release}/app/tmp/cache/models/"
+    run "sudo mkdir #{current_release}/app/tmp/"
+    run "sudo mkdir #{current_release}/app/tmp/cache/"
+    run "sudo mkdir #{current_release}/app/tmp/cache/persistent/"
+    run "sudo mkdir #{current_release}/app/tmp/cache/models/"
     ## set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
 
@@ -72,7 +72,7 @@ end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
 
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/landing/bundestag-myzeitung.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/landing/bundestag-myzeitung.jpg")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/landing/bundestag-myzeitung.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/landing/bundestag-myzeitung.jpg")
 
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/default.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/default.jpg")
 
