@@ -43,8 +43,8 @@ class PapersController extends AppController {
 		//order
 	     		        'order' => 'Paper.title ASC',
 		//contain array: limit the (related) data and models being loaded per paper
-			             'contain' => array('Route','User.id', 'User.image', 'User.username', 'User.name'),
-                          'conditions' => array('Paper.enabled' => true, 'Paper.visible_index' => true),
+			            'contain' => array('Route','User.id', 'User.image', 'User.username', 'User.name'),
+                        'conditions' => array('Paper.enabled' => true, 'Paper.visible_index' => true, 'Paper.title <>' => 'myZeitung'),
 		)
 		);
 
