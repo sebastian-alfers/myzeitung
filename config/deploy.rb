@@ -4,7 +4,7 @@ set :repository,  "set your repository location here"
 #default_run_options[:pty] = true  # Must be set for the password prompt from git to work
 set :repository, "git@github.com:sebastian-alfers/myzeitung.git"
 set :scm, "git"
-set :branch, "master"
+
 
 # the user to connect to the server via ssh
 set :user, "ubuntu"
@@ -29,11 +29,13 @@ ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have th
 
 # set live server
 task :live do
+    set :branch, "master"
     role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-146-70.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
     set :config, 'live'
 end
 # set staging server
 task :staging do
+    set :branch, "staging_1"
     role :target, "ec2-46-137-186-12.eu-west-1.compute.amazonaws.com"
     set :config, 'staging'
 end
