@@ -32,6 +32,20 @@
  * When using custom settings be sure to use the DS and do not add a trailing DS.
  */
 
+/*
+switch($_SERVER['HTTP_HOST']) {
+    case 'static01.myzeitung.de':
+        $extra = '';
+        if(isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])){
+            $extra = $_SERVER['REQUEST_URI'];
+        }
+        header ('HTTP/1.1 301 Moved Permanently');
+        header ('Location: http://www.myzeitung.de'.$extra);
+        break;
+}
+*/
+
+
 /**
  * The full path to the directory which holds "app", WITHOUT a trailing DS.
  *

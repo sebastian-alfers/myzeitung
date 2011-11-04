@@ -35,7 +35,7 @@ $(document).ready(function() {
         <div class="accept">
 
 
-            <p><?php  echo $this->Form->input('use_twitter', array('type' => 'checkbox', 'class' => 'toggle_twitter textinput','label' => false)); ?><strong><?php echo __('Twitter', true);?></strong></p>
+            <p><?php  echo $this->Form->input('use_twitter', array('type' => 'checkbox', 'class' => 'toggle_twitter textinput','label' => false)); ?><strong id="container-twitter"><?php echo __('Twitter', true);?></strong></p>
             <?php if($this->data['User']['use_twitter'] && isset($this->data['User']['twitter_account_data'])): ?>
                 <div class="social-account twitter">
                     <div class="img">
@@ -61,7 +61,7 @@ $(document).ready(function() {
 
             <div class="clear"></div>
 
-            <p><?php  echo $this->Form->input('use_fb', array('type' => 'checkbox', 'class' => 'toggle_fb textinput','label' => false)); ?><strong><?php echo __('Facebook', true);?></strong></p>
+            <p><?php  echo $this->Form->input('use_fb', array('type' => 'checkbox', 'class' => 'toggle_fb textinput','label' => false)); ?><strong id="container-facebook"><?php echo __('Facebook', true);?></strong></p>
             <?php if($this->data['User']['use_fb'] && isset($this->data['User']['fb_account_data'])): ?>
             <div class="social-account fb">
                 <div class="img">

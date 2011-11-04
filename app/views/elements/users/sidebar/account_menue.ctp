@@ -12,7 +12,7 @@
     <?php echo $this->Html->link('<span class="icon icon-messages"></span>'.__('Messages', true), array('controller' => 'conversations', 'action' => 'index'), array('escape' => false,));?></li>
 
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accInvitations'):?><li class="active"><?php else:?><li><?php endif;?>
-    <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Invitations', true), array('controller' => 'users', 'action' => 'accInvitations'), array('escape' => false,));?></li>
+    <?php echo $this->Html->link('<span class="icon icon-invitations"></span>'.__('Invitations', true), array('controller' => 'users', 'action' => 'accInvitations'), array('escape' => false, 'id' => 'link-invitations'));?></li>
 
 
 </fieldset>
@@ -33,11 +33,11 @@
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accPrivacy'):?><li class="active" id="acc-privacy"><?php else:?><li id="acc-privacy"><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-privacy"></span>'.__('Privacy', true), array('controller' => 'users', 'action' => 'accPrivacy'), array('escape' => false,));?></li>
 
-    <?php /*
+
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accSocial'):?><li class="active" id="acc-social"><?php else:?><li id="acc-social"><?php endif;?>
-    <?php echo $this->Html->link('<span class="icon icon-social-media"></span>'.__('Social Media', true), array('controller' => 'users', 'action' => 'accSocial'), array('escape' => false,));?></li>
-           */
-     ?>
+    <?php echo $this->Html->link('<span class="icon icon-social-media"></span>'.__('Social Media', true), array('controller' => 'users', 'action' => 'accSocial'), array('escape' => false, 'id' => 'link-social-media'));?></li>
+
+
 </fieldset>
   <fieldset>
 <legend><?php echo __('Change Language', true);?></legend>

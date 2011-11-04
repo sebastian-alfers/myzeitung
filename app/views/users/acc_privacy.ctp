@@ -17,8 +17,8 @@ $(document).ready(function() {
 				<?php echo $this->Form->hidden('id' , array('value' => $user['User']['id']));?>
 				<div class="accept">
                     <h4><?php echo __('General', true);?></h4>
-					<p><?php  echo $this->Form->input('allow_comments', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong><?php echo __('Allow comments on my Articles', true);?></strong></p>
-					<p><?php  echo $this->Form->input('allow_messages', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong><?php echo __('Allow people to send me messages', true);?></strong></p>
+					<p><?php  echo $this->Form->input('allow_comments', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong  id="container-comments"><?php echo __('Allow comments on my Articles', true);?></strong></p>
+					<p><?php  echo $this->Form->input('allow_messages', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong  id="container-msgs"><?php echo __('Allow people to send me messages', true);?></strong></p>
                     <h4><?php echo __('I want to receive emails when', true);?></h4>
                     <?php /*
                     <p><?php   echo $this->Form->input('email_invitee_registered', array('type' => 'checkbox', 'class' => 'textinput','label' => false)); ?><strong><?php echo __('email invitee registered ', true);?></strong></p> */?>
