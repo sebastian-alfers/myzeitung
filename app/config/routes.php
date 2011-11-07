@@ -149,6 +149,10 @@ if(in_array($prefix,array('/p/','/a/')) || $isPremiumPaper){
  * ---------------------------
  */
 
+
+Router::connect('/sitemap', array('controller' => 'sitemaps', 'action' => 'index'));
+Router::connect('/sitemap/:action/*', array('controller' => 'sitemaps')); 
+
 Router::connect('/', array('controller' => 'home', 'action' => 'index'));
 
 /**
@@ -224,4 +228,4 @@ Router::connect('/c/beispiel-bundestag/*', array('controller' => 'landing', 'act
 
 
 
-Router::parseExtensions('json','rss');
+Router::parseExtensions('json','rss','xml');

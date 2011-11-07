@@ -327,17 +327,18 @@ class AppController extends Controller {
             'remindInvitee' => $this->user,
 
             ),
-         'helppages' => array(
-             'admin_index' => $this->admin,
-             'admin_add' => $this->superadmin,
-             'admin_edit' => $this->superadmin,
-             'admin_delete' => $this->superadmin,
+        'helppages' => array(
+                 'admin_index' => $this->admin,
+                 'admin_add' => $this->superadmin,
+                 'admin_edit' => $this->superadmin,
+                 'admin_delete' => $this->superadmin,
          ),
-         'helpelements' => array(
-             'admin_add' => $this->superadmin,
-             'admin_edit' => $this->admin,
-             'admin_delete' => $this->superadmin,
+        'helpelements' => array(
+                 'admin_add' => $this->superadmin,
+                 'admin_edit' => $this->admin,
+                 'admin_delete' => $this->superadmin,
          ),
+
          'rss' => array(
              'robotlanding' => $this->robot,
              'feedCrawl' => $this->robot,
@@ -351,8 +352,15 @@ class AppController extends Controller {
           'rssimportlogs' => array(
                 'admin_index' => $this->admin,
               'admin_view' => $this->admin,
-            )
-        );
+            ),
+        'sitemaps' => array(
+                 'index' => $this->user,
+                 'admin_edit' => $this->admin,
+                 'admin_delete' => $this->superadmin,
+        ),
+    );
+
+
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
 			if(isset($allowedActions[low($this->name)])) {
 			$controllerActions = $allowedActions[low($this->name)];
