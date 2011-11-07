@@ -269,9 +269,21 @@ class PostsController extends AppController {
             $this->Post->updateSolr = true;
 
 			if ($this->Post->save($this->data)) {
-                $post_url = 'http://myzeitung.de/posts/view/' . $this->Post->id;
-                $social_msg = __('Checkout my latest article as myZeitung: ', true);
-                $social_msg .= $post_url;
+
+                $this->Post->contain('Route');
+                $new_post = $this->Post->read(array('title', 'created'), $this->Post->id);
+
+
+                if(isset($new_post['Route']['0']['source']) && !empty($new_post['Route']['0']['source'])){
+                    App::import('Helper', 'Html');
+                    $html = new HtmlHelper();
+                    $post_url = $html->url($new_post['Route']['0']['source'], true);
+                }
+                else{
+                    $post_url = 'http://www.myzeitung.de';
+                }
+                $social_msg = $new_post['Post']['title'];
+                $social_msg .= ' - ' . $post_url;
 
                 if($this->Tweet->useTwitter()){
                     $this->Tweet->newPost($social_msg);
@@ -288,22 +300,19 @@ class PostsController extends AppController {
 
                 // Login or logout url will be needed depending on current user state.
                 if ($user) {
-                    $request['message'] = $social_msg;
-                    $request['name'] = $this->data['Post']['title'];
+                    $request['message'] = '';
+                    $request['name'] = $new_post['Post']['title'];
                     $request['link'] = $post_url;
                     //$request['description'] = "Test FB api";
                     try{
                       $response = $facebook->api('/me/feed',"POST",$request);
-
-
                   } catch (FacebookApiException $e) {
                       $this->log($e);
                   }
 
                 }
 
-                $this->Post->contain();
-                $created_date = $this->Post->read('created', $this->Post->id);
+
 
 				//copy images after post has been saved to add new post-id to img path
 				if($this->Upload->hasImagesInHashFolder($this->data['Post']['hash'])){
@@ -322,7 +331,7 @@ class PostsController extends AppController {
 
 
                         if($images != ''){
-                            $tranf_images = $this->_transformImages($images, $this->Post->id, $created_date['Post']['created']);
+                            $tranf_images = $this->_transformImages($images, $this->Post->id, $new_post['Post']['created']);
 
                             //extract video data if available
                             foreach($tranf_images as &$item){
