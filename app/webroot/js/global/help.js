@@ -33,25 +33,17 @@ $(document).ready(function() {
 
 
         if($(this).hasClass('next')){
-            console.log('next');
+            current_element++;
             if(current_element > length-1){
                 current_element = 0;
             }
-            else{
-                current_element++;
-            }
         }
         else if($(this).hasClass('prev')){
-            console.log('prev');
+            current_element--;
             if(current_element <= 0){
                 current_element = length-1;
             }
-            else{
-                current_element--;
-            }
         }
-
-        console.log('current: ' + current_element);
 
         scrollTo(helper_elements[current_element]);
         $(helper_elements[last_element]).tipsy("hide");
