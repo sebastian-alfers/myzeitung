@@ -1610,7 +1610,7 @@ a.btn.big {
 
 .icon-arrow-left-black{
 	width:30px !important;
-    background: url(/img/assets/maintile.png) -127px -317px no-repeat;
+    background: url(/img/assets/maintile.png) -128px -317px no-repeat;
 	cursor: pointer;
 }
 
@@ -3618,8 +3618,9 @@ form.onecol div.textarea{
     margin: 0 auto;
     width: 1038px;
     height:50px;
-    background: #EBEBEB;
+    background: silver;
     color: #000;
+    min-height:70px;
 }
 
 #help h2{

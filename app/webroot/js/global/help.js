@@ -14,14 +14,14 @@ $(document).ready(function() {
         }
     });
 
-    var current_element = 0;
+    var current_element = -1;//will be increased to first element on init
     var length = helper_elements.length;
     var last_element = length-1;
 
     for (var i = 0; i < length; i++) {
         $(helper_elements[i]).tipsy({gravity: 'w', fade: true,opacity: 1, html: true, trigger: 'manual', title: 'help-text'});
 
-        $(helper_elements[i]).attr('help-text', helper_values[i] + '<br /><hr /><ul class="help-nav"><li><a class="helpnav prev"><span class="icon icon-arrow-left-white"></span></a></li><li><a class="helpnav next"><span class="icon icon-arrow-right-white"></span></a></li><li class="last"><span class="help-link icon icon-close-help-white"></span></li><li class="last close-text">Close Help Center</li></ul><br /><br />');
+        $(helper_elements[i]).attr('help-text', helper_values[i] + '<br /><hr /><ul class="help-nav"><li><a class="helpnav prev"><span class="icon icon-arrow-left-white"></span></a></li><li><a class="helpnav next"><span class="icon icon-arrow-right-white"></span></a></li><li class="helpcenter-status"></li><li class="last"><span class="help-link icon icon-close-help-white"></span></li><li class="last close-text">Close Help Center</li></ul><br /><br />');
     }
 
     $('.icon-close-help-white').live('hover', function(){
@@ -29,20 +29,41 @@ $(document).ready(function() {
     });
     
     $('.helpnav').live('click', function(e){
-        e.preventDefault();
-        if(current_element > length-1){
-            current_element = 0;
+
+
+
+        if($(this).hasClass('next')){
+            console.log('next');
+            if(current_element > length-1){
+                current_element = 0;
+            }
+            else{
+                current_element++;
+            }
         }
+        else if($(this).hasClass('prev')){
+            console.log('prev');
+            if(current_element <= 0){
+                current_element = length-1;
+            }
+            else{
+                current_element--;
+            }
+        }
+
+        console.log('current: ' + current_element);
+
         scrollTo(helper_elements[current_element]);
         $(helper_elements[last_element]).tipsy("hide");
         $(helper_elements[current_element]).tipsy("show");
         last_element = current_element;
 
-        current_element++;
+        $('.helpcenter-status').html((current_element+1) + ' / ' + (length));
 
     });    
     
     $(".help-link").live('click', function (e) {
+
 
         $(".start-help").slideToggle("slow");
         e.preventDefault();
@@ -54,7 +75,16 @@ $(document).ready(function() {
 
         $('#main-wrapper').animate({
             marginTop: margin
-        }, 'slow');
+        }, 'slow', function(){
+
+                    if(margin != '0px'){
+                        //callback to start helpcenter
+                        $('.icon-arrow-right-black').trigger('click');
+                    }
+
+
+                }
+        );
         
         //ie fix
         if($('html').hasClass('ie')){
@@ -68,6 +98,8 @@ $(document).ready(function() {
         for (var i = 0; i < length; i++) {
             $(helper_elements[i]).tipsy("hide");
         }
+
+
 
     });
     
