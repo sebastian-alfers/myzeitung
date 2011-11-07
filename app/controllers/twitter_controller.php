@@ -7,6 +7,8 @@ class TwitterController extends AppController {
     var $components = array('Tweet', 'Settings');
 
     function toggle(){
+
+
         if($this->Tweet->useTwitter()){
             $this->Settings->removeTwitter();
             $this->Session->setFlash(__('Your twitter profile has been removed. You can always activate it. We do not store any of your twitter data.', true), 'default', array('class' => 'success'));
