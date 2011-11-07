@@ -1341,6 +1341,9 @@ class UsersController extends AppController {
         $this->set('recipient', $user);
         //send mail
         $this->_sendMail($user['User']['email'], __('Welcome to myZeitung', true),'welcome');
+        $this->_sendMail('tim.wiegard@myzeitung.de', 'Neuer Benutzer registriert - '.$user['User']['username'],'welcome');
+        $this->_sendMail('otto.schulz@myzeitung.de', 'Neuer Benutzer registriert - '.$user['User']['username'],'welcome');
+        $this->_sendMail('sebastian.alfers@myzeitung.de', 'Neuer Benutzer registriert - '.$user['User']['username'],'welcome');
     }
     protected function _sendPasswordEmail($user_id, $password) {
         $this->User->contain();
