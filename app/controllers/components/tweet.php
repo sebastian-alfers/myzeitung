@@ -86,6 +86,8 @@ class TweetComponent extends Object {
 
         if(!$this->isTemporaryTokenAvailable()){
 
+
+
             $this->_connection = new TwitterOAuth(TW_CONSUMER_KEY, TW_CONSUMER_SECRET);
 
             $callback_url = Router::url('/', true);
@@ -99,6 +101,7 @@ class TweetComponent extends Object {
                         /* Build authorize URL and redirect user to Twitter. */
                         $url = $this->_connection->getAuthorizeURL($this->_request_token);
                         header('Location: ' . $url);
+                        die();//important to use within debug=0 mode
                         break;
 
                     default:
@@ -204,10 +207,11 @@ class TweetComponent extends Object {
     }
 
     public function isTokenAvailable(){
-
 	    if($this->Session->check('Auth.Setting.user.twitter.oauth_token')){
+
             $token = $this->Session->read('Auth.Setting.user.twitter.oauth_token.value');
-            return !empty($token);
+
+            return !(boolean)empty($token);
 	    }
     
         return false;

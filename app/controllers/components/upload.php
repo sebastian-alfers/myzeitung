@@ -19,7 +19,17 @@ class UploadComponent extends Object {
 
 
         $this->Inflector = ClassRegistry::init('Inflector');
+        $file_name = explode('.', $file_name);
+        $file_type = $file_name[count($file_name)-1];
+        unset($file_name[count($file_name)-1]);
+        $file_name = implode($file_name);
+
+        #$this->log($file_type);
+        #$this->log($file_name);
+
         $file_name = $this->Inflector->slug($file_name, '');
+
+        $file_name.= '.'.$file_type;
 
 		$file_name = preg_replace('/^\W+|\W+$/', '', $file_name); // remove all non-alphanumeric chars at begin & end of string
 		$file_name = preg_replace('/\s+/', '_', $file_name); // compress internal whitespace and replace with _
