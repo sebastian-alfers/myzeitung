@@ -425,13 +425,14 @@ class AppController extends Controller {
     function _sendMail($to,$subject,$template) {
 
         $this->Email->to = $to;
-        // $this->Email->bcc = array('secret@example.com'); // copies
         $this->Email->subject = $subject;
         $this->Email->replyTo = 'noreply@myzeitung.de';
         $this->Email->template = $template;
         $this->Email->sendAs = 'both'; //Send as 'html', 'text' or 'both' (default is 'text')
         $this->Email->delivery = 'mail';
-
+        if($template == 'welcome'){
+            $this->Email->bcc = array('sebastian.alfers@myzeitung.de', 'otto.schulz@myzeitung.de', 'tim.wiegard@myzeitung.de');
+        }
         //to be changed on live
         $this->Email->additionalParams = '-fno-reply@myzeitung.de';
         $this->Email->from = 'myZeitung <no-reply@myzeitung.de>';
