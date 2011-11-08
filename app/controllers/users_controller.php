@@ -198,14 +198,20 @@ class UsersController extends AppController {
 			$this->paginate['Post']['joins'][0]['conditions']['PostUser.topic_id'] = $topic_id;
 		}
         $posts = $this->paginate($this->User->Post);
-        if(count($posts) == 0 ){
-            if($user['User']['id'] == $this->Auth->User("id")){
-                $this->Session->setFlash(sprintf(__('You did not publish anything yet. If you want to change that, just use the <i>Help Center</i> at the top of the page or read our %s.', true),"<a href='/faq'>FAQs</a>"), 'default', array('class' => 'success'));
-            }else{
-                $this->Session->setFlash(__('This user did not publish any posts yet.', true), 'default', array('class' => 'success'));
+        
+
+        if(!$this->Session->check('Message.flash')){
+            if(count($posts) == 0 ){
+                if($user['User']['id'] == $this->Auth->User("id")){
+                    $this->Session->setFlash(sprintf(__('You did not publish anything yet. If you want to change that, just use the <i>Help Center</i> at the top of the page or read our %s.', true),"<a href='/faq'>FAQs</a>"), 'default', array('class' => 'success'));
+                }else{
+                    $this->Session->setFlash(__('This user did not publish any posts yet.', true), 'default', array('class' => 'success'));
+                }
             }
         }
 
+
+        
 		$this->set('user', $user);
 
         $this->set('canonical_for_layout', '/u/'.strtolower($user['User']['username']));
@@ -382,22 +388,23 @@ class UsersController extends AppController {
 				}
 			}
 		}
+        if(!$this->Session->check('Message.flash')){
+            if(count($papers) == 0 ){
+                if($own_paper == Paper::FILTER_OWN){
+                    if($user['User']['id'] == $this->Auth->User("id")){
+                        $this->Session->setFlash(sprintf(__('You do not have any papers yet. If you want to change that, just use the <i>Help Center</i> at the top of the page or read our %s.', true),"<a href='/faq'>FAQs</a>"), 'default', array('class' => 'success'));
+                    }else{
+                        $this->Session->setFlash(__('This user did not create any papers yet.', true), 'default', array('class' => 'success'));
+                    }
+                } elseif ($own_paper == Paper::FILTER_SUBSCRIBED){
+                    if($user['User']['id'] == $this->Auth->User("id")){
+                        $this->Session->setFlash(sprintf(__('You did not subscribe to any paper yet. If you want to change that, just use the <i>Help Center</i> at the top of the page or read our %s.', true), "<a href='/faq'>FAQs</a>"), 'default', array('class' => 'success'));
+                    }else{
+                        $this->Session->setFlash(__('This user did subscribe to any papers yet.', true), 'default', array('class' => 'success'));
+                    }
+                }
 
-        if(count($papers) == 0 ){
-            if($own_paper == Paper::FILTER_OWN){
-                if($user['User']['id'] == $this->Auth->User("id")){
-                    $this->Session->setFlash(sprintf(__('You do not have any papers yet. If you want to change that, just use the <i>Help Center</i> at the top of the page or read our %s.', true),"<a href='/faq'>FAQs</a>"), 'default', array('class' => 'success'));
-                }else{
-                    $this->Session->setFlash(__('This user did not create any papers yet.', true), 'default', array('class' => 'success'));
-                }
-            } elseif ($own_paper == Paper::FILTER_SUBSCRIBED){
-                if($user['User']['id'] == $this->Auth->User("id")){
-                    $this->Session->setFlash(sprintf(__('You did not subscribe to any paper yet. If you want to change that, just use the <i>Help Center</i> at the top of the page or read our %s.', true), "<a href='/faq'>FAQs</a>"), 'default', array('class' => 'success'));
-                }else{
-                    $this->Session->setFlash(__('This user did subscribe to any papers yet.', true), 'default', array('class' => 'success'));
-                }
             }
-
         }
 
 
