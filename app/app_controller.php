@@ -430,9 +430,9 @@ class AppController extends Controller {
         $this->Email->template = $template;
         $this->Email->sendAs = 'both'; //Send as 'html', 'text' or 'both' (default is 'text')
         $this->Email->delivery = 'mail';
-        if($template == 'welcome'){
+       /* if($template == 'welcome'){
             $this->Email->bcc = array('sebastian.alfers@myzeitung.de', 'otto.schulz@myzeitung.de', 'tim.wiegard@myzeitung.de');
-        }
+        } */
         //to be changed on live
         $this->Email->additionalParams = '-fno-reply@myzeitung.de';
         $this->Email->from = 'myZeitung <no-reply@myzeitung.de>';
