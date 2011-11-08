@@ -49,7 +49,7 @@ class SitemapsController extends AppController{
     /* 
      * Action for send sitemaps to search engines
      */
-    function send_sitemap() {
+    function admin_send_sitemap() {
         // This action must be only for admins
     }
     
@@ -72,10 +72,10 @@ class SitemapsController extends AppController{
      * Here must be all our public controllers and actions
      */
     function __get_data() {
-   /*     ClassRegistry::init('Post')->recursive = false;
+       ClassRegistry::init('Post')->recursive = false;
         $this->__add_dynamic_section(
                              'Post', 
-                             ClassRegistry::init('Post')->find('all', array('fields' => array('modified', 'title'), 'contain' =>('Route.source'))),
+                             ClassRegistry::init('Post')->find('all', array('fields' => array('modified', 'title'), 'contain' => array('Route.source'))),
                              array(
                                     'controllertitle' => 'Posts',
                                    'fields' => array('id' => 'id',
@@ -86,12 +86,12 @@ class SitemapsController extends AppController{
                                     'url' => '/articles'
                                    )
                              );
-        */
- /*
-        ClassRegistry::init('Paper')->recursive = false;
+
+
+    ClassRegistry::init('Paper')->recursive = false;
         $this->__add_dynamic_section(
                              'Paper',
-                             ClassRegistry::init('Paper')->find('all', array('fields' => array('modified', 'title'), 'contain' =>('Route.source'))),
+                             ClassRegistry::init('Paper')->find('all', array('fields' => array('modified', 'title'), 'contain' => array('Route.source'))),
                              array(
                                     'controllertitle' => 'Papers',
                                    'fields' => array('id' => 'id',
@@ -99,47 +99,64 @@ class SitemapsController extends AppController{
                                                       'title' => 'title'),
                                     'changefreq' => 'hourly',
                                     'pr' => '0.8',
-                                    'url' => '/papers'
+                                    'url' => '/papers' 
                                    )
                              );
- */
 
+
+     ClassRegistry::init('User')->recursive = false;
         $this->__add_dynamic_section(
-                     'Users',
-                     ClassRegistry::init('User')->find('all', array('fields' => array('modified', 'username'))),
-                     array(
-                            'controllertitle' => 'Users',
-                           'fields' => array('id' => 'id',
-                                              'date' => 'modified',
-                                              'title' => 'username'),
-                            'changefreq' => 'hourly',
-                            'pr' => '0.8',
-                            'url' => '/authors'
-                           )
-                     );
+             'User',
+             ClassRegistry::init('User')->find('all', array('fields' => array('modified', 'username'), 'contain' => array())),
+             array(
+                    'controllertitle' => 'Users',
+                   'fields' => array('id' => 'id',
+                                      'date' => 'modified',
+                                      'title' => 'username'),
+                    'changefreq' => 'hourly',
+                    'pr' => '0.8',
+                    'url' => '/authors'
+                   )
+        );
 
 
-        /*
         $this->__add_static_section(
-                             'Contact Form', 
-                             array('controller' => 'contact', 'action' => 'index'), 
-                             array(
-                                    'changefreq' => 'yearly',
-                                    'pr' => '0.4'
-                                   )
-                             );        
-        ClassRegistry::init('Gallery')->recursive = false;
-        $this->__add_dynamic_section(
-                             'Gallery', 
-                             ClassRegistry::init('Gallery')->find('all', array('fields' => array('id', 'name'))), 
-                             array(
-                                    'controllertitle' => 'My supersite gallery',
-                                    'fields' => array('title' => 'name', 'date' => false),
-                                    'pr' => '0.7', 
-                                    'changefreq' => 'weekly',
-                                    'url' => array('controller' => 'gallery', 'action'=>'show')
-                                   )
-                             );*/
+             'Register Form',
+             array('controller' => 'users', 'action' => 'add'),
+             array(
+                    'changefreq' => 'monthly',
+                    'pr' => '0.4'
+                   )
+        );
+        $this->__add_static_section(
+             'login',
+             array('controller' => 'users', 'action' => 'login'),
+             array(
+                    'changefreq' => 'monthly',
+                    'pr' => '0.4'
+                   )
+        );
+        $this->__add_static_section(
+             'forgot password',
+             array('controller' => 'users', 'action' => 'forgotPassword'),
+             array(
+                    'changefreq' => 'monthly',
+                    'pr' => '0.4'
+                   )
+        );
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
     
     /* 
@@ -178,15 +195,21 @@ class SitemapsController extends AppController{
                                     'controllertitle' => 'not set',
                                     'pr' => '0.5', // Valid values range from 0.0 to 1.0
                                     'changefreq' => 'monthly',  // Possible values: always, hourly, daily, weekly, monthly, yearly, never
-                                  /*  'url' => array(
+                                    'url' => array(
                                                    'controller' => false, 
                                                    'action' => false, 
                                                    'index' => 'index'
-                                                   ) */
+                                                   ) 
                                 );
+        
         $options = array_merge($defaultoptions, $options);
         $options['fields'] = array_merge($defaultoptions['fields'], $options['fields']);
-       // $options['url'] = /*array_merge(*/$defaultoptions['url'] /*, $options['url']) */;
+        if(empty($options['url'])){
+            $options['url'] = Router::url($defaultoptions['url'], true);
+        }else{
+             $options['url'] = Router::url($options['url'], true);
+        }
+       //  $options['url'] = array_merge($defaultoptions['url'], $options['url']);
         if($options['fields']['date'] == false) {
             $options['fields']['date'] = time();
         }        

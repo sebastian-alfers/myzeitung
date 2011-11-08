@@ -1,7 +1,7 @@
 
 <?php 
 $this->pageTitle = 'Send SiteMap';
-$javascript->link('jquery-1.3.2.min.js', false);
+/* $javascript->link('jquery-1.3.2.min.js', false); */
 ?>
 <h1>
     Send SiteMap

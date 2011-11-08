@@ -150,8 +150,8 @@ if(in_array($prefix,array('/p/','/a/')) || $isPremiumPaper){
  */
 
 
-Router::connect('/sitemap', array('controller' => 'sitemaps', 'action' => 'index'));
-Router::connect('/sitemap/:action/*', array('controller' => 'sitemaps')); 
+Router::connect('/sitemap', array('controller' => 'sitemaps', 'action' => 'index', 'url' => array('ext' => 'xml')));
+//Router::connect('/sitemap/:action/*', array('controller' => 'sitemaps'));
 
 Router::connect('/', array('controller' => 'home', 'action' => 'index'));
 
@@ -182,6 +182,13 @@ Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
  */
 
 Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+
+/**
+ * forgot password
+ */
+
+Router::connect('/forogt_password', array('controller' => 'users', 'action' => 'forgotPassword'));
+
 
 /**
  * user account settings
