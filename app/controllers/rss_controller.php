@@ -1,6 +1,6 @@
 <?php
 
-require "libs/Simplepie/simplepie.inc";
+#require "libs/Simplepie/simplepie.inc";
 
 class RssController extends AppController {
 
@@ -17,7 +17,7 @@ class RssController extends AppController {
 
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow('import');
+		$this->Auth->allow('import', 'test', 'robot_landing');
 	}
 
     function import(){
@@ -52,6 +52,29 @@ class RssController extends AppController {
     } else {
       return false;
     }
+    }
+
+    function test(){
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'robot_landing'),
+            array('user_id' => $this->User->id )
+        );
+
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'robot_landing'),
+            array('user_id' => $this->User->id )
+        );
+
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'robot_landing'),
+            array('user_id' => $this->User->id )
+        );
+    }
+
+    function robot_landing(){
+
+        $this->log('robot_landing');
+
     }
 
 }

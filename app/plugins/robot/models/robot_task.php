@@ -29,9 +29,9 @@ class RobotTask extends AppModel {
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 
-     /*   App::import('model', 'Robot.RobotTaskAction');
+        App::import('model', 'Robot.RobotTaskAction');
 
-        $this->RobotTaskAction = new RobotTaskAction(); */
+        $this->RobotTaskAction = new RobotTaskAction();
         
         $compress = Configure::read('Robot.compress');
         if (is_null($compress)) {
@@ -151,8 +151,6 @@ class RobotTask extends AppModel {
 				unset($fields['limit']);
 			}
 
-            $this->log('was ist alias ');
-            $this->log($this->alias);
 
 			$type = $conditions;
 			$options = Set::merge(array(
@@ -174,9 +172,9 @@ class RobotTask extends AppModel {
 			), (array) $fields);
 
 			$this->begin();
-            $this->log($options);
+
 			$tasks = parent::find('all', $options);
-            $this->log($tasks);
+
 			if ($tasks === false) {
 				$this->rollback();
 			} else {
