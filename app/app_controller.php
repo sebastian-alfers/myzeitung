@@ -131,12 +131,14 @@ class AppController extends Controller {
 				$this->setConversationCount();
 		}
 
-        //change layout if admin
-		$pos = strpos($_SERVER['REQUEST_URI'], CAKE_ADMIN);
-		if($pos == true)
-		{
-		    $this->layout='admin';
-		}
+        if(isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])){
+            //change layout if admin
+            $pos = strpos($_SERVER['REQUEST_URI'], CAKE_ADMIN);
+            if($pos == true)
+            {
+                $this->layout='admin';
+            }
+        }
 
 
 	}
@@ -335,6 +337,7 @@ class AppController extends Controller {
          'rss' => array(
              'robotlanding' => $this->robot,
              'test' => $this->superadmin,
+             'scheduleAllFeedsForCrawling' => $this->admin,
          )
         );
 

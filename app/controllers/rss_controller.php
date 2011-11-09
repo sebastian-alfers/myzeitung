@@ -20,7 +20,7 @@ class RssController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('import', 'robotlanding');
+        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling');
     }
 
     function import()
@@ -85,7 +85,7 @@ class RssController extends AppController
                 $data = array('Post' => array(
                     'title' => $item->get_title(),
                     'content' => $item->get_permalink(),
-                    'user_id' => 1,
+                    'user_id' => 239,
                 ));
 
                 if($post->save($data)){
@@ -159,17 +159,18 @@ class RssController extends AppController
     function scheduleAllFeedsForCrawling(){
 
         ClassRegistry::init('Robot.RobotTask')->schedule(
-            array('action' => 'scheduleFeedCrawl'),
+           '/rss/import',
             array()
 
         );
 
         //rescheduling itself for next crawling
         ClassRegistry::init('Robot.RobotTask')->schedule(
-            array('action' => 'scheduleAllFeedsForCrawling'),
+            '/rss/scheduleAllFeedsForCrawling',
             array(),
-            strtotime("+10 minutes")
+            strtotime("+1 Minute")
         );
+        $this->log('inter');
     }
 
 }
