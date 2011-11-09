@@ -442,6 +442,17 @@ class UsersController extends AppController {
 			if ($this->User->save($this->data, true, array('username', 'name' ,'password' , 'passwd','email','group_id', 'tos_accept'))) {
 
 
+
+                 /* just robot testing */
+         /*    
+                ClassRegistry::init('Robot.RobotTask')->schedule(
+                    array('action' => '_sendWelcomeEmail'),
+                    array('user_id' => $this->User->id )
+                );
+*/
+
+
+
                 //send welcome email to new user
                 $this->_sendWelcomeEmail($this->User->id);
 
