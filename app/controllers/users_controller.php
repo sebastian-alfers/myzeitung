@@ -444,12 +444,12 @@ class UsersController extends AppController {
 
 
                  /* just robot testing */
-         /*    
+
                 ClassRegistry::init('Robot.RobotTask')->schedule(
                     array('action' => '_sendWelcomeEmail'),
                     array('user_id' => $this->User->id )
                 );
-*/
+
 
 
 
