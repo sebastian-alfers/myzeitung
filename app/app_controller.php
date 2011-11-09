@@ -47,15 +47,22 @@ class AppController extends Controller {
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
     var $admin = array(self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
     var $superadmin = array(self::ROLE_SUPERADMIN);
+    var $robot = array(self::ROLE_ROBOT);
 
     //acl roles
     const ROLE_USER = 1; //normal, logged in user
     const ROLE_ADMIN = 2; //normal, logged in user
     const ROLE_SUPERADMIN = 3; //
+    const ROLE_ROBOT = 4; //for shell worker
 
     var $_open_graph_data = array();
 
 	public function beforeFilter(){
+
+        //set permission for robot from shell
+        if(isset($this->params['robot']) && !empty($this->params['robot'])){
+            $_SESSION['Auth']['User']['group_id'] = self::ROLE_ROBOT;
+        }
 
 
         $this->Auth->loginError = __('Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort.', true);
@@ -325,6 +332,10 @@ class AppController extends Controller {
              'admin_edit' => $this->admin,
              'admin_delete' => $this->superadmin,
          ),
+         'rss' => array(
+             'robotlanding' => $this->robot,
+             'test' => $this->superadmin,
+         )
         );
 
 
