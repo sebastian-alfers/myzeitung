@@ -77,4 +77,24 @@ class RssController extends AppController {
 
     }
 
+
+    /*
+
+    */
+    function scheduleAllFeedsForCrawling(){
+
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'scheduleFeedCrawl'),
+            array()
+
+        );
+
+        //rescheduling itself for next crawling
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'scheduleAllFeedsForCrawling'),
+            array(),
+            strtotime("+10 minutes")
+        );
+    }
+
 }
