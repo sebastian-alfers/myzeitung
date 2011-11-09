@@ -1353,6 +1353,8 @@ class UsersController extends AppController {
 
     protected function _sendWelcomeEmail($user_id){
         $this->User->contain();
+
+
         $user = $this->User->read(null, $user_id);
 
         //setting params for template

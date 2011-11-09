@@ -7,7 +7,7 @@ class RobotTask extends AppModel {
 	 * @var array
 	 */
 	public $belongsTo = array(
-		'Robot.RobotTaskAction' => array(
+		'RobotTaskAction' => array(
 			'type' => 'INNER'
 		)
 	);

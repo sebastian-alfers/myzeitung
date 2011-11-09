@@ -8,7 +8,7 @@ class RobotTaskAction extends AppModel {
 	 *
 	 * @var array
 	 */
-	public $hasMany = array('Robot.RobotTask');
+	public $hasMany = array('RobotTask');
 
 	/**
 	 * Get the TaskAction, creating it if it doesn't exist
