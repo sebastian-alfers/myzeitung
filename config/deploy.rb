@@ -35,7 +35,7 @@ task :live do
 end
 # set staging server
 task :staging do
-    set :branch, "staging_1"
+    set :branch, "staging_3"
     role :target, "ec2-46-137-186-12.eu-west-1.compute.amazonaws.com"
     set :config, 'staging'
 end
