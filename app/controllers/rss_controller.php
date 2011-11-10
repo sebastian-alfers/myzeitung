@@ -64,25 +64,32 @@ class RssController extends AppController
     */
     function scheduleAllFeedsForCrawling(){
 
-        ClassRegistry::init('Robot.RobotTask')->schedule(
-           '/rss/import',
-            array()
+        $this->RssFeed->contain();
+        $feeds = $this->RssFeed->find('all',array('fields' => array('id'),'conditions' => array('enabled' => 1)));
 
-        );
+        //schedulding a crawl action for each active feed
+        foreach($feeds as $feed){
+           $this->scheduleSingleFeedForCrawling($feed['RssFeed']['id']);
+        }
 
         //rescheduling itself for next crawling
         ClassRegistry::init('Robot.RobotTask')->schedule(
             '/rss/scheduleAllFeedsForCrawling',
             array(),
-            strtotime("+1 Minute")
+            strtotime("+10 Minutes")
         );
         $this->log('inter');
     }
-    function testModels(){
-        $this->RssFeed->recursive =1;
-       // $this->RssFeed->contain('RssFeedsItem.id','RssItem.hash','RssItem.created');
-        debug($this->RssFeed->find('all' ));
+
+    function scheduleSingleFeedForCrawling($feed_id){
+
+            ClassRegistry::init('Robot.RobotTask')->schedule(
+                                     '/rss/feedCrawl',
+            array('feed_id' => $feed_id)
+            );
+
     }
+
 
 }
 
