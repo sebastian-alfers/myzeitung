@@ -21,37 +21,44 @@ class RssComponent extends Object
      * @param array $feeds
      * @return bool
      */
-    public function get($feeds = array())
+    public function get($feed = array())
     {
-        if (empty($feeds) || !is_array($feeds)) return false;
+
+
+        if (empty($feed) || !is_array($feed)) return false;
 
 
         $this->_initParser();
 
         $feeds_items = array();
 
-        foreach ($feeds as $feed) {
 
-            //we only wand valid feeds
-            if (!$this->_isValidFeed($feed)) return false;
+        //we only wand valid feeds
+        if (!$this->_isValidFeed($feed)) return false;
 
-            $feed_id = $feed['RssFeed']['id'];
-            $feed_url = $feed['RssFeed']['url'];
 
-            $feeds_items[$feed_id] = array();
-            $items = $this->_parseFeed($feed_url);
-            if(is_array($items)){
-                foreach($items as $key=>$item){
-                    $item_data = $this->_getItemData($item);
-                    if(!is_array($item_data)) return false;
+        $feed_id = $feed['RssFeed']['id'];
+        $feed_url = $feed['RssFeed']['url'];
 
-                    $feeds_items[$feed_id]['data'] = $item_data;
-                }
-            }
-            else{
-                return false;
+
+        $feeds_items = array();
+        $items = $this->_parseFeed($feed_url);
+
+        if (is_array($items)) {
+            foreach ($items as $key => $item) {
+                $item_data = $this->_getItemData($item);
+
+                if (!is_array($item_data)) return false;
+
+                $hash = $item_data['hash'];
+
+                $feeds_items[$hash] = $item_data;
             }
         }
+        else {
+            return false;
+        }
+
 
         return $feeds_items;
     }
@@ -60,18 +67,37 @@ class RssComponent extends Object
      * get an instance of SimplePie_Item and get all available
      * values
      *
+     * return only not emtpy values
+     *
      * @param  $item SimplePie_Item
      * @return false | array
      */
-    private function _getItemData($item){
+    private function _getItemData($item)
+    {
 
-        if(!$item instanceof SimplePie_Item) return false;
+        if (!$item instanceof SimplePie_Item) return false;
 
         $data = array();
 
         $data['title'] = $item->get_title();
+        $data['content'] = $item->get_content();
+        $data['copyright'] = $item->get_copyright();
+        $data['date'] = $item->get_date();
+        $data['hash'] = $this->_getHash($item->get_id());
+        $data['title'] = $item->get_title();
+        $data['link'] = $item->get_link();
+        $data['links'] = $item->get_links();
+        $data['permalink'] = $item->get_permalink();
 
-        return $data;
+        $valid_data = array();
+        //remove empty fields
+        foreach($data as $key => $value){
+            if($value != '' && !is_array($value) && !empty($value)){
+                $valid_data[$key] = $value;
+            }
+        }
+
+        return $valid_data;
     }
 
     /**
