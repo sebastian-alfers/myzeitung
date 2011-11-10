@@ -6,6 +6,8 @@ class RssComponent extends Object
     // directory for cache feeds
     var $cache;
 
+    const DATE_FORMT = 'Y-m-d H:i:s';
+
     //instance for crawler
     var $_crawler = null;
 
@@ -82,7 +84,7 @@ class RssComponent extends Object
         $data['title'] = $item->get_title();
         $data['content'] = $item->get_content();
         $data['copyright'] = $item->get_copyright();
-        $data['date'] = $item->get_date();
+        $data['date'] = $item->get_date(self::DATE_FORMT);
         $data['hash'] = $this->_getHash($item->get_id());
         $data['title'] = $item->get_title();
         $data['link'] = $item->get_link();

@@ -26,6 +26,13 @@ class RssFeed extends AppModel {
 	);
 
 
+    var $hasMany = array(
+        'RssFeedsUser' => array(
+			'className' => 'RssFeedsUser',
+			'foreignKey' => 'feed_id',
+			'dependent' => true
+        )
+    );
 
     var $hasAndBelongsToMany = array(
         'RssItem' =>

@@ -8,7 +8,7 @@ class RssController extends AppController
     var $name = 'Rss';
 
 
-    var $uses = array('RssFeed', 'RssItem', 'RssFeedsItem', 'RssItemContent');
+    var $uses = array('RssFeed', 'RssItem', 'RssFeedsItem', 'RssItemContent', 'Post');
 
     var $components = array('Rss');
 
@@ -48,7 +48,7 @@ class RssController extends AppController
 
     function import()
     {
-        $this->_import(2);
+        $this->_import(5);
     }
 
     /**
@@ -63,57 +63,62 @@ class RssController extends AppController
             // error ???????????
             return false;
         }
-        $this->RssFeed->contain();
+        $this->RssFeed->contain('RssFeedsUser');
         $feed = $this->RssFeed->read(array('id', 'url', 'enabled'), $feed_id);
-
 
         if ((boolean)$feed['RssFeed']['enabled']) {
 
             $items = $this->Rss->get($feed);
-
             foreach ($items as $hash => $values) {
 
-                $this->RssItem->contain();
-                $data = $this->RssItem->find('first', array('conditions' => array('hash' => $hash)));
+                $item_id = $this->_processRssItem($feed_id, $hash, $values);
 
+                if($item_id !== false){
 
+                    //now, we check if each consument of the feed has already published the item
 
+                    //prepare data for new post - user_id later
+                    $new_post = array();
+                    $new_post['rss_item_id'] = $item_id;
+                    $new_post['title'] = $values['title'];
+                    $new_post['content'] = $values['content'];
+                    $new_post['created'] = $values['date'];
+                    $new_post['modified'] = $values['date'];
 
-                if (!isset($data['RssItem']['id'])) {
-                    // this item has not been imported before
-                    $item_id =  $this->_createNewRssItem($hash, $values);
-                    //@alf mach richtig
-                    if ($item_id) {
-                        //now we have am item with all contents saved
-                        // -> creating feed item relation
-                        $this->RssFeedsItem->create();
+                    foreach($feed['RssFeedsUser'] as $user){
 
-                        if(!$this->RssFeedsItem->save(array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id)))){
-                            die('nee wa?');
-                            //errow while associating the feed_item to the feed
+                        if(isset($user['id'])){
+                            $this->Post->contain();
+                            $post = $this->Post->find('first', array('fields' => array('id'), 'conditions' => array('Post.rss_item_id' => $item_id, 'Post.user_id' => $user['id'])));
+
+                            if(!isset($post['Post']['id'])){
+                                $new_post['user_id'] = $user['id'];
+                                $this->Post->create();
+                                $this->Post->updateSolr = true;
+
+                                if($this->Post->save($new_post)){
+
+                                }
+                                else{
+                                    //error saving post
+                                }
+                            }
+                            else{
+                                //error loading post
+                            }
+                        }
+                        else{
+                            // error reading user
                         }
 
                     }
-                    else {
-                        //error reating new rss item
-                    }
 
-
-                }else{
-
-                    // this item was already existent
-                    //a item can belong to multiple feeds
-
-                    //check for active relation for current feed
-                    $this->RssFeedsItem->contain();
-                    if(!$this->RssFeedsItem->find('first', array('conditions' => array('feed_id' => $feed_id, 'item_id' => $data['RssItem']['id'] )))){
-                        //no relation found
-                        $this->RssFeedsItem->create();
-                        if(!$this->RssFeedsItem->save(array('RssFeedsItem' => array( 'feed_id' => $feed_id, 'item_id' => $data['RssItem']['id'])))){
-                            //errow while associating the feed_item to the feed
-                        }
-                    }
                 }
+                else{
+
+                }
+
+
             }
         }
         else {
@@ -121,6 +126,62 @@ class RssController extends AppController
         }
 
 
+    }
+
+
+    /**
+     * create rss item if not created
+     * associate item to feed it not associated
+     *
+     * @param  $feed_id
+     * @param  $hash
+     * @param  $values
+     * @return false | $feed_id
+     */
+    private function _processRssItem($feed_id, $hash, $values)
+    {
+        $this->RssItem->contain();
+        $data = $this->RssItem->find('first', array('conditions' => array('hash' => $hash)));
+        $item_id = '';
+        if (!isset($data['RssItem']['id'])) {
+            // this item has not been imported before
+            $item_id = $this->_createNewRssItem($hash, $values);
+
+            if ($item_id) {
+                //now we have am item with all contents saved
+                // -> creating feed item relation
+                $this->RssFeedsItem->create();
+
+                if (!$this->RssFeedsItem->save(array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id)))) {
+
+                    //errow while associating the feed_item to the feed
+                }
+
+            }
+            else {
+                //error reating new rss item
+            }
+
+
+        } else {
+            // this item was already existent
+            //a item can belong to multiple feeds
+
+            $item_id = $data['RssItem']['id'];
+
+            //check for active relation for current feed
+            $this->RssFeedsItem->contain();
+            if (!$this->RssFeedsItem->find('first', array('conditions' => array('feed_id' => $feed_id, 'item_id' => $item_id)))) {
+                //no relation found
+                $this->RssFeedsItem->create();
+                if (!$this->RssFeedsItem->save(array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id)))) {
+                    //errow while associating the feed_item to the feed
+                }
+            }
+        }
+        if($item_id == '') return false;
+
+        return $item_id;
     }
 
     /**
@@ -139,7 +200,7 @@ class RssController extends AppController
             foreach ($values as $key => $value) {
                 $data = array('RssItemContent' => array('item_id' => $rss_item_id, 'key' => $key, 'value' => $value));
                 $this->RssItemContent->create();
-                if(!$this->RssItemContent->save($data)) {
+                if (!$this->RssItemContent->save($data)) {
                     //error saving content
                 }
             }
@@ -186,12 +247,12 @@ class RssController extends AppController
     function scheduleAllFeedsForCrawling()
     {
         $this->RssFeed->contain();
-        $feeds = $this->RssFeed->find('all',array('fields' => array('id'),'conditions' => array('enabled' => 1)));
+        $feeds = $this->RssFeed->find('all', array('fields' => array('id'), 'conditions' => array('enabled' => 1)));
 
 
         //schedulding a crawl action for each active feed
-        foreach($feeds as $feed){
-           $this->scheduleSingleFeedForCrawling($feed['RssFeed']['id']);
+        foreach ($feeds as $feed) {
+            $this->scheduleSingleFeedForCrawling($feed['RssFeed']['id']);
         }
 
         //rescheduling itself for next crawling
@@ -204,12 +265,13 @@ class RssController extends AppController
     }
 
 
-    function scheduleSingleFeedForCrawling($feed_id){
+    function scheduleSingleFeedForCrawling($feed_id)
+    {
 
-            ClassRegistry::init('Robot.RobotTask')->schedule(
-                                     '/rss/feedCrawl',
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            '/rss/feedCrawl',
             array('feed_id' => $feed_id)
-            );
+        );
     }
 
     function testModels()
