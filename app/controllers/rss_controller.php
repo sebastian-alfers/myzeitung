@@ -4,11 +4,26 @@ require APPLIBS . "Simplepie/simplepie.inc";
 
 class RssController extends AppController
 {
+    /**
+     * counter for log
+     */
+    var $_posts_created = 0;
+    var $_posts_not_created = 0;
+    var $_rss_feeds_item_created = 0;
+    var $_rss_feeds_item_not_created = 0;
+    var $_rss_items_created = 0;
+    var $_rss_items_not_created = 0;
+    var $_rss_item_contents_created = 0;
+    var $_rss_item_contents_not_created = 0;
+    var $_category_paper_posts_created = 0;
+
+    var $_log = array();
+
 
     var $name = 'Rss';
 
 
-    var $uses = array('RssFeed', 'RssItem', 'RssFeedsItem', 'RssItemContent', 'Post');
+    var $uses = array('RssFeed', 'RssItem', 'RssFeedsItem', 'RssItemContent', 'Post', 'RssImportLog', 'CategoryPaperPosts');
 
     var $components = array('Rss');
 
@@ -52,6 +67,15 @@ class RssController extends AppController
     }
 
     /**
+     * main function to import and process one rss feed
+     * - get rss (xml) from hosts
+     * - get items for feed
+     * - save item (check if one item is in several feeds)
+     * - save attributes for feed
+     * - create posts for all users publishing the feed
+     * - create and save logs
+     *
+     *
      * read feed for id and import feeds is enabled
      *
      * @param null $feed_id
@@ -59,6 +83,8 @@ class RssController extends AppController
      */
     private function _import($feed_id = null)
     {
+        $start = explode(" ",microtime());
+
         if (!is_int($feed_id) || $feed_id == null) {
             // error ???????????
             return false;
@@ -73,7 +99,7 @@ class RssController extends AppController
 
                 $item_id = $this->_processRssItem($feed_id, $hash, $values);
 
-                if($item_id !== false){
+                if ($item_id !== false) {
 
                     //now, we check if each consument of the feed has already published the item
 
@@ -85,37 +111,40 @@ class RssController extends AppController
                     $new_post['created'] = $values['date'];
                     $new_post['modified'] = $values['date'];
 
-                    foreach($feed['RssFeedsUser'] as $user){
+                    foreach ($feed['RssFeedsUser'] as $user) {
 
-                        if(isset($user['id'])){
+                        if (isset($user['id'])) {
                             $this->Post->contain();
                             $post = $this->Post->find('first', array('fields' => array('id'), 'conditions' => array('Post.rss_item_id' => $item_id, 'Post.user_id' => $user['id'])));
 
-                            if(!isset($post['Post']['id'])){
+                            if (!isset($post['Post']['id'])) {
                                 $new_post['user_id'] = $user['id'];
                                 $this->Post->create();
                                 $this->Post->updateSolr = true;
 
-                                if($this->Post->save($new_post)){
+                                if ($this->Post->save($new_post)) {
+                                    $this->_posts_created++;
 
+                                    //read and cound category_paper_posts for log
+                                    $this->CategoryPaperPosts->contain();
+                                    $this->_category_paper_posts_created = $this->CategoryPaperPosts->find('count', array('conditions' => array('CategoryPaperPosts.post_id' => $this->Post->id)));
                                 }
-                                else{
-                                    //error saving post
+                                else {
+                                    $this->_posts_not_created++;
+                                    $this->_log('Error while saving post', $this->Post->invalidFields(), $new_post);
                                 }
                             }
-                            else{
-                                //error loading post
+                            else {
+                                $this->_log('Found post that should not exist with post_id ' . $post['Post']['id'] . '. For rss_item_id ' . $item_id . ' and user_id ' . $user['id'], array(), $post);
                             }
                         }
-                        else{
-                            // error reading user
+                        else {
+                            $this->_log('Error loading user', array(), $user);
                         }
-
                     }
-
                 }
-                else{
-
+                else {
+                    $this->_log('Error loading item_id while _processRssItem()', array(), array('item_id' => $item_id, 'feed_id' => $feed_id, 'hash' => $hash, 'value' => $values));
                 }
 
 
@@ -125,6 +154,26 @@ class RssController extends AppController
             // not enabled
         }
 
+        $end = explode(" ",microtime());
+
+        $duration = (($end[1] + $end[0]) - ($start[1] + $start[0]));
+
+        $log_data = array(
+            'log' => json_encode($this->_log),
+            'duration' => $duration,
+            'rss_feed_id' => $feed_id,
+            'posts_created' => $this->_posts_created,
+            'posts_not_created' => $this->_posts_not_created,
+            'rss_feeds_item_created' => $this->_rss_feeds_item_created,
+            'rss_feeds_item_not_created' => $this->_rss_feeds_item_not_created,
+            'rss_items_created' => $this->_rss_items_created,
+            'rss_items_not_created' => $this->_rss_items_not_created,
+            'rss_item_contents_created' => $this->_rss_item_contents_created,
+            'rss_item_contents_not_created' => $this->_rss_item_contents_not_created,
+            'category_paper_posts_created' => $this->_category_paper_posts_created
+        );
+
+        $this->RssImportLog->save(array('RssImportLog' => $log_data));
 
     }
 
@@ -152,11 +201,14 @@ class RssController extends AppController
                 // -> creating feed item relation
                 $this->RssFeedsItem->create();
 
-                if (!$this->RssFeedsItem->save(array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id)))) {
-
-                    //errow while associating the feed_item to the feed
+                $rss_feed_item_data = array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id));
+                if (!$this->RssFeedsItem->save($rss_feed_item_data)) {
+                    $this->_rss_feeds_item_not_created++;
+                    $this->_log('Error while associating the feed_item to the feed', $this->RssFeedsItem->invalidFields(), $rss_feed_item_data);
                 }
-
+                else{
+                    $this->_rss_feeds_item_created++;
+                }
             }
             else {
                 //error reating new rss item
@@ -174,19 +226,26 @@ class RssController extends AppController
             if (!$this->RssFeedsItem->find('first', array('conditions' => array('feed_id' => $feed_id, 'item_id' => $item_id)))) {
                 //no relation found
                 $this->RssFeedsItem->create();
-                if (!$this->RssFeedsItem->save(array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id)))) {
+                $rss_feed_item_data = array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id));
+                if (!$this->RssFeedsItem->save($rss_feed_item_data)) {
+                    $this->_rss_feeds_item_not_created++;
+                    $this->_log('Error while associating the feed_item to the feed', $this->RssFeedsItem->invalidFields(), $rss_feed_item_data);
                     //errow while associating the feed_item to the feed
                 }
+                else{
+                    $this->_rss_feeds_item_created++;
+                }
+
             }
         }
-        if($item_id == '') return false;
+        if ($item_id == '') return false;
 
         return $item_id;
     }
 
     /**
      *
-     * @return false (if there was a problem | $item_id
+     * @return false | $item_id
      */
     private function _createNewRssItem($hash, $values)
     {
@@ -194,6 +253,8 @@ class RssController extends AppController
         $data['RssItem']['hash'] = $hash;
         $this->RssItem->create();
         if ($this->RssItem->save($data)) {
+            $this->_rss_items_created++;
+
             //save values for each item
             $rss_item_id = $this->RssItem->id;
             $this->RssItemContent->contain();
@@ -201,12 +262,18 @@ class RssController extends AppController
                 $data = array('RssItemContent' => array('item_id' => $rss_item_id, 'key' => $key, 'value' => $value));
                 $this->RssItemContent->create();
                 if (!$this->RssItemContent->save($data)) {
-                    //error saving content
+                    $this->_rss_item_contents_not_created++;
+                    $this->_log('Error while saving rss_item_content ', $this->RssItemContent->invalidFields(), $data);
+                    // log, but not return false!!!
+                }
+                else{
+                    $this->_rss_item_contents_created++;
                 }
             }
         }
         else {
-            // error saving rss item
+            $this->_rss_items_not_created++;
+            $this->_log('Error while saving rss_item ', $this->RssItem->invalidFields(), $data);
             return false;
         }
         return $rss_item_id;
@@ -237,6 +304,37 @@ class RssController extends AppController
     {
 
         $this->log('robotlanding');
+
+    }
+
+    /**
+     * append log-stack $_log with log msg
+     *
+     * @param  $msg
+     * @param string $data
+     * @return void
+     */
+    private function _log($msg, $invalidFields = array(),  $data = ''){
+
+        $_data  = array(
+            'date' => date($this->Rss->getTimestampFormat()),
+            'msg'  => $msg
+        );
+
+        if(is_array($invalidFields) && !empty($invalidFields)){
+            $_data['invalidFields'] = json_encode($invalidFields);
+        }else{
+            $_data['invalidFields'] = $invalidFields;
+        }
+
+        if(is_array($data)){
+            $_data['data'] = json_encode($data);
+        }
+        else{
+            $_data['data'] = $data;
+        }
+
+        $this->_log[] = $_data;
 
     }
 
@@ -286,7 +384,7 @@ class RssController extends AppController
 }
 
 /*
-* $start = explode(" ",microtime());
+
 'http://www.facebook.com/feeds/page.php?id=271834416189258&format=rss20',
 'http://www.herthabsc.de/index.php?id=1809&type=100',
 'http://www.spiegel.de/schlagzeilen/tops/index.rss',
@@ -308,15 +406,6 @@ class RssController extends AppController
 'http://www.heise.de/ct-tv/rss/vorschau/news-atom.xml'
 
 /*
-$this->log('************************************');
-$this->log('saved posts: ' . $saved_posts);
-$this->log('not saved posts: ' . $not_saved_posts);
-$this->log('deleted posts: ' . $deleted_posts);
-$this->log('not deleted posts: ' . $not_deleted_posts);
-
-$end = explode(" ",microtime());
-$s = (($end[1] + $end[0]) - ($start[1] + $start[0]));
-$this->log('script executed in '.$s.' seconds');
 
 $this->log('************************************');
 $this->log('');

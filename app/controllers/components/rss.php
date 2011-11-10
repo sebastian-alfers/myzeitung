@@ -176,5 +176,9 @@ class RssComponent extends Object
     {
         return Security::hash($string);
     }
+
+    function getTimestampFormat(){
+        return self::DATE_FORMT;
+    }
 }
 
