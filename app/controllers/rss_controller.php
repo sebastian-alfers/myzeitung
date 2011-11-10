@@ -7,7 +7,7 @@ class RssController extends AppController
 
     var $name = 'Rss';
 
-    var $uses = array();
+    var $uses = array('RssFeed','RssItem');
 
     var $cache;
 
@@ -20,7 +20,7 @@ class RssController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling');
+        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling', 'testModels');
     }
 
     function import()
@@ -171,6 +171,11 @@ class RssController extends AppController
             strtotime("+1 Minute")
         );
         $this->log('inter');
+    }
+    function testModels(){
+        $this->RssFeed->recursive =1;
+       // $this->RssFeed->contain('RssFeedsItem.id','RssItem.hash','RssItem.created');
+        debug($this->RssFeed->find('all' ));
     }
 
 }
