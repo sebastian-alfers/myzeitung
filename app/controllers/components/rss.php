@@ -25,8 +25,6 @@ class RssComponent extends Object
      */
     public function get($feed = array())
     {
-
-
         if (empty($feed) || !is_array($feed)) return false;
 
 
@@ -81,14 +79,23 @@ class RssComponent extends Object
 
         $data = array();
 
+
+
         $data['title'] = $item->get_title();
         $data['content'] = $item->get_content();
+
         $data['copyright'] = $item->get_copyright();
         $data['date'] = $item->get_date(self::DATE_FORMT);
         $data['hash'] = $this->_getHash($item->get_id());
-        $data['title'] = $item->get_title();
+
+        App::Import('helper', 'Text');
+        $text_helper = new TextHelper();
+        $data['title'] =  $text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false));
+
         $data['link'] = $item->get_link();
-        $data['links'] = $item->get_links();
+
+
+        $data['links'] = serialize($item->get_links());
         $data['permalink'] = $item->get_permalink();
 
         $valid_data = array();
@@ -161,6 +168,9 @@ class RssComponent extends Object
         if ($this->_crawler == null) {
             $this->_crawler = new SimplePie();
             $this->_crawler->set_cache_location($this->cache);
+
+            $this->_crawler->strip_htmltags(array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
+
         }
 
         return true;
@@ -175,6 +185,10 @@ class RssComponent extends Object
     private function _getHash($string)
     {
         return Security::hash($string);
+    }
+
+    function getTimestampFormat(){
+        return self::DATE_FORMT;
     }
 }
 

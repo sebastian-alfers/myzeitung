@@ -340,19 +340,25 @@ class AppController extends Controller {
              'robotlanding' => $this->robot,
              'test' => $this->superadmin,
              'scheduleAllFeedsForCrawling' => $this->admin,
-         )
+         ),
+          'rssimportlogs' => array(
+                'admin_index' => $this->admin,
+              'admin_view' => $this->admin,
+            )
         );
-
-
-
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
 			if(isset($allowedActions[low($this->name)])) {
 			$controllerActions = $allowedActions[low($this->name)];
+
+
+
 			if(isset($controllerActions[$this->action]) &&
 			in_array($this->Auth->user('group_id'), $controllerActions[$this->action])) {
 				return true;
 			}
 		}
+
+
         $this->Session->setFlash(__('No Permission', true));
 		return false;
 	}
