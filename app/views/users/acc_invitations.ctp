@@ -36,7 +36,8 @@
                         </li>
                         <li class="actions">
                             <?php echo $this->Html->link('',array('controller' => 'invitations', 'action' => 'delete', $invitation['Invitation']['id']), array('class' => 'icon icon-delete', 'escape' => false),__('Are you sure you want to delete this Invitation-list?', true));?>
-                            <p><?php echo $this->MzTime->timeAgoInWords($invitation['Invitation']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></p>
+                            <?php $this->log($this->MzTime->timeAgoInWords($invitation['Invitation']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'))); ?>
+                            <p class="invitation-time"><?php echo $this->MzTime->timeAgoInWords($invitation['Invitation']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?></p>
                         </li>
                          <li class="invitee">
                             <ul>

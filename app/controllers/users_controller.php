@@ -1120,7 +1120,7 @@ class UsersController extends AppController {
 		}
 
         $this->User->contain();
-        $user= $this->getUserForSidebar($this->Session->read('Auth.User.username'));
+        $user= $this->getUserForSidebar();
 
 		if (!empty($this->data)) {
 
@@ -1146,6 +1146,7 @@ class UsersController extends AppController {
 		}
 
 		if(empty($this->data)) {
+            $this->log($user);
             $this->data['User']['allow_messages']               = $user['Setting']['user']['privacy']['allow_messages']['value'];
             $this->data['User']['allow_comments']               = $user['Setting']['user']['privacy']['allow_comments']['value'];
             $this->data['User']['email_new_comment']            = $user['Setting']['user']['email']['new_comment']['value'];
@@ -1286,6 +1287,78 @@ class UsersController extends AppController {
         $this->set('invitations', $invitations);
         $this->set('hash', $this->Upload->getHash());
     }
+
+
+    function accRssImport(){
+
+
+
+        App::import('model','RssFeedsUser');
+        $this->RssFeedsUser = new RssFeedsUser();
+
+        $user_id = $this->Session->read('Auth.User.id');
+
+		if (!$user_id) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}
+        $this->paginate = array(
+                'RssFeedsUser' => array(
+            //limit of records per page
+                    'limit' => 10,
+            //order
+                    //'order' => 'RssFeed.url DESC',
+            //fields - custom field sum...
+                    'fields' => array(),
+                    'conditions' => array('RssFeedsUser.user_id' => $user_id),
+            //contain array: limit the (related) data and models being loaded per post
+                    'contain' => array('RssFeed'),
+            )
+        );
+        $feeds = $this->paginate("RssFeedsUser");
+
+
+
+        $this->set('user', $this->getUserForSidebar());
+        $this->set('feeds', $feeds);
+        $this->set('hash', $this->Upload->getHash());
+    }
+
+
+    function addRssFeed(){
+       if (!empty($this->data)) {
+           $this->data['RssFeed']['user_id'] = $this->Session->read('Auth.User.id');
+
+			if ($this->Invitation->save($this->data, false, array('user_id', 'text'))) {
+               // $registeredCount = 0;
+            //    App::import('model','Conversation');
+            //    $this->Conversation = new Conversation();
+              //  App::import('model','User');
+              //  $this->User = new User();
+                $invitee = $this->Invitee->getEmailAddresses($this->Invitation->id);
+                foreach($invitee as $recipient){
+                    $this->_sendInvitationEmail($recipient['Invitee']['email'], $this->data['Invitation']['text'], $this->data['Invitation']['user_id']);
+
+                /*    $this->User->contain();
+                    $user = array();
+                    $user = $this->User->find('first', array('conditions' => array('email' => $recipient['Invitee']['email'])));
+                    if(isset($user['User']['id']) && $user['User']['id'] != $this->Session->read('Auth.User.id')){
+                        $this->Conversation->generateConversationForRegisteredInvitee($this->data, $user['User']['id']);
+                        $registeredCount++;
+                    } */
+                }
+                $flashMessage =__('Your Invitation has been saved and emails have been sent to the Invitee.',true);
+               /* if($registeredCount >0 ){
+                    $flashMessage .= ' '.sprintf(__n('%d of them is already registered','%d of them are already registered.',$registeredCount,true),$registeredCount);
+                } */
+                $this->Session->setFlash($flashMessage, 'default', array('class' => 'success'));
+                $this->redirect($this->referer());
+			} else {
+				$this->Session->setFlash(__('The Invitation could not be saved. Please, try again.', true));
+                $this->redirect($this->referer());
+			}
+		}
+	}
 
 
 

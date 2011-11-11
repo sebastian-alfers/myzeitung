@@ -82,6 +82,7 @@ class AppController extends Controller {
             $this->Session->write('Auth.Setting', $user->getSettings($this->Session->read('Auth.User.id')));
         }
 
+     //   $this->log($this->Session->read('Auth'));
 
         $this->_setLanguage();
 
@@ -196,6 +197,7 @@ class AppController extends Controller {
             'accSocial' => $this->user,
         	'accDelete' => $this->user,
             'accInvitations' => $this->user,
+            'accRssImport' => $this->user,
             'admin_index' => $this->admin,
             'admin_edit' => $this->superadmin,
             'admin_delete' => $this->superadmin,
