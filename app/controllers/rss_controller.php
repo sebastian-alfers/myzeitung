@@ -64,9 +64,9 @@ class RssController extends AppController
     function import()
     {
 
-        if($this->_import(1)){
-            if($this->_import(2)){
-                $this->_import(5);
+        if($this->_import(5)){
+            if($this->_import(6)){
+               // $this->_import(5);
             }
         }
 
@@ -247,7 +247,7 @@ class RssController extends AppController
                 }
             }
             else {
-                //error reating new rss item
+                //error reading new rss item
             }
 
 
@@ -411,12 +411,13 @@ class RssController extends AppController
 
     function testModels()
     {
-        $this->RssFeed->recursive = 1;
+       // $this->RssFeed->recursive = 1;
         // $this->RssFeed->contain('RssFeedsItem.id','RssItem.hash','RssItem.created');
-        debug($this->RssFeed->find('all'));
-
+       // debug($this->RssFeed->find('all'));
+                App::import('model','RssFeedsUser');
+        $this->RssFeed->RssFeedsUser = new RssFeedsUser();
+        $this->RssFeed->deletePostsForDeletedFeedAssociation(18,6);
     }
-
 
 }
 
