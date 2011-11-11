@@ -8,17 +8,24 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Log'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['log']; ?>
-			&nbsp;
+            &nbsp;
+			<?php foreach(json_decode($rssImportLog['RssImportLog']['log'], true) as $log): ?>
+                <?php echo $log['date']; ?><br />
+                <?php echo $log['msg']; ?><br />
+                <pre>
+                    <?php print_r(json_decode($log['invalidFields'], true)); ?><br />
+                    <?php print_r(json_decode($log['data'], true)); ?><br />
+                </pre>
+            <?php endforeach; ?>
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Duration'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['duration']; ?>
+			<?php echo $rssImportLog['RssImportLog']['duration']; ?> <?php echo __('Seconds'); ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Rss Feed'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($rssImportLog['RssFeed']['id'], array('controller' => 'rss_feeds', 'action' => 'view', $rssImportLog['RssFeed']['id'])); ?>
+			<?php echo $rssImportLog['RssFeed']['url']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Posts Created'); ?></dt>
@@ -33,32 +40,32 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Rss Feeds Item Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['rss_feeds_item_created']; ?>
+			<?php echo $rssImportLog['RssImportLog']['rss_feeds_items_created']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Rss Feeds Item Not Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['rss_feeds_item_not_created']; ?>
+			<?php echo $rssImportLog['RssImportLog']['rss_feeds_items_not_created']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Rss Item Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['rss_item_created']; ?>
+			<?php echo $rssImportLog['RssImportLog']['rss_items_created']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Rss Item Not Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['rss_item_not_created']; ?>
+			<?php echo $rssImportLog['RssImportLog']['rss_items_not_created']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Rss Item Content Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['rss_item_content_created']; ?>
+			<?php echo $rssImportLog['RssImportLog']['rss_items_contents_created']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Rss Item Content Not Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $rssImportLog['RssImportLog']['rss_item_content_not_created']; ?>
+			<?php echo $rssImportLog['RssImportLog']['rss_items_contents_not_created']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Category Paper Posts Created'); ?></dt>
@@ -77,15 +84,4 @@
 			&nbsp;
 		</dd>
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Rss Import Log', true), array('action' => 'edit', $rssImportLog['RssImportLog']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Delete Rss Import Log', true), array('action' => 'delete', $rssImportLog['RssImportLog']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $rssImportLog['RssImportLog']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Rss Import Logs', true), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Rss Import Log', true), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Rss Feeds', true), array('controller' => 'rss_feeds', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Rss Feed', true), array('controller' => 'rss_feeds', 'action' => 'add')); ?> </li>
-	</ul>
 </div>

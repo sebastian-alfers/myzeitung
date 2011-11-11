@@ -731,8 +731,8 @@ class Post extends AppModel {
 					'last' 			=> true,
 				),
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 100),
-					'message'		=> __('Titles can only be 100 characters long.', true),
+					'rule'			=> array('maxlength', 200),
+					'message'		=> __('Titles can only be 200 characters long.', true),
 					'last' 			=> true,
 				),
 			),

@@ -340,7 +340,8 @@ class AppController extends Controller {
              'scheduleAllFeedsForCrawling' => $this->admin,
          ),
           'rssimportlogs' => array(
-                'admin_index' => $this->superadmin,
+                'admin_index' => $this->admin,
+              'admin_view' => $this->admin,
             )
         );
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it

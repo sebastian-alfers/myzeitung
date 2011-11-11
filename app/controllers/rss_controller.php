@@ -9,12 +9,12 @@ class RssController extends AppController
      */
     var $_posts_created = 0;
     var $_posts_not_created = 0;
-    var $_rss_feeds_item_created = 0;
-    var $_rss_feeds_item_not_created = 0;
+    var $_rss_feeds_items_created = 0;
+    var $_rss_feeds_items_not_created = 0;
     var $_rss_items_created = 0;
     var $_rss_items_not_created = 0;
-    var $_rss_item_contents_created = 0;
-    var $_rss_item_contents_not_created = 0;
+    var $_rss_items_contents_created = 0;
+    var $_rss_items_contents_not_created = 0;
     var $_category_paper_posts_created = 0;
 
     var $_log = array();
@@ -63,7 +63,15 @@ class RssController extends AppController
 
     function import()
     {
-        $this->_import(5);
+
+        if($this->_import(1)){
+            if($this->_import(2)){
+                $this->_import(5);
+            }
+        }
+
+
+
     }
 
     /**
@@ -83,6 +91,8 @@ class RssController extends AppController
      */
     private function _import($feed_id = null)
     {
+        $this->_clearCounter();
+
         $start = explode(" ",microtime());
 
         if (!is_int($feed_id) || $feed_id == null) {
@@ -110,24 +120,30 @@ class RssController extends AppController
                     $new_post['content'] = $values['content'];
                     $new_post['created'] = $values['date'];
                     $new_post['modified'] = $values['date'];
+                    $new_post['links'] = $values['links'];
 
-                    foreach ($feed['RssFeedsUser'] as $user) {
 
-                        if (isset($user['id'])) {
+                    foreach ($feed['RssFeedsUser'] as $rssFeedUser) {
+
+                        if (isset($rssFeedUser['id'])) {
                             $this->Post->contain();
-                            $post = $this->Post->find('first', array('fields' => array('id'), 'conditions' => array('Post.rss_item_id' => $item_id, 'Post.user_id' => $user['id'])));
+                            $post = $this->Post->find('first', array('fields' => array('id'), 'conditions' => array('Post.rss_item_id' => $item_id, 'Post.user_id' => $rssFeedUser['user_id'])));
 
                             if (!isset($post['Post']['id'])) {
-                                $new_post['user_id'] = $user['id'];
+                                $new_post['user_id'] = $rssFeedUser['user_id'];
                                 $this->Post->create();
                                 $this->Post->updateSolr = true;
+
 
                                 if ($this->Post->save($new_post)) {
                                     $this->_posts_created++;
 
                                     //read and cound category_paper_posts for log
                                     $this->CategoryPaperPosts->contain();
-                                    $this->_category_paper_posts_created = $this->CategoryPaperPosts->find('count', array('conditions' => array('CategoryPaperPosts.post_id' => $this->Post->id)));
+
+                                    //debug($this->CategoryPaperPosts->find('count', array('conditions' => array('CategoryPaperPosts.post_id' => $this->Post->id))));
+
+                                    $this->_category_paper_posts_created += $this->CategoryPaperPosts->find('count', array('conditions' => array('CategoryPaperPosts.post_id' => $this->Post->id)));
                                 }
                                 else {
                                     $this->_posts_not_created++;
@@ -135,11 +151,13 @@ class RssController extends AppController
                                 }
                             }
                             else {
-                                $this->_log('Found post that should not exist with post_id ' . $post['Post']['id'] . '. For rss_item_id ' . $item_id . ' and user_id ' . $user['id'], array(), $post);
+                                //debug($feed);
+                                //die();
+                                //$this->_log('Found post that should not exist with post_id ' . $post['Post']['id'] . '. For rss_item_id ' . $item_id . ' and user_id ' . $rssFeedUser['id'], array(), $post);
                             }
                         }
                         else {
-                            $this->_log('Error loading user', array(), $user);
+                            $this->_log('Error loading user', array(), $rssFeedUser);
                         }
                     }
                 }
@@ -164,19 +182,36 @@ class RssController extends AppController
             'rss_feed_id' => $feed_id,
             'posts_created' => $this->_posts_created,
             'posts_not_created' => $this->_posts_not_created,
-            'rss_feeds_item_created' => $this->_rss_feeds_item_created,
-            'rss_feeds_item_not_created' => $this->_rss_feeds_item_not_created,
+            'rss_feeds_items_created' => $this->_rss_feeds_items_created,
+            'rss_feeds_items_not_created' => $this->_rss_feeds_items_not_created,
             'rss_items_created' => $this->_rss_items_created,
             'rss_items_not_created' => $this->_rss_items_not_created,
-            'rss_item_contents_created' => $this->_rss_item_contents_created,
-            'rss_item_contents_not_created' => $this->_rss_item_contents_not_created,
+            'rss_items_contents_created' => $this->_rss_items_contents_created,
+            'rss_items_contents_not_created' => $this->_rss_items_contents_not_created,
             'category_paper_posts_created' => $this->_category_paper_posts_created
         );
 
-        $this->RssImportLog->save(array('RssImportLog' => $log_data));
+        $this->RssImportLog->create();
+        if(!$this->RssImportLog->save(array('RssImportLog' => $log_data))){
+            $this->log('Error saving RssImportLog. ' . json_encode($log_data));
+        }
+
+        return true;
 
     }
 
+
+    private function _clearCounter(){
+        $this->_posts_created = 0;
+        $this->_posts_not_created = 0;
+        $this->_rss_feeds_items_created = 0;
+        $this->_rss_feeds_items_not_created = 0;
+        $this->_rss_items_created = 0;
+        $this->_rss_items_not_created = 0;
+        $this->_rss_items_contents_created = 0;
+        $this->_rss_items_contents_not_created = 0;
+        $this->_category_paper_posts_created = 0;
+    }
 
     /**
      * create rss item if not created
@@ -203,11 +238,12 @@ class RssController extends AppController
 
                 $rss_feed_item_data = array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id));
                 if (!$this->RssFeedsItem->save($rss_feed_item_data)) {
-                    $this->_rss_feeds_item_not_created++;
+                    $this->_rss_feeds_items_not_created++;
                     $this->_log('Error while associating the feed_item to the feed', $this->RssFeedsItem->invalidFields(), $rss_feed_item_data);
                 }
                 else{
-                    $this->_rss_feeds_item_created++;
+
+                    $this->_rss_feeds_items_created++;
                 }
             }
             else {
@@ -228,12 +264,13 @@ class RssController extends AppController
                 $this->RssFeedsItem->create();
                 $rss_feed_item_data = array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id));
                 if (!$this->RssFeedsItem->save($rss_feed_item_data)) {
-                    $this->_rss_feeds_item_not_created++;
+                    $this->_rss_feeds_items_not_created++;
                     $this->_log('Error while associating the feed_item to the feed', $this->RssFeedsItem->invalidFields(), $rss_feed_item_data);
                     //errow while associating the feed_item to the feed
                 }
                 else{
-                    $this->_rss_feeds_item_created++;
+
+                    $this->_rss_feeds_items_created++;
                 }
 
             }
@@ -262,12 +299,12 @@ class RssController extends AppController
                 $data = array('RssItemContent' => array('item_id' => $rss_item_id, 'key' => $key, 'value' => $value));
                 $this->RssItemContent->create();
                 if (!$this->RssItemContent->save($data)) {
-                    $this->_rss_item_contents_not_created++;
+                    $this->_rss_items_contents_not_created++;
                     $this->_log('Error while saving rss_item_content ', $this->RssItemContent->invalidFields(), $data);
                     // log, but not return false!!!
                 }
                 else{
-                    $this->_rss_item_contents_created++;
+                    $this->_rss_items_contents_created++;
                 }
             }
         }
