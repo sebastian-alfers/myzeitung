@@ -1,4 +1,5 @@
 <?php echo $this->element('rss/modal_delete_feed'); ?>
+<?php echo $this->element('rss/modal_add_feed'); ?>
 <?php echo $this->element('users/sidebar'); ?>
 <div id="maincolwrapper">
     <div id="maincol" class="account invitations-overview">
@@ -9,7 +10,7 @@
 
                 <li class="big-btn">
                     <div class="invitation">
-                        <a class="btn invitation-btn" href="#" id=""><span>+</span><?php __('Import new Rss Feed'); ?>
+                        <a class="btn invitation-btn" href="#" id="ImportNewRss"><span>+</span><?php __('Import new Rss Feed'); ?>
                         </a>
                     </div>
                 </li>

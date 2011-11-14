@@ -1,4 +1,4 @@
-<div id="delete-feed-topic" title="<?php __('Delete Feed'); ?>" style="display:none" class="modal-content">
+<div id="delete-feed" title="<?php __('Delete Feed'); ?>" style="display:none" class="modal-content">
 	 <div class="modal-content">
          <?php __('Do you also want to delete all posts, that have been created in the past based on this Feed?'); ?>
 

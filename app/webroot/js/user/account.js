@@ -10,7 +10,20 @@ $(document).ready(function() {
 
         $('#UserFeedId').val($(this).attr('id'));
 
-        $( "#delete-feed-topic" ).dialog('open');
+        $( "#delete-feed" ).dialog('open');
+    });
+
+    $('#submit-add-form').click(function(e){
+        e.preventDefault();
+
+        var url = $('#UserFeedUrl').val();
+
+        //validate url
+        if(isValidUrl(url)){
+            $('#UserAccRssImportForm').submit();
+        }
+
+
     });
 
 
@@ -20,10 +33,25 @@ $(document).ready(function() {
         $('#UserAccRssImportForm').submit();
     });
 
+    $('#ImportNewRss').click(function(e){
+        e.preventDefault();
+        $( "#add-feed" ).dialog('open');
+    });
+
+
+
 });
 
+$( "#add-feed" ).dialog({
+    resizable: false,
+    height:400,
+    width:600,
+    draggable:false,
+    modal: true,
+    autoOpen: false
+});//end button .dialog
 
-$( "#delete-feed-topic" ).dialog({
+$( "#delete-feed" ).dialog({
     resizable: false,
     height:400,
     width:600,

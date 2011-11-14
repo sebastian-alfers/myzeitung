@@ -33,17 +33,47 @@ class RssController extends AppController
      */
     function removeFeedForUser(){
 
-        debug($this->data);
+        if(!$this->data || !isset($this->data['User']['feed_id']) || empty($this->data['User']['feed_id'])){
+            $this->Session->setFlash(__('No Permission', true));
 
-        if((boolean)$this->data['User']['delete'] === true){
-            debug('do delete');
+            $this->redirect($this->referer());
+        }
+
+        debug('check if feed is his own');
+
+
+        if($this->canEdit('RssFeedsUser', $this->data['User']['feed_id'], 'user_id')){
+            debug('jepp, he is the owner');
+
+            debug($this->data);
+
+            if((boolean)$this->data['User']['delete'] === true){
+                debug('do delete all rss feeds posts');
+            }
+            else{
+                debug('do not delete all rss feeds posts');
+            }
         }
         else{
-            debug('do not delete');
+            //user is not the owner
+            $this->Session->setFlash(__('No Permission', true));
+            $this->redirect($this->referer());
+        }
+        die();
+    }
+
+    function addFeedForUser(){
+
+        if($this->data){
+            if($this->Session->read('Auth.User.id')){
+                //he is logged in
+                $url = $this->data['User']['feed_url'];
+
+                $this->
+            }
         }
 
-        die();
-
+        $this->redirect($this->referer());
     }
 
 
