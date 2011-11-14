@@ -32,11 +32,19 @@ class RssFeed extends AppModel {
 			'foreignKey' => 'feed_id',
 			'dependent' => true
         ),
+
         'RssFeedsItem' => array(
 			'className' => 'RssFeedsItem',
 			'foreignKey' => 'feed_id',
 			'dependent' => true
         ),
+        'RssImportLog' => array(
+			'className' => 'RssImportLog',
+			'foreignKey' => 'rss_feed_id',
+			'dependent' => false,
+            'limit' => '1',
+            'order' => 'RssImportLog.created DESC'
+        )
     );
 
     var $hasAndBelongsToMany = array(
