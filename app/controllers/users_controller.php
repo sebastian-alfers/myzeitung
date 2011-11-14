@@ -1325,42 +1325,64 @@ class UsersController extends AppController {
     }
 
 
-    function addRssFeed(){
+    function accAddRssFeed(){
        if (!empty($this->data)) {
            $this->data['RssFeed']['user_id'] = $this->Session->read('Auth.User.id');
+           App::import('model','RssFeed');
+           $this->RssFeed = new RssFeed();
+            $feed_id = false;
+            $feed_id = $this->RssFeed->addFeedToUser($this->Session->read('Auth.User.id'), $this->data['RssFeed']['url']);
+			if ($feed_id !== false) {
 
-			if ($this->Invitation->save($this->data, false, array('user_id', 'text'))) {
-               // $registeredCount = 0;
-            //    App::import('model','Conversation');
-            //    $this->Conversation = new Conversation();
-              //  App::import('model','User');
-              //  $this->User = new User();
-                $invitee = $this->Invitee->getEmailAddresses($this->Invitation->id);
-                foreach($invitee as $recipient){
-                    $this->_sendInvitationEmail($recipient['Invitee']['email'], $this->data['Invitation']['text'], $this->data['Invitation']['user_id']);
+                //schedule refresh
+                /*
+                 ClassRegistry::init('Robot.RobotTask')->schedule(
+                      '/rss/feedCrawl',
+                     array('feed_id' => $feed_id)
+                 );
+                */
+                $flashMessage =__('The Rss-Feed has been added to your account. It might take a while until the first posts are generated.',true);
 
-                /*    $this->User->contain();
-                    $user = array();
-                    $user = $this->User->find('first', array('conditions' => array('email' => $recipient['Invitee']['email'])));
-                    if(isset($user['User']['id']) && $user['User']['id'] != $this->Session->read('Auth.User.id')){
-                        $this->Conversation->generateConversationForRegisteredInvitee($this->data, $user['User']['id']);
-                        $registeredCount++;
-                    } */
-                }
-                $flashMessage =__('Your Invitation has been saved and emails have been sent to the Invitee.',true);
-               /* if($registeredCount >0 ){
-                    $flashMessage .= ' '.sprintf(__n('%d of them is already registered','%d of them are already registered.',$registeredCount,true),$registeredCount);
-                } */
                 $this->Session->setFlash($flashMessage, 'default', array('class' => 'success'));
                 $this->redirect($this->referer());
 			} else {
-				$this->Session->setFlash(__('The Invitation could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The Rss-Feed could not be added.'.' '.'Please, try again.', true));
                 $this->redirect($this->referer());
 			}
 		}
 	}
 
+    function accRemoveRssFeed($feed_id = null, $delete_posts = false) {
 
+		if (!$feed_id) {
+			$this->Session->setFlash(__('Invalid id for RSS-Feed', true));
+			$this->redirect($this->referer());
+		}
+
+        App::import('model','RssFeedsUser');
+        $this->RssFeedsUser = new RssFeedsUser();
+
+        $this->RssFeedsUser->contain();
+        if($this->RssFeedsUser->find('count', array('conditions' => array('user_id' => $this->Session->read('Auth.User.id'),'feed_id' => $feed_id)))){
+
+            App::import('model','RssFeed');
+            $this->RssFeed = new RssFeed();
+
+            if ($this->RssFeed->removeFeedFromUser($this->Session->read('Auth.User.id'), $feed_id, $delete_posts)) {
+                $this->Session->setFlash(__('Rss-Feed has been removed.', true), 'default', array('class' => 'success'));
+                $this->redirect(array('controller' => 'users',  'action' => 'accRssImport'));
+
+              $this->redirect($this->referer());
+            }
+
+            $this->Session->setFlash(__('Rss-Feed could not be removed.'.' '.'Please, try again.', true));
+            $this->redirect($this->referer());
+        } else {
+            $this->Session->setFlash(__('The RSS-Feed is not associated with your user account.', true));
+
+            $this->redirect($this->referer());
+        }
+    }
 
 	/**
 	 * handle upload of user profile image

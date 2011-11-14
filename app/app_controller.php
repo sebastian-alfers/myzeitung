@@ -198,6 +198,8 @@ class AppController extends Controller {
         	'accDelete' => $this->user,
             'accInvitations' => $this->user,
             'accRssImport' => $this->user,
+            'accRemoveRssFeed' => $this->user,
+            'accAddRssFeed' => $this->user,
             'admin_index' => $this->admin,
             'admin_edit' => $this->superadmin,
             'admin_delete' => $this->superadmin,

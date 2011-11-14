@@ -31,7 +31,12 @@ class RssFeed extends AppModel {
 			'className' => 'RssFeedsUser',
 			'foreignKey' => 'feed_id',
 			'dependent' => true
-        )
+        ),
+        'RssFeedsItem' => array(
+			'className' => 'RssFeedsItem',
+			'foreignKey' => 'feed_id',
+			'dependent' => true
+        ),
     );
 
     var $hasAndBelongsToMany = array(
@@ -145,7 +150,6 @@ class RssFeed extends AppModel {
             }
 
 
-
         }else{
             //user is not associated to the feed
             // no reason to do anything
@@ -154,7 +158,7 @@ class RssFeed extends AppModel {
              */
 
             // (yes ... returning true does not really get to the point,  but since the user is not associated
-            // it kinda represents the wish to un-associate the feed)
+            // it kinda represents the users' wish to un-associate the feed)
             return true;
         }
     }
