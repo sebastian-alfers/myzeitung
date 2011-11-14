@@ -32,6 +32,12 @@ class RssFeed extends AppModel {
 			'foreignKey' => 'feed_id',
 			'dependent' => true
         ),
+
+        'RssFeedsItem' => array(
+			'className' => 'RssFeedsItem',
+			'foreignKey' => 'feed_id',
+			'dependent' => true
+        ),
         'RssImportLog' => array(
 			'className' => 'RssImportLog',
 			'foreignKey' => 'rss_feed_id',
@@ -60,6 +66,18 @@ class RssFeed extends AppModel {
             )
     );
 
+
+    /*
+     * adding a rss feed to a user for automatic generation of posts.
+     *
+     * checking the feed does already exist in the system.
+     * associating user to existing or new feed.
+     *
+     * @param int $user_id  - id of the user that wants to add a feed
+     * @param int $feed_url - url of desired feed
+     * @return int - id of existen or created feed
+     *             - false if something goes wrong
+     */
 
     function addFeedToUser($user_id, $feed_url){
         App::import('model','RssFeedsUser');
@@ -120,6 +138,17 @@ class RssFeed extends AppModel {
     }
 
 
+    /*
+     * remove a feed from a user profile. no more automatic generation of posts.
+     *
+     * @param int $user_id - id of user that wants to remove the feed
+     * @param int $feed_id - id of the feed thats gonna be removed
+     * @param bool $delete_psts - wether or not the user wants to delete posts which were created out of this feed
+     *
+     * @return bool - true or false if somethings wrong or not
+     */
+
+
     function removeFeedFromUser($user_id, $feed_id, $delete_posts = false){
         App::import('model','RssFeedsUser');
         $this->RssFeedsUser = new RssFeedsUser();
@@ -152,7 +181,6 @@ class RssFeed extends AppModel {
             }
 
 
-
         }else{
             //user is not associated to the feed
             // no reason to do anything
@@ -161,17 +189,20 @@ class RssFeed extends AppModel {
              */
 
             // (yes ... returning true does not really get to the point,  but since the user is not associated
-            // it kinda represents the wish to un-associate the feed)
+            // it kinda represents the users' wish to un-associate the feed)
             return true;
         }
     }
 
 
-/*
+        /*
          * @todo make PRIVATE after testing
          */
+    /*
+     * deleting posts, that were created out of a specific rss-feed.
+     * this happens if the user removes the feed from his profile and wants to delete posts of that feed.
+     */
    function deletePostsForDeletedFeedAssociation($user_id, $feed_id){
-        //RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser"
 
 
        //get all feeds of this user with all items associated to those feeds
@@ -179,6 +210,7 @@ class RssFeed extends AppModel {
        // why?: if a feed is deleted with posts, we cannot delete a posts if it came from another RSS-feed
        //       which is not deleted (yet)
        $contain = array('RssFeed' => array('RssItem' => array('id')));
+       //(RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser")
        $user_feeds = $this->RssFeedsUser->find('all',array('contain' => $contain, 'conditions' => array('user_id' => $user_id)));
 
        //get all item-ids from any feed of the user
@@ -221,6 +253,10 @@ class RssFeed extends AppModel {
         /*
          * @todo make PRIVATE after testing
          */
+    /*
+     * removing the rss_feeds_users entry for a feed/user -combination.
+     * wether or not the feed and dependet data is deleted, is processed in rss_feed callbacks
+     */
     function deleteAssociation($id){
         //RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser"
         if($this->RssFeedsUser->delete($id, false)){

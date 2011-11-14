@@ -478,6 +478,7 @@ class RssController extends AppController
         $this->RssFeed->deletePostsForDeletedFeedAssociation(18,6);
     }
 
+
 }
 
 /*

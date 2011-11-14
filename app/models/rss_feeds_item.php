@@ -24,4 +24,26 @@ class RssFeedsItem extends AppModel {
 			),
 		),
 	);
+
+
+
+
+    function beforeDelete(){
+        //check if there are any other feeds associated to this item. if not. delete item
+        $this->contain();
+        $feed_item = $this->find(null, $this->id);
+
+        if(isset($feed_item['RssFeedsItem']['item_id'])){
+            $this->contain();
+            if(!($this->find('count', array('conditions' => array('item_id' => $feed_item['RssFeedsItem']['item_id']))) > 1)){
+                // this is the last association to this item -> item must be deleted.
+               App::import('model','RssItem');
+               $this->RssItem = new RssItem();
+               $this->RssItem->delete($feed_item['RssFeedsItem']['item_id'], true);
+            }
+
+        }
+        return true;
+
+    }
 }
