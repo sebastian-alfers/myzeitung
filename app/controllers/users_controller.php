@@ -1312,12 +1312,10 @@ class UsersController extends AppController {
                     'fields' => array(),
                     'conditions' => array('RssFeedsUser.user_id' => $user_id),
             //contain array: limit the (related) data and models being loaded per post
-                    'contain' => array('RssFeed'),
+                    'contain' => array('RssFeed', 'RssFeed.RssImportLog.created')
             )
         );
         $feeds = $this->paginate("RssFeedsUser");
-
-
 
         $this->set('user', $this->getUserForSidebar());
         $this->set('feeds', $feeds);

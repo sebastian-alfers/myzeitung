@@ -31,6 +31,13 @@ class RssFeed extends AppModel {
 			'className' => 'RssFeedsUser',
 			'foreignKey' => 'feed_id',
 			'dependent' => true
+        ),
+        'RssImportLog' => array(
+			'className' => 'RssImportLog',
+			'foreignKey' => 'rss_feed_id',
+			'dependent' => false,
+            'limit' => '1',
+            'order' => 'RssImportLog.created DESC'
         )
     );
 
@@ -156,7 +163,7 @@ class RssFeed extends AppModel {
     private function deletePostsForDeletedFeedAssociation($user_id, $feed_id){
         //RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser"
 
-        $this->RssFeedUser->find('all',)
+        //$this->RssFeedUser->find('all',)
     }
 
     private function deleteAssociation($id){

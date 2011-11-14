@@ -1,43 +1,85 @@
+<?php echo $this->element('rss/modal_delete_feed'); ?>
 <?php echo $this->element('users/sidebar'); ?>
-    <div id="maincolwrapper">
-        <div id="maincol" class="account rss-feed-import-overview">
-            <div class="account-nav">
-                <h2 class="account-title"><?php echo __('RSS-Import', true);?></h2>
+<div id="maincolwrapper">
+    <div id="maincol" class="account invitations-overview">
+        <div class="account-nav">
+            <h2 class="account-title"><?php echo __('RSS Feeds', true);?></h2>
 
-                <ul class="create-actions">
+            <ul class="create-actions">
+
+                <li class="big-btn">
+                    <div class="invitation">
+                        <a class="btn invitation-btn" href="#" id=""><span>+</span><?php __('Import new Rss Feed'); ?>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <p>
+                <?php __('Here you can import your Rss Feeds. Once you added a Rss Feed, it will imported regularly.'); ?>
+            </p>
+
+            <p>
+                <?php __('The contents of you Feeds will be published as you would create regular posts.'); ?>
+            </p>
+        </div>
 
 
-                </ul>
-            </div>
+        <ul class="invitations">
 
+            <?php foreach ($feeds as $feed): ?>
+            <ul class="invitations">
 
-            <ul class="feeds">
-
-                <?php foreach($feeds as $feed):?>
-                <li class="feed">
+                <li class="invitation">
                     <ul>
-
-                        <li class="feed-url">
-                            <?php echo $feed['RssFeed']['url']?>
+                        <li class="invitation-info">
+                            <span class="icon rss-icon-white"></span>
+                            <span>
+                                <?php echo $this->Html->link($feed['RssFeed']['url'], $feed['RssFeed']['url'], array('target' => '_blank', 'class' => 'rss-url'));?>
+                            </span>
                         </li>
-                        <li class="feed-update"> letztes update 12.34.56 <?php //echo $this->MzTime->timeAgoInWords($invitation['Invitation']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?> </li>
                         <li class="actions">
-                            <?php // echo $this->Html->link('',array('controller' => 'invitations', 'action' => 'delete', $invitation['Invitation']['id']), array('class' => 'icon icon-delete', 'escape' => false),__('Are you sure you want to delete this Invitation-list?', true));?>
+                            <a class="icon icon-delete delete-rss" id="<?php echo 'removeFeedForUser/'.$feed['RssFeedsUser']['id']; ?>"></a>
                         </li>
+                        <li class="invitee">
+                            <ul>
+                                <li class="single-invitee">
+                                    <ul class="invitee-info">
+                                        <li class="rssimport">
+                                            <?php if (isset($feed['RssFeed']['RssImportLog'][0]['created']) && !empty($feed['RssFeed']['RssImportLog'][0]['created'])): ?>
+                                            <?php __('Last Import'); ?>
+                                            : <?php echo $this->MzTime->timeAgoInWords($feed['RssFeed']['RssImportLog'][0]['created'], array('format' => 'd.m.y  h:m', 'end' => '+1 Month')); ?>
+                                            <?php else: ?>
+                                            <?php __('Waiting'); ?>
+                                            <?php endif; ?>
+                                        </li>
 
+                                        <li class="status"></li>
+                                        <li class="info"></li>
+
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
 
-                </li><!-- /.invitation-->
-                <?php endforeach;?>
+                </li>
+                <!-- /.invitation-->
 
             </ul>
 
-            <div class="pagination">
-                 <?php echo $this->element('global/paginate'); ?>
-            </div>
+
+            <?php endforeach;?>
+
+        </ul>
+
+        <div class="pagination">
+            <?php echo $this->element('global/paginate'); ?>
+        </div>
 
 
+    </div>
+    <!-- / #maincol -->
 
-        </div><!-- / #maincol -->
 
-    </div><!-- / #maincolwrapper -->
+</div><!-- / #maincolwrapper -->

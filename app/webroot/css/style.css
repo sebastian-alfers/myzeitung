@@ -236,6 +236,11 @@ span.settings-icon{
 span.rss-icon{
     background: #ebebeb url(/img/assets/maintile.png) -124px -277px no-repeat;;
 }
+
+span.rss-icon-white{
+    background: transparent url(/img/assets/maintile.png) -124px -275px no-repeat;;
+}
+
 /*
 .btn.btn-send:hover span.send-icon{
 background: url(/img/assets/maintile.png) no-repeat scroll -52px -123px #242424;
@@ -2575,6 +2580,12 @@ width: 731px;
 .invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.email{
     width: 250px;
 }
+
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.rssimport{
+    width: 250px;
+    margin-left: 22px;
+}
+
 .invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.status{
     border-radius: 3px;
     -moz-border-radius:3px;

@@ -28,6 +28,14 @@ class RssController extends AppController
     var $components = array('Rss');
 
 
+    /**
+     * @return void
+     */
+    function removeFeedForUser($feed_id){
+
+    }
+
+
     public function beforeFilter()
     {
         parent::beforeFilter();
@@ -64,11 +72,15 @@ class RssController extends AppController
     function import()
     {
 
+        $this->_import(1);
+
+        /*
         if($this->_import(1)){
             if($this->_import(2)){
                 $this->_import(5);
             }
         }
+        */
 
 
 
