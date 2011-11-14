@@ -7,8 +7,17 @@ $(document).ready(function() {
         e.preventDefault();
 
         var url = $(this).parent().parent().find('.rss-url').attr('href');
-        alert($(this).attr('id'));
+
+        $('#UserFeedId').val($(this).attr('id'));
+
         $( "#delete-feed-topic" ).dialog('open');
+    });
+
+
+
+    $('#submit-delete-form').click(function(e){
+        e.preventDefault();
+        $('#UserAccRssImportForm').submit();
     });
 
 });

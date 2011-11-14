@@ -38,7 +38,7 @@
                             </span>
                         </li>
                         <li class="actions">
-                            <a class="icon icon-delete delete-rss" id="<?php echo 'removeFeedForUser/'.$feed['RssFeedsUser']['id']; ?>"></a>
+                            <a class="icon icon-delete delete-rss" id="<?php echo $feed['RssFeedsUser']['id']; ?>"></a>
                         </li>
                         <li class="invitee">
                             <ul>

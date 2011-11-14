@@ -340,6 +340,7 @@ class AppController extends Controller {
              'robotlanding' => $this->robot,
              'test' => $this->superadmin,
              'scheduleAllFeedsForCrawling' => $this->admin,
+             'removeFeedForUser' => $this->user,
          ),
           'rssimportlogs' => array(
                 'admin_index' => $this->admin,

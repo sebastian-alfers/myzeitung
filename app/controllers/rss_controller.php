@@ -31,7 +31,18 @@ class RssController extends AppController
     /**
      * @return void
      */
-    function removeFeedForUser($feed_id){
+    function removeFeedForUser(){
+
+        debug($this->data);
+
+        if((boolean)$this->data['User']['delete'] === true){
+            debug('do delete');
+        }
+        else{
+            debug('do not delete');
+        }
+
+        die();
 
     }
 
