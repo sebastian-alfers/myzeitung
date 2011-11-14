@@ -1,8 +1,8 @@
 <?php
 class RssFeed extends AppModel {
-	var $name = 'RssFeed';
+    var $name = 'RssFeed';
 
-	var $validate = array(
+    var $validate = array(
 		'url' => array(
 			'url' => array(
 				'rule' => array('url'),
@@ -134,7 +134,13 @@ class RssFeed extends AppModel {
                 //also delete posts
 
                 if($this->deleteAssociation($feed_user['RssFeedsUser']['id'])){
-                    return true;
+                    if($this->deletePostsForDeletedFeedAssociation($user_id, $feed_id)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
                 }
 
             }else{
@@ -160,13 +166,62 @@ class RssFeed extends AppModel {
         }
     }
 
-    private function deletePostsForDeletedFeedAssociation($user_id, $feed_id){
+
+/*
+         * @todo make PRIVATE after testing
+         */
+   function deletePostsForDeletedFeedAssociation($user_id, $feed_id){
         //RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser"
 
-        //$this->RssFeedUser->find('all',)
-    }
 
-    private function deleteAssociation($id){
+       //get all feeds of this user with all items associated to those feeds
+       // goal: cross check which posts are generated from RSS items of OTHER rss feeds of THIS user
+       // why?: if a feed is deleted with posts, we cannot delete a posts if it came from another RSS-feed
+       //       which is not deleted (yet)
+       $contain = array('RssFeed' => array('RssItem' => array('id')));
+       $user_feeds = $this->RssFeedsUser->find('all',array('contain' => $contain, 'conditions' => array('user_id' => $user_id)));
+
+       //get all item-ids from any feed of the user
+       foreach($user_feeds as $user_feed){
+            foreach($user_feed['RssFeed']['RssItem'] as $item){
+                if($user_feed['RssFeed']['id'] == $feed_id){
+                    //this is the feed which is going to be remove for the user
+                    $item_ids_to_delete[] = $item['id'];
+                }else{
+                    //another feed
+                    $item_ids_of_other_feeds[] = $item['id'];
+                }
+            }
+       }
+
+       //unset all ids in the "to_Delete" that are also in other feeds
+       foreach($item_ids_to_delete as $key => $value){
+            if(in_array($value, $item_ids_of_other_feeds)){
+                unset($item_ids_to_delete[$key]);
+            }
+       }
+
+       if(count($item_ids_to_delete)){
+           //delete all posts of this user which were created out of these items
+           App::import('model','Post');
+           $this->Post = new Post();
+           if($this->Post->deleteAll(array('Post.user_id' => $user_id, 'Post.rss_item_id' => $item_ids_to_delete), true, true)){
+               return true;
+           }else{
+               return false;
+           }
+       }else{
+           //nothing to delete
+           return true;
+       }
+   }
+
+
+
+        /*
+         * @todo make PRIVATE after testing
+         */
+    function deleteAssociation($id){
         //RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser"
         if($this->RssFeedsUser->delete($id, false)){
             return true;
