@@ -30,7 +30,7 @@ $(document).ready(function() {
 
     $('#submit-delete-form').click(function(e){
         e.preventDefault();
-        $('#UserAccRssImportForm').submit();
+        $('#UserAccRssDeleteForm').submit();
     });
 
     $('#ImportNewRss').click(function(e){

@@ -69,7 +69,7 @@ class RssController extends AppController
                 //he is logged in
                 $url = $this->data['User']['feed_url'];
 
-                $this->
+                //$this->
             }
         }
 
