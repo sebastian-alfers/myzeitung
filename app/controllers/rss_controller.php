@@ -28,6 +28,16 @@ class RssController extends AppController
     var $components = array('Rss');
 
 
+    function admin_analyzeFeed(){
+
+        if(isset($this->data['Rss']['feed_url']) && !empty($this->data['Rss']['feed_url'])){
+            $feed_data = $this->Rss->get(array('RssFeed' => array('url' => $this->data['Rss']['feed_url'])));
+
+            $this->set('feed_data', $feed_data);
+        }
+    }
+
+
     /**
      * @return void
      */
@@ -59,7 +69,7 @@ class RssController extends AppController
             $this->Session->setFlash(__('No Permission', true));
             $this->redirect($this->referer());
         }
-        die();
+        die('wtf?');
     }
 
     function addFeedForUser(){
@@ -90,16 +100,20 @@ class RssController extends AppController
      */
     function feedCrawl()
     {
+        $this->log('************ init crawl ' . json_encode($this->params));
+
         if (isset($this->params['robot']['feed_id']) && !empty($this->params['robot']['feed_id'])) {
             $id = $this->params['robot']['feed_id'];
             if ($this->_import($id)) {
-
+                $this->log(' ** crawled '.$id.' **');
             }
             else {
+                $this->log(' ** error(1) while crawled '.$id.' **');
                 // error ???????????
             }
         }
         else {
+            $this->log(' ** error(2) while crawle **');
             // error ???????????
         }
 
@@ -150,16 +164,17 @@ class RssController extends AppController
      */
     private function _import($feed_id = null)
     {
+        $this->log('');
+        $this->log('enter import for Feed ' . (int)$feed_id);
         $this->_clearCounter();
 
         $start = explode(" ",microtime());
 
-        if (!is_int($feed_id) || $feed_id == null) {
-            // error ???????????
-            return false;
-        }
+
         $this->RssFeed->contain('RssFeedsUser');
-        $feed = $this->RssFeed->read(array('id', 'url', 'enabled'), $feed_id);
+
+        $feed = $this->RssFeed->read(array('id', 'url', 'enabled'), (int)$feed_id);
+
 
         if ((boolean)$feed['RssFeed']['enabled']) {
 
@@ -185,6 +200,7 @@ class RssController extends AppController
                     foreach ($feed['RssFeedsUser'] as $rssFeedUser) {
 
                         if (isset($rssFeedUser['id'])) {
+
                             $this->Post->contain();
                             $post = $this->Post->find('first', array('fields' => array('id'), 'conditions' => array('Post.rss_item_id' => $item_id, 'Post.user_id' => $rssFeedUser['user_id'])));
 
@@ -205,31 +221,31 @@ class RssController extends AppController
                                     $this->_category_paper_posts_created += $this->CategoryPaperPosts->find('count', array('conditions' => array('CategoryPaperPosts.post_id' => $this->Post->id)));
                                 }
                                 else {
-                                    $this->_posts_not_created++;
-                                    $this->_log('Error while saving post', $this->Post->invalidFields(), $new_post);
+                                    //$this->_posts_not_created++;
+                                    //$this->_log('Error while saving post', $this->Post->invalidFields(), $new_post);
+                                    //$this->log('error 5 ' . json_encode($this->Post->invalidFields()));
                                 }
-                            }
-                            else {
-                                //debug($feed);
-                                //die();
-                                //$this->_log('Found post that should not exist with post_id ' . $post['Post']['id'] . '. For rss_item_id ' . $item_id . ' and user_id ' . $rssFeedUser['id'], array(), $post);
                             }
                         }
                         else {
-                            $this->_log('Error loading user', array(), $rssFeedUser);
+                            //$this->log('error 3');
+                            //$this->_log('Error loading user', array(), $rssFeedUser);
                         }
                     }
                 }
                 else {
-                    $this->_log('Error loading item_id while _processRssItem()', array(), array('item_id' => $item_id, 'feed_id' => $feed_id, 'hash' => $hash, 'value' => $values));
+                    //$this->log('error 2');
+                    //$this->_log('Error loading item_id while _processRssItem()', array(), array('item_id' => $item_id, 'feed_id' => $feed_id, 'hash' => $hash, 'value' => $values));
                 }
 
 
             }
         }
         else {
+
             // not enabled
         }
+
 
         $end = explode(" ",microtime());
 
@@ -250,10 +266,14 @@ class RssController extends AppController
             'category_paper_posts_created' => $this->_category_paper_posts_created
         );
 
+        $this->log(' log data ' . json_encode($log_data));
+
         $this->RssImportLog->create();
         if(!$this->RssImportLog->save(array('RssImportLog' => $log_data))){
             $this->log('Error saving RssImportLog. ' . json_encode($log_data));
         }
+
+        $this->log(' > finish import');
 
         return true;
 
@@ -376,6 +396,7 @@ class RssController extends AppController
 
     }
 
+    /*
     function test()
     {
 
@@ -395,6 +416,7 @@ class RssController extends AppController
             array('user_id' => $this->User->id)
         );
     }
+    */
 
     function robotlanding()
     {
@@ -440,6 +462,8 @@ class RssController extends AppController
     */
     function scheduleAllFeedsForCrawling()
     {
+        $this->log('** add all + self in 5-minutes **');
+
         $this->RssFeed->contain();
         $feeds = $this->RssFeed->find('all', array('fields' => array('id'), 'conditions' => array('enabled' => 1)));
 
@@ -453,7 +477,7 @@ class RssController extends AppController
         ClassRegistry::init('Robot.RobotTask')->schedule(
             '/rss/scheduleAllFeedsForCrawling',
             array(),
-            strtotime("+10 Minutes")
+            strtotime("+5 Minutes")
         );
         $this->log('inter');
     }
@@ -461,7 +485,6 @@ class RssController extends AppController
 
     function scheduleSingleFeedForCrawling($feed_id)
     {
-
         ClassRegistry::init('Robot.RobotTask')->schedule(
             '/rss/feedCrawl',
             array('feed_id' => $feed_id)
@@ -483,7 +506,7 @@ class RssController extends AppController
 
 /*
 
-'http://www.facebook.com/feeds/page.php?id=271834416189258&format=rss20',
+'',
 'http://www.herthabsc.de/index.php?id=1809&type=100',
 'http://www.spiegel.de/schlagzeilen/tops/index.rss',
 'http://www.spiegel.de/schlagzeilen/eilmeldungen/index.rss',

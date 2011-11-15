@@ -3,6 +3,9 @@ class RssImportLog extends AppModel {
 	var $name = 'RssImportLog';
 	var $useDbConfig = 'local';
 	var $useTable = 'rss_import_log';
+
+    var $order = "RssImportLog.id DESC";
+
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(

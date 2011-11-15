@@ -3,6 +3,8 @@ class RssImportLogsController extends AppController {
 
 	var $name = 'RssImportLogs';
 
+    var $helpers = array('MzTime');
+
     public function beforeFilter()
     {
         parent::beforeFilter();

@@ -174,6 +174,24 @@
                 <li><a href="#"><?php __('Cronjobs'); ?></a></li>
             </ul>
         </li>
+
+
+        <li>
+            <a href="#"><?php __('RSS'); ?></a>
+            <ul>
+                <li>
+                    <a href="#"><?php __('Import'); ?></a>
+                    <ul>
+                        <li><?php echo $this->Html->link(__('Log', true), array('controller' => 'rssImportLogs', 'action' => 'index'));?></li>
+                    </ul>
+                </li>
+                <li><a href="#"><?php __('Feeds'); ?></a>
+                    <ul>
+                        <li><?php echo $this->Html->link(__('Analyzer', true), array('controller' => 'rss', 'action' => 'analyzeFeed'));?></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
             </ul>
 
 		</div><!-- / #nav --> 

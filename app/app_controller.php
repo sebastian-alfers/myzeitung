@@ -340,7 +340,8 @@ class AppController extends Controller {
          ),
          'rss' => array(
              'robotlanding' => $this->robot,
-             'test' => $this->superadmin,
+             'feedCrawl' => $this->robot,
+             'admin_analyzeFeed' => $this->superadmin,
              'scheduleAllFeedsForCrawling' => $this->admin,
              'removeFeedForUser' => $this->user,
              'addFeedForUser' => $this->user

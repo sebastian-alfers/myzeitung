@@ -11,6 +11,7 @@ class RssComponent extends Object
     //instance for crawler
     var $_crawler = null;
 
+
     function __construct()
     {
         $this->cache = CACHE . 'rss' . DS;
@@ -25,6 +26,9 @@ class RssComponent extends Object
      */
     public function get($feed = array())
     {
+
+
+
         if (empty($feed) || !is_array($feed)) return false;
 
 
@@ -32,12 +36,9 @@ class RssComponent extends Object
 
         $feeds_items = array();
 
-
         //we only wand valid feeds
         if (!$this->_isValidFeed($feed)) return false;
 
-
-        $feed_id = $feed['RssFeed']['id'];
         $feed_url = $feed['RssFeed']['url'];
 
 
@@ -79,9 +80,6 @@ class RssComponent extends Object
 
         $data = array();
 
-
-
-        $data['title'] = $item->get_title();
         $data['content'] = $item->get_content();
 
         $data['copyright'] = $item->get_copyright();
@@ -90,7 +88,15 @@ class RssComponent extends Object
 
         App::Import('helper', 'Text');
         $text_helper = new TextHelper();
-        $data['title'] =  $text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false));
+        $data['title'] =  trim($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false)));
+
+        if($data['title'] == ''){
+            $data['title'] = trim(strip_tags($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false))));
+        }
+
+        if($data['title'] == ''){
+            $data['title'] = $text_helper->truncate(strip_tags($data['content']), 200, array('ending' => '...', 'exact' => false));
+        }
 
         $data['link'] = $item->get_link();
 
@@ -117,8 +123,6 @@ class RssComponent extends Object
      */
     private function _isValidFeed($feed)
     {
-        if (!isset($feed['RssFeed']['id']) || empty($feed['RssFeed']['id'])) return false;
-
         if (!isset($feed['RssFeed']['url']) || empty($feed['RssFeed']['url'])) return false;
 
         return true;
@@ -189,6 +193,20 @@ class RssComponent extends Object
 
     function getTimestampFormat(){
         return self::DATE_FORMT;
+    }
+
+
+    /**
+     * check if a running task is in robot_tasks
+     *
+     *
+     * @return boolean
+     */
+    function hasRunningTask(){
+        App::import('model', 'Robot.RobotTask');
+        $this->RobotTask = new RobotTask();
+
+        return $this->RobotTask->find('count', array('conditions' => array('RobotTask.status' => 'running'))) > 0;
     }
 }
 

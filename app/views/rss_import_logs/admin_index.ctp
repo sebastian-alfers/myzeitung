@@ -36,7 +36,9 @@
 		<td><?php echo $rssImportLog['RssImportLog']['rss_items_not_created']; ?>&nbsp;</td>
 		<td><?php echo $rssImportLog['RssImportLog']['rss_items_contents_not_created']; ?>&nbsp;</td>
 		<td><?php echo $rssImportLog['RssImportLog']['category_paper_posts_created']; ?>&nbsp;</td>
-		<td><?php echo $rssImportLog['RssImportLog']['created']; ?>&nbsp;</td>
+		<td>
+            <?php echo $this->MzTime->timeAgoInWords($rssImportLog['RssImportLog']['created'], array('format' => 'd.m.y  h:m','end' => '+1 Month'));?>
+        </td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $rssImportLog['RssImportLog']['id'])); ?>
 		</td>
