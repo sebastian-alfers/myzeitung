@@ -126,6 +126,13 @@ class RssController extends AppController
 
           // App::import('model','RssFeed');
           // $this->RssFeed = new RssFeed();
+           $validation = $this->_addFeedForUserValidations($this->data['User']['feed_url']);
+
+            if(is_string($validation)){
+               $this->Session->setFlash($validation);
+               $this->redirect($this->referer());
+            }
+
             $feed_id = false;
             $feed_id = $this->RssFeed->addFeedToUser($this->Session->read('Auth.User.id'), $this->data['User']['feed_url']);
 			if ($feed_id !== false) {
@@ -147,6 +154,23 @@ class RssController extends AppController
 			}
 		}
 	}
+    
+    private function _addFeedForUserValidations($feed_url){
+
+        $this->RssFeedsUser->contain('RssFeed.url');
+        $feeds = $this->RssFeedsUser->find('all', array('conditions' => array('user_id' => $this->Session->read('Auth.User.id') )));
+        $this->log($feeds);
+        if(count($feeds) == 3 ){
+            return __('You can only add up to 3 RSS-Feeds for automatic generation of posts.',true);
+        }
+        foreach($feeds as $feed){
+            if($feed['RssFeed']['url'] == $feed_url){
+                return __('You already added this Feed to your account',true);
+            }
+        }
+        return true;
+
+    }
 
     function removeFeedForUser() {
 
