@@ -2645,6 +2645,10 @@ margin-bottom: 5px;
     float:right;
 }
 
+.account .account-nav p.rss-import{
+    width: 540px;
+}
+
 .state{
     height: 37px;
     width: 18px;

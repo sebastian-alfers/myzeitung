@@ -23,15 +23,19 @@ class RssController extends AppController
     var $name = 'Rss';
 
 
-    var $uses = array('RssFeed', 'RssItem', 'RssFeedsItem', 'RssItemContent', 'Post', 'RssImportLog', 'CategoryPaperPosts');
+    var $uses = array('RssFeedsUser',  'RssFeed', 'RssItem', 'RssFeedsItem', 'RssItemContent', 'Post', 'RssImportLog', 'CategoryPaperPosts');
 
     var $components = array('Rss');
 
-
+    public function beforeFilter()
+    {
+        parent::beforeFilter();
+        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling', 'testModels');
+    }
     /**
      * @return void
      */
-    function removeFeedForUser(){
+  /*  function removeFeedForUser(){
 
         if(!$this->data || !isset($this->data['User']['feed_id']) || empty($this->data['User']['feed_id'])){
             $this->Session->setFlash(__('No Permission', true));
@@ -45,7 +49,7 @@ class RssController extends AppController
         if($this->canEdit('RssFeedsUser', $this->data['User']['feed_id'], 'user_id')){
             debug('jepp, he is the owner');
 
-            debug($this->data);
+            $this->log($this->data);
 
             if((boolean)$this->data['User']['delete'] === true){
                 debug('do delete all rss feeds posts');
@@ -60,9 +64,9 @@ class RssController extends AppController
             $this->redirect($this->referer());
         }
         die();
-    }
+    } */
 
-    function addFeedForUser(){
+  /*  function addFeedForUser(){
 
         if($this->data){
             if($this->Session->read('Auth.User.id')){
@@ -74,14 +78,71 @@ class RssController extends AppController
         }
 
         $this->redirect($this->referer());
+    }*/
+
+    function addFeedForUser(){
+       if (!empty($this->data)) {
+
+          // App::import('model','RssFeed');
+          // $this->RssFeed = new RssFeed();
+            $feed_id = false;
+            $feed_id = $this->RssFeed->addFeedToUser($this->Session->read('Auth.User.id'), $this->data['User']['feed_url']);
+			if ($feed_id !== false) {
+
+                //schedule refresh
+                /*
+                 ClassRegistry::init('Robot.RobotTask')->schedule(
+                      '/rss/feedCrawl',
+                     array('feed_id' => $feed_id)
+                 );
+                */
+                $flashMessage =__('The Rss-Feed has been added to your account. It might take a while until the first posts are generated.',true);
+
+                $this->Session->setFlash($flashMessage, 'default', array('class' => 'success'));
+                $this->redirect($this->referer());
+			} else {
+				$this->Session->setFlash(__('The Rss-Feed could not be added.'.' '.'Please, try again.', true));
+                $this->redirect($this->referer());
+			}
+		}
+	}
+
+    function removeFeedForUser() {
+
+      /*  if(!$this->data || !isset($this->data['User']['feed_id']) || empty($this->data['User']['feed_id'])){
+            $this->Session->setFlash(__('No Permission', true));
+
+            $this->redirect($this->referer());
+        }
+      */
+
+		if (!isset($this->data['User']['feed_id']) || empty($this->data['User']['feed_id'])) {
+			$this->Session->setFlash(__('Invalid id for RSS-Feed', true));
+			$this->redirect(array('controller' => 'users',  'action' => 'accRssImport'));
+		}
+
+
+        $this->RssFeedsUser->contain();
+        if($this->RssFeedsUser->find('count', array('conditions' => array('user_id' => $this->Session->read('Auth.User.id'),'feed_id' => $this->data['User']['feed_id']))) >= 1){
+
+            if ($this->RssFeed->removeFeedFromUser($this->Session->read('Auth.User.id'), $this->data['User']['feed_id'], $this->data['User']['delete'])) {
+        
+                $this->Session->setFlash(__('Rss-Feed has been removed.', true), 'default', array('class' => 'success'));
+                $this->redirect(array('controller' => 'users',  'action' => 'accRssImport'));
+
+            }
+
+            $this->Session->setFlash(__('Rss-Feed could not be removed.'.' '.'Please, try again.', true));
+            $this->redirect(array('controller' => 'users',  'action' => 'accRssImport'));
+        } else {
+            $this->Session->setFlash(__('The RSS-Feed is not associated with your user account.', true));
+            $this->redirect(array('controller' => 'users',  'action' => 'accRssImport'));
+        }
     }
 
 
-    public function beforeFilter()
-    {
-        parent::beforeFilter();
-        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling', 'testModels');
-    }
+
+
 
     /**
      * for robot script
@@ -114,7 +175,8 @@ class RssController extends AppController
     {
 
 
-        $this->_import(1);
+        $this->_import(2);
+     //   $this->_import(6);
 
         /*
         if($this->_import(1)){
@@ -150,6 +212,7 @@ class RssController extends AppController
      */
     private function _import($feed_id = null)
     {
+
         $this->_clearCounter();
 
         $start = explode(" ",microtime());
@@ -164,6 +227,7 @@ class RssController extends AppController
         if ((boolean)$feed['RssFeed']['enabled']) {
 
             $items = $this->Rss->get($feed);
+
             foreach ($items as $hash => $values) {
 
                 $item_id = $this->_processRssItem($feed_id, $hash, $values);
@@ -455,7 +519,7 @@ class RssController extends AppController
             array(),
             strtotime("+10 Minutes")
         );
-        $this->log('inter');
+        
     }
 
 
@@ -473,10 +537,13 @@ class RssController extends AppController
        // $this->RssFeed->recursive = 1;
         // $this->RssFeed->contain('RssFeedsItem.id','RssItem.hash','RssItem.created');
        // debug($this->RssFeed->find('all'));
-                App::import('model','RssFeedsUser');
+       /*         App::import('model','RssFeedsUser');
         $this->RssFeed->RssFeedsUser = new RssFeedsUser();
-        $this->RssFeed->deletePostsForDeletedFeedAssociation(18,6);
-    }
+        $this->RssFeed->deletePostsForDeletedFeedAssociation(18,6);*/
+
+
+        $this->RssFeed->delete(1, true);
+    }   
 
 
 }

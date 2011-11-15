@@ -1323,64 +1323,7 @@ class UsersController extends AppController {
     }
 
 
-    function accAddRssFeed(){
-       if (!empty($this->data)) {
-           $this->data['RssFeed']['user_id'] = $this->Session->read('Auth.User.id');
-           App::import('model','RssFeed');
-           $this->RssFeed = new RssFeed();
-            $feed_id = false;
-            $feed_id = $this->RssFeed->addFeedToUser($this->Session->read('Auth.User.id'), $this->data['RssFeed']['url']);
-			if ($feed_id !== false) {
 
-                //schedule refresh
-                /*
-                 ClassRegistry::init('Robot.RobotTask')->schedule(
-                      '/rss/feedCrawl',
-                     array('feed_id' => $feed_id)
-                 );
-                */
-                $flashMessage =__('The Rss-Feed has been added to your account. It might take a while until the first posts are generated.',true);
-
-                $this->Session->setFlash($flashMessage, 'default', array('class' => 'success'));
-                $this->redirect($this->referer());
-			} else {
-				$this->Session->setFlash(__('The Rss-Feed could not be added.'.' '.'Please, try again.', true));
-                $this->redirect($this->referer());
-			}
-		}
-	}
-
-    function accRemoveRssFeed($feed_id = null, $delete_posts = false) {
-
-		if (!$feed_id) {
-			$this->Session->setFlash(__('Invalid id for RSS-Feed', true));
-			$this->redirect($this->referer());
-		}
-
-        App::import('model','RssFeedsUser');
-        $this->RssFeedsUser = new RssFeedsUser();
-
-        $this->RssFeedsUser->contain();
-        if($this->RssFeedsUser->find('count', array('conditions' => array('user_id' => $this->Session->read('Auth.User.id'),'feed_id' => $feed_id)))){
-
-            App::import('model','RssFeed');
-            $this->RssFeed = new RssFeed();
-
-            if ($this->RssFeed->removeFeedFromUser($this->Session->read('Auth.User.id'), $feed_id, $delete_posts)) {
-                $this->Session->setFlash(__('Rss-Feed has been removed.', true), 'default', array('class' => 'success'));
-                $this->redirect(array('controller' => 'users',  'action' => 'accRssImport'));
-
-              $this->redirect($this->referer());
-            }
-
-            $this->Session->setFlash(__('Rss-Feed could not be removed.'.' '.'Please, try again.', true));
-            $this->redirect($this->referer());
-        } else {
-            $this->Session->setFlash(__('The RSS-Feed is not associated with your user account.', true));
-
-            $this->redirect($this->referer());
-        }
-    }
 
 	/**
 	 * handle upload of user profile image

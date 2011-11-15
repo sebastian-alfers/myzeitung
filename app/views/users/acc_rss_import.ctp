@@ -4,23 +4,23 @@
 <div id="maincolwrapper">
     <div id="maincol" class="account invitations-overview">
         <div class="account-nav">
-            <h2 class="account-title"><?php echo __('RSS Feeds', true);?></h2>
+            <h2 class="account-title"><?php echo __('RSS Import', true);?></h2>
 
             <ul class="create-actions">
 
                 <li class="big-btn">
                     <div class="invitation">
-                        <a class="btn invitation-btn" href="#" id="ImportNewRss"><span>+</span><?php __('Import new Rss Feed'); ?>
+                        <a class="btn invitation-btn" href="#" id="ImportNewRss"><span>+</span><?php __('Add RSS-Feed'); ?>
                         </a>
                     </div>
                 </li>
             </ul>
-            <p>
-                <?php __('Here you can import your Rss Feeds. Once you added a Rss Feed, it will imported regularly.'); ?>
+            <p class="rss-import">
+                <?php __('You publish news somewhere else too? You want those news to be published here automatically?'); ?>
             </p>
 
-            <p>
-                <?php __('The contents of you Feeds will be published as you would create regular posts.'); ?>
+            <p class="rss-import">
+                <?php __('Just add the RSS-Feed(s) of those news and we create posts in your name automatically on a regular basis.'); ?>
             </p>
         </div>
 
@@ -39,7 +39,7 @@
                             </span>
                         </li>
                         <li class="actions">
-                            <a class="icon icon-delete delete-rss" id="<?php echo $feed['RssFeedsUser']['id']; ?>"></a>
+                            <a class="icon icon-delete delete-rss" id="<?php echo $feed['RssFeedsUser']['feed_id']; ?>"></a>
                         </li>
                         <li class="invitee">
                             <ul>
