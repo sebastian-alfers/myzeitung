@@ -1588,6 +1588,9 @@ a.btn.big {
 .icon-social-media{
     background: url(/img/assets/maintile.png) -53px -315px no-repeat;
 }
+.icon-rss-import{
+    background: url(/img/assets/maintile.png) -84px -171px no-repeat;
+}
 
 .icon-mynews{
     background: url(/img/assets/maintile.png) -138px -143px no-repeat;

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2011-11-15 12:55+0100\n"
-"PO-Revision-Date: 2011-11-15 13:20+0100\n"
+"POT-Creation-Date: 2011-11-15 16:10+0100\n"
+"PO-Revision-Date: 2011-11-15 16:13+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort."
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//_controller.php:366
+#: /Applications/MAMP/htdocs/myzeitung//_controller.php:368
 #: /Applications/MAMP/htdocs/myzeitung//controllers/categories_controller.php:122
 #: /Applications/MAMP/htdocs/myzeitung//controllers/topics_controller.php:171
 msgid "No Permission"
@@ -461,51 +461,59 @@ msgstr "Der Artikel wurde erfolgreich gelöscht."
 msgid "Post was not deleted"
 msgstr "Der Artikel konnte nicht gelöscht werden. Bitte versuch es noch einmal."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:99
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:147
 msgid "The Rss-Feed has been added to your account. It might take a while until the first posts are generated."
 msgstr "Der RSS-Feed wurde deinem Benutzerkonto hinzugefügt. Es kann eine kurze Zeit dauern, bis die ersten Artikel daraus generiert wurden."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:104
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:152
 msgid "The Rss-Feed could not be added."
 msgstr "Der RSS-Feed konnte nicht hinzugefügt werden."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:120
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:164
+msgid "You can only add up to 3 RSS-Feeds for automatic generation of posts."
+msgstr "Du kannst maximal 3 RSS-Feeds für die automatische Artikelerstellung hinzufügen."
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:168
+msgid "You already added this Feed to your account"
+msgstr "Du hast diesen Feed bereits hinzugefügt"
+
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:185
 msgid "Invalid id for RSS-Feed"
 msgstr "Ungültige RSS-Feed-ID"
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:130
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:195
 msgid "Rss-Feed has been removed."
 msgstr "Der RSS-Feed wurde entfernt."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:135
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:200
 msgid "Rss-Feed could not be removed."
 msgstr "Der RSS-Feed konnte nicht entfernt werden."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:138
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_controller.php:203
 msgid "The RSS-Feed is not associated with your user account."
 msgstr "Der RSS-Feed ist nicht mit deinem Benutzerkonto verknüpft."
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:19;41
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:21;43
 msgid "Invalid rss import log"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:29;46
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:31;48
 msgid "The rss import log has been saved"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:32;49
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:34;51
 msgid "The rss import log could not be saved. Please, try again."
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:61
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:63
 msgid "Invalid id for rss import log"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:65
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:67
 msgid "Rss import log deleted"
 msgstr ""
 
-#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:68
+#: /Applications/MAMP/htdocs/myzeitung//controllers/rss_import_logs_controller.php:70
 msgid "Rss import log was not deleted"
 msgstr ""
 
@@ -1074,6 +1082,7 @@ msgstr "Kommentar hinzufügen"
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_edit_premium.ctp:16
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/edit.ctp:15
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/edit.ctp:14
+#: /Applications/MAMP/htdocs/myzeitung//views/rss/admin_analyze_feed.ctp:10
 #: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_add.ctp:20
 #: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_edit.ctp:21
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_add.ctp:12
@@ -1144,7 +1153,7 @@ msgstr "Bist du sicher, dass du diesen Kommentar löschen willst?: %s"
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:53
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:68
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:53
-#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:49
+#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:51
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_index.ctp:42
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:52
 msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
@@ -1156,7 +1165,7 @@ msgstr "Seite %page% von %pages%, zeige %current% Einträge von %count% insg., a
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:58
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:73
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:58
-#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:54
+#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:56
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_index.ctp:47
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:57
 msgid "previous"
@@ -1168,7 +1177,7 @@ msgstr "zurück"
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:61
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:76
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:61
-#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:57
+#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:59
 #: /Applications/MAMP/htdocs/myzeitung//views/settings/admin_index.ctp:50
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:60
 msgid "next"
@@ -1283,7 +1292,7 @@ msgstr "Benutzer:"
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/admin_index.ctp:32
 #: /Applications/MAMP/htdocs/myzeitung//views/papers/index_backup_alf.ctp:58
 #: /Applications/MAMP/htdocs/myzeitung//views/posts/admin_index.ctp:37
-#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:41
+#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_index.ctp:43
 #: /Applications/MAMP/htdocs/myzeitung//views/users/admin_index.ctp:33
 msgid "View"
 msgstr "Ansicht"
@@ -1540,6 +1549,27 @@ msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:174
 msgid "Cronjobs"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:180
+msgid "RSS"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:183
+msgid "Import"
+msgstr "Import"
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:185
+#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_view.ctp:9
+msgid "Log"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:188
+msgid "Feeds"
+msgstr "Feeds"
+
+#: /Applications/MAMP/htdocs/myzeitung//views/elements/admin_header.ctp:190
+msgid "Analyzer"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/footer.ctp:5
@@ -2878,7 +2908,7 @@ msgid "Search - solr"
 msgstr "Suche - Solr"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/index/admin_index.ctp:6;11;16
-#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:6;12;18
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:12;18;24
 msgid "<span>!!!</span>"
 msgstr ""
 
@@ -3137,6 +3167,10 @@ msgid_plural "References"
 msgstr[0] "Link/Quelle"
 msgstr[1] "Links/Quellen"
 
+#: /Applications/MAMP/htdocs/myzeitung//views/rss/admin_analyze_feed.ctp:4
+msgid "Add Feed-Url to Analyze"
+msgstr ""
+
 #: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_add.ctp:4
 msgid "Admin Add Rss Import Log"
 msgstr ""
@@ -3171,10 +3205,6 @@ msgstr "%d Sekunden"
 
 #: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_view.ctp:2
 msgid "Rss Import Log"
-msgstr ""
-
-#: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_view.ctp:9
-msgid "Log"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/rss_import_logs/admin_view.ctp:21
@@ -3222,18 +3252,30 @@ msgid "Category Paper Posts Created"
 msgstr ""
 
 #: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:6
+msgid "<span>?!?</span>"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:6
+msgid "Are you sure to DELETE the complete search index?"
+msgstr "Bist du sicher den KOMPLETTEN Such-Index löschen zu wollen?"
+
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:7
+msgid "DELETES COMPLETE search index. usually there is no reason to do that."
+msgstr "LÖSCHT den KOMPLETTEN Suchindex. Normalerweise gibt es keinen Grund das zu tun!"
+
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:12
 msgid "Are you sure to refresh the Solr index for all Posts?"
 msgstr "Bist du sicher, dass du den Solr-Suchindex für alle Artikel aktualisieren willst?"
 
-#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:7;13;19
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:13;19;25
 msgid "This algorithm will delete all entries that are deleted or disabled in the database. All other entries will be refreshed in the search index"
 msgstr "Dieser Algorithmus löscht alle Einträge, welche in der Datenbank gelöscht oder gesperrt wurden. Alle andere Einträge werden aktualisiert."
 
-#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:12
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:18
 msgid "Are you sure to refresh the Solr index for all Users?"
 msgstr "Bist du sicher den Solr-Suchindex für alle Benutzer aktualiseren zu wollen?"
 
-#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:18
+#: /Applications/MAMP/htdocs/myzeitung//views/search/admin_index.ctp:24
 msgid "Are you sure to refresh the Solr index for all Papers?"
 msgstr "Bist du sicher den Solr-Suchindex für alle Zeitungen aktualiseren zu wollen?"
 
@@ -3685,10 +3727,6 @@ msgstr "Die Debugeinstellung erlaubt keinen Zugriff auf diese URL."
 
 #~ msgid "Newest Articles"
 #~ msgstr "Neueste Artikel"
-
-#, fuzzy
-#~ msgid "Imprint"
-#~ msgstr "Drucken"
 
 #~ msgid "add URL"
 #~ msgstr "Link hinzufügen"

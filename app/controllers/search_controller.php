@@ -302,9 +302,11 @@ class SearchController extends AppController {
 	}
 
 
-	function delete(){
+	function admin_delete(){
 
 		$this->Solr->deleteIndex();
+        $this->redirect($this->referer());
+        //$this->render();
 
 	}
 

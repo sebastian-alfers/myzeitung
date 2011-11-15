@@ -25,9 +25,7 @@ class RssFeedsItem extends AppModel {
 		),
 	);
 
-
-
-
+    
     function beforeDelete(){
         //check if there are any other feeds associated to this item. if not. delete item
         $this->contain();
