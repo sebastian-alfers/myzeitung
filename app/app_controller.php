@@ -345,7 +345,8 @@ class AppController extends Controller {
              'admin_analyzeFeed' => $this->superadmin,
              'scheduleAllFeedsForCrawling' => $this->admin,
              'removeFeedForUser' => $this->user,
-             'addFeedForUser' => $this->user
+             'addFeedForUser' => $this->user,
+             'admin_robotTasks' => $this->superadmin
          ),
           'rssimportlogs' => array(
                 'admin_index' => $this->admin,

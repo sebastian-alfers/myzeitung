@@ -368,31 +368,35 @@ class RssController extends AppController
         }
 
 
-        $end = explode(" ",microtime());
+        if($this->_needToLog()){
 
-        $duration = (($end[1] + $end[0]) - ($start[1] + $start[0]));
+            $end = explode(" ",microtime());
 
-        $log_data = array(
-            'log' => json_encode($this->_log),
-            'duration' => $duration,
-            'rss_feed_id' => $feed_id,
-            'posts_created' => $this->_posts_created,
-            'posts_not_created' => $this->_posts_not_created,
-            'rss_feeds_items_created' => $this->_rss_feeds_items_created,
-            'rss_feeds_items_not_created' => $this->_rss_feeds_items_not_created,
-            'rss_items_created' => $this->_rss_items_created,
-            'rss_items_not_created' => $this->_rss_items_not_created,
-            'rss_items_contents_created' => $this->_rss_items_contents_created,
-            'rss_items_contents_not_created' => $this->_rss_items_contents_not_created,
-            'category_paper_posts_created' => $this->_category_paper_posts_created
-        );
+            $duration = (($end[1] + $end[0]) - ($start[1] + $start[0]));
 
-        $this->log(' log data ' . json_encode($log_data));
+            $log_data = array(
+                'log' => json_encode($this->_log),
+                'duration' => $duration,
+                'rss_feed_id' => $feed_id,
+                'posts_created' => $this->_posts_created,
+                'posts_not_created' => $this->_posts_not_created,
+                'rss_feeds_items_created' => $this->_rss_feeds_items_created,
+                'rss_feeds_items_not_created' => $this->_rss_feeds_items_not_created,
+                'rss_items_created' => $this->_rss_items_created,
+                'rss_items_not_created' => $this->_rss_items_not_created,
+                'rss_items_contents_created' => $this->_rss_items_contents_created,
+                'rss_items_contents_not_created' => $this->_rss_items_contents_not_created,
+                'category_paper_posts_created' => $this->_category_paper_posts_created
+            );
 
-        $this->RssImportLog->create();
-        if(!$this->RssImportLog->save(array('RssImportLog' => $log_data))){
-            $this->log('Error saving RssImportLog. ' . json_encode($log_data));
+            $this->log(' log data ' . json_encode($log_data));
+
+            $this->RssImportLog->create();
+            if(!$this->RssImportLog->save(array('RssImportLog' => $log_data))){
+                $this->log('Error saving RssImportLog. ' . json_encode($log_data));
+            }
         }
+
 
         $this->log(' > finish import');
 
@@ -623,33 +627,68 @@ class RssController extends AppController
 
 
         $this->RssFeed->delete(1, true);
-    }   
+    }
+
+    function admin_robotTasks(){
+        App::import('model', 'Robot.RobotTask');
+
+        $robots_task = new RobotTask();
+
+
+        $data = $robots_task->find('all', array('conditions' => array('RobotTask.status' => 'running', 'RobotTask.scheduled >' => date('Y-m-d', strtotime('-5 minutes')))));
+
+        debug($data);
+    }
+
+    /**
+     * check if the counter values are changed
+     *
+     * @return boolean
+     */
+    private function _needToLog(){
+
+        if($this->_posts_created > 0) return true;
+        if($this->_posts_not_created > 0) return true;
+        if($this->_rss_feeds_items_created > 0) return true;
+        if($this->_rss_feeds_items_not_created > 0) return true;
+        if($this->_rss_items_created > 0) return true;
+        if($this->_rss_items_not_created > 0) return true;
+        if($this->_rss_items_contents_created > 0) return true;
+        if($this->_rss_items_contents_not_created > 0) return true;
+        if($this->_category_paper_posts_created > 0) return true;
+
+        return false;
+    }
 
 
 }
 
 /*
+ *
+ *
+
+ *
+
 
 '',
 'http://www.herthabsc.de/index.php?id=1809&type=100',
 'http://www.spiegel.de/schlagzeilen/tops/index.rss',
-'http://www.spiegel.de/schlagzeilen/eilmeldungen/index.rss',
 'http://www.spiegel.de/video/index.rss',
 'http://www.spiegel.de/home/seite2/index.rss',
 'http://www.facebook.com/feeds/page.php?id=141973839152649&format=rss20',
 'http://www.facebook.com/feeds/page.php?id=6815841748&format=rss20',
-'http://golem.de.dynamic.feedsportal.com/pf/578069/http://rss.golem.de/rss.php?feed=RSS0.91',
-'http://golem.de.dynamic.feedsportal.com/pf/578069/http://rss.golem.de/rss.php?tp=foto&feed=RSS2.0',
 'http://rss.golem.de/rss.php?tp=games&feed=ATOM1.0',
-'http://rss.golem.de/rss.php?tp=handy&feed=OPML',
 'http://www.heise.de/newsticker/heise-atom.xml',
 'http://www.heise.de/newsticker/heise.rdf',
 'http://www.heise.de/newsticker/heise-top-atom.xml',
 'http://www.heise.de/autos/rss/news-atom.xml',
 'http://www.heise.de/autos/rss/news.rdf',
 'http://www.heise.de/ct-tv/rss/news-atom.xml',
-'http://www.heise.de/ct-tv/rss/vorschau/news-atom.xml'
+'http://www.heise.de/ct-tv/rss/vorschau/news-atom.xml',
+''
 
+http://www.spiegel.de/schlagzeilen/eilmeldungen/index.rss
+*/
 /*
 
 $this->log('************************************');

@@ -180,6 +180,12 @@
             <a href="#"><?php __('RSS'); ?></a>
             <ul>
                 <li>
+                    <a href="#"><?php __('Robot'); ?></a>
+                    <ul>
+                        <li><?php echo $this->Html->link(__('Tasks', true), array('controller' => 'rss', 'action' => 'robotTasks'));?></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#"><?php __('Import'); ?></a>
                     <ul>
                         <li><?php echo $this->Html->link(__('Log', true), array('controller' => 'rssImportLogs', 'action' => 'index'));?></li>

@@ -203,17 +203,5 @@ class RssComponent extends Object
     }
 
 
-    /**
-     * check if a running task is in robot_tasks
-     *
-     *
-     * @return boolean
-     */
-    function hasRunningTask(){
-        App::import('model', 'Robot.RobotTask');
-        $this->RobotTask = new RobotTask();
-
-        return $this->RobotTask->find('count', array('conditions' => array('RobotTask.status' => 'running'))) > 0;
-    }
 }
 
