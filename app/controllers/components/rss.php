@@ -36,7 +36,8 @@ class RssComponent extends Object
 
         $feeds_items = array();
 
-        //we only wand valid feeds
+        //we only want valid feeds
+
         if (!$this->_isValidFeed($feed)) return false;
 
         $feed_url = $feed['RssFeed']['url'];

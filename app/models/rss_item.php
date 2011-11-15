@@ -14,7 +14,7 @@ class RssItem extends AppModel {
 			),
 		),
 	);
-
+/*
     var $hasAndBelongsToMany = array(
         'RssFeed' =>
             array(
@@ -33,7 +33,7 @@ class RssItem extends AppModel {
                 'insertQuery'            => ''
             )
     );
-
+*/
     var $hasMany = array(
 		'RssItemContent' => array(
                 'className' => 'RssItemContent',

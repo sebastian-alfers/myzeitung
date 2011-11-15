@@ -44,25 +44,29 @@ class RssFeedsUser extends AppModel {
 	);
 
 
-
+    /*
     function beforeDelete(){
         //check if there are any other users associated to this feed. if not. delete feed
         $this->contain();
-        $feed_user = $this->find(null, $this->id);
-
+        $feed_user = $this->read(null, $this->id);
+        debug('f');
         if(isset($feed_user['RssFeedsUser']['feed_id'])){
             $this->contain();
+            debug('g');
             if(!($this->find('count', array('conditions' => array('feed_id' => $feed_user['RssFeedsUser']['feed_id']))) > 1)){
                 // this is the last association to this feed -> feed must be deleted.
+                debug('h');
                App::import('model','RssFeed');
                $this->RssFeed = new RssFeed();
-
-               $this->RssFeed->delete($feed_user['RssFeedsUser']['feed_id'], true);
-
+               $this->RssFeed->unbindModel(array('hasAndBelongsToMany' => array('RssItem')));
+                debug('feed_id');
+               debug($feed_user['RssFeedsUser']['feed_id']);
+               //$this->RssFeed->delete($feed_user['RssFeedsUser']['feed_id'], true);
             }
 
         }
         return true;
 
     }
+    */
 }

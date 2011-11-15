@@ -30,18 +30,18 @@ class RssFeed extends AppModel {
         'RssFeedsUser' => array(
 			'className' => 'RssFeedsUser',
 			'foreignKey' => 'feed_id',
-			'dependent' => true
+			'dependent' => false
         ),
 
         'RssFeedsItem' => array(
 			'className' => 'RssFeedsItem',
 			'foreignKey' => 'feed_id',
-			'dependent' => true
-        ),
+			'dependent' => true,
+        ), 
         'RssImportLog' => array(
 			'className' => 'RssImportLog',
 			'foreignKey' => 'rss_feed_id',
-			'dependent' => false,
+			'dependent' => true,
             'limit' => '1',
             'order' => 'RssImportLog.created DESC'
         )
@@ -150,20 +150,25 @@ class RssFeed extends AppModel {
 
 
     function removeFeedFromUser($user_id, $feed_id, $delete_posts = false){
+        $this->id = $feed_id;
         App::import('model','RssFeedsUser');
         $this->RssFeedsUser = new RssFeedsUser();
 
         //check if the user is associated to the feed
         $feed_user = array();
+        $this->RssFeedsUser->contain();
         $feed_user = $this->RssFeedsUser->find('first', array('conditions' => array('user_id' => $user_id, 'feed_id' => $feed_id)));
+
         if(isset($feed_user['RssFeedsUser']['id']) && !empty($feed_user['RssFeedsUser']['id'])){
             //user is associated to feed
             //should posts created by this feed be deleted too?
             if($delete_posts){
                 //also delete posts
 
-                if($this->deleteAssociation($feed_user['RssFeedsUser']['id'])){
-                    if($this->deletePostsForDeletedFeedAssociation($user_id, $feed_id)){
+                if($this->_deletePostsForDeletedFeedAssociation($user_id, $feed_id)){
+                    $this->log('remove feed- after post delete');
+                    if($this->_deleteAssociation($feed_user['RssFeedsUser']['id'])){
+                        $this->log('remove feed- success removing asso');
                         return true;
                     }else{
                         return false;
@@ -173,13 +178,14 @@ class RssFeed extends AppModel {
                 }
 
             }else{
+
                 //posts dont need to be deleted - success
                 //just delete association
-                if($this->deleteAssociation($feed_user['RssFeedsUser']['id'])){
+                if($this->_deleteAssociation($feed_user['RssFeedsUser']['id'])){
+
                     return true;
                 }
             }
-
 
         }else{
             //user is not associated to the feed
@@ -195,15 +201,12 @@ class RssFeed extends AppModel {
     }
 
 
-        /*
-         * @todo make PRIVATE after testing
-         */
+
     /*
      * deleting posts, that were created out of a specific rss-feed.
      * this happens if the user removes the feed from his profile and wants to delete posts of that feed.
      */
-   function deletePostsForDeletedFeedAssociation($user_id, $feed_id){
-
+   private function _deletePostsForDeletedFeedAssociation($user_id, $feed_id){
 
        //get all feeds of this user with all items associated to those feeds
        // goal: cross check which posts are generated from RSS items of OTHER rss feeds of THIS user
@@ -212,6 +215,9 @@ class RssFeed extends AppModel {
        $contain = array('RssFeed' => array('RssItem' => array('id')));
        //(RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser")
        $user_feeds = $this->RssFeedsUser->find('all',array('contain' => $contain, 'conditions' => array('user_id' => $user_id)));
+
+       $item_ids_to_delete = array();
+       $item_ids_of_other_feeds = array();
 
        //get all item-ids from any feed of the user
        foreach($user_feeds as $user_feed){
@@ -250,18 +256,26 @@ class RssFeed extends AppModel {
 
 
 
-        /*
-         * @todo make PRIVATE after testing
-         */
+
     /*
      * removing the rss_feeds_users entry for a feed/user -combination.
      * wether or not the feed and dependet data is deleted, is processed in rss_feed callbacks
      */
-    function deleteAssociation($id){
+    private function _deleteAssociation($id){
         //RssFeedsUser is already imported here, since this function is just called from "removeFeedFromUser"
         if($this->RssFeedsUser->delete($id, false)){
+            //check if there are any other users associated to this feed. if not. delete feed
+            $this->RssFeedsUser->contain();
+            if(!($this->RssFeedsUser->find('count', array('conditions' => array('feed_id' => $this->id))))){
+                // this is the last association to this feed -> feed must be deleted.
+
+               $this->unbindModel(array('hasAndBelongsToMany' => array('RssItem')));
+               $this->delete($this->id, true);
+               
+            }
             return true;
         }else{
+
             //could no unassociate
             /*
             * @todo add logging or something
@@ -270,8 +284,5 @@ class RssFeed extends AppModel {
         }
     }
 
-
-
 }
 ?>
-
