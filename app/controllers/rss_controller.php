@@ -216,6 +216,7 @@ class RssController extends AppController
      */
     function feedCrawl()
     {
+        
         $this->log('************ init crawl ' . json_encode($this->params));
 
         if (isset($this->params['robot']['feed_id']) && !empty($this->params['robot']['feed_id'])) {
@@ -588,7 +589,7 @@ class RssController extends AppController
         $feeds = $this->RssFeed->find('all', array('fields' => array('id'), 'conditions' => array('enabled' => 1)));
 
 
-        //schedulding a crawl action for each active feed
+        //schedule a crawl action for each active feed
         foreach ($feeds as $feed) {
             $this->scheduleSingleFeedForCrawling($feed['RssFeed']['id']);
         }
@@ -597,7 +598,7 @@ class RssController extends AppController
         ClassRegistry::init('Robot.RobotTask')->schedule(
             '/rss/scheduleAllFeedsForCrawling',
             array(),
-            strtotime("+5 Minutes")
+            strtotime("+1 Minutes")
         );
         
     }
