@@ -1,4 +1,7 @@
 <?php echo $this->element('papers/sidebar'); ?>
+
+
+
 <?php echo $this->element('posts/navigator'); ?>
 <?php /*
 <div>

@@ -291,66 +291,66 @@ class Post extends AppModel {
         $solr->delete(Solr::TYPE_POST.'_'.$this->id);
         return true;
     }
-			/**
-			 * @author tim
-			 *
-			 * reposting means to recommend a post of another user to your followers.
-			 * it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
-			 * -> to do so: this function creates an entry in the table posts_users
-			 * 		with the redirected post and the user who is recommending it and his topic_id in which he reposts it.
-			 * Furthermore an entry in the "reposters" array of the Post is added, to check quickly if a
-			 *  User already reposted a post (especially for better performance in views)
-			 *
-			 * @param int $paper_id  -> reposted post
-			 * @param int $topic_id -> (optional) topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
-			 *
-			 * 14.03.11 /tim - added:	 user can't repost own post
-			 * 				   debugged: user can't repost twice
-			 *
-			 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts
-			 */
-			function repost($user_id, $topic_id = null){
-                $postData = $this->data;
+    /**
+     * @author tim
+     *
+     * reposting means to recommend a post of another user to your followers.
+     * it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
+     * -> to do so: this function creates an entry in the table posts_users
+     * 		with the redirected post and the user who is recommending it and his topic_id in which he reposts it.
+     * Furthermore an entry in the "reposters" array of the Post is added, to check quickly if a
+     *  User already reposted a post (especially for better performance in views)
+     *
+     * @param int $paper_id  -> reposted post
+     * @param int $topic_id -> (optional) topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
+     *
+     * 14.03.11 /tim - added:	 user can't repost own post
+     * 				   debugged: user can't repost twice
+     *
+     * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts
+     */
+    function repost($user_id, $topic_id = null){
+        $postData = $this->data;
 
-				App::import('model','PostUser');
-				$this->PostUser = new PostUser();
-				$PostUserData = array('repost' => true,
-								'post_id' => $this->id,
-							   	'PostUser.user_id' => $user_id);
-				$this->PostUser->contain();
-				$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
-				// if there are no reposts for this post/user combination yet
-				if($repostCount == 0)
-                {
-					if($this->data['Post']['user_id'] != $user_id){
-						//post is not from reposting user
-						$this->PostUser->create();
-						// adding the topic_id to the PostUser - array
-						$PostUserData = array('PostUser' => array('repost' => true,
-										'post_id' => $this->id,
-										'topic_id' =>  $topic_id,
-									   	'user_id' => $user_id));
+        App::import('model','PostUser');
+        $this->PostUser = new PostUser();
+        $PostUserData = array('repost' => true,
+                        'post_id' => $this->id,
+                        'PostUser.user_id' => $user_id);
+        $this->PostUser->contain();
+        $repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
+        // if there are no reposts for this post/user combination yet
+        if($repostCount == 0)
+        {
+            if($this->data['Post']['user_id'] != $user_id){
+                //post is not from reposting user
+                $this->PostUser->create();
+                // adding the topic_id to the PostUser - array
+                $PostUserData = array('PostUser' => array('repost' => true,
+                                'post_id' => $this->id,
+                                'topic_id' =>  $topic_id,
+                                'user_id' => $user_id));
 
-						if($this->PostUser->save($PostUserData)){
-							//repost was saved
-							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
-                            $this->data = $postData;
-							$this->_addUserToReposters($user_id);
-							return true;
-						}
-					} else {
-						//user tried to repost his own post
-						$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which is his own post.');
-					}
-				}else{
-					// already reposted
-					// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
+                if($this->PostUser->save($PostUserData)){
+                    //repost was saved
+                    // writing the reposter's user id into the reposters-array of the post, if not already in reposters array
                     $this->data = $postData;
                     $this->_addUserToReposters($user_id);
-					$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
-				}
-				return false;
-			}
+                    return true;
+                }
+            } else {
+                //user tried to repost his own post
+                $this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which is his own post.');
+            }
+        }else{
+            // already reposted
+            // writing the reposter's user id into the reposters-array of the post, if not already in reposters array
+            $this->data = $postData;
+            $this->_addUserToReposters($user_id);
+            $this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
+        }
+        return false;
+    }
 
 			/**
 			 * @author tim
@@ -731,8 +731,8 @@ class Post extends AppModel {
 					'last' 			=> true,
 				),
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 100),
-					'message'		=> __('Titles can only be 100 characters long.', true),
+					'rule'			=> array('maxlength', 200),
+					'message'		=> __('Titles can only be 200 characters long.', true),
 					'last' 			=> true,
 				),
 			),

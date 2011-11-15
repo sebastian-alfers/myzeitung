@@ -82,6 +82,7 @@ class AppController extends Controller {
             $this->Session->write('Auth.Setting', $user->getSettings($this->Session->read('Auth.User.id')));
         }
 
+     //   $this->log($this->Session->read('Auth'));
 
         $this->_setLanguage();
 
@@ -131,12 +132,14 @@ class AppController extends Controller {
 				$this->setConversationCount();
 		}
 
-        //change layout if admin
-		$pos = strpos($_SERVER['REQUEST_URI'], CAKE_ADMIN);
-		if($pos == true)
-		{
-		    $this->layout='admin';
-		}
+        if(isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])){
+            //change layout if admin
+            $pos = strpos($_SERVER['REQUEST_URI'], CAKE_ADMIN);
+            if($pos == true)
+            {
+                $this->layout='admin';
+            }
+        }
 
 
 	}
@@ -194,6 +197,9 @@ class AppController extends Controller {
             'accSocial' => $this->user,
         	'accDelete' => $this->user,
             'accInvitations' => $this->user,
+            'accRssImport' => $this->user,
+            'accRemoveRssFeed' => $this->user,
+            'accAddRssFeed' => $this->user,
             'admin_index' => $this->admin,
             'admin_edit' => $this->superadmin,
             'admin_delete' => $this->superadmin,
@@ -288,6 +294,7 @@ class AppController extends Controller {
             'admin_refreshUsersIndex' => $this->superadmin,
             'admin_refreshPostsIndex' => $this->superadmin,
             'admin_refreshPapersIndex' => $this->superadmin,
+            'admin_delete' => $this->superadmin,
             ),
         'index' => array(
              'admin_cleanUpContentPaperIndex' => $this->superadmin,
@@ -334,20 +341,31 @@ class AppController extends Controller {
          ),
          'rss' => array(
              'robotlanding' => $this->robot,
-             'test' => $this->superadmin,
-         )
+             'feedCrawl' => $this->robot,
+             'admin_analyzeFeed' => $this->superadmin,
+             'scheduleAllFeedsForCrawling' => $this->admin,
+             'removeFeedForUser' => $this->user,
+             'addFeedForUser' => $this->user,
+             'admin_robotTasks' => $this->superadmin
+         ),
+          'rssimportlogs' => array(
+                'admin_index' => $this->admin,
+              'admin_view' => $this->admin,
+            )
         );
-
-
-
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
 			if(isset($allowedActions[low($this->name)])) {
 			$controllerActions = $allowedActions[low($this->name)];
+
+
+
 			if(isset($controllerActions[$this->action]) &&
 			in_array($this->Auth->user('group_id'), $controllerActions[$this->action])) {
 				return true;
 			}
 		}
+
+
         $this->Session->setFlash(__('No Permission', true));
 		return false;
 	}

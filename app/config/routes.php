@@ -45,20 +45,24 @@ if($premiumPapers === false){
     }
 }
 
-$prefix = substr($_SERVER['REQUEST_URI'],0,3);
-
-//extract potential premium url vom request to check with array later
-$posSlash = strpos($_SERVER['REQUEST_URI'], '/', 1);
-if(!empty($posSlash)){
-    $premiumSubstr = substr($_SERVER['REQUEST_URI'],0,$posSlash);
-}else{
-    $premiumSubstr = $_SERVER['REQUEST_URI'];
-}
-
+$prefix ='';
 $isPremiumPaper = false;
-//check if extracted substring matches premium array
-if(is_array($premiumPapers) && in_array($premiumSubstr,$premiumPapers)){
-    $isPremiumPaper = true;
+if(isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])){
+    $prefix = substr($_SERVER['REQUEST_URI'],0,3);
+
+    //extract potential premium url vom request to check with array later
+    $posSlash = strpos($_SERVER['REQUEST_URI'], '/', 1);
+    if(!empty($posSlash)){
+        $premiumSubstr = substr($_SERVER['REQUEST_URI'],0,$posSlash);
+    }else{
+        $premiumSubstr = $_SERVER['REQUEST_URI'];
+    }
+
+
+    //check if extracted substring matches premium array
+    if(is_array($premiumPapers) && in_array($premiumSubstr,$premiumPapers)){
+        $isPremiumPaper = true;
+    }
 }
 
 
