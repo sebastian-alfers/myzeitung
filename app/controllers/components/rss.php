@@ -79,6 +79,12 @@ class RssComponent extends Object
 
         if (!$item instanceof SimplePie_Item) return false;
 
+        //debug($item->get_image_tags());
+
+        //debug($item->get_content());
+        //debug($item->get_enclosure());
+        //die();
+
         $data = array();
 
         $data['content'] = $item->get_content();

@@ -31,10 +31,32 @@ class RssController extends AppController
 
     function admin_analyzeFeed(){
 
+        $valid_posts = 0;
+        $invalid_posts = array();
+
         if(isset($this->data['Rss']['feed_url']) && !empty($this->data['Rss']['feed_url'])){
             $feed_data = $this->Rss->get(array('RssFeed' => array('url' => $this->data['Rss']['feed_url'])));
 
-            $this->set('feed_data', $feed_data);
+            foreach($feed_data as $feed){
+
+                $this->Post->set(array('Post' => $feed));
+                if(!$this->Post->validates()){
+                    $invalid_posts[] = $this->Post->invalidFields();
+                }
+                else{
+                    $valid_posts++;
+                }
+            }
+
+            $this->set('valid_posts', $valid_posts);
+            if(count($invalid_posts) > 0){
+                $this->set('invalid_posts', $invalid_posts);
+            }
+
+            if($this->data['Rss']['extend']){
+                $this->set('feed_data', $feed_data);
+            }
+
         }
     }
 

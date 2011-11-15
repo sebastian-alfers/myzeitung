@@ -9,7 +9,7 @@ class SearchController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//declaration which actions can be accessed without being logged in
-		$this->Auth->allow('index','users', 'papers','posts', 'ajxSearch', 'delete');//!!!!!!!!!!!!!!!!!!!!!!!!!REMOVE delte""""""""!!!!!!!!!!!!!!!!!!!!!
+		$this->Auth->allow('index','users', 'papers','posts', 'ajxSearch');//!!!!!!!!!!!!!!!!!!!!!!!!!REMOVE delte""""""""!!!!!!!!!!!!!!!!!!!!!
 
 	}
 
