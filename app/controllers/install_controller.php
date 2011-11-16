@@ -30,6 +30,8 @@ class InstallController extends AppController {
 
     var $components = array('Installer');
 
+    var $uses = array();
+
 	/**
 	 * construct
 	 */
