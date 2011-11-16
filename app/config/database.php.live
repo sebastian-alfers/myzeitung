@@ -4,7 +4,7 @@ class DATABASE_CONFIG
 {
 
     //amazon
-	var $live = array(
+	var $default = array(
             'driver' => 'mysql',
             'persistent' => false,
             'host' => 'db01.cr12ebyckgtr.eu-west-1.rds.amazonaws.com',
@@ -15,9 +15,5 @@ class DATABASE_CONFIG
 	);
 
 
-	// the construct function is called automatically, and chooses prod or dev. UPdate! works for baking now
-	function __construct ()
-	{
-        $this->default = $this->live;
-	}
+
 }
