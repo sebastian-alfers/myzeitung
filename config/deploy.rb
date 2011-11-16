@@ -59,6 +59,9 @@ task :create_symlinks, :roles => :target do
     # create tmp/cache folders
     run "sudo mkdir #{current_release}/app/tmp/"
     run "sudo mkdir #{current_release}/app/tmp/cache/"
+    run "sudo chown www-data:www-data #{current_release}/app/tmp/cache/"
+    run "sudo chmod 777 /var/www/myzeitung/current/app/tmp/cache/"
+
     run "sudo mkdir #{current_release}/app/tmp/cache/persistent/"
     run "sudo mkdir #{current_release}/app/tmp/cache/models/"
     ## set owner for cache
@@ -83,7 +86,7 @@ task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/logo-icon.png", "/var/www/myzeitung/current/app/webroot/img/assets/logo-icon.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/loadinfo.gif", "#{current_release}/app/webroot/img/assets/loadinfo.gif")
 
-      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")
       
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/arrows-ffffff.png", "#{current_release}/app/webroot/img/assets/ui/arrows-ffffff.png")
