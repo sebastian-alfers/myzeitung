@@ -1,0 +1,27 @@
+<?php
+
+class DATABASE_CONFIG
+{
+
+	//currently on my domaingo server
+	var $staging =
+		array(
+            'driver' => 'mysql',
+            'persistent' => false,
+            'host' => 'localhost',
+            'port' => '',
+            'login' => 'root',
+            'password' => '',
+            'database' => 'myzeitung',
+		);
+
+
+
+	// the construct function is called automatically, and chooses prod or dev. UPdate! works for baking now
+	function __construct ()
+	{
+
+        $this->default = $this->staging;
+
+	}
+}

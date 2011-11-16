@@ -48,6 +48,9 @@ task :create_symlinks, :roles => :target do
     # rename config for live
     run "mv #{current_release}/app/config/core.php.#{config} #{current_release}/app/config/core.php"
 
+    #set db config
+    run "mv #{current_release}/app/config/database.php.#{config} #{current_release}/app/config/database.php"
+
     # mount css/js cache
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/csscache"
     run "ln -s /mnt/mzimg #{current_release}/app/webroot/jscache"
