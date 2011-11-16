@@ -608,7 +608,7 @@ class RssController extends AppController
         App::import('model', 'Robot.RobotTask');
         $robots_task = new RobotTask();
         //delete all posts that kept in running and older then 5 min
-        $robots_task->deleteAll(array('RobotTask.status' => 'running', 'RobotTask.scheduled <' => date(RssComponent::DATE_FORMT, strtotime('-5 minutes'))));
+        $robots_task->deleteAll(array('RobotTask.status' => 'running', 'RobotTask.scheduled <' => date(RssComponent::DATE_FORMT, strtotime('-22 minutes'))));
         
     }
 
