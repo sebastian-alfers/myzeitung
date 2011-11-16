@@ -49,6 +49,7 @@ task :create_symlinks, :roles => :target do
     run "mv #{current_release}/app/config/core.php.#{config} #{current_release}/app/config/core.php"
 
     #set db config
+    run "rm #{current_release}/app/config/database.php"
     run "mv #{current_release}/app/config/database.php.#{config} #{current_release}/app/config/database.php"
 
     # mount css/js cache

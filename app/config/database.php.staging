@@ -3,8 +3,8 @@
 class DATABASE_CONFIG
 {
 
-	//currently on my domaingo server
-	var $default =
+	//staging aws
+	var $local =
 		array(
             'driver' => 'mysql',
             'persistent' => false,
@@ -17,4 +17,11 @@ class DATABASE_CONFIG
 
 
 
+	// the construct function is called automatically, and chooses prod or dev. UPdate! works for baking now
+	function __construct ()
+	{
+
+        $this->default = $this->local;
+
+	}
 }
