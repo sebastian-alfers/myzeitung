@@ -586,7 +586,7 @@ class RssController extends AppController
     */
     function scheduleAllFeedsForCrawling()
     {
-        $this->log('** add all + self in 5-minutes **');
+        $this->log('** add all + self in 2-minutes **');
 
         $this->RssFeed->contain();
         $feeds = $this->RssFeed->find('all', array('fields' => array('id'), 'conditions' => array('enabled' => 1)));
@@ -597,11 +597,12 @@ class RssController extends AppController
             $this->scheduleSingleFeedForCrawling($feed['RssFeed']['id']);
         }
 
+
         //rescheduling itself for next crawling
         ClassRegistry::init('Robot.RobotTask')->schedule(
             '/rss/scheduleAllFeedsForCrawling',
             array(),
-            strtotime("+5 Minutes")
+            strtotime("+2 Minutes")
         );
         
     }
