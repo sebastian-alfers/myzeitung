@@ -11,6 +11,9 @@ class RssComponent extends Object
     //instance for crawler
     var $_crawler = null;
 
+    //for getting http-response code of images
+    var $_dom = null;
+
 
     function __construct()
     {
@@ -87,7 +90,18 @@ class RssComponent extends Object
 
         $data = array();
 
-        $data['content'] = $item->get_content();
+        $data['content'] = htmlspecialchars_decode($item->get_content());
+        $data['content'] = strip_tags($data['content'], '<object><img><br><br />');
+
+
+        /*
+        if(!$this->_imagesValid($data['content'])){
+            $data['content'] = strip_tags($data['content'], '<object><br><br />');
+        }
+        */
+
+
+
 
         $data['copyright'] = $item->get_copyright();
         $data['date'] = $item->get_date(self::DATE_FORMT);
@@ -97,6 +111,13 @@ class RssComponent extends Object
         $text_helper = new TextHelper();
         $data['title'] =  trim($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false)));
 
+        $this->log('***********************');
+
+        $this->Inflector = ClassRegistry::init('Inflector');
+
+        $this->log(strtolower($this->Inflector->slug($data['title'],'-')));
+        $this->log($this->Inflector->slug($data['title']));
+
         if($data['title'] == ''){
             $data['title'] = trim(strip_tags($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false))));
         }
@@ -104,6 +125,8 @@ class RssComponent extends Object
         if($data['title'] == ''){
             $data['title'] = $text_helper->truncate(strip_tags($data['content']), 200, array('ending' => '...', 'exact' => false));
         }
+
+        $data['title'] = htmlspecialchars_decode($data['title']);
 
         $data['link'] = $item->get_link();
 
@@ -121,6 +144,29 @@ class RssComponent extends Object
 
         return $valid_data;
     }
+
+
+    private function _imagesValid($content){
+
+        @$this->_dom->loadHTML($content);
+        $this->_dom->preserveWhiteSpace = false;
+        $images = $this->_dom->getElementsByTagName('img');
+
+        if($images->length > 0){
+            foreach ($images as $image) {
+              //echo "<img src='".$image->getAttribute('src')."'>";
+              $src = $image->getAttribute('src');
+              if (!empty($src) && !fopen($src, "r")) {
+                  return false;
+              }
+            }
+        }
+        return true;
+    }
+
+
+
+
 
     /**
      * check required fields
@@ -180,9 +226,11 @@ class RssComponent extends Object
             $this->_crawler = new SimplePie();
             $this->_crawler->set_cache_location($this->cache);
 
-            $this->_crawler->strip_htmltags(array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
+            $this->_crawler->strip_htmltags(array( 'span', 'base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
 
         }
+
+        $this->_dom = new domDocument;
 
         return true;
     }
