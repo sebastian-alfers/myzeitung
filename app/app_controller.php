@@ -79,10 +79,9 @@ class AppController extends Controller {
         if($this->Session->read('Auth.User.id') && !$this->Session->read('Auth.Setting')){
             App::import('model', 'User');
             $user = new User();
+
             $this->Session->write('Auth.Setting', $user->getSettings($this->Session->read('Auth.User.id')));
         }
-
-     //   $this->log($this->Session->read('Auth'));
 
         $this->_setLanguage();
 

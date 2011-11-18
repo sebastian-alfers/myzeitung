@@ -68,22 +68,30 @@ if($has_topics){
 							</ul>
 
                                 <?php $headline = $this->MzText->truncate($post['Post']['title'], 55,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
-                                <?php // post headline
-                               /* $headline = substr($post['Post']['title'],0,50);
-                                if(strlen($post['Post']['title']) > 50){
-                                    $headline .='...';
-                                    
-                            }*/
-                            /*<h5><?php echo $this->Html->link($headline, array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?></h5>   */?>
+                                <?php $content = $this->MzText->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), $post['Route'][0]['source'],array('rel' => 'nofollow')), 'exact' => false, 'html' => true));?>
 
 							<h3><?php echo $this->Html->link($headline, $post['Route'][0]['source']);?></h3>
-							<?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
-                                <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
-                                 <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>
-                                    <a href="/posts/view/<?php echo $post['Post']['id']; ?>"><span class="post video-item">video</span></a>
-                                 <?php endif; ?>
-                                 <?php echo $image->render($post['Post'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
 
+                            <?php if(isset($post['Post']['image']) && !empty($post['Post']['image'])):?>
+                                 <?php $post_has_image = true;?>
+                            <?php else:?>
+                                 <?php $post_has_image = false;?>
+                            <?php endif;?>
+
+                            <?php if($post_has_image || strlen($content) == 0):?>
+                                <?php /* display an image if there is an image in the post OR no displayable content (then show user image)*/ ?>
+                                <?php if($post_has_image):?>
+                                  <?php $this->log('postbild');?>
+                                  <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
+                                   <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>
+                                      <a href="/posts/view/<?php echo $post['Post']['id']; ?>"><span class="post video-item">video</span></a>
+                                  <?php endif; ?>
+                                 <?php echo $image->render($post['Post'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
+                                <?php endif; ?>
+                                <?php if(!$post_has_image && strlen($content) == 0):?>
+                                        <?php $this->log('Userbild');?>
+                                    <?php echo $image->render($post['User'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
+                                <?php endif;?>
                              <?php /*
                                if(isset($post['Post']['image'][0]) && !empty($post['Post']['image'][0])):
 							  $info = $image->resize($post['Post']['image'][0]['path'], 200, 117, null, true);//return array bacuse of last param -> true
@@ -100,7 +108,7 @@ if($has_topics){
 							<?php //not image -> show text preview?>
                                 <p>
 								<?php //echo $post['Post']['content_preview'] . ' ... '; echo $this->Html->link(__('read more',true), array('controller' => 'posts', 'action' => 'view', $post['Post']['id']));?>
-								<?php echo $this->MzText->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), $post['Route'][0]['source'],array('rel' => 'nofollow')), 'exact' => false, 'html' => true)); ?>
+								<?php echo $content;?>
                                 </p>
 							<?php endif;  ?>
 							<ul class="footer">

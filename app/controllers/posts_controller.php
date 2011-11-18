@@ -203,6 +203,7 @@ class PostsController extends AppController {
 		//$user = $this->User->read(array('id','name','username','created','image' ,'description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
 		//$this->log('vor dem set');die();
         $this->set('post', $post);
+        $this->log($user);
 		$this->set('user', $user);
 		$this->set('comments',$comments);
         $this->set('canonical_for_layout', $post['Route'][0]['source']);
