@@ -110,12 +110,6 @@ class RssComponent extends Object
         $text_helper = new TextHelper();
         $data['title'] = trim($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false)));
 
-        $this->log('***********************');
-
-        $this->Inflector = ClassRegistry::init('Inflector');
-
-        $this->log(strtolower($this->Inflector->slug($data['title'], '-')));
-        $this->log($this->Inflector->slug($data['title']));
 
         if ($data['title'] == '') {
             $data['title'] = trim($text_helper->truncate(strip_tags($item->get_title()), 200, array('ending' => '...', 'exact' => false)));
@@ -129,9 +123,6 @@ class RssComponent extends Object
         $data['title'] = htmlspecialchars_decode($data['title']);
 
         $data['link'] = $item->get_link();
-
-
-        $this->log($data['title']);
 
         $data['link'] = $item->get_link();
 

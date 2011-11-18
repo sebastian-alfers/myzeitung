@@ -590,9 +590,8 @@ class RssController extends AppController
         $this->log('** add all + self in 2-minutes **');
 
         $this->RssFeed->contain();
-        $feeds = $this->RssFeed->find('all', array('fields' => array('id'), 'conditions' => array('enabled' => 1)));
+        $feeds = $this->RssFeed->find('all', array('fields' => array('id', 'url', 'crawled', 'created'), 'conditions' => array('enabled' => 1),  'limit' => 3, 'order' => array('crawled', 'created')));
 
-        $this->log($feeds);
         //schedule a crawl action for each active feed
         foreach ($feeds as $feed) {
             $this->scheduleSingleFeedForCrawling($feed['RssFeed']['id']);
