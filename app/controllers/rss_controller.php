@@ -634,8 +634,10 @@ class RssController extends AppController
 
         //$this->RssFeed->delete(1, true);
 
-        $string = preg_replace('/[^\s\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/mu', 'posts/view/한국어/page:1/sort:asc', '_');
-        debug($string);
+      //  $string = preg_replace('/[^\s\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/mu', 'posts/view/한국어/page:1/sort:asc', '_');
+       // debug($string);
+
+        //debug(date('Y-m-d H:i:s'));
     }
 
     function admin_robotTasks(){
