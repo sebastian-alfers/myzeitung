@@ -217,7 +217,7 @@ class RssController extends AppController
     function feedCrawl()
     {
         
-        $this->log('************ init crawl ' . json_encode($this->params));
+        //$this->log('************ init crawl ' . json_encode($this->params));
 
         if (isset($this->params['robot']['feed_id']) && !empty($this->params['robot']['feed_id'])) {
             $id = $this->params['robot']['feed_id'];
@@ -592,7 +592,7 @@ class RssController extends AppController
         $this->RssFeed->contain();
         $feeds = $this->RssFeed->find('all', array('fields' => array('id'), 'conditions' => array('enabled' => 1)));
 
-
+        $this->log($feeds);
         //schedule a crawl action for each active feed
         foreach ($feeds as $feed) {
             $this->scheduleSingleFeedForCrawling($feed['RssFeed']['id']);
@@ -603,7 +603,7 @@ class RssController extends AppController
         ClassRegistry::init('Robot.RobotTask')->schedule(
             '/rss/scheduleAllFeedsForCrawling',
             array(),
-            strtotime("+2 Minutes")
+            strtotime("+5 Seconds")
         );
 
         App::import('model', 'Robot.RobotTask');
@@ -632,7 +632,10 @@ class RssController extends AppController
         $this->RssFeed->deletePostsForDeletedFeedAssociation(18,6);*/
 
 
-        $this->RssFeed->delete(1, true);
+        //$this->RssFeed->delete(1, true);
+
+        $string = preg_replace('/[^\s\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/mu', 'posts/view/한국어/page:1/sort:asc', '_');
+        debug($string);
     }
 
     function admin_robotTasks(){

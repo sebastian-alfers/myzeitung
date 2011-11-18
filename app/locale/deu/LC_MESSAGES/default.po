@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2011-11-15 16:10+0100\n"
-"PO-Revision-Date: 2011-11-15 16:13+0100\n"
+"PO-Revision-Date: 2011-11-16 15:28+0100\n"
 "Last-Translator: Tim <tim@tim.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2464,7 +2464,7 @@ msgstr "Willst du auch alle Artikel löschen, die in der Vergangenheit aus diese
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/rss/modal_delete_feed.ctp:8
 msgid "Yes, delete the Feeds posts"
-msgstr "Ja, lösche die Artiel dieses Feeds."
+msgstr "Ja, lösche die Artikel dieses Feeds."
 
 #: /Applications/MAMP/htdocs/myzeitung//views/elements/search/results.ctp:27
 msgid "The search is currently disabled"

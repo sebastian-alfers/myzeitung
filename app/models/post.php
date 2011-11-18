@@ -138,7 +138,9 @@ class Post extends AppModel {
      */
     function addRoute(){
 
+
         $routeString = $this->generateRouteString();
+ 
         //if NOT the exact route was currently active
         if($routeString != ''){
             if(substr($routeString,0,strlen(ROUTE::TYPE_NEW_ROUTE)) == ROUTE::TYPE_NEW_ROUTE){
@@ -178,14 +180,17 @@ class Post extends AppModel {
     }
 
     private function generateRouteString(){
-        
+
         $this->User->contain();
         $user = $this->User->read(array('id','username'),$this->data['Post']['user_id']);
 
         //generate the theoretically needed route
         $this->Inflector = ClassRegistry::init('Inflector');
         $routeUsername = strtolower($user['User']['username']);
+
         $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
+        $routeTitle = preg_replace('/[^a-zA-Z0-9_ -\/]/s', '', $routeTitle);
+
         if(empty($routeTitle)){
             $routeTitle = 'article';
         }
@@ -241,6 +246,7 @@ class Post extends AppModel {
 
         }
         return $route_title;
+        
     }
 
 
