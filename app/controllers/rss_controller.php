@@ -602,7 +602,7 @@ class RssController extends AppController
         ClassRegistry::init('Robot.RobotTask')->schedule(
             '/rss/scheduleAllFeedsForCrawling',
             array(),
-            strtotime("+5 Seconds")
+            strtotime("+10 Minutes")
         );
 
         App::import('model', 'Robot.RobotTask');
