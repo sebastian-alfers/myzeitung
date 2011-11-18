@@ -442,17 +442,6 @@ class UsersController extends AppController {
 			if ($this->User->save($this->data, true, array('username', 'name' ,'password' , 'passwd','email','group_id', 'tos_accept'))) {
 
 
-
-                 /* just robot testing */
-
-                ClassRegistry::init('Robot.RobotTask')->schedule(
-                    array('action' => '_sendWelcomeEmail'),
-                    array('user_id' => $this->User->id )
-                );
-
-
-
-
                 //send welcome email to new user
                 $this->_sendWelcomeEmail($this->User->id);
 
@@ -1146,7 +1135,7 @@ class UsersController extends AppController {
 		}
 
 		if(empty($this->data)) {
-            $this->log($user);
+           // $this->log($user);
             $this->data['User']['allow_messages']               = $user['Setting']['user']['privacy']['allow_messages']['value'];
             $this->data['User']['allow_comments']               = $user['Setting']['user']['privacy']['allow_comments']['value'];
             $this->data['User']['email_new_comment']            = $user['Setting']['user']['email']['new_comment']['value'];

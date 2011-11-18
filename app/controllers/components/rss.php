@@ -79,15 +79,33 @@ class RssComponent extends Object
 
         if (!$item instanceof SimplePie_Item) return false;
 
-        //debug($item->get_image_tags());
+     //   debug($item->get_item_tags());
 
         //debug($item->get_content());
         //debug($item->get_enclosure());
         //die();
 
+
+
+
+
         $data = array();
 
-        $data['content'] = $item->get_content();
+
+
+$this->log('***********************');
+
+$this->Inflector = ClassRegistry::init('Inflector');
+
+$this->log(strtolower($this->Inflector->slug($item->get_title(),'-')));
+$this->log($this->Inflector->slug($item->get_title()));
+
+
+        //$data['content'] = htmlspecialchars_decode($item->get_content());
+         $data['content'] = $item->get_content();
+
+        $data['enclosure'] = $item->get_enclosure();
+
 
         $data['copyright'] = $item->get_copyright();
         $data['date'] = $item->get_date(self::DATE_FORMT);
@@ -98,15 +116,18 @@ class RssComponent extends Object
         $data['title'] =  trim($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false)));
 
         if($data['title'] == ''){
-            $data['title'] = trim(strip_tags($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false))));
+            $data['title'] = trim($text_helper->truncate(strip_tags($item->get_title()), 200, array('ending' => '...', 'exact' => false)));
         }
 
         if($data['title'] == ''){
             $data['title'] = $text_helper->truncate(strip_tags($data['content']), 200, array('ending' => '...', 'exact' => false));
         }
 
-        $data['link'] = $item->get_link();
 
+        
+        $this->log($data['title']);
+
+        $data['link'] = $item->get_link();
 
         $data['links'] = serialize($item->get_links());
         $data['permalink'] = $item->get_permalink();
@@ -179,8 +200,10 @@ class RssComponent extends Object
         if ($this->_crawler == null) {
             $this->_crawler = new SimplePie();
             $this->_crawler->set_cache_location($this->cache);
-
-            $this->_crawler->strip_htmltags(array('base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
+           // $this->_crawler->strip_attributes(true);
+          //  $this->_crawler->strip_htmltags(true);
+          //  $this->_crawler->strip_attributes(array('style'));
+          //  $this->_crawler->strip_htmltags(array('span' ,'base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
 
         }
 
