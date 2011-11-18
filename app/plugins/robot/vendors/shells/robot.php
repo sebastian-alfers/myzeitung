@@ -17,7 +17,7 @@ class RobotShell extends Shell {
 			'daemon' => null,
 			'silent' => false,
 			'result' => false,
-			'tasks' => 2,
+			'tasks' => null,
 			'time' => null,
 			'url' => null,
 			'wait' => 1000
