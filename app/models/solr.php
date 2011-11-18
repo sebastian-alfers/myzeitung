@@ -404,7 +404,7 @@ class Solr extends AppModel {
 			$this->solr = null;
 		}
 
-        if(!$this->solr instanceof Apache_Solr_Service){
+        if(!($this->solr instanceof Apache_Solr_Service)){
             $this->solr = new Apache_Solr_Service($this->_host, $this->_port, $this->_path);
         }
 

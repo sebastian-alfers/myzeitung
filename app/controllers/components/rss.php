@@ -11,6 +11,9 @@ class RssComponent extends Object
     //instance for crawler
     var $_crawler = null;
 
+    //for getting http-response code of images
+    var $_dom = null;
+
 
     function __construct()
     {
@@ -26,7 +29,6 @@ class RssComponent extends Object
      */
     public function get($feed = array())
     {
-
 
 
         if (empty($feed) || !is_array($feed)) return false;
@@ -79,32 +81,25 @@ class RssComponent extends Object
 
         if (!$item instanceof SimplePie_Item) return false;
 
-     //   debug($item->get_item_tags());
+        //   debug($item->get_item_tags());
 
         //debug($item->get_content());
         //debug($item->get_enclosure());
         //die();
 
 
-
-
-
         $data = array();
 
 
-
-$this->log('***********************');
-
-$this->Inflector = ClassRegistry::init('Inflector');
-
-$this->log(strtolower($this->Inflector->slug($item->get_title(),'-')));
-$this->log($this->Inflector->slug($item->get_title()));
+        $data['content'] = htmlspecialchars_decode($item->get_content());
+        $data['content'] = strip_tags($data['content'], '<object><img><br><br />');
 
 
-        //$data['content'] = htmlspecialchars_decode($item->get_content());
-         $data['content'] = $item->get_content();
-
-        $data['enclosure'] = $item->get_enclosure();
+        /*
+        if(!$this->_imagesValid($data['content'])){
+            $data['content'] = strip_tags($data['content'], '<object><br><br />');
+        }
+        */
 
 
         $data['copyright'] = $item->get_copyright();
@@ -113,18 +108,29 @@ $this->log($this->Inflector->slug($item->get_title()));
 
         App::Import('helper', 'Text');
         $text_helper = new TextHelper();
-        $data['title'] =  trim($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false)));
+        $data['title'] = trim($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false)));
 
-        if($data['title'] == ''){
+        $this->log('***********************');
+
+        $this->Inflector = ClassRegistry::init('Inflector');
+
+        $this->log(strtolower($this->Inflector->slug($data['title'], '-')));
+        $this->log($this->Inflector->slug($data['title']));
+
+        if ($data['title'] == '') {
             $data['title'] = trim($text_helper->truncate(strip_tags($item->get_title()), 200, array('ending' => '...', 'exact' => false)));
         }
 
-        if($data['title'] == ''){
+        if ($data['title'] == '') {
             $data['title'] = $text_helper->truncate(strip_tags($data['content']), 200, array('ending' => '...', 'exact' => false));
         }
 
 
-        
+        $data['title'] = htmlspecialchars_decode($data['title']);
+
+        $data['link'] = $item->get_link();
+
+
         $this->log($data['title']);
 
         $data['link'] = $item->get_link();
@@ -134,14 +140,35 @@ $this->log($this->Inflector->slug($item->get_title()));
 
         $valid_data = array();
         //remove empty fields
-        foreach($data as $key => $value){
-            if($value != '' && !is_array($value) && !empty($value)){
+        foreach ($data as $key => $value) {
+            if ($value != '' && !is_array($value) && !empty($value)) {
                 $valid_data[$key] = $value;
             }
         }
 
         return $valid_data;
     }
+
+
+    private function _imagesValid($content)
+    {
+
+        @$this->_dom->loadHTML($content);
+        $this->_dom->preserveWhiteSpace = false;
+        $images = $this->_dom->getElementsByTagName('img');
+
+        if ($images->length > 0) {
+            foreach ($images as $image) {
+                //echo "<img src='".$image->getAttribute('src')."'>";
+                $src = $image->getAttribute('src');
+                if (!empty($src) && !fopen($src, "r")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     /**
      * check required fields
@@ -200,12 +227,18 @@ $this->log($this->Inflector->slug($item->get_title()));
         if ($this->_crawler == null) {
             $this->_crawler = new SimplePie();
             $this->_crawler->set_cache_location($this->cache);
-           // $this->_crawler->strip_attributes(true);
-          //  $this->_crawler->strip_htmltags(true);
-          //  $this->_crawler->strip_attributes(array('style'));
-          //  $this->_crawler->strip_htmltags(array('span' ,'base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
+
+
+            $this->_crawler->strip_htmltags(array('span', 'base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
+
+            // $this->_crawler->strip_attributes(true);
+            //  $this->_crawler->strip_htmltags(true);
+            //  $this->_crawler->strip_attributes(array('style'));
+            //  $this->_crawler->strip_htmltags(array('span' ,'base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
 
         }
+
+        $this->_dom = new domDocument;
 
         return true;
     }
@@ -221,7 +254,8 @@ $this->log($this->Inflector->slug($item->get_title()));
         return Security::hash($string);
     }
 
-    function getTimestampFormat(){
+    function getTimestampFormat()
+    {
         return self::DATE_FORMT;
     }
 

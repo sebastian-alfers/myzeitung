@@ -1,5 +1,5 @@
 Vagrant::Config.run do |config|
-  config.vm.box = "lucid64"
+  config.vm.box = "lucid32"
 
   config.vm.forward_port "myzeitung", 80, 8182
   config.vm.forward_port "solr", 8080, 8183
