@@ -29,6 +29,12 @@ class RssController extends AppController
 
 
 
+    function crawlNextFeeds(){
+        $this->log('***********afa ' . json_encode($this->params));
+
+        return 'gaga';
+    }
+
     function admin_analyzeFeed(){
 
         $valid_posts = 0;
@@ -65,7 +71,7 @@ class RssController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling', 'testModels');
+        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling', 'testModels', 'crawlNextFeeds');
     }
 
     /**

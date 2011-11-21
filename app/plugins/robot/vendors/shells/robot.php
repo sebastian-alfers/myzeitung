@@ -167,6 +167,8 @@ class RobotShell extends Shell {
 			$_SERVER['HTTP_HOST'] = preg_replace('|^https?://([^/]+).*|i', '\\1', $this->options['url']);
 		}
 
+
+
 		$result = $this->Dispatcher->dispatch($action, array('robot' => $parameters, 'bare' => true, 'return' => true));
 
 		$endTime = microtime(true);
