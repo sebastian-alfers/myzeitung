@@ -189,6 +189,7 @@ class Post extends AppModel {
         $routeUsername = strtolower($user['User']['username']);
 
         $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
+        //delete all crap that might still be in the field (like weird  nbsps)
         $routeTitle = preg_replace('/[^a-zA-Z0-9_ -\/]/s', '', $routeTitle);
 
         if(empty($routeTitle)){
