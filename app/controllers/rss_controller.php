@@ -50,6 +50,8 @@ class RssController extends AppController
                                                 /*'limit' => 1 ,*/ 'order' => array('crawled', 'created')));
 
 
+            $this->log(json_encode($feed));
+
             $feedData = array();
             //mark it as recently crawled
             //(doing this before crawling to assure that no parrallel running cron-jobs crawl the same feeds)
@@ -58,7 +60,7 @@ class RssController extends AppController
             $feedData['crawled'] = date(RssComponent::DATE_FORMT);
             $this->RssFeed->save($feedData);
             //crawl the feed
-            $this->import($feed['RssFeed']['id']);
+            $this->_import($feed['RssFeed']['id']);
 
         }
 
@@ -273,30 +275,6 @@ class RssController extends AppController
 
     function admin_feedCrawl()
     {
-
-    }
-
-    function import()
-    {
-
-
-        $this->_import(34);
-     //   $this->_import(6);
-
-        /*
-        if($this->_import(1)){
-            if($this->_import(2)){
-                $this->_import(5);
-
-        if($this->_import(5)){
-            if($this->_import(6)){
-               // $this->_import(5);
-
-            }
-        }
-        */
-
-
 
     }
 
