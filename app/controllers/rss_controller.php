@@ -65,7 +65,7 @@ class RssController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('import', 'scheduleAllFeedsForCrawling', 'testModels');
+        $this->Auth->allow('crawlNextFeeds', 'import', 'scheduleAllFeedsForCrawling', 'testModels');
     }
 
     /**
@@ -245,7 +245,7 @@ class RssController extends AppController
     {
 
 
-        $this->_import(2);
+        $this->_import(34);
      //   $this->_import(6);
 
         /*
@@ -578,6 +578,8 @@ class RssController extends AppController
 
 
 
+
+
     /*
     function test()
     {
@@ -600,8 +602,35 @@ class RssController extends AppController
     }
     */
 
+    /*
+     * crawlNextFeeds
+     * Get a feed from the database. mark it as crawled recently. crawl the feed.
 
+     * @param int NoOfFeeds - limit of feeds that should be imported at this iteration
+     */
 
+    function crawlNextFeeds($NoOfFeeds = 1){
+        for($i=0; $i < $NoOfFeeds; $i++){
+            //get the next feed
+            $this->RssFeed->contain();
+            $feed = $this->RssFeed->find('first', array('fields' => array('id', 'url', 'crawled', 'created'),
+                                                'conditions' => array('enabled' => 1),
+                                                /*'limit' => 1 ,*/ 'order' => array('crawled', 'created')));
+           
+            
+            $feedData = array();
+            //mark it as recently crawled
+            //(doing this before crawling to assure that no parrallel running cron-jobs crawl the same feeds)
+            $this->RssFeed->id = $feed['RssFeed']['id'];
+            $feedData['id'] = $feed['RssFeed']['id'];
+            $feedData['crawled'] = date(RssComponent::DATE_FORMT);
+            $this->RssFeed->save($feedData);
+            //crawl the feed
+            $this->import($feed['RssFeed']['id']);
+
+        }
+
+    }
 
 
 
