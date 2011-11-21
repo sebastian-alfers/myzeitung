@@ -404,19 +404,6 @@ class RssController extends AppController
 
     }
 
-
-    private function _clearCounter(){
-        $this->_posts_created = 0;
-        $this->_posts_not_created = 0;
-        $this->_rss_feeds_items_created = 0;
-        $this->_rss_feeds_items_not_created = 0;
-        $this->_rss_items_created = 0;
-        $this->_rss_items_not_created = 0;
-        $this->_rss_items_contents_created = 0;
-        $this->_rss_items_contents_not_created = 0;
-        $this->_category_paper_posts_created = 0;
-    }
-
     /**
      * create rss item if not created
      * associate item to feed it not associated
@@ -521,34 +508,7 @@ class RssController extends AppController
 
     }
 
-    /*
-    function test()
-    {
 
-
-        ClassRegistry::init('Robot.RobotTask')->schedule(
-            array('action' => 'robotlanding'),
-            array('user_id' => $this->User->id)
-        );
-
-        ClassRegistry::init('Robot.RobotTask')->schedule(
-            array('action' => 'robotlanding'),
-            array('user_id' => $this->User->id)
-        );
-
-        ClassRegistry::init('Robot.RobotTask')->schedule(
-            array('action' => 'robotlanding'),
-            array('user_id' => $this->User->id)
-        );
-    }
-    */
-
-    function robotlanding()
-    {
-
-        $this->log('robotlanding');
-
-    }
 
     /**
      * append log-stack $_log with log msg
@@ -581,10 +541,73 @@ class RssController extends AppController
 
     }
 
+    /**
+     * check if the counter values are changed
+     *
+     * @return boolean
+     */
+    private function _needToLog(){
+
+        if($this->_posts_created > 0) return true;
+        if($this->_posts_not_created > 0) return true;
+        if($this->_rss_feeds_items_created > 0) return true;
+        if($this->_rss_feeds_items_not_created > 0) return true;
+        if($this->_rss_items_created > 0) return true;
+        if($this->_rss_items_not_created > 0) return true;
+        if($this->_rss_items_contents_created > 0) return true;
+        if($this->_rss_items_contents_not_created > 0) return true;
+        if($this->_category_paper_posts_created > 0) return true;
+
+        return false;
+    }
+
+
+    private function _clearCounter(){
+        $this->_posts_created = 0;
+        $this->_posts_not_created = 0;
+        $this->_rss_feeds_items_created = 0;
+        $this->_rss_feeds_items_not_created = 0;
+        $this->_rss_items_created = 0;
+        $this->_rss_items_not_created = 0;
+        $this->_rss_items_contents_created = 0;
+        $this->_rss_items_contents_not_created = 0;
+        $this->_category_paper_posts_created = 0;
+    }
+
+
+
+
+
+    /*
+    function test()
+    {
+
+
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'robotlanding'),
+            array('user_id' => $this->User->id)
+        );
+
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'robotlanding'),
+            array('user_id' => $this->User->id)
+        );
+
+        ClassRegistry::init('Robot.RobotTask')->schedule(
+            array('action' => 'robotlanding'),
+            array('user_id' => $this->User->id)
+        );
+    }
+    */
+
+
+
+
+
 
     /*
 
-    */
+
     function scheduleAllFeedsForCrawling()
     {
         $this->log('** add all + self in 2-minutes **');
@@ -611,8 +634,9 @@ class RssController extends AppController
         $robots_task->deleteAll(array('RobotTask.status' => 'running', 'RobotTask.scheduled <' => date(RssComponent::DATE_FORMT, strtotime('-22 minutes'))));
         
     }
+    */
 
-
+      /*
     function scheduleSingleFeedForCrawling($feed_id)
     {
         ClassRegistry::init('Robot.RobotTask')->schedule(
@@ -620,6 +644,7 @@ class RssController extends AppController
             array('feed_id' => $feed_id)
         );
     }
+      */
 
     function testModels()
     {
@@ -637,6 +662,7 @@ class RssController extends AppController
         debug($string);
     }
 
+    /*
     function admin_robotTasks(){
         App::import('model', 'Robot.RobotTask');
 
@@ -647,26 +673,9 @@ class RssController extends AppController
 
         debug($data);
     }
+    */
 
-    /**
-     * check if the counter values are changed
-     *
-     * @return boolean
-     */
-    private function _needToLog(){
 
-        if($this->_posts_created > 0) return true;
-        if($this->_posts_not_created > 0) return true;
-        if($this->_rss_feeds_items_created > 0) return true;
-        if($this->_rss_feeds_items_not_created > 0) return true;
-        if($this->_rss_items_created > 0) return true;
-        if($this->_rss_items_not_created > 0) return true;
-        if($this->_rss_items_contents_created > 0) return true;
-        if($this->_rss_items_contents_not_created > 0) return true;
-        if($this->_category_paper_posts_created > 0) return true;
-
-        return false;
-    }
 
 
 }

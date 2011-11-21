@@ -92,7 +92,7 @@ class RssComponent extends Object
 
 
         $data['content'] = htmlspecialchars_decode($item->get_content());
-        $data['content'] = strip_tags($data['content'], '<object><img><br><br />');
+        $data['content'] = strip_tags($data['content'], '<object><img><br><br /><p><ul><li><ol><h3><h4><h5><h6>');
 
 
         /*
