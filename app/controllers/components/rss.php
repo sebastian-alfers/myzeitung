@@ -104,6 +104,11 @@ class RssComponent extends Object
 
         $data['copyright'] = $item->get_copyright();
         $data['date'] = $item->get_date(self::DATE_FORMT);
+        if($data['date'] > date(self::DATE_FORMT)){
+            $data['date'] = date(self::DATE_FORMT);
+        }
+
+
         $data['hash'] = $this->_getHash($item->get_id());
 
         App::Import('helper', 'Text');
