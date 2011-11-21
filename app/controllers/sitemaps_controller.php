@@ -12,7 +12,7 @@
  */ 
 class SitemapsController extends AppController{
     var $name = 'Sitemaps';
-    var $helpers = array('Time', 'Xml', 'Javascript');
+    var $helpers = array('Cache','Time', 'Xml', 'Javascript');
     var $components = array('RequestHandler');
     var $uses = array();
     var $array_dynamic = array();
@@ -33,6 +33,8 @@ class SitemapsController extends AppController{
      * Our sitemap 
      */
     function index(){
+        $this->cacheAction = "1 hour";
+        
           Configure::write('debug', 0);
 
            $this->__get_data();

@@ -354,7 +354,7 @@ class AppController extends Controller {
               'admin_view' => $this->admin,
             ),
         'sitemaps' => array(
-                 'admin_send_sitemap' => $this->superadmin,
+             'admin_send_sitemap' => $this->superadmin,
         ),
     );
 
