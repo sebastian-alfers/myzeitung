@@ -91,9 +91,12 @@ class RssComponent extends Object
         $data = array();
 
 
+        $data['asdfadsf'] = 'adsf';
+
         $data['content'] = htmlspecialchars_decode($item->get_content());
         $data['content'] = strip_tags($data['content'], '<object><img><br><br /><p><ul><li><ol><h3><h4><h5><h6>');
 
+        $data['fff'] = 'adsf';
 
         /*
         if(!$this->_imagesValid($data['content'])){
