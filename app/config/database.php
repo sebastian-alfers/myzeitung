@@ -24,8 +24,8 @@ class DATABASE_CONFIG
             'login' => 'root',
             'password' => 'root',
             'database' => 'myzeitung',
+            // 'encoding' => 'utf8'
 	);
-
 
 
 
@@ -33,6 +33,5 @@ class DATABASE_CONFIG
 	function __construct ()
 	{
             $this->default = $this->local;
-
 	}
 }

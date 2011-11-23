@@ -37,6 +37,9 @@
     <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accSocial'):?><li class="active" id="acc-social"><?php else:?><li id="acc-social"><?php endif;?>
     <?php echo $this->Html->link('<span class="icon icon-social-media"></span>'.__('Social Media', true), array('controller' => 'users', 'action' => 'accSocial'), array('escape' => false, 'id' => 'link-social-media'));?></li>
 
+    <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'accRssImport'):?><li class="active" id="acc-rss"><?php else:?><li id="acc-rss"><?php endif;?>
+    <?php echo $this->Html->link('<span class="icon icon-rss-import"></span>'.__('Rss Import', true), array('controller' => 'users', 'action' => 'accRssImport'), array('escape' => false, 'id' => 'link-rss-import'));?></li>
+
 
 </fieldset>
   <fieldset>

@@ -71,7 +71,7 @@ class Solr extends AppModel {
 				}
 				$documents[] = $part;
 			}
-           // debug($documents);
+
 			if($this->getSolr()){
 				$this->getSolr()->addDocuments( $documents );
 				$this->getSolr()->commit();
@@ -400,9 +400,13 @@ class Solr extends AppModel {
 
 		if(!Configure::read('Solr.enable')) return;
 
-		if(!$this->canPing()){
-			$this->solr = null;
-		}
+if(!$this->canPing()){
+            $this->solr = null;
+        }
+        if(!($this->solr instanceof Apache_Solr_Service)){
+            $this->solr = new Apache_Solr_Service($this->_host, $this->_port, $this->_path);
+
+        }
 
 		return $this->solr;
 	}
@@ -413,12 +417,10 @@ class Solr extends AppModel {
 	 */
 	function canPing(){
 		if(!Configure::read('Solr.enable')) return;
-
 		if($this->solr instanceof Apache_Solr_Service && $this->solr != null){
 			if (!$this->solr->ping()) return false;
 			return true;
 		}
-
 
 		return false;
 	}

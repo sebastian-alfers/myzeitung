@@ -138,7 +138,9 @@ class Post extends AppModel {
      */
     function addRoute(){
 
+
         $routeString = $this->generateRouteString();
+       
         //if NOT the exact route was currently active
         if($routeString != ''){
             if(substr($routeString,0,strlen(ROUTE::TYPE_NEW_ROUTE)) == ROUTE::TYPE_NEW_ROUTE){
@@ -149,6 +151,7 @@ class Post extends AppModel {
                                         'target_param'		=> $this->id,
                                         'ref_type'          => Route::TYPE_POST,
                                         'ref_id'            => $this->id);
+                
                 $this->Route->create();
                 if($this->Route->save($routeData,false)){
                     $currentRouteId = $this->Route->id;
@@ -173,19 +176,21 @@ class Post extends AppModel {
         }else{
             return false;
         }
-
         return false;
     }
 
     private function generateRouteString(){
-        
+
         $this->User->contain();
         $user = $this->User->read(array('id','username'),$this->data['Post']['user_id']);
 
         //generate the theoretically needed route
         $this->Inflector = ClassRegistry::init('Inflector');
         $routeUsername = strtolower($user['User']['username']);
+
         $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
+        //delete all crap that might still be in the field (like weird  nbsps)
+        $routeTitle = preg_replace('/[^a-zA-Z0-9_ -\/]/s', '', $routeTitle);
         if(empty($routeTitle)){
             $routeTitle = 'article';
         }
@@ -194,8 +199,9 @@ class Post extends AppModel {
         //check if such a route does already exist
         $this->Route->contain();
         $existingRoutes = $this->Route->findAllBySource($routeString);
-
+        
         if(count($existingRoutes) >0){
+
             //the route is already used
             $sameTarget = true;
             $sameTargetId = null;
@@ -241,6 +247,7 @@ class Post extends AppModel {
 
         }
         return $route_title;
+        
     }
 
 
@@ -258,7 +265,7 @@ class Post extends AppModel {
     function refreshRoutes(){
         $this->contain();
         $posts = $this->find('all');
-
+        
         App::import('model','Route');
         $this->Route = new Route();
 
@@ -271,14 +278,16 @@ class Post extends AppModel {
         $solrEntries = array();
 
         foreach($posts as $post){
+
             $this->id = $post['Post']['id'];
             $this->data = $post;
             if($this->addRoute()){
+                //just updating solr if route has changed
                 $solrFields = $this->generateSolrData();
-                $solrEntries[] =  $solrFields['Post'];
+
+                $solrEntries[] =  $solrFields;
             }
         }
-
         if(count($solrEntries) > 0){
             $this->Solr->add($solrEntries);
         }
@@ -291,66 +300,66 @@ class Post extends AppModel {
         $solr->delete(Solr::TYPE_POST.'_'.$this->id);
         return true;
     }
-			/**
-			 * @author tim
-			 *
-			 * reposting means to recommend a post of another user to your followers.
-			 * it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
-			 * -> to do so: this function creates an entry in the table posts_users
-			 * 		with the redirected post and the user who is recommending it and his topic_id in which he reposts it.
-			 * Furthermore an entry in the "reposters" array of the Post is added, to check quickly if a
-			 *  User already reposted a post (especially for better performance in views)
-			 *
-			 * @param int $paper_id  -> reposted post
-			 * @param int $topic_id -> (optional) topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
-			 *
-			 * 14.03.11 /tim - added:	 user can't repost own post
-			 * 				   debugged: user can't repost twice
-			 *
-			 * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts
-			 */
-			function repost($user_id, $topic_id = null){
-                $postData = $this->data;
+    /**
+     * @author tim
+     *
+     * reposting means to recommend a post of another user to your followers.
+     * it will be shown on your own blog-page and be marked as reposted. (comparable to re-tweet)
+     * -> to do so: this function creates an entry in the table posts_users
+     * 		with the redirected post and the user who is recommending it and his topic_id in which he reposts it.
+     * Furthermore an entry in the "reposters" array of the Post is added, to check quickly if a
+     *  User already reposted a post (especially for better performance in views)
+     *
+     * @param int $paper_id  -> reposted post
+     * @param int $topic_id -> (optional) topic of the _reposter_ in which he wants to repost the post (!this is not the topic in which the original author publicized it!)
+     *
+     * 14.03.11 /tim - added:	 user can't repost own post
+     * 				   debugged: user can't repost twice
+     *
+     * 27.02.11 /tim - rewrote procedure; added topic_id into post_users; added check for existing posts
+     */
+    function repost($user_id, $topic_id = null){
+        $postData = $this->data;
 
-				App::import('model','PostUser');
-				$this->PostUser = new PostUser();
-				$PostUserData = array('repost' => true,
-								'post_id' => $this->id,
-							   	'PostUser.user_id' => $user_id);
-				$this->PostUser->contain();
-				$repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
-				// if there are no reposts for this post/user combination yet
-				if($repostCount == 0)
-                {
-					if($this->data['Post']['user_id'] != $user_id){
-						//post is not from reposting user
-						$this->PostUser->create();
-						// adding the topic_id to the PostUser - array
-						$PostUserData = array('PostUser' => array('repost' => true,
-										'post_id' => $this->id,
-										'topic_id' =>  $topic_id,
-									   	'user_id' => $user_id));
+        App::import('model','PostUser');
+        $this->PostUser = new PostUser();
+        $PostUserData = array('repost' => true,
+                        'post_id' => $this->id,
+                        'PostUser.user_id' => $user_id);
+        $this->PostUser->contain();
+        $repostCount = $this->PostUser->find('count',array('conditions' => $PostUserData));
+        // if there are no reposts for this post/user combination yet
+        if($repostCount == 0)
+        {
+            if($this->data['Post']['user_id'] != $user_id){
+                //post is not from reposting user
+                $this->PostUser->create();
+                // adding the topic_id to the PostUser - array
+                $PostUserData = array('PostUser' => array('repost' => true,
+                                'post_id' => $this->id,
+                                'topic_id' =>  $topic_id,
+                                'user_id' => $user_id));
 
-						if($this->PostUser->save($PostUserData)){
-							//repost was saved
-							// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
-                            $this->data = $postData;
-							$this->_addUserToReposters($user_id);
-							return true;
-						}
-					} else {
-						//user tried to repost his own post
-						$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which is his own post.');
-					}
-				}else{
-					// already reposted
-					// writing the reposter's user id into the reposters-array of the post, if not already in reposters array
+                if($this->PostUser->save($PostUserData)){
+                    //repost was saved
+                    // writing the reposter's user id into the reposters-array of the post, if not already in reposters array
                     $this->data = $postData;
                     $this->_addUserToReposters($user_id);
-					$this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
-				}
-				return false;
-			}
+                    return true;
+                }
+            } else {
+                //user tried to repost his own post
+                $this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which is his own post.');
+            }
+        }else{
+            // already reposted
+            // writing the reposter's user id into the reposters-array of the post, if not already in reposters array
+            $this->data = $postData;
+            $this->_addUserToReposters($user_id);
+            $this->log('Post/Repost: User '.$user_id.' tried to repost  Post'.$this->id.' which he had already reposted.');
+        }
+        return false;
+    }
 
 			/**
 			 * @author tim
@@ -565,7 +574,6 @@ class Post extends AppModel {
 			 * update solr index with saved data
 			 */
     function afterSave($created){
-
         App::import('model','Route');
         $this->Route = new Route();
 
@@ -577,9 +585,7 @@ class Post extends AppModel {
         $this->PostUser = new PostUser();
 
         if($this->updateSolr){
-
             $this->addRoute();
-
             // update solr index with saved data
             App::import('model','Solr');
             $this->Solr = new Solr();
@@ -625,7 +631,6 @@ class Post extends AppModel {
             }
 
         }
-
         $this->deleteCache();
 
 
@@ -652,12 +657,16 @@ class Post extends AppModel {
         if($posts == null){
             $posts = array($this->id);
         }
+        $this->log('addto - posts ');
+        $this->log($posts);
 
         $solrRecords = array();
         foreach($posts as $post_id){
             $this->id = $post_id;
             $solrRecords[] = $this->generateSolrData();
         }
+        $this->log($solrRecords);
+
 
         if($this->Solr->add($solrRecords)){
             return true;
@@ -731,8 +740,8 @@ class Post extends AppModel {
 					'last' 			=> true,
 				),
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 100),
-					'message'		=> __('Titles can only be 100 characters long.', true),
+					'rule'			=> array('maxlength', 200),
+					'message'		=> __('Titles can only be 200 characters long.', true),
 					'last' 			=> true,
 				),
 			),

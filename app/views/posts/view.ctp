@@ -119,6 +119,7 @@ if(substr($post['Post']['content'],0,2) == "<p"){
 
                 <?php  $links = unserialize($post['Post']['links'])?>
                 <h6><?php echo __n('Reference', 'References', count($links, true)); ?></h6>
+
                 <ul id="links">
                         <?php foreach($links as $link):?>
                     <li><?php echo $this->Html->link($link, $link, array('target'  =>'blank','rel' => 'nofollow'));?></li>

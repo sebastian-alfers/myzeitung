@@ -14,12 +14,12 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array(/* 'Security', */ 'JqImgcrop', 'Upload', 'Settings', 'Tweet' );
-	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
+	var $helpers = array( 'Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
 
-
-
+  
 
 	var $uses = array('Post','PostUser', 'Route', 'Comment', 'UrlContentExtract');
+
 
 
 	public function beforeFilter(){
@@ -42,7 +42,7 @@ class PostsController extends AppController {
 
 	function index() {
 
-
+        $this->log('nicht gecachet');
 
 		$this->paginate = array(
 	        'Post' => array(
@@ -145,6 +145,7 @@ class PostsController extends AppController {
         }
         $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
         $post = $this->Post->read(null, $id);
+        $this->log($post);
         if(!isset($post['Post']['id']) || empty($post['Post']['id'])){
             $this->Session->setFlash(__('Invalid post', true));
             $this->cakeError('error404');
@@ -203,6 +204,7 @@ class PostsController extends AppController {
 		//$user = $this->User->read(array('id','name','username','created','image' ,'description','repost_count','post_count','comment_count', 'subscriber_count', 'subscription_count', 'paper_count'), $post['Post']['user_id']);
 		//$this->log('vor dem set');die();
         $this->set('post', $post);
+        $this->log($user);
 		$this->set('user', $user);
 		$this->set('comments',$comments);
         $this->set('canonical_for_layout', $post['Route'][0]['source']);
@@ -964,5 +966,10 @@ class PostsController extends AppController {
         return $array;
 
     }
+
+
+
+
+    
 }
 ?>

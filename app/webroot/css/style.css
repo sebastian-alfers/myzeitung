@@ -236,6 +236,11 @@ span.settings-icon{
 span.rss-icon{
     background: #ebebeb url(/img/assets/maintile.png) -124px -277px no-repeat;;
 }
+
+span.rss-icon-white{
+    background: transparent url(/img/assets/maintile.png) -124px -275px no-repeat;;
+}
+
 /*
 .btn.btn-send:hover span.send-icon{
 background: url(/img/assets/maintile.png) no-repeat scroll -52px -123px #242424;
@@ -1583,6 +1588,9 @@ a.btn.big {
 .icon-social-media{
     background: url(/img/assets/maintile.png) -53px -315px no-repeat;
 }
+.icon-rss-import{
+    background: url(/img/assets/maintile.png) -84px -171px no-repeat;
+}
 
 .icon-mynews{
     background: url(/img/assets/maintile.png) -138px -143px no-repeat;
@@ -2575,6 +2583,12 @@ width: 731px;
 .invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.email{
     width: 250px;
 }
+
+.invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.rssimport{
+    width: 250px;
+    margin-left: 22px;
+}
+
 .invitations-overview .invitations .invitation .invitee .single-invitee .invitee-info li.status{
     border-radius: 3px;
     -moz-border-radius:3px;
@@ -2607,16 +2621,36 @@ width: 731px;
 
 .invitations-overview .invitations .invitation .invitee .single-invitee ul{
     width: 730px;
+    float:none;
 }
 .message-overview .messages li.message, .invitations-overview .invitations li.invitation{
 border-bottom: 1px solid #e4e3e3;
 padding:12px 28px 0 5px;
 margin-bottom: 5px;
 }
+
 .invitations-overview .invitations li.invitation{
     margin-bottom: 15px;
 }
 
+
+.rss-feed-import-overview .feeds li.feed{
+    width: 730px;
+    float:left;
+}
+
+.rss-feed-import-overview .feeds .feed li.feed-url{
+    float:left;
+}
+
+
+.rss-feed-import-overview .feeds .feed li.feed-update{
+    float:right;
+}
+
+.account .account-nav p.rss-import{
+    width: 540px;
+}
 
 .state{
     height: 37px;

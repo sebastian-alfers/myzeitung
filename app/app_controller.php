@@ -47,15 +47,22 @@ class AppController extends Controller {
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
     var $admin = array(self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
     var $superadmin = array(self::ROLE_SUPERADMIN);
+    var $robot = array(self::ROLE_ROBOT);
 
     //acl roles
     const ROLE_USER = 1; //normal, logged in user
     const ROLE_ADMIN = 2; //normal, logged in user
     const ROLE_SUPERADMIN = 3; //
+    const ROLE_ROBOT = 4; //for shell worker
 
     var $_open_graph_data = array();
 
 	public function beforeFilter(){
+
+        //set permission for robot from shell
+        if(isset($this->params['robot']) && !empty($this->params['robot'])){
+            $_SESSION['Auth']['User']['group_id'] = self::ROLE_ROBOT;
+        }
 
 
         $this->Auth->loginError = __('Login fehlgeschlagen. Ungültiger Benutzername/Email oder ungültiges Passwort.', true);
@@ -72,9 +79,9 @@ class AppController extends Controller {
         if($this->Session->read('Auth.User.id') && !$this->Session->read('Auth.Setting')){
             App::import('model', 'User');
             $user = new User();
+
             $this->Session->write('Auth.Setting', $user->getSettings($this->Session->read('Auth.User.id')));
         }
-
 
         $this->_setLanguage();
 
@@ -124,12 +131,14 @@ class AppController extends Controller {
 				$this->setConversationCount();
 		}
 
-        //change layout if admin
-		$pos = strpos($_SERVER['REQUEST_URI'], CAKE_ADMIN);
-		if($pos == true)
-		{
-		    $this->layout='admin';
-		}
+        if(isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])){
+            //change layout if admin
+            $pos = strpos($_SERVER['REQUEST_URI'], CAKE_ADMIN);
+            if($pos == true)
+            {
+                $this->layout='admin';
+            }
+        }
 
 
 	}
@@ -187,6 +196,9 @@ class AppController extends Controller {
             'accSocial' => $this->user,
         	'accDelete' => $this->user,
             'accInvitations' => $this->user,
+            'accRssImport' => $this->user,
+            'accRemoveRssFeed' => $this->user,
+            'accAddRssFeed' => $this->user,
             'admin_index' => $this->admin,
             'admin_edit' => $this->superadmin,
             'admin_delete' => $this->superadmin,
@@ -219,6 +231,7 @@ class AppController extends Controller {
             'admin_enable' => $this->admin,
             'admin_index' => $this->admin,
             'admin_delete' => $this->superadmin,
+
 			),
 		'papers' => array(
 			'index' => $this->user,
@@ -281,12 +294,15 @@ class AppController extends Controller {
             'admin_refreshUsersIndex' => $this->superadmin,
             'admin_refreshPostsIndex' => $this->superadmin,
             'admin_refreshPapersIndex' => $this->superadmin,
+            'admin_delete' => $this->superadmin,
             ),
         'index' => array(
              'admin_cleanUpContentPaperIndex' => $this->superadmin,
             'admin_cleanUpPostUserIndex' => $this->superadmin,
             'admin_index' => $this->admin,
             'admin_refreshPostPaperRoutes' => $this->superadmin,
+            'utf8read' => $this->superadmin,
+            'utf8write' => $this->superadmin,
             
             ),
         'twitter' => array(
@@ -314,29 +330,51 @@ class AppController extends Controller {
             'remindInvitee' => $this->user,
 
             ),
-         'helppages' => array(
-             'admin_index' => $this->admin,
-             'admin_add' => $this->superadmin,
-             'admin_edit' => $this->superadmin,
-             'admin_delete' => $this->superadmin,
+        'helppages' => array(
+                 'admin_index' => $this->admin,
+                 'admin_add' => $this->superadmin,
+                 'admin_edit' => $this->superadmin,
+                 'admin_delete' => $this->superadmin,
          ),
-         'helpelements' => array(
-             'admin_add' => $this->superadmin,
-             'admin_edit' => $this->admin,
-             'admin_delete' => $this->superadmin,
+        'helpelements' => array(
+                 'admin_add' => $this->superadmin,
+                 'admin_edit' => $this->admin,
+                 'admin_delete' => $this->superadmin,
          ),
-        );
 
+         'rss' => array(
+             'robotlanding' => $this->robot,
+             'feedCrawl' => $this->robot,
+             'admin_analyzeFeed' => $this->superadmin,
+             'scheduleAllFeedsForCrawling' => $this->admin,
+             'removeFeedForUser' => $this->user,
+             'addFeedForUser' => $this->user,
+             'admin_robotTasks' => $this->superadmin,
+             'crawlNextFeeds' => $this->robot,
+         ),
+          'rssimportlogs' => array(
+                'admin_index' => $this->admin,
+              'admin_view' => $this->admin,
+            ),
+        'sitemaps' => array(
+             'admin_send_sitemap' => $this->superadmin,
+        ),
+    );
 
 
 		// check if the specific controller and action is set in the allowedAction array and if the group of the specific user is allowed to use it
 			if(isset($allowedActions[low($this->name)])) {
 			$controllerActions = $allowedActions[low($this->name)];
+
+
+
 			if(isset($controllerActions[$this->action]) &&
 			in_array($this->Auth->user('group_id'), $controllerActions[$this->action])) {
 				return true;
 			}
 		}
+
+
         $this->Session->setFlash(__('No Permission', true));
 		return false;
 	}

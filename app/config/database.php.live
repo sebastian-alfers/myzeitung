@@ -20,4 +20,5 @@ class DATABASE_CONFIG
 	{
         $this->default = $this->local;
 	}
+
 }

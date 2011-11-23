@@ -45,20 +45,24 @@ if($premiumPapers === false){
     }
 }
 
-$prefix = substr($_SERVER['REQUEST_URI'],0,3);
-
-//extract potential premium url vom request to check with array later
-$posSlash = strpos($_SERVER['REQUEST_URI'], '/', 1);
-if(!empty($posSlash)){
-    $premiumSubstr = substr($_SERVER['REQUEST_URI'],0,$posSlash);
-}else{
-    $premiumSubstr = $_SERVER['REQUEST_URI'];
-}
-
+$prefix ='';
 $isPremiumPaper = false;
-//check if extracted substring matches premium array
-if(is_array($premiumPapers) && in_array($premiumSubstr,$premiumPapers)){
-    $isPremiumPaper = true;
+if(isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])){
+    $prefix = substr($_SERVER['REQUEST_URI'],0,3);
+
+    //extract potential premium url vom request to check with array later
+    $posSlash = strpos($_SERVER['REQUEST_URI'], '/', 1);
+    if(!empty($posSlash)){
+        $premiumSubstr = substr($_SERVER['REQUEST_URI'],0,$posSlash);
+    }else{
+        $premiumSubstr = $_SERVER['REQUEST_URI'];
+    }
+
+
+    //check if extracted substring matches premium array
+    if(is_array($premiumPapers) && in_array($premiumSubstr,$premiumPapers)){
+        $isPremiumPaper = true;
+    }
 }
 
 
@@ -145,6 +149,10 @@ if(in_array($prefix,array('/p/','/a/')) || $isPremiumPaper){
  * ---------------------------
  */
 
+
+Router::connect('/sitemap', array('controller' => 'sitemaps', 'action' => 'index', 'url' => array('ext' => 'xml')));
+//Router::connect('/sitemap/:action/*', array('controller' => 'sitemaps'));
+
 Router::connect('/', array('controller' => 'home', 'action' => 'index'));
 
 /**
@@ -174,6 +182,13 @@ Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
  */
 
 Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+
+/**
+ * forgot password
+ */
+
+Router::connect('/forogt_password', array('controller' => 'users', 'action' => 'forgotPassword'));
+
 
 /**
  * user account settings
@@ -220,4 +235,4 @@ Router::connect('/c/beispiel-bundestag/*', array('controller' => 'landing', 'act
 
 
 
-Router::parseExtensions('json','rss');
+Router::parseExtensions('json','rss','xml');

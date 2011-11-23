@@ -1109,7 +1109,7 @@ class UsersController extends AppController {
 		}
 
         $this->User->contain();
-        $user= $this->getUserForSidebar($this->Session->read('Auth.User.username'));
+        $user= $this->getUserForSidebar();
 
 		if (!empty($this->data)) {
 
@@ -1135,6 +1135,7 @@ class UsersController extends AppController {
 		}
 
 		if(empty($this->data)) {
+           // $this->log($user);
             $this->data['User']['allow_messages']               = $user['Setting']['user']['privacy']['allow_messages']['value'];
             $this->data['User']['allow_comments']               = $user['Setting']['user']['privacy']['allow_comments']['value'];
             $this->data['User']['email_new_comment']            = $user['Setting']['user']['email']['new_comment']['value'];
@@ -1277,6 +1278,41 @@ class UsersController extends AppController {
     }
 
 
+    function accRssImport(){
+
+
+
+        App::import('model','RssFeedsUser');
+        $this->RssFeedsUser = new RssFeedsUser();
+
+        $user_id = $this->Session->read('Auth.User.id');
+
+		if (!$user_id) {
+			$this->Session->setFlash(__('Invalid user', true));
+			$this->redirect($this->referer());
+		}
+        $this->paginate = array(
+                'RssFeedsUser' => array(
+            //limit of records per page
+                    'limit' => 10,
+            //order
+                    //'order' => 'RssFeed.url DESC',
+            //fields - custom field sum...
+                    'fields' => array(),
+                    'conditions' => array('RssFeedsUser.user_id' => $user_id),
+            //contain array: limit the (related) data and models being loaded per post
+                    'contain' => array('RssFeed', 'RssFeed.RssImportLog.created')
+            )
+        );
+        $feeds = $this->paginate("RssFeedsUser");
+
+        $this->set('user', $this->getUserForSidebar());
+        $this->set('feeds', $feeds);
+        $this->set('hash', $this->Upload->getHash());
+    }
+
+
+
 
 	/**
 	 * handle upload of user profile image
@@ -1342,6 +1378,8 @@ class UsersController extends AppController {
 
     protected function _sendWelcomeEmail($user_id){
         $this->User->contain();
+
+
         $user = $this->User->read(null, $user_id);
 
         //setting params for template
