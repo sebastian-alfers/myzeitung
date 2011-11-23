@@ -590,7 +590,7 @@ class Post extends AppModel {
             App::import('model','Solr');
             $this->Solr = new Solr();
 
-           // $this->addToOrUpdateSolr();
+            $this->addToOrUpdateSolr();
 
         }
 
