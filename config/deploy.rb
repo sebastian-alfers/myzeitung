@@ -30,7 +30,10 @@ ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have th
 # set live server
 task :live do
     set :branch, "master"
-    role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com" , "ec2-46-137-65-146.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
+    #role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com" , "ec2-46-137-65-146.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
+    #role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-146-70.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
+    #role :target, "ec2-176-34-197-63.eu-west-1.compute.amazonaws.com"
+
     set :config, 'live'
 end
 # set staging server

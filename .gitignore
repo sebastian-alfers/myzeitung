@@ -6,7 +6,6 @@ tmp/
 .settings/
 .idea/
 app/config/core.php
-app/config/core.php.live
 app/webroot/jscache/*
 app/webroot/csscache/*
 app/webroot/img/cache/*
