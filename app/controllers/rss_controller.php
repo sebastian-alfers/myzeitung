@@ -33,7 +33,6 @@ class RssController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('crawlNextFeeds');
     }
 
 
@@ -47,8 +46,6 @@ class RssController extends AppController
     function crawlNextFeeds(){
 
         $limit = $this->params['limit'];
-        $limit = 1;
-        $this->log($limit);
 
         for($i=0; $i < $limit; $i++){
             //get the next feed
