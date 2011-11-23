@@ -29,6 +29,14 @@ class RssController extends AppController
 
 
 
+
+    public function beforeFilter()
+    {
+        parent::beforeFilter();
+        $this->Auth->allow('crawlNextFeeds');
+    }
+
+
     /*
      * crawlNextFeeds
      * Get a feed from the database. mark it as crawled recently. crawl the feed.
@@ -39,7 +47,7 @@ class RssController extends AppController
     function crawlNextFeeds(){
 
         $limit = $this->params['limit'];
-
+        $limit = 1;
         $this->log($limit);
 
         for($i=0; $i < $limit; $i++){
@@ -98,12 +106,6 @@ class RssController extends AppController
     }
 
 
-
-    public function beforeFilter()
-    {
-        parent::beforeFilter();
-        $this->Auth->allow();
-    }
 
     /**
      * @return void
@@ -296,8 +298,7 @@ class RssController extends AppController
     private function _import($feed_id = null)
     {
 
-        $this->log('');
-        $this->log('enter import for Feed ' . (int)$feed_id);
+    //    $this->log('enter import for Feed ' . (int)$feed_id);
 
         $this->_clearCounter();
 
@@ -314,11 +315,10 @@ class RssController extends AppController
             $items = $this->Rss->get($feed);
 
             foreach ($items as $hash => $values) {
-
                 $item_id = $this->_processRssItem($feed_id, $hash, $values);
 
-                if ($item_id !== false) {
 
+                if ($item_id !== false) {
                     //now, we check if each consument of the feed has already published the item
 
                     //prepare data for new post - user_id later
@@ -338,13 +338,16 @@ class RssController extends AppController
                             $this->Post->contain();
                             $post = $this->Post->find('first', array('fields' => array('id'), 'conditions' => array('Post.rss_item_id' => $item_id, 'Post.user_id' => $rssFeedUser['user_id'])));
 
+
                             if (!isset($post['Post']['id'])) {
+
                                 $new_post['user_id'] = $rssFeedUser['user_id'];
                                 $this->Post->create();
                                 $this->Post->updateSolr = true;
 
 
                                 if ($this->Post->save($new_post)) {
+
                                     $this->_posts_created++;
 
                                     //read and cound category_paper_posts for log
@@ -363,7 +366,7 @@ class RssController extends AppController
                         }
                         else {
                             //$this->log('error 3');
-                            //$this->_log('Error loading user', array(), $rssFeedUser);
+                          //  $this->_log('Error loading user', array(), $rssFeedUser);
                         }
                     }
                 }
@@ -428,29 +431,35 @@ class RssController extends AppController
      */
     private function _processRssItem($feed_id, $hash, $values)
     {
+        $this->log('process item');
+        $this->log($feed_id);
+        $this->log($hash);
+        //$this->log($values);
         $this->RssItem->contain();
         $data = $this->RssItem->find('first', array('conditions' => array('hash' => $hash)));
         $item_id = '';
         if (!isset($data['RssItem']['id'])) {
             // this item has not been imported before
             $item_id = $this->_createNewRssItem($hash, $values);
-
+            $this->log('process item - A');
             if ($item_id) {
                 //now we have am item with all contents saved
                 // -> creating feed item relation
                 $this->RssFeedsItem->create();
-
+                $this->log('process item - B');
                 $rss_feed_item_data = array('RssFeedsItem' => array('feed_id' => $feed_id, 'item_id' => $item_id));
                 if (!$this->RssFeedsItem->save($rss_feed_item_data)) {
                     $this->_rss_feeds_items_not_created++;
                     $this->_log('Error while associating the feed_item to the feed', $this->RssFeedsItem->invalidFields(), $rss_feed_item_data);
+                    $this->log('process item - C');
                 }
                 else{
-
+                    $this->log('process item - D - ITEM CREATED');
                     $this->_rss_feeds_items_created++;
                 }
             }
             else {
+                $this->log('process item - E');
                 //error reading new rss item
             }
 

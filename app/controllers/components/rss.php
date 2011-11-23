@@ -94,16 +94,24 @@ class RssComponent extends Object
         $data['asdfadsf'] = 'adsf';
 
         $data['content'] = htmlspecialchars_decode($item->get_content());
-        $data['content'] = strip_tags($data['content'], '<object><img><br><br /><p><ul><li><ol><h3><h4><h5><h6>');
+                $this->log('zimmer content1');
+        $this->log($data['content']);
+      // $data['content'] = strip_tags($data['content'], '<span><param><param /><a><blockquote><div><object><img><br><br /><p><ul><li><ol><h1><h2><h3><h4><h5><h6>');
 
-        $data['fff'] = 'adsf';
+        //(ORDER IMPORTANT ! ) h1 and h2 is not allowed : decreasing the number of the headlines to assure there is no second h2 element
+        $data['content'] = str_replace(array('<h5','</h5>'),array('<h6','</h6>'),$data['content']);
+        $data['content'] = str_replace(array('<h4','</h4>'),array('<h5','</h5>'),$data['content']);
+        $data['content'] = str_replace(array('<h3','</h3>'),array('<h4','</h4>'),$data['content']);
+        $data['content'] = str_replace(array('<h2','</h2>'),array('<h3','</h3>'),$data['content']);
+        $data['content'] = str_replace(array('<h1','</h1>'),array('<h3','</h3>'),$data['content']);
 
         /*
         if(!$this->_imagesValid($data['content'])){
             $data['content'] = strip_tags($data['content'], '<object><br><br />');
         }
         */
-
+        $this->log('zimmer content2');
+        $this->log($data['content']);
 
         $data['copyright'] = $item->get_copyright();
         $data['date'] = $item->get_date(self::DATE_FORMT);
@@ -116,9 +124,9 @@ class RssComponent extends Object
 
         App::Import('helper', 'Text');
         $text_helper = new TextHelper();
-        $data['title'] = trim($text_helper->truncate($item->get_title(), 200, array('ending' => '...', 'exact' => false)));
+        $data['title'] = trim($text_helper->truncate(htmlspecialchars_decode($item->get_title()), 200, array('ending' => '...', 'exact' => false)));
 
-
+/*
         if ($data['title'] == '') {
             $data['title'] = trim($text_helper->truncate(strip_tags($item->get_title()), 200, array('ending' => '...', 'exact' => false)));
         }
@@ -126,16 +134,22 @@ class RssComponent extends Object
         if ($data['title'] == '') {
             $data['title'] = $text_helper->truncate(strip_tags($data['content']), 200, array('ending' => '...', 'exact' => false));
         }
+*/
+
+     //   $data['title'] = htmlspecialchars_decode($data['title']);
+
+        $data['link'] = htmlspecialchars_decode( $item->get_link());
+
+        $temp_links = $item->get_links();
+        foreach($temp_links as &$temp_link){
+            $temp_link = htmlspecialchars_decode( $temp_link);
+        }
+        $data['links'] = serialize($temp_links);
+
+     //   $data['link'] = $item->get_link();
 
 
-        $data['title'] = htmlspecialchars_decode($data['title']);
-
-        $data['link'] = $item->get_link();
-
-        $data['link'] = $item->get_link();
-
-        $data['links'] = serialize($item->get_links());
-        $data['permalink'] = $item->get_permalink();
+        $data['permalink'] = htmlspecialchars_decode($item->get_permalink());
 
         $valid_data = array();
         //remove empty fields
@@ -144,7 +158,7 @@ class RssComponent extends Object
                 $valid_data[$key] = $value;
             }
         }
-
+        $this->log($valid_data);
         return $valid_data;
     }
 
@@ -226,14 +240,21 @@ class RssComponent extends Object
         if ($this->_crawler == null) {
             $this->_crawler = new SimplePie();
             $this->_crawler->set_cache_location($this->cache);
+            $strip_htmltags = $this->_crawler->strip_htmltags;
+            //delete some tags from default list
+            array_splice($strip_htmltags, array_search('object', $strip_htmltags), 1);
+            array_splice($strip_htmltags, array_search('param', $strip_htmltags), 1);
+            array_splice($strip_htmltags, array_search('embed', $strip_htmltags), 1);
+            //add tag to default list
+            $strip_htmltags[] = 'span';
+            $this->log($strip_htmltags);
+            $this->_crawler->strip_htmltags($strip_htmltags);
 
+    
+            $this->log('STRIP ATTRIUTES');
+            $this->log($this->_crawler->strip_attributes);
+              $this->_crawler->strip_attributes();
 
-            $this->_crawler->strip_htmltags(array('span', 'base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
-
-            // $this->_crawler->strip_attributes(true);
-            //  $this->_crawler->strip_htmltags(true);
-            //  $this->_crawler->strip_attributes(array('style'));
-            //  $this->_crawler->strip_htmltags(array('span' ,'base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'script', 'style'));
 
         }
 

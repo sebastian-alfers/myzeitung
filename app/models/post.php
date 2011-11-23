@@ -140,7 +140,7 @@ class Post extends AppModel {
 
 
         $routeString = $this->generateRouteString();
- 
+       
         //if NOT the exact route was currently active
         if($routeString != ''){
             if(substr($routeString,0,strlen(ROUTE::TYPE_NEW_ROUTE)) == ROUTE::TYPE_NEW_ROUTE){
@@ -151,6 +151,7 @@ class Post extends AppModel {
                                         'target_param'		=> $this->id,
                                         'ref_type'          => Route::TYPE_POST,
                                         'ref_id'            => $this->id);
+                
                 $this->Route->create();
                 if($this->Route->save($routeData,false)){
                     $currentRouteId = $this->Route->id;
@@ -175,7 +176,6 @@ class Post extends AppModel {
         }else{
             return false;
         }
-
         return false;
     }
 
@@ -191,7 +191,6 @@ class Post extends AppModel {
         $routeTitle= strtolower($this->Inflector->slug($this->data['Post']['title'],'-'));
         //delete all crap that might still be in the field (like weird  nbsps)
         $routeTitle = preg_replace('/[^a-zA-Z0-9_ -\/]/s', '', $routeTitle);
-
         if(empty($routeTitle)){
             $routeTitle = 'article';
         }
@@ -200,8 +199,9 @@ class Post extends AppModel {
         //check if such a route does already exist
         $this->Route->contain();
         $existingRoutes = $this->Route->findAllBySource($routeString);
-
+        
         if(count($existingRoutes) >0){
+
             //the route is already used
             $sameTarget = true;
             $sameTargetId = null;
@@ -265,7 +265,7 @@ class Post extends AppModel {
     function refreshRoutes(){
         $this->contain();
         $posts = $this->find('all');
-
+        
         App::import('model','Route');
         $this->Route = new Route();
 
@@ -278,14 +278,16 @@ class Post extends AppModel {
         $solrEntries = array();
 
         foreach($posts as $post){
+
             $this->id = $post['Post']['id'];
             $this->data = $post;
             if($this->addRoute()){
+                //just updating solr if route has changed
                 $solrFields = $this->generateSolrData();
-                $solrEntries[] =  $solrFields['Post'];
+
+                $solrEntries[] =  $solrFields;
             }
         }
-
         if(count($solrEntries) > 0){
             $this->Solr->add($solrEntries);
         }
@@ -572,7 +574,6 @@ class Post extends AppModel {
 			 * update solr index with saved data
 			 */
     function afterSave($created){
-
         App::import('model','Route');
         $this->Route = new Route();
 
@@ -584,14 +585,12 @@ class Post extends AppModel {
         $this->PostUser = new PostUser();
 
         if($this->updateSolr){
-
             $this->addRoute();
-
             // update solr index with saved data
             App::import('model','Solr');
             $this->Solr = new Solr();
 
-            $this->addToOrUpdateSolr();
+           // $this->addToOrUpdateSolr();
 
         }
 
@@ -632,7 +631,6 @@ class Post extends AppModel {
             }
 
         }
-
         $this->deleteCache();
 
 
@@ -659,12 +657,16 @@ class Post extends AppModel {
         if($posts == null){
             $posts = array($this->id);
         }
+        $this->log('addto - posts ');
+        $this->log($posts);
 
         $solrRecords = array();
         foreach($posts as $post_id){
             $this->id = $post_id;
             $solrRecords[] = $this->generateSolrData();
         }
+        $this->log($solrRecords);
+
 
         if($this->Solr->add($solrRecords)){
             return true;

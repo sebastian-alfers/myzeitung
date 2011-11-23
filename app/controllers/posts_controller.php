@@ -20,7 +20,7 @@ class PostsController extends AppController {
 
 	var $uses = array('Post','PostUser', 'Route', 'Comment', 'UrlContentExtract');
 
- 
+
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -145,6 +145,7 @@ class PostsController extends AppController {
         }
         $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
         $post = $this->Post->read(null, $id);
+        $this->log($post);
         if(!isset($post['Post']['id']) || empty($post['Post']['id'])){
             $this->Session->setFlash(__('Invalid post', true));
             $this->cakeError('error404');
@@ -965,5 +966,10 @@ class PostsController extends AppController {
         return $array;
 
     }
+
+
+
+
+    
 }
 ?>

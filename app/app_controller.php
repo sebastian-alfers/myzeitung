@@ -231,6 +231,7 @@ class AppController extends Controller {
             'admin_enable' => $this->admin,
             'admin_index' => $this->admin,
             'admin_delete' => $this->superadmin,
+
 			),
 		'papers' => array(
 			'index' => $this->user,
@@ -300,6 +301,8 @@ class AppController extends Controller {
             'admin_cleanUpPostUserIndex' => $this->superadmin,
             'admin_index' => $this->admin,
             'admin_refreshPostPaperRoutes' => $this->superadmin,
+            'utf8read' => $this->superadmin,
+            'utf8write' => $this->superadmin,
             
             ),
         'twitter' => array(
