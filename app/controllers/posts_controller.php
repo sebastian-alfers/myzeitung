@@ -14,12 +14,12 @@ class PostsController extends AppController {
 	var $name = 'Posts';
 
 	var $components = array(/* 'Security', */ 'JqImgcrop', 'Upload', 'Settings', 'Tweet' );
-	var $helpers = array('Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
+	var $helpers = array( 'Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
 
-
-
+  
 
 	var $uses = array('Post','PostUser', 'Route', 'Comment', 'UrlContentExtract');
+
 
 
 	public function beforeFilter(){
@@ -42,7 +42,7 @@ class PostsController extends AppController {
 
 	function index() {
 
-
+        $this->log('nicht gecachet');
 
 		$this->paginate = array(
 	        'Post' => array(
@@ -145,6 +145,7 @@ class PostsController extends AppController {
         }
         $this->Post->contain('User.username','User.name', 'User.id', 'Topic.name', 'Topic.id');
         $post = $this->Post->read(null, $id);
+        $this->log($post);
         if(!isset($post['Post']['id']) || empty($post['Post']['id'])){
             $this->Session->setFlash(__('Invalid post', true));
             $this->cakeError('error404');
@@ -965,5 +966,10 @@ class PostsController extends AppController {
         return $array;
 
     }
+
+
+
+
+    
 }
 ?>

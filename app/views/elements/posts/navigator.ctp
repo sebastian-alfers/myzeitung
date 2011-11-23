@@ -68,7 +68,7 @@ if($has_topics){
 							</ul>
 
                                 <?php $headline = $this->MzText->truncate($post['Post']['title'], 55,array('ending' => '...', 'exact' => false, 'html' => false)); ?>
-                                <?php $content = $this->MzText->truncate(strip_tags($post['Post']['content']), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), $post['Route'][0]['source'],array('rel' => 'nofollow')), 'exact' => false, 'html' => true));?>
+                                <?php $content = $this->MzText->truncate(trim(strip_tags($post['Post']['content'])), 220,array('ending' => '...'.' '.$this->Html->link(__('read more',true), $post['Route'][0]['source'],array('rel' => 'nofollow')), 'exact' => false, 'html' => true));?>
 
 							<h3><?php echo $this->Html->link($headline, $post['Route'][0]['source']);?></h3>
 
@@ -81,7 +81,7 @@ if($has_topics){
                             <?php if($post_has_image || strlen($content) == 0):?>
                                 <?php /* display an image if there is an image in the post OR no displayable content (then show user image)*/ ?>
                                 <?php if($post_has_image):?>
-                                  <?php $this->log('postbild');?>
+
                                   <?php $data = unserialize($post['Post']['image']); $data = $data[0]; ?>
                                    <?php if(isset($data['item_type']) && $data['item_type'] == 'video'): ?>
                                       <a href="/posts/view/<?php echo $post['Post']['id']; ?>"><span class="post video-item">video</span></a>
@@ -89,7 +89,7 @@ if($has_topics){
                                  <?php echo $image->render($post['Post'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
                                 <?php endif; ?>
                                 <?php if(!$post_has_image && strlen($content) == 0):?>
-                                        <?php $this->log('Userbild');?>
+
                                     <?php echo $image->render($post['User'], 200, 117, array( "alt" => $post['Post']['title']),  array('tag' => 'p', 'additional' => 'margin-bottom:25px;')); ?>
                                 <?php endif;?>
                              <?php /*

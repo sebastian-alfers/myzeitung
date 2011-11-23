@@ -24,15 +24,13 @@ class DATABASE_CONFIG
             'login' => 'root',
             'password' => 'root',
             'database' => 'myzeitung',
+          // 'encoding' => 'utf8'
 	);
-
-
 
 
 	// the construct function is called automatically, and chooses prod or dev. UPdate! works for baking now
 	function __construct ()
 	{
             $this->default = $this->local;
-
 	}
 }
