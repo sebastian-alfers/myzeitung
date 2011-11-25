@@ -12,6 +12,7 @@ class DATABASE_CONFIG
             'login' => 'mz_rds',
             'password' => 'Ymqodfi3',
             'database' => 'myzeitung',
+            'encoding' => 'utf8'
 	);
 
 
