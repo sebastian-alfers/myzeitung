@@ -206,6 +206,9 @@ class RssComponent extends Object
     private function _parseFeed($feed = '')
     {
 
+        $items_per_feed = 24;
+        
+
         if (is_array($feed) || empty($feed) || !is_string($feed)) return false;
 
         $this->_crawler->set_feed_url($feed);
@@ -213,8 +216,18 @@ class RssComponent extends Object
         //retrieve the feed
         $this->_crawler->init();
 
-        //get the feed items
-        $items = $this->_crawler->get_items();
+        $items = array();
+        
+        // As long as we're not trying to grab more items than the feed has, go through them one by one and add them to the array.
+        for ($x = 0; $x < $this->_crawler->get_item_quantity($items_per_feed); $x++)
+        {
+            $items[] = $this->_crawler->get_item($x);
+        }
+        
+        //get ALL the feed items  -> not doing this anymore - limiting the number.
+        //$items = $this->_crawler->get_items();
+       
+
 
         if (is_array($items)) {
             return $items;
@@ -245,6 +258,7 @@ class RssComponent extends Object
             array_splice($strip_htmltags, array_search('object', $strip_htmltags), 1);
             array_splice($strip_htmltags, array_search('param', $strip_htmltags), 1);
             array_splice($strip_htmltags, array_search('embed', $strip_htmltags), 1);
+            array_splice($strip_htmltags, array_search('iframe', $strip_htmltags), 1);
             //add tag to default list
             $strip_htmltags[] = 'span';
             $this->log($strip_htmltags);
