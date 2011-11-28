@@ -31,7 +31,7 @@ ssh_options[:keys] = ["#{ENV['HOME']}/.ssh/mz.pem"] # make sure you also have th
 task :live do
     set :branch, "master"
     role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com"
-    role :target, "ec2-46-137-8-190.eu-west-1.compute.amazonaws.com"
+    role :target, "ec2-176-34-192-236.eu-west-1.compute.amazonaws.com" #rss
     #role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com" , "ec2-46-137-65-146.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
     #role :target, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-146-70.eu-west-1.compute.amazonaws.com" #, "ec2-46-137-170-80.eu-west-1.compute.amazonaws.com", "ec2-46-137-59-207.eu-west-1.compute.amazonaws.com"
 
@@ -96,7 +96,7 @@ task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/logo-icon.png", "/var/www/myzeitung/current/app/webroot/img/assets/logo-icon.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/loadinfo.gif", "#{current_release}/app/webroot/img/assets/loadinfo.gif")
 
-      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/maintile.png", "#{current_release}/app/webroot/img/assets/maintile.png")
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/ui/ui-icons_myz_256x240.png", "#{current_release}/app/webroot/img/assets/ui/ui-icons_myz_256x240.png")
       
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/admin/arrows-ffffff.png", "#{current_release}/app/webroot/img/assets/ui/arrows-ffffff.png")

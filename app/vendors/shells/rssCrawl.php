@@ -20,7 +20,9 @@ class RssCrawlShell extends Shell{
         }
 
         $this->_dispatcher = new Dispatcher();
-        $result = $this->_dispatcher->dispatch('/rss/crawlNextFeeds', array('limit' => $this->_limit, 'bare' => true, 'return' => true));
+
+
+        $result = $this->_dispatcher->dispatch('/rss/crawlNextFeeds', array('robot' => true, 'limit' => $this->_limit, 'bare' => true, 'return' => true));
 
         $this->out("done...");
         $this->out(json_encode($result));
