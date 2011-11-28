@@ -1,5 +1,4 @@
 Vagrant::Config.run do |config|
-
   config.vm.box = "lucid64"
 
   config.vm.forward_port "myzeitung", 80, 8182
@@ -12,12 +11,17 @@ Vagrant::Config.run do |config|
   config.vm.network "33.33.33.10"
   config.vm.share_folder("myzeitung", "/vagrant", "/Applications/MAMP/htdocs/myzeitung", :nfs => true)
 
-Vagrant::Config.run do |config|
   config.vm.provision :chef_solo do |chef|
-    chef.add_recipe("vagrant_main")
-    #chef.add_recipe("myzeitung")
+    chef.cookbooks_path = ["cookbooks/opscode", "cookbooks/rebate/",  "cookbooks/myzeitung"]
+    chef.add_recipe "myzeitung"
 
+    chef.json.merge!({
+        :mysql => {
+            :server_root_password => 'root'
+        },
+        :myzeitung => {
+            :environment => 'development'
+        }
+    })
   end
-end
-
 end
