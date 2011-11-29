@@ -50,22 +50,24 @@ class RssController extends AppController
         for($i=0; $i < $limit; $i++){
             //get the next feed
             $this->RssFeed->contain();
-            $feed = $this->RssFeed->find('first', array('fields' => array('id', 'url', 'crawled', 'created'),
-                                                'conditions' => array('enabled' => 1),
+            $feed = $this->RssFeed->find('first', array('conditions' => array('enabled' => 1),
                                                 /*'limit' => 1 ,*/ 'order' => array('crawled', 'created')));
 
+            if(isset($feed['RssFeed']['id'])){
+            
+                //$feedData = array();
+                //mark it as recently crawled
+                //(doing this before crawling to assure that no parrallel running cron-jobs crawl the same feeds)
+                $this->RssFeed->id = $feed['RssFeed']['id'];
+               // $feedData['id'] = $feed['RssFeed']['id'];
+               // $feedData['url'] =$feed['RssFeed']['url'];
+                //$feedData['crawled'] = date(RssComponent::DATE_FORMT);
+                $feed['RssFeed']['crawled'] = date(RssComponent::DATE_FORMT);
+                $this->RssFeed->save($feed);
+                //crawl the feed
+                $this->_import($feed['RssFeed']['id']);
+            }
 
-            $this->log(json_encode($feed));
-
-            $feedData = array();
-            //mark it as recently crawled
-            //(doing this before crawling to assure that no parrallel running cron-jobs crawl the same feeds)
-            $this->RssFeed->id = $feed['RssFeed']['id'];
-            $feedData['id'] = $feed['RssFeed']['id'];
-            $feedData['crawled'] = date(RssComponent::DATE_FORMT);
-            $this->RssFeed->save($feedData);
-            //crawl the feed
-            $this->_import($feed['RssFeed']['id']);
 
         }
 
