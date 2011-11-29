@@ -507,7 +507,9 @@ class User extends AppModel {
 
      */
     function afterSave($created){
-    /*    if($created){
+        clearCache('home');
+
+        /*    if($created){
             $this->addRoute();
         }*/
         if($this->updateSolr){

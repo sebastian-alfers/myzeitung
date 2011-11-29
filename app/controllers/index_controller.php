@@ -28,6 +28,7 @@ class IndexController extends AppController {
         $this->Paper->refreshRoutes();
         $this->redirect($this->referer());
     }
+    /*
     function utf8read(){
 
         foreach($this->utf8_models as $modelName){
@@ -63,4 +64,5 @@ class IndexController extends AppController {
         }
 
     }
+    */
 }

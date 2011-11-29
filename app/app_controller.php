@@ -32,6 +32,12 @@
  */
 class AppController extends Controller {
 
+    /*
+     * use custom helper to override core CacheHelper
+     * @see http://cakebaker.42dh.com/2008/11/07/an-idea-for-hacking-core-helpers/
+     */
+    public $view = 'Mz';
+
     const LOG_LEVEL_SECURITY = 'security';
 
 	//load debug toolbar in plugins/debug_toolbar/
@@ -41,7 +47,7 @@ class AppController extends Controller {
     /*
      * options for the Asses.asset plugin
      */
-    var $helpers = array('MzHtml','MzHelpcenter', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true));
+    var $helpers = array('MzHtml','MzHelpcenter', 'Session', 'Form', 'Mzform', 'Image','MzNumber', 'MzText', 'MzJavascript', 'Asset.asset' => array('md5FileName' => true, 'debug' => true), 'Cache');
 
     //acl groups
     var $user = array(self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_SUPERADMIN);
@@ -56,6 +62,7 @@ class AppController extends Controller {
     const ROLE_ROBOT = 4; //for shell worker
 
     var $_open_graph_data = array();
+
 
 	public function beforeFilter(){
 

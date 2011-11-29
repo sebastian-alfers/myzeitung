@@ -51,7 +51,7 @@ Configure::write('Solr.host', 'ip-10-48-243-147.eu-west-1.compute.internal');
 //         cache
 Configure::write('Cache.disable', false);//true
 Configure::write('Cache.check', true);//false
-#Configure::write('Cache.save_handler', 'file');//file
+Configure::write('Cache.save_handler', 'file');//file
 
 
 //         session

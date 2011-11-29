@@ -2,14 +2,21 @@
 class HomeController extends AppController {
 
 
+
 	var $name = 'Home';
 	var $components = array('Security' ,'ContentPaperHelper', 'RequestHandler', 'JqImgcrop', 'Upload');
 	var $uses = array('Paper', 'User', 'CategoryPaperPost');
-	var $helpers = array('MzTime', 'Image', 'Js' => array('Jquery'), 'Cache');
+	var $helpers = array('MzTime', 'Image', 'Js' => array('Jquery'), 'MzCache');
+
+    //custom invalidation Models
+    var $super = array('asdfdsfMzTime');
+
+
+    var $here = 'gaga';
 
     //callback-param is important!
     var $cacheAction = array(
-        'index'  => array('callbacks' => true, 'duration' => '+1 month')
+        'index'  => array('callbacks' => true, 'duration' => '+1 hour')
     );
 
 
