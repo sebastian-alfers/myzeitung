@@ -54,7 +54,7 @@ class RssController extends AppController
                                                 /*'limit' => 1 ,*/ 'order' => array('crawled', 'created')));
 
             if(isset($feed['RssFeed']['id'])){
-            
+
                 //$feedData = array();
                 //mark it as recently crawled
                 //(doing this before crawling to assure that no parrallel running cron-jobs crawl the same feeds)
@@ -63,7 +63,10 @@ class RssController extends AppController
                // $feedData['url'] =$feed['RssFeed']['url'];
                 //$feedData['crawled'] = date(RssComponent::DATE_FORMT);
                 $feed['RssFeed']['crawled'] = date(RssComponent::DATE_FORMT);
-                $this->RssFeed->save($feed);
+                $this->RssFeed->save($feed, array('validate' => false, 'fieldList' => array('crawled'), 'callbacks' => false));
+
+                CakeLog::write('cron', $feed);
+
                 //crawl the feed
                 $this->_import($feed['RssFeed']['id']);
             }
