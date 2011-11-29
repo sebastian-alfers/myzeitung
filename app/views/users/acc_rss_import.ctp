@@ -46,9 +46,9 @@
                                 <li class="single-invitee">
                                     <ul class="invitee-info">
                                         <li class="rssimport">
-                                            <?php if (isset($feed['RssFeed']['RssImportLog'][0]['created']) && !empty($feed['RssFeed']['RssImportLog'][0]['created'])): ?>
+                                            <?php if (isset($feed['RssFeed']['crawled']) && !empty($feed['RssFeed']['crawled']) && $feed['RssFeed']['crawled'] != '2000-01-01 13:00:00'): ?>
                                             <?php __('Last Import'); ?>
-                                            : <?php echo $this->MzTime->timeAgoInWords($feed['RssFeed']['RssImportLog'][0]['created'], array('format' => 'd.m.y  h:m', 'end' => '+1 Month')); ?>
+                                            : <?php echo $this->MzTime->timeAgoInWords($feed['RssFeed']['crawled'], array('format' => 'd.m.y  h:m', 'end' => '+1 Month')); ?>
                                             <?php else: ?>
                                             <?php __('Waiting'); ?>
                                             <?php endif; ?>
