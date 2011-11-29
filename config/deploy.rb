@@ -40,7 +40,7 @@ task :live do
 end
 # set staging server
 task :staging do
-    set :branch, "staging_3"
+    set :branch, "staging_4"
     role :target, "ec2-46-137-186-12.eu-west-1.compute.amazonaws.com"
     set :config, 'staging'
 end
@@ -69,6 +69,7 @@ task :create_symlinks, :roles => :target do
 
     run "sudo mkdir #{current_release}/app/tmp/cache/persistent/"
     run "sudo mkdir #{current_release}/app/tmp/cache/models/"
+    run "sudo mkdir #{current_release}/app/tmp/cache/views/"
 
     ## set owner for cache
     run "sudo chown -R www-data:www-data #{current_release}/app/tmp/"
