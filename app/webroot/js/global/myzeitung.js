@@ -183,20 +183,28 @@ $('#forgot_username_link').tipsy({gravity: 'w'});
 });
 
 
+function lookup(inputString) {
+
+    if(inputString == '') { // esc btn) {
+        // Hide the suggestion box.
+        $('#search-suggest').hide();
+    } else {
+        console.log(inputString);
+        inputString = $.trim(inputString);
+        $.post(base_url+"/search/ajxSearch/", {query: ""+inputString+"", home: home}, function(data){
+            $('#search-suggest').show();
+            $('#search-suggest').html(data);
+        });
+    }
+} // lookup
+
+function doSearch(){
+    lookup($('#inputString').val());
+} // doSerach
+
+
 
 $(function() {
-	function lookup(inputString) {
-		if(inputString.length == 0) { // esc btn) {
-			// Hide the suggestion box.
-			$('#search-suggest').hide();
-		} else {
-			inputString = $.trim(inputString);
-			$.post(base_url+"/search/ajxSearch/", {query: ""+inputString+"", home: home}, function(data){
-				$('#search-suggest').show();
-				$('#search-suggest').html(data);
-			});
-		}
-	} // lookup
 
 	//hide auto suggest if click outside
 	$(document).bind('click', function(){
@@ -215,15 +223,22 @@ $(function() {
 		}
 	});
 
+    var timeout = '';
 	$('#inputString').keyup(function(e){
+        clearTimeout(timeout);
+
 		if (e.keyCode == 27) { // esc btn
 			hideSuggestion();
 			$('#inputString').val('');
 		}
 		else{
-			lookup($('#inputString').val());
+            timeout = setTimeout (
+                    'doSearch()'
+                    , 350 );
+
 		}
 	});
+
 
 	$(document).bind('keyup', function(e){
 		  if (e.keyCode == 27) { // esc btn
