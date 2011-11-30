@@ -183,21 +183,27 @@ $('#forgot_username_link').tipsy({gravity: 'w'});
 });
 
 
+function lookup(inputString) {
+
+    if(inputString = ''){
+        inputString = $('#inputString').val();
+    }
+
+    if(inputString == '') { // esc btn) {
+        // Hide the suggestion box.
+        $('#search-suggest').hide();
+    } else {
+        console.log(inputString);
+        inputString = $.trim(inputString);
+        $.post(base_url+"/search/ajxSearch/", {query: ""+inputString+"", home: home}, function(data){
+            $('#search-suggest').show();
+            $('#search-suggest').html(data);
+        });
+    }
+} // lookup
+
 
 $(function() {
-	function lookup(inputString) {
-        console.log(inputString);
-		if(inputString.length == 0) { // esc btn) {
-			// Hide the suggestion box.
-			$('#search-suggest').hide();
-		} else {
-			inputString = $.trim(inputString);
-			$.post(base_url+"/search/ajxSearch/", {query: ""+inputString+"", home: home}, function(data){
-				$('#search-suggest').show();
-				$('#search-suggest').html(data);
-			});
-		}
-	} // lookup
 
 	//hide auto suggest if click outside
 	$(document).bind('click', function(){
@@ -226,7 +232,7 @@ $(function() {
 		}
 		else{
             timeout = setTimeout (
-                    lookup($(\'#inputString').val())
+                    'lookup(\'\')'
                     , 500 );
 
 		}
