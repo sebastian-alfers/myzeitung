@@ -185,10 +185,6 @@ $('#forgot_username_link').tipsy({gravity: 'w'});
 
 function lookup(inputString) {
 
-    if(inputString = ''){
-        inputString = $('#inputString').val();
-    }
-
     if(inputString == '') { // esc btn) {
         // Hide the suggestion box.
         $('#search-suggest').hide();
@@ -201,6 +197,11 @@ function lookup(inputString) {
         });
     }
 } // lookup
+
+function doSearch(){
+    lookup($('#inputString').val());
+} // doSerach
+
 
 
 $(function() {
@@ -232,11 +233,12 @@ $(function() {
 		}
 		else{
             timeout = setTimeout (
-                    'lookup(\'\')'
-                    , 500 );
+                    'doSearch()'
+                    , 350 );
 
 		}
 	});
+
 
 	$(document).bind('keyup', function(e){
 		  if (e.keyCode == 27) { // esc btn
