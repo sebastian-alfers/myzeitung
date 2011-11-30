@@ -574,7 +574,7 @@ class Post extends AppModel {
 			 * update solr index with saved data
 			 */
     function afterSave($created){
-        clearCache('home');
+
 
         App::import('model','Route');
         $this->Route = new Route();
@@ -633,11 +633,11 @@ class Post extends AppModel {
             }
 
         }
-        $this->deleteCache();
+        //delete rss feed cache
+        $this->contain('User.username');
+        $post = $this->read(null, $this->id);
 
-
-
-
+        $this->deleteCache($post['User']['username']);
     }
 
      /**
@@ -770,13 +770,11 @@ class Post extends AppModel {
         return true;
     }
 
-    function deleteCache(){
-        //delete rss feed cache
-        $this->contain('User.username');
-        $post = $this->read(null, $this->id);
+    function deleteCache($username){
+        clearCache('authors');
+        clearCache('articles');
 
-
-        $this->deleteRssCache($post['User']['username']);
+        $this->deleteRssCache($username);
     }
 
     function deleteRssCache($username){
@@ -787,7 +785,11 @@ class Post extends AppModel {
     }
 
     function beforeDelete(){
-        $this->deleteCache();
+        //delete rss feed cache
+        $this->contain('User.username');
+        $post = $this->read(null, $this->id);
+        $this->deleteCache($post['User']['username']);
+
         //importanta to return true to continue delete
         return true;
     }

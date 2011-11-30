@@ -12,8 +12,9 @@ class UsersController extends AppController {
 	var $uses = array( 'User', 'Category', /*'Invitation',*/ 'Paper','Group', 'Topic', 'Route', 'ContentPaper', 'Subscription', 'JsonResponse');
 	var $helpers = array('MzText', 'MzTime', 'Image', 'Js' => array('Jquery'), 'Reposter', 'Javascript','MzRss');
 
-
+    //callback-param is important!
     var $cacheAction = array(
+        'index'  => array('callbacks' => true, 'duration' => '+1 day'),
         //'viewSubscriptions'  => array('callbacks' => true, 'duration' => '+1 month')
         'feed'  => array('callbacks' => true, 'duration' => '+1 month')
     );

@@ -10,7 +10,7 @@ class PapersController extends AppController {
 
     //callback-param is important!
     var $cacheAction = array(
-        //'view'  => array('callbacks' => true, 'duration' => '+1 month')
+        'index'  => array('callbacks' => true, 'duration' => '+1 day')
     );
 
 	public function beforeFilter(){

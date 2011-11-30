@@ -60,3 +60,4 @@ if(isset($_COOKIE['CakeCookie']['lang']) && !empty($_COOKIE['CakeCookie']['lang'
 else{
     Configure::write('Config.language', 'deu');
 }
+

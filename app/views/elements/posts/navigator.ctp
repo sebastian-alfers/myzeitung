@@ -1,5 +1,5 @@
+<cake:nocache>
 <?php
-
 $has_topics = false;
 if($session->read('Auth.User.topic_count') > 0){
     $has_topics = true;
@@ -19,7 +19,12 @@ if($has_topics){
     </script>
     <?php
 }
+$post_count = $session->read('Auth.User.post_count') - $session->read('Auth.User.repost_count');
+
 ?>
+
+
+</cake:nocache>
 
 <div id="maincolwrapper" class="post-view">
     <div id="maincol">
@@ -30,20 +35,19 @@ if($has_topics){
                 <h2><?php echo $paper['Paper']['title'];?></h2>
         <?php endif;?>
         <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'):?>
-            <?php
-              $post_count = $user['User']['post_count'] - $user['User']['repost_count'];
-            ?>
             <h2><?php echo sprintf(__('%1$s Articles',true),$this->MzText->possessive($this->MzText->generateDisplayname($user['User'],false)));?></h2>
         <?php endif;?>
 
         <div class="article-nav">
              <?php echo $paginator ?>
         </div>
+        <cake:nocache>
+		<?php foreach ($posts as $index => $post): ?>
 
-		<?php foreach ($posts as $index => $post):	
-		
+                <?php
 				$article_reposted_by_user = false;
 				$article_belongs_to_user = false;
+
                 if($this->Reposter->UserHasAlreadyRepostedPost($post['Post']['reposters'], $session->read('Auth.User.id'))){
 					$article_reposted_by_user = true;
 				}
@@ -56,6 +60,7 @@ if($has_topics){
 						<?php if($article_reposted_by_user):?>
 						   <span class="repost">repost</span>
 						   <?php endif;?>
+
 							<div class="article">
 							<ul class="iconbar">
 							<?php // tt-title -> class for tipsy &&  'title=...' text for typsy'?>
@@ -253,9 +258,9 @@ if($has_topics){
 							</ul>							
 							</div><!-- /.article -->
 						</div><!-- / .articlewrapper -->
-		
+
 		<?php endforeach; ?>
-						
+		</cake:nocache>
 					
 						
 				<div class="article-nav article-nav-bottom">

@@ -25,7 +25,7 @@ class MzCacheHelper extends CacheHelper {
 		if ($this->here == '/') {
 			$path = 'home';
 		}
-		$cache = strtolower(Inflector::slug($path));
+		$cache = strtolower($this->controllerName);
 
 		if (empty($cache)) {
 			return;
@@ -41,10 +41,10 @@ class MzCacheHelper extends CacheHelper {
 
         }
 
-        $class = $this->controllerName;
-        $class .= 'Controller';
-        $controller = new $class;
-        debug($controller->super);
+        #$class = $this->controllerName;
+        #$class .= 'Controller';
+        #$controller = new $class;
+
 
 		$cache = $cache . $models . '.php';
 		$file = '<!--cachetime:' . $cacheTime . '--><?php';

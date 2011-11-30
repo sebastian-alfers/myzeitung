@@ -71,6 +71,8 @@ class ContentPaper extends AppModel {
 			);
 
     public function afterSave($created){
+        clearCache('authors');
+
         if($created && $this->data['ContentPaper']['enabled']){
             $this->getOldPostsOfNewSubscription();
         }

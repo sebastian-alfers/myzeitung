@@ -507,7 +507,7 @@ class User extends AppModel {
 
      */
     function afterSave($created){
-        clearCache('home');
+        clearCache('authors');
 
         /*    if($created){
             $this->addRoute();

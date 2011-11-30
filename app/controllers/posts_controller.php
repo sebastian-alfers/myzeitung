@@ -16,10 +16,12 @@ class PostsController extends AppController {
 	var $components = array(/* 'Security', */ 'JqImgcrop', 'Upload', 'Settings', 'Tweet' );
 	var $helpers = array( 'Cropimage', 'Javascript', 'Cksource', 'MzTime', 'Image', 'Reposter', 'MzText');
 
-  
-
 	var $uses = array('Post','PostUser', 'Route', 'Comment', 'UrlContentExtract');
 
+    //callback-param is important!
+    var $cacheAction = array(
+        'index'  => array('callbacks' => true, 'duration' => '+30 minutes')
+    );
 
 
 	public function beforeFilter(){
@@ -42,7 +44,6 @@ class PostsController extends AppController {
 
 	function index() {
 
-        $this->log('nicht gecachet');
 
 		$this->paginate = array(
 	        'Post' => array(
@@ -87,6 +88,9 @@ class PostsController extends AppController {
 			$this->Post->contain();
 			if($this->Post->read(null, $post_id)){
 				if($this->Post->repost($this->Auth->user('id'), $topic_id)){
+                    $this->_updateRepostInSession();
+
+                    clearCache('articles');
 					$this->Session->setFlash(__('Post successfully reposted.', true), 'default', array('class' => 'success'));
 				} else {
 					$this->Session->setFlash(__('Post could not be reposted', true));
@@ -116,6 +120,8 @@ class PostsController extends AppController {
 			if($this->Post->read(null, $post_id)){
 
 				if($this->Post->undoRepost($this->Auth->user('id'))){
+                    $this->_updateRepostInSession();
+
 					$this->Session->setFlash(__('Repost deleted successfully.', true), 'default', array('class' => 'success'));
 				} else {
 					$this->Session->setFlash(__('Repost could not be deleted', true));
@@ -271,6 +277,11 @@ class PostsController extends AppController {
             $this->Post->updateSolr = true;
 
 			if ($this->Post->save($this->data)) {
+
+                #update value in session for <no:cache>-view in post navigator
+                $this->User->contain();
+                $user = $this->User->read('post_count', $this->Session->read('Auth.User.id'));
+                $this->Session->write('Auth.User.post_count', $user['User']['post_count']);
 
                 $this->Post->contain('Route');
                 $new_post = $this->Post->read(array('title', 'created'), $this->Post->id);
@@ -967,7 +978,20 @@ class PostsController extends AppController {
 
     }
 
+    /**
+     * after doing or unDoing a repost, we update
+     * the value in the session for the <no:cache>-elements
+     * in the views
+     *
+     * @return void
+     */
+    function _updateRepostInSession(){
+        #update value in session for <no:cache>-view in post navigator
+        $this->User->contain();
+        $user = $this->User->read('repost_count', $this->Auth->user('id'));
+        $this->Session->write('Auth.User.repost_count', $user['User']['repost_count']);
 
+    }
 
 
     

@@ -114,6 +114,11 @@ class Comment extends AppModel {
         return false;
     }
 
+    function afterSave($created){
+        clearCache('articles');
+
+    }
+
 
 }
 ?>

@@ -36,7 +36,7 @@ class AppController extends Controller {
      * use custom helper to override core CacheHelper
      * @see http://cakebaker.42dh.com/2008/11/07/an-idea-for-hacking-core-helpers/
      */
-    public $view = 'Mz';
+    #public $view = 'Mz';
 
     const LOG_LEVEL_SECURITY = 'security';
 

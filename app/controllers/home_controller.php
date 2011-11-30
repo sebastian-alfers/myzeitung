@@ -8,15 +8,9 @@ class HomeController extends AppController {
 	var $uses = array('Paper', 'User', 'CategoryPaperPost');
 	var $helpers = array('MzTime', 'Image', 'Js' => array('Jquery'), 'MzCache');
 
-    //custom invalidation Models
-    var $super = array('asdfdsfMzTime');
-
-
-    var $here = 'gaga';
-
     //callback-param is important!
     var $cacheAction = array(
-        'index'  => array('callbacks' => true, 'duration' => '+1 hour')
+        'index'  => array('callbacks' => true, 'duration' => '+10 minutes')
     );
 
 
