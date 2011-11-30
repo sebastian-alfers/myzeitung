@@ -90,7 +90,7 @@ end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
 
-      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/landing/bundestag-myzeitung.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/landing/bundestag-myzeitung.jpg")
+      upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/landing/beispiel-umweltschutz.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/landing/beispiel-umweltschutz.jpg")
 
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/default.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/default.jpg")
 
