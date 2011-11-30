@@ -983,7 +983,18 @@ function __construct(){
         $solrFields['user_name']			= $this->data['User']['name'];
         $solrFields['user_username']		= $this->data['User']['username'];
         $solrFields['type']				= Solr::TYPE_PAPER;
+
+
+
+
         $solrFields['route_source']		= $this->data['Route'][0]['source'];
+
+        if(!isset($this->data['Route'][0])){
+            debug($this->data);
+            die();
+        }
+
+
          if(isset($this->data['Paper']['image'])){
             $solrFields['paper_image'] = $this->data['Paper']['image'];
         }

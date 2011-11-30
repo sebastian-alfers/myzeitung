@@ -186,6 +186,7 @@ $('#forgot_username_link').tipsy({gravity: 'w'});
 
 $(function() {
 	function lookup(inputString) {
+        console.log(inputString);
 		if(inputString.length == 0) { // esc btn) {
 			// Hide the suggestion box.
 			$('#search-suggest').hide();
@@ -215,13 +216,19 @@ $(function() {
 		}
 	});
 
+    var timeout = '';
 	$('#inputString').keyup(function(e){
+        clearTimeout(timeout);
+
 		if (e.keyCode == 27) { // esc btn
 			hideSuggestion();
 			$('#inputString').val('');
 		}
 		else{
-			lookup($('#inputString').val());
+            timeout = setTimeout (
+                    lookup($(\'#inputString').val())
+                    , 500 );
+
 		}
 	});
 

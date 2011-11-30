@@ -9,7 +9,7 @@ class HomeController extends AppController {
 
     //callback-param is important!
     var $cacheAction = array(
-        'index'  => array('callbacks' => true, 'duration' => '+1 month')
+        #'index'  => array('callbacks' => true, 'duration' => '+1 month')
     );
 
 
