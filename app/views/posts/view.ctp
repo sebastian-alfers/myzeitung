@@ -136,16 +136,16 @@ if(substr($post['Post']['content'],0,2) == "<p"){
             <?php echo $this->element('global/social/icons'); ?>
 
 
-			<?php if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['Setting']['user']['privacy']['allow_comments']['value'] == true)):?>
+			<?php  if($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_TRUE || ($post['Post']['allow_comments'] == PostsController::ALLOW_COMMENTS_DEFAULT && $user['Setting']['user']['privacy']['allow_comments']['value'] == true)):?>
 			<div class="comments" style="clear:both">
 				<?php // Comment Input Box?>
-				<?php if($session->read('Auth.User.id')):?>
-					<?php echo $this->element('comments/add', array('post_id' => $post['Post']['id'], 'post_owner_id' => $post['Post']['user_id'])); ?>
-				<?php endif; ?>
+
+                <?php echo $this->element('comments/add', array('post_id' => $post['Post']['id'], 'post_owner_id' => $post['Post']['user_id'])); ?>
+
 				<?php // Comments Pagination?>
 				<?php echo $this->element('comments/navigator'); ?>
 			</div> <!-- / .comments -->
-			<?php endif;?>
+			<?php   endif;?>
 		</div> <!-- /. articleview-wrapper -->							
 	
 	</div><!-- / #maincol -->
