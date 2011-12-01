@@ -24,7 +24,7 @@ class DATABASE_CONFIG
             'login' => 'root',
             'password' => 'root',
             'database' => 'myzeitung',
-            // 'encoding' => 'utf8'
+            'encoding' => 'utf8'
 	);
 
 

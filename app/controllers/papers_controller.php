@@ -41,7 +41,7 @@ class PapersController extends AppController {
 		//limit of records per page
 			            'limit' => 12,
 		//order
-	     		        'order' => 'Paper.title ASC',
+	     		        'order' => 'Paper.post_count DESC',
 		//contain array: limit the (related) data and models being loaded per paper
 			            'contain' => array('Route','User.id', 'User.image', 'User.username', 'User.name'),
                         'conditions' => array('Paper.enabled' => true, 'Paper.visible_index' => true, 'Paper.title <>' => 'myZeitung'),
@@ -117,7 +117,7 @@ class PapersController extends AppController {
 			        	'order' => 'last_post_repost_date DESC',
 	          			'group' => array('CategoryPaperPost.post_id'),
 		//limit of records per page
-			          	'limit' => 9,
+			          	'limit' => 12,
 		//the created field last_post_repost_date is important to just get the last entry with the last_Reposter
   						'fields' => array('Post.*', 'MAX(CategoryPaperPost.created) as last_post_repost_date', 'CategoryPaperPost.reposter_id', 'CategoryPaperPost.id'),
   						'conditions' => array('CategoryPaperPost.paper_id' => $paper_id),

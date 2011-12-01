@@ -109,7 +109,7 @@ class UsersController extends AppController {
 		//limit of records per page
 	            'limit' => 12,
 		//order
-	            'order' => 'User.subscriber_count DESC',
+	            'order' => 'User.post_count DESC',
 		//fields - custom field sum...
 		    	'fields' => array(	'User.id',
                                     'User.image',
@@ -123,7 +123,7 @@ class UsersController extends AppController {
 		    						),
 		    						//contain array: limit the (related) data and models being loaded per post
 	            'contain' => array(),
-                'conditions' => array('enabled' => true),
+                'conditions' => array('enabled' => true, 'post_count >' => 0),
             )
         );
 

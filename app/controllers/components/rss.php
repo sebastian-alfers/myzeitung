@@ -124,7 +124,7 @@ class RssComponent extends Object
 
         App::Import('helper', 'Text');
         $text_helper = new TextHelper();
-        $data['title'] = trim($text_helper->truncate(htmlspecialchars_decode($item->get_title()), 200, array('ending' => '...', 'exact' => false)));
+        $data['title'] = trim($text_helper->truncate(htmlspecialchars_decode($item->get_title()), 300, array('ending' => '...', 'exact' => false)));
 
 /*
         if ($data['title'] == '') {

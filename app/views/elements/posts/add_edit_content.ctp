@@ -43,7 +43,7 @@
 
     <p>
         <label><?php __('Title'); ?></label>
-        <input name="data[Post][title]" type="text" maxlength="100" id="PostTitle" class="textinput" value="<?php echo $mzform->value($this, 'Post', 'title'); ?>"/>
+        <input name="data[Post][title]" type="text" maxlength="300" id="PostTitle" class="textinput" value="<?php echo $mzform->value($this, 'Post', 'title'); ?>"/>
     </p>
 
     <div class="article-content">

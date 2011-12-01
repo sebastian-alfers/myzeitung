@@ -196,6 +196,11 @@ class Post extends AppModel {
         }
         $routeString = '/a/'.$routeUsername.'/'.$routeTitle;
 
+        // prevent to have very long URLs due to too long titles
+        if(strlen($routeString) > 150){
+            $routeString = substr($routeString, 0 ,150);
+        }
+
         //check if such a route does already exist
         $this->Route->contain();
         $existingRoutes = $this->Route->findAllBySource($routeString);
@@ -231,7 +236,7 @@ class Post extends AppModel {
             }else{
                 //desired route did already exist. it was not directing to the same target - so it cant be taken.
                 //generate new routestring with added id
-                $routeString = '/a/'.$routeUsername.'/'.$routeTitle.'-a'.$this->id;
+                $routeString = $routeString.'-a'.$this->id;
                 $this->Route->contain();
                 $existingRoutes = $this->Route->findAllBySource($routeString);
                 //if this specific routestring does exist, it must direct to the same target
@@ -740,7 +745,7 @@ class Post extends AppModel {
 					'last' 			=> true,
 				),
 				'maxlength' => array(
-					'rule'			=> array('maxlength', 200),
+					'rule'			=> array('maxlength', 300),
 					'message'		=> __('Titles can only be 200 characters long.', true),
 					'last' 			=> true,
 				),
