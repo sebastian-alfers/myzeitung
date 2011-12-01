@@ -66,11 +66,14 @@ Sämtliche Arten elektronischer Angriffe, die auf die Hard- oder Software, die D
 Bereits eine kleine Änderung der Software kann zu schweren Schäden führen. Deshalb ist das Verändern, Kopieren, Dekompilieren oder eine sonstige Verwendung der Software, die nicht ausdrücklich in diesen AGB gestattet wurde grundsätzlich verboten, auch wenn keine bösen Absichten vorliegen.
 Sie verpflichten sich dazu nicht unberechtigt auf Daten Dritter zuzugreifen.
 
-<strong>9. Urheberrecht und Mitwirkung der Nutzer bei Verstößen gegen die AGB</strong>
+<strong>9. Urheberrecht, Rechteeinräumung und Mitwirkung der Nutzer bei Verstößen gegen die AGB</strong>
 
 Unter 7. dieser AGB werden Sie auf die Einhaltung der Rechte anderer Nutzer und sonstiger Dritter hingewiesen, die sich aus dem Urheberrecht ergeben.
 Falls Sie oder ein sonstiger Dritter sich durch einen anderen Nutzer in seinen Rechten verletzt fühlt, können Sie den Betreiber per Email (info@myzeitung.de) darauf hinweisen oder das Beschwerde-System nutzen, das an zahlreichen Stellen auf myZeitung platziert ist. Für die Nachverfolgung von Urheberrechtsverletzungen ist es erforderlich, dass der Beschwerdeführer korrekte und vollständige Angaben macht. Der Betreiber unterstützt die Interessen der Urheber und wird entsprechende Meldungen von Nutzern, sofern möglich prüfen und gegebenenfalls mit Sanktionen gegen den Nutzer reagieren, der für die Urheberrechtsverletzung verantwortlich ist.
 Sollten darüber hinaus Inhalte von Nutzern auf myZeitung veröffentlicht worden sein, die gegen die AGB oder gegen gesetzliche Bestimmungen verstoßen, wird der Nutzer gebeten, die Verstöße dem Betreiber zu melden und Angaben zur Art des Verstoßes zu machen.
+
+Sie räumen myZeitung das Recht ein, die von Ihnen zur Verfügung gestellten Daten zu speichern. Sie können die Daten jederzeit löschen. Weiterhin räumen Sie myZeitung das Recht ein Ihre Artikel und Zeitungen unentgeltlich und öffentlich sichtbar zu machen. Ihre Artikel dürfen von allen Nutzern in Ihre jeweiligen Zeitungen abonniert werden. Sie sind damit einverstanden, dass Ihre Artikel und Zeitungen mittels RSS abonniert oder auf der Webseite, bzw. per Newsletter empfohlen werden können.
+Das Urheberrecht des Nutzers wird nicht auf myZeitung übertragen. Das Nutztungs- und Verwertungsrecht bleibt dem Urheber somit erhalten.
 
 <strong>10. Haftungsausschluss bzw. Haftungsfreistellung durch den Nutzer</strong>
 
