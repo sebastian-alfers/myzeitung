@@ -40,10 +40,7 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <?php echo $this->element('users/sidebar/topics'); ?>
         <?php echo $this->element('users/sidebar/activity'); ?>
 
-        <fieldset>
-            <legend><?php __('Share'); ?></legend>
-            <?php echo $this->element('global/social/icons', array('url' => $this->Html->url($canonical_for_layout, true))); ?>
-        </fieldset>
+
        <?php // echo $this->element('users/sidebar/subscriptions'); ?>
 
         <?php else:?>
@@ -59,8 +56,14 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
 			<?php //elements shown when being on actions in users-account settings ?>
 			<?php if(($this->params['controller'] == 'conversations' && ($this->params['action'] == 'index' || $this->params['action'] == 'view') || ($this->params['controller'] == 'users' && ($this->params['action'] == 'accDelete' || $this->params['action'] == 'accImage' || $this->params['action'] == 'accGeneral' || $this->params['action'] == 'accPrivacy' || $this->params['action'] == 'accAboutMe' || $this->params['action'] == 'accSocial' || $this->params['action'] == 'accInvitations' || $this->params['action'] == 'deleteProfilePicture'  || $this->params['action'] == 'accRssImport')))): ?>
 				<?php echo $this->element('users/sidebar/account_menue', array('user_id' => $user['User']['id'])); ?>
-			<?php endif;?>
+        <?php endif;?>
 
+        <?php if($this->params['controller'] == 'users' && $this->params['action'] == 'view'):?>
+            <fieldset>
+                <legend><?php __('Share'); ?></legend>
+                <?php echo $this->element('global/social/icons', array('url' => $this->Html->url($canonical_for_layout, true))); ?>
+            </fieldset>
+        <?php endif; ?>
 
         <?php if(($this->params['controller'] == 'users' && ($this->params['action'] =='view' || ($this->params['action'] =='viewSubscriptions' && $session->read('Auth.User.id') != $user['User']['id']) )) || ($this->params['controller'] == 'posts' && $this->params['action'] == 'view' /* && $session->read('Auth.User.id') != $user['User']['id'] */)):?>
         <hr />

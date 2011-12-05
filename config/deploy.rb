@@ -67,6 +67,8 @@ task :create_symlinks, :roles => :target do
     run "sudo chown www-data:www-data #{current_release}/app/tmp/cache/"
     run "sudo chmod 777 /var/www/myzeitung/current/app/tmp/cache/"
 
+    run "sudo mkdir #{current_release}/app/tmp/logs/"
+
     run "sudo mkdir #{current_release}/app/tmp/cache/persistent/"
     run "sudo mkdir #{current_release}/app/tmp/cache/models/"
     run "sudo mkdir #{current_release}/app/tmp/cache/views/"
