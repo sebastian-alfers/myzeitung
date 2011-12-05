@@ -84,7 +84,7 @@
 			</div><!-- / #content -->
 		</div> <!-- / #main-wapper -->
 		<?php echo $this->element('sql_dump'); ?>
-        <?php if(($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'papers')): ?>
+        <?php if(($this->params['controller'] == 'posts' && $this->params['action'] == 'view') || ($this->params['controller'] == 'papers') || ($this->params['controller'] == 'users') ): ?>
             <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
               {lang: 'de'}
             </script>

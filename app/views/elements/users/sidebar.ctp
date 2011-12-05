@@ -39,6 +39,11 @@ if(!empty($user['User']['name'])) $to .=  ' - '.$user['User']['name'];
         <?php echo $this->element('users/sidebar/buttons'); ?>
         <?php echo $this->element('users/sidebar/topics'); ?>
         <?php echo $this->element('users/sidebar/activity'); ?>
+
+        <fieldset>
+            <legend><?php __('Share'); ?></legend>
+            <?php echo $this->element('global/social/icons', array('url' => $this->Html->url($canonical_for_layout, true))); ?>
+        </fieldset>
        <?php // echo $this->element('users/sidebar/subscriptions'); ?>
 
         <?php else:?>
