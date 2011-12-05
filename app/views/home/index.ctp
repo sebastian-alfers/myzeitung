@@ -2,11 +2,13 @@
     <?php
     //we do not want the user to see the homee/index if logged in
     //a dirty hack to enable full page cache :/
+    /*
     if($this->Session->read('Auth.User.username')){
         $url = $this->Html->url(array('controller' => 'users', 'action' => 'viewSubscriptions', 'username' => strtolower($this->Session->read('Auth.User.username')),'own_paper' => 'own'), true);
         header("Location: ".$url);
         exit;
     }
+    */
     ?>
 </cake:nocache>
 
@@ -57,43 +59,14 @@
 
                 <div class="col1">
                     <h3><?php echo __('Top Papers', true);?></h3>
-                        <ul>
-
-                        <?php foreach($papers as $paper):?>
-                            <li>
-                                <?php
-                                $link_data = array();
-                                $link_data['url'] = $paper['Route'][0]['source'];
-                                $link_data['custom'] = array('class' => 'tt-title', 'title' => $paper['Paper']['title']);
-                                $img['image'] = $paper['Paper']['image'];
-                                echo $image->render($img, 58, 58, array("alt" => $paper['Paper']['title']), $link_data, ImageHelper::PAPER);
-                                ?>
-                            </li>
-
-                        <?php endforeach;?>
-                        </ul>
-
+                    <?php echo $this->element('home/papers', array('cache' => '+10 minutes')); ?>
                     <div class="more">
                         <?php echo $this->Html->link(__('more papers', true), array('controller' => 'papers', 'action' => 'index')); ?>
                         </div>
                     <hr />
 
                     <h3><?php __('Top Authors'); ?></h3>
-                        <ul>
-
-                        <?php foreach($users as $user):?>
-                            <li>
-                                <?php
-                                $tipsy_name= $this->MzText->generateDisplayname($user['User']);
-                                $link_data = array();
-                                $link_data['url'] = array('controller' => 'users', 'action' => 'view', 'username' => strtolower($user['User']['username']));
-                                $link_data['custom'] = array('class' => 'user-image tt-title', 'title' => $tipsy_name);
-                                echo $image->render($user['User'], 58, 58, array("alt" => $user['User']['username']), $link_data);
-                                ?>
-                                <?php /*<span><?php echo $this->Html->link($user['User']['username'], array('controller' => 'users', 'action' => 'view', $user['User']['id']));?></span>*/?>
-                            </li>
-                        <?php endforeach;?>
-                    </ul>
+                        <?php echo $this->element('home/users', array('cache' => '+10 minutes')); ?>
                     <div class="more">
                         <?php echo $this->Html->link(__('more authors', true), array('controller' => 'users', 'action' => 'index')); ?>
                     </div>
@@ -102,31 +75,9 @@
 
                 <div class="col2">
                     <h3><?php echo __('New Articles',true);?></h3>
-
-                        <?php foreach($posts as $post):?>
-
-                            <div class="article">
-                                <?php // post headline
-                                    $headline = substr($post['Post']['title'],0,50);
-                                    if(strlen($post['Post']['title']) > 50){
-                                        $headline .='...';
-                                    }
-                                ?>
-                                <?php echo $this->Html->link($headline, $post['Post']['Route'][0]['source']);?>
-                                <?php // user container?>
-                                 <?php //debug($post); die(); ?>
-                                 <?php echo $this->Html->link(
-                                        $image->render($post['Post']['User'], 26, 26, array( "alt" => $post['Post']['User']['username'], "class" => 'user-image'), array("tag" => "div"), ImageHelper::USER)
-                                        .'<span>'.$this->MzText->generateDisplayname($post['Post']['User']).'</span>',
-                                            array('controller' => 'users', 'action' => 'view', 'username' => strtolower($post['Post']['User']['username'])),
-                                            array('class' => "user",'escape' => false));?>
-
-
-                            </div>
-                        <?php endforeach;?>
+                        <?php echo $this->element('home/posts', array('cache' => '+10 minutes')); ?>
                     <div class="more">
                         <?php echo $this->Html->link(__('more posts', true), array('controller' => 'posts', 'action' => 'index')); ?>
-
                     </div>
                 </div><!-- /.col2 -->
 

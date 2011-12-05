@@ -576,7 +576,7 @@ function __construct(){
      * update solr index with saved data
      */
     function afterSave($created){
-        clearCache('home');
+
 
         App::import('model','Route');
         $this->Route = new Route();
@@ -612,6 +612,8 @@ function __construct(){
         else{
             $this->log('Error while adding paper to solr! No paper id in afterSave()');
         }
+
+        $this->deleteCache();
     }
     /**
      * add or update solr records. if no param is given, it takes this->id.
@@ -1057,6 +1059,10 @@ function __construct(){
         return false;
     }
 
+
+    function deleteCache(){
+        Cache::delete('home_papers');
+    }
 
 
 

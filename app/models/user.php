@@ -534,10 +534,18 @@ class User extends AppModel {
 
         App::import('model','Post');
         $username = $this->data['User']['username'];
+
         $this->Post->deleteRssCache($username);
+        $this->deleteCache();
 
 
     }
+
+    function deleteCache(){
+        Cache::delete('home_users');
+    }
+
+
     function addToOrUpdateSolr(){
         //update user itself
         $this->Solr->add(array($this->generateSolrData()));

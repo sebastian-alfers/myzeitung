@@ -24,26 +24,38 @@ class HomeController extends AppController {
 		}
 		
 		//loading papers
-		$this->Paper->contain('Route');
-		$paper_options = array('conditions' => array('Paper.enabled' => true, 'Paper.visible_home' => true), 'limit' => 9, 'order' => 'rand()', 'fields' => array('id', 'image', 'title', 'description'));
-		$this->set('papers', $this->Paper->find('all', $paper_options));
+        $papers = Cache::read('home_papers');
+        if($papers === false){
+            $this->Paper->contain('Route');
+            $paper_options = array('conditions' => array('Paper.enabled' => true, 'Paper.visible_home' => true), 'limit' => 9, 'order' => 'rand()', 'fields' => array('id', 'image', 'title', 'description'));
+            $papers = $this->Paper->find('all', $paper_options);
+            Cache::write('home_papers', $papers);
+        }
+        $this->set('papers', $papers);
+
+
 		//loading users
-		$this->User->contain();
-		$user_options = array('conditions' => array('User.enabled' => true, 'User.visible_home' => true),'limit' => 12, 'order' => 'rand()', 'fields' => array('id', 'image', 'username', 'name', 'description'));
-		$this->set('users', $this->User->find('all', $user_options));
-		//loading users
-		//$this->Post->contain('Route', 'User.id', 'User.username', 'User.name', 'User.image', 'Paper');
-        $this->CategoryPaperPost->contain('Post.Route', 'Post.User', 'Paper');
+        $users = Cache::read('home_users');
+        if($users === false){
+            $this->User->contain();
+            $user_options = array('conditions' => array('User.enabled' => true, 'User.visible_home' => true),'limit' => 12, 'order' => 'rand()', 'fields' => array('id', 'image', 'username', 'name', 'description'));
+            $users = $this->User->find('all', $user_options);
 
 
 
-		//$post_options = array('conditions' => array('Post.enabled' => true, 'Post.Paper.visible_home' => true),'limit' => 7, 'order' => array('Post.created DESC'), 'fields' => array('id','title'));
-        $post_options = array('conditions' => array('Post.enabled' => true, 'Paper.visible_home' => true),'limit' => 6, 'order' => array('Post.created DESC'), 'group' => array('CategoryPaperPost.post_id'));
+            Cache::write('home_users', $users);
+        }
+        $this->set('users', $users);
 
-                                                                                    //$count = $this->CategoryPaperPost->find('count', array('conditions' => $conditions, 'fields' => 'distinct CategoryPaperPost.post_id'));
-        //debug($this->CategoryPaperPost->find('all', $post_options));
-        //die();
-		$this->set('posts', $this->CategoryPaperPost->find('all', $post_options));
+		//loading posts
+        $posts = Cache::read('home_posts');
+        if($posts === false){
+            $this->CategoryPaperPost->contain('Post.Route', 'Post.User', 'Paper');
+            $post_options = array('conditions' => array('Post.enabled' => true, 'Paper.visible_home' => true),'limit' => 6, 'order' => array('Post.created DESC'), 'group' => array('CategoryPaperPost.post_id'));
+            $posts = $this->CategoryPaperPost->find('all', $post_options);
+            Cache::write('home_posts', $posts);
+        }
+		$this->set('posts', $posts);
 		
 		$this->layout = 'home';
 
