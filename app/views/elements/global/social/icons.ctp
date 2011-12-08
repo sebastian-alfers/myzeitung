@@ -17,6 +17,12 @@ if(isset($url) && !empty($url)){
     <li>
     <!-- twitter end -->
 
+    <!-- g+ -->
+    <li>
+    <g:plusone <?php echo $gp_url; ?> size="medium"></g:plusone>
+    </li>
+    <!-- g+ end -->
+
     <!-- facebook -->
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
@@ -32,10 +38,4 @@ if(isset($url) && !empty($url)){
 
     </li>
     <!-- facebook end -->
-
-    <!-- g+ -->
-    <li>
-    <g:plusone <?php echo $gp_url; ?> size="medium"></g:plusone>
-    </li>
-    <!-- g+ end -->
 </div>

@@ -19,6 +19,12 @@ class LandingController extends AppController {
 
     }
 
+    function veggie(){
+
+    }
+
+
+
 
 }
 
