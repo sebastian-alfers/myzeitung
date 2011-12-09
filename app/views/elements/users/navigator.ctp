@@ -23,7 +23,7 @@
             <?php $linktext = $this->MzText->truncate($this->MzText->generateDisplayname($user['User'],false), 18,array('ending' => '...', 'exact' => true, 'html' => false)); ?>
             <h4><?php echo $this->Html->link($linktext,array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])));?></h4>
             <h5><?php if(isset($user['User']['name']) && !empty($user['User']['name'])): ?>
-                <?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view','username' =>  $user['User']['username']), array('rel' => 'nofollow'));?>
+                <?php echo $this->Html->link($user['User']['username'],array('controller' => 'users', 'action' => 'view','username' =>  strtolower($user['User']['username'])), array('rel' => 'nofollow'));?>
             <?php endif; ?></h5>
            <?php
             $image_options = array();
