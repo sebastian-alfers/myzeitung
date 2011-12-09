@@ -17,23 +17,25 @@ if(isset($url) && !empty($url)){
     <li>
     <!-- twitter end -->
 
-    <!-- facebook -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                        js = d.createElement(s); js.id = id;
-                        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-
-    <div class="fb-like" <?php echo $fb_url; ?> data-send="false" data-width="50" data-show-faces="false" layout="button_count" style="z-index: 4000;"></div>
-    </li>
-    <!-- facebook end -->
-
     <!-- g+ -->
     <li>
     <g:plusone <?php echo $gp_url; ?> size="medium"></g:plusone>
     </li>
     <!-- g+ end -->
+
+    <!-- facebook -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=262404740453707";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- <div class="fb-like"  data-send="false" data-width="50" data-show-faces="false" layout="button_count" style="z-index: 4000;"></div> -->
+    <div class="fb-like" <?php echo $fb_url; ?> data-send="true" data-layout="button_count" data-width="450" data-show-faces="false" data-action="recommend"></div>
+
+    </li>
+    <!-- facebook end -->
 </div>

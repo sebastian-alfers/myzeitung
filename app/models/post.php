@@ -774,6 +774,9 @@ class Post extends AppModel {
     }
 
     function deleteCache(){
+        //delete cache for home
+        Cache::delete('home_posts');
+
         //delete rss feed cache
         $this->contain('User.username');
         $post = $this->read(null, $this->id);

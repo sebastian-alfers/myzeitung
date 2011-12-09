@@ -40,7 +40,7 @@ task :live do
 end
 # set staging server
 task :staging do
-    set :branch, "staging_4"
+    set :branch, "staging_5"
     role :target, "ec2-46-137-186-12.eu-west-1.compute.amazonaws.com"
     set :config, 'staging'
 end
@@ -67,6 +67,8 @@ task :create_symlinks, :roles => :target do
     run "sudo chown www-data:www-data #{current_release}/app/tmp/cache/"
     run "sudo chmod 777 /var/www/myzeitung/current/app/tmp/cache/"
 
+    run "sudo mkdir #{current_release}/app/tmp/logs/"
+
     run "sudo mkdir #{current_release}/app/tmp/cache/persistent/"
     run "sudo mkdir #{current_release}/app/tmp/cache/models/"
     run "sudo mkdir #{current_release}/app/tmp/cache/views/"
@@ -90,7 +92,8 @@ end
 
 task :upload_maintile, :via=> :scp, :recursive => true, :roles => :target do
 
-      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/landing/beispiel-umweltschutz.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/landing/beispiel-umweltschutz.jpg")
+
+      #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/landing/beispiel-veggie.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/landing/beispiel-veggie.jpg")
 
       #upload("/Applications/MAMP/htdocs/myzeitung/app/webroot/img/assets/default.jpg", "/var/www/myzeitung/current/app/webroot/img/assets/default.jpg")
 

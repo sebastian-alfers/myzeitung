@@ -675,8 +675,9 @@ padding-bottom: 30px;
     border: 1px solid #dfdddd;
     background: #f7f7f7;
     margin-bottom: 15px;
-    overflow: hidden;
+    overflow: visible;
     padding-bottom: 20px;
+    display: inline-block;
 }
 
 .leftcolcontent {
@@ -684,9 +685,10 @@ padding-bottom: 30px;
 }
 
 .leftcolcontent .aboutme{
-    height: 53px;
+    height: auto;
     overflow: hidden;
     margin-bottom: 0;
+    max-height: 83px;
 }
 
 /* User overview */
@@ -3472,6 +3474,11 @@ box-shadow: 4px 4px 10px #000;
 filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
 
+.leftcol #social{
+    width:182px;
+}
+
+
 .social-account div{
     margin:0 0 0 30px;
     float:left;
@@ -3736,6 +3743,11 @@ fieldset{
     margin-top: 15px;
     padding-top: 10px;
 }
+
+.leftcol fieldset{
+    width: 182px;
+}
+
 legend{
     padding: 0 10px 0 0;
     font-weight: bold;

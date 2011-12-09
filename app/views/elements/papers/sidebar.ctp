@@ -139,7 +139,7 @@ if($paper_belongs_to_user){
             <legend><?php echo __('Activity', true);?></legend>
               <ul>
                  <li><?php echo sprintf(__n('%s Post', '%s Posts', $paper['Paper']['post_count'],true), $this->MzNumber->format($paper['Paper']['post_count'],'.'));?></li>
-                 <li><?php echo sprintf(__n('%s Subscribed User/Topic', '%s Subscribed Users/Topics', $paper['Paper']['author_count'],true), $this->MzNumber->format($paper['Paper']['author_count'],'.'));?></li>
+                 <li><span class="show-associations" id="paper/<?php echo $paper['Paper']['id']?>"><a><?php echo sprintf(__n('%s abo. Autor', '%s abo. Autoren', $paper['Paper']['author_count'],true), $this->MzNumber->format($paper['Paper']['author_count'],'.'));?></a></span></li>
                  <li><?php echo sprintf(__n('%s Subscriber', '%s Subscribers', $paper['Paper']['subscription_count'],true), $this->MzNumber->format($paper['Paper']['subscription_count'],'.'));?></li>
             </ul>
           </fieldset>
