@@ -685,9 +685,10 @@ padding-bottom: 30px;
 }
 
 .leftcolcontent .aboutme{
-    height: 53px;
+    height: auto;
     overflow: hidden;
     margin-bottom: 0;
+    max-height: 83px;
 }
 
 /* User overview */
