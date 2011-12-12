@@ -23,7 +23,9 @@ class LandingController extends AppController {
 
     }
 
+    function architektur(){
 
+    }
 
 
 }

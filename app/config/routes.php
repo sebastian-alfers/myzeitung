@@ -231,6 +231,7 @@ Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'
 Router::connect('/c/beispiel-bundestag/*', array('controller' => 'landing', 'action' => 'bundestag'));
 Router::connect('/c/beispiel-tier-umwelt/*', array('controller' => 'landing', 'action' => 'tierUmwelt'));
 Router::connect('/c/beispiel-veggie/*', array('controller' => 'landing', 'action' => 'veggie'));
+Router::connect('/c/beispiel-architekten/*', array('controller' => 'landing', 'action' => 'architektur'));
 
 
 
