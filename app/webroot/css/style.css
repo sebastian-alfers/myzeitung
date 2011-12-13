@@ -718,6 +718,7 @@ padding-bottom: 30px;
     font-size: 18px;
     width: 183px;
     overflow: hidden;
+    min-height: 20px;
 }
 
 .leftcol p {
